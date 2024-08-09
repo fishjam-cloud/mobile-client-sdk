@@ -7,7 +7,7 @@ export const ReceivableEvents = {
   IsMicrophoneOn: 'IsMicrophoneOn',
   IsScreencastOn: 'IsScreencastOn',
   SimulcastConfigUpdate: 'SimulcastConfigUpdate',
-  EndpointsUpdate: 'EndpointsUpdate',
+  PeersUpdate: 'PeersUpdate',
   AudioDeviceUpdate: 'AudioDeviceUpdate',
   SendMediaEvent: 'SendMediaEvent',
   BandwidthEstimation: 'BandwidthEstimation',

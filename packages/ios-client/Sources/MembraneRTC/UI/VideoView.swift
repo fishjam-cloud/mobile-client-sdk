@@ -202,25 +202,14 @@ public class VideoView: UIView {
         }
     }
 
-    public static func isMetalAvailable() -> Bool {
-        MTLCreateSystemDefaultDevice() != nil
-    }
-
     private static func createNativeRendererView(delegate: RTCVideoViewDelegate) -> RTCVideoRenderer {
         DispatchQueue.webRTC.sync {
-            if isMetalAvailable() {
-                let mtlView = RTCMTLVideoView()
-                mtlView.contentMode = .scaleAspectFit
-                mtlView.videoContentMode = .scaleAspectFit
-                mtlView.delegate = delegate
+            let mtlView = RTCMTLVideoView()
+            mtlView.contentMode = .scaleAspectFit
+            mtlView.videoContentMode = .scaleAspectFit
+            mtlView.delegate = delegate
 
-                return mtlView
-            } else {
-                let glView = RTCEAGLVideoView()
-                glView.contentMode = .scaleAspectFit
-                glView.delegate = delegate
-                return glView
-            }
+            return mtlView
         }
     }
 }

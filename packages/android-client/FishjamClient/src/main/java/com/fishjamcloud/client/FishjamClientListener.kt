@@ -1,8 +1,8 @@
 package com.fishjamcloud.client
 
 import com.fishjamcloud.client.media.Track
+import com.fishjamcloud.client.models.AuthError
 import com.fishjamcloud.client.models.Peer
-import okhttp3.Response
 import timber.log.Timber
 
 interface FishjamClientListener {
@@ -19,11 +19,8 @@ interface FishjamClientListener {
   /**
    * Emitted when occurs an error in the websocket connection
    */
-  fun onSocketError(
-    t: Throwable,
-    response: Response?
-  ) {
-    Timber.w("Socket error:", t, response)
+  fun onSocketError(t: Throwable) {
+    Timber.w("Socket error:", t)
   }
 
   /**
@@ -41,7 +38,7 @@ interface FishjamClientListener {
   /**
    * Emitted when authentication fails
    */
-  fun onAuthError()
+  fun onAuthError(reason: AuthError)
 
   /**
    * Emitted when local user is connected to fishjam.

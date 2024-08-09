@@ -1,28 +1,31 @@
 package com.fishjamcloud.client
 
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 internal class CommandsQueue {
   private var commandsQueue: ArrayDeque<Command> = ArrayDeque()
   var clientState: ClientState = ClientState.CREATED
 
-  fun addCommand(command: Command): Job {
+  suspend fun addCommand(command: Command) {
     commandsQueue.add(command)
-    if (commandsQueue.size == 1) {
-      command.execute()
+    suspendCoroutine { cont ->
+      run {
+        command.continuation = cont
+        if (commandsQueue.size == 1) {
+          command.execute()
+        }
+      }
     }
-    return command.job
   }
 
   fun finishCommand() {
     val command = commandsQueue.first()
-    val job = command.job
     commandsQueue.removeFirst()
     if (command.clientStateAfterCommand != null) {
       clientState = command.clientStateAfterCommand
     }
-    job.complete()
+    command.continuation?.resume(Unit)
     // TODO: make it iterative, not recursive?
     if (commandsQueue.isNotEmpty()) {
       commandsQueue.first().execute()
@@ -41,9 +44,20 @@ internal class CommandsQueue {
     }
   }
 
-  fun clear(cause: String) {
+  fun onDisconnected() {
     clientState = ClientState.CREATED
-    commandsQueue.forEach { command -> command.job.cancel(CancellationException(cause)) }
+    commandsQueue
+      .filter { it.isConnectionCommand() }
+      .forEach { command -> command.continuation?.resume(Unit) }
+    commandsQueue.removeAll { it.isConnectionCommand() }
+    if (commandsQueue.isNotEmpty()) {
+      commandsQueue.first().execute()
+    }
+  }
+
+  fun clear() {
+    clientState = ClientState.CREATED
+    commandsQueue.forEach { command -> command.continuation?.resume(Unit) }
     commandsQueue.clear()
   }
 }

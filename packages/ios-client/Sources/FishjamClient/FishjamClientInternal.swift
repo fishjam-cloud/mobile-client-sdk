@@ -156,6 +156,9 @@ internal class FishjamClientInternal: MembraneRTCDelegate, WebSocketDelegate {
     }
 
     func onSocketClose(code: UInt16, reason: String) {
+        if let authError = AuthError(rawValue: reason) {
+            onAuthError(reason: authError)
+        }
         listener.onSocketClose(code: code, reason: reason)
     }
 
@@ -172,8 +175,8 @@ internal class FishjamClientInternal: MembraneRTCDelegate, WebSocketDelegate {
         listener.onAuthSuccess()
     }
 
-    func onAuthError() {
-        listener.onAuthError()
+    func onAuthError(reason: AuthError) {
+        listener.onAuthError(reason: reason)
     }
 
     func onDisconnected() {

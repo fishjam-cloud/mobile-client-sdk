@@ -10,6 +10,7 @@ import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.RemoteAudioTrack
 import com.fishjamcloud.client.media.RemoteVideoTrack
 import com.fishjamcloud.client.media.Track
+import com.fishjamcloud.client.models.AuthError
 import com.fishjamcloud.client.models.EncodingReason
 import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.EndpointType
@@ -99,7 +100,18 @@ internal class FishjamClientInternal(
           reason: String
         ) {
           listener.onSocketClose(code, reason)
-          commandsQueue.clear("Websocket was closed")
+          commandsQueue.onDisconnected()
+        }
+
+        override fun onClosing(
+          webSocket: WebSocket,
+          code: Int,
+          reason: String
+        ) {
+          if (AuthError.isAuthError(reason)) {
+            listener.onAuthError(AuthError.fromString(reason))
+          }
+          webSocket.close(code, reason)
         }
 
         override fun onMessage(
@@ -142,32 +154,36 @@ internal class FishjamClientInternal(
           t: Throwable,
           response: Response?
         ) {
-          listener.onSocketError(t, response)
-          commandsQueue.clear("Socket error")
+          listener.onSocketError(t)
+          commandsQueue.onDisconnected()
         }
       }
 
-    commandsQueue.addCommand(
-      Command(CommandName.CONNECT, ClientState.CONNECTED) {
-        val request = Request.Builder().url(config.websocketUrl).build()
-        val webSocket =
-          OkHttpClient().newWebSocket(
-            request,
-            websocketListener
-          )
+    coroutineScope.launch {
+      commandsQueue.addCommand(
+        Command(CommandName.CONNECT, ClientState.CONNECTED) {
+          val request = Request.Builder().url(config.websocketUrl).build()
+          val webSocket =
+            OkHttpClient().newWebSocket(
+              request,
+              websocketListener
+            )
 
-        this.webSocket = webSocket
-      }
-    )
+          this@FishjamClientInternal.webSocket = webSocket
+        }
+      )
+    }
   }
 
   fun join(peerMetadata: Metadata = emptyMap()) {
-    commandsQueue.addCommand(
-      Command(CommandName.JOIN, ClientState.JOINED) {
-        localEndpoint = localEndpoint.copy(metadata = peerMetadata)
-        rtcEngineCommunication.connect(peerMetadata)
-      }
-    )
+    coroutineScope.launch {
+      commandsQueue.addCommand(
+        Command(CommandName.JOIN, ClientState.JOINED) {
+          localEndpoint = localEndpoint.copy(metadata = peerMetadata)
+          rtcEngineCommunication.connect(peerMetadata)
+        }
+      )
+    }
   }
 
   override fun onConnected(
@@ -202,7 +218,7 @@ internal class FishjamClientInternal(
       rtcEngineCommunication.removeListener(this@FishjamClientInternal)
       webSocket?.close(1000, null)
       webSocket = null
-      commandsQueue.clear("Client disconnected")
+      commandsQueue.clear()
     }
   }
 
@@ -239,7 +255,7 @@ internal class FishjamClientInternal(
             }
           }
         }
-      ).join()
+      )
 
     return videoTrack
   }
@@ -292,7 +308,7 @@ internal class FishjamClientInternal(
             }
           }
         }
-      ).join()
+      )
 
     return audioTrack
   }
@@ -331,7 +347,7 @@ internal class FishjamClientInternal(
             rtcEngineCommunication.renegotiateTracks()
           }
         }
-      ).join()
+      )
 
     return screencastTrack
   }
@@ -354,7 +370,7 @@ internal class FishjamClientInternal(
             rtcEngineCommunication.renegotiateTracks()
           }
         }
-      ).join()
+      )
   }
 
   fun setTargetTrackEncoding(
@@ -401,7 +417,7 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
-      rtcEngineCommunication.updateEndpointMetadata(peerMetadata)
+      rtcEngineCommunication.updatePeerMetadata(peerMetadata)
       localEndpoint = localEndpoint.copy(metadata = peerMetadata)
     }
   }

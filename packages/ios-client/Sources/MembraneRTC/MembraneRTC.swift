@@ -355,9 +355,9 @@ public class MembraneRTC: MulticastDelegate<MembraneRTCDelegate>, ObservableObje
      If the metadata is different from what is already tracked in the room, the optional
      callback `onEndpointUpdated` will be triggered for other peers in the room.
      */
-    public func updateEndpointMetadata(metadata: Metadata) {
+    public func updatePeerMetadata(metadata: Metadata) {
         DispatchQueue.webRTC.sync {
-            engineCommunication.updateEndpointMetadata(metadata: metadata)
+            engineCommunication.updatePeerMetadata(metadata: metadata)
             localEndpoint = localEndpoint.with(metadata: metadata)
         }
     }

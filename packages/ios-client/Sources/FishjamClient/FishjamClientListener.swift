@@ -23,7 +23,7 @@ public protocol FishjamClientListener {
     /**
      * Emitted when authentication fails
      */
-    func onAuthError()
+    func onAuthError(reason: AuthError)
 
     /**
      * Emitted when the connection is closed

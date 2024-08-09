@@ -229,7 +229,6 @@ internal class PeerConnectionManager(
     config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
     config.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY
     config.candidateNetworkPolicy = PeerConnection.CandidateNetworkPolicy.ALL
-    config.disableIpv6 = true
     config.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.DISABLED
 
     val pc =

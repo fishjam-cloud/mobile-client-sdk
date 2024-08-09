@@ -83,7 +83,7 @@ class RNFishjamClientModule : Module() {
         "IsMicrophoneOn",
         "IsScreencastOn",
         "SimulcastConfigUpdate",
-        "EndpointsUpdate",
+        "PeersUpdate",
         "AudioDeviceUpdate",
         "SendMediaEvent",
         "BandwidthEstimation"
@@ -194,15 +194,15 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.isScreencastOn
       }
 
-      AsyncFunction("getEndpoints") Coroutine { ->
+      AsyncFunction("getPeers") Coroutine { ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.getEndpoints()
+          rnFishjamClient.getPeers()
         }
       }
 
-      AsyncFunction("updateEndpointMetadata") Coroutine { metadata: Map<String, Any> ->
+      AsyncFunction("updatePeerMetadata") Coroutine { metadata: Map<String, Any> ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.updateEndpointMetadata(metadata)
+          rnFishjamClient.updatePeerMetadata(metadata)
         }
       }
 
