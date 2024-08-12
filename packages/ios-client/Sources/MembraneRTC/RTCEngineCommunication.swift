@@ -12,7 +12,7 @@ internal class RTCEngineCommunication {
         sendEvent(event: ConnectEvent(metadata: metadata))
     }
 
-    func updateEndpointMetadata(metadata: Metadata) {
+    func updatePeerMetadata(metadata: Metadata) {
         sendEvent(event: UpdateEndpointMetadata(metadata: metadata))
     }
 

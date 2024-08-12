@@ -367,7 +367,7 @@ class RNFishjamClient(
     }
   }
 
-  fun getEndpoints(): List<Map<String, Any?>> =
+  fun getPeers(): List<Map<String, Any?>> =
     getAllPeers().map { endpoint ->
       mapOf(
         "id" to endpoint.id,
@@ -435,7 +435,7 @@ class RNFishjamClient(
     }
   }
 
-  fun updateEndpointMetadata(metadata: Metadata) {
+  fun updatePeerMetadata(metadata: Metadata) {
     ensureConnected()
     fishjamClient.updatePeerMetadata(metadata)
   }
@@ -716,8 +716,8 @@ class RNFishjamClient(
   }
 
   private fun emitEndpoints() {
-    val eventName = EmitableEvents.EndpointsUpdate
-    val map = mapOf(eventName to getEndpoints())
+    val eventName = EmitableEvents.PeersUpdate
+    val map = mapOf(eventName to getPeers())
     emitEvent(eventName, map)
   }
 

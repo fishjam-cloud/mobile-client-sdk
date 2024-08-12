@@ -36,50 +36,40 @@ export type Track<MetadataType extends Metadata> = {
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type EndpointsUpdateEvent<
+export type PeersUpdateEvent<
   MetadataType extends Metadata,
   VideoTrackMetadataType extends Metadata,
   AudioTrackMetadataType extends Metadata,
 > = {
-  EndpointsUpdate: Endpoint<
+  PeersUpdate: Peer<
     MetadataType,
     VideoTrackMetadataType,
     AudioTrackMetadataType
   >[];
 };
 
-export type Endpoint<
+export type Peer<
   MetadataType extends Metadata,
   VideoTrackMetadataType extends Metadata,
   AudioTrackMetadataType extends Metadata,
 > = {
   /**
-   *  id used to identify an endpoint
+   *  id used to identify a peer
    */
   id: string;
   /**
-   * used to indicate endpoint type.
-   */
-  type: string;
-  /**
-   * whether the endpoint is local or remote
+   * whether the peer is local or remote
    */
   isLocal: boolean;
   /**
-   * a map `string -> any` containing endpoint metadata from the server
+   * a map `string -> any` containing peer metadata from the server
    */
   metadata: MetadataType;
   /**
-   * a list of endpoints's video and audio tracks
+   * a list of peers's video and audio tracks
    */
   tracks: Track<VideoTrackMetadataType | AudioTrackMetadataType>[];
 };
-
-export type Peer<
-  MetadataType extends Metadata,
-  VideoTrackMetadataType extends Metadata,
-  AudioTrackMetadataType extends Metadata,
-> = Endpoint<MetadataType, VideoTrackMetadataType, AudioTrackMetadataType>;
 
 /**
  * This hook provides live updates of room peers.
@@ -95,26 +85,26 @@ export function usePeers<
   >([]);
 
   useEffect(() => {
-    async function updateEndpoints() {
-      const endpoints = await RNFishjamClientModule.getEndpoints<
+    async function updatePeers() {
+      const peers = await RNFishjamClientModule.getPeers<
         MetadataType,
         VideoTrackMetadataType,
         AudioTrackMetadataType
       >();
-      setPeers(endpoints);
+      setPeers(peers);
     }
 
     const eventListener = eventEmitter.addListener<
-      EndpointsUpdateEvent<
+      PeersUpdateEvent<
         MetadataType,
         VideoTrackMetadataType,
         AudioTrackMetadataType
       >
-    >(ReceivableEvents.EndpointsUpdate, (event) => {
-      setPeers(event.EndpointsUpdate);
+    >(ReceivableEvents.PeersUpdate, (event) => {
+      setPeers(event.PeersUpdate);
     });
 
-    updateEndpoints();
+    updatePeers();
     return () => eventListener.remove();
   }, []);
 

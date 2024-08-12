@@ -417,7 +417,7 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
-      rtcEngineCommunication.updateEndpointMetadata(peerMetadata)
+      rtcEngineCommunication.updatePeerMetadata(peerMetadata)
       localEndpoint = localEndpoint.copy(metadata = peerMetadata)
     }
   }

@@ -206,7 +206,7 @@ public class FishjamClient {
     * callback `onPeerUpdated` will be triggered for other peers in the room.
     */
     public func updatePeerMetadata(peerMetadata: Metadata) {
-        webrtcClient.updateEndpointMetadata(metadata: peerMetadata)
+        webrtcClient.updatePeerMetadata(metadata: peerMetadata)
     }
 
     /**
