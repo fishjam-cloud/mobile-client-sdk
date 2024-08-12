@@ -17,7 +17,8 @@ public class LocalScreenBroadcastTrack: VideoTrack, LocalTrack, ScreenBroadcastC
     public weak var delegate: LocalScreenBroadcastTrackDelegate?
 
     internal init(
-        mediaTrack: RTCVideoTrack, mediaSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(), appGroup: String,
+        mediaTrack: RTCVideoTrack, mediaSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),
+        appGroup: String,
         videoParameters: VideoParameters,
         delegate: LocalScreenBroadcastTrackDelegate? = nil
     ) {

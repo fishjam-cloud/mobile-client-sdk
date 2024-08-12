@@ -39,8 +39,8 @@ internal class PeerConnectionFactoryWrapper {
     func createVideoSource() -> RTCVideoSource {
         factory.videoSource()
     }
-    
-    func createScreencastVideoSource() -> RTCVideoSource{
+
+    func createScreencastVideoSource() -> RTCVideoSource {
         factory.videoSource(forScreenCast: true)
     }
 

@@ -4,7 +4,7 @@ internal protocol RTCEngineListener: AnyObject {
     func onConnectionError()  // Not present int android
     func onEndpointAdded(endpointId: String, type: EndpointType, metadata: Metadata?)
     func onEndpointRemoved(endpointId: String)
-    func onEndpointUpdated(endpointId: String, metadata: Metadata)
+    func onEndpointUpdated(endpointId: String, metadata: Metadata?)
     func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int])
     func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String?])
     func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?)

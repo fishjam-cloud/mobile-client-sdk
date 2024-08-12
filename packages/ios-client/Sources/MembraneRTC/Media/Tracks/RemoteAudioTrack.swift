@@ -1,12 +1,32 @@
 import WebRTC
 
+public protocol VadChangedListener {
+    func onVadChanged(track: RemoteAudioTrack)
+}
+
 /// Utility wrapper around a remote `RTCAudioTrack`.
 public class RemoteAudioTrack: Track {
+    private var vadChangedListener: VadChangedListener? = nil
+
     init(
         audioTrack: RTCAudioTrack, endpointId: String, rtcEngineId: String? = nil, metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
         super.init(mediaTrack: audioTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata)
+    }
+
+    private var _vadStatus: VadStatus = VadStatus.silence
+
+    var vadStatus: VadStatus {
+        get { return _vadStatus }
+        set {
+            vadChangedListener?.onVadChanged(track: self)
+        }
+    }
+
+    func setVadChangedListener(listener: VadChangedListener) {
+        listener.onVadChanged(track: self)
+        vadChangedListener = listener
     }
 
     internal var audioTrack: RTCAudioTrack {

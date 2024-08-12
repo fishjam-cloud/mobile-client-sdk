@@ -65,7 +65,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     /// Sets up the local peer connection with previously prepared config and local media tracks.
-    private func setupPeerConnection(localTracks: [LocalTrack]) {
+    private func setupPeerConnection(localTracks: [Track]) {
         guard let config = self.config else {
 
         }
@@ -92,7 +92,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         peerConnection.delegate = self
 
         localTracks.forEach { track in
-            addTrack(track: track, localStreamId: localStreamId)
+            addTrack(track: track, streamsId: [localStreamId])
         }
 
         peerConnection.enforceSendOnlyDirection()
@@ -168,18 +168,15 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     /// Returns a mapping from `mid` of transceivers to their corresponding remote tracks' ids.
-    private func getMidToTrackId(localTracks: [LocalTrack]) -> [String: String] {
+    private func getMidToTrackId(localTracks: [Track]) -> [String: String] {
         guard let pc = connection else {
             return [:]
         }
 
         var mapping: [String: String] = [:]
-        let localTracksKeys = localTracks.map { track in track.trackId() }
-        let localTracks: [String] = Array(localTracksKeys)
-
         pc.transceivers.forEach { transceiver in
             guard let trackId: String = transceiver.sender.track?.trackId,
-                localTracks.contains(trackId)
+                localTracks.map({ track in track.webrtcId }).contains(trackId)
             else {
                 return
             }
@@ -188,8 +185,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         return mapping
     }
-    
-    public func addTrack(track: Track){
+
+    public func addTrack(track: Track) {
         addTrack(track: track, streamsId: streamIds)
     }
 
@@ -397,7 +394,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func getSdpOffer(
         integratedTurnServers: [OfferDataEvent.TurnServer],
         tracksTypes: [String: Int],
-        localTracks: [LocalTrack],
+        localTracks: [Track],
         onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ error: Error?) -> Void
     ) {
         setTurnServers(integratedTurnServers)
@@ -483,7 +480,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         // client sends sdp offer with disabled tracks marked with ~, backend doesn't send ~ in sdp answer so all tracks are enabled
         // and we need to disable them manually
         var encodingsToDisable = [String]()
-  
 
         let sdpWithDisabledEncodings = disableEncodings(sdpAnswer: sdp, encodingsToDisable: encodingsToDisable)
 

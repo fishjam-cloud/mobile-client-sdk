@@ -191,8 +191,8 @@ struct ConnectEvent: SendableEvent {
     }
 }
 
-struct DisconnectEvent: SendableEvent{
-    func serialize() -> Payload{
+struct DisconnectEvent: SendableEvent {
+    func serialize() -> Payload {
         .init([
             "type": "disconnect"
         ])

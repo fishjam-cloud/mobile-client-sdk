@@ -19,8 +19,8 @@ internal class RTCEngineCommunication {
     func connect(metadata: Metadata) {
         sendEvent(event: ConnectEvent(metadata: metadata))
     }
-    
-    func disconnect(){
+
+    func disconnect() {
         sendEvent(event: DisconnectEvent())
     }
 

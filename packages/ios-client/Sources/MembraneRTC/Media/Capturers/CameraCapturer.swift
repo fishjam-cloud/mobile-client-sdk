@@ -13,7 +13,7 @@ class CameraCapturer: VideoCapturer {
         self.capturer = RTCCameraVideoCapturer(delegate: delegate)
         let devices = RTCCameraVideoCapturer.captureDevices()
 
-        if let newDevice = devices.first(where: {$0.uniqueID == deviceId}){
+        if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
             device = newDevice
         }
     }
