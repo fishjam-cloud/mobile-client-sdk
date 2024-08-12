@@ -71,7 +71,7 @@ class RNFishjamClient: FishjamClientListener {
     var localScreencastTrack: LocalScreenBroadcastTrack?
     var localEndpointId: String?
 
-    var isMicEnabled: Bool = true
+    var isMicrophoneOn: Bool = false
     var isCameraEnabled: Bool = true
     var isScreensharingEnabled: Bool = false
 
@@ -225,7 +225,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func ensureAudioTrack() throws {
-        if fishjamClient == nil {
+        if localAudioTrack == nil {
             throw Exception(
                 name: "E_NO_LOCAL_AUDIO_TRACK",
                 description: "No local audio track. Make sure to call connect() first!")
@@ -379,6 +379,7 @@ class RNFishjamClient: FishjamClientListener {
         let isCameraEnabledMap = [eventName: isEnabled]
         emitEvent(name: eventName, data: isCameraEnabledMap)
     }
+
     private func addTrackToLocalEndpoint(
         _ track: LocalVideoTrack, _ metadata: Metadata, _ simulcastConfig: SimulcastConfig?
     ) throws {
@@ -435,33 +436,34 @@ class RNFishjamClient: FishjamClientListener {
             emitEndpoints()
         }
     }
-    func startMicrophone(config: MicrophoneConfig) throws {
-        try ensureConnected()
+    private func startMicrophone() throws {
         guard
             let microphoneTrack = fishjamClient?.createAudioTrack(
-                metadata: config.audioTrackMetadata.toMetadata())
+                metadata: .init())
         else { return }
         localAudioTrack = microphoneTrack
         setAudioSessionMode()
-        try addTrackToLocalEndpoint(microphoneTrack, config.audioTrackMetadata.toMetadata())
-        try setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+        try addTrackToLocalEndpoint(microphoneTrack, .init())
+        try setMicrophoneTrackState(microphoneTrack, true)
     }
+
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, _ isEnabled: Bool)
         throws
     {
-        try ensureConnected()
         microphoneTrack.setEnabled(isEnabled)
-        isMicEnabled = isEnabled
+        isMicrophoneOn = isEnabled
         let eventName = EmitableEvents.IsMicrophoneOn
         let isMicEnabledMap = [eventName: isEnabled]
         emitEvent(name: eventName, data: isMicEnabledMap)
     }
+
     func toggleMicrophone() throws -> Bool {
-        try ensureAudioTrack()
         if let localAudioTrack = localAudioTrack {
-            try setMicrophoneTrackState(localAudioTrack, !isMicEnabled)
+            try setMicrophoneTrackState(localAudioTrack, !isMicrophoneOn)
+        } else {
+            try startMicrophone()
         }
-        return isMicEnabled
+        return isMicrophoneOn
     }
     private func getScreencastVideoParameters(screencastOptions: ScreencastOptions)
         -> VideoParameters

@@ -31,14 +31,6 @@ struct CameraConfig: Record {
     var captureDeviceId: String? = nil
 }
 
-struct MicrophoneConfig: Record {
-    @Field
-    var audioTrackMetadata: [String: Any] = [:]
-
-    @Field
-    var microphoneEnabled: Bool = true
-}
-
 struct ScreencastOptions: Record {
     @Field
     var quality: String = "HD15"
@@ -74,8 +66,15 @@ public class RNFishjamClientModule: Module {
             self.sendEvent(eventName, data)
         }
 
+        OnCreate {
+            do {
+                try rnFishjamClient.create()
+            } catch {
+
+            }
+        }
+
         AsyncFunction("connect") { (url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) in
-            try rnFishjamClient.create()
             rnFishjamClient.connect(url: url, peerToken: peerToken, peerMetadata: peerMetadata, promise: promise)
         }
 
@@ -87,12 +86,8 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.startCamera(config: config)
         }
 
-        AsyncFunction("startMicrophone") { (config: MicrophoneConfig) in
-            try rnFishjamClient.startMicrophone(config: config)
-        }
-
         Property("isMicrophoneOn") {
-            return rnFishjamClient.isMicEnabled
+            return rnFishjamClient.isMicrophoneOn
         }
 
         AsyncFunction("toggleMicrophone") {
