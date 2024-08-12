@@ -1,18 +1,32 @@
-public struct Endpoint: Codable {
-    public let id: String
-    public let type: String
-    public let metadata: Metadata
-    public let tracks: [String: TrackData]?
+public enum EndpointType: String, Codable {
+    case WEBRTC
 
-    public init(id: String, type: String, metadata: Metadata?, tracks: [String: TrackData]? = nil) {
+    init(fromString s: String) {
+        switch s.lowercased() {
+        case "webrtc":
+            self = .WEBRTC
+        default:
+            self = .WEBRTC
+        }
+    }
+}
+
+public struct Endpoint {
+
+    public let id: String
+    public let type: EndpointType
+    public let metadata: Metadata
+    public var tracks: [String: Track]
+
+    public init(id: String, type: EndpointType, metadata: Metadata = Metadata(), tracks: [String: Track] = [:]) {
         self.id = id
         self.type = type
-        self.metadata = metadata ?? Metadata()
+        self.metadata = metadata
         self.tracks = tracks
     }
 
-    public func with(
-        id: String? = nil, type: String? = nil, metadata: Metadata? = nil, tracks: [String: TrackData]? = nil
+    public func copyWith(
+        id: String? = nil, type: EndpointType? = nil, metadata: Metadata? = nil, tracks: [String: Track]? = nil
     ) -> Self {
         return Endpoint(
             id: id ?? self.id,
@@ -22,31 +36,15 @@ public struct Endpoint: Codable {
         )
     }
 
-    public func withTrack(trackId: String, metadata: Metadata?, simulcastConfig: SimulcastConfig?) -> Self {
-        var newTracks = self.tracks
-        let oldSimulcastConfig = newTracks?[trackId]?.simulcastConfig
-        newTracks?[trackId] = TrackData(
-            metadata: metadata ?? Metadata(), simulcastConfig: simulcastConfig ?? oldSimulcastConfig)
-
-        return Endpoint(id: self.id, type: self.type, metadata: self.metadata, tracks: newTracks)
+    internal func addOrReplaceTrack(_ track: Track) -> Endpoint {
+        var newTracks = tracks
+        newTracks.updateValue(track, forKey: track.id)
+        return copyWith(tracks: newTracks)
     }
 
-    public func removeTrack(trackId: String) -> Self {
-        var newTracks = self.tracks
-        newTracks?.removeValue(forKey: trackId)
-
-        return Endpoint(id: self.id, type: self.type, metadata: self.metadata, tracks: newTracks)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case id, type, metadata, tracks
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
-        self.type = try container.decode(String.self, forKey: .type)
-        self.metadata = try container.decodeIfPresent(Metadata.self, forKey: .metadata) ?? Metadata()
-        self.tracks = try container.decodeIfPresent([String: TrackData].self, forKey: .tracks)
+    internal func removeTrack(_ track: Track) -> Endpoint {
+        var newTracks = tracks
+        newTracks.removeValue(forKey: track.id)
+        return copyWith(tracks: newTracks)
     }
 }

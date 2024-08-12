@@ -1,8 +1,8 @@
-internal protocol RTCEngineListener {
+internal protocol RTCEngineListener: AnyObject {
     func onSendMediaEvent(event: SerializedMediaEvent)
     func onConnected(endpointId: String, otherEndpoints: [Endpoint])
-    func onConnectionError()
-    func onEndpointAdded(endpoint: Endpoint)
+    func onConnectionError()  // Not present int android
+    func onEndpointAdded(endpointId: String, type: EndpointType, metadata: Metadata?)
     func onEndpointRemoved(endpointId: String)
     func onEndpointUpdated(endpointId: String, metadata: Metadata)
     func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int])

@@ -2,9 +2,6 @@ import Foundation
 import Logging
 import WebRTC
 
-internal var sdkLogger = Logger(label: "org.membrane.ios")
-internal let pcLogPrefix = "[PeerConnection]"
-
 /// MembraneRTC client.
 ///
 /// The client is responsible for relaying MembraneRTC Engine specific messages through given reliable transport layer.

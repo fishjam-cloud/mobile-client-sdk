@@ -1,8 +1,27 @@
-//
-//  Command.swift
-//  FishjamCloudClient
-//
-//  Created by Karol Kakol on 08/08/2024.
-//
+internal enum CommandName{
+    case CONNECT, JOIN, ADD_TRACK, REMOVE_TRACK, RENEGOTIATE, LEAVE
+}
 
-import Foundation
+internal enum ClientState{
+    case CREATED, CONNECTED, JOINED
+}
+
+internal class Command{
+    let commandName: CommandName
+    let clientStateAfterCommand: ClientState?
+    let workItem: DispatchWorkItem
+    
+    init(commandName: CommandName, clientStateAfterCommand: ClientState?, block: @escaping () -> Void) {
+        self.commandName = commandName
+        self.clientStateAfterCommand = clientStateAfterCommand
+        self.workItem = DispatchWorkItem{
+            block()
+        }
+    }
+    
+    func execute(){
+        DispatchQueue.main.async{
+            self.workItem.perform()
+        }
+    }
+}

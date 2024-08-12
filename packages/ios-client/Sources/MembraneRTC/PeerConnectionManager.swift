@@ -4,7 +4,7 @@ import WebRTC
 
 internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     // `RTCPeerConnection` config
-    private var config: RTCConfiguration
+    private var config: RTCConfiguration?
 
     private var peerConnectionFactory: PeerConnectionFactoryWrapper
 
@@ -22,25 +22,38 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
 
     // a common stream ID used for all non-screenshare and audio tracks
-    private let localStreamId = UUID().uuidString
+    private var streamIds: [String] = [UUID().uuidString]
 
-    private let peerConnectionListener: PeerConnectionListener
+    private var listeners: [PeerConnectionListener] = []
+
+    func addListener(_ listener: PeerConnectionListener) {
+        listeners.append(listener)
+    }
+
+    func removeListener(_ listener: PeerConnectionListener) {
+        listeners.removeAll {
+            $0 === listener
+        }
+    }
 
     private var peerConnectionStats: [String: RTCStats] = [:]
 
     internal init(
-        config: RTCConfiguration, peerConnectionFactory: PeerConnectionFactoryWrapper,
-        peerConnectionListener: PeerConnectionListener
+        config: RTCConfiguration, peerConnectionFactory: PeerConnectionFactoryWrapper
     ) {
         self.config = config
         iceServers = []
         self.peerConnectionFactory = peerConnectionFactory
-        self.peerConnectionListener = peerConnectionListener
     }
 
     public func close() {
         if let pc = connection {
             pc.close()
+            connection = nil
+            peerConnectionStats = [:]
+            iceServers = []
+            config = nil
+            midToTrackId = [:]
         }
     }
 
@@ -53,7 +66,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     /// Sets up the local peer connection with previously prepared config and local media tracks.
     private func setupPeerConnection(localTracks: [LocalTrack]) {
-        let config = self.config
+        guard let config = self.config else {
+
+        }
         config.sdpSemantics = .unifiedPlan
         config.continualGatheringPolicy = .gatherContinually
         config.candidateNetworkPolicy = .all
@@ -61,9 +76,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         // if ice servers are not empty that probably means we are using turn servers
         if iceServers.count > 0 {
-            self.config.iceServers = iceServers
+            config.iceServers = iceServers
         } else {
-            self.config.iceServers = [Self.defaultIceServer()]
+            config.iceServers = [Self.defaultIceServer()]
         }
 
         guard
@@ -85,7 +100,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
     private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
-        config.iceTransportPolicy = .relay
+        config?.iceTransportPolicy = .relay
 
         let servers: [RTCIceServer] = turnServers.map { server in
             let url = [
@@ -173,17 +188,21 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         return mapping
     }
+    
+    public func addTrack(track: Track){
+        addTrack(track: track, streamsId: streamIds)
+    }
 
-    public func addTrack(track: LocalTrack, localStreamId: String) {
+    public func addTrack(track: Track, streamsId: [String]) {
         guard let pc = connection else {
             return
         }
 
         let transceiverInit = RTCRtpTransceiverInit()
         transceiverInit.direction = RTCRtpTransceiverDirection.sendOnly
-        transceiverInit.streamIds = [localStreamId]
+        transceiverInit.streamIds = streamsId
         var sendEncodings: [RTCRtpEncodingParameters] = []
-        if track.rtcTrack().kind == "video"
+        if track.mediaTrack?.kind == "video"
             && (track as? LocalVideoTrack)?.videoParameters.simulcastConfig.enabled == true
         {
             let simulcastConfig = (track as? LocalVideoTrack)?.videoParameters.simulcastConfig
@@ -200,7 +219,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             applyBitrate(encodings: sendEncodings, maxBitrate: maxBandwidth)
         }
         transceiverInit.sendEncodings = sendEncodings
-        pc.addTransceiver(with: track.rtcTrack(), init: transceiverInit)
+        pc.addTransceiver(with: track.mediaTrack!, init: transceiverInit)
         pc.enforceSendOnlyDirection()
     }
 
@@ -452,7 +471,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return newSdpAnswer
     }
 
-    public func onSdpAnswer(sdp: String, midToTrackId: [String: String?], localTracks: [LocalTrack]) {
+    public func onSdpAnswer(sdp: String, midToTrackId: [String: String?]) {
         guard let pc = connection else {
             return
         }
@@ -464,18 +483,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         // client sends sdp offer with disabled tracks marked with ~, backend doesn't send ~ in sdp answer so all tracks are enabled
         // and we need to disable them manually
         var encodingsToDisable = [String]()
-        let encodings: [TrackEncoding] = [.h, .m, .l]
-        encodings.forEach({ encoding in
-            localTracks.forEach({ track in
-                if track.rtcTrack().kind == "video"
-                    && (track as? LocalVideoTrack)?.videoParameters.simulcastConfig.enabled ?? false
-                    && (track as? LocalVideoTrack)?.videoParameters.simulcastConfig.activeEncodings.contains(encoding)
-                        != true
-                {
-                    encodingsToDisable.append(encoding.description)
-                }
-            })
-        })
+  
 
         let sdpWithDisabledEncodings = disableEncodings(sdpAnswer: sdp, encodingsToDisable: encodingsToDisable)
 

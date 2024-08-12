@@ -2,14 +2,26 @@ import Foundation
 import Promises
 
 internal class RTCEngineCommunication {
-    let engineListener: RTCEngineListener
+    var listeners: [RTCEngineListener]
 
-    init(engineListener: RTCEngineListener) {
-        self.engineListener = engineListener
+    init(listeners: [RTCEngineListener]) {
+        self.listeners = listeners
+    }
+
+    func addListener(_ listener: RTCEngineListener) {
+        listeners.append(listener)
+    }
+
+    func removeListener(_ listener: RTCEngineListener) {
+        listeners.removeAll(where: { $0 === listener })
     }
 
     func connect(metadata: Metadata) {
         sendEvent(event: ConnectEvent(metadata: metadata))
+    }
+    
+    func disconnect(){
+        sendEvent(event: DisconnectEvent())
     }
 
     func updateEndpointMetadata(metadata: Metadata) {
@@ -43,7 +55,9 @@ internal class RTCEngineCommunication {
         guard let dataPayload = String(data: data, encoding: .utf8) else {
             return
         }
-        engineListener.onSendMediaEvent(event: dataPayload)
+        for listener in listeners {
+            listener.onSendMediaEvent(event: dataPayload)
+        }
     }
 
     func onEvent(serializedEvent: SerializedMediaEvent) {
@@ -54,58 +68,93 @@ internal class RTCEngineCommunication {
         switch event.type {
         case .Connected:
             let connected = event as! ConnectedEvent
-            engineListener.onConnected(endpointId: connected.data.id, otherEndpoints: connected.data.otherEndpoints)
+            for listener in listeners {
+                listener.onConnected(endpointId: connected.data.id, otherEndpoints: connected.data.otherEndpoints)
+            }
         case .EndpointAdded:
             let endpointAdded = event as! EndpointAddedEvent
-            engineListener.onEndpointAdded(
-                endpoint: Endpoint(
-                    id: endpointAdded.data.id, type: endpointAdded.data.type, metadata: endpointAdded.data.metadata,
-                    tracks: endpointAdded.data.tracks)
-            )
+            for listener in listeners {
+                listener.onEndpointAdded(
+                    endpointId: endpointAdded.data.id, type: endpointAdded.data.type,
+                    metadata: endpointAdded.data.metadata)
+            }
         case .EndpointRemoved:
             let endpointRemoved = event as! EndpointRemovedEvent
-            engineListener.onEndpointRemoved(endpointId: endpointRemoved.data.id)
+            for listener in listeners {
+
+                listener.onEndpointRemoved(endpointId: endpointRemoved.data.id)
+            }
         case .EndpointUpdated:
             let endpointUpdated = event as! EndpointUpdatedEvent
-            engineListener.onEndpointUpdated(
-                endpointId: endpointUpdated.data.endpointId, metadata: endpointUpdated.data.metadata ?? AnyJson())
+            for listener in listeners {
+
+                listener.onEndpointUpdated(
+                    endpointId: endpointUpdated.data.endpointId, metadata: endpointUpdated.data.metadata ?? AnyJson())
+            }
         case .OfferData:
             let offerData = event as! OfferDataEvent
-            engineListener.onOfferData(
-                integratedTurnServers: offerData.data.integratedTurnServers, tracksTypes: offerData.data.tracksTypes)
+            for listener in listeners {
+                listener.onOfferData(
+                    integratedTurnServers: offerData.data.integratedTurnServers, tracksTypes: offerData.data.tracksTypes
+                )
+            }
         case .Candidate:
             let candidate = event as! RemoteCandidateEvent
-            engineListener.onRemoteCandidate(
-                candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
-                sdpMid: candidate.data.sdpMid)
+            for listener in listeners {
+
+                listener.onRemoteCandidate(
+                    candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
+                    sdpMid: candidate.data.sdpMid)
+            }
         case .TracksAdded:
             let tracksAdded = event as! TracksAddedEvent
-            engineListener.onTracksAdded(
-                endpointId: tracksAdded.data.endpointId, tracks: tracksAdded.data.tracks)
+            for listener in listeners {
+
+                listener.onTracksAdded(
+                    endpointId: tracksAdded.data.endpointId, tracks: tracksAdded.data.tracks)
+            }
         case .TracksRemoved:
             let tracksRemoved = event as! TracksRemovedEvent
-            engineListener.onTracksRemoved(
-                endpointId: tracksRemoved.data.endpointId, trackIds: tracksRemoved.data.trackIds)
+            for listener in listeners {
+
+                listener.onTracksRemoved(
+                    endpointId: tracksRemoved.data.endpointId, trackIds: tracksRemoved.data.trackIds)
+            }
         case .TrackUpdated:
             let tracksUpdated = event as! TracksUpdatedEvent
-            engineListener.onTrackUpdated(
-                endpointId: tracksUpdated.data.endpointId, trackId: tracksUpdated.data.trackId,
-                metadata: tracksUpdated.data.metadata ?? AnyJson())
+            for listener in listeners {
+
+                listener.onTrackUpdated(
+                    endpointId: tracksUpdated.data.endpointId, trackId: tracksUpdated.data.trackId,
+                    metadata: tracksUpdated.data.metadata ?? AnyJson())
+            }
         case .SdpAnswer:
             let sdpAnswer = event as! SdpAnswerEvent
-            engineListener.onSdpAnswer(
-                type: sdpAnswer.data.type, sdp: sdpAnswer.data.sdp, midToTrackId: sdpAnswer.data.midToTrackId)
+            for listener in listeners {
+
+                listener.onSdpAnswer(
+                    type: sdpAnswer.data.type, sdp: sdpAnswer.data.sdp, midToTrackId: sdpAnswer.data.midToTrackId)
+            }
         case .EncodingSwitched:
             let encodingSwitched = event as! EncodingSwitchedEvent
-            engineListener.onTrackEncodingChanged(
-                endpointId: encodingSwitched.data.endpointId, trackId: encodingSwitched.data.trackId,
-                encoding: encodingSwitched.data.encoding, encodingReason: encodingSwitched.data.reason)
+            for listener in listeners {
+
+                listener.onTrackEncodingChanged(
+                    endpointId: encodingSwitched.data.endpointId, trackId: encodingSwitched.data.trackId,
+                    encoding: encodingSwitched.data.encoding, encodingReason: encodingSwitched.data.reason)
+            }
         case .VadNotification:
             let vadNotification = event as! VadNotificationEvent
-            engineListener.onVadNotification(trackId: vadNotification.data.trackId, status: vadNotification.data.status)
+            for listener in listeners {
+
+                listener.onVadNotification(trackId: vadNotification.data.trackId, status: vadNotification.data.status)
+            }
         case .BandwidthEstimation:
             let bandwidthEstimation = event as! BandwidthEstimationEvent
-            engineListener.onBandwidthEstimation(estimation: Int(bandwidthEstimation.data.estimation))
+            for listener in listeners {
+
+                listener.onBandwidthEstimation(estimation: Int(bandwidthEstimation.data.estimation))
+            }
         default:
             sdkLogger.error("Failed to handle ReceivableEvent of type \(event.type)")
             return

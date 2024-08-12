@@ -191,6 +191,14 @@ struct ConnectEvent: SendableEvent {
     }
 }
 
+struct DisconnectEvent: SendableEvent{
+    func serialize() -> Payload{
+        .init([
+            "type": "disconnect"
+        ])
+    }
+}
+
 struct SdpOfferEvent: SendableEvent {
     let sdp: String
     let trackIdToTrackMetadata: [String: Metadata?]
@@ -287,11 +295,17 @@ struct UpdateTrackMetadata: SendableEvent {
 /*
  Receivable events
  */
+struct EventEndpoint: Codable {
+    let id: String
+    let type: String
+    let metadata: Metadata?
+    let tracks: [String: TrackData]
+}
 
 struct ConnectedEvent: ReceivableEvent, Codable {
     struct Data: Codable {
         let id: String
-        let otherEndpoints: [Endpoint]
+        let otherEndpoints: [EventEndpoint]
     }
 
     let type: ReceivableEventType
@@ -301,7 +315,7 @@ struct ConnectedEvent: ReceivableEvent, Codable {
 struct EndpointAddedEvent: ReceivableEvent, Codable {
     struct Data: Codable {
         let id: String
-        let type: String
+        let type: EndpointType
         let metadata: Metadata?
         let tracks: [String: TrackData]?
     }

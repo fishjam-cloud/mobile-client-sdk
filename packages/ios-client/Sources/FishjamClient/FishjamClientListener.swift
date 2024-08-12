@@ -33,7 +33,7 @@ public protocol FishjamClientListener {
     /**
      * Called when peer was accepted.
      */
-    func onJoined(peerID: String, peersInRoom: [Endpoint])
+    func onJoined(peerID: String, peersInRoom: [String: Endpoint])
 
     /**
      * Called when peer was not accepted
@@ -68,7 +68,7 @@ public protocol FishjamClientListener {
      * Called each time the peer which was already in the room, adds new track. Fields track and stream will be set to null.
      * These fields will be set to non-null value in {@link FishjamClientListener.onTrackReady}
      */
-    func onTrackAdded(ctx: TrackContext)
+    func onTrackAdded(track: Track)
     /**
      * Called when some track will no longer be sent.
      *
@@ -88,4 +88,5 @@ public protocol FishjamClientListener {
      * by the server. It's measured in bits per second.
      */
     func onBandwidthEstimationChanged(estimation: Int)
+
 }

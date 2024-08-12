@@ -2,7 +2,7 @@
 /// `"h"` - original encoding
 /// `"m"` - original encoding scaled down by 2
 /// `"l"` - original encoding scaled down by 4
-public enum TrackEncoding: Int, CustomStringConvertible, Codable {
+public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
     case l = 0
     case m
     case h

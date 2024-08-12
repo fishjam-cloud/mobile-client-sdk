@@ -17,14 +17,15 @@ public class LocalScreenBroadcastTrack: VideoTrack, LocalTrack, ScreenBroadcastC
     public weak var delegate: LocalScreenBroadcastTrackDelegate?
 
     internal init(
-        mediaTrack: RTCVideoTrack, endpointId: String, metadata: Metadata = Metadata(), appGroup: String,
-        videoParameters: VideoParameters, capturer: ScreenBroadcastCapturer,
+        mediaTrack: RTCVideoTrack, mediaSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(), appGroup: String,
+        videoParameters: VideoParameters,
         delegate: LocalScreenBroadcastTrackDelegate? = nil
     ) {
         self.appGroup = appGroup
         self.videoParameters = videoParameters
         self.delegate = delegate
-        self.capturer = capturer
+        self.capturer = ScreenBroadcastCapturer(mediaSource, appGroup: appGroup, videoParameters: videoParameters)
+        capturer.capturerDelegate = self
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
     }
 
@@ -50,11 +51,5 @@ public class LocalScreenBroadcastTrack: VideoTrack, LocalTrack, ScreenBroadcastC
 
     public func resumed() {
         delegate?.resumed()
-    }
-
-    func createCapturer(videoSource: RTCVideoSource) -> VideoCapturer {
-        let capturer = ScreenBroadcastCapturer(videoSource, appGroup: appGroup, videoParameters: videoParameters)
-        capturer.capturerDelegate = self
-        return capturer
     }
 }

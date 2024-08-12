@@ -20,7 +20,7 @@ let log = OSLog(subsystem: "com.swm.membranewebrtc", category: "ErrorHandling")
 
             let selector = NSSelectorFromString("buttonPressed:")
             if view.responds(to: selector) {
-                view.perform(selector, with: nil)
+                view.perform(selector, copyWith: nil)
             }
         }
     }

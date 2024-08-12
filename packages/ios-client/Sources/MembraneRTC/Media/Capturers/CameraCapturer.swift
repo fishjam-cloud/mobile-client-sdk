@@ -8,9 +8,14 @@ class CameraCapturer: VideoCapturer {
     private var device: AVCaptureDevice? = nil
     internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in }
 
-    init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate) {
+    init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
         self.capturer = RTCCameraVideoCapturer(delegate: delegate)
+        let devices = RTCCameraVideoCapturer.captureDevices()
+
+        if let newDevice = devices.first(where: {$0.uniqueID == deviceId}){
+            device = newDevice
+        }
     }
 
     public func stopCapture() {
