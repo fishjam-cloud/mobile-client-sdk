@@ -18,7 +18,7 @@ class LocalScreencastTrack(
   metadata: Metadata,
   private val capturer: ScreenCapturerAndroid,
   val videoParameters: VideoParameters
-) : VideoTrack(videoTrack, endpointId, null, metadata),
+) : VideoTrack(videoTrack, endpointId, videoTrack.id(), metadata),
   LocalTrack {
   private val mutex = Mutex()
   private val coroutineScope: CoroutineScope =

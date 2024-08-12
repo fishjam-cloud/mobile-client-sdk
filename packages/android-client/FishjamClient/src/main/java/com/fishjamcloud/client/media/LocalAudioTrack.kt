@@ -7,7 +7,7 @@ class LocalAudioTrack(
   mediaTrack: AudioTrack,
   endpointId: String,
   metadata: Metadata
-) : Track(mediaTrack, endpointId, null, metadata),
+) : Track(mediaTrack, endpointId, mediaTrack.id(), metadata),
   LocalTrack {
   override fun start() {
   }
