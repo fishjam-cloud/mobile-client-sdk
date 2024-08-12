@@ -310,10 +310,9 @@ class RNFishjamClient(
     }
   }
 
-  suspend fun startMicrophone(config: MicrophoneConfig) {
-    val microphoneTrack =
-      fishjamClient.createAudioTrack(config.audioTrackMetadata)
-    setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+  private suspend fun startMicrophone() {
+    val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
+    setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
   }
 
@@ -328,9 +327,12 @@ class RNFishjamClient(
     emitEvent(eventName, isMicrophoneOnMap)
   }
 
-  fun toggleMicrophone(): Boolean {
-    ensureAudioTrack()
-    getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+  suspend fun toggleMicrophone(): Boolean {
+    if (getLocalAudioTrack() == null) {
+      startMicrophone()
+    } else {
+      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+    }
     return isMicrophoneOn
   }
 
