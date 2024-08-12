@@ -64,7 +64,7 @@ public class RNFishjamClientModule: Module {
             "IsMicrophoneOn",
             "IsScreencastOn",
             "SimulcastConfigUpdate",
-            "EndpointsUpdate",
+            "PeersUpdate",
             "AudioDeviceUpdate",
             "SendMediaEvent",
             "BandwidthEstimation")
@@ -127,12 +127,12 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isScreensharingEnabled
         }
 
-        AsyncFunction("getEndpoints") {
-            rnFishjamClient.getEndpoints()
+        AsyncFunction("getPeers") {
+            rnFishjamClient.getPeers()
         }
 
-        AsyncFunction("updateEndpointMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateEndpointMetadata(metadata: metadata)
+        AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in
+            try rnFishjamClient.updatePeerMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in

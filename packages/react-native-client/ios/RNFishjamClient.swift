@@ -271,9 +271,9 @@ class RNFishjamClient: FishjamClientListener {
         joinRoom()
     }
 
-    func onAuthError() {
+    func onAuthError(reason: AuthError) {
         if let connectPromise = connectPromise {
-            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
+            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: \(reason.rawValue)")
         }
         connectPromise = nil
     }
@@ -576,7 +576,7 @@ class RNFishjamClient: FishjamClientListener {
         return trackId == localAudioTrack?.trackId() || trackId == localVideoTrack?.trackId()
             || trackId == localScreencastTrack?.trackId()
     }
-    func getEndpoints() -> [[String: Any]] {
+    func getPeers() -> [[String: Any]] {
         MembraneRoom.sharedInstance.endpoints.values.sorted(by: { $0.order < $1.order }).map {
             (p) -> Dictionary in
             let videoTracks = p.videoTracks.keys.map { trackId in
@@ -650,7 +650,7 @@ class RNFishjamClient: FishjamClientListener {
         ]
     }
 
-    func updateEndpointMetadata(metadata: [String: Any]) throws {
+    func updatePeerMetadata(metadata: [String: Any]) throws {
         try ensureConnected()
         fishjamClient?.updatePeerMetadata(peerMetadata: metadata.toMetadata())
     }
@@ -938,8 +938,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emitEndpoints() {
-        let eventName = EmitableEvents.EndpointsUpdate
-        let EndpointsUpdateMap = [eventName: getEndpoints()]
+        let eventName = EmitableEvents.PeersUpdate
+        let EndpointsUpdateMap = [eventName: getPeers()]
         emitEvent(name: eventName, data: EndpointsUpdateMap)
     }
 
