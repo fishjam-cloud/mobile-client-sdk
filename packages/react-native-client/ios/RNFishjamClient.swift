@@ -4,64 +4,6 @@ import FishjamCloudClient
 import React
 import ReplayKit
 import WebRTC
-import os.log
-
-let log = OSLog(subsystem: "com.swm.membranewebrtc", category: "ErrorHandling")
-
-#if os(iOS)
-    @available(iOS 12, *)
-    extension RPSystemBroadcastPickerView {
-        public static func show(
-            for preferredExtension: String? = nil, showsMicrophoneButton: Bool = false
-        ) {
-            let view = RPSystemBroadcastPickerView()
-            view.preferredExtension = preferredExtension
-            view.showsMicrophoneButton = showsMicrophoneButton
-
-            let selector = NSSelectorFromString("buttonPressed:")
-            if view.responds(to: selector) {
-                view.perform(selector, copyWith: nil)
-            }
-        }
-    }
-#endif
-
-extension [String: Any] {
-    public func toMetadata() -> Metadata {
-        var res: Metadata = .init()
-        self.forEach { entry in
-            res[entry.key] = entry.value
-        }
-        return res
-    }
-}
-
-extension AnyJson {
-    public func toDict() -> [String: Any] {
-        var res: [String: Any] = [:]
-        self.keys.forEach { key in
-            res[key] = self[key]
-        }
-        return res
-    }
-}
-
-extension String: Error {}
-
-extension String {
-    public func toTrackEncoding() -> TrackEncoding? {
-        switch self {
-        case "l":
-            return TrackEncoding.l
-        case "m":
-            return TrackEncoding.m
-        case "h":
-            return TrackEncoding.h
-        default:
-            return nil
-        }
-    }
-}
 
 class RNFishjamClient: FishjamClientListener {
     var fishjamClient: FishjamClient? = nil

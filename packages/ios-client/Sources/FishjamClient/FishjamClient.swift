@@ -81,7 +81,7 @@ public class FishjamClient {
     * after accepting this peer
     */
     public func join(peerMetadata: Metadata = Metadata()) {
-        client.connect(metadata: peerMetadata)
+        client.join(peerMetadata: peerMetadata)
     }
 
     /**

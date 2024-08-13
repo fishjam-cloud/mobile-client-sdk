@@ -35,17 +35,13 @@ public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let encodingString = try container.decode(String.self)
-
-        switch encodingString {
-        case "l":
-            self = .l
-        case "m":
-            self = .m
-        case "h":
-            self = .h
-        default:
+        
+        guard let encoding = TrackEncoding.fromString(encodingString) else{
+            sdkLogger.error("TrackEncoding: \(encodingString) is not a valid encoding")
             throw TrackEncodingCodingError.decoding("\(encodingString) is not a valid encoding")
+
         }
+        self = encoding
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
