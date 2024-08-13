@@ -3,18 +3,6 @@ import Starscream
 import WebRTC
 
 internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener, RTCEngineListener {
-    func onPeerConnectionStateChange(newState: RTCIceConnectionState) {
-        <#code#>
-    }
-    
-    func onConnected(endpointId: String, otherEndpoints: [Endpoint]) {
-        <#code#>
-    }
-    
-    func onConnectionError() {
-        <#code#>
-    }
-    
     private var config: Config?
     private let commandsQueue: CommandsQueue = CommandsQueue()
     private var webSocket: FishjamWebsocket?
