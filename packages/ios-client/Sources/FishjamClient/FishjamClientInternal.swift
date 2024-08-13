@@ -3,7 +3,7 @@ import Starscream
 import WebRTC
 
 internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener, RTCEngineListener {
-    private var config: Config?
+    private var config: ConnectionConfig?
     private let commandsQueue: CommandsQueue = CommandsQueue()
     private var webSocket: FishjamWebsocket?
     private var listener: FishjamClientListener
@@ -19,16 +19,12 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     private(set) var localEndpoint: Endpoint = Endpoint(id: "", type: .WEBRTC)
     private var remoteEndpoints: [String: Endpoint] = [:]
 
-    public init(
-        listener: FishjamClientListener, peerConnectionManager: PeerConnectionManager,
-        peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper,
-        rtcEngineCommunication: RTCEngineCommunication, websocketFactory: @escaping (String) -> FishjamWebsocket
-    ) {
+    public init(listener: FishjamClientListener, websocketFactory: @escaping (String) -> FishjamWebsocket) {
         self.listener = listener
         self.websocketFactory = websocketFactory
-        self.peerConnectionManager = peerConnectionManager
-        self.rtcEngineCommunication = rtcEngineCommunication
-        self.peerConnectionFactoryWrapper = peerConnectionFactoryWrapper
+        self.rtcEngineCommunication = RTCEngineCommunication(listeners: [])
+        self.peerConnectionFactoryWrapper = PeerConnectionFactoryWrapper(encoder: Encoder.DEFAULT)
+        self.peerConnectionManager = PeerConnectionManager(config: RTCConfiguration(), peerConnectionFactory: peerConnectionFactoryWrapper)
     }
 
     private func getTrack(trackId: String) -> Track? {
@@ -56,7 +52,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         return nil
     }
 
-    func connect(config: Config) {
+    func connect(config: ConnectionConfig) {
         self.config = config
         peerConnectionManager.addListener(self)
         rtcEngineCommunication.addListener(self)
@@ -114,7 +110,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         commandsQueue.clear()
     }
 
-    func createVideoTrack(videoParameters: VideoParameters, metadata: Metadata, captureDeviceName: String? = nil) async
+    func createVideoTrack(videoParameters: VideoParameters, metadata: Metadata, captureDeviceName: String? = nil)
         -> LocalVideoTrack
     {
         let videoSource = peerConnectionFactoryWrapper.createVideoSource()

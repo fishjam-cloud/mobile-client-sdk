@@ -307,7 +307,7 @@ class RNFishjamClient: FishjamClientListener {
     func connect(url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) {
         connectPromise = promise
         localUserMetadata = peerMetadata.toMetadata()
-        fishjamClient?.connect(config: Config(websocketUrl: url, token: peerToken))
+        fishjamClient?.connect(config: ConnectionConfig(websocketUrl: url, token: peerToken))
     }
 
     func joinRoom() {
@@ -652,7 +652,7 @@ class RNFishjamClient: FishjamClientListener {
 
     func updateEndpointMetadata(metadata: [String: Any]) throws {
         try ensureConnected()
-        fishjamClient?.updatePeerMetadata(peerMetadata: metadata.toMetadata())
+        fishjamClient?.updatePeerMetadata(metadata: metadata.toMetadata())
     }
 
     func updateTrackMetadata(trackId: String, metadata: [String: Any]) {
@@ -660,7 +660,7 @@ class RNFishjamClient: FishjamClientListener {
             return
         }
 
-        room.updateTrackMetadata(trackId: trackId, trackMetadata: metadata.toMetadata())
+        room.updateTrackMetadata(trackId: trackId, metadata: metadata.toMetadata())
         let tracksData = MembraneRoom.sharedInstance.endpoints[endpointId]?.tracksData[trackId]
         MembraneRoom.sharedInstance.endpoints[endpointId]?.tracksData[trackId] =
             TrackData(metadata: metadata.toMetadata(), simulcastConfig: tracksData?.simulcastConfig)
