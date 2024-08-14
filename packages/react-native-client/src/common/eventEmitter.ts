@@ -11,6 +11,9 @@ export const ReceivableEvents = {
   AudioDeviceUpdate: 'AudioDeviceUpdate',
   SendMediaEvent: 'SendMediaEvent',
   BandwidthEstimation: 'BandwidthEstimation',
+  ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
+  ReconnectionStarted: 'ReconnectionStarted',
+  Reconnected: 'Reconnected',
 } as const;
 
 export const eventEmitter = new EventEmitter(

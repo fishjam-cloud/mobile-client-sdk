@@ -41,6 +41,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func close() {
         if let pc = connection {
             pc.close()
+            self.connection = nil
         }
     }
 

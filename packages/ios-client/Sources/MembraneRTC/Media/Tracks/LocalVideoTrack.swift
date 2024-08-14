@@ -11,6 +11,17 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
         case camera, file
     }
 
+    internal init(
+        oldTrack: LocalVideoTrack,
+        peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper
+    ) {
+        self.videoSource = oldTrack.videoSource
+        self.capturer = oldTrack.capturer
+        self.videoParameters = oldTrack.videoParameters
+        track = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
+        super.init()
+    }
+
     internal init(parameters: VideoParameters, peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper) {
         let source = peerConnectionFactoryWrapper.createVideoSource()
 

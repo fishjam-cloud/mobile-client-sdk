@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
-import com.fishjamcloud.client.Config
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
 import com.fishjamcloud.client.media.LocalAudioTrack
@@ -20,6 +19,7 @@ import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
 import com.fishjamcloud.client.models.RTCInboundStats
 import com.fishjamcloud.client.models.RTCOutboundStats
+import com.fishjamcloud.client.models.ReconnectConfig
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.VideoParameters
@@ -229,25 +229,27 @@ class RNFishjamClient(
     }
   }
 
-  override fun onAuthSuccess() {
-    CoroutineScope(Dispatchers.Main).launch {
-      joinRoom()
-    }
-  }
-
   fun connect(
     url: String,
     peerToken: String,
     peerMetadata: Map<String, Any>,
+    config: ConnectConfig,
     promise: Promise
   ) {
     connectPromise = promise
     localUserMetadata = peerMetadata
-    fishjamClient.connect(Config(url, peerToken))
-  }
-
-  private fun joinRoom() {
-    fishjamClient.join(localUserMetadata)
+    fishjamClient.connect(
+      com.fishjamcloud.client.ConnectConfig(
+        url,
+        peerToken,
+        peerMetadata,
+        ReconnectConfig(
+          config.reconnectConfig.maxAttempts,
+          config.reconnectConfig.initialDelayMs,
+          config.reconnectConfig.delayMs
+        )
+      )
+    )
   }
 
   fun leaveRoom() {
@@ -310,10 +312,9 @@ class RNFishjamClient(
     }
   }
 
-  suspend fun startMicrophone(config: MicrophoneConfig) {
-    val microphoneTrack =
-      fishjamClient.createAudioTrack(config.audioTrackMetadata)
-    setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+  private suspend fun startMicrophone() {
+    val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
+    setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
   }
 
@@ -328,9 +329,12 @@ class RNFishjamClient(
     emitEvent(eventName, isMicrophoneOnMap)
   }
 
-  fun toggleMicrophone(): Boolean {
-    ensureAudioTrack()
-    getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+  suspend fun toggleMicrophone(): Boolean {
+    if (getLocalAudioTrack() == null) {
+      startMicrophone()
+    } else {
+      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+    }
     return isMicrophoneOn
   }
 
@@ -835,12 +839,28 @@ class RNFishjamClient(
     code: Int,
     reason: String
   ) {
-    connectPromise?.reject(SocketClosedError(code, reason))
-    connectPromise = null
+    CoroutineScope(Dispatchers.Main).launch {
+      connectPromise?.reject(SocketClosedError(code, reason))
+      connectPromise = null
+    }
   }
 
   override fun onSocketError(t: Throwable) {
-    connectPromise?.reject(SocketError(t.message ?: t.toString()))
-    connectPromise = null
+    CoroutineScope(Dispatchers.Main).launch {
+      connectPromise?.reject(SocketError(t.message ?: t.toString()))
+      connectPromise = null
+    }
+  }
+
+  override fun onReconnected() {
+    emitEvent(EmitableEvents.Reconnected, emptyMap())
+  }
+
+  override fun onReconnectionStarted() {
+    emitEvent(EmitableEvents.ReconnectionStarted, emptyMap())
+  }
+
+  override fun onReconnectionRetriesLimitReached() {
+    emitEvent(EmitableEvents.ReconnectionRetriesLimitReached, emptyMap())
   }
 }

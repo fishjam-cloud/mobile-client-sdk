@@ -10,16 +10,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.webrtc.ScreenCapturerAndroid
+import org.webrtc.VideoSource
 import java.util.ArrayList
 
 class LocalScreencastTrack(
   videoTrack: org.webrtc.VideoTrack,
   endpointId: String,
   metadata: Metadata,
-  private val capturer: ScreenCapturerAndroid,
-  val videoParameters: VideoParameters
+  internal val capturer: ScreenCapturerAndroid,
+  val videoParameters: VideoParameters,
+  internal val videoSource: VideoSource
 ) : VideoTrack(videoTrack, endpointId, null, metadata),
   LocalTrack {
+  constructor(
+    videoTrack: org.webrtc.VideoTrack,
+    oldTrack: LocalScreencastTrack
+  ) : this(videoTrack, oldTrack.endpointId, oldTrack.metadata, oldTrack.capturer, oldTrack.videoParameters, oldTrack.videoSource)
+
   private val mutex = Mutex()
   private val coroutineScope: CoroutineScope =
     ClosableCoroutineScope(SupervisorJob())

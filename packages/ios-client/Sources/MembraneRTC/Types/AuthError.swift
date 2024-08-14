@@ -4,4 +4,5 @@ public enum AuthError: String, CaseIterable {
     case expired_token = "expired token"
     case room_not_found = "room not found"
     case peer_not_found = "peer not found"
+    case peer_already_connected = "peer already connected"
 }

@@ -9,9 +9,9 @@ import type {
   SimulcastConfig,
 } from './types';
 import type { CameraConfig, CaptureDevice } from './hooks/useCamera';
-import type { MicrophoneConfig } from './hooks/useMicrophone';
 import type { Peer } from './hooks/usePeers';
 import type { ScreencastOptions } from './hooks/useScreencast';
+import type { ConnectionConfig } from './common/client';
 
 type InternalCameraConfig<MetadataType extends Metadata> = Partial<
   CameraConfig<MetadataType> &
@@ -26,13 +26,11 @@ type RNFishjamClient = {
     url: string,
     peerToken: string,
     peerMetadata: Metadata,
+    config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
   startCamera: <MetadataType extends Metadata>(
     config: InternalCameraConfig<MetadataType>,
-  ) => Promise<void>;
-  startMicrophone: <MetadataType extends Metadata>(
-    config: Partial<MicrophoneConfig<MetadataType>>,
   ) => Promise<void>;
   isMicrophoneOn: boolean;
   toggleMicrophone: () => Promise<boolean>;

@@ -232,6 +232,10 @@ room client. To run the app:
 
 # Usage
 
+> [!CAUTION]
+> This part of documentation is out of date.
+> It will be updated soon.
+
 Connect to the server and join the room using the `connect` function. Use user
 metadata to pass things like usernames etc. to the server.
 

@@ -71,7 +71,7 @@ class RNFishjamClient: FishjamClientListener {
     var localScreencastTrack: LocalScreenBroadcastTrack?
     var localEndpointId: String?
 
-    var isMicEnabled: Bool = true
+    var isMicrophoneOn: Bool = false
     var isCameraEnabled: Bool = true
     var isScreensharingEnabled: Bool = false
 
@@ -225,7 +225,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func ensureAudioTrack() throws {
-        if fishjamClient == nil {
+        if localAudioTrack == nil {
             throw Exception(
                 name: "E_NO_LOCAL_AUDIO_TRACK",
                 description: "No local audio track. Make sure to call connect() first!")
@@ -263,14 +263,6 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise = nil
     }
 
-    func onSocketOpen() {
-
-    }
-
-    func onAuthSuccess() {
-        joinRoom()
-    }
-
     func onAuthError(reason: AuthError) {
         if let connectPromise = connectPromise {
             connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: \(reason.rawValue)")
@@ -304,21 +296,17 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise = nil
     }
 
-    func connect(url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) {
+    func connect(url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig, promise: Promise) {
         connectPromise = promise
         localUserMetadata = peerMetadata.toMetadata()
-        fishjamClient?.connect(config: Config(websocketUrl: url, token: peerToken))
-    }
 
-    func joinRoom() {
-        guard let localEndpointId = localEndpointId,
-            var endpoint = MembraneRoom.sharedInstance.endpoints[localEndpointId]
-        else {
-            return
-        }
-
-        endpoint.metadata = localUserMetadata
-        fishjamClient?.join(peerMetadata: localUserMetadata)
+        let reconnectConfig = FishjamCloudClient.ReconnectConfig(
+            maxAttempts: config.reconnectConfig.maxAttempts, initialDelayMs: config.reconnectConfig.initialDelayMs,
+            delayMs: config.reconnectConfig.delayMs)
+        fishjamClient?.connect(
+            config: FishjamCloudClient.ConnectConfig(
+                websocketUrl: url, token: peerToken, peerMetadata: .init(peerMetadata), reconnectConfig: reconnectConfig
+            ))
     }
 
     func leaveRoom() {
@@ -379,6 +367,7 @@ class RNFishjamClient: FishjamClientListener {
         let isCameraEnabledMap = [eventName: isEnabled]
         emitEvent(name: eventName, data: isCameraEnabledMap)
     }
+
     private func addTrackToLocalEndpoint(
         _ track: LocalVideoTrack, _ metadata: Metadata, _ simulcastConfig: SimulcastConfig?
     ) throws {
@@ -435,33 +424,34 @@ class RNFishjamClient: FishjamClientListener {
             emitEndpoints()
         }
     }
-    func startMicrophone(config: MicrophoneConfig) throws {
-        try ensureConnected()
+    private func startMicrophone() throws {
         guard
             let microphoneTrack = fishjamClient?.createAudioTrack(
-                metadata: config.audioTrackMetadata.toMetadata())
+                metadata: .init())
         else { return }
         localAudioTrack = microphoneTrack
         setAudioSessionMode()
-        try addTrackToLocalEndpoint(microphoneTrack, config.audioTrackMetadata.toMetadata())
-        try setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+        try addTrackToLocalEndpoint(microphoneTrack, .init())
+        try setMicrophoneTrackState(microphoneTrack, true)
     }
+
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, _ isEnabled: Bool)
         throws
     {
-        try ensureConnected()
         microphoneTrack.setEnabled(isEnabled)
-        isMicEnabled = isEnabled
+        isMicrophoneOn = isEnabled
         let eventName = EmitableEvents.IsMicrophoneOn
         let isMicEnabledMap = [eventName: isEnabled]
         emitEvent(name: eventName, data: isMicEnabledMap)
     }
+
     func toggleMicrophone() throws -> Bool {
-        try ensureAudioTrack()
         if let localAudioTrack = localAudioTrack {
-            try setMicrophoneTrackState(localAudioTrack, !isMicEnabled)
+            try setMicrophoneTrackState(localAudioTrack, !isMicrophoneOn)
+        } else {
+            try startMicrophone()
         }
-        return isMicEnabled
+        return isMicrophoneOn
     }
     private func getScreencastVideoParameters(screencastOptions: ScreencastOptions)
         -> VideoParameters
@@ -1066,4 +1056,15 @@ class RNFishjamClient: FishjamClientListener {
         emitEvent(name: eventName, data: [eventName: estimation])
     }
 
+    func onReconnectionStarted() {
+        emitEvent(name: EmitableEvents.ReconnectionStarted, data: [:])
+    }
+
+    func onReconnected() {
+        emitEvent(name: EmitableEvents.Reconnected, data: [:])
+    }
+
+    func onReconnectionRetriesLimitReached() {
+        emitEvent(name: EmitableEvents.ReconnectionRetriesLimitReached, data: [:])
+    }
 }

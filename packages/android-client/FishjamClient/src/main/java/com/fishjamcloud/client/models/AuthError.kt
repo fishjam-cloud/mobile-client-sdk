@@ -7,7 +7,8 @@ enum class AuthError(
   INVALID_TOKEN("invalid token"),
   EXPIRED_TOKEN("expired token"),
   ROOM_NOT_FOUND("room not found"),
-  PEER_NOT_FOUND("peer not found");
+  PEER_NOT_FOUND("peer not found"),
+  PEER_CONNECTED("peer already connected");
 
   companion object {
     fun isAuthError(error: String): Boolean = values().firstOrNull { v -> v.error == error } != null
