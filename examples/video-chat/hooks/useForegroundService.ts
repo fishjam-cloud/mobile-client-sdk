@@ -1,4 +1,3 @@
-import { useMicrophone } from '@fishjam-cloud/react-native-client';
 import notifee, {
   AndroidImportance,
   AndroidColor,
@@ -7,11 +6,7 @@ import notifee, {
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
 
-interface Props {
-  isMicrophoneAvailable: boolean;
-}
-
-async function startForegroundService() {
+async function displayNotification() {
   if (Platform.OS === 'android') {
     const channelId = await notifee.createChannel({
       id: 'video_call',
@@ -43,17 +38,10 @@ async function startForegroundService() {
   }
 }
 
-export function useJoinRoom({ isMicrophoneAvailable }: Props) {
-  const { startMicrophone } = useMicrophone();
+export function useForegroundService() {
+  const startForegroundService = useCallback(async () => {
+    await displayNotification();
+  }, []);
 
-  const joinRoom = useCallback(async () => {
-    await startForegroundService();
-
-    await startMicrophone({
-      audioTrackMetadata: { active: isMicrophoneAvailable, type: 'audio' },
-      microphoneEnabled: isMicrophoneAvailable,
-    });
-  }, [isMicrophoneAvailable, startMicrophone]);
-
-  return { joinRoom };
+  return { startForegroundService };
 }

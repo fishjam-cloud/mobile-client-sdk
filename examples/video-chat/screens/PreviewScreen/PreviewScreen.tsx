@@ -61,18 +61,11 @@ function PreviewScreen({
     toggleVideoTrackEncoding,
     switchCamera,
   } = useCamera();
-  const { isMicrophoneOn: isMicrophoneAvailable } = useMicrophone();
-  const [isMicrophoneOn, setIsMicrophoneOn] = useState<boolean>(
-    isMicrophoneAvailable,
-  );
+  const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   const encodings: Record<string, TrackEncoding[]> = {
     ios: ['l', 'h'],
     android: ['l', 'm', 'h'],
-  };
-
-  const toggleMicrophone = () => {
-    setIsMicrophoneOn(!isMicrophoneOn);
   };
 
   const toggleSwitchCamera = () => {
@@ -121,7 +114,6 @@ function PreviewScreen({
     });
     navigation.navigate('Room', {
       isCameraOn,
-      isMicrophoneOn,
       userName: route?.params?.userName,
     });
   };

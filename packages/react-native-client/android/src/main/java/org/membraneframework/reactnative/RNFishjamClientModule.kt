@@ -48,14 +48,6 @@ class CameraConfig : Record {
   val captureDeviceId: String? = null
 }
 
-class MicrophoneConfig : Record {
-  @Field
-  val audioTrackMetadata: Map<String, Any> = emptyMap()
-
-  @Field
-  val microphoneEnabled: Boolean = true
-}
-
 class ScreencastOptions : Record {
   @Field
   val quality: String = "HD15"
@@ -127,12 +119,6 @@ class RNFishjamClientModule : Module() {
       AsyncFunction("startCamera") Coroutine { config: CameraConfig ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.startCamera(config)
-        }
-      }
-
-      AsyncFunction("startMicrophone") Coroutine { config: MicrophoneConfig ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.startMicrophone(config)
         }
       }
 

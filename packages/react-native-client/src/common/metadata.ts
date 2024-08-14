@@ -20,13 +20,3 @@ export async function updateVideoTrackMetadata<
 >(metadata: VideoTrackMetadataType) {
   await RNFishjamClientModule.updateVideoTrackMetadata(metadata);
 }
-
-/**
- * a function that updates audio metadata on the server
- * @param metadata a map `string -> any` containing audio track metadata to be sent to the server
- */
-export async function updateAudioTrackMetadata<
-  AudioTrackMetadataType extends Metadata,
->(metadata: AudioTrackMetadataType) {
-  await RNFishjamClientModule.updateAudioTrackMetadata(metadata);
-}

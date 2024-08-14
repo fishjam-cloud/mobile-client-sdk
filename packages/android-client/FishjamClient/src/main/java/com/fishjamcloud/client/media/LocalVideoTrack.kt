@@ -22,7 +22,7 @@ class LocalVideoTrack(
   metadata: Metadata,
   private val capturer: Capturer,
   val videoParameters: VideoParameters
-) : VideoTrack(mediaTrack, endpointId, rtcEngineId = null, metadata),
+) : VideoTrack(mediaTrack, endpointId, null, metadata),
   LocalTrack {
   data class CaptureDevice(
     val deviceName: String,
