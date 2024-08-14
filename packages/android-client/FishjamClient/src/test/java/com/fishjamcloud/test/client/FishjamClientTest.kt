@@ -10,6 +10,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import okhttp3.OkHttpClient
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -42,16 +45,26 @@ class FishjamClientTest {
     every { createAudioDeviceModule(any()) } returns mockk<AudioDeviceModule>(relaxed = true)
   }
 
+  @OptIn(ExperimentalCoroutinesApi::class)
   @Before
   fun initMocksAndConnect() {
-    websocketMock = WebsocketMock()
-    fishjamClientListener = mockk(relaxed = true)
-    client = FishjamClientInternal(fishjamClientListener, mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true))
+    runTest {
+      websocketMock = WebsocketMock()
+      fishjamClientListener = mockk(relaxed = true)
+      client =
+        FishjamClientInternal(
+          fishjamClientListener,
+          mockk(relaxed = true),
+          mockk(relaxed = true),
+          mockk(relaxed = true)
+        )
 
-    client.connect(Config(websocketUrl = url, token = token))
-    websocketMock.open()
-    verify { fishjamClientListener.onSocketOpen() }
-    websocketMock.expect(authRequest)
+      client.connect(Config(websocketUrl = url, token = token))
+      verify(timeout = 2000) { anyConstructed<OkHttpClient>().newWebSocket(any(), any()) }
+      websocketMock.open()
+      verify { fishjamClientListener.onSocketOpen() }
+      websocketMock.expect(authRequest)
+    }
   }
 
   @Test
@@ -63,7 +76,7 @@ class FishjamClientTest {
   @Test
   fun callsOnSocketError() {
     websocketMock.error()
-    verify { fishjamClientListener.onSocketError(any(), any()) }
+    verify { fishjamClientListener.onSocketError(any()) }
   }
 
   @Test

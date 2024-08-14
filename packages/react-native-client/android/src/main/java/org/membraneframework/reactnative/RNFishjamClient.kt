@@ -14,6 +14,7 @@ import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.RemoteAudioTrack
 import com.fishjamcloud.client.media.RemoteVideoTrack
 import com.fishjamcloud.client.media.Track
+import com.fishjamcloud.client.models.AuthError
 import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
@@ -199,31 +200,31 @@ class RNFishjamClient(
 
   private fun ensureConnected() {
     if (!isConnected) {
-      throw CodedException("Client not connected to server yet. Make sure to call connect() first!")
+      throw ClientNotConnectedError()
     }
   }
 
   private fun ensureVideoTrack() {
     if (getLocalVideoTrack() == null) {
-      throw CodedException("No local video track. Make sure to call connect() first!")
+      throw NoLocalVideoTrackError()
     }
   }
 
   private fun ensureAudioTrack() {
     if (getLocalAudioTrack() == null) {
-      throw CodedException("No local audio track. Make sure to call connect() first!")
+      throw NoLocalAudioTrackError()
     }
   }
 
   private fun ensureScreencastTrack() {
     if (getLocalScreencastTrack() == null) {
-      throw CodedException("No local screencast track. Make sure to toggle screencast on first!")
+      throw NoScreencastTrackError()
     }
   }
 
-  override fun onAuthError() {
+  override fun onAuthError(reason: AuthError) {
     CoroutineScope(Dispatchers.Main).launch {
-      connectPromise?.reject(CodedException("Connection error"))
+      connectPromise?.reject(ConnectionError(reason))
       connectPromise = null
     }
   }
@@ -309,10 +310,9 @@ class RNFishjamClient(
     }
   }
 
-  suspend fun startMicrophone(config: MicrophoneConfig) {
-    val microphoneTrack =
-      fishjamClient.createAudioTrack(config.audioTrackMetadata)
-    setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+  private suspend fun startMicrophone() {
+    val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
+    setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
   }
 
@@ -327,9 +327,12 @@ class RNFishjamClient(
     emitEvent(eventName, isMicrophoneOnMap)
   }
 
-  fun toggleMicrophone(): Boolean {
-    ensureAudioTrack()
-    getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+  suspend fun toggleMicrophone(): Boolean {
+    if (getLocalAudioTrack() == null) {
+      startMicrophone()
+    } else {
+      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+    }
     return isMicrophoneOn
   }
 
@@ -366,7 +369,7 @@ class RNFishjamClient(
     }
   }
 
-  fun getEndpoints(): List<Map<String, Any?>> =
+  fun getPeers(): List<Map<String, Any?>> =
     getAllPeers().map { endpoint ->
       mapOf(
         "id" to endpoint.id,
@@ -434,7 +437,7 @@ class RNFishjamClient(
     }
   }
 
-  fun updateEndpointMetadata(metadata: Metadata) {
+  fun updatePeerMetadata(metadata: Metadata) {
     ensureConnected()
     fishjamClient.updatePeerMetadata(metadata)
   }
@@ -655,7 +658,7 @@ class RNFishjamClient(
   private suspend fun startScreencast() {
     val videoParameters = getScreencastVideoParameters()
     if (mediaProjectionIntent == null) {
-      throw CodedException("No permission to start screencast, call handleScreencastPermission first.")
+      throw MissingScreencastPermission()
     }
     fishjamClient.createScreencastTrack(
       mediaProjectionIntent!!,
@@ -715,8 +718,8 @@ class RNFishjamClient(
   }
 
   private fun emitEndpoints() {
-    val eventName = EmitableEvents.EndpointsUpdate
-    val map = mapOf(eventName to getEndpoints())
+    val eventName = EmitableEvents.PeersUpdate
+    val map = mapOf(eventName to getPeers())
     emitEvent(eventName, map)
   }
 
@@ -779,7 +782,7 @@ class RNFishjamClient(
 
   override fun onJoinError(metadata: Any) {
     CoroutineScope(Dispatchers.Main).launch {
-      connectPromise?.reject(CodedException("Join error: $metadata"))
+      connectPromise?.reject(JoinError(metadata))
       connectPromise = null
     }
   }
@@ -829,4 +832,21 @@ class RNFishjamClient(
   }
 
   override fun onDisconnected() {}
+
+  override fun onSocketClose(
+    code: Int,
+    reason: String
+  ) {
+    CoroutineScope(Dispatchers.Main).launch {
+      connectPromise?.reject(SocketClosedError(code, reason))
+      connectPromise = null
+    }
+  }
+
+  override fun onSocketError(t: Throwable) {
+    CoroutineScope(Dispatchers.Main).launch {
+      connectPromise?.reject(SocketError(t.message ?: t.toString()))
+      connectPromise = null
+    }
+  }
 }

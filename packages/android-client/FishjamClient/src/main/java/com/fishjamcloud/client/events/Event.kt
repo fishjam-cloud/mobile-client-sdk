@@ -116,7 +116,7 @@ data class UpdateEndpointMetadata(
     val metadata: Metadata?
   )
 
-  constructor(metadata: Metadata? = mapOf()) : this("updateEndpointMetadata", Data(metadata))
+  constructor(metadata: Metadata? = mapOf()) : this("updatePeerMetadata", Data(metadata))
 }
 
 data class UpdateTrackMetadata(

@@ -1,34 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import type { Metadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
-import {
-  isConnected,
-  setMicrophoneStatus,
-  isMicrophoneSetToOn,
-} from '../common/state';
-
-export type MicrophoneConfig<MetadataType extends Metadata> = {
-  /**
-   * a map `string -> any` containing audio track metadata to be sent to the server.
-   */
-  audioTrackMetadata?: MetadataType;
-  /**
-   * whether the microphone is initially enabled, you can toggle it on/off later with toggleMicrophone method
-   * @default `true`
-   */
-  microphoneEnabled?: boolean;
-};
 
 type IsMicrophoneOnEvent = { IsMicrophoneOn: boolean };
-
-export async function startMicrophone() {
-  await RNFishjamClientModule.startMicrophone({
-    audioTrackMetadata: { active: isMicrophoneSetToOn(), type: 'audio' },
-    microphoneEnabled: isMicrophoneSetToOn(),
-  });
-}
 
 /**
  * This hook can toggle microphone on/off and provides current microphone state.
@@ -37,10 +12,6 @@ export function useMicrophone() {
   const [isMicrophoneOn, setIsMicrophoneOn] = useState<boolean>(
     RNFishjamClientModule.isMicrophoneOn,
   );
-
-  useEffect(() => {
-    setMicrophoneStatus(isMicrophoneOn);
-  }, [isMicrophoneOn]);
 
   useEffect(() => {
     const eventListener = eventEmitter.addListener<IsMicrophoneOnEvent>(
@@ -55,16 +26,12 @@ export function useMicrophone() {
    * Function to toggle microphone on/off
    */
   const toggleMicrophone = useCallback(async () => {
-    if (isConnected()) {
-      const status = await RNFishjamClientModule.toggleMicrophone();
-      await RNFishjamClientModule.updateAudioTrackMetadata({
-        active: status,
-        type: 'audio',
-      });
-      setIsMicrophoneOn(status);
-    } else {
-      setIsMicrophoneOn((state) => !state);
-    }
+    const status = await RNFishjamClientModule.toggleMicrophone();
+    await RNFishjamClientModule.updateAudioTrackMetadata({
+      active: status,
+      type: 'audio',
+    });
+    setIsMicrophoneOn(status);
   }, []);
 
   return { isMicrophoneOn, toggleMicrophone };

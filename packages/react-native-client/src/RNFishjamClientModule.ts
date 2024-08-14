@@ -9,8 +9,7 @@ import type {
   SimulcastConfig,
 } from './types';
 import type { CameraConfig, CaptureDevice } from './hooks/useCamera';
-import type { MicrophoneConfig } from './hooks/useMicrophone';
-import type { Endpoint } from './hooks/usePeers';
+import type { Peer } from './hooks/usePeers';
 import type { ScreencastOptions } from './hooks/useScreencast';
 
 type InternalCameraConfig<MetadataType extends Metadata> = Partial<
@@ -31,9 +30,6 @@ type RNFishjamClient = {
   startCamera: <MetadataType extends Metadata>(
     config: InternalCameraConfig<MetadataType>,
   ) => Promise<void>;
-  startMicrophone: <MetadataType extends Metadata>(
-    config: Partial<MicrophoneConfig<MetadataType>>,
-  ) => Promise<void>;
   isMicrophoneOn: boolean;
   toggleMicrophone: () => Promise<boolean>;
   isCameraOn: boolean;
@@ -46,18 +42,14 @@ type RNFishjamClient = {
     screencastOptions: Partial<ScreencastOptions<MetadataType>>,
   ) => Promise<void>;
   isScreencastOn: boolean;
-  getEndpoints: <
-    EndpointMetadataType extends Metadata,
+  getPeers: <
+    PeerMetadataType extends Metadata,
     VideoTrackMetadataType extends Metadata,
     AudioTrackMetadataType extends Metadata,
   >() => Promise<
-    Endpoint<
-      EndpointMetadataType,
-      VideoTrackMetadataType,
-      AudioTrackMetadataType
-    >[]
+    Peer<PeerMetadataType, VideoTrackMetadataType, AudioTrackMetadataType>[]
   >;
-  updateEndpointMetadata: <MetadataType extends Metadata>(
+  updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
   updateVideoTrackMetadata: <MetadataType extends Metadata>(

@@ -39,14 +39,14 @@ PODS:
     - SwiftLogJellyfish (= 1.5.2)
     - SwiftPhoenixClient (~> 5.0.0)
     - SwiftProtobuf (~> 1.18.0)
-    - WebRTC-SDK (= 114.5735.08)
+    - WebRTC-SDK (= 125.6422.03)
   - FishjamCloudClient/Broadcast (0.1.0):
     - PromisesSwift
     - Starscream (~> 4.0.0)
     - SwiftLogJellyfish (= 1.5.2)
     - SwiftPhoenixClient (~> 5.0.0)
     - SwiftProtobuf (~> 1.18.0)
-    - WebRTC-SDK (= 114.5735.08)
+    - WebRTC-SDK (= 125.6422.03)
   - fmt (6.2.1)
   - glog (0.3.5)
   - hermes-engine (0.73.4):
@@ -1123,7 +1123,7 @@ PODS:
   - SwiftLogJellyfish (1.5.2)
   - SwiftPhoenixClient (5.0.0)
   - SwiftProtobuf (1.18.0)
-  - WebRTC-SDK (114.5735.08)
+  - WebRTC-SDK (125.6422.03)
   - Yoga (1.14.0)
   - ZXingObjC/Core (3.6.9)
   - ZXingObjC/OneD (3.6.9):
@@ -1356,7 +1356,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: 4a8928a228569301ac4fc4a1e846713e05754d05
   FBLazyVector: 84f6edbe225f38aebd9deaf1540a4160b1f087d7
   FBReactNativeSpec: 75c20d8ec82467d86fc15e5cb41c7501258a884f
-  FishjamCloudClient: 8f3c79593604da052fbb4f7d8b7102696ad81aa4
+  FishjamCloudClient: 9ed9f2f8a5589e2f80ddac9d4ab5292a6fab6e40
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: b2669ce35fc4ac14f523b307aff8896799829fe2
@@ -1415,7 +1415,7 @@ SPEC CHECKSUMS:
   SwiftLogJellyfish: 6207ec91ef3913d303ac797b73298248ee360eb0
   SwiftPhoenixClient: d7b8ed0d7224d8a57367d37c545aa9de50de206a
   SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
-  WebRTC-SDK: c24d2a6c9f571f2ed42297cb8ffba9557093142b
+  WebRTC-SDK: a98f7e9d4638b8ae1a8950f7b2970a454ab08cae
   Yoga: 64cd2a583ead952b0315d5135bf39e053ae9be70
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 

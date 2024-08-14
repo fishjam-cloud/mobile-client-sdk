@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
 
-  s.dependency 'WebRTC-SDK', '114.5735.08'
+  s.dependency 'WebRTC-SDK', '=125.6422.03'
   s.dependency 'SwiftProtobuf', '~> 1.18.0'
   s.dependency 'Starscream', '~> 4.0.0'
   s.dependency 'PromisesSwift'
