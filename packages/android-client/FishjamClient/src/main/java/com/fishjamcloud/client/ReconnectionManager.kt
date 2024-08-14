@@ -34,6 +34,7 @@ internal class ReconnectionManager(
   private var reconnectAttempts = 0
   private var reconnectionStatus = ReconnectionStatus.IDLE
 
+  // attempts to reconnect if suitable
   fun onDisconnected() {
     if (reconnectAttempts >= reconnectConfig.maxAttempts) {
       reconnectionStatus = ReconnectionStatus.ERROR

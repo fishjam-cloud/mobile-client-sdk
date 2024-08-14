@@ -62,7 +62,6 @@ internal class FishjamClientInternal(
 
   private var localEndpoint: Endpoint = Endpoint(id = "", type = EndpointType.WEBRTC)
   private var prevTracks = mutableListOf<Track>()
-  private var videoParameters = VideoParameters.presetFHD169
   private var remoteEndpoints: MutableMap<String, Endpoint> = mutableMapOf()
 
   private val coroutineScope: CoroutineScope =
@@ -260,7 +259,6 @@ internal class FishjamClientInternal(
     metadata: Metadata,
     captureDeviceName: String? = null
   ): LocalVideoTrack {
-    this.videoParameters = videoParameters
     val videoSource = peerConnectionFactoryWrapper.createVideoSource()
     val webrtcVideoTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
     val videoCapturer =
