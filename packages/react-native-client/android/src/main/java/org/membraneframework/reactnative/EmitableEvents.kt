@@ -5,7 +5,7 @@ object EmitableEvents {
   const val IsMicrophoneOn = "IsMicrophoneOn"
   const val IsScreencastOn = "IsScreencastOn"
   const val SimulcastConfigUpdate = "SimulcastConfigUpdate"
-  const val EndpointsUpdate = "EndpointsUpdate"
+  const val PeersUpdate = "PeersUpdate"
   const val AudioDeviceUpdate = "AudioDeviceUpdate"
   const val BandwidthEstimation = "BandwidthEstimation"
   const val ReconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"

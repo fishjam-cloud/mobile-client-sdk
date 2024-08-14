@@ -312,10 +312,9 @@ class RNFishjamClient(
     }
   }
 
-  suspend fun startMicrophone(config: MicrophoneConfig) {
-    val microphoneTrack =
-      fishjamClient.createAudioTrack(config.audioTrackMetadata)
-    setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+  private suspend fun startMicrophone() {
+    val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
+    setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
   }
 
@@ -330,9 +329,12 @@ class RNFishjamClient(
     emitEvent(eventName, isMicrophoneOnMap)
   }
 
-  fun toggleMicrophone(): Boolean {
-    ensureAudioTrack()
-    getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+  suspend fun toggleMicrophone(): Boolean {
+    if (getLocalAudioTrack() == null) {
+      startMicrophone()
+    } else {
+      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+    }
     return isMicrophoneOn
   }
 
@@ -369,7 +371,7 @@ class RNFishjamClient(
     }
   }
 
-  fun getEndpoints(): List<Map<String, Any?>> =
+  fun getPeers(): List<Map<String, Any?>> =
     getAllPeers().map { endpoint ->
       mapOf(
         "id" to endpoint.id,
@@ -437,7 +439,7 @@ class RNFishjamClient(
     }
   }
 
-  fun updateEndpointMetadata(metadata: Metadata) {
+  fun updatePeerMetadata(metadata: Metadata) {
     ensureConnected()
     fishjamClient.updatePeerMetadata(metadata)
   }
@@ -718,8 +720,8 @@ class RNFishjamClient(
   }
 
   private fun emitEndpoints() {
-    val eventName = EmitableEvents.EndpointsUpdate
-    val map = mapOf(eventName to getEndpoints())
+    val eventName = EmitableEvents.PeersUpdate
+    val map = mapOf(eventName to getPeers())
     emitEvent(eventName, map)
   }
 
@@ -837,13 +839,17 @@ class RNFishjamClient(
     code: Int,
     reason: String
   ) {
-    connectPromise?.reject(SocketClosedError(code, reason))
-    connectPromise = null
+    CoroutineScope(Dispatchers.Main).launch {
+      connectPromise?.reject(SocketClosedError(code, reason))
+      connectPromise = null
+    }
   }
 
   override fun onSocketError(t: Throwable) {
-    connectPromise?.reject(SocketError(t.message ?: t.toString()))
-    connectPromise = null
+    CoroutineScope(Dispatchers.Main).launch {
+      connectPromise?.reject(SocketError(t.message ?: t.toString()))
+      connectPromise = null
+    }
   }
 
   override fun onReconnected() {

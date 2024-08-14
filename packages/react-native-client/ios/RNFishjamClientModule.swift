@@ -31,14 +31,6 @@ struct CameraConfig: Record {
     var captureDeviceId: String? = nil
 }
 
-struct MicrophoneConfig: Record {
-    @Field
-    var audioTrackMetadata: [String: Any] = [:]
-
-    @Field
-    var microphoneEnabled: Bool = true
-}
-
 struct ScreencastOptions: Record {
     @Field
     var quality: String = "HD15"
@@ -80,7 +72,7 @@ public class RNFishjamClientModule: Module {
             "IsMicrophoneOn",
             "IsScreencastOn",
             "SimulcastConfigUpdate",
-            "EndpointsUpdate",
+            "PeersUpdate",
             "AudioDeviceUpdate",
             "SendMediaEvent",
             "BandwidthEstimation",
@@ -91,6 +83,14 @@ public class RNFishjamClientModule: Module {
         let rnFishjamClient: RNFishjamClient = RNFishjamClient {
             (eventName: String, data: [String: Any]) in
             self.sendEvent(eventName, data)
+        }
+
+        OnCreate {
+            do {
+                try rnFishjamClient.create()
+            } catch {
+
+            }
         }
 
         AsyncFunction("connect") {
@@ -108,12 +108,8 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.startCamera(config: config)
         }
 
-        AsyncFunction("startMicrophone") { (config: MicrophoneConfig) in
-            try rnFishjamClient.startMicrophone(config: config)
-        }
-
         Property("isMicrophoneOn") {
-            return rnFishjamClient.isMicEnabled
+            return rnFishjamClient.isMicrophoneOn
         }
 
         AsyncFunction("toggleMicrophone") {
@@ -148,12 +144,12 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isScreensharingEnabled
         }
 
-        AsyncFunction("getEndpoints") {
-            rnFishjamClient.getEndpoints()
+        AsyncFunction("getPeers") {
+            rnFishjamClient.getPeers()
         }
 
-        AsyncFunction("updateEndpointMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateEndpointMetadata(metadata: metadata)
+        AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in
+            try rnFishjamClient.updatePeerMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in

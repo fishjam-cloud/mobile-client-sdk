@@ -24,10 +24,6 @@ export type {
 } from './hooks/useCamera';
 export { useCamera } from './hooks/useCamera';
 
-export type {
-  IsMicrophoneOnEvent,
-  MicrophoneConfig,
-} from './hooks/useMicrophone';
 export { useMicrophone } from './hooks/useMicrophone';
 
 export { useRTCStatistics } from './stats/useRTCStatistics';
@@ -42,7 +38,6 @@ export type { ReconnectionStatus } from './hooks/useReconnection';
 export { useReconnection } from './hooks/useReconnection';
 
 export {
-  updateAudioTrackMetadata,
   updatePeerMetadata,
   updateVideoTrackMetadata,
 } from './common/metadata';

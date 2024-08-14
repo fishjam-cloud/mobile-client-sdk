@@ -53,11 +53,10 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
 
   const [roomManagerUrl, setRoomManagerUrl] = useState(
-    process.env.ROOM_MANAGER_URL ?? '',
+    process.env.EXPO_PUBLIC_ROOM_MANAGER_URL ?? '',
   );
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
-
   usePermissionCheck();
 
   const onTapConnectButton = async () => {

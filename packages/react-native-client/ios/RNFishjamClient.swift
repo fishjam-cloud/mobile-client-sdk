@@ -71,7 +71,7 @@ class RNFishjamClient: FishjamClientListener {
     var localScreencastTrack: LocalScreenBroadcastTrack?
     var localEndpointId: String?
 
-    var isMicEnabled: Bool = true
+    var isMicrophoneOn: Bool = false
     var isCameraEnabled: Bool = true
     var isScreensharingEnabled: Bool = false
 
@@ -225,7 +225,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func ensureAudioTrack() throws {
-        if fishjamClient == nil {
+        if localAudioTrack == nil {
             throw Exception(
                 name: "E_NO_LOCAL_AUDIO_TRACK",
                 description: "No local audio track. Make sure to call connect() first!")
@@ -367,6 +367,7 @@ class RNFishjamClient: FishjamClientListener {
         let isCameraEnabledMap = [eventName: isEnabled]
         emitEvent(name: eventName, data: isCameraEnabledMap)
     }
+
     private func addTrackToLocalEndpoint(
         _ track: LocalVideoTrack, _ metadata: Metadata, _ simulcastConfig: SimulcastConfig?
     ) throws {
@@ -423,33 +424,34 @@ class RNFishjamClient: FishjamClientListener {
             emitEndpoints()
         }
     }
-    func startMicrophone(config: MicrophoneConfig) throws {
-        try ensureConnected()
+    private func startMicrophone() throws {
         guard
             let microphoneTrack = fishjamClient?.createAudioTrack(
-                metadata: config.audioTrackMetadata.toMetadata())
+                metadata: .init())
         else { return }
         localAudioTrack = microphoneTrack
         setAudioSessionMode()
-        try addTrackToLocalEndpoint(microphoneTrack, config.audioTrackMetadata.toMetadata())
-        try setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
+        try addTrackToLocalEndpoint(microphoneTrack, .init())
+        try setMicrophoneTrackState(microphoneTrack, true)
     }
+
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, _ isEnabled: Bool)
         throws
     {
-        try ensureConnected()
         microphoneTrack.setEnabled(isEnabled)
-        isMicEnabled = isEnabled
+        isMicrophoneOn = isEnabled
         let eventName = EmitableEvents.IsMicrophoneOn
         let isMicEnabledMap = [eventName: isEnabled]
         emitEvent(name: eventName, data: isMicEnabledMap)
     }
+
     func toggleMicrophone() throws -> Bool {
-        try ensureAudioTrack()
         if let localAudioTrack = localAudioTrack {
-            try setMicrophoneTrackState(localAudioTrack, !isMicEnabled)
+            try setMicrophoneTrackState(localAudioTrack, !isMicrophoneOn)
+        } else {
+            try startMicrophone()
         }
-        return isMicEnabled
+        return isMicrophoneOn
     }
     private func getScreencastVideoParameters(screencastOptions: ScreencastOptions)
         -> VideoParameters
@@ -564,7 +566,7 @@ class RNFishjamClient: FishjamClientListener {
         return trackId == localAudioTrack?.trackId() || trackId == localVideoTrack?.trackId()
             || trackId == localScreencastTrack?.trackId()
     }
-    func getEndpoints() -> [[String: Any]] {
+    func getPeers() -> [[String: Any]] {
         MembraneRoom.sharedInstance.endpoints.values.sorted(by: { $0.order < $1.order }).map {
             (p) -> Dictionary in
             let videoTracks = p.videoTracks.keys.map { trackId in
@@ -638,7 +640,7 @@ class RNFishjamClient: FishjamClientListener {
         ]
     }
 
-    func updateEndpointMetadata(metadata: [String: Any]) throws {
+    func updatePeerMetadata(metadata: [String: Any]) throws {
         try ensureConnected()
         fishjamClient?.updatePeerMetadata(peerMetadata: metadata.toMetadata())
     }
@@ -926,8 +928,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emitEndpoints() {
-        let eventName = EmitableEvents.EndpointsUpdate
-        let EndpointsUpdateMap = [eventName: getEndpoints()]
+        let eventName = EmitableEvents.PeersUpdate
+        let EndpointsUpdateMap = [eventName: getPeers()]
         emitEvent(name: eventName, data: EndpointsUpdateMap)
     }
 

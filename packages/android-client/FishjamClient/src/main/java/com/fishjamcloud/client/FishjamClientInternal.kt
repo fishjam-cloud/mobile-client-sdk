@@ -304,6 +304,7 @@ internal class FishjamClientInternal(
 
       // temporary workaround, the backend doesn't add ~ in sdp answer
       localEndpoint.tracks.values.forEach { localTrack ->
+        localTrack.mediaTrack?.id()?.let { localTrack.setRTCEngineId(it) }
         if (localTrack.mediaTrack?.kind() != "video") return@forEach
         var config: SimulcastConfig? = null
         if (localTrack is LocalVideoTrack) {
@@ -451,7 +452,7 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
-      rtcEngineCommunication.updateEndpointMetadata(peerMetadata)
+      rtcEngineCommunication.updatePeerMetadata(peerMetadata)
       localEndpoint = localEndpoint.copy(metadata = peerMetadata)
     }
   }
