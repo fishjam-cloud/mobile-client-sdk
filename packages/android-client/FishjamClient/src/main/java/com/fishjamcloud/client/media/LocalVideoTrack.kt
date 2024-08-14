@@ -24,6 +24,17 @@ class LocalVideoTrack(
   val videoParameters: VideoParameters
 ) : VideoTrack(mediaTrack, endpointId, null, metadata),
   LocalTrack {
+  val videoSource: VideoSource
+    get() = (capturer as CameraCapturer).source
+
+  constructor(mediaTrack: org.webrtc.VideoTrack, oldTrack: LocalVideoTrack) : this(
+    mediaTrack,
+    oldTrack.endpointId,
+    oldTrack.metadata,
+    oldTrack.capturer,
+    oldTrack.videoParameters
+  )
+
   data class CaptureDevice(
     val deviceName: String,
     val isFrontFacing: Boolean,
@@ -72,7 +83,7 @@ interface Capturer {
 
 class CameraCapturer(
   private val context: Context,
-  private val source: VideoSource,
+  val source: VideoSource,
   private val rootEglBase: EglBase,
   private val videoParameters: VideoParameters,
   cameraName: String?

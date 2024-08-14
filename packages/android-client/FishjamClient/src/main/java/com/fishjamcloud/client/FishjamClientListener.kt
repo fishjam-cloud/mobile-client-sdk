@@ -5,7 +5,7 @@ import com.fishjamcloud.client.models.AuthError
 import com.fishjamcloud.client.models.Peer
 import timber.log.Timber
 
-interface FishjamClientListener {
+interface FishjamClientListener : ReconnectionManagerListener {
   /**
    * Emitted when the websocket connection is closed
    */
@@ -22,18 +22,6 @@ interface FishjamClientListener {
   fun onSocketError(t: Throwable) {
     Timber.w("Socket error:", t)
   }
-
-  /**
-   * Emitted when the websocket connection is opened
-   */
-  fun onSocketOpen() {
-    Timber.i("Socket opened")
-  }
-
-  /**
-   * Emitted when authentication is successful
-   */
-  fun onAuthSuccess()
 
   /**
    * Emitted when authentication fails

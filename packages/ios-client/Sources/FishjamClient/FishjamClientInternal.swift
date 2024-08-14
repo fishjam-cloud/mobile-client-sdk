@@ -2,24 +2,35 @@ import Foundation
 import Starscream
 
 internal class FishjamClientInternal: MembraneRTCDelegate, WebSocketDelegate {
-    private var config: Config?
+    private var config: ConnectConfig?
     private var webSocket: FishjamWebsocket?
     private var listener: FishjamClientListener
     private var websocketFactory: (String) -> FishjamWebsocket
     var webrtcClient: FishjamMembraneRTC?
     private var isAuthenticated = false
+    private var reconnectionManager: ReconnectionManager? = nil
 
     public init(listener: FishjamClientListener, websocketFactory: @escaping (String) -> FishjamWebsocket) {
         self.listener = listener
         self.websocketFactory = websocketFactory
     }
 
-    func connect(config: Config) {
+    func connect(config: ConnectConfig) {
         self.config = config
+        self.reconnectionManager = ReconnectionManager(
+            reconnectConfig: config.reconnectConfig, connect: { self.reconnect() }, listener: listener)
 
         webSocket = websocketFactory(config.websocketUrl)
         webSocket?.delegate = self
         webSocket?.connect()
+    }
+
+    func reconnect() {
+        if let url = config?.websocketUrl {
+            webSocket = websocketFactory(url)
+            webSocket?.delegate = self
+            webSocket?.connect()
+        }
     }
 
     func leave() {
@@ -49,21 +60,29 @@ internal class FishjamClientInternal: MembraneRTCDelegate, WebSocketDelegate {
             break
         case .pong(_):
             break
-        case .viabilityChanged(_):
-            break
         case .reconnectSuggested(_):
+            break
+        // viabilityChanged is called when there is no internet
+        case .viabilityChanged(let isViable):
+            if !isViable {
+                onDisconnected()
+                onSocketError()
+            }
             break
         case .cancelled:
             onDisconnected()
-        case .error(_):
             onSocketError()
+            break
+        case .error(_):
+            onDisconnected()
+            onSocketError()
+            break
         default:
             break
         }
     }
 
     func websocketDidConnect() {
-        onSocketOpen()
         let authRequest = Fishjam_PeerMessage.with({
             $0.authRequest = Fishjam_PeerMessage.AuthRequest.with({
                 $0.token = self.config?.token ?? ""
@@ -81,7 +100,11 @@ internal class FishjamClientInternal: MembraneRTCDelegate, WebSocketDelegate {
             let peerMessage = try Fishjam_PeerMessage(serializedData: data)
             if case .authenticated(_) = peerMessage.content {
                 isAuthenticated = true
-                onAuthSuccess()
+                if reconnectionManager?.reconnectionStatus == .RECONNECTING {
+                    webrtcClient?.reconnect()
+                } else {
+                    webrtcClient?.connect(metadata: config?.peerMetadata ?? Metadata())
+                }
             } else if case .mediaEvent(_) = peerMessage.content {
                 receiveEvent(event: peerMessage.mediaEvent.data)
             } else {
@@ -167,24 +190,20 @@ internal class FishjamClientInternal: MembraneRTCDelegate, WebSocketDelegate {
         listener.onSocketError()
     }
 
-    func onSocketOpen() {
-        listener.onSocketOpen()
-    }
-
-    func onAuthSuccess() {
-        listener.onAuthSuccess()
-    }
-
     func onAuthError(reason: AuthError) {
         listener.onAuthError(reason: reason)
     }
 
     func onDisconnected() {
         isAuthenticated = false
+        webSocket?.disconnect()
+        webrtcClient?.prepareToReconnect()
         listener.onDisconnected()
+        reconnectionManager?.onDisconnected()
     }
 
     func onConnected(endpointId: String, otherEndpoints: [Endpoint]) {
+        reconnectionManager?.onReconnected()
         listener.onJoined(peerID: endpointId, peersInRoom: otherEndpoints)
     }
 

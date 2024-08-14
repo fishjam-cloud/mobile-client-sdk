@@ -3,8 +3,8 @@ import WebRTC
 /// Utility wrapper around a local `RTCAudioTrack` managing a local audio session.
 public class LocalAudioTrack: AudioTrack, LocalTrack {
     public let track: RTCAudioTrack
-
     private let config: RTCAudioSessionConfiguration
+    private let audioSource: RTCAudioSource
 
     internal init(peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper) {
         let constraints: [String: String] = [
@@ -23,8 +23,17 @@ public class LocalAudioTrack: AudioTrack, LocalTrack {
         config.mode = AVAudioSession.Mode.videoChat.rawValue
         config.categoryOptions = [.duckOthers, .allowAirPlay, .allowBluetooth, .allowBluetoothA2DP]
 
-        let audioSource = peerConnectionFactoryWrapper.createAudioSource(audioConstraints)
+        audioSource = peerConnectionFactoryWrapper.createAudioSource(audioConstraints)
 
+        let track = peerConnectionFactoryWrapper.createAudioTrack(source: audioSource)
+        track.isEnabled = true
+
+        self.track = track
+    }
+
+    internal init(oldTrack: LocalAudioTrack, peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper) {
+        self.config = oldTrack.config
+        self.audioSource = oldTrack.audioSource
         let track = peerConnectionFactoryWrapper.createAudioTrack(source: audioSource)
         track.isEnabled = true
 

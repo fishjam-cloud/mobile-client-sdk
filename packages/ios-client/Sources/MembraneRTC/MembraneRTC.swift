@@ -58,6 +58,8 @@ public class MembraneRTC: MulticastDelegate<MembraneRTCDelegate>, ObservableObje
 
     private var localTracks: [LocalTrack] = []
 
+    private var prevLocalTracks: [LocalTrack] = []
+
     private var localEndpoint = Endpoint(id: "", type: "webrtc", metadata: .init([:]), tracks: [:])
 
     // mapping from peer's id to itself
@@ -713,6 +715,51 @@ public class MembraneRTC: MulticastDelegate<MembraneRTCDelegate>, ObservableObje
             state = .disconnected
         default:
             break
+        }
+    }
+
+    func prepareToReconnect() {
+        DispatchQueue.webRTC.sync {
+            peerConnectionManager.close()
+            prevLocalTracks = localTracks
+            localTracks = []
+            let metadata = localEndpoint.metadata
+            localEndpoint = Endpoint(id: "", type: "webrtc", metadata: metadata, tracks: [:])
+            state = .awaitingConnect
+        }
+    }
+
+    func reconnect() {
+        DispatchQueue.webRTC.sync {
+            prevLocalTracks.forEach { track in
+                switch track {
+                case let track as LocalVideoTrack:
+                    let videoTrack = LocalVideoTrack(
+                        oldTrack: track,
+                        peerConnectionFactoryWrapper: peerConnectionFactoryWrapper)
+                    localTracks.append(videoTrack)
+
+                    localEndpoint = localEndpoint.withTrack(
+                        trackId: videoTrack.rtcTrack().trackId, metadata: trackContexts[track.trackId()]?.metadata,
+                        simulcastConfig: trackContexts[track.trackId()]?.simulcastConfig)
+
+                    break
+                case let track as LocalAudioTrack:
+                    let audioTrack = LocalAudioTrack(
+                        oldTrack: track, peerConnectionFactoryWrapper: peerConnectionFactoryWrapper)
+                    localTracks.append(audioTrack)
+                    localEndpoint = localEndpoint.withTrack(
+                        trackId: audioTrack.trackId(), metadata: trackContexts[track.trackId()]?.metadata,
+                        simulcastConfig: nil)
+                    break
+                default:
+                    break
+                }
+                trackContexts.removeValue(forKey: track.trackId())
+            }
+            prevLocalTracks = []
+            engineCommunication.connect(metadata: localEndpoint.metadata)
+
         }
     }
 }

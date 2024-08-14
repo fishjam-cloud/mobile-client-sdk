@@ -7,4 +7,7 @@ struct EmitableEvents {
     static let AudioDeviceUpdate = "AudioDeviceUpdate"
     static let SendMediaEvent = "SendMediaEvent"
     static let BandwidthEstimation = "BandwidthEstimation"
+    static let ReconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"
+    static let ReconnectionStarted = "ReconnectionStarted"
+    static let Reconnected = "Reconnected"
 }
