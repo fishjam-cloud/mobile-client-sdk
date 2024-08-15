@@ -16831,13 +16831,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-safe-area-context@npm:4.8.2":
-  version: 4.8.2
-  resolution: "react-native-safe-area-context@npm:4.8.2"
+"react-native-safe-area-context@npm:4.10.8":
+  version: 4.10.8
+  resolution: "react-native-safe-area-context@npm:4.10.8"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/5430ef5d4f3510debd964423aa7ae2f9f4f3aea6e928b0dc6f7e63c21e967f3e71377a3b5df0bd5ceca291c4818670ee77afb3fc7a1091061449ae0fd3ed00b2
+  checksum: 10c0/dd0eb162e2f35e3be88a9f1c868bac198d77caa063bf2438692d61459fe5334d981a47296818d19ca35c8b83c8c9a2a70df468786382157a5d00b1ea440d714b
   languageName: node
   linkType: hard
 
@@ -20016,7 +20016,7 @@ __metadata:
     react-native-dotenv: "npm:^3.4.8"
     react-native-gesture-handler: "npm:~2.18.1"
     react-native-reanimated: "npm:^3.15.0"
-    react-native-safe-area-context: "npm:4.8.2"
+    react-native-safe-area-context: "npm:4.10.8"
     react-native-screens: "npm:^3.34.0"
     react-native-toast-message: "npm:^2.2.0"
     react-test-renderer: "npm:18.3.1"
