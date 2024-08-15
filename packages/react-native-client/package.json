@@ -57,7 +57,7 @@
     "jest-environment-jsdom": "^29.6.1",
     "jest-expo": "^50.0.2",
     "jest-websocket-mock": "^2.4.0",
-    "lint-staged": "^15.2.8",
+    "lint-staged": "^15.2.9",
     "pod-install": "^0.2.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
