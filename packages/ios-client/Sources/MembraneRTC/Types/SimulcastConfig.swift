@@ -19,7 +19,7 @@ public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
         case decoding(String)
     }
 
-    static func fromString(_ s: String) -> TrackEncoding? {
+    public static func fromString(_ s: String) -> TrackEncoding? {
         switch s {
         case "l":
             return .l
@@ -35,8 +35,8 @@ public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let encodingString = try container.decode(String.self)
-        
-        guard let encoding = TrackEncoding.fromString(encodingString) else{
+
+        guard let encoding = TrackEncoding.fromString(encodingString) else {
             sdkLogger.error("TrackEncoding: \(encodingString) is not a valid encoding")
             throw TrackEncodingCodingError.decoding("\(encodingString) is not a valid encoding")
 

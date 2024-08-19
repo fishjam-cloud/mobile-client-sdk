@@ -24,7 +24,8 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         self.websocketFactory = websocketFactory
         self.rtcEngineCommunication = RTCEngineCommunication(listeners: [])
         self.peerConnectionFactoryWrapper = PeerConnectionFactoryWrapper(encoder: Encoder.DEFAULT)
-        self.peerConnectionManager = PeerConnectionManager(config: RTCConfiguration(), peerConnectionFactory: peerConnectionFactoryWrapper)
+        self.peerConnectionManager = PeerConnectionManager(
+            config: RTCConfiguration(), peerConnectionFactory: peerConnectionFactoryWrapper)
     }
 
     private func getTrack(trackId: String) -> Track? {
@@ -159,12 +160,12 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
     public func createScreencastTrack(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreenBroadcastTrack) -> Void, onStop: @escaping () -> Void
-    ) -> LocalScreenBroadcastTrack {
+        onStart: @escaping (_ track: LocalScreencastTrack) -> Void, onStop: @escaping () -> Void
+    ) -> LocalScreencastTrack {
         let videoSource = peerConnectionFactoryWrapper.createScreencastVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
 
-        let track = LocalScreenBroadcastTrack(
+        let track = LocalScreencastTrack(
             mediaTrack: webrtcTrack, mediaSource: videoSource, endpointId: localEndpoint.id, appGroup: appGroup,
             videoParameters: videoParameters)
 
@@ -228,8 +229,8 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 config = (track as! LocalVideoTrack).videoParameters.simulcastConfig
             }
 
-            if track is LocalScreenBroadcastTrack {
-                config = (track as! LocalScreenBroadcastTrack).videoParameters.simulcastConfig
+            if track is LocalScreencastTrack {
+                config = (track as! LocalScreencastTrack).videoParameters.simulcastConfig
             }
 
             TrackEncoding.allCases.forEach { encoding in
@@ -529,12 +530,10 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
     }
 
-
-    func onLocalIceCandidate(candidate: RTCIceCandidate){
+    func onLocalIceCandidate(candidate: RTCIceCandidate) {
         rtcEngineCommunication.localCandidate(sdp: candidate.sdp, sdpMLineIndex: candidate.sdpMLineIndex)
-        
+
     }
-    
 
     func didReceive(event: Starscream.WebSocketEvent, client: any Starscream.WebSocketClient) {
         switch event {
@@ -597,7 +596,6 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         print("Unsupported socket callback 'websocketDidReceiveMessage' was called.")
         onSocketError()
     }
-
 
     func onSocketClose(code: UInt16, reason: String) {
         listener.onSocketClose(code: code, reason: reason)

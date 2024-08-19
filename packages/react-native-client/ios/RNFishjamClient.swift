@@ -10,7 +10,7 @@ class RNFishjamClient: FishjamClientListener {
 
     var localAudioTrack: LocalAudioTrack?
     var localVideoTrack: LocalVideoTrack?
-    var localScreencastTrack: LocalScreenBroadcastTrack?
+    var localScreencastTrack: LocalScreencastTrack?
     var localEndpointId: String?
 
     var isMicEnabled: Bool = true
@@ -49,10 +49,10 @@ class RNFishjamClient: FishjamClientListener {
     private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) throws
         -> SimulcastConfig?
     {
-        var activeEncodings: [TrackEncoding] = []
-        try simulcastConfig.activeEncodings.forEach({ e in
-            activeEncodings.append(try validateEncoding(encoding: e))
-        })
+        var activeEncodings: [TrackEncoding] = simulcastConfig.activeEncodings.map {
+            return TrackEncoding.fromString($0)
+        }
+
         return SimulcastConfig(
             enabled: simulcastConfig.enabled,
             activeEncodings: activeEncodings
@@ -68,30 +68,6 @@ class RNFishjamClient: FishjamClientListener {
             return .SimulcastBandwidthLimit(maxBandwidth)
         }
         return .BandwidthLimit(0)
-    }
-    private func getGlobalTrackId(localTrackId: String) -> String? {
-        return globalToLocalTrackId.filter { $0.value == localTrackId }.first?.key
-    }
-
-    private func validateEncoding(encoding: String) throws -> TrackEncoding {
-        let trackEncoding = encoding.toTrackEncoding()
-        guard let trackEncoding = trackEncoding else {
-            throw Exception(
-                name: "E_INVALID_ENCODING",
-                description: "Invalid track encoding specified: \(encoding)")
-        }
-        return trackEncoding
-    }
-    private func initLocalEndpoint() {
-        let uuid = UUID().uuidString
-        self.localEndpointId = uuid
-        let endpoint = RNEndpoint(
-            id: uuid,
-            metadata: localUserMetadata,
-            type: "webrtc"
-        )
-        MembraneRoom.sharedInstance.endpoints[uuid] = endpoint
-        emitEndpoints()
     }
 
     func create() throws {
@@ -142,6 +118,35 @@ class RNFishjamClient: FishjamClientListener {
         )
         return videoParameters
     }
+
+    private func getLocalVideoTrack() -> LocalVideoTrack? {
+        return fishjamClient?.getLocalEndpoint().tracks?.first { $0.value is LocalVideoTrack }?.value as? LocalVideoTrack
+    }
+
+    private func getLocalAudioTrack() -> LocalAudioTrack? {
+        return fishjamClient?.getLocalEndpoint().tracks?.first { $0.value is LocalAudioTrack }?.value as? LocalAudioTrack
+    }
+
+    private func getLocalScreencastTrack() -> LocalScreencastTrack? {
+        return fishjamClient?.getLocalEndpoint().tracks?.first { $0.value is LocalScreencastTrack }?.value as? LocalScreencastTrack
+    }
+
+    private func getGlobalTrackId(localTrackId: String) -> String? {
+        return globalToLocalTrackId.filter { $0.value == localTrackId }.first?.key
+    }
+
+    private func initLocalEndpoint() {
+        let uuid = UUID().uuidString
+        self.localEndpointId = uuid
+        let endpoint = RNEndpoint(
+            id: uuid,
+            metadata: localUserMetadata,
+            type: "webrtc"
+        )
+        MembraneRoom.sharedInstance.endpoints[uuid] = endpoint
+        emitEndpoints()
+    }
+
     private func ensureCreated() throws {
         if fishjamClient == nil {
             throw Exception(

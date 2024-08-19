@@ -10,7 +10,7 @@ public protocol LocalScreenBroadcastTrackDelegate: AnyObject {
 }
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing a `BroadcastScreenCapturer`.
-public class LocalScreenBroadcastTrack: VideoTrack, LocalTrack, ScreenBroadcastCapturerDelegate {
+public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCapturerDelegate {
     private let appGroup: String
     internal var capturer: ScreenBroadcastCapturer
     internal var videoParameters: VideoParameters

@@ -132,9 +132,9 @@ public class FishjamClient {
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreenBroadcastTrack) -> Void,
+        onStart: @escaping (_ track: LocalScreencastTrack) -> Void,
         onStop: @escaping () -> Void
-    ) -> LocalScreenBroadcastTrack? {
+    ) -> LocalScreencastTrack? {
         return client.createScreencastTrack(
             appGroup: appGroup,
             videoParameters: videoParameters,
@@ -150,7 +150,7 @@ public class FishjamClient {
     * @param trackId an id of a valid local track that has been created using the current client
     * @return a boolean whether the track has been successfully removed or not
     */
-    public func removeTrack(trackId: String){
+    public func removeTrack(trackId: String) {
         return client.removeTrack(trackId: trackId)
     }
 
@@ -250,5 +250,9 @@ public class FishjamClient {
     */
     public func getStats() -> [String: RTCStats] {
         return client.stats
+    }
+
+    public func getLocalEndpoint() -> Endpoint {
+        return client.localEndpoint
     }
 }
