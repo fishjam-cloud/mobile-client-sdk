@@ -100,7 +100,7 @@ public class FishjamClient {
         videoParameters: VideoParameters,
         metadata: Metadata,
         captureDeviceName: String? = nil
-    ) -> LocalVideoTrack? {
+    ) -> LocalVideoTrack {
         return client.createVideoTrack(
             videoParameters: videoParameters, metadata: metadata, captureDeviceName: captureDeviceName)
     }
@@ -113,7 +113,7 @@ public class FishjamClient {
     * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
     * @return an instance of the audio track
     */
-    public func createAudioTrack(metadata: Metadata) -> LocalAudioTrack? {
+    public func createAudioTrack(metadata: Metadata) -> LocalAudioTrack {
         return client.createAudioTrack(metadata: metadata)
     }
 
@@ -133,7 +133,7 @@ public class FishjamClient {
         videoParameters: VideoParameters,
         metadata: Metadata,
         onStart: @escaping (_ track: LocalScreencastTrack) -> Void,
-        onStop: @escaping () -> Void
+        onStop: @escaping (_ track: LocalScreencastTrack) -> Void
     ) -> LocalScreencastTrack? {
         return client.createScreencastTrack(
             appGroup: appGroup,
@@ -254,5 +254,9 @@ public class FishjamClient {
 
     public func getLocalEndpoint() -> Endpoint {
         return client.localEndpoint
+    }
+    
+    public func getRemoteEndpoints() -> [Endpoint]{
+        return client.remoteEndpoints
     }
 }

@@ -17,7 +17,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     private var _loggerPrefix = "FishjamClientInternal"
 
     private(set) var localEndpoint: Endpoint = Endpoint(id: "", type: .WEBRTC)
-    private var remoteEndpoints: [String: Endpoint] = [:]
+    private var remoteEndpointsMap: [String: Endpoint] = [:]
 
     public init(listener: FishjamClientListener, websocketFactory: @escaping (String) -> FishjamWebsocket) {
         self.listener = listener
@@ -32,7 +32,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         if let track = localEndpoint.tracks[trackId] {
             return track
         }
-        for endpoint in remoteEndpoints.values {
+        for endpoint in remoteEndpointsMap.values {
             if let track = endpoint.tracks[trackId] {
                 return track
             }
@@ -44,7 +44,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         if let track = localEndpoint.tracks.values.first(where: { $0.webrtcId == trackId }) {
             return track
         }
-        for endpoint in remoteEndpoints.values {
+        for endpoint in remoteEndpointsMap.values {
             if let track = endpoint.tracks.values.first(where: { $0.rtcEngineId == trackId }) {
                 return track
             }
@@ -87,10 +87,10 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 endpoint = endpoint.addOrReplaceTrack(track)
                 listener.onTrackAdded(track: track)
             }
-            remoteEndpoints[eventEndpoint.id] = endpoint
+            remoteEndpointsMap[eventEndpoint.id] = endpoint
         }
 
-        listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpoints)
+        listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)
         commandsQueue.finishCommand()
     }
 
@@ -103,7 +103,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         }
         peerConnectionManager.close()
         localEndpoint = Endpoint(id: "", type: .WEBRTC)
-        remoteEndpoints = [:]
+        remoteEndpointsMap = [:]
         peerConnectionManager.removeListener(self)
         rtcEngineCommunication.removeListener(self)
         webSocket?.disconnect()
@@ -160,7 +160,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
     public func createScreencastTrack(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreencastTrack) -> Void, onStop: @escaping () -> Void
+        onStart: @escaping (_ track: LocalScreencastTrack) -> Void, onStop: @escaping (_ track: LocalScreencastTrack) -> Void
     ) -> LocalScreencastTrack {
         let videoSource = peerConnectionFactoryWrapper.createScreencastVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
@@ -190,7 +190,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                     return
                 }
                 self?.removeTrack(trackId: track.id)
-                onStop()
+                onStop(track)
             })
 
         let simulcastConfig = videoParameters.simulcastConfig
@@ -308,8 +308,8 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         return peerConnectionManager.getStats()
     }
 
-    var remotePeers: [Endpoint] {
-        return remoteEndpoints.map { $0.value }
+    var remoteEndpoints: [Endpoint] {
+        return remoteEndpointsMap.map { $0.value }
     }
 
     private func sendEvent(peerMessage: Data) {
@@ -344,7 +344,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         }
         let endpoint = Endpoint(id: endpointId, type: type, metadata: metadata ?? Metadata())
 
-        remoteEndpoints[endpoint.id] = endpoint
+        remoteEndpointsMap[endpoint.id] = endpoint
 
         listener.onPeerJoined(endpoint: endpoint)
     }
@@ -354,7 +354,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             listener.onDisconnected()
             return
         }
-        guard let endpoint = remoteEndpoints.removeValue(forKey: endpointId) else {
+        guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
             sdkLogger.error("Failed to process EndpointLeft event: Endpoint not found: \(endpointId)")
             return
         }
@@ -367,12 +367,12 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
-        guard let endpoint = remoteEndpoints.removeValue(forKey: endpointId) else {
+        guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
             sdkLogger.error("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
             return
         }
 
-        remoteEndpoints[endpoint.id] = endpoint.copyWith(metadata: metadata)
+        remoteEndpointsMap[endpoint.id] = endpoint.copyWith(metadata: metadata)
 
         listener.onPeerUpdated(endpoint: endpoint)
     }
@@ -407,7 +407,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     func onTracksAdded(endpointId: String, tracks: [String: TrackData]) {
         if localEndpoint.id == endpointId { return }
 
-        guard let endpoint = remoteEndpoints.removeValue(forKey: endpointId) else {
+        guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
             sdkLogger.error("Failed to process TracksAdded event: Endpoint not found: \(endpointId)")
             return
         }
@@ -428,13 +428,13 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
         let updatedEndpoint = endpoint.copyWith(tracks: updatedTracks)
 
-        remoteEndpoints[updatedEndpoint.id] = updatedEndpoint
+        remoteEndpointsMap[updatedEndpoint.id] = updatedEndpoint
     }
 
     func onTracksRemoved(endpointId: String, trackIds: [String]) {
         if localEndpoint.id == endpointId { return }
 
-        guard var endpoint = remoteEndpoints.removeValue(forKey: endpointId) else {
+        guard var endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
             sdkLogger.error("Failed to process onTracksRemoved event: Endpoint not found: \(endpointId)")
             return
         }
@@ -449,7 +449,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             listener.onTrackReady(track: track)
         }
 
-        remoteEndpoints[endpointId] = endpoint
+        remoteEndpointsMap[endpointId] = endpoint
     }
 
     func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
@@ -525,7 +525,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             return
         }
 
-        remoteEndpoints[endpointId] = remoteEndpoints[endpointId]?.addOrReplaceTrack(track)
+        remoteEndpointsMap[endpointId] = remoteEndpointsMap[endpointId]?.addOrReplaceTrack(track)
         listener.onTrackReady(track: track)
 
     }

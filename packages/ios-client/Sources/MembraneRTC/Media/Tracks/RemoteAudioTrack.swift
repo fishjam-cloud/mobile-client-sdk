@@ -17,9 +17,10 @@ public class RemoteAudioTrack: Track {
 
     private var _vadStatus: VadStatus = VadStatus.silence
 
-    var vadStatus: VadStatus {
+    internal(set) public var vadStatus: VadStatus {
         get { return _vadStatus }
         set {
+            _vadStatus = newValue
             vadChangedListener?.onVadChanged(track: self)
         }
     }

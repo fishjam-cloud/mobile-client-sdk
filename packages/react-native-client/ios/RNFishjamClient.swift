@@ -7,17 +7,11 @@ import WebRTC
 
 class RNFishjamClient: FishjamClientListener {
     var fishjamClient: FishjamClient? = nil
-
-    var localAudioTrack: LocalAudioTrack?
-    var localVideoTrack: LocalVideoTrack?
-    var localScreencastTrack: LocalScreencastTrack?
-    var localEndpointId: String?
-
-    var isMicEnabled: Bool = true
-    var isCameraEnabled: Bool = true
-    var isScreensharingEnabled: Bool = false
-
-    var globalToLocalTrackId: [String: String] = [:]
+    
+    var isMicrophoneOn = false
+    var isCameraOn = false
+    var isScreencastOn = false
+    var isConnected = false
 
     var connectPromise: Promise? = nil
 
@@ -26,8 +20,6 @@ class RNFishjamClient: FishjamClientListener {
 
     var screencastSimulcastConfig: SimulcastConfig = SimulcastConfig()
     var screencastMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
-
-    var tracksContexts: [String: TrackContext] = [:]
 
     var captureDeviceId: String? = nil
 
@@ -46,11 +38,14 @@ class RNFishjamClient: FishjamClientListener {
         )
     }
 
-    private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) throws
-        -> SimulcastConfig?
+    private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) -> SimulcastConfig
     {
-        var activeEncodings: [TrackEncoding] = simulcastConfig.activeEncodings.map {
-            return TrackEncoding.fromString($0)
+        var activeEncodings: [TrackEncoding]
+        
+        for encoding in simulcastConfig.activeEncodings{
+            if let fishjamEncoding = TrackEncoding.fromString(encoding){
+                activeEncodings.append(fishjamEncoding)
+            }
         }
 
         return SimulcastConfig(
@@ -70,20 +65,17 @@ class RNFishjamClient: FishjamClientListener {
         return .BandwidthLimit(0)
     }
 
-    func create() throws {
+    func create() {
         self.fishjamClient = FishjamClient(listener: self)
-        try ensureCreated()
-        initLocalEndpoint()
     }
 
-    func getVideoParametersFromOptions(connectionOptions: CameraConfig) throws -> VideoParameters {
+    func getVideoParametersFromOptions(connectionOptions: CameraConfig) -> VideoParameters {
         let videoQuality = connectionOptions.quality
         let flipVideo = connectionOptions.flipVideo
         let videoBandwidthLimit = getMaxBandwidthFromOptions(
             maxBandwidth: connectionOptions.maxBandwidth)
         let simulcastConfig =
-            try getSimulcastConfigFromOptions(simulcastConfig: connectionOptions.simulcastConfig)
-            ?? SimulcastConfig()
+            getSimulcastConfigFromOptions(simulcastConfig: connectionOptions.simulcastConfig)
 
         let preset: VideoParameters = {
             switch videoQuality {
@@ -120,42 +112,28 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func getLocalVideoTrack() -> LocalVideoTrack? {
-        return fishjamClient?.getLocalEndpoint().tracks?.first { $0.value is LocalVideoTrack }?.value as? LocalVideoTrack
+        return fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalVideoTrack }?.value as? LocalVideoTrack
     }
 
     private func getLocalAudioTrack() -> LocalAudioTrack? {
-        return fishjamClient?.getLocalEndpoint().tracks?.first { $0.value is LocalAudioTrack }?.value as? LocalAudioTrack
+        return fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalAudioTrack }?.value as? LocalAudioTrack
     }
 
     private func getLocalScreencastTrack() -> LocalScreencastTrack? {
-        return fishjamClient?.getLocalEndpoint().tracks?.first { $0.value is LocalScreencastTrack }?.value as? LocalScreencastTrack
+        return fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalScreencastTrack }?.value as? LocalScreencastTrack
     }
-
-    private func getGlobalTrackId(localTrackId: String) -> String? {
-        return globalToLocalTrackId.filter { $0.value == localTrackId }.first?.key
-    }
-
-    private func initLocalEndpoint() {
-        let uuid = UUID().uuidString
-        self.localEndpointId = uuid
-        let endpoint = RNEndpoint(
-            id: uuid,
-            metadata: localUserMetadata,
-            type: "webrtc"
-        )
-        MembraneRoom.sharedInstance.endpoints[uuid] = endpoint
-        emitEndpoints()
-    }
-
-    private func ensureCreated() throws {
+    
+    private func ensureCreated() throws{
         if fishjamClient == nil {
             throw Exception(
-                name: "E_NO_MEMBRANERTC",
-                description: "Client not created yet. Make sure to call create() first!")
+                name: "E_NOT_CREATED",
+                description: "Client not created. Call create"
+            )
         }
     }
+    
     private func ensureConnected() throws {
-        if fishjamClient == nil {
+        if !isConnected {
             throw Exception(
                 name: "E_NOT_CONNECTED",
                 description:
@@ -164,7 +142,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func ensureVideoTrack() throws {
-        if fishjamClient == nil {
+        if getLocalVideoTrack() == nil {
             throw Exception(
                 name: "E_NO_LOCAL_VIDEO_TRACK",
                 description: "No local video track. Make sure to call connect() first!")
@@ -172,7 +150,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func ensureAudioTrack() throws {
-        if fishjamClient == nil {
+        if getLocalAudioTrack() == nil {
             throw Exception(
                 name: "E_NO_LOCAL_AUDIO_TRACK",
                 description: "No local audio track. Make sure to call connect() first!")
@@ -180,25 +158,291 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func ensureScreencastTrack() throws {
-        if fishjamClient == nil {
+        if getLocalScreencastTrack() == nil {
             throw Exception(
                 name: "E_NO_LOCAL_SCREENCAST_TRACK",
                 description: "No local screencast track. Make sure to toggle screencast on first!")
         }
     }
-    private func ensureEndpoints() throws {
-        guard let _ = localEndpointId, !MembraneRoom.sharedInstance.endpoints.isEmpty else {
-            throw Exception(
-                name: "E_NO_ENDPOINTS",
-                description:
-                    "No endpoints available. Ensure the connection is established or endpoints are present."
-            )
+    
+    func onAuthError() {
+        if let connectPromise = connectPromise {
+            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
         }
+        connectPromise = nil
+    }
+    
+    func onAuthSuccess() {
+        joinRoom()
     }
 
+    func connect(url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) {
+        connectPromise = promise
+        localUserMetadata = peerMetadata.toMetadata()
+        fishjamClient?.connect(config: ConnectionConfig(websocketUrl: url, token: peerToken))
+    }
+    
+    func joinRoom() {
+        fishjamClient?.join(peerMetadata: localUserMetadata)
+    }
+    
+    func leaveRoom() {
+        if isScreencastOn {
+            let screencastExtensionBundleId =
+                Bundle.main.infoDictionary?["ScreencastExtensionBundleId"] as? String
+            DispatchQueue.main.async {
+                RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+            }
+        }
+        isMicrophoneOn = false
+        isCameraOn = false
+        isScreencastOn = false
+        isConnected = false
+        fishjamClient?.leave()
+    }
+    
+    func startCamera(config: CameraConfig) throws {
+        try ensureCreated()
+        let cameraTrack = try createCameraTrack(config: config)
+        setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
+        emitEndpoints()
+    }
+    
+    private func createCameraTrack(config: CameraConfig) throws -> LocalVideoTrack {
+        try ensureCreated()
+        let videoParameters = getVideoParametersFromOptions(connectionOptions: config)
+        videoSimulcastConfig = getSimulcastConfigFromOptions(simulcastConfig: config.simulcastConfig)
+        return fishjamClient!.createVideoTrack(
+            videoParameters: videoParameters,
+            metadata: config.videoTrackMetadata.toMetadata(),
+            captureDeviceName: config.captureDeviceId
+        )
+    }
+    
+    private func setCameraTrackState(_ cameraTrack: LocalVideoTrack, enabled: Bool) {
+        cameraTrack.enabled = enabled
+        isCameraOn = enabled
+        let eventName = EmitableEvents.IsCameraOn
+        let isCameraEnabledMap = [eventName: enabled]
+        emitEvent(name: eventName, data: isCameraEnabledMap)
+    }
+    
+    func toggleCamera() throws {
+        try ensureVideoTrack()
+        setCameraTrackState(getLocalVideoTrack()!, enabled: !isCameraOn)
+    }
+
+    func flipCamera() throws {
+        try ensureVideoTrack()
+        getLocalVideoTrack()?.flipCamera()
+    }
+
+    func switchCamera(captureDeviceId: String) throws {
+        try ensureVideoTrack()
+        getLocalVideoTrack()?.switchCamera(deviceId: captureDeviceId)
+
+    }
+    
+    func startMicrophone(config: MicrophoneConfig) throws {
+        try ensureCreated()
+        try ensureConnected()
+        let microphoneTrack = fishjamClient!.createAudioTrack(metadata: config.audioTrackMetadata.toMetadata())
+        setAudioSessionMode()
+        setMicrophoneTrackState(microphoneTrack, enabled: config.microphoneEnabled)
+    }
+    
+    private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool){
+        microphoneTrack.enabled = enabled
+        isMicrophoneOn = enabled
+        let eventName = EmitableEvents.IsMicrophoneOn
+        let isMicrophoneOnMap = [eventName: enabled]
+        emitEvent(name: eventName, data: isMicrophoneOnMap)
+    }
+    
+    func toggleMicrophone() throws {
+        try ensureAudioTrack()
+        setMicrophoneTrackState(getLocalAudioTrack()!, enabled: !isMicrophoneOn)
+    }
+    
+    func setAudioSessionMode() {
+        guard let localAudioTrack = getLocalAudioTrack() else {
+            return
+        }
+
+        switch self.audioSessionMode {
+        case AVAudioSession.Mode.videoChat:
+            localAudioTrack.setVideoChatMode()
+            break
+        case AVAudioSession.Mode.voiceChat:
+            localAudioTrack.setVoiceChatMode()
+            break
+        default:
+            localAudioTrack.setVideoChatMode()
+            break
+        }
+    }
+    
+    func toggleScreencast(screencastOptions: ScreencastOptions) throws {
+        try ensureCreated()
+        try ensureConnected()
+        guard let screencastExtensionBundleId = Bundle.main.infoDictionary?["ScreencastExtensionBundleId"] as? String
+        else {
+            throw Exception(
+                name: "E_NO_BUNDLE_ID_SET",
+                description:
+                    "No screencast extension bundle id set. Please set ScreencastExtensionBundleId in Info.plist"
+            )
+        }
+        guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String 
+        else {
+            throw Exception(
+                name: "E_NO_APP_GROUP_SET",
+                description: "No app group name set. Please set AppGroupName in Info.plist")
+        }
+
+        guard !isScreencastOn 
+        else {
+            DispatchQueue.main.async {
+                RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+            }
+            return
+        }
+        
+        let simulcastConfig = getSimulcastConfigFromOptions(simulcastConfig: screencastOptions.simulcastConfig)
+        
+        screencastSimulcastConfig = simulcastConfig
+        screencastMaxBandwidth = getMaxBandwidthFromOptions(
+            maxBandwidth: screencastOptions.maxBandwidth)
+        let screencastMetadata = screencastOptions.screencastMetadata.toMetadata()
+        let videoParameters = getScreencastVideoParameters(screencastOptions: screencastOptions)
+        fishjamClient!.createScreencastTrack(
+            appGroup: appGroupName,
+            videoParameters: videoParameters,
+            metadata: screencastMetadata,
+            onStart: { [weak self] screencastTrack in
+                guard let self = self else {
+                    DispatchQueue.main.async {
+                        RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+                    }
+                    return
+                }
+                do {
+                    try setScreencastTrackState(screencastTrack, enabled: true)
+                } catch {
+                    os_log(
+                        "Error starting screencast: %{public}s", log: log, type: .error,
+                        String(describing: error)
+                    )
+                }
+
+            },
+            onStop: { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                do {
+                    try setScreencastTrackState(screencastTrack, enabled: false)
+                } catch {
+                    os_log(
+                        "Error stopping screencast: %{public}s", log: log, type: .error,
+                        String(describing: error)
+                    )
+                }
+            }
+        )
+        DispatchQueue.main.async {
+            RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+        }
+    }
+    
+    private func setScreencastTrackState(_ screencastTrack: LocalScreencastTrack , enabled: Bool) throws {
+        //was not present before, test and maybe delete?
+        screencastTrack.enabled = enabled
+        isScreencastOn = enabled
+        let eventName = EmitableEvents.IsScreencastOn
+        let isScreencastEnabled = [eventName: enabled]
+        emitEvent(name: eventName, data: isScreencastEnabled)
+    }
+    
+    //returns local endpoint and remote endpoints
+    private func getLocalAndRemoteEndpoints() throws -> [Endpoint] {
+        try ensureCreated()
+        let localEndpoint = fishjamClient!.getLocalEndpoint()
+        let remoteEndpoints = fishjamClient!.getRemoteEndpoints()
+        return [localEndpoint] + remoteEndpoints
+    }
+    
+    func getEndpoints() throws -> [[String: Any?]] {
+        let endpoints = try getLocalAndRemoteEndpoints()
+        return endpoints.compactMap{ endpoint in
+            [
+                "id": endpoint.id,
+                "isLocal": endpoint.id == fishjamClient!.getLocalEndpoint().id,
+                "type": endpoint.type,
+                "metadata": endpoint.metadata,
+                "tracks": endpoint.tracks.values.compactMap {track -> [String: Any?]? in
+                    switch track {
+                    case let track as RemoteVideoTrack:
+                        return [
+                            "id": track.id,
+                            "type": "Video",
+                            "metadata": track.metadata,
+                            "encoding": track.encoding?.description,
+                            "encodingReason": track.encodingReason?.rawValue
+                        ]
+
+                    case let track as RemoteAudioTrack:
+                        return [
+                            "id": track.id,
+                            "type": "Audio",
+                            "metadata": track.metadata,
+                            "vadStatus": track.vadStatus.rawValue
+                        ]
+
+                    case let track as LocalVideoTrack:
+                        return [
+                            "id": track.id,
+                            "type": "Video",
+                            "metadata": track.metadata
+                        ]
+
+                    case let track as LocalScreencastTrack:
+                        return [
+                            "id": track.id,
+                            "type": "Video",
+                            "metadata": track.metadata
+                        ]
+
+                    case let track as LocalAudioTrack:
+                        return [
+                            "id": track.id,
+                            "type": "Audio",
+                            "metadata": track.metadata
+                        ]
+
+                    default:
+                        return nil
+                    }
+                }
+            ]
+        }
+    }
+    
+    func getCaptureDevices() -> [[String: Any]] {
+        let devices = LocalVideoTrack.getCaptureDevices()
+        return devices.map { device -> [String: Any] in
+            return [
+                "id": device.uniqueID,
+                "name": device.localizedName,
+                "isFrontFacing": device.position == .front,
+                "isBackFacing": device.position == .back,
+            ]
+        }
+    }
+    
     func onSocketClose(code: UInt16, reason: String) {
         if let connectPromise = connectPromise {
-            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket close")
+            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
     }
@@ -209,21 +453,12 @@ class RNFishjamClient: FishjamClientListener {
         }
         connectPromise = nil
     }
+    
 
     func onSocketOpen() {
 
     }
 
-    func onAuthSuccess() {
-        joinRoom()
-    }
-
-    func onAuthError() {
-        if let connectPromise = connectPromise {
-            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
-        }
-        connectPromise = nil
-    }
 
     func onDisconnected() {
 
@@ -251,35 +486,6 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise = nil
     }
 
-    func connect(url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) {
-        connectPromise = promise
-        localUserMetadata = peerMetadata.toMetadata()
-        fishjamClient?.connect(config: ConnectionConfig(websocketUrl: url, token: peerToken))
-    }
-
-    func joinRoom() {
-        guard let localEndpointId = localEndpointId,
-            var endpoint = MembraneRoom.sharedInstance.endpoints[localEndpointId]
-        else {
-            return
-        }
-
-        endpoint.metadata = localUserMetadata
-        fishjamClient?.join(peerMetadata: localUserMetadata)
-    }
-
-    func leaveRoom() {
-        if isScreensharingEnabled {
-            let screencastExtensionBundleId =
-                Bundle.main.infoDictionary?["ScreencastExtensionBundleId"] as? String
-            DispatchQueue.main.async {
-                RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
-            }
-        }
-        fishjamClient?.leave()
-        MembraneRoom.sharedInstance.endpoints = [:]
-    }
-
     func cleanUp() {
         if isScreensharingEnabled {
             let screencastExtensionBundleId =
@@ -293,123 +499,6 @@ class RNFishjamClient: FishjamClientListener {
         MembraneRoom.sharedInstance.endpoints = [:]
     }
 
-    func startCamera(config: CameraConfig) throws {
-        try ensureConnected()
-        guard let cameraTrack = try createCameraTrack(config: config) else { return }
-        localVideoTrack = cameraTrack
-        let simulcastConfig = try? getSimulcastConfigFromOptions(
-            simulcastConfig: config.simulcastConfig)
-        try addTrackToLocalEndpoint(
-            cameraTrack, config.videoTrackMetadata.toMetadata(), simulcastConfig)
-        try setCameraTrackState(cameraTrack: cameraTrack, isEnabled: config.cameraEnabled)
-    }
-
-    private func createCameraTrack(config: CameraConfig) throws -> LocalVideoTrack? {
-        try ensureConnected()
-        let videoParameters = try getVideoParametersFromOptions(connectionOptions: config)
-        guard
-            let simulcastConfig = try getSimulcastConfigFromOptions(
-                simulcastConfig: config.simulcastConfig)
-        else { return nil }
-        self.videoSimulcastConfig = simulcastConfig
-        return fishjamClient?.createVideoTrack(
-            videoParameters: videoParameters,
-            metadata: config.videoTrackMetadata.toMetadata(),
-            captureDeviceName: config.captureDeviceId
-        )
-    }
-    private func setCameraTrackState(cameraTrack: LocalVideoTrack, isEnabled: Bool) throws {
-        try ensureConnected()
-        cameraTrack.setEnabled(isEnabled)
-        isCameraEnabled = isEnabled
-        let eventName = EmitableEvents.IsCameraOn
-        let isCameraEnabledMap = [eventName: isEnabled]
-        emitEvent(name: eventName, data: isCameraEnabledMap)
-    }
-    private func addTrackToLocalEndpoint(
-        _ track: LocalVideoTrack, _ metadata: Metadata, _ simulcastConfig: SimulcastConfig?
-    ) throws {
-        try ensureEndpoints()
-        if let localEndpointId = localEndpointId {
-            let trackId = track.trackId()
-            MembraneRoom.sharedInstance.endpoints[localEndpointId]?.videoTracks[trackId] = track
-            MembraneRoom.sharedInstance.endpoints[localEndpointId]?.tracksData[trackId] = TrackData(
-                metadata: metadata, simulcastConfig: simulcastConfig)
-
-            emitEndpoints()
-        }
-    }
-
-    func toggleCamera() throws -> Bool {
-        try ensureVideoTrack()
-        if let localVideoTrack = self.localVideoTrack {
-            try setCameraTrackState(cameraTrack: localVideoTrack, isEnabled: !isCameraEnabled)
-        }
-        return isCameraEnabled
-    }
-
-    func flipCamera() throws {
-        try ensureVideoTrack()
-        if let cameraTrack = localVideoTrack as? LocalCameraVideoTrack {
-            cameraTrack.switchCamera()
-        }
-    }
-
-    func switchCamera(captureDeviceId: String) throws {
-        try ensureVideoTrack()
-        if let cameraTrack = localVideoTrack as? LocalCameraVideoTrack {
-            cameraTrack.switchCamera(deviceId: captureDeviceId as String)
-        }
-    }
-    private func addTrackToLocalEndpoint(_ track: LocalAudioTrack, _ metadata: Metadata) throws {
-        try ensureEndpoints()
-        if let localEndpointId = localEndpointId {
-            MembraneRoom.sharedInstance.endpoints[localEndpointId]?.audioTracks[track.trackId()] =
-                track
-            MembraneRoom.sharedInstance.endpoints[localEndpointId]?.tracksData[track.trackId()] =
-                TrackData(metadata: metadata)
-            emitEndpoints()
-        }
-    }
-    private func removeTrackFromLocalEndpoint(_ track: LocalVideoTrack) throws {
-        try ensureEndpoints()
-        if let localEndpointId = localEndpointId {
-            guard let localEndpoint = MembraneRoom.sharedInstance.endpoints[localEndpointId] else {
-                return
-            }
-            MembraneRoom.sharedInstance.endpoints[localEndpointId] = localEndpoint.removeTrack(
-                trackId: track.trackId())
-            emitEndpoints()
-        }
-    }
-    func startMicrophone(config: MicrophoneConfig) throws {
-        try ensureConnected()
-        guard
-            let microphoneTrack = fishjamClient?.createAudioTrack(
-                metadata: config.audioTrackMetadata.toMetadata())
-        else { return }
-        localAudioTrack = microphoneTrack
-        setAudioSessionMode()
-        try addTrackToLocalEndpoint(microphoneTrack, config.audioTrackMetadata.toMetadata())
-        try setMicrophoneTrackState(microphoneTrack, config.microphoneEnabled)
-    }
-    private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, _ isEnabled: Bool)
-        throws
-    {
-        try ensureConnected()
-        microphoneTrack.setEnabled(isEnabled)
-        isMicEnabled = isEnabled
-        let eventName = EmitableEvents.IsMicrophoneOn
-        let isMicEnabledMap = [eventName: isEnabled]
-        emitEvent(name: eventName, data: isMicEnabledMap)
-    }
-    func toggleMicrophone() throws -> Bool {
-        try ensureAudioTrack()
-        if let localAudioTrack = localAudioTrack {
-            try setMicrophoneTrackState(localAudioTrack, !isMicEnabled)
-        }
-        return isMicEnabled
-    }
     private func getScreencastVideoParameters(screencastOptions: ScreencastOptions)
         -> VideoParameters
     {
@@ -435,160 +524,13 @@ class RNFishjamClient: FishjamClientListener {
             simulcastConfig: screencastSimulcastConfig
         )
     }
-    private func setScreencastTrackState(isEnabled: Bool) throws {
-        isScreensharingEnabled = isEnabled
-        let eventName = EmitableEvents.IsScreencastOn
-        let isScreencastEnabled = [eventName: isEnabled]
-        emitEvent(name: eventName, data: isScreencastEnabled)
-    }
-    func toggleScreencast(screencastOptions: ScreencastOptions) throws {
-        try ensureConnected()
-        guard
-            let screencastExtensionBundleId = Bundle.main.infoDictionary?[
-                "ScreencastExtensionBundleId"]
-                as? String
-        else {
-            throw Exception(
-                name: "E_NO_BUNDLE_ID_SET",
-                description:
-                    "No screencast extension bundle id set. Please set ScreencastExtensionBundleId in Info.plist"
-            )
-        }
-        guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String else {
-            throw Exception(
-                name: "E_NO_APP_GROUP_SET",
-                description: "No app group name set. Please set AppGroupName in Info.plist")
-        }
-
-        guard isScreensharingEnabled == false else {
-            DispatchQueue.main.async {
-                RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
-            }
-            return
-        }
-        guard
-            let simulcastConfig = try getSimulcastConfigFromOptions(
-                simulcastConfig: screencastOptions.simulcastConfig)
-        else {
-            return
-        }
-        screencastSimulcastConfig = simulcastConfig
-        screencastMaxBandwidth = getMaxBandwidthFromOptions(
-            maxBandwidth: screencastOptions.maxBandwidth)
-        let screencastMetadata = screencastOptions.screencastMetadata.toMetadata()
-        let videoParameters = getScreencastVideoParameters(screencastOptions: screencastOptions)
-        localScreencastTrack = fishjamClient?.createScreencastTrack(
-            appGroup: appGroupName,
-            videoParameters: videoParameters,
-            metadata: screencastMetadata,
-            onStart: { [weak self] screencastTrack in
-                guard let self = self else {
-                    DispatchQueue.main.async {
-                        RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
-                    }
-                    return
-                }
-                do {
-                    guard let screencastTrack = localScreencastTrack else { return }
-                    try addTrackToLocalEndpoint(
-                        screencastTrack, screencastMetadata, simulcastConfig)
-                    try setScreencastTrackState(isEnabled: true)
-                } catch {
-                    os_log(
-                        "Error starting screencast: %{public}s", log: log, type: .error,
-                        String(describing: error))
-                }
-
-            },
-            onStop: { [weak self] in
-                guard let self = self else {
-                    return
-                }
-                do {
-                    guard let screencastTrack = localScreencastTrack else { return }
-                    try removeTrackFromLocalEndpoint(screencastTrack)
-                    localScreencastTrack = nil
-                    try setScreencastTrackState(isEnabled: false)
-                } catch {
-                    os_log(
-                        "Error stopping screencast: %{public}s", log: log, type: .error,
-                        String(describing: error))
-                }
-            })
-        DispatchQueue.main.async {
-            RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
-        }
-    }
+  
     private func isTrackLocal(_ trackId: String) -> Bool {
         return trackId == localAudioTrack?.trackId() || trackId == localVideoTrack?.trackId()
             || trackId == localScreencastTrack?.trackId()
     }
-    func getEndpoints() -> [[String: Any]] {
-        MembraneRoom.sharedInstance.endpoints.values.sorted(by: { $0.order < $1.order }).map {
-            (p) -> Dictionary in
-            let videoTracks = p.videoTracks.keys.map { trackId in
-                var data = [
-                    "id": trackId,
-                    "type": "Video",
-                    "metadata": p.tracksData[trackId]?.metadata.toDict() ?? [:],
-                    "encoding": tracksContexts[trackId]?.encoding?.description as Any,
-                    "encodingReason": tracksContexts[trackId]?.encodingReason?.rawValue as Any,
-                ]
 
-                var simulcastConfig: SimulcastConfig? = nil
 
-                if isTrackLocal(trackId) {
-                    simulcastConfig = p.tracksData[trackId]?.simulcastConfig
-                } else {
-                    simulcastConfig = tracksContexts[trackId]?.simulcastConfig
-                }
-
-                if let simulcastConfig = simulcastConfig {
-                    let simulcastConfigMap = [
-                        "enabled": simulcastConfig.enabled,
-                        "activeEncodings": simulcastConfig.activeEncodings.map({ encoding in
-                            encoding.description
-                        }),
-                    ]
-
-                    data["simulcastConfig"] = simulcastConfigMap
-                }
-
-                return data
-            }
-
-            let audioTracks = p.audioTracks.keys.map { trackId in
-                [
-                    "id": trackId,
-                    "type": "Audio",
-                    "metadata": p.tracksData[trackId]?.metadata.toDict() ?? [:],
-                    "vadStatus": tracksContexts[trackId]?.vadStatus.rawValue as Any,
-                ]
-            }
-
-            return [
-                "id": p.id,
-                "metadata": p.metadata.toDict(),
-                "tracks": videoTracks + audioTracks,
-                "isLocal": p.id == localEndpointId,
-                "type": p.type,
-            ]
-        }
-    }
-
-    func getCaptureDevices() -> [[String: Any]] {
-        let devices = LocalCameraVideoTrack.getCaptureDevices()
-        var rnArray: [[String: Any]] = []
-        devices.forEach { device in
-            rnArray.append([
-                "id": device.uniqueID,
-                "name": device.localizedName,
-                "isFrontFacing": device.position == .front,
-                "isBackFacing": device.position == .back,
-            ])
-        }
-        return rnArray
-    }
 
     func getSimulcastConfigAsRNMap(simulcastConfig: SimulcastConfig) -> [String: Any] {
         return [
@@ -829,24 +771,6 @@ class RNFishjamClient: FishjamClientListener {
 
     func getStatistics() -> [String: Any] {
         return statsToRNMap(stats: fishjamClient?.getStats())
-    }
-
-    func setAudioSessionMode() {
-        guard let localAudioTrack = localAudioTrack else {
-            return
-        }
-
-        switch self.audioSessionMode {
-        case AVAudioSession.Mode.videoChat:
-            localAudioTrack.setVideoChatMode()
-            break
-        case AVAudioSession.Mode.voiceChat:
-            localAudioTrack.setVoiceChatMode()
-            break
-        default:
-            localAudioTrack.setVideoChatMode()
-            break
-        }
     }
 
     func selectAudioSessionMode(sessionMode: String) throws {

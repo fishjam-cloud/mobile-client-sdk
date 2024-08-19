@@ -366,6 +366,43 @@ class RNFishjamClient(
     }
   }
 
+  private suspend fun startScreencast() {
+    val videoParameters = getScreencastVideoParameters()
+    if (mediaProjectionIntent == null) {
+      throw CodedException("No permission to start screencast, call handleScreencastPermission first.")
+    }
+    fishjamClient.createScreencastTrack(
+      mediaProjectionIntent!!,
+      videoParameters,
+      screencastMetadata
+    )
+    mediaProjectionIntent = null
+
+    setScreencastTrackState(true)
+    emitEndpoints()
+  }
+
+  private fun stopScreencast() {
+    ensureScreencastTrack()
+    coroutineScope.launch {
+      val screencastTrack =
+        fishjamClient.getLocalEndpoint().tracks.values.first { track ->
+          track is LocalScreencastTrack
+        } as? LocalScreencastTrack
+      if (screencastTrack != null) {
+        fishjamClient.removeTrack(screencastTrack.id())
+      }
+      setScreencastTrackState(false)
+      emitEndpoints()
+    }
+  }
+
+  private fun setScreencastTrackState(isEnabled: Boolean) {
+    isScreencastOn = isEnabled
+    val eventName = EmitableEvents.IsScreencastOn
+    emitEvent(eventName, mapOf(eventName to isEnabled))
+  }
+
   fun getEndpoints(): List<Map<String, Any?>> =
     getAllPeers().map { endpoint ->
       mapOf(
@@ -652,21 +689,6 @@ class RNFishjamClient(
     return newMap
   }
 
-  private suspend fun startScreencast() {
-    val videoParameters = getScreencastVideoParameters()
-    if (mediaProjectionIntent == null) {
-      throw CodedException("No permission to start screencast, call handleScreencastPermission first.")
-    }
-    fishjamClient.createScreencastTrack(
-      mediaProjectionIntent!!,
-      videoParameters,
-      screencastMetadata
-    )
-    mediaProjectionIntent = null
-
-    setScreencastTrackState(true)
-    emitEndpoints()
-  }
 
   private fun getScreencastVideoParameters(): VideoParameters {
     val videoParameters =
@@ -684,27 +706,6 @@ class RNFishjamClient(
       simulcastConfig = screencastSimulcastConfig,
       maxBitrate = screencastMaxBandwidth
     )
-  }
-
-  private fun setScreencastTrackState(isEnabled: Boolean) {
-    isScreencastOn = isEnabled
-    val eventName = EmitableEvents.IsScreencastOn
-    emitEvent(eventName, mapOf(eventName to isEnabled))
-  }
-
-  private fun stopScreencast() {
-    ensureScreencastTrack()
-    coroutineScope.launch {
-      val screencastTrack =
-        fishjamClient.getLocalEndpoint().tracks.values.first { track ->
-          track is LocalScreencastTrack
-        } as? LocalScreencastTrack
-      if (screencastTrack != null) {
-        fishjamClient.removeTrack(screencastTrack.id())
-      }
-      setScreencastTrackState(false)
-      emitEndpoints()
-    }
   }
 
   private fun emitEvent(

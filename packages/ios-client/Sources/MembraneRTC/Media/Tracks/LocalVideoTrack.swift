@@ -7,10 +7,6 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
     internal var capturer: CameraCapturer
     internal var videoParameters: VideoParameters
 
-    //    public enum Capturer {
-    //        case camera, file
-    //    }
-
     internal init(
         mediaTrack: RTCVideoTrack, endpointId: String, metadata: Metadata = Metadata(),
         videoParameters: VideoParameters, capturer: CameraCapturer
@@ -35,45 +31,8 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
     public func switchCamera(deviceId: String) {
         capturer.switchCamera(deviceId: deviceId)
     }
+    
+    public static func getCaptureDevices() -> [AVCaptureDevice] {
+        return RTCCameraVideoCapturer.captureDevices()
+    }
 }
-
-//public class LocalCameraVideoTrack: LocalVideoTrack {
-//    override internal func createCapturer(videoSource: RTCVideoSource) -> VideoCapturer {
-//        return CameraCapturer(videoParameters: videoParameters, delegate: videoSource)
-//    }
-//
-//    internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in } {
-//        didSet {
-//            if let cap = capturer as? CameraCapturer {
-//                cap.mirrorVideo = mirrorVideo
-//            }
-//        }
-//    }
-//
-//    public func switchCamera() {
-//        guard let capturer = capturer as? CameraCapturer else {
-//            return
-//        }
-//
-//        capturer.switchCamera()
-//    }
-//
-//    public func switchCamera(deviceId: String) {
-//        guard let capturer = capturer as? CameraCapturer else {
-//            return
-//        }
-//
-//        capturer.switchCamera(deviceId: deviceId)
-//
-//    }
-//
-//    public static func getCaptureDevices() -> [AVCaptureDevice] {
-//        return RTCCameraVideoCapturer.captureDevices()
-//    }
-//}
-//
-//public class LocalFileVideoTrack: LocalVideoTrack {
-//    override internal func createCapturer(videoSource: RTCVideoSource) -> VideoCapturer {
-//        return FileCapturer(videoSource)
-//    }
-//}

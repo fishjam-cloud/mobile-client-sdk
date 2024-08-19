@@ -3,8 +3,8 @@ import WebRTC
 
 /// Utility wrapper around a remote `RTCVideoTrack`.
 public class RemoteVideoTrack: VideoTrack {
-    private(set) var encoding: TrackEncoding? = nil
-    private(set) var encodingReason: EncodingReason? = nil
+    private(set) public var encoding: TrackEncoding? = nil
+    private(set) public var encodingReason: EncodingReason? = nil
 
     override init(
         mediaTrack: RTCVideoTrack, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),

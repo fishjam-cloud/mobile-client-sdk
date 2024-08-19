@@ -20,7 +20,7 @@ public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
     }
 
     public static func fromString(_ s: String) -> TrackEncoding? {
-        switch s {
+        switch s.lowercased() {
         case "l":
             return .l
         case "m":

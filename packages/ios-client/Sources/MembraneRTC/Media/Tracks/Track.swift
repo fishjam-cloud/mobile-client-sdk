@@ -6,7 +6,7 @@ open class Track {
     internal var mediaTrack: RTCMediaStreamTrack?
     let endpointId: String
     internal var rtcEngineId: String?
-    var metadata: Metadata
+    public var metadata: Metadata
     public let id: String
 
     /**
@@ -37,7 +37,7 @@ open class Track {
         return mediaTrack?.trackId ?? ""
     }
 
-    internal var enabled: Bool {
+    public var enabled: Bool {
         get {
             return mediaTrack?.isEnabled ?? false
         }
