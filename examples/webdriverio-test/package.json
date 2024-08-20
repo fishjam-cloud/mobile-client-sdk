@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@fishjam-cloud/fishjam-openapi": "^0.1.1",
+    "@fishjam-cloud/fishjam-openapi": "^0.1.2",
     "@wdio/appium-service": "^8.40.2",
     "@wdio/cli": "^8.40.2",
     "@wdio/local-runner": "^8.40.2",
