@@ -14,7 +14,7 @@
     ]
   },
   "devDependencies": {
-    "@react-native/eslint-config": "^0.74.87",
+    "@react-native/eslint-config": "^0.75.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
