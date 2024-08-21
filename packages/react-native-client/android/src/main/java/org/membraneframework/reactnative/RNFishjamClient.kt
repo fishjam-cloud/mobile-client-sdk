@@ -505,24 +505,6 @@ class RNFishjamClient(
     }
   }
 
-  fun setOutputAudioDevice(audioDevice: String) {
-    audioSwitchManager?.selectAudioOutput(AudioDeviceKind.fromTypeName(audioDevice))
-  }
-
-  fun startAudioSwitcher() {
-    audioSwitchManager?.let {
-      it.start(this::emitAudioDeviceEvent)
-      emitAudioDeviceEvent(
-        it.availableAudioDevices(),
-        it.selectedAudioDevice()
-      )
-    }
-  }
-
-  fun stopAudioSwitcher() {
-    audioSwitchManager?.stop()
-  }
-
   private fun toggleTrackEncoding(
     encoding: String,
     trackId: String,
@@ -618,6 +600,24 @@ class RNFishjamClient(
     }
   }
 
+  fun setOutputAudioDevice(audioDevice: String) {
+    audioSwitchManager?.selectAudioOutput(AudioDeviceKind.fromTypeName(audioDevice))
+  }
+
+  fun startAudioSwitcher() {
+    audioSwitchManager?.let {
+      it.start(this::emitAudioDeviceEvent)
+      emitAudioDeviceEvent(
+        it.availableAudioDevices(),
+        it.selectedAudioDevice()
+      )
+    }
+  }
+
+  fun stopAudioSwitcher() {
+    audioSwitchManager?.stop()
+  }
+
   fun changeWebRTCLoggingSeverity(severity: String) {
     when (severity) {
       "verbose" -> fishjamClient.changeWebRTCLoggingSeverity(Logging.Severity.LS_VERBOSE)
@@ -688,7 +688,6 @@ class RNFishjamClient(
     }
     return newMap
   }
-
 
   private fun getScreencastVideoParameters(): VideoParameters {
     val videoParameters =

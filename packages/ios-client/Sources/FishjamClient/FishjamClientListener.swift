@@ -26,11 +26,6 @@ public protocol FishjamClientListener {
     func onAuthError()
 
     /**
-     * Emitted when the connection is closed
-     */
-    func onDisconnected()
-
-    /**
      * Called when peer was accepted.
      */
     func onJoined(peerID: String, peersInRoom: [String: Endpoint])
@@ -40,6 +35,11 @@ public protocol FishjamClientListener {
      * @param metadata - Pass thru for client application to communicate further actions to frontend
      */
     func onJoinError(metadata: Any)
+    
+    /**
+     * Emitted when the connection is closed
+     */
+    func onDisconnected()
 
     /**
      * Called each time new peer joins the room.

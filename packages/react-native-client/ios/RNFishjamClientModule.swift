@@ -67,7 +67,8 @@ public class RNFishjamClientModule: Module {
             "EndpointsUpdate",
             "AudioDeviceUpdate",
             "SendMediaEvent",
-            "BandwidthEstimation")
+            "BandwidthEstimation"
+        )
 
         let rnFishjamClient: RNFishjamClient = RNFishjamClient {
             (eventName: String, data: [String: Any]) in
@@ -92,7 +93,7 @@ public class RNFishjamClientModule: Module {
         }
 
         Property("isMicrophoneOn") {
-            return rnFishjamClient.isMicEnabled
+            return rnFishjamClient.isMicrophoneOn
         }
 
         AsyncFunction("toggleMicrophone") {
@@ -100,7 +101,7 @@ public class RNFishjamClientModule: Module {
         }
 
         Property("isCameraOn") {
-            return rnFishjamClient.isCameraEnabled
+            return rnFishjamClient.isCameraOn
         }
 
         AsyncFunction("toggleCamera") {
@@ -124,7 +125,7 @@ public class RNFishjamClientModule: Module {
         }
 
         Property("isScreencastOn") {
-            return rnFishjamClient.isScreensharingEnabled
+            return rnFishjamClient.isScreencastOn
         }
 
         AsyncFunction("getEndpoints") {
@@ -136,15 +137,15 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateVideoTrackMetadata(metadata: metadata)
+            try rnFishjamClient.updateLocalVideoTrackMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateAudioTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateAudioTrackMetadata(metadata: metadata)
+            try rnFishjamClient.updateLocalAudioTrackMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateScreencastTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateScreencastTrackMetadata(metadata: metadata)
+            try rnFishjamClient.updateLocalScreencastTrackMetadata(metadata: metadata)
         }
 
         AsyncFunction("toggleScreencastTrackEncoding") { (encoding: String) in
@@ -182,14 +183,14 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("getStatistics") {
-            rnFishjamClient.getStatistics()
+            try rnFishjamClient.getStatistics()
         }
 
         AsyncFunction("selectAudioSessionMode") { (sessionMode: String) in
             try rnFishjamClient.selectAudioSessionMode(sessionMode: sessionMode)
         }
 
-        AsyncFunction("showAudioRoutePicker") { () in
+        AsyncFunction("showAudioRoutePicker") {
             rnFishjamClient.showAudioRoutePicker()
         }
 

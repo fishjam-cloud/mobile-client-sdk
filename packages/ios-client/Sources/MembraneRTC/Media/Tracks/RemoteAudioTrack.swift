@@ -1,12 +1,8 @@
 import WebRTC
 
-public protocol VadChangedListener {
-    func onVadChanged(track: RemoteAudioTrack)
-}
-
 /// Utility wrapper around a remote `RTCAudioTrack`.
 public class RemoteAudioTrack: Track {
-    private var vadChangedListener: VadChangedListener? = nil
+    private var vadChangedListener: ((_ track: Track) throws -> Void)?
 
     init(
         audioTrack: RTCAudioTrack, endpointId: String, rtcEngineId: String? = nil, metadata: Metadata = Metadata(),
@@ -21,14 +17,18 @@ public class RemoteAudioTrack: Track {
         get { return _vadStatus }
         set {
             _vadStatus = newValue
-            vadChangedListener?.onVadChanged(track: self)
+            do{
+                try vadChangedListener?(self)
+            }catch let error{
+                sdkLogger.error("VAD changed listener throwed error: \(error.localizedDescription)")
+            }
         }
     }
 
-    func setVadChangedListener(listener: VadChangedListener) {
-        listener.onVadChanged(track: self)
+    
+    public func setVadChangedListener(listener: ((_ track: Track) throws -> Void)?) {
         vadChangedListener = listener
-    }
+        }
 
     internal var audioTrack: RTCAudioTrack {
         return self.mediaTrack as! RTCAudioTrack

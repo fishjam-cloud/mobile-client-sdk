@@ -2,7 +2,7 @@
 
 import WebRTC
 
-open class Track {
+open class Track: Equatable {
     internal var mediaTrack: RTCMediaStreamTrack?
     let endpointId: String
     internal var rtcEngineId: String?
@@ -45,5 +45,8 @@ open class Track {
             mediaTrack?.isEnabled = newValue
         }
     }
-
+    
+    public static func == (lhs: Track, rhs: Track) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
