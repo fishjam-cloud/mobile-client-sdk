@@ -20,9 +20,13 @@ class VideoRendererView: ExpoView {
 
     func updateVideoTrack() {
         DispatchQueue.main.async {
-            let newTrack = MembraneRoom.sharedInstance.getVideoTrackById(trackId: self.trackId)
-            if newTrack != self.videoView?.track {
-                self.videoView?.track = newTrack
+            endpointLoop: for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints(){
+                for (id, track) in endpoint.tracks {
+                    if let videoTrack = track as? VideoTrack, self.trackId == id {
+                        self.videoView?.track = videoTrack
+                        break endpointLoop
+                    }
+                }
             }
         }
     }

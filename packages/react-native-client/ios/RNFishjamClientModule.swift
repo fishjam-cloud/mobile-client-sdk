@@ -76,7 +76,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("connect") { (url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) in
-            try rnFishjamClient.create()
+            rnFishjamClient.create()
             rnFishjamClient.connect(url: url, peerToken: peerToken, peerMetadata: peerMetadata, promise: promise)
         }
 
@@ -129,7 +129,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("getEndpoints") {
-            rnFishjamClient.getEndpoints()
+            try rnFishjamClient.getEndpoints()
         }
 
         AsyncFunction("updateEndpointMetadata") { (metadata: [String: Any]) in

@@ -15,6 +15,12 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
         self.capturer = capturer
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
     }
+    
+    internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in } {
+        didSet {
+            capturer.mirrorVideo = mirrorVideo
+        }
+    }
 
     public func start() {
         capturer.startCapture()

@@ -208,7 +208,6 @@ public class VideoView: UIView {
                 mtlView.contentMode = .scaleAspectFit
                 mtlView.videoContentMode = .scaleAspectFit
                 mtlView.delegate = delegate
-
                 return mtlView
             } else {
                 let glView = RTCEAGLVideoView()
