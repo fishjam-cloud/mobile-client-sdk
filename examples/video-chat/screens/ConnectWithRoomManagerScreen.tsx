@@ -54,7 +54,7 @@ async function getFishjamServer(
   };
 }
 
-const ConnectScreen = ({ navigation }: Props) => {
+export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -117,9 +117,7 @@ const ConnectScreen = ({ navigation }: Props) => {
       </SafeAreaView>
     </DismissKeyboard>
   );
-};
-
-export default ConnectScreen;
+}
 
 const windowWidth = Dimensions.get('window').width;
 
