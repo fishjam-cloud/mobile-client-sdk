@@ -32,6 +32,7 @@ export default function VideosGrid({ tracks }: Props) {
           />
         </View>
       )}
+      ListFooterComponent={() => <View style={{ height: 60 }} />}
     />
   );
 }

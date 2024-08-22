@@ -147,12 +147,16 @@ const RoomScreen = ({ navigation, route }: Props) => {
 export default RoomScreen;
 
 const styles = StyleSheet.create({
-  callView: { display: 'flex', flexDirection: 'row', gap: 10 },
+  callView: {
+    position: 'absolute',
+    bottom: 20,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    gap: 10,
+  },
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#F1FAFE',
-    padding: 24,
   },
 });
