@@ -53,7 +53,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     () =>
       peers.flatMap((peer) =>
         peer.tracks.filter(
-          (t) => t.metadata.type !== 'audio' && (t.metadata.active ?? true),
+          (t) => t.type == 'Video' && (t.metadata.active ?? true),
         ),
       ),
     [peers],
