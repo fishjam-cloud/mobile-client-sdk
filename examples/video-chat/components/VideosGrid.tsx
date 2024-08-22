@@ -62,7 +62,7 @@ export default function VideosGrid({ tracks }: Props) {
             style={styles.flexOne}
           />
           <View style={styles.userLabel}>
-            <Typo variant="caption">{track.userName}</Typo>
+            <Typo variant="chat-regular">{track.userName}</Typo>
           </View>
         </View>
       )}
@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     backgroundColor: BrandColors.darkBlue20,
     borderRadius: 4,
+    padding: 3,
   },
 });

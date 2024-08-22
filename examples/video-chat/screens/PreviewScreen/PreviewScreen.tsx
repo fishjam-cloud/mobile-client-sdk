@@ -110,7 +110,7 @@ function PreviewScreen({
 
   const onJoinPressed = async () => {
     await connect(route.params.fishjamUrl, route.params.peerToken, {
-      name: 'RN mobile',
+      name: route.params.userName,
     });
     navigation.navigate('Room', {
       isCameraOn,
