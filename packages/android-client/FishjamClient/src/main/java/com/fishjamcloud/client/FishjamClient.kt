@@ -21,11 +21,14 @@ import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import org.webrtc.Logging
 
 data class ConnectConfig(
-  val websocketUrl: String,
+  private val _websocketUrl: String,
   val token: String,
   val peerMetadata: Metadata,
   val reconnectConfig: ReconnectConfig
-)
+) {
+  val websocketUrl: String
+    get() = "$_websocketUrl/socket/peer/websocket"
+}
 
 class FishjamClient(
   appContext: Context,

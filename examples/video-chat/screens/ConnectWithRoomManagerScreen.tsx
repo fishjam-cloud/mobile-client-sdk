@@ -28,9 +28,15 @@ async function getFishjamServer(
   roomName: string,
   userName: string,
 ) {
-  const url = roomManagerUrl.endsWith('/')
-    ? roomManagerUrl
-    : roomManagerUrl + '/';
+  // in case user copied url from admin panel
+  const urlWithoutParams = roomManagerUrl.replace(
+    '/*roomName*/users/*username*',
+    '',
+  );
+  // trim slash from end
+  const url = urlWithoutParams.endsWith('/')
+    ? urlWithoutParams
+    : urlWithoutParams + '/';
   const response = await fetch(
     `${url}${roomName.trim()}/users/${userName.trim()}`,
   );
@@ -48,7 +54,7 @@ async function getFishjamServer(
   };
 }
 
-const ConnectScreen = ({ navigation }: Props) => {
+export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -111,9 +117,7 @@ const ConnectScreen = ({ navigation }: Props) => {
       </SafeAreaView>
     </DismissKeyboard>
   );
-};
-
-export default ConnectScreen;
+}
 
 const windowWidth = Dimensions.get('window').width;
 
