@@ -25,6 +25,7 @@ import { usePreventBackButton } from '../hooks/usePreventBackButton';
 import { useToggleCamera } from '../hooks/useToggleCamera';
 import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
+import { parsePeersToTracks } from '../components/VideosGrid';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -49,15 +50,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { peers } = usePeers();
 
-  const tracks = useMemo(
-    () =>
-      peers.flatMap((peer) =>
-        peer.tracks.filter(
-          (t) => t.metadata.type !== 'audio' && (t.metadata.active ?? true),
-        ),
-      ),
-    [peers],
-  );
+  const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
 
   const { toggleScreencast, isScreencastOn, handleScreencastPermission } =
     useScreencast();

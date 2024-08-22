@@ -2,34 +2,68 @@ import {
   Track,
   VideoRendererView,
   Metadata,
+  Peer,
 } from '@fishjam-cloud/react-native-client';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { BrandColors } from '../utils/Colors';
+import Typo from './Typo';
 
 type Props = {
-  tracks: Track<Metadata>[];
+  tracks: GridTrack[];
+};
+
+type GridTrack = Track<Metadata> & {
+  isLocal: boolean;
+  userName: string | undefined;
 };
 
 const { VIDEO_CELL } = roomScreenLabels;
 
+export function parsePeersToTracks(
+  peers: Peer<Metadata, Metadata, Metadata>[],
+): GridTrack[] {
+  return peers
+    .sort((peer) => (peer.isLocal ? -1 : 1))
+    .flatMap((peer) =>
+      peer.tracks
+        .map((track) => ({
+          ...track,
+          isLocal: peer.isLocal,
+          userName: peer.metadata?.name,
+        }))
+        .filter(
+          (t) => t.metadata.type !== 'audio' && (t.metadata.active ?? true),
+        ),
+    );
+}
+
 export default function VideosGrid({ tracks }: Props) {
-  console.log('track', tracks);
   return (
-    <FlatList<Track<Metadata>>
+    <FlatList<GridTrack>
       data={tracks}
       renderItem={({ item: track, index: idx }) => (
         <View
           accessibilityLabel={VIDEO_CELL + idx}
-          style={styles.video}
+          style={[
+            styles.video,
+            {
+              backgroundColor: track.isLocal
+                ? BrandColors.yellow100
+                : BrandColors.darkBlue60,
+            },
+          ]}
           key={idx}>
           <VideoRendererView
             trackId={track.id}
             videoLayout="FIT"
             style={styles.flexOne}
           />
+          <View style={styles.userLabel}>
+            <Typo variant="caption">{track.userName}</Typo>
+          </View>
         </View>
       )}
       ListFooterComponent={() => <View style={{ height: 60 }} />}
@@ -51,8 +85,15 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 8,
     overflow: 'hidden',
-    backgroundColor: BrandColors.darkBlue60,
     borderColor: BrandColors.darkBlue100,
     borderWidth: 2,
+  },
+  userLabel: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    opacity: 0.5,
+    backgroundColor: BrandColors.darkBlue20,
+    borderRadius: 4,
   },
 });
