@@ -22,7 +22,7 @@
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
-    "expo": "^50.0.17",
+    "expo": "^50.0.20",
     "expo-camera": "^14.0.4",
     "expo-device": "^5.9.3",
     "expo-font": "^11.10.2",
