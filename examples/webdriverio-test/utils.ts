@@ -65,7 +65,7 @@ const tapApp = async (driver: WebdriverIO.Browser) => {
 };
 
 const getWebsocketUrl = (host: string, secure: boolean = false) =>
-  `${secure ? 'wss' : 'ws'}://${host}/socket/peer/websocket`;
+  `${secure ? 'wss' : 'ws'}://${host}`;
 
 const getHttpUrl = (host: string, secure: boolean = false) =>
   `${secure ? 'https' : 'http'}://${host}`;

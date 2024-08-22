@@ -14,7 +14,7 @@ class FishjamClientTest {
   private lateinit var fishjamClientListener: FishjamClientListener
   private lateinit var client: FishjamClientInternal
 
-  private val url = "ws://localhost:4000/socket/peer/websocket"
+  private val url = "ws://localhost:4000"
   private val token = "auth"
   private val authRequest =
     PeerNotifications.PeerMessage

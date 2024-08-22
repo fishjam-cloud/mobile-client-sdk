@@ -242,13 +242,9 @@ metadata to pass things like usernames etc. to the server.
 ```ts
 const startServerConnection = () => {
   try {
-    await connect(
-      "http://server_address:5002/socket/peer/websocket",
-      "peer_token",
-      {
-        displayName: "Annie",
-      },
-    );
+    await connect("http://server_address:5002", "peer_token", {
+      displayName: "Annie",
+    });
   } catch (e) {
     console.log("error!");
   }
