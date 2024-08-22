@@ -49,7 +49,7 @@ async function getFishjamServer(
   };
 
   return {
-    fishjamUrl: `${tokenData.url}/socket/peer/websocket`,
+    fishjamUrl: tokenData.url,
     token: tokenData.token,
   };
 }
