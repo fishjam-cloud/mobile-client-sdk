@@ -15,16 +15,14 @@ type Props = {
   tracks: GridTrack[];
 };
 
-type GridTrack = Track<Metadata> & {
+type GridTrack = Track & {
   isLocal: boolean;
   userName: string | undefined;
 };
 
 const { VIDEO_CELL } = roomScreenLabels;
 
-export function parsePeersToTracks(
-  peers: Peer<Metadata, Metadata, Metadata>[],
-): GridTrack[] {
+export function parsePeersToTracks(peers: Peer<Metadata>[]): GridTrack[] {
   return peers
     .sort((peer) => (peer.isLocal ? -1 : 1))
     .flatMap((peer) =>
