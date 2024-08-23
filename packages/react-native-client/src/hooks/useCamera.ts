@@ -46,10 +46,11 @@ type CameraConfigBase = {
    * whether to flip the dimensions of the video, that is whether to film in vertical orientation.
    * @default `true`
    */
-  flipVideo?: boolean /**
+  flipVideo?: boolean;
+  /**
    * whether the camera track is initially enabled, you can toggle it on/off later with toggleCamera method
    * @default `true`
-   */;
+   */
   cameraEnabled?: boolean;
   /**
    * id of the camera to start capture with. Get available cameras with `getCaptureDevices()`.
