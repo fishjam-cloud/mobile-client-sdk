@@ -10,7 +10,7 @@ import type {
 } from './types';
 import type { CameraConfig, CaptureDevice } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
-import type { ScreencastOptions } from './hooks/useScreencast';
+import type { ScreencastOptionsInternal } from './hooks/useScreencast';
 import type { ConnectionConfig } from './common/client';
 
 type InternalCameraConfig<MetadataType extends Metadata> = Partial<
@@ -40,8 +40,8 @@ type RNFishjamClient = {
   switchCamera: (captureDeviceId: string) => Promise<void>;
   getCaptureDevices: () => Promise<CaptureDevice[]>;
   handleScreencastPermission: () => Promise<'granted' | 'denied'>;
-  toggleScreencast: <MetadataType extends Metadata>(
-    screencastOptions: Partial<ScreencastOptions<MetadataType>>,
+  toggleScreencast: (
+    screencastOptions: Partial<ScreencastOptionsInternal>,
   ) => Promise<void>;
   isScreencastOn: boolean;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<
