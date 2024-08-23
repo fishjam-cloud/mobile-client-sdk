@@ -43,3 +43,7 @@ export type TrackMetadata = {
   active: boolean;
   type: 'audio' | 'camera' | 'screensharing';
 };
+
+// branded types are useful for restricting where given value can be passed
+declare const brand: unique symbol;
+export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
