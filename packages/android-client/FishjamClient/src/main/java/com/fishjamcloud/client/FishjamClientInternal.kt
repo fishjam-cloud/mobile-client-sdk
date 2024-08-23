@@ -659,7 +659,7 @@ internal class FishjamClientInternal(
         return
       }
 
-    val updatedTracks = mutableMapOf<String, Track>()
+    val updatedTracks = endpoint.tracks.toMutableMap()
 
     for ((trackId, trackData) in tracks) {
       var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
@@ -688,8 +688,8 @@ internal class FishjamClientInternal(
       }
 
     trackIds.forEach { trackId ->
-      val track = endpoint.tracks[trackId] ?: return
-      endpoint = endpoint.removeTrack(trackId)
+      val track = endpoint.tracks.values.firstOrNull { it.getRTCEngineId() == trackId } ?: return
+      endpoint = endpoint.removeTrack(track.id())
       this.listener.onTrackRemoved(track)
     }
     remoteEndpoints[endpointId] = endpoint

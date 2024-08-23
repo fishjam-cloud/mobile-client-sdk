@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 
 import {
   BandwidthLimit,
+  Brand,
   Metadata,
   SimulcastBandwidthLimit,
   SimulcastConfig,
@@ -14,9 +15,10 @@ import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
 
 type IsCameraOnEvent = { IsCameraOn: boolean };
 type SimulcastConfigUpdateEvent = SimulcastConfig;
+export type CaptureDeviceId = Brand<string, 'CaptureDeviceId'>;
 
 export type CaptureDevice = {
-  id: string;
+  id: CaptureDeviceId;
   name: string;
   isFrontFacing: boolean;
   isBackFacing: boolean;
@@ -57,7 +59,7 @@ type CameraConfigBase = {
    * You can switch the cameras later with `flipCamera`/`switchCamera` functions.
    * @default the first front camera
    */
-  captureDeviceId?: string;
+  captureDeviceId?: CaptureDeviceId;
 };
 
 export type CameraConfig = CameraConfigBase & {
@@ -232,7 +234,7 @@ export function useCamera() {
    * Function that switches to the specified camera. By default the front camera is used.
    * @returns A promise that resolves when camera is switched.
    */
-  const switchCamera = useCallback(async (captureDeviceId: string) => {
+  const switchCamera = useCallback(async (captureDeviceId: CaptureDeviceId) => {
     await RNFishjamClientModule.switchCamera(captureDeviceId);
   }, []);
 
