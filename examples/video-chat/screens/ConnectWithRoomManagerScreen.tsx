@@ -103,11 +103,19 @@ export default function ConnectScreen({ navigation }: Props) {
           />
           <TextInput
             onChangeText={setRoomManagerUrl}
-            value={roomManagerUrl}
+            defaultValue={roomManagerUrl}
             placeholder="Room Manager URL"
           />
-          <TextInput onChangeText={setRoomName} placeholder="Room Name" />
-          <TextInput onChangeText={setUserName} placeholder="User Name" />
+          <TextInput
+            onChangeText={setRoomName}
+            placeholder="Room Name"
+            defaultValue={roomName}
+          />
+          <TextInput
+            onChangeText={setUserName}
+            placeholder="User Name"
+            defaultValue={userName}
+          />
           <Button
             title="Connect"
             onPress={onTapConnectButton}

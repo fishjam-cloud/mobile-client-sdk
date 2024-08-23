@@ -68,13 +68,13 @@ const ConnectScreen = ({ navigation }: Props) => {
           />
           <TextInput
             onChangeText={onChangeFishjamUrl}
-            value={fishjamUrl}
+            defaultValue={fishjamUrl}
             accessibilityLabel={URL_INPUT}
             placeholder="Fishjam URL"
           />
           <TextInput
             onChangeText={onChangePeerToken}
-            value={peerToken}
+            defaultValue={peerToken}
             accessibilityLabel={TOKEN_INPUT}
             placeholder="Peer Token"
           />

@@ -11,6 +11,7 @@ type OnChangeTextType = (text: string) => void;
 type TextInputProps = {
   placeholder?: string;
   value?: string;
+  defaultValue?: string;
   editable?: boolean;
   onChangeText?: OnChangeTextType;
   sublabel?: string;
@@ -21,6 +22,7 @@ export default function TextInput({
   placeholder = '',
   sublabel,
   value,
+  defaultValue,
   accessibilityLabel,
   editable = true,
   onChangeText = () => {
@@ -50,6 +52,7 @@ export default function TextInput({
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
         value={value}
+        defaultValue={defaultValue}
         accessibilityLabel={accessibilityLabel}
         onFocus={onFocus}
         onBlur={offFocus}
