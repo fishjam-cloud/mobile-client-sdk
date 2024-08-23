@@ -87,14 +87,7 @@ function PreviewScreen({
       const captureDevice = devices.find((device) => device.isFrontFacing);
 
       startCamera({
-        simulcastConfig: {
-          enabled: true,
-          activeEncodings:
-            // iOS has a limit of 3 hardware encoders
-            // 3 simulcast layers + 1 screencast layer = 4, which is too much
-            // so we limit simulcast layers to 2
-            Platform.OS === 'android' ? ['l', 'm', 'h'] : ['l', 'h'],
-        },
+        simulcastEnabled: true,
         quality: 'HD169',
         maxBandwidth: { l: 150, m: 500, h: 1500 },
         videoTrackMetadata: { active: true, type: 'camera' },
