@@ -3,6 +3,7 @@ import * as React from 'react';
 import { ViewStyle } from 'react-native';
 
 import { VideoLayout } from '../types';
+import { CaptureDeviceId } from '../hooks/useCamera';
 
 export type VideoPreviewViewProps = {
   /**
@@ -17,7 +18,7 @@ export type VideoPreviewViewProps = {
    * Id of the camera used for preview. Get available cameras with `getCaptureDevices()` function.
    * @default the first front camera
    */
-  captureDeviceId?: string;
+  captureDeviceId?: CaptureDeviceId;
 };
 
 const NativeView: React.ComponentType<VideoPreviewViewProps> =
