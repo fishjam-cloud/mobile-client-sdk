@@ -35,7 +35,6 @@ import {
   displayIosSimulatorCameraAlert,
   isIosSimulator,
 } from '../../utils/deviceUtils';
-import { useToggleCamera } from '../../hooks/useToggleCamera';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Preview'>;
 type BottomSheetRef = Props & {
@@ -60,6 +59,7 @@ function PreviewScreen({
     simulcastConfig,
     toggleVideoTrackEncoding,
     switchCamera,
+    toggleCamera,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
@@ -90,7 +90,6 @@ function PreviewScreen({
         simulcastEnabled: true,
         quality: 'HD169',
         maxBandwidth: { l: 150, m: 500, h: 1500 },
-        videoTrackMetadata: { active: true, type: 'camera' },
         captureDeviceId: captureDevice?.id,
         cameraEnabled: true,
       });
@@ -116,8 +115,6 @@ function PreviewScreen({
       displayIosSimulatorCameraAlert();
     }
   }, []);
-
-  const { toggleCamera } = useToggleCamera();
 
   return (
     <SafeAreaView style={styles.container}>

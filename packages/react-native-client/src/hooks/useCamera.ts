@@ -34,7 +34,7 @@ export type VideoQuality =
   | 'HD43'
   | 'FHD43';
 
-export type CameraConfig<MetadataType extends Metadata> = {
+export type CameraConfig = {
   /**
    * resolution + aspect ratio of local video track, one of: `QVGA_169`, `VGA_169`, `QHD_169`, `HD_169`,
    * `FHD_169`, `QVGA_43`, `VGA_43`, `QHD_43`, `HD_43`, `FHD_43`. Note that quality might be worse than
@@ -47,10 +47,6 @@ export type CameraConfig<MetadataType extends Metadata> = {
    * @default `true`
    */
   flipVideo?: boolean;
-  /**
-   * a map `string -> any` containing video track metadata to be sent to the server.
-   */
-  videoTrackMetadata?: MetadataType;
   /**
    *  SimulcastConfig of a video track. By default simulcast is disabled.
    */
@@ -114,10 +110,6 @@ export type CameraConfigInternal = {
   | { maxBandwidthMap?: SimulcastBandwidthLimit }
 );
 
-type StartCameraConfig = <CameraConfigMetadataType extends Metadata>(
-  config?: Readonly<CameraConfig<CameraConfigMetadataType>>,
-) => Promise<void>;
-
 const defaultSimulcastConfig = () => ({
   enabled: false,
   activeEncodings: [],
@@ -155,12 +147,13 @@ function simulcastConfig(
   return undefined;
 }
 
-export function updateCameraConfig<CameraConfigMetadataType extends Metadata>(
-  config: Readonly<CameraConfig<CameraConfigMetadataType>>,
+export function updateCameraConfig(
+  config: Readonly<CameraConfig>,
 ): CameraConfigInternal {
   return {
     ...config,
     ...maxBandwidthConfig(config.maxBandwidth),
+    videoTrackMetadata: { active: true, type: 'camera' },
     simulcastConfig: simulcastConfig(config.simulcastEnabled),
   };
 }
@@ -227,6 +220,10 @@ export function useCamera() {
    */
   const toggleCamera = useCallback(async () => {
     const state = await RNFishjamClientModule.toggleCamera();
+    await RNFishjamClientModule.updateVideoTrackMetadata({
+      active: state,
+      type: 'camera',
+    });
     setIsCameraOn(state);
   }, []);
 
@@ -236,10 +233,13 @@ export function useCamera() {
    * @returns A promise that resolves when camera is started.
    */
 
-  const startCamera = useCallback<StartCameraConfig>(async (config = {}) => {
-    const updatedConfig = updateCameraConfig(config);
-    await RNFishjamClientModule.startCamera(updatedConfig);
-  }, []);
+  const startCamera = useCallback(
+    async (config: Readonly<CameraConfig> = {}) => {
+      const updatedConfig = updateCameraConfig(config);
+      await RNFishjamClientModule.startCamera(updatedConfig);
+    },
+    [],
+  );
 
   /**
    * Function that toggles between front and back camera. By default the front camera is used.

@@ -10,13 +10,3 @@ export async function updatePeerMetadata<PeerMetadataType extends Metadata>(
 ) {
   await RNFishjamClientModule.updatePeerMetadata(metadata);
 }
-
-/**
- * a function that updates video metadata on the server.
- * @param metadata a map string -> any containing video track metadata to be sent to the server
- */
-export async function updateVideoTrackMetadata<
-  VideoTrackMetadataType extends Metadata,
->(metadata: VideoTrackMetadataType) {
-  await RNFishjamClientModule.updateVideoTrackMetadata(metadata);
-}

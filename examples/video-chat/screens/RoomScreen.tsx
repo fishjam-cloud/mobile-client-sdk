@@ -22,7 +22,6 @@ import {
   useForegroundService,
 } from '../hooks/useForegroundService';
 import { usePreventBackButton } from '../hooks/usePreventBackButton';
-import { useToggleCamera } from '../hooks/useToggleCamera';
 import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parsePeersToTracks } from '../components/VideosGrid';
@@ -42,8 +41,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
   usePreventBackButton();
   const audioSettings = useAudioSettings();
 
-  const { isCameraOn, flipCamera } = useCamera();
-  const { toggleCamera } = useToggleCamera();
+  const { isCameraOn, flipCamera, toggleCamera } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   useForegroundService();
