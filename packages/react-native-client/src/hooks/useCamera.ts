@@ -34,7 +34,7 @@ export type VideoQuality =
   | 'HD43'
   | 'FHD43';
 
-export type CameraConfig = {
+type CameraConfigBase = {
   /**
    * resolution + aspect ratio of local video track, one of: `QVGA_169`, `VGA_169`, `QHD_169`, `HD_169`,
    * `FHD_169`, `QVGA_43`, `VGA_43`, `QHD_43`, `HD_43`, `FHD_43`. Note that quality might be worse than
@@ -46,19 +46,10 @@ export type CameraConfig = {
    * whether to flip the dimensions of the video, that is whether to film in vertical orientation.
    * @default `true`
    */
-  flipVideo?: boolean;
-  /**
-   *  SimulcastConfig of a video track. By default simulcast is disabled.
-   */
-  simulcastEnabled?: boolean;
-  /**
-   *  bandwidth limit of a video track. By default there is no bandwidth limit.
-   */
-  maxBandwidth?: TrackBandwidthLimit;
-  /**
+  flipVideo?: boolean /**
    * whether the camera track is initially enabled, you can toggle it on/off later with toggleCamera method
    * @default `true`
-   */
+   */;
   cameraEnabled?: boolean;
   /**
    * id of the camera to start capture with. Get available cameras with `getCaptureDevices()`.
@@ -68,19 +59,18 @@ export type CameraConfig = {
   captureDeviceId?: string;
 };
 
-export type CameraConfigInternal = {
+export type CameraConfig = CameraConfigBase & {
   /**
-   * resolution + aspect ratio of local video track, one of: `QVGA_169`, `VGA_169`, `QHD_169`, `HD_169`,
-   * `FHD_169`, `QVGA_43`, `VGA_43`, `QHD_43`, `HD_43`, `FHD_43`. Note that quality might be worse than
-   * specified due to device capabilities, internet connection etc.
-   * @default `VGA_169`
+   *  SimulcastConfig of a video track. By default simulcast is disabled.
    */
-  quality?: VideoQuality;
+  simulcastEnabled?: boolean;
   /**
-   * whether to flip the dimensions of the video, that is whether to film in vertical orientation.
-   * @default `true`
+   *  bandwidth limit of a video track. By default there is no bandwidth limit.
    */
-  flipVideo?: boolean;
+  maxBandwidth?: TrackBandwidthLimit;
+};
+
+export type CameraConfigInternal = CameraConfigBase & {
   /**
    * a map `string -> any` containing video track metadata to be sent to the server.
    */
@@ -89,26 +79,14 @@ export type CameraConfigInternal = {
    *  SimulcastConfig of a video track. By default simulcast is disabled.
    */
   simulcastConfig?: SimulcastConfig;
-
-  /**
-   * whether the camera track is initially enabled, you can toggle it on/off later with toggleCamera method
-   * @default `true`
-   */
-  cameraEnabled?: boolean;
-  /**
-   * id of the camera to start capture with. Get available cameras with `getCaptureDevices()`.
-   * You can switch the cameras later with `flipCamera`/`switchCamera` functions.
-   * @default the first front camera
-   */
-  captureDeviceId?: string;
   /**
    *  bandwidth limit of a video track. By default there is no bandwidth limit.
    */
   maxBandwidth?: TrackBandwidthLimit;
 } & (
-  | { maxBandwidthInt?: BandwidthLimit }
-  | { maxBandwidthMap?: SimulcastBandwidthLimit }
-);
+    | { maxBandwidthInt?: BandwidthLimit }
+    | { maxBandwidthMap?: SimulcastBandwidthLimit }
+  );
 
 const defaultSimulcastConfig = () => ({
   enabled: false,
