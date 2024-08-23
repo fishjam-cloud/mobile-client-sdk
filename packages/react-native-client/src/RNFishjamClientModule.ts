@@ -29,12 +29,8 @@ type RNFishjamClient = {
     screencastOptions: Partial<ScreencastOptions<MetadataType>>,
   ) => Promise<void>;
   isScreencastOn: boolean;
-  getPeers: <
-    PeerMetadataType extends Metadata,
-    VideoTrackMetadataType extends Metadata,
-    AudioTrackMetadataType extends Metadata,
-  >() => Promise<
-    Peer<PeerMetadataType, VideoTrackMetadataType, AudioTrackMetadataType>[]
+  getPeers: <PeerMetadataType extends Metadata>() => Promise<
+    Peer<PeerMetadataType>[]
   >;
   updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
