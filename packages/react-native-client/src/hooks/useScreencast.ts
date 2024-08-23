@@ -88,19 +88,6 @@ export function useScreencast() {
   );
 
   /**
-   * a function that updates screencast track metadata on the server
-   * @param metadata a map `string -> any` containing screencast track metadata to be sent to the server
-   */
-  const updateScreencastTrackMetadata = useCallback(
-    async <ScreencastMetadataType extends Metadata>(
-      metadata: ScreencastMetadataType,
-    ) => {
-      await RNFishjamClientModule.updateScreencastTrackMetadata(metadata);
-    },
-    [],
-  );
-
-  /**
    * Toggles simulcast encoding of a screencast track on/off
    * @param encoding encoding to toggle
    */
@@ -152,7 +139,6 @@ export function useScreencast() {
   return {
     isScreencastOn,
     toggleScreencast,
-    updateScreencastTrackMetadata,
     toggleScreencastTrackEncoding,
     simulcastConfig,
     setScreencastTrackEncodingBandwidth,
