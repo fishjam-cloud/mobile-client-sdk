@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {
-  Metadata,
-  SimulcastConfig,
-  TrackEncoding,
-  TrackMetadata,
-} from '../types';
+import { Metadata, TrackEncoding } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
 
@@ -19,19 +14,26 @@ export type TrackType = 'Audio' | 'Video';
  */
 export type VadStatus = 'silence' | 'speech';
 
-export type Track = {
+type TrackBase = {
   id: string;
   type: TrackType;
-  metadata: TrackMetadata;
-  vadStatus: VadStatus;
+  isActive: boolean;
+};
+
+export type AudioTrack = TrackBase & {
+  type: 'Audio';
+  vadStatus: VadStatus | undefined;
+};
+
+export type VideoTrack = TrackBase & {
+  type: 'Video';
   // Encoding that is currently received. Only present for remote tracks.
   encoding: TrackEncoding | null;
-  // Information about simulcast, if null simulcast is not enabled
-  simulcastConfig: SimulcastConfig | null;
   // The reason of currently selected encoding. Only present for remote tracks.
   encodingReason: EncodingReason | null;
 };
 
+export type Track = VideoTrack | AudioTrack;
 /**
  * Type describing possible reasons of currently selected encoding.
  *

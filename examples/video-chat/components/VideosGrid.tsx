@@ -33,8 +33,8 @@ export function parsePeersToTracks(peers: Peer<Metadata>[]): GridTrack[] {
           userName: peer.metadata?.name,
         }))
         .filter(
-          (track) =>
-            track.metadata.type !== 'audio' && (track.metadata.active ?? true),
+          // @ts-expect-error fix before merge
+          (track) => track.type === 'Video' && (track.metadata.active ?? true),
         ),
     );
 }
