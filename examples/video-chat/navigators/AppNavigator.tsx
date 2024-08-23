@@ -33,9 +33,8 @@ export type TabParamList = {
 
 const tabBarIcon =
   (icon: keyof typeof MaterialCommunityIcons.glyphMap) =>
-  ({ color }: { color: string }) => (
-    <MaterialCommunityIcons name={icon} size={24} color={color} />
-  );
+  ({ color }: { color: string }) =>
+    <MaterialCommunityIcons name={icon} size={24} color={color} />;
 
 export type AppStackNavigation = NavigationProp<AppRootStackParamList>;
 
