@@ -35,8 +35,7 @@ export function parsePeersToTracks(
           userName: peer.metadata?.name,
         }))
         .filter(
-          (track) =>
-            track.metadata.type !== 'audio' && (track.metadata.active ?? true),
+          (track) => track.type === 'Video' && (track.metadata.active ?? true),
         ),
     );
 }
