@@ -64,7 +64,7 @@ type CameraConfigBase = {
 
 export type CameraConfig = CameraConfigBase & {
   /**
-   *  SimulcastConfig of a video track. By default simulcast is disabled.
+   *  whether video track uses simulcast. By default simulcast is disabled.
    */
   simulcastEnabled?: boolean;
   /**
