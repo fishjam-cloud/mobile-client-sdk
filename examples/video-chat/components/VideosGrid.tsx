@@ -32,10 +32,7 @@ export function parsePeersToTracks(peers: Peer<Metadata>[]): GridTrack[] {
           isLocal: peer.isLocal,
           userName: peer.metadata?.name,
         }))
-        .filter(
-          // @ts-expect-error fix before merge
-          (track) => track.type === 'Video' && (track.metadata.active ?? true),
-        ),
+        .filter((track) => track.type === 'Video' && track.isActive),
     );
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Metadata, TrackEncoding } from '../types';
+import { Metadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
 
@@ -66,6 +66,18 @@ export type Peer<MetadataType extends Metadata> = {
   tracks: Track[];
 };
 
+function addIsActiveToTracks<MetadataType extends Metadata>(
+  peers: ReadonlyArray<Peer<MetadataType>>,
+): Peer<MetadataType>[] {
+  return peers.map((peer) => ({
+    ...peer,
+    tracks: peer.tracks.map((track) => ({
+      ...track,
+      isActive:
+        (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
+    })),
+  }));
+}
 /**
  * This hook provides live updates of room peers.
  * @returns An array of room peers.
@@ -76,13 +88,13 @@ export function usePeers<MetadataType extends Metadata>() {
   useEffect(() => {
     async function updatePeers() {
       const peers = await RNFishjamClientModule.getPeers<MetadataType>();
-      setPeers(peers);
+      setPeers(addIsActiveToTracks(peers));
     }
 
     const eventListener = eventEmitter.addListener<
       PeersUpdateEvent<MetadataType>
     >(ReceivableEvents.PeersUpdate, (event) => {
-      setPeers(event.PeersUpdate);
+      setPeers(addIsActiveToTracks(event.PeersUpdate));
     });
 
     updatePeers();
