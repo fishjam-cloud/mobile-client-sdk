@@ -5,6 +5,7 @@ import {
   BandwidthLimit,
   Brand,
   Metadata,
+  SimulcastBandwidthLimit,
   SimulcastConfig,
   TrackBandwidthLimit,
   TrackEncoding,
@@ -35,7 +36,7 @@ export type VideoQuality =
   | 'HD43'
   | 'FHD43';
 
-export type CameraConfig<MetadataType extends Metadata> = {
+type CameraConfigBase = {
   /**
    * resolution + aspect ratio of local video track, one of: `QVGA_169`, `VGA_169`, `QHD_169`, `HD_169`,
    * `FHD_169`, `QVGA_43`, `VGA_43`, `QHD_43`, `HD_43`, `FHD_43`. Note that quality might be worse than
@@ -49,18 +50,6 @@ export type CameraConfig<MetadataType extends Metadata> = {
    */
   flipVideo?: boolean;
   /**
-   * a map `string -> any` containing video track metadata to be sent to the server.
-   */
-  videoTrackMetadata?: MetadataType;
-  /**
-   *  SimulcastConfig of a video track. By default simulcast is disabled.
-   */
-  simulcastConfig?: SimulcastConfig;
-  /**
-   *  bandwidth limit of a video track. By default there is no bandwidth limit.
-   */
-  maxBandwidth?: TrackBandwidthLimit;
-  /**
    * whether the camera track is initially enabled, you can toggle it on/off later with toggleCamera method
    * @default `true`
    */
@@ -73,14 +62,82 @@ export type CameraConfig<MetadataType extends Metadata> = {
   captureDeviceId?: CaptureDeviceId;
 };
 
-type StartCameraConfig = <CameraConfigMetadataType extends Metadata>(
-  config?: Readonly<CameraConfig<CameraConfigMetadataType>>,
-) => Promise<void>;
+export type CameraConfig = CameraConfigBase & {
+  /**
+   *  whether video track uses simulcast. By default simulcast is disabled.
+   */
+  simulcastEnabled?: boolean;
+  /**
+   *  bandwidth limit of a video track. By default there is no bandwidth limit.
+   */
+  maxBandwidth?: TrackBandwidthLimit;
+};
+
+export type CameraConfigInternal = CameraConfigBase & {
+  /**
+   * a map `string -> any` containing video track metadata to be sent to the server.
+   */
+  videoTrackMetadata?: Metadata;
+  /**
+   *  SimulcastConfig of a video track. By default simulcast is disabled.
+   */
+  simulcastConfig?: SimulcastConfig;
+  /**
+   *  bandwidth limit of a video track. By default there is no bandwidth limit.
+   */
+  maxBandwidth?: TrackBandwidthLimit;
+} & (
+    | { maxBandwidthInt?: BandwidthLimit }
+    | { maxBandwidthMap?: SimulcastBandwidthLimit }
+  );
 
 const defaultSimulcastConfig = () => ({
   enabled: false,
   activeEncodings: [],
 });
+
+function maxBandwidthConfig(maxBandwidth: TrackBandwidthLimit | undefined) {
+  if (Platform.OS === 'android') {
+    if (typeof maxBandwidth === 'object') {
+      return {
+        maxBandwidth: undefined,
+        maxBandwidthMap: maxBandwidth,
+      };
+    } else {
+      return {
+        maxBandwidth: undefined,
+        maxBandwidthInt: maxBandwidth,
+      };
+    }
+  }
+  return { maxBandwidth };
+}
+
+function simulcastConfig(
+  simulcastEnabled: boolean | undefined,
+): SimulcastConfig | undefined {
+  // iOS has a limit of 3 hardware encoders
+  // 3 simulcast layers + 1 screencast layer = 4, which is too much
+  // so we limit simulcast layers to 2
+  if (simulcastEnabled) {
+    return Platform.select<SimulcastConfig>({
+      ios: { enabled: true, activeEncodings: ['l', 'h'] },
+      android: { enabled: true, activeEncodings: ['l', 'm', 'h'] },
+    });
+  }
+  return undefined;
+}
+
+export function updateCameraConfig(
+  config: Readonly<CameraConfig>,
+): CameraConfigInternal {
+  return {
+    ...config,
+    ...maxBandwidthConfig(config.maxBandwidth),
+    videoTrackMetadata: { active: true, type: 'camera' },
+    simulcastConfig: simulcastConfig(config.simulcastEnabled),
+  };
+}
 
 /**
  * This hook can toggle camera on/off and provides current camera state.
@@ -144,6 +201,10 @@ export function useCamera() {
    */
   const toggleCamera = useCallback(async () => {
     const state = await RNFishjamClientModule.toggleCamera();
+    await RNFishjamClientModule.updateVideoTrackMetadata({
+      active: state,
+      type: 'camera',
+    });
     setIsCameraOn(state);
   }, []);
 
@@ -153,26 +214,13 @@ export function useCamera() {
    * @returns A promise that resolves when camera is started.
    */
 
-  const startCamera = useCallback<StartCameraConfig>(async (config = {}) => {
-    // expo-modules on Android don't support Either type, so we workaround it
-    if (Platform.OS === 'android') {
-      if (typeof config.maxBandwidth === 'object') {
-        await RNFishjamClientModule.startCamera({
-          ...config,
-          maxBandwidth: undefined,
-          maxBandwidthMap: config.maxBandwidth,
-        });
-      } else {
-        await RNFishjamClientModule.startCamera({
-          ...config,
-          maxBandwidth: undefined,
-          maxBandwidthInt: config.maxBandwidth,
-        });
-      }
-    } else {
-      await RNFishjamClientModule.startCamera(config);
-    }
-  }, []);
+  const startCamera = useCallback(
+    async (config: Readonly<CameraConfig> = {}) => {
+      const updatedConfig = updateCameraConfig(config);
+      await RNFishjamClientModule.startCamera(updatedConfig);
+    },
+    [],
+  );
 
   /**
    * Function that toggles between front and back camera. By default the front camera is used.
