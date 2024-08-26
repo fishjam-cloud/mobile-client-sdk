@@ -37,10 +37,7 @@ export { useScreencast } from './hooks/useScreencast';
 export type { ReconnectionStatus } from './hooks/useReconnection';
 export { useReconnection } from './hooks/useReconnection';
 
-export {
-  updatePeerMetadata,
-  updateVideoTrackMetadata,
-} from './common/metadata';
+export { updatePeerMetadata } from './common/metadata';
 
 export type { LoggingSeverity } from './common/webRTC';
 export {
