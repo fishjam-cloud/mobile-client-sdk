@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 import {
   BandwidthLimit,
-  Metadata,
   SimulcastConfig,
   TrackBandwidthLimit,
   TrackEncoding,
@@ -55,9 +54,11 @@ export function useScreencast() {
   const [isScreencastOn, setIsScreencastOn] = useState<boolean>(
     RNFishjamClientModule.isScreencastOn,
   );
+
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     screencastSimulcastConfig,
   );
+
   useEffect(() => {
     const eventListener = eventEmitter.addListener<IsScreencastOnEvent>(
       ReceivableEvents.IsScreencastOn,
