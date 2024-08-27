@@ -57,7 +57,7 @@ typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
     public func definition() -> ModuleDefinition {
-        Name("RNFishjamClient")
+        Name("RNFishjamClient") 
 
         Events(
             "IsCameraOn",
@@ -70,10 +70,14 @@ public class RNFishjamClientModule: Module {
             "BandwidthEstimation"
         )
 
-        let rnFishjamClient: RNFishjamClient = RNFishjamClient {
-            (eventName: String, data: [String: Any]) in
-            self.sendEvent(eventName, data)
-        }
+        lazy var rnFishjamClient: RNFishjamClient = {
+            let client = RNFishjamClient {
+                (eventName: String, data: [String: Any]) in
+                self.sendEvent(eventName, data)
+            }
+            client.create()
+            return client
+        }()
 
         AsyncFunction("connect") { (url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) in
             rnFishjamClient.create()

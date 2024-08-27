@@ -20,8 +20,6 @@ internal class Command {
     }
 
     func execute() {
-        DispatchQueue.main.async {
-            self.workItem.perform()
-        }
+        DispatchQueue.main.async(execute: workItem)
     }
 }

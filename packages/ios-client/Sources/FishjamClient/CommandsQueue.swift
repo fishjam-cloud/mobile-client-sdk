@@ -16,7 +16,7 @@ internal class CommandsQueue {
     func finishCommand() {
         guard !(commandsQueue.isEmpty) else { return }
         let command = commandsQueue.first
-        command?.workItem.wait()
+//        command?.workItem.wait()
         commandsQueue.removeFirst()
         if let nextState = command?.clientStateAfterCommand {
             clientState = nextState

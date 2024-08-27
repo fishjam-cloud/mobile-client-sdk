@@ -27,6 +27,8 @@ class RNFishjamClient: FishjamClientListener {
     var errorMessage: String?
 
     let sendEvent: (_ eventName: String, _ data: [String: Any]) -> Void
+    
+    static var onTracksUpdateListeners: [OnTrackUpdateListener] = []
 
     init(sendEvent: @escaping (_ eventName: String, _ data: [String: Any]) -> Void) {
         self.sendEvent = sendEvent
@@ -198,8 +200,11 @@ class RNFishjamClient: FishjamClientListener {
     
     func startCamera(config: CameraConfig) throws {
         try ensureCreated()
+        print("File: \(#file) Function: \(#function), Line: \(#line)")
         let cameraTrack = try createCameraTrack(config: config)
+        print("File: \(#file) Function: \(#function), Line: \(#line)")
         setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
+        print("File: \(#file) Function: \(#function), Line: \(#line)")
         emitEndpoints()
     }
     
@@ -207,6 +212,7 @@ class RNFishjamClient: FishjamClientListener {
         try ensureCreated()
         let videoParameters = try getVideoParametersFromOptions(connectionOptions: config)
         videoSimulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: config.simulcastConfig)
+        print("File: \(#file) Function: \(#function), Line: \(#line)")
         return RNFishjamClient.fishjamClient!.createVideoTrack(
             videoParameters: videoParameters,
             metadata: config.videoTrackMetadata.toMetadata(),
@@ -384,7 +390,7 @@ class RNFishjamClient: FishjamClientListener {
                             "type": "Video",
                             "metadata": track.metadata,
                             "encoding": track.encoding?.description,
-                            "encodingReason": track.encodingReason?.rawValue
+                            "encodingReason": track.encodingReason?.rawValue,
                         ]
 
                     case let track as RemoteAudioTrack:
@@ -399,7 +405,7 @@ class RNFishjamClient: FishjamClientListener {
                         return [
                             "id": track.id,
                             "type": "Video",
-                            "metadata": track.metadata
+                            "metadata": track.metadata,
                         ]
 
                     case let track as LocalScreencastTrack:
@@ -657,16 +663,20 @@ class RNFishjamClient: FishjamClientListener {
     }
     
     private func addOrUpdateTrack(_ track: Track) {
-        if let remoteAudioTrack = track as? RemoteAudioTrack{
+        if track is RemoteAudioTrack{
             (track as! RemoteAudioTrack).setVadChangedListener{ track in
                 self.emitEndpoints()
             }
         }
         
-        if let remoteVideoTrack = track as? RemoteVideoTrack{
+        if track is RemoteVideoTrack{
             (track as! RemoteVideoTrack).setOnEncodingChangedListener{ track in
                 self.emitEndpoints()
             }
+        }
+        
+        RNFishjamClient.onTracksUpdateListeners.forEach{
+            $0.onTrackUpdate()
         }
         
         emitEndpoints()

@@ -67,7 +67,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     /// Sets up the local peer connection with previously prepared config and local media tracks.
     private func setupPeerConnection(localTracks: [Track]) {
         guard let config = self.config else {
-
+            fatalError("Config is nil")
         }
         config.sdpSemantics = .unifiedPlan
         config.continualGatheringPolicy = .gatherContinually
@@ -92,7 +92,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         peerConnection.delegate = self
 
         localTracks.forEach { track in
-            addTrack(track: track, streamsId: [localStreamId])
+            addTrack(track: track, streamsId: streamIds)
         }
 
         peerConnection.enforceSendOnlyDirection()
@@ -545,7 +545,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         let track = transceiver.receiver.track
 
-        peerConnectionListener.onAddTrack(trackId: trackId, track: track!)
+        listeners.forEach{$0.onAddTrack(trackId: trackId, webrtcTrack: track!)}
 
         sdkLogger.debug(
             "\(pcLogPrefix) started receiving on a transceiver with a mid: \(transceiver.mid) and id \(transceiver.receiver.track?.trackId ?? "")"
@@ -590,7 +590,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         sdkLogger.debug("\(pcLogPrefix) new connection state: \(descriptions[newState] ?? "unknown")")
 
-        peerConnectionListener.onPeerConnectionStateChange(newState: newState)
     }
 
     public func peerConnection(_: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
@@ -605,7 +604,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     public func peerConnection(_: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-        peerConnectionListener.onLocalIceCandidate(candidate: candidate)
+        listeners.forEach{$0.onLocalIceCandidate(candidate: candidate)}
     }
 
     public func peerConnection(_: RTCPeerConnection, didRemove _: [RTCIceCandidate]) {

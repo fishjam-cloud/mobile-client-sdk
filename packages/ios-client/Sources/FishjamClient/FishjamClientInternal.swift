@@ -122,18 +122,23 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             mediaTrack: webrtcTrack, endpointId: localEndpoint.id, videoParameters: videoParameters,
             capturer: videoCapturer)
         videoTrack.start()
+        print("File: \(#file) Function: \(#function), Line: \(#line)")
         let workItem = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                 self.localEndpoint = self.localEndpoint.addOrReplaceTrack(videoTrack)
                 self.peerConnectionManager.addTrack(track: videoTrack)
                 if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                     self.rtcEngineCommunication.renegotiateTracks()
+                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                 } else {
+                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
+                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                 }
             })
-
-        workItem.wait()
+        print("File: \(#file) Function: \(#function), Line: \(#line)")
+//        workItem.wait()
         return videoTrack
     }
 
@@ -154,7 +159,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 }
             })
 
-        workItem.wait()
+//        workItem.wait()
         return audioTrack
     }
 
@@ -183,7 +188,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                             onStart(track)
                         }
                     })
-                workItem?.wait()
+//                workItem?.wait()
             },
             onStop: { [weak self, weak track] in
                 guard let track = track else {
@@ -215,7 +220,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
             })
 
-        workItem.wait()
+//        workItem.wait()
     }
 
     func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String?]) {
@@ -474,7 +479,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             return
         }
 
-        guard let encodingEnum = TrackEncoding.fromString(encoding) else {
+        guard let encodingEnum = try? TrackEncoding.fromString(encoding) else {
             sdkLogger.error("Invalid encoding in onTrackEncodingChanged: \(encoding)")
             return
         }
@@ -483,7 +488,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func onVadNotification(trackId: String, status: String) {
-        guard var track = getTrack(trackId: trackId) else {
+        guard let track = getTrack(trackId: trackId) else {
             sdkLogger.error("Invalid trackId in onVadNotification: \(trackId)")
             return
         }

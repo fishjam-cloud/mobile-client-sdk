@@ -26,8 +26,9 @@ public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCaptur
         self.videoParameters = videoParameters
         self.delegate = delegate
         self.capturer = ScreenBroadcastCapturer(mediaSource, appGroup: appGroup, videoParameters: videoParameters)
-        capturer.capturerDelegate = self
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
+        capturer.capturerDelegate = self
+
     }
 
     func start() {
