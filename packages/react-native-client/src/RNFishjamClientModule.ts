@@ -5,7 +5,7 @@ import type { RTCStats } from './stats/types';
 import type { Metadata, SimulcastConfig } from './types';
 import type { CameraConfigInternal, CaptureDevice } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
-import type { ScreencastOptions } from './hooks/useScreencast';
+import type { ScreencastOptionsInternal } from './hooks/useScreencast';
 import type { ConnectionConfig } from './common/client';
 
 type RNFishjamClient = {
@@ -25,8 +25,8 @@ type RNFishjamClient = {
   switchCamera: (captureDeviceId: string) => Promise<void>;
   getCaptureDevices: () => Promise<CaptureDevice[]>;
   handleScreencastPermission: () => Promise<'granted' | 'denied'>;
-  toggleScreencast: <MetadataType extends Metadata>(
-    screencastOptions: Partial<ScreencastOptions<MetadataType>>,
+  toggleScreencast: (
+    screencastOptions: Partial<ScreencastOptionsInternal>,
   ) => Promise<void>;
   isScreencastOn: boolean;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<

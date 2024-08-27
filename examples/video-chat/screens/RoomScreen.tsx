@@ -66,11 +66,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
       await displayScreencastNotification();
     }
     await toggleScreencast({
-      screencastMetadata: {
-        displayName: 'presenting',
-        type: 'screensharing',
-        active: !isScreencastOn,
-      },
       quality: 'HD15',
     });
   }, [isScreencastOn, toggleScreencast, handleScreencastPermission]);
