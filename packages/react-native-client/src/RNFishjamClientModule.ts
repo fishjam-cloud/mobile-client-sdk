@@ -4,7 +4,7 @@ import { NativeModule } from 'react-native';
 import type { RTCStats } from './stats/types';
 import type { Metadata, SimulcastConfig } from './types';
 import type { CameraConfigInternal, CaptureDevice } from './hooks/useCamera';
-import type { Peer } from './hooks/useParticipiants';
+import type { Participiant } from './hooks/useParticipiants';
 import type { ScreencastOptionsInternal } from './hooks/useScreencast';
 import type { ConnectionConfig } from './common/client';
 
@@ -30,7 +30,7 @@ type RNFishjamClient = {
   ) => Promise<void>;
   isScreencastOn: boolean;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<
-    Peer<PeerMetadataType>[]
+    Participiant<PeerMetadataType>[]
   >;
   updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,

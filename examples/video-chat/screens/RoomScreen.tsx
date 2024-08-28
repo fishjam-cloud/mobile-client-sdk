@@ -1,6 +1,6 @@
 import {
   leaveRoom,
-  usePeers,
+  useParticipiants,
   useScreencast,
   useCamera,
   useMicrophone,
@@ -24,7 +24,7 @@ import {
 import { usePreventBackButton } from '../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
-import { parsePeersToTracks } from '../components/VideosGrid';
+import { parseParticipiantsToTracks } from '../components/VideosGrid';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -46,9 +46,12 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   useForegroundService();
 
-  const { peers } = usePeers();
+  const { participiants } = useParticipiants();
 
-  const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
+  const tracks = useMemo(
+    () => parseParticipiantsToTracks(participiants),
+    [participiants],
+  );
 
   const { toggleScreencast, isScreencastOn, handleScreencastPermission } =
     useScreencast();
