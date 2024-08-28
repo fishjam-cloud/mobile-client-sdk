@@ -1,7 +1,7 @@
 import Foundation
+import Promises
 import Starscream
 import WebRTC
-import Promises
 
 internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener, RTCEngineListener {
     private var config: ConnectionConfig?
@@ -133,9 +133,9 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
                 }
             })
-        do{
+        do {
             try awaitPromise(promise)
-        }catch{
+        } catch {
 
         }
         return videoTrack
@@ -158,9 +158,9 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 }
             })
 
-        do{
+        do {
             try awaitPromise(promise)
-        }catch{
+        } catch {
 
         }
         return audioTrack
@@ -168,7 +168,8 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
     public func createScreencastTrack(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreencastTrack) -> Void, onStop: @escaping (_ track: LocalScreencastTrack) -> Void
+        onStart: @escaping (_ track: LocalScreencastTrack) -> Void,
+        onStop: @escaping (_ track: LocalScreencastTrack) -> Void
     ) -> LocalScreencastTrack {
         let videoSource = peerConnectionFactoryWrapper.createScreencastVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
@@ -191,11 +192,11 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                             onStart(track)
                         }
                     })
-                do{
-                    if let promise = promise{
+                do {
+                    if let promise = promise {
                         try awaitPromise(promise)
                     }
-                }catch{
+                } catch {
 
                 }
             },
@@ -229,9 +230,9 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
             })
 
-        do{
+        do {
             try awaitPromise(promise)
-        }catch{
+        } catch {
 
         }
     }

@@ -17,18 +17,17 @@ public class RemoteAudioTrack: Track {
         get { return _vadStatus }
         set {
             _vadStatus = newValue
-            do{
+            do {
                 try vadChangedListener?(self)
-            }catch let error{
+            } catch let error {
                 sdkLogger.error("VAD changed listener throwed error: \(error.localizedDescription)")
             }
         }
     }
 
-    
     public func setVadChangedListener(listener: ((_ track: Track) throws -> Void)?) {
         vadChangedListener = listener
-        }
+    }
 
     internal var audioTrack: RTCAudioTrack {
         return self.mediaTrack as! RTCAudioTrack

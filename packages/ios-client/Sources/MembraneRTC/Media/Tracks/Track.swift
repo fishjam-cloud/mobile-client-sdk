@@ -45,7 +45,7 @@ open class Track: Equatable {
             mediaTrack?.isEnabled = newValue
         }
     }
-    
+
     public static func == (lhs: Track, rhs: Track) -> Bool {
         return lhs.id == rhs.id
     }

@@ -545,7 +545,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         let track = transceiver.receiver.track
 
-        listeners.forEach{$0.onAddTrack(trackId: trackId, webrtcTrack: track!)}
+        listeners.forEach { $0.onAddTrack(trackId: trackId, webrtcTrack: track!) }
 
         sdkLogger.debug(
             "\(pcLogPrefix) started receiving on a transceiver with a mid: \(transceiver.mid) and id \(transceiver.receiver.track?.trackId ?? "")"
@@ -604,7 +604,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     public func peerConnection(_: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
-        listeners.forEach{$0.onLocalIceCandidate(candidate: candidate)}
+        listeners.forEach { $0.onLocalIceCandidate(candidate: candidate) }
     }
 
     public func peerConnection(_: RTCPeerConnection, didRemove _: [RTCIceCandidate]) {

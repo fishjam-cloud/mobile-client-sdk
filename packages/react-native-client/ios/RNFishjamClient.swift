@@ -43,8 +43,8 @@ class RNFishjamClient: FishjamClientListener {
     private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) throws -> SimulcastConfig {
         var activeEncodings: [TrackEncoding] = []
 
-        for encoding in simulcastConfig.activeEncodings{
-            if let fishjamEncoding = try? TrackEncoding.fromString(encoding){
+        for encoding in simulcastConfig.activeEncodings {
+            if let fishjamEncoding = try? TrackEncoding.fromString(encoding) {
                 activeEncodings.append(fishjamEncoding)
             }
         }
@@ -109,18 +109,21 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func getLocalVideoTrack() -> LocalVideoTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalVideoTrack }?.value as? LocalVideoTrack
+        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalVideoTrack }?.value
+            as? LocalVideoTrack
     }
 
     private func getLocalAudioTrack() -> LocalAudioTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalAudioTrack }?.value as? LocalAudioTrack
+        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalAudioTrack }?.value
+            as? LocalAudioTrack
     }
 
     private func getLocalScreencastTrack() -> LocalScreencastTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalScreencastTrack }?.value as? LocalScreencastTrack
+        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalScreencastTrack }?
+            .value as? LocalScreencastTrack
     }
 
-    private func ensureCreated() throws{
+    private func ensureCreated() throws {
         if RNFishjamClient.fishjamClient == nil {
             throw Exception(
                 name: "E_NOT_CREATED",
@@ -243,12 +246,13 @@ class RNFishjamClient: FishjamClientListener {
     func startMicrophone(config: MicrophoneConfig) throws {
         try ensureCreated()
         try ensureConnected()
-        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(metadata: config.audioTrackMetadata.toMetadata())
+        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
+            metadata: config.audioTrackMetadata.toMetadata())
         setAudioSessionMode()
         setMicrophoneTrackState(microphoneTrack, enabled: config.microphoneEnabled)
     }
 
-    private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool){
+    private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) {
         microphoneTrack.enabled = enabled
         isMicrophoneOn = enabled
         let eventName = EmitableEvents.IsMicrophoneOn
@@ -354,7 +358,7 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    private func setScreencastTrackState(_ screencastTrack: LocalScreencastTrack , enabled: Bool) throws {
+    private func setScreencastTrackState(_ screencastTrack: LocalScreencastTrack, enabled: Bool) throws {
         //was not present before, test and maybe delete?
         screencastTrack.enabled = enabled
         isScreencastOn = enabled
@@ -372,13 +376,13 @@ class RNFishjamClient: FishjamClientListener {
 
     func getEndpoints() throws -> [[String: Any?]] {
         let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
-        return endpoints.compactMap{ endpoint in
+        return endpoints.compactMap { endpoint in
             [
                 "id": endpoint.id,
                 "isLocal": endpoint.id == RNFishjamClient.fishjamClient!.getLocalEndpoint().id,
                 "type": endpoint.type,
                 "metadata": endpoint.metadata,
-                "tracks": endpoint.tracks.values.compactMap {track -> [String: Any?]? in
+                "tracks": endpoint.tracks.values.compactMap { track -> [String: Any?]? in
                     switch track {
                     case let track as RemoteVideoTrack:
                         return [
@@ -394,7 +398,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Audio",
                             "metadata": track.metadata,
-                            "vadStatus": track.vadStatus.rawValue
+                            "vadStatus": track.vadStatus.rawValue,
                         ]
 
                     case let track as LocalVideoTrack:
@@ -408,20 +412,20 @@ class RNFishjamClient: FishjamClientListener {
                         return [
                             "id": track.id,
                             "type": "Video",
-                            "metadata": track.metadata
+                            "metadata": track.metadata,
                         ]
 
                     case let track as LocalAudioTrack:
                         return [
                             "id": track.id,
                             "type": "Audio",
-                            "metadata": track.metadata
+                            "metadata": track.metadata,
                         ]
 
                     default:
                         return nil
                     }
-                }
+                },
             ]
         }
     }
@@ -448,37 +452,39 @@ class RNFishjamClient: FishjamClientListener {
         emitEndpoints()
     }
 
-    func updateLocalVideoTrackMetadata(metadata: [String:Any]) throws {
-      try ensureVideoTrack()
-        if let track = getLocalVideoTrack(){
+    func updateLocalVideoTrackMetadata(metadata: [String: Any]) throws {
+        try ensureVideoTrack()
+        if let track = getLocalVideoTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)
         }
     }
 
-    func updateLocalAudioTrackMetadata(metadata: [String:Any]) throws {
+    func updateLocalAudioTrackMetadata(metadata: [String: Any]) throws {
         try ensureAudioTrack()
-        if let track = getLocalAudioTrack(){
+        if let track = getLocalAudioTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)
         }
     }
 
-    func updateLocalScreencastTrackMetadata(metadata: [String:Any]) throws {
+    func updateLocalScreencastTrackMetadata(metadata: [String: Any]) throws {
         try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack(){
+        if let track = getLocalScreencastTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)
         }
     }
 
-    private func toggleTrackEncoding(encoding: String, trackId: String, simulcastConfig: SimulcastConfig) throws -> SimulcastConfig {
+    private func toggleTrackEncoding(encoding: String, trackId: String, simulcastConfig: SimulcastConfig) throws
+        -> SimulcastConfig
+    {
         try ensureCreated()
         let trackEncoding = try TrackEncoding.fromString(encoding)
         let trackEncodingActive = simulcastConfig.activeEncodings.contains(trackEncoding)
         var updatedEncodings = simulcastConfig.activeEncodings
 
-        if(trackEncodingActive){
+        if trackEncodingActive {
             RNFishjamClient.fishjamClient?.disableTrackEncoding(trackId: trackId, encoding: trackEncoding)
-            updatedEncodings.removeAll(where: {encoding in trackEncoding == encoding})
-        }else{
+            updatedEncodings.removeAll(where: { encoding in trackEncoding == encoding })
+        } else {
             RNFishjamClient.fishjamClient?.enableTrackEncoding(trackId: trackId, encoding: trackEncoding)
             updatedEncodings += [trackEncoding]
         }
@@ -489,22 +495,24 @@ class RNFishjamClient: FishjamClientListener {
     func toggleScreencastTrackEncoding(encoding: String) throws -> [String: Any] {
         try ensureScreencastTrack()
         if let track = getLocalScreencastTrack() {
-            screencastSimulcastConfig = try toggleTrackEncoding(encoding: encoding, trackId: track.id, simulcastConfig: screencastSimulcastConfig)
+            screencastSimulcastConfig = try toggleTrackEncoding(
+                encoding: encoding, trackId: track.id, simulcastConfig: screencastSimulcastConfig)
         }
         return getSimulcastConfigAsRNMap(screencastSimulcastConfig)
     }
 
     func setScreencastTrackBandwidth(bandwidth: Int) throws {
         try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack(){
+        if let track = getLocalScreencastTrack() {
             RNFishjamClient.fishjamClient?.setTrackBandwidth(trackId: track.id, bandwidthLimit: bandwidth)
         }
     }
 
     func setScreencastTrackEncodingBandwidth(encoding: String, bandwidth: Int) throws {
         try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack(){
-            RNFishjamClient.fishjamClient?.setEncodingBandwidth(trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
+        if let track = getLocalScreencastTrack() {
+            RNFishjamClient.fishjamClient?.setEncodingBandwidth(
+                trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
         }
     }
 
@@ -519,7 +527,8 @@ class RNFishjamClient: FishjamClientListener {
         try ensureConnected()
 
         let track = getLocalVideoTrack()!
-        videoSimulcastConfig = try toggleTrackEncoding(encoding: encoding, trackId: track.id, simulcastConfig: videoSimulcastConfig)
+        videoSimulcastConfig = try toggleTrackEncoding(
+            encoding: encoding, trackId: track.id, simulcastConfig: videoSimulcastConfig)
 
         let eventName = EmitableEvents.SimulcastConfigUpdate
         let simulcastConfigAsRNMap = getSimulcastConfigAsRNMap(videoSimulcastConfig)
@@ -531,7 +540,8 @@ class RNFishjamClient: FishjamClientListener {
     func setVideoTrackEncodingBandwidth(encoding: String, bandwidth: Int) throws {
         try ensureVideoTrack()
         let track = getLocalVideoTrack()!
-        RNFishjamClient.fishjamClient?.setEncodingBandwidth(trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
+        RNFishjamClient.fishjamClient?.setEncodingBandwidth(
+            trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
     }
 
     func setVideoTrackBandwidth(bandwidth: Int) throws {
@@ -598,14 +608,15 @@ class RNFishjamClient: FishjamClientListener {
         return res
     }
 
-    func getStatistics() throws -> [String: Any]{
+    func getStatistics() throws -> [String: Any] {
         try ensureCreated()
 
         let stats = RNFishjamClient.fishjamClient!.getStats()
-        let pairs = stats.map{ (key, value) in
-            let rnValue = value is RTCOutboundStats ?
-                rtcOutboundStatsToRNMap(obj: value as! RTCOutboundStats) :
-                rtcInboundStatsToRNMap(obj: value as! RTCInboundStats)
+        let pairs = stats.map { (key, value) in
+            let rnValue =
+                value is RTCOutboundStats
+                ? rtcOutboundStatsToRNMap(obj: value as! RTCOutboundStats)
+                : rtcInboundStatsToRNMap(obj: value as! RTCInboundStats)
             return (key, rnValue)
         }
 
@@ -646,7 +657,7 @@ class RNFishjamClient: FishjamClientListener {
         emitEvent(name: eventName, data: EndpointsUpdateMap)
     }
 
-    func onJoined(peerID: String, peersInRoom: [String : Endpoint]) {
+    func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {
         isConnected = true
         connectPromise?.resolve(nil)
         connectPromise = nil
@@ -659,19 +670,19 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func addOrUpdateTrack(_ track: Track) {
-        if track is RemoteAudioTrack{
-            (track as! RemoteAudioTrack).setVadChangedListener{ track in
+        if track is RemoteAudioTrack {
+            (track as! RemoteAudioTrack).setVadChangedListener { track in
                 self.emitEndpoints()
             }
         }
 
-        if track is RemoteVideoTrack{
-            (track as! RemoteVideoTrack).setOnEncodingChangedListener{ track in
+        if track is RemoteVideoTrack {
+            (track as! RemoteVideoTrack).setOnEncodingChangedListener { track in
                 self.emitEndpoints()
             }
         }
 
-        RNFishjamClient.onTracksUpdateListeners.forEach{
+        RNFishjamClient.onTracksUpdateListeners.forEach {
             $0.onTrackUpdate()
         }
 
@@ -704,7 +715,8 @@ class RNFishjamClient: FishjamClientListener {
 
     func onSocketClose(code: UInt16, reason: String) {
         if let connectPromise = connectPromise {
-            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
+            connectPromise.reject(
+                "E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
     }

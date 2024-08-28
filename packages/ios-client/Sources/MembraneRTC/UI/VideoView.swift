@@ -202,7 +202,7 @@ public class VideoView: UIView {
     }
 
     private static func createNativeRendererView(delegate: RTCVideoViewDelegate) -> RTCVideoRenderer {
-        DispatchQueue.webRTC.sync {
+        DispatchQueue.fishjam.sync {
             if isMetalAvailable() {
                 let mtlView = RTCMTLVideoView()
                 mtlView.contentMode = .scaleAspectFit

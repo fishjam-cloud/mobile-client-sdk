@@ -22,7 +22,7 @@ internal class Command {
     }
 
     func execute() {
-        DispatchQueue.webRTC.async{
+        DispatchQueue.fishjam.async {
             self.block()
             self.promise.fulfill(())
         }

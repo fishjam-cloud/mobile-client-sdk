@@ -128,6 +128,7 @@ public class FishjamClient {
     * @param onEnd callback that will be invoked once the screen capture ends
     * @return an instance of the screencast track
     */
+    @discardableResult
     public func createScreencastTrack(
         appGroup: String,
         videoParameters: VideoParameters,
@@ -255,8 +256,8 @@ public class FishjamClient {
     public func getLocalEndpoint() -> Endpoint {
         return client.localEndpoint
     }
-    
-    public func getRemoteEndpoints() -> [Endpoint]{
+
+    public func getRemoteEndpoints() -> [Endpoint] {
         return client.remoteEndpoints
     }
 }

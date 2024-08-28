@@ -17,18 +17,18 @@ public class RemoteVideoTrack: VideoTrack {
     internal func setEncoding(encoding: TrackEncoding, encodingReason: EncodingReason) {
         self.encoding = encoding
         self.encodingReason = encodingReason
-        do{
+        do {
             try onTrackEncodingChangedListener?(self)
-        }catch let error{
+        } catch let error {
             sdkLogger.error("Encoding changed listener throwed error: \(error.localizedDescription)")
         }
     }
-    
+
     public func setOnEncodingChangedListener(listener: ((_ track: Track) throws -> Void)?) {
         onTrackEncodingChangedListener = listener
-        do{
+        do {
             try onTrackEncodingChangedListener?(self)
-        }catch let error{
+        } catch let error {
             sdkLogger.error("Encoding changed listener throwed error: \(error.localizedDescription)")
         }
     }

@@ -17,17 +17,18 @@ class VideoPreviewView: ExpoView {
         if newWindow == nil {
             localVideoTrack?.stop()
         } else {
-            guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else{
+            guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else {
                 os_log(
                     "Error moving VideoPreviewView: %{public}s", log: log, type: .error,
                     String(describing: "No tracks available")
                 )
                 return
             }
-            
-            localVideoTrack = tracks.first(where: {(key, track) in
-                track is LocalVideoTrack
-            })?.value as? LocalVideoTrack
+
+            localVideoTrack =
+                tracks.first(where: { (key, track) in
+                    track is LocalVideoTrack
+                })?.value as? LocalVideoTrack
             localVideoTrack?.start()
             videoView?.track = localVideoTrack
         }

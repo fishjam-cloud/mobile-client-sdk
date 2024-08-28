@@ -35,7 +35,7 @@ public protocol FishjamClientListener {
      * @param metadata - Pass thru for client application to communicate further actions to frontend
      */
     func onJoinError(metadata: Any)
-    
+
     /**
      * Emitted when the connection is closed
      */

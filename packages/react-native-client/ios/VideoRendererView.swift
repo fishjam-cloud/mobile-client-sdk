@@ -2,7 +2,7 @@ import Combine
 import ExpoModulesCore
 import FishjamCloudClient
 
-protocol OnTrackUpdateListener{
+protocol OnTrackUpdateListener {
     func onTrackUpdate()
 }
 
@@ -19,10 +19,10 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
         addSubview(videoView!)
         updateVideoTrack()
     }
-    
-    deinit{
+
+    deinit {
         RNFishjamClient.onTracksUpdateListeners.removeAll(where: {
-            if let view = $0 as? VideoRendererView{
+            if let view = $0 as? VideoRendererView {
                 return view === self
             }
             return false
@@ -31,7 +31,7 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
 
     func updateVideoTrack() {
         DispatchQueue.main.async {
-            endpointLoop: for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints(){
+            endpointLoop: for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
                 for (id, track) in endpoint.tracks {
                     if let videoTrack = track as? VideoTrack, self.trackId == id {
                         self.videoView?.track = videoTrack
@@ -41,8 +41,8 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
             }
         }
     }
-    
-    func onTrackUpdate(){
+
+    func onTrackUpdate() {
         updateVideoTrack()
     }
 

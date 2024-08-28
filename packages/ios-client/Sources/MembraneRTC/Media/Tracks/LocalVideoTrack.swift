@@ -15,7 +15,7 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
         self.capturer = capturer
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
     }
-    
+
     internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in } {
         didSet {
             capturer.mirrorVideo = mirrorVideo
@@ -37,7 +37,7 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
     public func switchCamera(deviceId: String) {
         capturer.switchCamera(deviceId: deviceId)
     }
-    
+
     public static func getCaptureDevices() -> [AVCaptureDevice] {
         return RTCCameraVideoCapturer.captureDevices()
     }
