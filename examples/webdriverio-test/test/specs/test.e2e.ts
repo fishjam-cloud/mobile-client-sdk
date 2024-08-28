@@ -68,47 +68,50 @@ const createFishjamRoom = async () => {
     console.log(e);
   }
 };
-const addPeerToRoom = async (
+const addParticipiantToRoom = async (
   roomId: string,
   enableSimulcast: boolean = true,
 ) => {
-  const { addPeer } = RoomApiFp(config);
-  const addPeerRequest: AddPeerRequest = {
+  const { addPeer: addParticipiant } = RoomApiFp(config);
+  const addParticipiantRequest: AddPeerRequest = {
     type: 'webrtc',
     options: { enableSimulcast },
   };
-  const addPeerFunction = await addPeer(roomId, addPeerRequest);
+  const addParticipiantFunction = await addParticipiant(
+    roomId,
+    addParticipiantRequest,
+  );
   try {
-    const response = await addPeerFunction();
+    const response = await addParticipiantFunction();
     return response.data.data;
   } catch (e) {
     console.log(e);
   }
 };
 
-let peerDetail: PeerDetailsResponseData | undefined;
+let participiantDetail: PeerDetailsResponseData | undefined;
 let room: Room | undefined;
 
 const tests: Test[] = [
   {
-    name: 'create room and peer to obtain credentials',
+    name: 'create room and participiant to obtain credentials',
     run: async () => {
       room = await createFishjamRoom();
       assert.ok(room !== undefined);
-      peerDetail = await addPeerToRoom(room.id);
-      assert.ok(peerDetail !== undefined);
+      participiantDetail = await addParticipiantToRoom(room.id);
+      assert.ok(participiantDetail !== undefined);
     },
     skip: false,
   },
   {
     name: 'type fishjam url and token',
     run: async () => {
-      assert.ok(peerDetail !== undefined);
+      assert.ok(participiantDetail !== undefined);
       const webSocketUrl = getWebsocketUrl(
         process.env.FISHJAM_HOST_MOBILE as string,
       );
       await tapButton(driver, '~' + TOKEN_TAB);
-      await typeToInput(driver, '~' + TOKEN_INPUT, peerDetail.token);
+      await typeToInput(driver, '~' + TOKEN_INPUT, participiantDetail.token);
       await typeToInput(driver, '~' + URL_INPUT, webSocketUrl);
     },
     skip: false,
