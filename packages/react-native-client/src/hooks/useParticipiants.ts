@@ -43,35 +43,35 @@ export type Track = VideoTrack | AudioTrack;
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type PeersUpdateEvent<MetadataType extends Metadata> = {
-  PeersUpdate: Peer<MetadataType>[];
-};
-
-export type Peer<MetadataType extends Metadata> = {
+export type Participiant<MetadataType extends Metadata> = {
   /**
-   *  id used to identify a peer
+   *  id used to identify a participiant
    */
   id: string;
   /**
-   * whether the peer is local or remote
+   * whether the participiant is local or remote
    */
   isLocal: boolean;
   /**
-   * a map `string -> any` containing peer metadata from the server
+   * a map `string -> any` containing participiant metadata from the server
    */
   metadata: MetadataType;
   /**
-   * a list of peers's video and audio tracks
+   * a list of participiants's video and audio tracks
    */
   tracks: Track[];
 };
 
+export type ParticipiantsUpdateEvent<MetadataType extends Metadata> = {
+  PeersUpdate: Participiant<MetadataType>[];
+};
+
 function addIsActiveToTracks<MetadataType extends Metadata>(
-  peers: ReadonlyArray<Peer<MetadataType>>,
-): Peer<MetadataType>[] {
-  return peers.map((peer) => ({
-    ...peer,
-    tracks: peer.tracks.map((track) => ({
+  participiants: ReadonlyArray<Participiant<MetadataType>>,
+): Participiant<MetadataType>[] {
+  return participiants.map((participiant) => ({
+    ...participiant,
+    tracks: participiant.tracks.map((track) => ({
       ...track,
       isActive:
         (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
@@ -79,27 +79,30 @@ function addIsActiveToTracks<MetadataType extends Metadata>(
   }));
 }
 /**
- * This hook provides live updates of room peers.
- * @returns An array of room peers.
+ * This hook provides live updates of room participiants.
+ * @returns An array of room participiants.
  */
-export function usePeers<MetadataType extends Metadata>() {
-  const [peers, setPeers] = useState<Peer<MetadataType>[]>([]);
+export function useParticipiants<MetadataType extends Metadata>() {
+  const [participiants, setParticipiants] = useState<
+    Participiant<MetadataType>[]
+  >([]);
 
   useEffect(() => {
-    async function updatePeers() {
-      const peers = await RNFishjamClientModule.getPeers<MetadataType>();
-      setPeers(addIsActiveToTracks(peers));
+    async function updateParticipiants() {
+      const participiants =
+        await RNFishjamClientModule.getPeers<MetadataType>();
+      setParticipiants(addIsActiveToTracks(participiants));
     }
 
     const eventListener = eventEmitter.addListener<
-      PeersUpdateEvent<MetadataType>
+      ParticipiantsUpdateEvent<MetadataType>
     >(ReceivableEvents.PeersUpdate, (event) => {
-      setPeers(addIsActiveToTracks(event.PeersUpdate));
+      setParticipiants(addIsActiveToTracks(event.PeersUpdate));
     });
 
-    updatePeers();
+    updateParticipiants();
     return () => eventListener.remove();
   }, []);
 
-  return { peers };
+  return { participiants };
 }

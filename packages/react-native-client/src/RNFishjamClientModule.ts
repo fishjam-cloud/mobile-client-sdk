@@ -4,7 +4,7 @@ import { NativeModule } from 'react-native';
 import type { RTCStats } from './stats/types';
 import type { Metadata, SimulcastConfig } from './types';
 import type { CameraConfigInternal, CaptureDevice } from './hooks/useCamera';
-import type { Peer } from './hooks/usePeers';
+import type { Peer } from './hooks/useParticipiants';
 import type { ScreencastOptionsInternal } from './hooks/useScreencast';
 import type { ConnectionConfig } from './common/client';
 

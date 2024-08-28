@@ -1,11 +1,11 @@
 export type {
-  Peer,
+  Participiant,
   Track,
   TrackType,
   VadStatus,
   EncodingReason,
-} from './hooks/usePeers';
-export { usePeers } from './hooks/usePeers';
+} from './hooks/useParticipiants';
+export { useParticipiants } from './hooks/useParticipiants';
 
 export type {
   AudioOutputDevice,
