@@ -1,6 +1,7 @@
 import Foundation
 import Starscream
 import WebRTC
+import Promises
 
 internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener, RTCEngineListener {
     private var config: ConnectionConfig?
@@ -122,23 +123,21 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             mediaTrack: webrtcTrack, endpointId: localEndpoint.id, videoParameters: videoParameters,
             capturer: videoCapturer)
         videoTrack.start()
-        print("File: \(#file) Function: \(#function), Line: \(#line)")
-        let workItem = commandsQueue.addCommand(
+        let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                 self.localEndpoint = self.localEndpoint.addOrReplaceTrack(videoTrack)
                 self.peerConnectionManager.addTrack(track: videoTrack)
                 if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
-                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                     self.rtcEngineCommunication.renegotiateTracks()
-                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                 } else {
-                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
-                    print("File: \(#file) Function: \(#function), Line: \(#line)")
                 }
             })
-        print("File: \(#file) Function: \(#function), Line: \(#line)")
-//        workItem.wait()
+        do{
+            try awaitPromise(promise)
+        }catch{
+
+        }
         return videoTrack
     }
 
@@ -148,7 +147,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         webrtcTrack.isEnabled = true
         let audioTrack = LocalAudioTrack(mediaTrack: webrtcTrack, endpointId: localEndpoint.id, metadata: metadata)
         audioTrack.start()
-        let workItem = commandsQueue.addCommand(
+        let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                 self.localEndpoint = self.localEndpoint.addOrReplaceTrack(audioTrack)
                 self.peerConnectionManager.addTrack(track: audioTrack)
@@ -159,7 +158,11 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 }
             })
 
-//        workItem.wait()
+        do{
+            try awaitPromise(promise)
+        }catch{
+
+        }
         return audioTrack
     }
 
@@ -179,7 +182,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 guard let track = track else {
                     return
                 }
-                let workItem = self?.commandsQueue.addCommand(
+                let promise = self?.commandsQueue.addCommand(
                     Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                         if self?.localEndpoint != nil {
                             self!.localEndpoint = self!.localEndpoint.addOrReplaceTrack(track)
@@ -188,7 +191,13 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                             onStart(track)
                         }
                     })
-//                workItem?.wait()
+                do{
+                    if let promise = promise{
+                        try awaitPromise(promise)
+                    }
+                }catch{
+
+                }
             },
             onStop: { [weak self, weak track] in
                 guard let track = track else {
@@ -208,7 +217,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     public func removeTrack(trackId: String) {
-        let workItem = commandsQueue.addCommand(
+        let promise = commandsQueue.addCommand(
             Command(commandName: .REMOVE_TRACK, clientStateAfterCommand: nil) {
                 guard let track = self.getTrack(trackId: trackId) else {
                     return
@@ -220,7 +229,11 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
             })
 
-//        workItem.wait()
+        do{
+            try awaitPromise(promise)
+        }catch{
+
+        }
     }
 
     func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String?]) {
@@ -587,6 +600,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             if case .authenticated(_) = peerMessage.content {
                 isAuthenticated = true
                 onAuthSuccess()
+                commandsQueue.finishCommand()
             } else if case .mediaEvent(_) = peerMessage.content {
                 receiveEvent(event: peerMessage.mediaEvent.data)
             } else {

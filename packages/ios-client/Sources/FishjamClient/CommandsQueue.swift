@@ -5,20 +5,19 @@ internal class CommandsQueue {
     private var commandsQueue: [Command] = []
 
     @discardableResult
-    func addCommand(_ command: Command) -> DispatchWorkItem {
+    func addCommand(_ command: Command) -> Promise<Void> {
         commandsQueue.append(command)
         if commandsQueue.count == 1 {
             command.execute()
         }
-        return command.workItem
+        return command.promise
     }
 
     func finishCommand() {
         guard !(commandsQueue.isEmpty) else { return }
-        let command = commandsQueue.first
-//        command?.workItem.wait()
+        let command = commandsQueue.first!
         commandsQueue.removeFirst()
-        if let nextState = command?.clientStateAfterCommand {
+        if let nextState = command.clientStateAfterCommand {
             clientState = nextState
         }
         if let nextCommand = commandsQueue.first {
@@ -28,13 +27,13 @@ internal class CommandsQueue {
     }
 
     func finishCommand(commandName: CommandName) {
-        if let command = commandsQueue.first, command.commandName == commandName {
+        if !commandsQueue.isEmpty && commandsQueue.first!.commandName == commandName {
             finishCommand()
         }
     }
 
     func finishCommand(commandNames: [CommandName]) {
-        if let command = commandsQueue.first, commandNames.contains(command.commandName) {
+        if !commandsQueue.isEmpty && commandNames.contains(commandsQueue.first!.commandName) {
             finishCommand()
         }
     }
@@ -42,8 +41,9 @@ internal class CommandsQueue {
     func clear() {
         clientState = .CREATED
         commandsQueue.forEach { command in
-            command.workItem.cancel()
+            command.promise.reject("Command queue was cleared")
         }
+        commandsQueue.removeAll()
     }
 
 }
