@@ -1,6 +1,4 @@
 // global
-export type Metadata = { [key: string]: any };
-
 export type VideoLayout = 'FILL' | 'FIT';
 
 export type TrackEncoding = 'l' | 'm' | 'h';

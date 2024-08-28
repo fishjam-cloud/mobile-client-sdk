@@ -2,11 +2,13 @@ import { requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './stats/types';
-import type { Metadata, SimulcastConfig } from './types';
+import type { SimulcastConfig } from './types';
 import type { CameraConfigInternal, CaptureDevice } from './hooks/useCamera';
 import type { Participiant } from './hooks/useParticipiants';
 import type { ScreencastOptionsInternal } from './hooks/useScreencast';
 import type { ConnectionConfig } from './common/client';
+
+type Metadata = { [key: string]: any };
 
 type RNFishjamClient = {
   connect: (
