@@ -232,19 +232,19 @@ room client. To run the app:
 
 # Usage
 
+> [!CAUTION]
+> This part of documentation is out of date.
+> It will be updated soon.
+
 Connect to the server and join the room using the `connect` function. Use user
 metadata to pass things like usernames etc. to the server.
 
 ```ts
 const startServerConnection = () => {
   try {
-    await connect(
-      "http://server_address:5002/socket/peer/websocket",
-      "peer_token",
-      {
-        displayName: "Annie",
-      },
-    );
+    await connect("http://server_address:5002", "peer_token", {
+      displayName: "Annie",
+    });
   } catch (e) {
     console.log("error!");
   }

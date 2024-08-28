@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Metadata, SimulcastConfig, TrackEncoding } from '../types';
+import { Metadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
 
@@ -14,19 +14,26 @@ export type TrackType = 'Audio' | 'Video';
  */
 export type VadStatus = 'silence' | 'speech';
 
-export type Track<MetadataType extends Metadata> = {
+type TrackBase = {
   id: string;
   type: TrackType;
-  metadata: MetadataType;
-  vadStatus: VadStatus;
+  isActive: boolean;
+};
+
+export type AudioTrack = TrackBase & {
+  type: 'Audio';
+  vadStatus: VadStatus | undefined;
+};
+
+export type VideoTrack = TrackBase & {
+  type: 'Video';
   // Encoding that is currently received. Only present for remote tracks.
   encoding: TrackEncoding | null;
-  // Information about simulcast, if null simulcast is not enabled
-  simulcastConfig: SimulcastConfig | null;
   // The reason of currently selected encoding. Only present for remote tracks.
   encodingReason: EncodingReason | null;
 };
 
+export type Track = VideoTrack | AudioTrack;
 /**
  * Type describing possible reasons of currently selected encoding.
  *
@@ -36,85 +43,61 @@ export type Track<MetadataType extends Metadata> = {
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type EndpointsUpdateEvent<
-  MetadataType extends Metadata,
-  VideoTrackMetadataType extends Metadata,
-  AudioTrackMetadataType extends Metadata,
-> = {
-  EndpointsUpdate: Endpoint<
-    MetadataType,
-    VideoTrackMetadataType,
-    AudioTrackMetadataType
-  >[];
+export type PeersUpdateEvent<MetadataType extends Metadata> = {
+  PeersUpdate: Peer<MetadataType>[];
 };
 
-export type Endpoint<
-  MetadataType extends Metadata,
-  VideoTrackMetadataType extends Metadata,
-  AudioTrackMetadataType extends Metadata,
-> = {
+export type Peer<MetadataType extends Metadata> = {
   /**
-   *  id used to identify an endpoint
+   *  id used to identify a peer
    */
   id: string;
   /**
-   * used to indicate endpoint type.
-   */
-  type: string;
-  /**
-   * whether the endpoint is local or remote
+   * whether the peer is local or remote
    */
   isLocal: boolean;
   /**
-   * a map `string -> any` containing endpoint metadata from the server
+   * a map `string -> any` containing peer metadata from the server
    */
   metadata: MetadataType;
   /**
-   * a list of endpoints's video and audio tracks
+   * a list of peers's video and audio tracks
    */
-  tracks: Track<VideoTrackMetadataType | AudioTrackMetadataType>[];
+  tracks: Track[];
 };
 
-export type Peer<
-  MetadataType extends Metadata,
-  VideoTrackMetadataType extends Metadata,
-  AudioTrackMetadataType extends Metadata,
-> = Endpoint<MetadataType, VideoTrackMetadataType, AudioTrackMetadataType>;
-
+function addIsActiveToTracks<MetadataType extends Metadata>(
+  peers: ReadonlyArray<Peer<MetadataType>>,
+): Peer<MetadataType>[] {
+  return peers.map((peer) => ({
+    ...peer,
+    tracks: peer.tracks.map((track) => ({
+      ...track,
+      isActive:
+        (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
+    })),
+  }));
+}
 /**
  * This hook provides live updates of room peers.
  * @returns An array of room peers.
  */
-export function usePeers<
-  MetadataType extends Metadata,
-  VideoTrackMetadataType extends Metadata,
-  AudioTrackMetadataType extends Metadata,
->() {
-  const [peers, setPeers] = useState<
-    Peer<MetadataType, VideoTrackMetadataType, AudioTrackMetadataType>[]
-  >([]);
+export function usePeers<MetadataType extends Metadata>() {
+  const [peers, setPeers] = useState<Peer<MetadataType>[]>([]);
 
   useEffect(() => {
-    async function updateEndpoints() {
-      const endpoints = await RNFishjamClientModule.getEndpoints<
-        MetadataType,
-        VideoTrackMetadataType,
-        AudioTrackMetadataType
-      >();
-      setPeers(endpoints);
+    async function updatePeers() {
+      const peers = await RNFishjamClientModule.getPeers<MetadataType>();
+      setPeers(addIsActiveToTracks(peers));
     }
 
     const eventListener = eventEmitter.addListener<
-      EndpointsUpdateEvent<
-        MetadataType,
-        VideoTrackMetadataType,
-        AudioTrackMetadataType
-      >
-    >(ReceivableEvents.EndpointsUpdate, (event) => {
-      setPeers(event.EndpointsUpdate);
+      PeersUpdateEvent<MetadataType>
+    >(ReceivableEvents.PeersUpdate, (event) => {
+      setPeers(addIsActiveToTracks(event.PeersUpdate));
     });
 
-    updateEndpoints();
+    updatePeers();
     return () => eventListener.remove();
   }, []);
 

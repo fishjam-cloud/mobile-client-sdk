@@ -21,10 +21,12 @@ import {
 import { SwitchCameraButton } from './SwitchCameraButton';
 import { SwitchOutputDeviceButton } from './SwitchOutputDeviceButton';
 import { ToggleCameraButton } from './ToggleCameraButton';
-import { InCallButton } from '../../components';
-import LetterButton from '../../components/LetterButton';
-import { NoCameraView } from '../../components/NoCameraView';
-import { SoundOutputDevicesBottomSheet } from '../../components/SoundOutputDevicesBottomSheet';
+import {
+  InCallButton,
+  NoCameraView,
+  LetterButton,
+  SoundOutputDevicesBottomSheet,
+} from '../../components';
 import { usePreventBackButton } from '../../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { previewScreenLabels } from '../../types/ComponentLabels';
@@ -33,15 +35,19 @@ import {
   displayIosSimulatorCameraAlert,
   isIosSimulator,
 } from '../../utils/deviceUtils';
-import { useToggleCamera } from '../../hooks/useToggleCamera';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Preview'>;
+type BottomSheetRef = Props & {
+  bottomSheetRef: React.RefObject<BottomSheet>;
+};
+
 const { JOIN_BUTTON, TOGGLE_MICROPHONE_BUTTON } = previewScreenLabels;
 
-const PreviewScreen = ({ navigation, route }: Props) => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  usePreventBackButton();
-
+function PreviewScreen({
+  navigation,
+  route,
+  bottomSheetRef,
+}: Props & BottomSheetRef) {
   const availableCameras = useRef<CaptureDevice[]>([]);
   const [currentCamera, setCurrentCamera] = useState<CaptureDevice | null>(
     null,
@@ -53,19 +59,13 @@ const PreviewScreen = ({ navigation, route }: Props) => {
     simulcastConfig,
     toggleVideoTrackEncoding,
     switchCamera,
+    toggleCamera,
   } = useCamera();
-  const { isMicrophoneOn: isMicrophoneAvailable } = useMicrophone();
-  const [isMicrophoneOn, setIsMicrophoneOn] = useState<boolean>(
-    isMicrophoneAvailable,
-  );
+  const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   const encodings: Record<string, TrackEncoding[]> = {
     ios: ['l', 'h'],
     android: ['l', 'm', 'h'],
-  };
-
-  const toggleMicrophone = () => {
-    setIsMicrophoneOn(!isMicrophoneOn);
   };
 
   const toggleSwitchCamera = () => {
@@ -87,17 +87,9 @@ const PreviewScreen = ({ navigation, route }: Props) => {
       const captureDevice = devices.find((device) => device.isFrontFacing);
 
       startCamera({
-        simulcastConfig: {
-          enabled: true,
-          activeEncodings:
-            // iOS has a limit of 3 hardware encoders
-            // 3 simulcast layers + 1 screencast layer = 4, which is too much
-            // so we limit simulcast layers to 2
-            Platform.OS === 'android' ? ['l', 'm', 'h'] : ['l', 'h'],
-        },
+        simulcastEnabled: true,
         quality: 'HD169',
         maxBandwidth: { l: 150, m: 500, h: 1500 },
-        videoTrackMetadata: { active: true, type: 'camera' },
         captureDeviceId: captureDevice?.id,
         cameraEnabled: true,
       });
@@ -110,11 +102,10 @@ const PreviewScreen = ({ navigation, route }: Props) => {
 
   const onJoinPressed = async () => {
     await connect(route.params.fishjamUrl, route.params.peerToken, {
-      name: 'RN mobile',
+      name: route.params.userName,
     });
     navigation.navigate('Room', {
       isCameraOn,
-      isMicrophoneOn,
       userName: route?.params?.userName,
     });
   };
@@ -125,9 +116,7 @@ const PreviewScreen = ({ navigation, route }: Props) => {
     }
   }, []);
 
-  const { toggleCamera } = useToggleCamera();
-
-  const body = (
+  return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cameraPreview}>
         {!isIosSimulator && isCameraOn ? (
@@ -172,18 +161,31 @@ const PreviewScreen = ({ navigation, route }: Props) => {
       )}
     </SafeAreaView>
   );
+}
+
+export default function PreviewScreenWrapper({ navigation, route }: Props) {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  usePreventBackButton();
 
   if (Platform.OS === 'android') {
     return (
       <TouchableWithoutFeedback onPress={() => bottomSheetRef.current?.close()}>
-        {body}
+        <PreviewScreen
+          navigation={navigation}
+          route={route}
+          bottomSheetRef={bottomSheetRef}
+        />
       </TouchableWithoutFeedback>
     );
   }
-  return body;
-};
-
-export default PreviewScreen;
+  return (
+    <PreviewScreen
+      navigation={navigation}
+      route={route}
+      bottomSheetRef={bottomSheetRef}
+    />
+  );
+}
 
 const styles = StyleSheet.create({
   callView: { display: 'flex', flexDirection: 'row', gap: 20 },

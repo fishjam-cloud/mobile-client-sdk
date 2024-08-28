@@ -1,13 +1,17 @@
 import Starscream
 import WebRTC
 
-public struct ConnectionConfig {
+public struct ConnectConfig {
     var websocketUrl: String
     var token: String
+    var peerMetadata: Metadata
+    var reconnectConfig: ReconnectConfig
 
-    public init(websocketUrl: String, token: String) {
-        self.websocketUrl = websocketUrl
+    public init(websocketUrl: String, token: String, peerMetadata: Metadata, reconnectConfig: ReconnectConfig) {
+        self.websocketUrl = websocketUrl + "/socket/peer/websocket"
         self.token = token
+        self.peerMetadata = peerMetadata
+        self.reconnectConfig = reconnectConfig
     }
 }
 
@@ -60,7 +64,7 @@ public class FishjamClient {
     *
     * @param config - Configuration object for the client
     */
-    public func connect(config: ConnectionConfig) {
+    public func connect(config: ConnectConfig) {
         client.connect(config: config)
     }
 
@@ -95,7 +99,6 @@ public class FishjamClient {
     * `LocalVideoTrack.getCaptureDevices` method
     * @return an instance of the video track
     */
-
     public func createVideoTrack(
         videoParameters: VideoParameters,
         metadata: Metadata,

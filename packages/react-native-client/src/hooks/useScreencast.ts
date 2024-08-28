@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 import {
   BandwidthLimit,
-  Metadata,
   SimulcastConfig,
   TrackBandwidthLimit,
   TrackEncoding,
+  TrackMetadata,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
@@ -15,7 +15,7 @@ type IsScreencastOnEvent = { IsScreencastOn: boolean };
 
 export type ScreencastQuality = 'VGA' | 'HD5' | 'HD15' | 'FHD15' | 'FHD30';
 
-export type ScreencastOptions<MetadataType extends Metadata> = {
+export type ScreencastOptions = {
   /**
    * Resolution + fps of screencast track, one of: `VGA`, `HD5`, `HD15`, `FHD15`, `FHD30`.
    * Note that quality might be worse than specified due to device capabilities, internet
@@ -24,17 +24,19 @@ export type ScreencastOptions<MetadataType extends Metadata> = {
    */
   quality: ScreencastQuality;
   /**
+   *  bandwidth limit of a screencast track. By default there is no bandwidth limit.
+   */
+  maxBandwidth: TrackBandwidthLimit;
+};
+export type ScreencastOptionsInternal = {
+  /**
    * a map `string -> any` containing screencast track metadata to be sent to the server
    */
-  screencastMetadata: MetadataType;
+  screencastMetadata: TrackMetadata & { displayName?: string };
   /**
    * SimulcastConfig of a screencast track. By default simulcast is disabled.
    */
   simulcastConfig: SimulcastConfig;
-  /**
-   *  bandwidth limit of a screencast track. By default there is no bandwidth limit.
-   */
-  maxBandwidth: TrackBandwidthLimit;
 };
 
 const defaultSimulcastConfig = () => ({
@@ -52,9 +54,11 @@ export function useScreencast() {
   const [isScreencastOn, setIsScreencastOn] = useState<boolean>(
     RNFishjamClientModule.isScreencastOn,
   );
+
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     screencastSimulcastConfig,
   );
+
   useEffect(() => {
     const eventListener = eventEmitter.addListener<IsScreencastOnEvent>(
       ReceivableEvents.IsScreencastOn,
@@ -68,30 +72,20 @@ export function useScreencast() {
    * Toggles the screencast on/off
    */
   const toggleScreencast = useCallback(
-    async <ScreencastOptionsMetadataType extends Metadata>(
-      screencastOptions: Partial<
-        ScreencastOptions<ScreencastOptionsMetadataType>
-      > = {},
-    ) => {
-      await RNFishjamClientModule.toggleScreencast(screencastOptions);
-      screencastSimulcastConfig =
-        screencastOptions.simulcastConfig || defaultSimulcastConfig();
+    async (screencastOptions: Partial<ScreencastOptions> = {}) => {
+      const options = {
+        ...screencastOptions,
+        screencastMetadata: {
+          displayName: 'presenting',
+          type: 'screensharing' as const,
+          active: !isScreencastOn,
+        },
+      };
+      await RNFishjamClientModule.toggleScreencast(options);
+      screencastSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
       setSimulcastConfig(screencastSimulcastConfig);
     },
-    [],
-  );
-
-  /**
-   * a function that updates screencast track metadata on the server
-   * @param metadata a map `string -> any` containing screencast track metadata to be sent to the server
-   */
-  const updateScreencastTrackMetadata = useCallback(
-    async <ScreencastMetadataType extends Metadata>(
-      metadata: ScreencastMetadataType,
-    ) => {
-      await RNFishjamClientModule.updateScreencastTrackMetadata(metadata);
-    },
-    [],
+    [isScreencastOn],
   );
 
   /**
@@ -146,7 +140,6 @@ export function useScreencast() {
   return {
     isScreencastOn,
     toggleScreencast,
-    updateScreencastTrackMetadata,
     toggleScreencastTrackEncoding,
     simulcastConfig,
     setScreencastTrackEncodingBandwidth,

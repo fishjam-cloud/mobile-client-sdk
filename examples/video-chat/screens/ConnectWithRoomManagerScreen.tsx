@@ -28,11 +28,17 @@ async function getFishjamServer(
   roomName: string,
   userName: string,
 ) {
-  const url = roomManagerUrl.endsWith('/')
-    ? roomManagerUrl
-    : roomManagerUrl + '/';
+  // in case user copied url from admin panel
+  const urlWithoutParams = roomManagerUrl.replace(
+    '/*roomName*/users/*username*',
+    '',
+  );
+  // trim slash from end
+  const url = urlWithoutParams.endsWith('/')
+    ? urlWithoutParams
+    : urlWithoutParams + '/';
   const response = await fetch(
-    `${url}rooms/${roomName.trim()}/users/${userName.trim()}`,
+    `${url}${roomName.trim()}/users/${userName.trim()}`,
   );
   if (!response.ok) {
     throw new Error(JSON.stringify(await response.json()));
@@ -48,16 +54,15 @@ async function getFishjamServer(
   };
 }
 
-const ConnectScreen = ({ navigation }: Props) => {
+export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const [roomManagerUrl, setRoomManagerUrl] = useState(
-    process.env.ROOM_MANAGER_URL ?? '',
+    process.env.EXPO_PUBLIC_ROOM_MANAGER_URL ?? '',
   );
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
-
   usePermissionCheck();
 
   const onTapConnectButton = async () => {
@@ -98,11 +103,19 @@ const ConnectScreen = ({ navigation }: Props) => {
           />
           <TextInput
             onChangeText={setRoomManagerUrl}
-            value={roomManagerUrl}
+            defaultValue={roomManagerUrl}
             placeholder="Room Manager URL"
           />
-          <TextInput onChangeText={setRoomName} placeholder="Room Name" />
-          <TextInput onChangeText={setUserName} placeholder="User Name" />
+          <TextInput
+            onChangeText={setRoomName}
+            placeholder="Room Name"
+            defaultValue={roomName}
+          />
+          <TextInput
+            onChangeText={setUserName}
+            placeholder="User Name"
+            defaultValue={userName}
+          />
           <Button
             title="Connect"
             onPress={onTapConnectButton}
@@ -112,9 +125,7 @@ const ConnectScreen = ({ navigation }: Props) => {
       </SafeAreaView>
     </DismissKeyboard>
   );
-};
-
-export default ConnectScreen;
+}
 
 const windowWidth = Dimensions.get('window').width;
 

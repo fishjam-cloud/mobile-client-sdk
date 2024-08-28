@@ -1,6 +1,6 @@
 import { Camera } from 'expo-camera';
 import { CameraView } from 'expo-camera/next';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 
 import Button from './Button';
@@ -9,7 +9,7 @@ type Props = {
   onCodeScanned: (code: string) => void;
 };
 
-export function QRCodeScanner({ onCodeScanned }: Props) {
+export default function QRCodeScanner({ onCodeScanned }: Props) {
   const [isBarcodeScannerVisible, setIsBarcodeScannerVisible] = useState(false);
 
   const onPress = async () => {
@@ -23,10 +23,13 @@ export function QRCodeScanner({ onCodeScanned }: Props) {
     }
   };
 
-  const onBarCodeScanned = ({ data }: { data: string }) => {
-    onCodeScanned(data);
-    setIsBarcodeScannerVisible(false);
-  };
+  const onBarCodeScanned = useCallback<({ data }: { data: string }) => void>(
+    ({ data }) => {
+      onCodeScanned(data);
+      setIsBarcodeScannerVisible(false);
+    },
+    [onCodeScanned],
+  );
 
   return (
     <>
@@ -49,8 +52,6 @@ export function QRCodeScanner({ onCodeScanned }: Props) {
     </>
   );
 }
-
-export default QRCodeScanner;
 
 const styles = StyleSheet.create({
   barcode: {

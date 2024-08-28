@@ -2,38 +2,21 @@ import { requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './stats/types';
-import type {
-  BandwidthLimit,
-  Metadata,
-  SimulcastBandwidthLimit,
-  SimulcastConfig,
-} from './types';
-import type { CameraConfig, CaptureDevice } from './hooks/useCamera';
-import type { MicrophoneConfig } from './hooks/useMicrophone';
-import type { Endpoint } from './hooks/usePeers';
-import type { ScreencastOptions } from './hooks/useScreencast';
-
-type InternalCameraConfig<MetadataType extends Metadata> = Partial<
-  CameraConfig<MetadataType> &
-    (
-      | { maxBandwidthInt: BandwidthLimit }
-      | { maxBandwidthMap: SimulcastBandwidthLimit }
-    )
->;
+import type { Metadata, SimulcastConfig } from './types';
+import type { CameraConfigInternal, CaptureDevice } from './hooks/useCamera';
+import type { Peer } from './hooks/usePeers';
+import type { ScreencastOptionsInternal } from './hooks/useScreencast';
+import type { ConnectionConfig } from './common/client';
 
 type RNFishjamClient = {
   connect: (
     url: string,
     peerToken: string,
     peerMetadata: Metadata,
+    config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
-  startCamera: <MetadataType extends Metadata>(
-    config: InternalCameraConfig<MetadataType>,
-  ) => Promise<void>;
-  startMicrophone: <MetadataType extends Metadata>(
-    config: Partial<MicrophoneConfig<MetadataType>>,
-  ) => Promise<void>;
+  startCamera: (config: CameraConfigInternal) => Promise<void>;
   isMicrophoneOn: boolean;
   toggleMicrophone: () => Promise<boolean>;
   isCameraOn: boolean;
@@ -42,22 +25,14 @@ type RNFishjamClient = {
   switchCamera: (captureDeviceId: string) => Promise<void>;
   getCaptureDevices: () => Promise<CaptureDevice[]>;
   handleScreencastPermission: () => Promise<'granted' | 'denied'>;
-  toggleScreencast: <MetadataType extends Metadata>(
-    screencastOptions: Partial<ScreencastOptions<MetadataType>>,
+  toggleScreencast: (
+    screencastOptions: Partial<ScreencastOptionsInternal>,
   ) => Promise<void>;
   isScreencastOn: boolean;
-  getEndpoints: <
-    EndpointMetadataType extends Metadata,
-    VideoTrackMetadataType extends Metadata,
-    AudioTrackMetadataType extends Metadata,
-  >() => Promise<
-    Endpoint<
-      EndpointMetadataType,
-      VideoTrackMetadataType,
-      AudioTrackMetadataType
-    >[]
+  getPeers: <PeerMetadataType extends Metadata>() => Promise<
+    Peer<PeerMetadataType>[]
   >;
-  updateEndpointMetadata: <MetadataType extends Metadata>(
+  updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
   updateVideoTrackMetadata: <MetadataType extends Metadata>(

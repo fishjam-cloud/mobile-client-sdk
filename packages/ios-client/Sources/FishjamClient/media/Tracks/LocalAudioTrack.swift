@@ -1,5 +1,3 @@
-//DONE
-
 import WebRTC
 
 /// Utility wrapper around a local `RTCAudioTrack` managing a local audio session.
@@ -11,6 +9,11 @@ public class LocalAudioTrack: Track, LocalTrack {
     ) {
         config = AudioUtils.createAudioConfig()
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
+    }
+
+    internal init(oldTrack: LocalAudioTrack, peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper) {
+        self.config = oldTrack.config
+        super.init(mediaTrack: oldTrack.mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: oldTrack.endpointId, metadata: oldTrack.metadata)
     }
 
     internal var audioTrack: RTCAudioTrack {

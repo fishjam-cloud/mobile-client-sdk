@@ -48,7 +48,7 @@ internal class RTCEngineCommunication {
     sendEvent(Connect(endpointMetadata))
   }
 
-  fun updateEndpointMetadata(endpointMetadata: Metadata) {
+  fun updatePeerMetadata(endpointMetadata: Metadata) {
     sendEvent(UpdateEndpointMetadata(endpointMetadata))
   }
 

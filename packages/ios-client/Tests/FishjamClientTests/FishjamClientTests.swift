@@ -8,7 +8,9 @@ import XCTest
 final class FishjamClientTests: XCTestCase {
     let mockedWebSocket = mock(FishjamWebsocket.self)
     let fishjamClientListener = mock(FishjamClientListener.self)
-    let testConfig = Config(websocketUrl: "ws://test:4000/socket/peer/websocket", token: "testTOKEN")
+    let testConfig = ConnectConfig(
+        websocketUrl: "ws://test:4000", token: "testTOKEN", peerMetadata: .init(),
+        reconnectConfig: ReconnectConfig())
     var fishjamClient: FishjamClientInternal?
     var webrtc: FishjamMembraneRTC?
     // "Real" websocket class has to be used here since it is needed as a parameter for callbacks.
@@ -80,11 +82,6 @@ final class FishjamClientTests: XCTestCase {
 
     func verifyClientSent(_ data: Data) {
         verify(self.mockedWebSocket.write(data: data)).wasCalled()
-    }
-
-    func testConnectAndAuthenticate() throws {
-        connect()
-        verify(self.fishjamClientListener.onAuthSuccess()).wasCalled()
     }
 
     func testCleansUp() throws {

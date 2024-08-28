@@ -7,7 +7,7 @@ import React from 'react';
 
 import ConnectWithRoomManagerScreen from '../screens/ConnectWithRoomManagerScreen';
 import ConnectWithTokenScreen from '../screens/ConnectWithTokenScreen';
-import PreviewScreen from '../screens/PreviewScreen';
+import PreviewScreen from '../screens/PreviewScreen/PreviewScreen';
 import RoomScreen from '../screens/RoomScreen';
 import { appNavigationLabels } from '../types/ComponentLabels';
 import { AdditionalColors, BrandColors } from '../utils/Colors';
@@ -21,7 +21,6 @@ export type AppRootStackParamList = {
   };
   Room: {
     isCameraOn: boolean;
-    isMicrophoneOn: boolean;
     userName?: string;
   };
 };
@@ -45,7 +44,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 const { ROOM_MANAGER_TAB, TOKEN_TAB } = appNavigationLabels;
 
-const TabNavigator = () => {
+function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
@@ -73,9 +72,9 @@ const TabNavigator = () => {
       />
     </Tab.Navigator>
   );
-};
+}
 
-const AppNavigator = () => {
+export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -94,6 +93,4 @@ const AppNavigator = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default AppNavigator;
+}

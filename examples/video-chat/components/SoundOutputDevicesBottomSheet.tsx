@@ -2,13 +2,13 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import React, { useCallback, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { SoundOutputDevicesSection } from './SoundOutputDevicesSection';
+import SoundOutputDevicesSection from './SoundOutputDevicesSection';
 
-export const SoundOutputDevicesBottomSheet = ({
+export default function SoundOutputDevicesBottomSheet({
   bottomSheetRef,
 }: {
   bottomSheetRef: React.RefObject<BottomSheet>;
-}) => {
+}) {
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -28,7 +28,7 @@ export const SoundOutputDevicesBottomSheet = ({
       </BottomSheetView>
     </BottomSheet>
   );
-};
+}
 
 const styles = StyleSheet.create({
   bottomSheetWrapper: {

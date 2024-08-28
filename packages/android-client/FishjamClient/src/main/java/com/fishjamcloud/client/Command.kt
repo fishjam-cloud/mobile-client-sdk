@@ -1,15 +1,12 @@
 package com.fishjamcloud.client
 
-import kotlinx.coroutines.CompletableJob
-import kotlinx.coroutines.Job
+import kotlin.coroutines.Continuation
 
 internal enum class CommandName {
   CONNECT,
   JOIN,
   ADD_TRACK,
-  REMOVE_TRACK,
-  RENEGOTIATE,
-  LEAVE
+  REMOVE_TRACK
 }
 
 internal enum class ClientState {
@@ -25,5 +22,7 @@ internal data class Command(
 ) {
   constructor(commandName: CommandName, command: () -> Unit = {}) : this(commandName, null, command)
 
-  val job: CompletableJob = Job()
+  var continuation: Continuation<Unit>? = null
+
+  fun isConnectionCommand(): Boolean = commandName == CommandName.CONNECT || commandName == CommandName.JOIN
 }

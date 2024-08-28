@@ -12,6 +12,45 @@ import { AdditionalColors, BrandColors } from '../utils/Colors';
 
 const IconSize = 25;
 
+type ButtonTypeName = 'primary' | 'disconnect';
+
+type InCallButtonProps = {
+  type?: ButtonTypeName;
+  onPress: (event: GestureResponderEvent) => void;
+  iconName: keyof typeof MaterialCommunityIcons.glyphMap;
+} & AccessibilityLabel;
+
+export default function InCallButton({
+  type = 'primary',
+  onPress,
+  iconName,
+  accessibilityLabel,
+}: InCallButtonProps) {
+  const stylesForButtonType = [
+    InCallButtonStyles.common,
+    type === 'primary'
+      ? InCallButtonStyles.primary
+      : InCallButtonStyles.disconnect,
+  ];
+  const buttonColor =
+    type === 'primary' ? BrandColors.darkBlue100 : AdditionalColors.white;
+
+  return (
+    <TouchableHighlight
+      onPress={onPress}
+      style={InCallButtonStyles.common}
+      accessibilityLabel={accessibilityLabel}>
+      <View style={stylesForButtonType}>
+        <MaterialCommunityIcons
+          name={iconName}
+          size={IconSize}
+          color={buttonColor}
+        />
+      </View>
+    </TouchableHighlight>
+  );
+}
+
 const InCallButtonStyles = StyleSheet.create({
   common: {
     width: 44,
@@ -30,51 +69,3 @@ const InCallButtonStyles = StyleSheet.create({
     backgroundColor: AdditionalColors.red80,
   },
 });
-
-type ButtonTypeName = 'primary' | 'disconnect';
-
-type InCallButtonProps = {
-  type?: ButtonTypeName;
-  onPress: (event: GestureResponderEvent) => void;
-  iconName: keyof typeof MaterialCommunityIcons.glyphMap;
-} & AccessibilityLabel;
-
-const InCallButton = ({
-  type = 'primary',
-  onPress,
-  iconName,
-  accessibilityLabel,
-}: InCallButtonProps) => {
-  const stylesForButtonType = [
-    InCallButtonStyles.common,
-    type === 'primary'
-      ? InCallButtonStyles.primary
-      : InCallButtonStyles.disconnect,
-  ];
-
-  const GetIconColorForButtonType = (buttonType: ButtonTypeName) => {
-    switch (buttonType) {
-      case 'primary':
-        return BrandColors.darkBlue100;
-      case 'disconnect':
-        return AdditionalColors.white;
-    }
-  };
-
-  return (
-    <TouchableHighlight
-      onPress={onPress}
-      style={InCallButtonStyles.common}
-      accessibilityLabel={accessibilityLabel}>
-      <View style={stylesForButtonType}>
-        <MaterialCommunityIcons
-          name={iconName}
-          size={IconSize}
-          color={GetIconColorForButtonType(type)}
-        />
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-export default InCallButton;

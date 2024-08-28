@@ -14,6 +14,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     private var rtcEngineCommunication: RTCEngineCommunication
     private var isAuthenticated = false
     private var broadcastScreenshareReceiver: ScreenBroadcastNotificationReceiver?
+    private var reconnectionManager: ReconnectionManager? = nil
 
     private var _loggerPrefix = "FishjamClientInternal"
 
@@ -58,6 +59,8 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         self.config = config
         peerConnectionManager.addListener(self)
         rtcEngineCommunication.addListener(self)
+        self.reconnectionManager = ReconnectionManager(
+            reconnectConfig: config.reconnectConfig, connect: { self.reconnect() }, listener: listener)
 
         commandsQueue.addCommand(
             Command(commandName: .CONNECT, clientStateAfterCommand: .CONNECTED) {
@@ -67,6 +70,14 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             }
         )
     }
+
+    func reconnect() {
+          if let url = config?.websocketUrl {
+              webSocket = websocketFactory(url)
+              webSocket?.delegate = self
+              webSocket?.connect()
+          }
+      }
 
     func join(peerMetadata: Metadata = Metadata()) {
         commandsQueue.addCommand(
@@ -568,18 +579,28 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             break
         case .pong(_):
             break
-        case .viabilityChanged(_):
-            break
         case .reconnectSuggested(_):
+            break
+        // viabilityChanged is called when there is no internet
+        case .viabilityChanged(let isViable):
+            if !isViable {
+                onDisconnected()
+                onSocketError()
+            }
             break
         case .cancelled:
             onDisconnected()
-        case .error(_):
             onSocketError()
+            break
+        case .error(_):
+            onDisconnected()
+            onSocketError()
+            break
         default:
             break
         }
     }
+
 
     func websocketDidConnect() {
         onSocketOpen()
@@ -600,8 +621,11 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             let peerMessage = try Fishjam_PeerMessage(serializedData: data)
             if case .authenticated(_) = peerMessage.content {
                 isAuthenticated = true
-                onAuthSuccess()
-                commandsQueue.finishCommand()
+                if reconnectionManager?.reconnectionStatus == .RECONNECTING {
+                    webrtcClient?.reconnect()
+                } else {
+                    webrtcClient?.connect(metadata: config?.peerMetadata ?? Metadata())
+                }
             } else if case .mediaEvent(_) = peerMessage.content {
                 receiveEvent(event: peerMessage.mediaEvent.data)
             } else {
@@ -612,13 +636,21 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         }
     }
 
+
     func websocketDidReceiveMessage(text: String) {
         print("Unsupported socket callback 'websocketDidReceiveMessage' was called.")
         onSocketError()
     }
 
     func onSocketClose(code: UInt16, reason: String) {
+        if let authError = AuthError(rawValue: reason) {
+            onAuthError(reason: authError)
+        }
         listener.onSocketClose(code: code, reason: reason)
+    }
+
+    func onAuthError(reason: AuthError) {
+        listener.onAuthError(reason: reason)
     }
 
     func onSocketError() {
@@ -640,10 +672,14 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
     func onDisconnected() {
         isAuthenticated = false
+        webSocket?.disconnect()
+        webrtcClient?.prepareToReconnect()
         listener.onDisconnected()
+        reconnectionManager?.onDisconnected()
     }
+
 
     func onConnectionError(metadata: Any) {
         listener.onJoinError(metadata: metadata)
-    }
+     }
 }

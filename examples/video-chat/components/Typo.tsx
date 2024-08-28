@@ -17,6 +17,77 @@ import { TextColors } from '../utils/Colors';
 
 const SMALL_WINDOW_BREAKPOINT = 640;
 
+function getFontVariant(variant: VariantName) {
+  const windowWidth = Dimensions.get('window').width;
+
+  const HeadlineStylesDynamic =
+    windowWidth > SMALL_WINDOW_BREAKPOINT ? Headlines : HeadlinesSmall;
+  const TextStylesDynamic =
+    windowWidth > SMALL_WINDOW_BREAKPOINT ? TextStyles : TextStylesSmall;
+
+  const variantMap: { [key: string]: TextStyle } = {
+    'h1': HeadlineStylesDynamic.h1,
+    'h2': HeadlineStylesDynamic.h2,
+    'h3': HeadlineStylesDynamic.h3,
+    'h4': HeadlineStylesDynamic.h4,
+    'h5': HeadlineStylesDynamic.h5,
+    'body-big': TextStylesDynamic.bodyBig,
+    'body-small': TextStylesDynamic.bodySmall,
+    'label': TextStylesDynamic.label,
+    'caption': TextStylesDynamic.caption,
+    'button': TextStylesDynamic.button,
+    'video-label': TextStylesCustom.videoLabel,
+    'chat-regular': TextStylesCustom.chatRegular,
+    'chat-semibold': TextStylesCustom.chatSemibold,
+    'chat-title': TextStylesCustom.chatTitle,
+  };
+  return variantMap[variant];
+}
+
+type VariantName =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'body-big'
+  | 'body-small'
+  | 'label'
+  | 'caption'
+  | 'button'
+  | 'video-label'
+  | 'chat-regular'
+  | 'chat-semibold'
+  | 'chat-title';
+
+type TypoProps = {
+  variant: VariantName;
+  color?: string;
+  children: ReactNode;
+} & TextProps;
+
+export default function Typo({
+  variant = 'body-big',
+  color = TextColors.darkText,
+  children,
+  style,
+  ...textProps
+}: TypoProps) {
+  useFonts({
+    NotoSans_400Regular,
+    NotoSans_500Medium,
+    NotoSans_600SemiBold,
+  });
+
+  const getStyleForVariant = [{ color }, getFontVariant(variant)];
+
+  return (
+    <Text style={[...getStyleForVariant, style]} {...textProps}>
+      {children}
+    </Text>
+  );
+}
+
 const Headlines = StyleSheet.create({
   h1: {
     fontFamily: 'NotoSans_500Medium',
@@ -164,73 +235,3 @@ export const TextInputTextStyle = StyleSheet.create({
     fontSize: TextStylesSmall.bodySmall.fontSize,
   },
 });
-
-type VariantName =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'h4'
-  | 'h5'
-  | 'body-big'
-  | 'body-small'
-  | 'label'
-  | 'caption'
-  | 'button'
-  | 'video-label'
-  | 'chat-regular'
-  | 'chat-semibold'
-  | 'chat-title';
-
-type TypoProps = {
-  variant: VariantName;
-  color?: string;
-  children: ReactNode;
-} & TextProps;
-
-export const Typo = ({
-  variant = 'body-big',
-  color = TextColors.darkText,
-  children,
-  style,
-  ...textProps
-}: TypoProps) => {
-  useFonts({
-    NotoSans_400Regular,
-    NotoSans_500Medium,
-    NotoSans_600SemiBold,
-  });
-
-  const windowWidth = Dimensions.get('window').width;
-
-  const HeadlineStylesDynamic =
-    windowWidth > SMALL_WINDOW_BREAKPOINT ? Headlines : HeadlinesSmall;
-  const TextStylesDynamic =
-    windowWidth > SMALL_WINDOW_BREAKPOINT ? TextStyles : TextStylesSmall;
-
-  const variantMap: { [key: string]: TextStyle } = {
-    'h1': HeadlineStylesDynamic.h1,
-    'h2': HeadlineStylesDynamic.h2,
-    'h3': HeadlineStylesDynamic.h3,
-    'h4': HeadlineStylesDynamic.h4,
-    'h5': HeadlineStylesDynamic.h5,
-    'body-big': TextStylesDynamic.bodyBig,
-    'body-small': TextStylesDynamic.bodySmall,
-    'label': TextStylesDynamic.label,
-    'caption': TextStylesDynamic.caption,
-    'button': TextStylesDynamic.button,
-    'video-label': TextStylesCustom.videoLabel,
-    'chat-regular': TextStylesCustom.chatRegular,
-    'chat-semibold': TextStylesCustom.chatSemibold,
-    'chat-title': TextStylesCustom.chatTitle,
-  };
-
-  const getStyleForVariant = [{ color }, variantMap[variant]];
-
-  return (
-    <Text style={[...getStyleForVariant, style]} {...textProps}>
-      {children}
-    </Text>
-  );
-};
-
-export default Typo;

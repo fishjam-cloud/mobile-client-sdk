@@ -18,31 +18,7 @@ import { TextColors } from '../utils/Colors';
 
 const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
-export const SoundOutputDevicesSection = () => {
-  const audioSettings = useAudioSettings();
-
-  return (
-    <View style={styles.wrapper}>
-      <Text style={styles.title} accessibilityLabel={TITLE_TEXT}>
-        Select output audio device
-      </Text>
-      <FlatList
-        data={audioSettings.availableDevices}
-        renderItem={(item) => (
-          <SoundOutputDeviceTile
-            item={item.item}
-            selected={audioSettings.selectedAudioOutputDevice ?? undefined}
-            selectOutputAudioDevice={audioSettings.selectOutputAudioDevice}
-            accessibilityLabel={OUTPUT_DEVICE_BUTTON + item.index}
-          />
-        )}
-        keyExtractor={(item: AudioOutputDevice) => item.name + item.type}
-      />
-    </View>
-  );
-};
-
-const SoundOutputDeviceTile = ({
+function SoundOutputDeviceTile({
   item,
   selected,
   selectOutputAudioDevice,
@@ -52,7 +28,7 @@ const SoundOutputDeviceTile = ({
   selected: AudioOutputDevice | undefined;
   selectOutputAudioDevice: (device: AudioOutputDeviceType) => Promise<void>;
   accessibilityLabel?: string | undefined;
-}) => {
+}) {
   const isSelected =
     item.type === selected?.type && item.name === selected.name;
 
@@ -78,7 +54,31 @@ const SoundOutputDeviceTile = ({
       </View>
     </TouchableOpacity>
   );
-};
+}
+
+export default function SoundOutputDevicesSection() {
+  const audioSettings = useAudioSettings();
+
+  return (
+    <View style={styles.wrapper}>
+      <Text style={styles.title} accessibilityLabel={TITLE_TEXT}>
+        Select output audio device
+      </Text>
+      <FlatList
+        data={audioSettings.availableDevices}
+        renderItem={(item) => (
+          <SoundOutputDeviceTile
+            item={item.item}
+            selected={audioSettings.selectedAudioOutputDevice ?? undefined}
+            selectOutputAudioDevice={audioSettings.selectOutputAudioDevice}
+            accessibilityLabel={OUTPUT_DEVICE_BUTTON + item.index}
+          />
+        )}
+        keyExtractor={(item: AudioOutputDevice) => item.name + item.type}
+      />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -1,121 +1,96 @@
 import {
   Track,
   VideoRendererView,
-  setTargetTrackEncoding,
   Metadata,
+  Peer,
 } from '@fishjam-cloud/react-native-client';
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import Animated, {
-  FadeInDown,
-  LinearTransition,
-} from 'react-native-reanimated';
+import { FlatList, StyleSheet, View } from 'react-native';
 
-import LetterButton from './LetterButton';
 import { roomScreenLabels } from '../types/ComponentLabels';
+import { BrandColors } from '../utils/Colors';
+import Typo from './Typo';
 
 type Props = {
-  tracks: Track<Metadata>[];
+  tracks: GridTrack[];
 };
 
-const { width } = Dimensions.get('window');
+type GridTrack = Track & {
+  isLocal: boolean;
+  userName: string | undefined;
+};
+
 const { VIDEO_CELL } = roomScreenLabels;
-const AnimatedVideoRenderer =
-  Animated.createAnimatedComponent(VideoRendererView);
 
-export function VideosGrid({ tracks }: Props) {
-  const videoWidth = (width - 40) / 2;
+export function parsePeersToTracks(peers: Peer<Metadata>[]): GridTrack[] {
+  return peers
+    .sort((peer) => (peer.isLocal ? -1 : 1))
+    .flatMap((peer) =>
+      peer.tracks
+        .map((track) => ({
+          ...track,
+          isLocal: peer.isLocal,
+          userName: peer.metadata?.name,
+        }))
+        .filter((track) => track.type === 'Video' && track.isActive),
+    );
+}
 
+export default function VideosGrid({ tracks }: Props) {
   return (
-    <View
-      style={
-        tracks.length > 3 ? styles.videosContainer2 : styles.videosContainer1
-      }>
-      {tracks.map((v, idx) => (
-        <Animated.View
+    <FlatList<GridTrack>
+      data={tracks}
+      renderItem={({ item: track, index: idx }) => (
+        <View
           accessibilityLabel={VIDEO_CELL + idx}
-          entering={FadeInDown.duration(200)}
-          layout={LinearTransition.duration(150)}
-          style={
-            tracks.length > 3
-              ? [styles.video2, { width: videoWidth, height: videoWidth }]
-              : [styles.video1, { maxWidth: width - 20 }]
-          }
-          key={v.id}>
-          <AnimatedVideoRenderer
-            trackId={v.id}
-            entering={FadeInDown.duration(200)}
-            layout={LinearTransition.duration(150)}
-            style={styles.animatedView}
+          style={[
+            styles.video,
+            {
+              backgroundColor: track.isLocal
+                ? BrandColors.yellow100
+                : BrandColors.darkBlue60,
+            },
+          ]}
+          key={idx}>
+          <VideoRendererView
+            trackId={track.id}
+            videoLayout="FIT"
+            style={styles.flexOne}
           />
-          {(v.simulcastConfig?.enabled ?? false) && (
-            <View style={styles.buttons}>
-              {v.simulcastConfig?.activeEncodings.map((e) => (
-                <LetterButton
-                  key={e}
-                  trackEncoding={e}
-                  selected={v.encoding === e}
-                  onPress={() => setTargetTrackEncoding(v.id, e)}
-                />
-              ))}
-            </View>
-          )}
-        </Animated.View>
-      ))}
-    </View>
+          <View style={styles.userLabel}>
+            <Typo variant="chat-regular">{track.userName}</Typo>
+          </View>
+        </View>
+      )}
+      ListFooterComponent={() => <View style={{ height: 60 }} />}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  animatedView: { flex: 1 },
+  flexOne: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
   },
-  videosContainer1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  videosContainer2: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  video1: {
-    flex: 1,
-    margin: 10,
-    aspectRatio: 1,
-    borderRadius: 8,
-    overflow: 'hidden',
-    backgroundColor: 'black',
-  },
-  video2: {
-    margin: 10,
-    aspectRatio: 1,
-    borderRadius: 8,
-    overflow: 'hidden',
-    backgroundColor: 'black',
-  },
-  border: {
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
   video: {
     flex: 1,
-  },
-  buttons: {
-    flexDirection: 'row',
-    gap: 8,
-    padding: 4,
+    margin: 10,
+    aspectRatio: 1,
     borderRadius: 8,
+    overflow: 'hidden',
+    borderColor: BrandColors.darkBlue100,
+    borderWidth: 2,
+  },
+  userLabel: {
     position: 'absolute',
+    bottom: 10,
+    right: 10,
     opacity: 0.5,
-    backgroundColor: 'white',
-    right: 0,
+    backgroundColor: BrandColors.darkBlue20,
+    borderRadius: 4,
+    padding: 3,
   },
 });
-
-export default VideosGrid;

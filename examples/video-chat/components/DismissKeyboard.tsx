@@ -3,12 +3,10 @@ import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import type { AppParentNode } from '../types/AppParentNode';
 
-const DismissKeyboard = (props: AppParentNode) => {
+export default function DismissKeyboard(props: AppParentNode) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       {props.children}
     </TouchableWithoutFeedback>
   );
-};
-
-export default DismissKeyboard;
+}

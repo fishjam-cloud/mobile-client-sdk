@@ -53,6 +53,22 @@ struct ScreencastOptions: Record {
     var maxBandwidth: RNTrackBandwidthLimit = RNTrackBandwidthLimit(0)
 }
 
+struct ReconnectConfig: Record {
+    @Field
+    var maxAttempts: Int = 5
+
+    @Field
+    var initialDelayMs: Int = 1000
+
+    @Field
+    var delayMs: Int = 1000
+}
+
+struct ConnectConfig: Record {
+    @Field
+    var reconnectConfig: ReconnectConfig = ReconnectConfig()
+}
+
 typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
@@ -64,11 +80,13 @@ public class RNFishjamClientModule: Module {
             "IsMicrophoneOn",
             "IsScreencastOn",
             "SimulcastConfigUpdate",
-            "EndpointsUpdate",
+            "PeersUpdate",
             "AudioDeviceUpdate",
             "SendMediaEvent",
-            "BandwidthEstimation"
-        )
+            "BandwidthEstimation",
+            "ReconnectionRetriesLimitReached",
+            "ReconnectionStarted",
+            "Reconnected")
 
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {
@@ -79,8 +97,10 @@ public class RNFishjamClientModule: Module {
             return client
         }()
 
-        AsyncFunction("connect") { (url: String, peerToken: String, peerMetadata: [String: Any], promise: Promise) in
-            rnFishjamClient.connect(url: url, peerToken: peerToken, peerMetadata: peerMetadata, promise: promise)
+        AsyncFunction("connect") {
+            (url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig, promise: Promise) in
+            rnFishjamClient.connect(
+                url: url, peerToken: peerToken, peerMetadata: peerMetadata, config: config, promise: promise)
         }
 
         AsyncFunction("leaveRoom") {
@@ -89,10 +109,6 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("startCamera") { (config: CameraConfig) in
             try rnFishjamClient.startCamera(config: config)
-        }
-
-        AsyncFunction("startMicrophone") { (config: MicrophoneConfig) in
-            try rnFishjamClient.startMicrophone(config: config)
         }
 
         Property("isMicrophoneOn") {
@@ -131,12 +147,12 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isScreencastOn
         }
 
-        AsyncFunction("getEndpoints") {
-            try rnFishjamClient.getEndpoints()
+        AsyncFunction("getPeers") {
+            rnFishjamClient.getPeers()
         }
 
-        AsyncFunction("updateEndpointMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateEndpointMetadata(metadata: metadata)
+        AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in
+            try rnFishjamClient.updatePeerMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in

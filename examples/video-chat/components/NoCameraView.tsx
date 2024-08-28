@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { Typo } from './Typo';
+import Typo from './Typo';
 import type AccessibilityLabel from '../types/AccessibilityLabel';
 import { BrandColors } from '../utils/Colors';
 
@@ -10,11 +10,11 @@ type NoCameraViewProps = {
   isSmallTile?: boolean;
 } & AccessibilityLabel;
 
-export const NoCameraView = ({
+export default function NoCameraView({
   username = '',
   isSmallTile = false,
   accessibilityLabel,
-}: NoCameraViewProps) => {
+}: NoCameraViewProps) {
   return (
     <View
       style={styles.noCameraBackground}
@@ -30,7 +30,7 @@ export const NoCameraView = ({
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   noCameraBackground: {

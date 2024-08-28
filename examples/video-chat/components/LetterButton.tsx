@@ -11,6 +11,44 @@ import {
 import AccessibilityLabel from '../types/AccessibilityLabel';
 import { BrandColors } from '../utils/Colors';
 
+type LetterButtonProps = {
+  onPress: (event: GestureResponderEvent) => void;
+  trackEncoding: TrackEncoding;
+  selected: boolean;
+} & AccessibilityLabel;
+
+export default function LetterButton({
+  onPress,
+  trackEncoding,
+  selected,
+}: LetterButtonProps) {
+  const stylesForText = selected
+    ? LetterButtonStyles.textSelected
+    : LetterButtonStyles.textUnselected;
+
+  const stylesForButton = selected
+    ? LetterButtonStyles.buttonSelected
+    : LetterButtonStyles.buttonUnSelected;
+
+  return (
+    <TouchableHighlight
+      onPress={onPress}
+      style={[LetterButtonStyles.common, stylesForButton]}
+      key={trackEncoding}>
+      <View
+        style={[
+          LetterButtonStyles.common,
+          LetterButtonStyles.button,
+          stylesForButton,
+        ]}>
+        <Text style={[LetterButtonStyles.text, stylesForText]}>
+          {trackEncoding.toUpperCase()}
+        </Text>
+      </View>
+    </TouchableHighlight>
+  );
+}
+
 const LetterButtonStyles = StyleSheet.create({
   common: {
     width: 44,
@@ -40,46 +78,3 @@ const LetterButtonStyles = StyleSheet.create({
     color: BrandColors.darkBlue100,
   },
 });
-
-type LetterButtonProps = {
-  onPress: (event: GestureResponderEvent) => void;
-  trackEncoding: TrackEncoding;
-  selected: boolean;
-} & AccessibilityLabel;
-
-const LetterButton = ({
-  onPress,
-  trackEncoding,
-  selected,
-}: LetterButtonProps) => {
-  const stylesForText = () => {
-    return selected
-      ? LetterButtonStyles.textSelected
-      : LetterButtonStyles.textUnselected;
-  };
-
-  const stylesForButton = () => {
-    return selected
-      ? LetterButtonStyles.buttonSelected
-      : LetterButtonStyles.buttonUnSelected;
-  };
-  return (
-    <TouchableHighlight
-      onPress={onPress}
-      style={[LetterButtonStyles.common, stylesForButton()]}
-      key={trackEncoding}>
-      <View
-        style={[
-          LetterButtonStyles.common,
-          LetterButtonStyles.button,
-          stylesForButton(),
-        ]}>
-        <Text style={[LetterButtonStyles.text, stylesForText()]}>
-          {trackEncoding.toUpperCase()}
-        </Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-export default LetterButton;

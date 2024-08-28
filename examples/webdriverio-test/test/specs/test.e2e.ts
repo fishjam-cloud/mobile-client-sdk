@@ -5,7 +5,7 @@ import {
   AddPeerRequest,
   PeerDetailsResponseData,
   Room,
-} from '@fishjam-cloud/js-server-sdk';
+} from '@fishjam-cloud/fishjam-openapi';
 import { driver } from '@wdio/globals';
 import * as assert from 'assert';
 import type { Suite } from 'mocha';

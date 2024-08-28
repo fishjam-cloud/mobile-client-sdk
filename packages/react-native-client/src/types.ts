@@ -38,3 +38,12 @@ export type SimulcastBandwidthLimit = Record<TrackEncoding, BandwidthLimit>;
  * A type describing bandwidth limitation of a track, including simulcast and non-simulcast tracks. Can be `BandwidthLimit` or `SimulcastBandwidthLimit`.
  */
 export type TrackBandwidthLimit = BandwidthLimit | SimulcastBandwidthLimit;
+
+export type TrackMetadata = {
+  active: boolean;
+  type: 'audio' | 'camera' | 'screensharing';
+};
+
+// branded types are useful for restricting where given value can be passed
+declare const brand: unique symbol;
+export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };

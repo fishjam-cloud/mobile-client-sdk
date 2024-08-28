@@ -79,7 +79,7 @@ class EndpointConnectionManagerTest {
   @Test
   fun addsAudioTrack() =
     runTest {
-      val audioTrack = LocalAudioTrack(mockk(relaxed = true), "endpoint-id", mockk(relaxed = true))
+      val audioTrack = LocalAudioTrack(mockk(relaxed = true), "endpoint-id", mockk(relaxed = true), mockk(relaxed = true))
       manager.getSdpOffer(emptyList(), emptyMap(), listOf(audioTrack))
 
       verify(exactly = 1) {

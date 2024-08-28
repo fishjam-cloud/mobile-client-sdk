@@ -10,6 +10,7 @@ import com.fishjamcloud.client.models.EncoderOptions
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
 import com.fishjamcloud.client.models.RTCStats
+import com.fishjamcloud.client.models.ReconnectConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.TrackEncoding
 import com.fishjamcloud.client.models.VideoParameters
@@ -19,10 +20,15 @@ import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import org.webrtc.Logging
 
-data class Config(
-  val websocketUrl: String,
-  val token: String
-)
+data class ConnectConfig(
+  private val _websocketUrl: String,
+  val token: String,
+  val peerMetadata: Metadata,
+  val reconnectConfig: ReconnectConfig
+) {
+  val websocketUrl: String
+    get() = "$_websocketUrl/socket/peer/websocket"
+}
 
 class FishjamClient(
   appContext: Context,
@@ -37,10 +43,10 @@ class FishjamClient(
   /**
    * Connects to the server using the WebSocket connection
    *
-   * @param config - Configuration object for the client
+   * @param connectConfig - Configuration object for the client
    */
-  fun connect(config: Config) {
-    client.connect(config)
+  fun connect(connectConfig: ConnectConfig) {
+    client.connect(connectConfig)
   }
 
   /**
@@ -50,17 +56,6 @@ class FishjamClient(
    */
   fun leave() {
     client.leave()
-  }
-
-  /**
-   * Tries to join the room. If user is accepted then {@link FishjamClient.onConnected} will be called.
-   * In other case {@link FishjamClient.onConnectError} is invoked.
-   *
-   * @param peerMetadata - Any information that other peers will receive in onPeerJoined
-   * after accepting this peer
-   */
-  fun join(peerMetadata: Metadata = emptyMap()) {
-    client.join(peerMetadata)
   }
 
   /**

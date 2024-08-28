@@ -79,3 +79,5 @@ firebase-admin.json
 *.dSym.zip
 *.mobileprovision
 report.xml
+
+docs/

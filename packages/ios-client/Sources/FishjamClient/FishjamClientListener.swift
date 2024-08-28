@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol FishjamClientListener {
+public protocol FishjamClientListener: ReconnectionManagerListener {
     /**
      * Emitted when the websocket connection is closed
      */
@@ -10,20 +10,11 @@ public protocol FishjamClientListener {
      * Emitted when occurs an error in the websocket connection
      */
     func onSocketError()
-    /**
-     * Emitted when the websocket connection is opened
-     */
-    func onSocketOpen()
-
-    /**
-     * Emitted when authentication is successful
-     */
-    func onAuthSuccess()
 
     /**
      * Emitted when authentication fails
      */
-    func onAuthError()
+    func onAuthError(reason: AuthError)
 
     /**
      * Called when peer was accepted.
