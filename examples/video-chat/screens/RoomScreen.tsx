@@ -25,6 +25,7 @@ import { usePreventBackButton } from '../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parseParticipiantsToTracks } from '../components/VideosGrid';
+import { ParticipiantMetadata } from '../types/types';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -46,7 +47,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   useForegroundService();
 
-  const { participiants } = useParticipiants();
+  const { participiants } = useParticipiants<ParticipiantMetadata>();
 
   const tracks = useMemo(
     () => parseParticipiantsToTracks(participiants),

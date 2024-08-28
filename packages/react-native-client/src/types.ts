@@ -44,6 +44,8 @@ export type TrackMetadata = {
   type: 'audio' | 'camera' | 'screensharing';
 };
 
+export type GenericMetadata = Record<string, unknown>;
+
 // branded types are useful for restricting where given value can be passed
 declare const brand: unique symbol;
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };

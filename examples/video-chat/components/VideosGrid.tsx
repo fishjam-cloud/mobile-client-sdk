@@ -1,7 +1,6 @@
 import {
   Track,
   VideoRendererView,
-  Metadata,
   Participiant,
 } from '@fishjam-cloud/react-native-client';
 import React from 'react';
@@ -10,6 +9,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { BrandColors } from '../utils/Colors';
 import Typo from './Typo';
+import { ParticipiantMetadata } from '../types/types';
 
 type Props = {
   tracks: GridTrack[];
@@ -23,7 +23,7 @@ type GridTrack = Track & {
 const { VIDEO_CELL } = roomScreenLabels;
 
 export function parseParticipiantsToTracks(
-  participiants: Participiant<Metadata>[],
+  participiants: Participiant<ParticipiantMetadata>[],
 ): GridTrack[] {
   return participiants
     .sort((participiant) => (participiant.isLocal ? -1 : 1))

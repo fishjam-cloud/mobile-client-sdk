@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Metadata, TrackEncoding, TrackMetadata } from '../types';
+import { GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
 
@@ -43,7 +43,9 @@ export type Track = VideoTrack | AudioTrack;
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type Participiant<MetadataType extends Metadata> = {
+export type Participiant<
+  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+> = {
   /**
    *  id used to identify a participiant
    */
@@ -55,20 +57,24 @@ export type Participiant<MetadataType extends Metadata> = {
   /**
    * a map `string -> any` containing participiant metadata from the server
    */
-  metadata: MetadataType;
+  metadata: ParticipiantMetadata;
   /**
    * a list of participiants's video and audio tracks
    */
   tracks: Track[];
 };
 
-export type ParticipiantsUpdateEvent<MetadataType extends Metadata> = {
-  PeersUpdate: Participiant<MetadataType>[];
+export type ParticipiantsUpdateEvent<
+  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+> = {
+  PeersUpdate: Participiant<ParticipiantMetadata>[];
 };
 
-function addIsActiveToTracks<MetadataType extends Metadata>(
-  participiants: ReadonlyArray<Participiant<MetadataType>>,
-): Participiant<MetadataType>[] {
+function addIsActiveToTracks<
+  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+>(
+  participiants: ReadonlyArray<Participiant<ParticipiantMetadata>>,
+): Participiant<ParticipiantMetadata>[] {
   return participiants.map((participiant) => ({
     ...participiant,
     tracks: participiant.tracks.map((track) => ({
@@ -82,22 +88,28 @@ function addIsActiveToTracks<MetadataType extends Metadata>(
  * This hook provides live updates of room participiants.
  * @returns An array of room participiants.
  */
-export function useParticipiants<MetadataType extends Metadata>() {
+export function useParticipiants<
+  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+>() {
   const [participiants, setParticipiants] = useState<
-    Participiant<MetadataType>[]
+    Participiant<ParticipiantMetadata>[]
   >([]);
 
   useEffect(() => {
     async function updateParticipiants() {
       const participiants =
-        await RNFishjamClientModule.getPeers<MetadataType>();
-      setParticipiants(addIsActiveToTracks(participiants));
+        await RNFishjamClientModule.getPeers<ParticipiantMetadata>();
+      setParticipiants(
+        addIsActiveToTracks<ParticipiantMetadata>(participiants),
+      );
     }
 
     const eventListener = eventEmitter.addListener<
-      ParticipiantsUpdateEvent<MetadataType>
+      ParticipiantsUpdateEvent<ParticipiantMetadata>
     >(ReceivableEvents.PeersUpdate, (event) => {
-      setParticipiants(addIsActiveToTracks(event.PeersUpdate));
+      setParticipiants(
+        addIsActiveToTracks<ParticipiantMetadata>(event.PeersUpdate),
+      );
     });
 
     updateParticipiants();

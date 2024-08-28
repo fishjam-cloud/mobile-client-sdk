@@ -54,7 +54,6 @@ export type { VideoRendererProps } from './components/VideoRendererView';
 export { VideoRendererView } from './components/VideoRendererView';
 
 export type {
-  Metadata,
   TrackBandwidthLimit,
   TrackEncoding,
   SimulcastBandwidthLimit,
