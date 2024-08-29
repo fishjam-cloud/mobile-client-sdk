@@ -18,7 +18,7 @@ public struct ConnectConfig {
 internal protocol FishjamWebsocket {
     var delegate: WebSocketDelegate? { get set }
     func connect()
-    func disconnect()
+    func disconnect(closeCode: UInt16)
     func write(data: Data)
 }
 
@@ -37,8 +37,8 @@ public class FishjamClientWebSocket: FishjamWebsocket {
         self.socket.connect()
     }
 
-    func disconnect() {
-        self.socket.disconnect()
+    func disconnect(closeCode: UInt16 = CloseCode.normal.rawValue) {
+        self.socket.disconnect(closeCode: closeCode)
     }
 
     func write(data: Data) {

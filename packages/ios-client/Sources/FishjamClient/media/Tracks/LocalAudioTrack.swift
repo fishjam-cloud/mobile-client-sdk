@@ -3,17 +3,20 @@ import WebRTC
 /// Utility wrapper around a local `RTCAudioTrack` managing a local audio session.
 public class LocalAudioTrack: Track, LocalTrack {
     private let config: RTCAudioSessionConfiguration
+    internal var audioSource: RTCAudioSource
 
     internal init(
-        mediaTrack: RTCAudioTrack, endpointId: String, metadata: Metadata = Metadata(), id: String = UUID().uuidString
+        mediaTrack: RTCAudioTrack, audioSource: RTCAudioSource, endpointId: String, metadata: Metadata = Metadata()
     ) {
         config = AudioUtils.createAudioConfig()
+        self.audioSource = audioSource
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
     }
 
-    internal init(oldTrack: LocalAudioTrack, peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper) {
+    internal init(mediaTrack: RTCAudioTrack, oldTrack: LocalAudioTrack) {
         self.config = oldTrack.config
-        super.init(mediaTrack: oldTrack.mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: oldTrack.endpointId, metadata: oldTrack.metadata)
+        self.audioSource = oldTrack.audioSource
+        super.init(mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: oldTrack.rtcEngineId, metadata: oldTrack.metadata)
     }
 
     internal var audioTrack: RTCAudioTrack {

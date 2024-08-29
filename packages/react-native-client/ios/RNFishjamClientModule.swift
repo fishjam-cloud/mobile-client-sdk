@@ -148,7 +148,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("getPeers") {
-            rnFishjamClient.getPeers()
+            try rnFishjamClient.getPeers()
         }
 
         AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in

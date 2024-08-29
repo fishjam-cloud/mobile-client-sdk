@@ -14,10 +14,11 @@ public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCaptur
     private let appGroup: String
     internal var capturer: ScreenBroadcastCapturer
     internal var videoParameters: VideoParameters
+    internal var videoSource: RTCVideoSource
     public weak var delegate: LocalScreenBroadcastTrackDelegate?
 
     internal init(
-        mediaTrack: RTCVideoTrack, mediaSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),
+        mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),
         appGroup: String,
         videoParameters: VideoParameters,
         delegate: LocalScreenBroadcastTrackDelegate? = nil
@@ -25,10 +26,20 @@ public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCaptur
         self.appGroup = appGroup
         self.videoParameters = videoParameters
         self.delegate = delegate
-        self.capturer = ScreenBroadcastCapturer(mediaSource, appGroup: appGroup, videoParameters: videoParameters)
+        self.videoSource = videoSource
+        self.capturer = ScreenBroadcastCapturer(videoSource, appGroup: appGroup, videoParameters: videoParameters)
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
         capturer.capturerDelegate = self
-
+    }
+    
+    internal init (mediaTrack: RTCVideoTrack, oldTrack: LocalScreencastTrack){
+        self.appGroup = oldTrack.appGroup
+        self.videoParameters = oldTrack.videoParameters
+        self.delegate = oldTrack.delegate
+        self.videoSource = oldTrack.videoSource
+        self.capturer = ScreenBroadcastCapturer(oldTrack.videoSource, appGroup: oldTrack.appGroup, videoParameters: oldTrack.videoParameters)
+        super.init(mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: nil, metadata: oldTrack.metadata)
+        capturer.capturerDelegate = self
     }
 
     func start() {

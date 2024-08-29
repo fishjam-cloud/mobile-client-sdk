@@ -203,18 +203,12 @@ public class VideoView: UIView {
 
     private static func createNativeRendererView(delegate: RTCVideoViewDelegate) -> RTCVideoRenderer {
         DispatchQueue.fishjam.sync {
-            if isMetalAvailable() {
-                let mtlView = RTCMTLVideoView()
-                mtlView.contentMode = .scaleAspectFit
-                mtlView.videoContentMode = .scaleAspectFit
-                mtlView.delegate = delegate
-                return mtlView
-            } else {
-                let glView = RTCEAGLVideoView()
-                glView.contentMode = .scaleAspectFit
-                glView.delegate = delegate
-                return glView
-            }
+            let mtlView = RTCMTLVideoView()
+            mtlView.contentMode = .scaleAspectFit
+            mtlView.videoContentMode = .scaleAspectFit
+            mtlView.delegate = delegate
+
+            return mtlView
         }
     }
 }
@@ -238,7 +232,8 @@ extension VideoView: RTCVideoViewDelegate {
         DispatchQueue.main.async {
             self.dimensions = Dimensions(
                 width: width,
-                height: height)
+                height: height
+            )
         }
     }
 }
