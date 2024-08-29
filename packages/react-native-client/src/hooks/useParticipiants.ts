@@ -55,7 +55,7 @@ export type Participiant<
    */
   isLocal: boolean;
   /**
-   * a map `string -> any` containing participiant metadata from the server
+   * a map indexed by strings, containing participiant metadata from the server
    */
   metadata: ParticipiantMetadata;
   /**
