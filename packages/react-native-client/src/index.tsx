@@ -35,7 +35,7 @@ export type {
 export { useScreencast } from './hooks/useScreencast';
 
 export type { ReconnectionStatus } from './hooks/useReconnection';
-export  *  from './hooks/useReconnection';
+export * from './hooks/useReconnection';
 
 export { updatePeerMetadata } from './common/metadata';
 

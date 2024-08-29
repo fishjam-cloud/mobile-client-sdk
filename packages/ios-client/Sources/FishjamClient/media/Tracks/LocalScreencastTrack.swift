@@ -31,14 +31,16 @@ public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCaptur
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
         capturer.capturerDelegate = self
     }
-    
-    internal init (mediaTrack: RTCVideoTrack, oldTrack: LocalScreencastTrack){
+
+    internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalScreencastTrack) {
         self.appGroup = oldTrack.appGroup
         self.videoParameters = oldTrack.videoParameters
         self.delegate = oldTrack.delegate
         self.videoSource = oldTrack.videoSource
-        self.capturer = ScreenBroadcastCapturer(oldTrack.videoSource, appGroup: oldTrack.appGroup, videoParameters: oldTrack.videoParameters)
-        super.init(mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: nil, metadata: oldTrack.metadata)
+        self.capturer = ScreenBroadcastCapturer(
+            oldTrack.videoSource, appGroup: oldTrack.appGroup, videoParameters: oldTrack.videoParameters)
+        super.init(
+            mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: nil, metadata: oldTrack.metadata)
         capturer.capturerDelegate = self
     }
 

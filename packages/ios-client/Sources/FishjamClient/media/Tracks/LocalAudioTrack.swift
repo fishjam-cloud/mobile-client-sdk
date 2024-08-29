@@ -16,7 +16,9 @@ public class LocalAudioTrack: Track, LocalTrack {
     internal init(mediaTrack: RTCAudioTrack, oldTrack: LocalAudioTrack) {
         self.config = oldTrack.config
         self.audioSource = oldTrack.audioSource
-        super.init(mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: oldTrack.rtcEngineId, metadata: oldTrack.metadata)
+        super.init(
+            mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: oldTrack.rtcEngineId,
+            metadata: oldTrack.metadata)
     }
 
     internal var audioTrack: RTCAudioTrack {
