@@ -7,36 +7,29 @@ public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
     case m
     case h
 
+    static private let descriptionMap: [Self: String] = [.l: "l", .m: "m", .h: "h"]
+
     public var description: String {
-        switch self {
-        case .l: return "l"
-        case .m: return "m"
-        case .h: return "h"
-        }
+        return TrackEncoding.descriptionMap[self] ?? ""
     }
 
     enum TrackEncodingCodingError: Error {
         case decoding(String)
     }
 
-    public static func fromString(_ s: String) throws -> TrackEncoding {
-        switch s.lowercased() {
-        case "l":
-            return .l
-        case "m":
-            return .m
-        case "h":
-            return .h
-        default:
+    public init(_ s: String) throws {
+        let lowercasedInput = s.lowercased()
+        guard let value = TrackEncoding.allCases.first(where: { $0.description == lowercasedInput }) else {
             sdkLogger.error("TrackEncoding: \(s) is not a valid encoding")
             throw TrackEncodingCodingError.decoding("\(s) is not a valid encoding")
         }
+        self = value
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let encodingString = try container.decode(String.self)
-        self = try TrackEncoding.fromString(encodingString)
+        self = try TrackEncoding(encodingString)
     }
 
     public func encode(to encoder: Swift.Encoder) throws {

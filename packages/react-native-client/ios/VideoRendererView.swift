@@ -33,7 +33,6 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
         DispatchQueue.main.async {
             for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
                 if let track = endpoint.tracks[self.trackId] as? VideoTrack {
-                    print("track founded")
                     self.videoView?.track = track
                     return
                 }

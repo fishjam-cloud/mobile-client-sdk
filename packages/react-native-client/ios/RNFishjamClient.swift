@@ -44,7 +44,7 @@ class RNFishjamClient: FishjamClientListener {
         var activeEncodings: [TrackEncoding] = []
 
         for encoding in simulcastConfig.activeEncodings {
-            if let fishjamEncoding = try? TrackEncoding.fromString(encoding) {
+            if let fishjamEncoding = try? TrackEncoding(encoding) {
                 activeEncodings.append(fishjamEncoding)
             }
         }
@@ -486,7 +486,7 @@ class RNFishjamClient: FishjamClientListener {
         -> SimulcastConfig
     {
         try ensureCreated()
-        let trackEncoding = try TrackEncoding.fromString(encoding)
+        let trackEncoding = try TrackEncoding(encoding)
         let trackEncodingActive = simulcastConfig.activeEncodings.contains(trackEncoding)
         var updatedEncodings = simulcastConfig.activeEncodings
 
@@ -527,7 +527,7 @@ class RNFishjamClient: FishjamClientListener {
 
     func setTargetTrackEncoding(trackId: String, encoding: String) throws {
         try ensureConnected()
-        let trackEncoding = try TrackEncoding.fromString(encoding)
+        let trackEncoding = try TrackEncoding(encoding)
         RNFishjamClient.fishjamClient?.setTargetTrackEncoding(trackId: trackId, encoding: trackEncoding)
     }
 

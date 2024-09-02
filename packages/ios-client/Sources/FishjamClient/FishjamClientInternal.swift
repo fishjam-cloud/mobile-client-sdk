@@ -351,7 +351,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
     func onSendMediaEvent(event: SerializedMediaEvent) {
         if !isAuthenticated {
-            print("Tried to send media event: \(event) before authentication")
+            sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
         let mediaEvent =
@@ -505,7 +505,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             return
         }
 
-        guard let encodingEnum = try? TrackEncoding.fromString(encoding) else {
+        guard let encodingEnum = try? TrackEncoding(encoding) else {
             sdkLogger.error("Invalid encoding in onTrackEncodingChanged: \(encoding)")
             return
         }
@@ -579,10 +579,10 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             break
         case .pong(_):
             break
-        //worth consider should reconnect happend here
+        //TODO: worth consider should reconnect happend here
         case .reconnectSuggested(_):
             break
-        // viabilityChanged is called when there is no internet
+        ///viabilityChanged is called when there is no internet
         case .viabilityChanged(let isViable):
             if !isViable {
                 onSocketError()
@@ -628,15 +628,15 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             } else if case .mediaEvent(_) = peerMessage.content {
                 receiveEvent(event: peerMessage.mediaEvent.data)
             } else {
-                print("Received unexpected websocket message: \(peerMessage)")
+                sdkLogger.error("Received unexpected websocket message: \(peerMessage)")
             }
         } catch {
-            print("Unexpected error: \(error).")
+            sdkLogger.error("Unexpected error: \(error).")
         }
     }
 
     func websocketDidReceiveMessage(text: String) {
-        print("Unsupported socket callback 'websocketDidReceiveMessage' was called.")
+        sdkLogger.error("Unsupported socket callback 'websocketDidReceiveMessage' was called.")
         onSocketError()
     }
 
@@ -666,7 +666,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func prepareToReconnect() {
-        //should it be DispatchQueue??
+        //TODO: should it be DispatchQueue??
         DispatchQueue.fishjam.sync {
             peerConnectionManager.close()
             webSocket?.disconnect(closeCode: CloseCode.normal.rawValue)
@@ -678,7 +678,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func recreateTracks() {
-        //should it be DispatchQueue??
+        //TODO: should it be DispatchQueue??
         DispatchQueue.fishjam.sync {
             prevTracks.forEach { track in
                 switch track {
