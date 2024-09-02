@@ -9,6 +9,17 @@ public enum EndpointType: String, Codable {
             self = .WEBRTC
         }
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self.init(fromString: rawValue)
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(self.rawValue)
+    }
 }
 
 public struct Endpoint {

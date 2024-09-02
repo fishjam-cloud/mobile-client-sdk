@@ -23,8 +23,10 @@ internal class Command {
 
     func execute() {
         DispatchQueue.fishjam.async {
+            print("Before command \(self.commandName)")
             self.block()
             self.promise.fulfill(())
+            print("After command \(self.commandName)")
         }
     }
 }

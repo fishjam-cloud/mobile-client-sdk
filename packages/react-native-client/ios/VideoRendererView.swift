@@ -31,12 +31,11 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
 
     func updateVideoTrack() {
         DispatchQueue.main.async {
-            endpointLoop: for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
-                for (id, track) in endpoint.tracks {
-                    if let videoTrack = track as? VideoTrack, self.trackId == id {
-                        self.videoView?.track = videoTrack
-                        break endpointLoop
-                    }
+            for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
+                if let track = endpoint.tracks[self.trackId] as? VideoTrack {
+                    print("track founded")
+                    self.videoView?.track = track
+                    return
                 }
             }
         }

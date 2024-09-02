@@ -104,6 +104,7 @@ public class VideoView: UIView {
             view.removeFromSuperview()
         }
 
+        //mayby place in above if?
         rendererView = VideoView.createNativeRendererView(delegate: self)
         if let view = rendererView as? UIView {
             view.translatesAutoresizingMaskIntoConstraints = true
@@ -195,10 +196,6 @@ public class VideoView: UIView {
                 }
             }
         }
-    }
-
-    public static func isMetalAvailable() -> Bool {
-        MTLCreateSystemDefaultDevice() != nil
     }
 
     private static func createNativeRendererView(delegate: RTCVideoViewDelegate) -> RTCVideoRenderer {

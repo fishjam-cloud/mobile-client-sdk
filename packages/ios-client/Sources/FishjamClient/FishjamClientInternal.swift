@@ -89,7 +89,6 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func onConnected(endpointId: String, otherEndpoints: [EventEndpoint]) {
-        reconnectionManager?.onReconnected()
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         for eventEndpoint in otherEndpoints {
             var endpoint = Endpoint(
@@ -106,6 +105,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
         listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)
         commandsQueue.finishCommand()
+        reconnectionManager?.onReconnected()
     }
 
     func leave() {
@@ -242,13 +242,12 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 self.peerConnectionManager.removeTrack(trackId: track.webrtcId)
                 self.rtcEngineCommunication.renegotiateTracks()
             })
-
         do {
             try awaitPromise(promise)
         } catch {}
     }
 
-    func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String?]) {
+    func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
 
         localEndpoint.tracks.values.forEach { track in
@@ -282,7 +281,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func enableTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        if let rtcTrackId = getTrack(trackId: trackId)?.rtcEngineId {
+        if let rtcTrackId = getTrack(trackId: trackId)?.webrtcId {
             peerConnectionManager.setTrackEncoding(trackId: rtcTrackId, encoding: encoding, enabled: true)
         } else {
             sdkLogger.error("\(_loggerPrefix) enableTrackEncoding: invalid track id")
@@ -290,7 +289,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func disableTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        if let rtcTrackId = getTrack(trackId: trackId)?.rtcEngineId {
+        if let rtcTrackId = getTrack(trackId: trackId)?.webrtcId {
             peerConnectionManager.setTrackEncoding(trackId: rtcTrackId, encoding: encoding, enabled: false)
         } else {
             sdkLogger.error("\(_loggerPrefix) disableTrackEncoding: invalid track id")
@@ -420,9 +419,11 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             if let sdp = sdp, let midToTrackId = midToTrackId {
                 self.rtcEngineCommunication.sdpOffer(
                     sdp: sdp,
-                    trackIdToTrackMetadata: self.localEndpoint.tracks.mapValues({ trackData in
-                        trackData.metadata
-                    }),
+                    trackIdToTrackMetadata: self.localEndpoint.tracks.reduce(into: [String: Metadata]()) {
+                        (result, trackEntry) in
+                        let (_, trackData) = trackEntry
+                        result[trackData.webrtcId] = trackData.metadata
+                    },
                     midToTrackId: midToTrackId
                 )
             }
@@ -499,7 +500,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             return
         }
 
-        guard let track = getTrack(trackId: trackId) else {
+        guard let track = getTrack(trackId: trackId) as? RemoteVideoTrack else {
             sdkLogger.error("Invalid trackId in onTrackEncodingChanged: \(trackId)")
             return
         }
@@ -509,7 +510,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             return
         }
 
-        (track as? RemoteVideoTrack)?.setEncoding(encoding: encodingEnum, encodingReason: encodingReasonEnum)
+        track.setEncoding(encoding: encodingEnum, encodingReason: encodingReasonEnum)
     }
 
     func onVadNotification(trackId: String, status: String) {
@@ -557,7 +558,6 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
 
         remoteEndpointsMap[endpointId] = remoteEndpointsMap[endpointId]?.addOrReplaceTrack(track)
         listener.onTrackReady(track: track)
-
     }
 
     func onLocalIceCandidate(candidate: RTCIceCandidate) {

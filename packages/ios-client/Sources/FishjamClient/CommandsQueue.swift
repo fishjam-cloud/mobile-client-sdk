@@ -2,7 +2,18 @@ import Promises
 
 internal class CommandsQueue {
     var clientState: ClientState = ClientState.CREATED
-    private var commandsQueue: [Command] = []
+    private var _commandsQueue: [Command] = []
+    private var commandsQueue: [Command] {
+        get { return _commandsQueue }
+        set {
+            _commandsQueue = newValue
+            print("New queue")
+            for command in newValue {
+                print(command.commandName)
+            }
+            print("End new Queue")
+        }
+    }
 
     @discardableResult
     func addCommand(_ command: Command) -> Promise<Void> {

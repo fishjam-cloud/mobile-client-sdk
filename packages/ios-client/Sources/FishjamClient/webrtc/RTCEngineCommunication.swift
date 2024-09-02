@@ -51,6 +51,7 @@ internal class RTCEngineCommunication {
 
     private func sendEvent(event: SendableEvent) {
         let data = try! JSONEncoder().encode(event.serialize())
+        //        print("Sending event: \(event.serialize())\n")
 
         guard let dataPayload = String(data: data, encoding: .utf8) else {
             return
@@ -65,6 +66,7 @@ internal class RTCEngineCommunication {
             sdkLogger.error("Failed to decode event \(serializedEvent)")
             return
         }
+        //        print("Incoming event: \(event)\n")
         switch event.type {
         case .Connected:
             let connected = event as! ConnectedEvent
@@ -101,7 +103,6 @@ internal class RTCEngineCommunication {
         case .Candidate:
             let candidate = event as! RemoteCandidateEvent
             for listener in listeners {
-
                 listener.onRemoteCandidate(
                     candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
                     sdpMid: candidate.data.sdpMid)

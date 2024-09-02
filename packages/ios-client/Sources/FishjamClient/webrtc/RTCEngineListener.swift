@@ -5,7 +5,7 @@ internal protocol RTCEngineListener: AnyObject {
     func onEndpointRemoved(endpointId: String)
     func onEndpointUpdated(endpointId: String, metadata: Metadata?)
     func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int])
-    func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String?])
+    func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String])
     func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?)
     func onTracksAdded(endpointId: String, tracks: [String: TrackData])
     func onTracksRemoved(endpointId: String, trackIds: [String])
