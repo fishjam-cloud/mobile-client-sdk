@@ -17,7 +17,6 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
         videoView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView?.clipsToBounds = true
         addSubview(videoView!)
-        updateVideoTrack()
     }
 
     deinit {
@@ -29,12 +28,25 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
         })
     }
 
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+
+        if newSuperview != nil {
+            updateVideoTrack()
+        }
+    }
+
     func updateVideoTrack() {
         DispatchQueue.main.async {
-            for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
-                if let track = endpoint.tracks[self.trackId] as? VideoTrack {
-                    self.videoView?.track = track
-                    return
+            if self.superview != nil {
+                for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
+                    if let track = endpoint.tracks[self.trackId] as? VideoTrack {
+                        if let track = track as? LocalVideoTrack {
+                            self.mirrorVideo = track.isFrontCamera
+                        }
+                        self.videoView?.track = track
+                        return
+                    }
                 }
             }
         }

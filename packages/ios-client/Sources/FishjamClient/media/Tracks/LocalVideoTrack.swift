@@ -29,6 +29,10 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
         }
     }
 
+    public var isFrontCamera: Bool {
+        return capturer.isFront
+    }
+
     public func start() {
         capturer.startCapture()
     }

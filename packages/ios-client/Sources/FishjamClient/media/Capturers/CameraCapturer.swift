@@ -4,7 +4,7 @@ import WebRTC
 class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer
-    private var isFront: Bool = true
+    internal var isFront: Bool = true
     private var device: AVCaptureDevice? = nil
     internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in }
 

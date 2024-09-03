@@ -33,7 +33,9 @@ const { URL_INPUT, TOKEN_INPUT, CONNECT_BUTTON } = connectScreenLabels;
 const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
-  const [peerToken, onChangePeerToken] = useState('');
+  const [peerToken, onChangePeerToken] = useState(
+    process.env.FISHJAM_TOKEN ?? '',
+  );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
     process.env.FISHJAM_URL ?? '',
   );

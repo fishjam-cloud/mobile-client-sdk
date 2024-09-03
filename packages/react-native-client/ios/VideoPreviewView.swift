@@ -13,8 +13,9 @@ class VideoPreviewView: ExpoView {
         addSubview(videoView!)
     }
 
-    override func willMove(toWindow newWindow: UIWindow?) {
-        if newWindow == nil {
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        if newSuperview == nil {
             localVideoTrack?.stop()
         } else {
             guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else {
