@@ -252,13 +252,21 @@ class RNFishjamClient: FishjamClientListener {
 
     }
 
-    func startMicrophone(config: MicrophoneConfig) throws {
-        try ensureCreated()
-        try ensureConnected()
+    func toggleMicrophone() throws -> Bool {
+        if let audioTrack = getLocalAudioTrack() {
+            setMicrophoneTrackState(audioTrack, enabled: !isMicrophoneOn)
+        } else {
+            try startMicrophone()
+        }
+        return isMicrophoneOn
+    }
+
+    func startMicrophone() throws {
         let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
-            metadata: config.audioTrackMetadata.toMetadata())
+            metadata: Metadata())
         setAudioSessionMode()
-        setMicrophoneTrackState(microphoneTrack, enabled: config.microphoneEnabled)
+        setMicrophoneTrackState(microphoneTrack, enabled: true)
+        emitEndpoints()
     }
 
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) {
@@ -266,12 +274,8 @@ class RNFishjamClient: FishjamClientListener {
         isMicrophoneOn = enabled
         let eventName = EmitableEvents.IsMicrophoneOn
         let isMicrophoneOnMap = [eventName: enabled]
+        print(isMicrophoneOnMap)
         emitEvent(name: eventName, data: isMicrophoneOnMap)
-    }
-
-    func toggleMicrophone() throws {
-        try ensureAudioTrack()
-        setMicrophoneTrackState(getLocalAudioTrack()!, enabled: !isMicrophoneOn)
     }
 
     func setAudioSessionMode() {
