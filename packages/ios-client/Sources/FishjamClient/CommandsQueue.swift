@@ -14,8 +14,7 @@ internal class CommandsQueue {
     }
 
     func finishCommand() {
-        guard !(commandsQueue.isEmpty) else { return }
-        let command = commandsQueue.first!
+        guard let command = commandsQueue.first else { return }
         commandsQueue.removeFirst()
         if let nextState = command.clientStateAfterCommand {
             clientState = nextState

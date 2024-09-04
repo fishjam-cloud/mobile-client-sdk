@@ -77,13 +77,11 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         switch maxBitrate {
         case .BandwidthLimit(let limit):
             splitBitrate(encodings: encodings, bitrate: limit)
-            break
         case .SimulcastBandwidthLimit(let limit):
             encodings.forEach { encoding in
                 let encodingLimit = limit[encoding.rid ?? ""] ?? 0
                 encoding.maxBitrateBps = encodingLimit == 0 ? nil : (encodingLimit * 1024) as NSNumber
             }
-            break
         }
     }
 

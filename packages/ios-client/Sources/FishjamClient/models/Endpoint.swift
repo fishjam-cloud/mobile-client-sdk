@@ -2,12 +2,7 @@ public enum EndpointType: String, Codable {
     case WEBRTC
 
     init(fromString s: String) {
-        switch s.lowercased() {
-        case "webrtc":
-            self = .WEBRTC
-        default:
-            self = .WEBRTC
-        }
+        self = EndpointType(rawValue: s.uppercased()) ?? .WEBRTC
     }
 
     public init(from decoder: Decoder) throws {

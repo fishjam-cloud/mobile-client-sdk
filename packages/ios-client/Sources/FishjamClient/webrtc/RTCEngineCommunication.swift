@@ -50,9 +50,9 @@ internal class RTCEngineCommunication {
     }
 
     private func sendEvent(event: SendableEvent) {
-        let data = try! JSONEncoder().encode(event.serialize())
-
-        guard let dataPayload = String(data: data, encoding: .utf8) else {
+        guard let data = try? JSONEncoder().encode(event.serialize()),
+            let dataPayload = String(data: data, encoding: .utf8)
+        else {
             return
         }
         for listener in listeners {
