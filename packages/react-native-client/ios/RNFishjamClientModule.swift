@@ -94,9 +94,6 @@ public class RNFishjamClientModule: Module {
                 self.sendEvent(eventName, data)
             }
             client.create()
-            //            do {
-            //                try client.changeWebRTCLoggingSeverity(severity: "verbose")
-            //            } catch {}
             return client
         }()
 

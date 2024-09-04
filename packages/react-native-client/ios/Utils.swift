@@ -2,7 +2,7 @@ import FishjamCloudClient
 import ReplayKit
 import os.log
 
-let log = OSLog(subsystem: "com.swm.membranewebrtc", category: "ErrorHandling")
+let log = OSLog(subsystem: "com.fishjamcloud.react-native-client", category: "ErrorHandling")
 
 #if os(iOS)
     @available(iOS 12, *)

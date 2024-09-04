@@ -151,6 +151,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         do {
             try awaitPromise(promise)
         } catch {
+            sdkLogger.error("\(_loggerPrefix) Error during awaiting for for createVideoTrack")
 
         }
         return videoTrack
@@ -579,7 +580,6 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             break
         case .pong(_):
             break
-        //TODO: worth consider should reconnect happend here
         case .reconnectSuggested(_):
             break
         ///viabilityChanged is called when there is no internet
