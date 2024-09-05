@@ -41,7 +41,13 @@ async function getFishjamServer(
     `${url}${roomName.trim()}/users/${userName.trim()}`,
   );
   if (!response.ok) {
-    throw new Error(JSON.stringify(await response.json()));
+    const responseText = await response.text();
+    console.warn(
+      'get_fishjam_failed',
+      `statusCode=${response.status}`,
+      `message=${responseText}`,
+    );
+    throw new Error(responseText);
   }
   const tokenData = (await response.json()) as {
     url: string;
