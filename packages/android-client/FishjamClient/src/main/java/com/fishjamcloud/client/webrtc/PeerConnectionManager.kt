@@ -202,18 +202,16 @@ internal class PeerConnectionManager(
     }
   }
 
-  suspend fun removeTrack(trackId: String): Boolean {
+  suspend fun removeTrack(trackId: String) {
     peerConnectionMutex.withLock {
       val pc =
         peerConnection ?: run {
           Timber.e("removeTrack: Peer connection not yet established")
-          return false
+          return
         }
       pc.transceivers.find { it.sender.track()?.id() == trackId }?.sender?.let {
         pc.removeTrack(it)
-        return true
       }
-      return false
     }
   }
 
@@ -415,7 +413,7 @@ internal class PeerConnectionManager(
   ) {
     peerConnectionMutex.withLock {
       val sender =
-        peerConnection?.senders?.find { it -> it.track()?.id() == trackId } ?: run {
+        peerConnection?.senders?.find { it.track()?.id() == trackId } ?: run {
           Timber.e("setTrackEncoding: Invalid trackId $trackId, no track sender found")
           return
         }

@@ -18,7 +18,7 @@ public struct ConnectConfig {
 internal protocol FishjamWebsocket {
     var delegate: WebSocketDelegate? { get set }
     func connect()
-    func disconnect()
+    func disconnect(closeCode: UInt16)
     func write(data: Data)
 }
 
@@ -37,8 +37,8 @@ public class FishjamClientWebSocket: FishjamWebsocket {
         self.socket.connect()
     }
 
-    func disconnect() {
-        self.socket.disconnect()
+    func disconnect(closeCode: UInt16 = CloseCode.normal.rawValue) {
+        self.socket.disconnect(closeCode: closeCode)
     }
 
     func write(data: Data) {
@@ -54,12 +54,9 @@ internal func websocketFactory(url: String) -> FishjamWebsocket {
 
 public class FishjamClient {
     private var client: FishjamClientInternal
-    private var webrtcClient: MembraneRTC
 
     public init(listener: FishjamClientListener) {
         self.client = FishjamClientInternal(listener: listener, websocketFactory: websocketFactory)
-        self.webrtcClient = MembraneRTC.create(delegate: self.client)
-        self.client.webrtcClient = self.webrtcClient
     }
 
     /**
@@ -81,11 +78,14 @@ public class FishjamClient {
     }
 
     /**
-    * Disconnect from the room, and close the websocket connection. Tries to leave the room gracefully, but if it fails,
-    * it will close the websocket anyway.
+    * Tries to join the room. If user is accepted then {@link FishjamClient.onJoinSuccess} will be called.
+    * In other case {@link FishjamClient.onJoinError} is invoked.
+    *
+    * @param peerMetadata - Any information that other peers will receive in onPeerJoined
+    * after accepting this peer
     */
-    public func cleanUp() {
-        client.cleanUp()
+    public func join(peerMetadata: Metadata = Metadata()) {
+        client.join(peerMetadata: peerMetadata)
     }
 
     /**
@@ -103,9 +103,9 @@ public class FishjamClient {
         videoParameters: VideoParameters,
         metadata: Metadata,
         captureDeviceName: String? = nil
-    ) -> LocalVideoTrack? {
-        return webrtcClient.createVideoTrack(
-            videoParameters: videoParameters, metadata: metadata, captureDeviceId: captureDeviceName)
+    ) -> LocalVideoTrack {
+        return client.createVideoTrack(
+            videoParameters: videoParameters, metadata: metadata, captureDeviceName: captureDeviceName)
     }
 
     /**
@@ -116,8 +116,8 @@ public class FishjamClient {
     * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
     * @return an instance of the audio track
     */
-    public func createAudioTrack(metadata: Metadata) -> LocalAudioTrack? {
-        return webrtcClient.createAudioTrack(metadata: metadata)
+    public func createAudioTrack(metadata: Metadata) -> LocalAudioTrack {
+        return client.createAudioTrack(metadata: metadata)
     }
 
     /**
@@ -131,14 +131,15 @@ public class FishjamClient {
     * @param onEnd callback that will be invoked once the screen capture ends
     * @return an instance of the screencast track
     */
+    @discardableResult
     public func createScreencastTrack(
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreenBroadcastTrack) -> Void,
-        onStop: @escaping () -> Void
-    ) -> LocalScreenBroadcastTrack? {
-        return webrtcClient.createScreencastTrack(
+        onStart: @escaping (_ track: LocalScreencastTrack) -> Void,
+        onStop: @escaping (_ track: LocalScreencastTrack) -> Void
+    ) -> LocalScreencastTrack? {
+        return client.createScreencastTrack(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
@@ -153,8 +154,8 @@ public class FishjamClient {
     * @param trackId an id of a valid local track that has been created using the current client
     * @return a boolean whether the track has been successfully removed or not
     */
-    public func removeTrack(trackId: String) -> Bool {
-        return webrtcClient.removeTrack(trackId: trackId)
+    public func removeTrack(trackId: String) {
+        return client.removeTrack(trackId: trackId)
     }
 
     /**
@@ -168,7 +169,7 @@ public class FishjamClient {
     * @param encoding an encoding to receive
     */
     public func setTargetTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        webrtcClient.setTargetTrackEncoding(trackId: trackId, encoding: encoding)
+        client.setTargetTrackEncoding(trackId: trackId, encoding: encoding)
     }
 
     /**
@@ -178,7 +179,7 @@ public class FishjamClient {
     * @param encoding an encoding that will be enabled
     */
     public func enableTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        webrtcClient.enableTrackEncoding(trackId: trackId, encoding: encoding)
+        client.enableTrackEncoding(trackId: trackId, encoding: encoding)
     }
 
     /**
@@ -188,7 +189,7 @@ public class FishjamClient {
     * @param encoding an encoding that will be disabled
     */
     public func disableTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        webrtcClient.disableTrackEncoding(trackId: trackId, encoding: encoding)
+        client.disableTrackEncoding(trackId: trackId, encoding: encoding)
     }
 
     /**
@@ -198,8 +199,8 @@ public class FishjamClient {
     * If the metadata is different from what is already tracked in the room, the optional
     * callback `onPeerUpdated` will be triggered for other peers in the room.
     */
-    public func updatePeerMetadata(peerMetadata: Metadata) {
-        webrtcClient.updatePeerMetadata(metadata: peerMetadata)
+    public func updatePeerMetadata(metadata: Metadata) {
+        client.updatePeerMetadata(metadata: metadata)
     }
 
     /**
@@ -210,8 +211,8 @@ public class FishjamClient {
     * If the metadata is different from what is already tracked in the room, the optional
     * callback `onTrackUpdated` will be triggered for other peers in the room.
     */
-    public func updateTrackMetadata(trackId: String, trackMetadata: Metadata) {
-        webrtcClient.updateTrackMetadata(trackId: trackId, trackMetadata: trackMetadata)
+    public func updateTrackMetadata(trackId: String, metadata: Metadata) {
+        client.updateTrackMetadata(trackId: trackId, metadata: metadata)
     }
 
     /**
@@ -222,7 +223,7 @@ public class FishjamClient {
     * @param bandwidthLimit bandwidth in kbps
     */
     public func setTrackBandwidth(trackId: String, bandwidthLimit: BandwidthLimit) {
-        webrtcClient.setTrackBandwidth(trackId: trackId, bandwidth: bandwidthLimit)
+        client.setTrackBandwidth(trackId: trackId, bandwidth: bandwidthLimit)
     }
 
     /**
@@ -236,7 +237,7 @@ public class FishjamClient {
         encoding: String,
         bandwidthLimit: BandwidthLimit
     ) {
-        webrtcClient.setEncodingBandwidth(trackId: trackId, encoding: encoding, bandwidth: bandwidthLimit)
+        client.setEncodingBandwidth(trackId: trackId, encoding: encoding, bandwidth: bandwidthLimit)
     }
 
     /**
@@ -244,7 +245,7 @@ public class FishjamClient {
     * @param severity enum value representing the logging severity
     */
     public func changeWebRTCLoggingSeverity(severity: RTCLoggingSeverity) {
-        webrtcClient.changeWebRTCLoggingSeverity(severity: severity)
+        client.changeWebRTCLoggingSeverity(severity: severity)
     }
 
     /**
@@ -252,6 +253,14 @@ public class FishjamClient {
     * @return a map containing statistics
     */
     public func getStats() -> [String: RTCStats] {
-        return webrtcClient.getStats()
+        return client.stats
+    }
+
+    public func getLocalEndpoint() -> Endpoint {
+        return client.localEndpoint
+    }
+
+    public func getRemoteEndpoints() -> [Endpoint] {
+        return client.remoteEndpoints
     }
 }

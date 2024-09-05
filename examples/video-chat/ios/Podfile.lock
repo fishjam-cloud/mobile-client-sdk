@@ -5,7 +5,7 @@ PODS:
     - ExpoModulesCore
   - EXFont (11.10.3):
     - ExpoModulesCore
-  - Expo (50.0.19):
+  - Expo (50.0.20):
     - ExpoModulesCore
   - ExpoCamera (14.1.3):
     - ExpoModulesCore
@@ -927,7 +927,7 @@ PODS:
   - React-Mapbuffer (0.73.4):
     - glog
     - React-debug
-  - react-native-safe-area-context (4.8.2):
+  - react-native-safe-area-context (4.10.9):
     - React-Core
   - React-nativeconfig (0.73.4)
   - React-NativeModulesApple (0.73.4):
@@ -1099,7 +1099,7 @@ PODS:
   - RNFishjamClient (0.1.0):
     - ExpoModulesCore
     - FishjamCloudClient (>= 0.1)
-  - RNGestureHandler (2.16.2):
+  - RNGestureHandler (2.18.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1108,12 +1108,24 @@ PODS:
     - RNNotifee/NotifeeCore (= 7.8.2)
   - RNNotifee/NotifeeCore (7.8.2):
     - React-Core
-  - RNReanimated (3.13.0):
+  - RNReanimated (3.15.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.32.0):
+    - RNReanimated/reanimated (= 3.15.1)
+    - RNReanimated/worklets (= 3.15.1)
+  - RNReanimated/reanimated (3.15.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNReanimated/worklets (3.15.1):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNScreens (3.34.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1348,7 +1360,7 @@ SPEC CHECKSUMS:
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
   EXConstants: a5f6276e565d98f9eb4280f81241fc342d641590
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
-  Expo: ad8bce0c0fc557cae703cc8dbce73d61a90ab5c5
+  Expo: d86f597bbab83615207499c5b3bfd80992e2bbd3
   ExpoCamera: f3f157db67e5a491e1104a2c0018c240242936e7
   ExpoDevice: 97307196d8cab694e245752b8a7afacc35c14e03
   ExpoFileSystem: 74cc0fae916f9f044248433971dcfc8c3befd057
@@ -1356,7 +1368,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: 4a8928a228569301ac4fc4a1e846713e05754d05
   FBLazyVector: 84f6edbe225f38aebd9deaf1540a4160b1f087d7
   FBReactNativeSpec: 75c20d8ec82467d86fc15e5cb41c7501258a884f
-  FishjamCloudClient: 9ed9f2f8a5589e2f80ddac9d4ab5292a6fab6e40
+  FishjamCloudClient: 2e7aed9682d6b6567d19cec73f96df89f2ec4b91
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: b2669ce35fc4ac14f523b307aff8896799829fe2
@@ -1384,7 +1396,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 9ac353eccf6ab54d1e0a33862ba91221d1e88460
   React-logger: 0a57b68dd2aec7ff738195f081f0520724b35dab
   React-Mapbuffer: 63913773ed7f96b814a2521e13e6d010282096ad
-  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
+  react-native-safe-area-context: ab8f4a3d8180913bd78ae75dd599c94cce3d5e9a
   React-nativeconfig: d7af5bae6da70fa15ce44f045621cf99ed24087c
   React-NativeModulesApple: 0123905d5699853ac68519607555a9a4f5c7b3ac
   React-perflogger: 8a1e1af5733004bdd91258dcefbde21e0d1faccd
@@ -1406,10 +1418,10 @@ SPEC CHECKSUMS:
   React-utils: 6e5ad394416482ae21831050928ae27348f83487
   ReactCommon: 840a955d37b7f3358554d819446bffcf624b2522
   RNFishjamClient: 69c91fe87eba255677d023b5b50ce102743cc212
-  RNGestureHandler: 48c9d38f57c7761b4153def57b718f491f4bbb4b
+  RNGestureHandler: 644fac271b233d59fe6e910ebc377d3fd066a57c
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
-  RNReanimated: 67ce4c9160c7dee5bed2fdfae76afa3880958c53
-  RNScreens: f0edd01b3ab160acc31fb056622a1d7c2909a0a5
+  RNReanimated: 1917caf4e097d2410c8d9e52b1f12c6445f3f380
+  RNScreens: 79f5606e7eb08dc81336f83a223fb6d6e74f32d1
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9
   SwiftLogJellyfish: 6207ec91ef3913d303ac797b73298248ee360eb0

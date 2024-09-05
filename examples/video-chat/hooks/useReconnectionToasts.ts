@@ -1,9 +1,9 @@
+import { useEffect, useRef } from 'react';
+import Toast from 'react-native-toast-message';
 import {
   ReconnectionStatus,
   useReconnection,
 } from '@fishjam-cloud/react-native-client';
-import { useEffect, useRef } from 'react';
-import Toast from 'react-native-toast-message';
 
 export function useReconnectionToasts() {
   const prevStatus = useRef<ReconnectionStatus>('idle');

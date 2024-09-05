@@ -3,7 +3,7 @@ import FishjamCloudClient
 
 class VideoPreviewView: ExpoView {
     var videoView: VideoView? = nil
-    private var localVideoTrack: LocalCameraVideoTrack? = nil
+    private var localVideoTrack: LocalVideoTrack? = nil
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -13,12 +13,23 @@ class VideoPreviewView: ExpoView {
         addSubview(videoView!)
     }
 
-    override func willMove(toWindow newWindow: UIWindow?) {
-        if newWindow == nil {
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        if newSuperview == nil {
             localVideoTrack?.stop()
         } else {
+            guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else {
+                os_log(
+                    "Error moving VideoPreviewView: %{public}s", log: log, type: .error,
+                    String(describing: "No tracks available")
+                )
+                return
+            }
+
             localVideoTrack =
-                LocalVideoTrack.create(videoParameters: VideoParameters.presetFHD169) as? LocalCameraVideoTrack
+                tracks.first(where: { (key, track) in
+                    track is LocalVideoTrack
+                })?.value as? LocalVideoTrack
             localVideoTrack?.start()
             videoView?.track = localVideoTrack
         }
