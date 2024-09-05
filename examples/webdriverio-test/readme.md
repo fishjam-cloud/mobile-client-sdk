@@ -14,7 +14,7 @@
 - ANDROID_APP_PATH - Path to .apk file on your computer, to generate it:
 
   - In folder example run: cd android && ./gradlew assembleRelease
-  - Yor path should look like this your/path/to/repo/examples/video-chat/android/app/build/outputs/apk/release/app-release.apk
+  - Yor path should look like this your/path/to/repo/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
 
 - IOS_DEVICE_ID - id of your ios device, can be obtained using: xcrun xctrace list devices
 - IOS_TEAM_ID - id of your team, can be obtained at apple developer page

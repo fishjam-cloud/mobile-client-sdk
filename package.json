@@ -9,7 +9,7 @@
       "packages/react-native-client",
       "packages/android-client",
       "packages/ios-client",
-      "examples/video-chat",
+      "examples/fishjam-chat",
       "examples/webdriverio-test"
     ]
   },
