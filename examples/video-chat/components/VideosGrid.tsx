@@ -9,7 +9,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { BrandColors } from '../utils/Colors';
 import Typo from './Typo';
-import { ParticipantMetadata } from '../types/types';
+import { ParticipantMetadata } from '../types/metadata';
 
 type Props = {
   tracks: GridTrack[];

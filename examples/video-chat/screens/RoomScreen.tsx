@@ -25,7 +25,7 @@ import { usePreventBackButton } from '../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parseParticipantsToTracks } from '../components/VideosGrid';
-import { ParticipantMetadata } from '../types/types';
+import { ParticipantMetadata } from '../types/metadata';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {

@@ -35,7 +35,7 @@ import {
   displayIosSimulatorCameraAlert,
   isIosSimulator,
 } from '../../utils/deviceUtils';
-import { ParticipantMetadata } from '../../types/types';
+import { ParticipantMetadata } from '../../types/metadata';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Preview'>;
 type BottomSheetRef = Props & {
