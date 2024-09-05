@@ -1,4 +1,4 @@
-import { Metadata } from '../types';
+import { GenericMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
 export type ConnectionConfig = {
@@ -17,10 +17,12 @@ export type ConnectionConfig = {
   };
 };
 
-export async function connect(
+export async function connect<
+  ParticipantMetadata extends GenericMetadata = GenericMetadata,
+>(
   url: string,
   peerToken: string,
-  peerMetadata: Metadata,
+  peerMetadata: ParticipantMetadata,
   config: ConnectionConfig = {},
 ) {
   await RNFishjamClientModule.connect(url, peerToken, peerMetadata, config);

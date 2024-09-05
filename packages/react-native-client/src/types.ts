@@ -1,6 +1,4 @@
 // global
-export type Metadata = { [key: string]: any };
-
 export type VideoLayout = 'FILL' | 'FIT';
 
 export type TrackEncoding = 'l' | 'm' | 'h';
@@ -43,6 +41,8 @@ export type TrackMetadata = {
   active: boolean;
   type: 'audio' | 'camera' | 'screensharing';
 };
+
+export type GenericMetadata = Record<string, unknown>;
 
 // branded types are useful for restricting where given value can be passed
 declare const brand: unique symbol;

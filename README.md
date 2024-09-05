@@ -279,17 +279,17 @@ await startMicrophone({ audioTrackMetadata: { active: true, type: "audio" } });
 For more options and functions to control the camera and microphone see the API
 documentation.
 
-If you have the connection set up, then use `usePeers()` hook to track the
-other peers in the room. One of the peers will be a local participant
-(the one who's using the device). When peers is added or removed because an
-user joins or leaves the room, the peers will be updated automatically.
+If you have the connection set up, then use `useParticipants()` hook to track the
+other participants in the room. One of the participants will be a local participant
+(the one who's using the device). When participants is added or removed because an
+user joins or leaves the room, the participants will be updated automatically.
 Simply call the hook like this:
 
 ```ts
-const peers = usePeers();
+const participants = useParticipants();
 ```
 
-When you have the peers all that's left is to render their video tracks. Use
+When you have the participants all that's left is to render their video tracks. Use
 `<VideoRendererView />` component like this:
 
 ```ts

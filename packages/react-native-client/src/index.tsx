@@ -1,11 +1,11 @@
 export type {
-  Peer,
+  Participant,
   Track,
   TrackType,
   VadStatus,
   EncodingReason,
-} from './hooks/usePeers';
-export { usePeers } from './hooks/usePeers';
+} from './hooks/useParticipants';
+export { useParticipants } from './hooks/useParticipants';
 
 export type {
   AudioOutputDevice,
@@ -54,7 +54,6 @@ export type { VideoRendererProps } from './components/VideoRendererView';
 export { VideoRendererView } from './components/VideoRendererView';
 
 export type {
-  Metadata,
   TrackBandwidthLimit,
   TrackEncoding,
   SimulcastBandwidthLimit,
