@@ -724,7 +724,9 @@ class RNFishjamClient: FishjamClientListener {
         emitEndpoints()
     }
 
-    func onPeerUpdated(endpoint: Endpoint) {}
+    func onPeerUpdated(endpoint: Endpoint) {
+        emitEndpoints()
+    }
 
     func onSocketClose(code: UInt16, reason: String) {
         if let connectPromise = connectPromise {

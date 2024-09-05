@@ -471,21 +471,16 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             return
         }
 
-        var removedTracks: [Track] = []
-
         trackIds.forEach { trackId in
             guard let track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId }) else {
                 return
             }
 
             endpoint = endpoint.removeTrack(track)
-            removedTracks.append(track)
         }
 
         remoteEndpointsMap[endpointId] = endpoint
-        if let firstRemovedTrack = removedTracks.first {
-            listener.onTrackRemoved(track: firstRemovedTrack)
-        }
+        listener.onPeerUpdated(endpoint: endpoint)
     }
 
     func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
