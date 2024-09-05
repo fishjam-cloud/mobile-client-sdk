@@ -4,4 +4,4 @@ export type AppParentNode = {
   children: ReactNode;
 };
 
-export type ParticipiantMetadata = { name?: string };
+export type ParticipantMetadata = { name?: string };

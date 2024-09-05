@@ -43,41 +43,41 @@ export type Track = VideoTrack | AudioTrack;
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type Participiant<
-  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+export type Participant<
+  ParticipantMetadata extends GenericMetadata = GenericMetadata,
 > = {
   /**
-   *  id used to identify a participiant
+   *  id used to identify a participant
    */
   id: string;
   /**
-   * whether the participiant is local or remote
+   * whether the participant is local or remote
    */
   isLocal: boolean;
   /**
-   * a map indexed by strings, containing participiant metadata from the server
+   * a map indexed by strings, containing participant metadata from the server
    */
-  metadata: ParticipiantMetadata;
+  metadata: ParticipantMetadata;
   /**
-   * a list of participiants's video and audio tracks
+   * a list of participants's video and audio tracks
    */
   tracks: Track[];
 };
 
-export type ParticipiantsUpdateEvent<
-  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+export type ParticipantsUpdateEvent<
+  ParticipantMetadata extends GenericMetadata = GenericMetadata,
 > = {
-  PeersUpdate: Participiant<ParticipiantMetadata>[];
+  PeersUpdate: Participant<ParticipantMetadata>[];
 };
 
 function addIsActiveToTracks<
-  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+  ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >(
-  participiants: ReadonlyArray<Participiant<ParticipiantMetadata>>,
-): Participiant<ParticipiantMetadata>[] {
-  return participiants.map((participiant) => ({
-    ...participiant,
-    tracks: participiant.tracks.map((track) => ({
+  participants: ReadonlyArray<Participant<ParticipantMetadata>>,
+): Participant<ParticipantMetadata>[] {
+  return participants.map((participant) => ({
+    ...participant,
+    tracks: participant.tracks.map((track) => ({
       ...track,
       isActive:
         (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
@@ -85,36 +85,34 @@ function addIsActiveToTracks<
   }));
 }
 /**
- * This hook provides live updates of room participiants.
- * @returns An array of room participiants.
+ * This hook provides live updates of room participants.
+ * @returns An array of room participants.
  */
-export function useParticipiants<
-  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+export function useParticipants<
+  ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >() {
-  const [participiants, setParticipiants] = useState<
-    Participiant<ParticipiantMetadata>[]
+  const [participants, setParticipants] = useState<
+    Participant<ParticipantMetadata>[]
   >([]);
 
   useEffect(() => {
-    async function updateParticipiants() {
-      const participiants =
-        await RNFishjamClientModule.getPeers<ParticipiantMetadata>();
-      setParticipiants(
-        addIsActiveToTracks<ParticipiantMetadata>(participiants),
-      );
+    async function updateParticipants() {
+      const participants =
+        await RNFishjamClientModule.getPeers<ParticipantMetadata>();
+      setParticipants(addIsActiveToTracks<ParticipantMetadata>(participants));
     }
 
     const eventListener = eventEmitter.addListener<
-      ParticipiantsUpdateEvent<ParticipiantMetadata>
+      ParticipantsUpdateEvent<ParticipantMetadata>
     >(ReceivableEvents.PeersUpdate, (event) => {
-      setParticipiants(
-        addIsActiveToTracks<ParticipiantMetadata>(event.PeersUpdate),
+      setParticipants(
+        addIsActiveToTracks<ParticipantMetadata>(event.PeersUpdate),
       );
     });
 
-    updateParticipiants();
+    updateParticipants();
     return () => eventListener.remove();
   }, []);
 
-  return { participiants };
+  return { participants };
 }

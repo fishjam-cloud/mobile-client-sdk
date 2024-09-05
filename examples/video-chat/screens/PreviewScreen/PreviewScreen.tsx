@@ -35,7 +35,7 @@ import {
   displayIosSimulatorCameraAlert,
   isIosSimulator,
 } from '../../utils/deviceUtils';
-import { ParticipiantMetadata } from '../../types/types';
+import { ParticipantMetadata } from '../../types/types';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Preview'>;
 type BottomSheetRef = Props & {
@@ -102,7 +102,7 @@ function PreviewScreen({
   }, [getCaptureDevices, startCamera]);
 
   const onJoinPressed = async () => {
-    await connect<ParticipiantMetadata>(
+    await connect<ParticipantMetadata>(
       route.params.fishjamUrl,
       route.params.peerToken,
       {

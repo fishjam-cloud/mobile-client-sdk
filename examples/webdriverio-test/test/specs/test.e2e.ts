@@ -68,50 +68,50 @@ const createFishjamRoom = async () => {
     console.log(e);
   }
 };
-const addParticipiantToRoom = async (
+const addParticipantToRoom = async (
   roomId: string,
   enableSimulcast: boolean = true,
 ) => {
-  const { addPeer: addParticipiant } = RoomApiFp(config);
-  const addParticipiantRequest: AddPeerRequest = {
+  const { addPeer: addParticipant } = RoomApiFp(config);
+  const addParticipantRequest: AddPeerRequest = {
     type: 'webrtc',
     options: { enableSimulcast },
   };
-  const addParticipiantFunction = await addParticipiant(
+  const addParticipantFunction = await addParticipant(
     roomId,
-    addParticipiantRequest,
+    addParticipantRequest,
   );
   try {
-    const response = await addParticipiantFunction();
+    const response = await addParticipantFunction();
     return response.data.data;
   } catch (e) {
     console.log(e);
   }
 };
 
-let participiantDetail: PeerDetailsResponseData | undefined;
+let participantDetail: PeerDetailsResponseData | undefined;
 let room: Room | undefined;
 
 const tests: Test[] = [
   {
-    name: 'create room and participiant to obtain credentials',
+    name: 'create room and participant to obtain credentials',
     run: async () => {
       room = await createFishjamRoom();
       assert.ok(room !== undefined);
-      participiantDetail = await addParticipiantToRoom(room.id);
-      assert.ok(participiantDetail !== undefined);
+      participantDetail = await addParticipantToRoom(room.id);
+      assert.ok(participantDetail !== undefined);
     },
     skip: false,
   },
   {
     name: 'type fishjam url and token',
     run: async () => {
-      assert.ok(participiantDetail !== undefined);
+      assert.ok(participantDetail !== undefined);
       const webSocketUrl = getWebsocketUrl(
         process.env.FISHJAM_HOST_MOBILE as string,
       );
       await tapButton(driver, '~' + TOKEN_TAB);
-      await typeToInput(driver, '~' + TOKEN_INPUT, participiantDetail.token);
+      await typeToInput(driver, '~' + TOKEN_INPUT, participantDetail.token);
       await typeToInput(driver, '~' + URL_INPUT, webSocketUrl);
     },
     skip: false,

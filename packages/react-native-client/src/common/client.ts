@@ -18,11 +18,11 @@ export type ConnectionConfig = {
 };
 
 export async function connect<
-  ParticipiantMetadata extends GenericMetadata = GenericMetadata,
+  ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >(
   url: string,
   peerToken: string,
-  peerMetadata: ParticipiantMetadata,
+  peerMetadata: ParticipantMetadata,
   config: ConnectionConfig = {},
 ) {
   await RNFishjamClientModule.connect(url, peerToken, peerMetadata, config);
