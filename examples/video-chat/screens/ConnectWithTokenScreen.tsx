@@ -34,7 +34,8 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const [peerToken, onChangePeerToken] = useState(
-    process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
+    process.env.EXPO_PUBLIC_FISHJAM_TOKEN ??
+      'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQwZDM2YzU5ZS0yZDFhLTQzODItYWM5Ni1jNjkxMTAzMGI5OTdkAAdyb29tX2lkbQAAAAI3OG4GAJ3yEcKRAWIAAVGA.8uKQc6Bht9iHZBGC0q_VYbdiFdwgyG4XghSGK6ZMbjc',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
     process.env.EXPO_PUBLIC_FISHJAM_URL ?? '',
