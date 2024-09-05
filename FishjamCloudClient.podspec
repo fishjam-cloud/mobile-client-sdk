@@ -28,6 +28,6 @@ Pod::Spec.new do |s|
   s.dependency 'SwiftLogJellyfish', '1.5.2'
 
   s.subspec "Broadcast" do |spec|
-    spec.source_files = "packages/ios-client/Sources/MembraneRTC/Media/BroadcastSampleSource.swift", "packages/ios-client/Sources/MembraneRTC/IPC/**/*.{h,m,mm,swift}"
+    spec.source_files = "packages/ios-client/Sources/FishjamClient/media/BroadcastSampleSource.swift", "packages/ios-client/Sources/FishjamClient/ipc/**/*.{h,m,mm,swift}"
   end
 end

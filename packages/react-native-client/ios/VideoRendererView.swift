@@ -2,29 +2,58 @@ import Combine
 import ExpoModulesCore
 import FishjamCloudClient
 
-class VideoRendererView: ExpoView {
+protocol OnTrackUpdateListener {
+    func onTrackUpdate()
+}
+
+class VideoRendererView: ExpoView, OnTrackUpdateListener {
     var videoView: VideoView? = nil
     var cancellableEndpoints: Cancellable? = nil
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
+        RNFishjamClient.onTracksUpdateListeners.append(self)
         videoView = VideoView()
         videoView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView?.clipsToBounds = true
         addSubview(videoView!)
-        cancellableEndpoints = MembraneRoom.sharedInstance.$endpoints
-            .sink { [weak self] _ in
-                self?.updateVideoTrack()
+    }
+
+    deinit {
+        RNFishjamClient.onTracksUpdateListeners.removeAll(where: {
+            if let view = $0 as? VideoRendererView {
+                return view === self
             }
+            return false
+        })
+    }
+
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+
+        if newSuperview != nil {
+            updateVideoTrack()
+        }
     }
 
     func updateVideoTrack() {
         DispatchQueue.main.async {
-            let newTrack = MembraneRoom.sharedInstance.getVideoTrackById(trackId: self.trackId)
-            if newTrack != self.videoView?.track {
-                self.videoView?.track = newTrack
+            if self.superview != nil {
+                for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
+                    if let track = endpoint.tracks[self.trackId] as? VideoTrack {
+                        if let track = track as? LocalVideoTrack {
+                            self.mirrorVideo = track.isFrontCamera
+                        }
+                        self.videoView?.track = track
+                        return
+                    }
+                }
             }
         }
+    }
+
+    func onTrackUpdate() {
+        updateVideoTrack()
     }
 
     var trackId: String = "" {

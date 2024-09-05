@@ -31,6 +31,14 @@ struct CameraConfig: Record {
     var captureDeviceId: String? = nil
 }
 
+struct MicrophoneConfig: Record {
+    @Field
+    var audioTrackMetadata: [String: Any] = [:]
+
+    @Field
+    var microphoneEnabled: Bool = true
+}
+
 struct ScreencastOptions: Record {
     @Field
     var quality: String = "HD15"
@@ -80,22 +88,17 @@ public class RNFishjamClientModule: Module {
             "ReconnectionStarted",
             "Reconnected")
 
-        let rnFishjamClient: RNFishjamClient = RNFishjamClient {
-            (eventName: String, data: [String: Any]) in
-            self.sendEvent(eventName, data)
-        }
-
-        OnCreate {
-            do {
-                try rnFishjamClient.create()
-            } catch {
-
+        let rnFishjamClient: RNFishjamClient = {
+            let client = RNFishjamClient {
+                (eventName: String, data: [String: Any]) in
+                self.sendEvent(eventName, data)
             }
-        }
+            client.create()
+            return client
+        }()
 
         AsyncFunction("connect") {
             (url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig, promise: Promise) in
-            try rnFishjamClient.create()
             rnFishjamClient.connect(
                 url: url, peerToken: peerToken, peerMetadata: peerMetadata, config: config, promise: promise)
         }
@@ -117,7 +120,7 @@ public class RNFishjamClientModule: Module {
         }
 
         Property("isCameraOn") {
-            return rnFishjamClient.isCameraEnabled
+            return rnFishjamClient.isCameraOn
         }
 
         AsyncFunction("toggleCamera") {
@@ -141,11 +144,11 @@ public class RNFishjamClientModule: Module {
         }
 
         Property("isScreencastOn") {
-            return rnFishjamClient.isScreensharingEnabled
+            return rnFishjamClient.isScreencastOn
         }
 
         AsyncFunction("getPeers") {
-            rnFishjamClient.getPeers()
+            try rnFishjamClient.getPeers()
         }
 
         AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in
@@ -153,15 +156,15 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateVideoTrackMetadata(metadata: metadata)
+            try rnFishjamClient.updateLocalVideoTrackMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateAudioTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateAudioTrackMetadata(metadata: metadata)
+            try rnFishjamClient.updateLocalAudioTrackMetadata(metadata: metadata)
         }
 
         AsyncFunction("updateScreencastTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateScreencastTrackMetadata(metadata: metadata)
+            try rnFishjamClient.updateLocalScreencastTrackMetadata(metadata: metadata)
         }
 
         AsyncFunction("toggleScreencastTrackEncoding") { (encoding: String) in
@@ -199,14 +202,14 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("getStatistics") {
-            rnFishjamClient.getStatistics()
+            try rnFishjamClient.getStatistics()
         }
 
         AsyncFunction("selectAudioSessionMode") { (sessionMode: String) in
             try rnFishjamClient.selectAudioSessionMode(sessionMode: sessionMode)
         }
 
-        AsyncFunction("showAudioRoutePicker") { () in
+        AsyncFunction("showAudioRoutePicker") {
             rnFishjamClient.showAudioRoutePicker()
         }
 

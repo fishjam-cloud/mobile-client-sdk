@@ -52,7 +52,7 @@ class RemoteVideoTrack(
   ) {
     this.encoding = encoding
     this.encodingReason = encodingReason
-    onTrackEncodingChangeListener?.let { onTrackEncodingChangeListener?.onEncodingChanged(this) }
+    onTrackEncodingChangeListener?.onEncodingChanged(this)
   }
 
   /**
