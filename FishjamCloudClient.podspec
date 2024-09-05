@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '13.0'
   s.swift_version = '5.0'
 
-  s.source_files = 'packages/ios-client/Sources/**/*'
+  s.source_files = 'packages/ios-client/Sources/**/*.swift'
 
   s.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
 
