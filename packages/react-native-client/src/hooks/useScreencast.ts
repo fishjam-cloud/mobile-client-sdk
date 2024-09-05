@@ -29,9 +29,6 @@ export type ScreencastOptions = {
   maxBandwidth: TrackBandwidthLimit;
 };
 export type ScreencastOptionsInternal = {
-  /**
-   * a map `string -> any` containing screencast track metadata to be sent to the server
-   */
   screencastMetadata: TrackMetadata & { displayName?: string };
   /**
    * SimulcastConfig of a screencast track. By default simulcast is disabled.

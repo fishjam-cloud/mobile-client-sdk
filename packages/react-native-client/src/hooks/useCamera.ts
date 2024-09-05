@@ -4,7 +4,6 @@ import { Platform } from 'react-native';
 import {
   BandwidthLimit,
   Brand,
-  Metadata,
   SimulcastBandwidthLimit,
   SimulcastConfig,
   TrackBandwidthLimit,
@@ -74,10 +73,7 @@ export type CameraConfig = CameraConfigBase & {
 };
 
 export type CameraConfigInternal = CameraConfigBase & {
-  /**
-   * a map `string -> any` containing video track metadata to be sent to the server.
-   */
-  videoTrackMetadata?: Metadata;
+  videoTrackMetadata?: { active: boolean; type: 'camera' };
   /**
    *  SimulcastConfig of a video track. By default simulcast is disabled.
    */
