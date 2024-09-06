@@ -3,6 +3,9 @@ import React, { useCallback, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import SoundOutputDevicesSection from './SoundOutputDevicesSection';
+import { soundOutputDevicesLabels } from '../types/ComponentLabels';
+
+const { OUTPUT_DEVICE_MODAL } = soundOutputDevicesLabels;
 
 export default function SoundOutputDevicesBottomSheet({
   bottomSheetRef,
@@ -23,7 +26,7 @@ export default function SoundOutputDevicesBottomSheet({
       index={bottomSheetIndex}
       snapPoints={[300]}
       backgroundStyle={styles.bottomSheetWrapper}>
-      <BottomSheetView>
+      <BottomSheetView accessibilityLabel={OUTPUT_DEVICE_MODAL}>
         <SoundOutputDevicesSection />
       </BottomSheetView>
     </BottomSheet>

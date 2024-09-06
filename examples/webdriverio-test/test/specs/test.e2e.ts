@@ -24,6 +24,7 @@ import {
   tapApp,
   tapButton,
   typeToInput,
+  swipeDown,
 } from '../../utils';
 
 const { TOKEN_TAB } = appNavigationLabels;
@@ -46,6 +47,8 @@ const {
 
 const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
+const { OUTPUT_DEVICE_MODAL } = soundOutputDevicesLabels;
+
 type Test = {
   name: string;
   run: () => Promise<void>;
@@ -63,6 +66,7 @@ const createFishjamRoom = async () => {
   const createRoomFunction = await createRoom();
   try {
     const response = await createRoomFunction();
+
     return response.data.data.room;
   } catch (e) {
     console.log(e);
@@ -137,7 +141,7 @@ const tests: Test[] = [
         await tapButton(driver, '~' + OUTPUT_DEVICE_BUTTON + 0);
       }
       await driver.pause(100);
-      await tapApp(driver);
+      await swipeDown(driver, '~' + OUTPUT_DEVICE_MODAL);
     },
     skip: process.env.GITHUB_ACTIONS === 'true',
   },
