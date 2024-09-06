@@ -1099,7 +1099,7 @@ PODS:
   - RNFishjamClient (0.1.0):
     - ExpoModulesCore
     - FishjamCloudClient (>= 0.1)
-  - RNGestureHandler (2.18.1):
+  - RNGestureHandler (2.19.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1418,7 +1418,7 @@ SPEC CHECKSUMS:
   React-utils: 6e5ad394416482ae21831050928ae27348f83487
   ReactCommon: 840a955d37b7f3358554d819446bffcf624b2522
   RNFishjamClient: 69c91fe87eba255677d023b5b50ce102743cc212
-  RNGestureHandler: 644fac271b233d59fe6e910ebc377d3fd066a57c
+  RNGestureHandler: 2969f62965d59a759823c9116b7c819f9dfbea74
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
   RNReanimated: 1917caf4e097d2410c8d9e52b1f12c6445f3f380
   RNScreens: 79f5606e7eb08dc81336f83a223fb6d6e74f32d1
@@ -1433,4 +1433,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d0029685aaa2703d78d5370da726c53d149ba6e2
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.15.2

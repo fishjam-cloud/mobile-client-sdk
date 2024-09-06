@@ -789,26 +789,26 @@ class RNFishjamClient(
     }
   }
 
-  private fun addOrUpdateTrack(ctx: Track) {
+  private fun addOrUpdateTrack(track: Track) {
     emitEndpoints()
     onTracksUpdateListeners.forEach { it.onTracksUpdate() }
   }
 
-  override fun onTrackReady(ctx: Track) {
+  override fun onTrackReady(track: Track) {
     CoroutineScope(Dispatchers.Main).launch {
-      addOrUpdateTrack(ctx)
+      addOrUpdateTrack(track)
     }
   }
 
-  override fun onTrackAdded(ctx: Track) {}
+  override fun onTrackAdded(track: Track) {}
 
-  override fun onTrackRemoved(ctx: Track) {
+  override fun onTrackRemoved(track: Track) {
     CoroutineScope(Dispatchers.Main).launch {
       emitEndpoints()
     }
   }
 
-  override fun onTrackUpdated(ctx: Track) {
+  override fun onTrackUpdated(track: Track) {
     CoroutineScope(Dispatchers.Main).launch {
       emitEndpoints()
     }
