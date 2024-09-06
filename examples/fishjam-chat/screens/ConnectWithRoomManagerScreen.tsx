@@ -17,6 +17,7 @@ import {
   AppRootStackParamList,
   TabParamList,
 } from '../navigators/AppNavigator';
+import { URL } from 'react-native-url-polyfill';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithRoomManager'>,
@@ -32,12 +33,22 @@ async function getFishjamServer(
     url.endsWith(ending) ? url : url + ending;
 
   let url = roomManagerUrl.trim();
-  // in case user copied url from the main Fishjam panel
-  url = url.replace('/*roomName*/users/*username*', '');
-  url = ensureUrlEndsWith(url, '/');
-  // in case user copied url from the app view
-  url = ensureUrlEndsWith(url, 'room-manager/');
+  // in case user copied url from the main Fishjam Cloud panel
+  url = url.replace("/*roomName*/users/*username*", "");
+  url = ensureUrlEndsWith(url, "/");
 
+  // in case user copied url from the Fishjam Cloud App view
+  if (url.includes("/api/v1/connect/")) {
+    url = ensureUrlEndsWith(url, "room-manager/");
+  }
+
+  // in case user started room manager locally
+  // and provided only host (10.0.2.2:5004) or origin (http://10.0.2.2:5004)
+  if (new URL(url).pathname === "/") {
+    url = ensureUrlEndsWith(url, "api/rooms/");
+  }
+  console.log(new URL(url).pathname);
+  console.log(`${url}${roomName.trim()}/users/${userName.trim()}`);
   const response = await fetch(
     `${url}${roomName.trim()}/users/${userName.trim()}`,
   );
