@@ -1367,7 +1367,7 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: 0f5cad99603a3268e50af9a6eb8b76d0d9ac956c
   ExpoModulesCore: 4a8928a228569301ac4fc4a1e846713e05754d05
   FBLazyVector: 84f6edbe225f38aebd9deaf1540a4160b1f087d7
-  FBReactNativeSpec: 75c20d8ec82467d86fc15e5cb41c7501258a884f
+  FBReactNativeSpec: 2a8b3543c0688b6700adbd98dd35fe3bb30085a2
   FishjamCloudClient: ba843e790b2f57b2cdf0d7de85592406127780b6
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
@@ -1412,7 +1412,7 @@ SPEC CHECKSUMS:
   React-RCTText: f0176f5f5952f9a4a2c7354f5ae71f7c420aaf34
   React-RCTVibration: 8160223c6eda5b187079fec204f80eca8b8f3177
   React-rendererdebug: ed286b4da8648c27d6ed3ae1410d4b21ba890d5a
-  React-rncore: 1162d0424c9bea91f6ff0ee32af788c3aae87ac5
+  React-rncore: 6f5323e1092d16d9d27c7497de7dd93a29a2bf06
   React-runtimeexecutor: e6ab6bb083dbdbdd489cff426ed0bce0652e6edf
   React-runtimescheduler: ed48e5faac6751e66ee1261c4bd01643b436f112
   React-utils: 6e5ad394416482ae21831050928ae27348f83487

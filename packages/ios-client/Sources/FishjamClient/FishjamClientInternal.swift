@@ -397,7 +397,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     }
 
     func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
-        guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
+        guard let endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
             return
         }
@@ -439,12 +439,12 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     func onTracksAdded(endpointId: String, tracks: [String: TrackData]) {
         if localEndpoint.id == endpointId { return }
 
-        guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
+        guard let endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process TracksAdded event: Endpoint not found: \(endpointId)")
             return
         }
 
-        var updatedTracks = [String: Track]()
+        var updatedTracks: [String: Track] = endpoint.tracks
 
         for (trackId, trackData) in tracks {
             var track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId })
@@ -466,22 +466,21 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
     func onTracksRemoved(endpointId: String, trackIds: [String]) {
         if localEndpoint.id == endpointId { return }
 
-        guard var endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
+        guard var endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process onTracksRemoved event: Endpoint not found: \(endpointId)")
             return
         }
 
         trackIds.forEach { trackId in
-            guard let track = endpoint.tracks[trackId] else {
+            guard let track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId }) else {
                 return
             }
 
             endpoint = endpoint.removeTrack(track)
-
-            listener.onTrackReady(track: track)
         }
 
         remoteEndpointsMap[endpointId] = endpoint
+        listener.onPeerUpdated(endpoint: endpoint)
     }
 
     func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {

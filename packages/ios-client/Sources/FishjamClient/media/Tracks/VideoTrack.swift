@@ -5,7 +5,7 @@ open class VideoTrack: Track {
         mediaTrack: RTCVideoTrack, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
-        super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata)
+        super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
     }
 
     internal var videoTrack: RTCVideoTrack {
