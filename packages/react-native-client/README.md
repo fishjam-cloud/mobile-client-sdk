@@ -102,7 +102,7 @@ screen broadcast app extension for screensharing.
    Broadcast Upload Extension → Next. Choose the name for the new target, select
    Swift language and deselect "Include UI Extension".
 
-   ![New target config](./.github/images/xcode1.png)
+   ![New target config](../../.github/images/xcode1.png)
 
    Press Finish. In the next alert xcode will ask you if you want to activate
    the new scheme - press Cancel.
@@ -110,7 +110,7 @@ screen broadcast app extension for screensharing.
 4. Configure app group. Go to "Signing & Capabilities" tab, click "+ Capability"
    button in upper left corner and select "App Groups".
 
-   ![App groups config](./.github/images/xcode2.png)
+   ![App groups config](../../.github/images/xcode2.png)
 
    Then in the "App Groups" add a new group or select existing. Usually group
    name has format `group.<your-bundle-identifier>`. Verify that both app and
@@ -119,7 +119,7 @@ screen broadcast app extension for screensharing.
 5. A new folder with app extension should appear on the left with contents like
    this:
 
-   ![App extension files](./.github/images/xcode3.png)
+   ![App extension files](../../.github/images/xcode3.png)
 
    Replace `SampleHandler.swift` with `MembraneBroadcastSampleHandler.swift` and
    this code:
@@ -398,5 +398,5 @@ notifee.registerForegroundService((notification) => {
 This project has been built and is maintained thanks to the support from
 [dscout](https://dscout.com/) and [Software Mansion](https://swmansion.com).
 
-<img alt="dscout" height="100" src="./.github/images/dscout_logo.png"/>
+<img alt="dscout" height="100" src="../../.github/images/dscout_logo.png"/>
 <img alt="Software Mansion" src="https://logo.swmansion.com/logo?color=white&variant=desktop&width=150&tag=react-native-reanimated-github"/>
