@@ -8,7 +8,7 @@ public class RemoteAudioTrack: Track {
         audioTrack: RTCAudioTrack, endpointId: String, rtcEngineId: String? = nil, metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
-        super.init(mediaTrack: audioTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata)
+        super.init(mediaTrack: audioTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
     }
 
     private var _vadStatus: VadStatus = VadStatus.silence
