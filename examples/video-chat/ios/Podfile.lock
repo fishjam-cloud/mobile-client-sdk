@@ -32,15 +32,15 @@ PODS:
     - React-Core (= 0.73.4)
     - React-jsi (= 0.73.4)
     - ReactCommon/turbomodule/core (= 0.73.4)
-  - FishjamCloudClient (0.1.0):
-    - FishjamCloudClient/Broadcast (= 0.1.0)
+  - FishjamCloudClient (0.1.1):
+    - FishjamCloudClient/Broadcast (= 0.1.1)
     - PromisesSwift
     - Starscream (~> 4.0.0)
     - SwiftLogJellyfish (= 1.5.2)
     - SwiftPhoenixClient (~> 5.0.0)
     - SwiftProtobuf (~> 1.18.0)
     - WebRTC-SDK (= 125.6422.03)
-  - FishjamCloudClient/Broadcast (0.1.0):
+  - FishjamCloudClient/Broadcast (0.1.1):
     - PromisesSwift
     - Starscream (~> 4.0.0)
     - SwiftLogJellyfish (= 1.5.2)
@@ -1096,10 +1096,10 @@ PODS:
     - React-jsi (= 0.73.4)
     - React-logger (= 0.73.4)
     - React-perflogger (= 0.73.4)
-  - RNFishjamClient (0.1.0):
+  - RNFishjamClient (0.1.1):
     - ExpoModulesCore
     - FishjamCloudClient (>= 0.1)
-  - RNGestureHandler (2.18.1):
+  - RNGestureHandler (2.19.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1368,7 +1368,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: 4a8928a228569301ac4fc4a1e846713e05754d05
   FBLazyVector: 84f6edbe225f38aebd9deaf1540a4160b1f087d7
   FBReactNativeSpec: 75c20d8ec82467d86fc15e5cb41c7501258a884f
-  FishjamCloudClient: 2e7aed9682d6b6567d19cec73f96df89f2ec4b91
+  FishjamCloudClient: ba843e790b2f57b2cdf0d7de85592406127780b6
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   hermes-engine: b2669ce35fc4ac14f523b307aff8896799829fe2
@@ -1417,8 +1417,8 @@ SPEC CHECKSUMS:
   React-runtimescheduler: ed48e5faac6751e66ee1261c4bd01643b436f112
   React-utils: 6e5ad394416482ae21831050928ae27348f83487
   ReactCommon: 840a955d37b7f3358554d819446bffcf624b2522
-  RNFishjamClient: 69c91fe87eba255677d023b5b50ce102743cc212
-  RNGestureHandler: 644fac271b233d59fe6e910ebc377d3fd066a57c
+  RNFishjamClient: 3c1c86c6ed09cda1a9de03a67a22d34a4d7bdc62
+  RNGestureHandler: 2969f62965d59a759823c9116b7c819f9dfbea74
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
   RNReanimated: 1917caf4e097d2410c8d9e52b1f12c6445f3f380
   RNScreens: 79f5606e7eb08dc81336f83a223fb6d6e74f32d1
