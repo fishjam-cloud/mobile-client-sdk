@@ -40,7 +40,7 @@ jobs:
       BUILD_TOOL: "build-tools;33.0.0"
       ANDROID_CMD: "commandlinetools-linux-10406996_latest.zip"
       ANDROID_APP_PATH: ${{ github.workspace
-        }}/examples/video-chat/android/app/build/outputs/apk/release/app-release.apk
+        }}/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
 
     steps:
       - name: Checkout
@@ -151,7 +151,7 @@ jobs:
         if: steps.restore-apk.outputs.cache-hit != 'true'
         timeout-minutes: 20
         run: |
-          cd $GITHUB_WORKSPACE/examples/video-chat/android
+          cd $GITHUB_WORKSPACE/examples/fishjam-chat/android
           ./gradlew assembleRelease
 
       - name: Cache new apk if necessary

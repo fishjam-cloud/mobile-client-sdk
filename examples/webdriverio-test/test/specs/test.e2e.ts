@@ -15,7 +15,7 @@ import {
   previewScreenLabels,
   soundOutputDevicesLabels,
   appNavigationLabels,
-} from 'video-chat-example/types/ComponentLabels';
+} from '@fishjam-example/fishjam-chat/types/ComponentLabels';
 
 import {
   getElement,

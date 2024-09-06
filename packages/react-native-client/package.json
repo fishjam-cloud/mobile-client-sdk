@@ -14,8 +14,6 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "release": "release-it",
-    "releaseAppAndroid": "cd examples/video-chat/android && fastlane deploy",
-    "releaseAppIos": "cd example/ios && fastlane deploy",
     "docs": "sed 's/\\.github\\/images/media/g' README.md > README_docs.md && typedoc src/index.tsx --media ./.github/images --readme README_docs.md && rm README_docs.md",
     "typecheck": "yarn tsc --noEmit && cd example && yarn tsc --noEmit"
   },
