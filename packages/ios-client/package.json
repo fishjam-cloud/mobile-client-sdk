@@ -1,5 +1,5 @@
 {
-  "name": "ios-client",
+  "name": "@fishjam-cloud/ios-client",
   "scripts": {
     "lint": "swift-format format -i -r ./**/**/*.swift --configuration swift-format-config.json",
     "lint:check": "swift-format lint -r -s ./**/**/*.swift --configuration swift-format-config.json"
