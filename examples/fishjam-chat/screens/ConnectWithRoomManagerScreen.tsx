@@ -28,15 +28,16 @@ async function getFishjamServer(
   roomName: string,
   userName: string,
 ) {
-  // in case user copied url from admin panel
-  const urlWithoutParams = roomManagerUrl.replace(
-    '/*roomName*/users/*username*',
-    '',
-  );
-  // trim slash from end
-  const url = urlWithoutParams.endsWith('/')
-    ? urlWithoutParams
-    : urlWithoutParams + '/';
+  const ensureUrlEndsWith = (url: string, ending: string) =>
+    url.endsWith(ending) ? url : url + ending;
+
+  let url = roomManagerUrl.trim();
+  // in case user copied url from the main Fishjam panel
+  url = url.replace('/*roomName*/users/*username*', '');
+  url = ensureUrlEndsWith(url, '/');
+  // in case user copied url from the app view
+  url = ensureUrlEndsWith(url, 'room-manager/');
+
   const response = await fetch(
     `${url}${roomName.trim()}/users/${userName.trim()}`,
   );
