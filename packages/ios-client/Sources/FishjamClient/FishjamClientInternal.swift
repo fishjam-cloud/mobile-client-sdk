@@ -106,6 +106,20 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)
         commandsQueue.finishCommand()
         reconnectionManager?.onReconnected()
+        guard !localEndpoint.tracks.isEmpty else { return }
+        let promise = commandsQueue.addCommand(
+            Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
+                if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+                    self.rtcEngineCommunication.renegotiateTracks()
+                } else {
+                    self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
+                }
+            })
+        do {
+            try awaitPromise(promise)
+        } catch {
+            sdkLogger.error("\(_loggerPrefix) Error during awaiting for for createVideoTrack")
+        }
     }
 
     func leave() {
@@ -152,7 +166,6 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             try awaitPromise(promise)
         } catch {
             sdkLogger.error("\(_loggerPrefix) Error during awaiting for for createVideoTrack")
-
         }
         return videoTrack
     }
