@@ -139,11 +139,11 @@ const tests: Test[] = [
       if (driver.isAndroid) {
         await getElement(driver, '~' + TITLE_TEXT);
         await tapButton(driver, '~' + OUTPUT_DEVICE_BUTTON + 0);
+        await swipeDown(driver, '~' + OUTPUT_DEVICE_MODAL);
       }
       await driver.pause(100);
-      await swipeDown(driver, '~' + OUTPUT_DEVICE_MODAL);
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: false,
   },
   {
     name: 'toggle off preview camera and microphone then join the room',
@@ -220,7 +220,7 @@ const tests: Test[] = [
         await tapApp(driver);
       }
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: false,
   },
   {
     name: 'check if two video cells',
@@ -229,7 +229,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 1);
       await getElement(driver, '~' + VIDEO_CELL + 3, true);
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: false,
   },
   {
     name: 'toggle camera off',
@@ -241,11 +241,7 @@ const tests: Test[] = [
   {
     name: 'check if only 1 video cell',
     run: async () => {
-      await getElement(
-        driver,
-        '~' + VIDEO_CELL + 0,
-        process.env.GITHUB_ACTIONS === 'true',
-      );
+      await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1, true);
     },
     skip: false,
@@ -260,7 +256,7 @@ const tests: Test[] = [
       }
       await tapApp(driver);
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: false,
   },
   {
     name: 'check if no camera view again',
