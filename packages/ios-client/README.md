@@ -20,7 +20,7 @@ Really simple App allowing to test `Fishjam client` functionalities. It consist 
 
 ## Documentation
 
-API documentation is available [here](https://fishjam-dev.github.io/ios-client-sdk/documentation/fishjamclient/).
+API documentation is available [here](https://fishjam-cloud.github.io/mobile-client-sdk/modules/ios_client.html).
 
 ## Installation
 

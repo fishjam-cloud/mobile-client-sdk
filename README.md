@@ -1,4 +1,4 @@
-# Fishjam mobile-client-sdk
+# Fishjam Cloud Mobile Client
 
 Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fishjam) server
 
@@ -8,8 +8,10 @@ Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fis
 
 # Documentation
 
-API documentation is available
-[here](https://fishjam-cloud.github.io/mobile-client-sdk/)
+API documentation is available here:
+[Android](https://fishjam-cloud.github.io/mobile-client-sdk/modules/android_client.html)
+[iOS](https://fishjam-cloud.github.io/mobile-client-sdk/modules/ios_client.html)
+[React Native](https://fishjam-cloud.github.io/mobile-client-sdk/modules/_fishjam_cloud_react_native_client.html)
 
 # Example
 
@@ -21,7 +23,7 @@ room client. To run the app:
    to setup and run demo server.
 2. Clone the repo
 3. ```
-   cd example
+   cd `examples`
    yarn
    ```
 4. Follow further instructions from your SDK
@@ -33,10 +35,10 @@ git hooks.
 
 Follow further instructions for the SDK you're developing for.
 
-## Credits
+## Copyright and License
 
-This project has been built and is maintained thanks to the support from
-[dscout](https://dscout.com/) and [Software Mansion](https://swmansion.com).
+Copyright 2024, [Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
 
-<img alt="dscout" height="100" src="./.github/images/dscout_logo.png"/>
-<img alt="Software Mansion" src="https://logo.swmansion.com/logo?color=white&variant=desktop&width=150&tag=react-native-reanimated-github"/>
+[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
+
+Licensed under the [Apache License, Version 2.0](LICENSE)

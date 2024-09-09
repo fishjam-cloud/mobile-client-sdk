@@ -4,7 +4,7 @@ Android client library for [Fishjam](https://github.com/fishjam-dev/fishjam).
 
 ## Documentation
 
-Documentation is available [here](https://fishjam-dev.github.io/android-client-sdk/).
+API documentation is available [here](https://fishjam-cloud.github.io/mobile-client-sdk/modules/android_client.html).
 
 ## Installation
 

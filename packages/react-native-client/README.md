@@ -1,6 +1,6 @@
-# react-native-client
+# Fishjam Cloud React Native client
 
-react-native-client is a React Native wrapper for
+`@fishjam-cloud/react-native-client` is a React Native wrapper for
 [android-client](https://github.com/fishjam-dev/android-client-sdk) and
 [ios-client](https://github.com/fishjam-dev/ios-client-sdk). It allows you to
 quickly and easily create a mobile client app in React Native for a
@@ -9,7 +9,7 @@ quickly and easily create a mobile client app in React Native for a
 # Documentation
 
 API documentation is available
-[here](https://fishjam-cloud.github.io/mobile-client-sdk/)
+[here](https://fishjam-cloud.github.io/mobile-client-sdk/modules/_fishjam_cloud_react_native_client.html)
 
 # Installation
 
@@ -218,11 +218,11 @@ We strongly recommend checking out our example app that implements a basic video
 room client. To run the app:
 
 1. Go to Membrane's server demo repo:
-   https://github.com/fishjam-dev/fishjam-videoroom. Follow instructions there
+   https://github.com/fishjam-cloud/fishjam-videoroom. Follow instructions there
    to setup and run demo server.
 2. Clone the repo
 3. ```
-   cd example
+   cd `examples/fishjam-chat`
    yarn
    ```
 4. In App.ts replace server url with your server's url.
@@ -232,7 +232,8 @@ room client. To run the app:
 
 # Usage
 
-> [!CAUTION] This part of documentation is out of date. It will be updated soon.
+> [!CAUTION] 
+> This part of documentation is out of date. It will be updated soon.
 
 Connect to the server and join the room using the `connect` function. Use user
 metadata to pass things like usernames etc. to the server.
@@ -393,10 +394,11 @@ notifee.registerForegroundService((notification) => {
 });
 ```
 
-## Credits
+## Copyright and License
 
-This project has been built and is maintained thanks to the support from
-[dscout](https://dscout.com/) and [Software Mansion](https://swmansion.com).
+Copyright 2024,
+[Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
 
-<img alt="dscout" height="100" src="../../.github/images/dscout_logo.png"/>
-<img alt="Software Mansion" src="https://logo.swmansion.com/logo?color=white&variant=desktop&width=150&tag=react-native-reanimated-github"/>
+[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
+
+Licensed under the [Apache License, Version 2.0](LICENSE)

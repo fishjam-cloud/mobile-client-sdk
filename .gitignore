@@ -43,7 +43,7 @@ android.iml
 
 # Cocoapods
 #
-example/ios/Pods
+examples/fishjam-chat/ios/Pods
 
 # node.js
 #

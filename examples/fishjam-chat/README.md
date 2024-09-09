@@ -15,13 +15,13 @@ cd mobile-client-sdk
 yarn
 ```
 
-3. Install node_modules in `example/` directory:
+3. Install node_modules in `examples/fishjam-chat` directory:
 
 ```cmd
-cd example && yarn
+cd `examples/fishjam-chat` && yarn
 ```
 
-4. Start Metro bundler in `example/` directory
+4. Start Metro bundler in `examples/fishjam-chat` directory
 
 ```cmd
 yarn start
