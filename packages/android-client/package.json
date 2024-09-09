@@ -1,5 +1,5 @@
 {
-  "name": "android-client",
+  "name": "@fishjam-cloud/android-client",
   "scripts": {
     "lint": "ktlint -F **/*.kt",
     "lint:check": "ktlint **/*.kt"
