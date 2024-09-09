@@ -3252,12 +3252,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fishjam-cloud/android-client@workspace:packages/android-client":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-cloud/android-client@workspace:packages/android-client"
+  languageName: unknown
+  linkType: soft
+
 "@fishjam-cloud/fishjam-openapi@npm:^0.1.2":
   version: 0.1.2
   resolution: "@fishjam-cloud/fishjam-openapi@npm:0.1.2"
   checksum: 10c0/75fbde4913a17ab834d104c00b6aa5f491978161bb13f836b325911136fbc82bff1ab5d41010f2d5d5cd3c1b38931238866bd7cfcad40a827ed139a599d57c0f
   languageName: node
   linkType: hard
+
+"@fishjam-cloud/ios-client@workspace:packages/ios-client":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-cloud/ios-client@workspace:packages/ios-client"
+  languageName: unknown
+  linkType: soft
 
 "@fishjam-cloud/react-native-client@npm:*, @fishjam-cloud/react-native-client@workspace:packages/react-native-client":
   version: 0.0.0-use.local
@@ -3339,6 +3351,24 @@ __metadata:
     react-test-renderer: "npm:18.3.1"
     ts-node: "npm:^10.9.1"
     typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
+"@fishjam-example/webdriverio-test@workspace:examples/webdriverio-test":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-example/webdriverio-test@workspace:examples/webdriverio-test"
+  dependencies:
+    "@fishjam-cloud/fishjam-openapi": "npm:^0.1.2"
+    "@wdio/appium-service": "npm:^8.40.2"
+    "@wdio/cli": "npm:^8.40.5"
+    "@wdio/local-runner": "npm:^8.40.5"
+    "@wdio/mocha-framework": "npm:^8.40.3"
+    "@wdio/spec-reporter": "npm:^8.40.3"
+    appium-xcuitest-driver: "npm:^7.26.0"
+    dotenv: "npm:^16.3.1"
+    ts-node: "npm:^10.9.1"
+    typescript: "npm:^5.5.4"
+    webdriverio: "npm:^9.0.7"
   languageName: unknown
   linkType: soft
 
@@ -6898,12 +6928,6 @@ __metadata:
   checksum: 10c0/41e23642cbe545889245b9d2a45854ebba51cda6c778ebced9649420d9205f2efb39cb43dbc41e358409223b1ea43303ae4839db682c848b891e4811da1a5a71
   languageName: node
   linkType: hard
-
-"android-client@workspace:packages/android-client":
-  version: 0.0.0-use.local
-  resolution: "android-client@workspace:packages/android-client"
-  languageName: unknown
-  linkType: soft
 
 "anser@npm:^1.4.9":
   version: 1.4.10
@@ -12634,12 +12658,6 @@ __metadata:
   checksum: 10c0/5af133a917c0bcf65e84e7f23e779e7abc1cd49cb7fdc62d00d1de74b0d8c1b5ee74ac7766099fb3be1b05b26dfc67bab76a17030d2fe7ea2eef867434362dfc
   languageName: node
   linkType: hard
-
-"ios-client@workspace:packages/ios-client":
-  version: 0.0.0-use.local
-  resolution: "ios-client@workspace:packages/ios-client"
-  languageName: unknown
-  linkType: soft
 
 "ip-address@npm:^9.0.5":
   version: 9.0.5
@@ -20856,24 +20874,6 @@ __metadata:
   checksum: 10c0/c0bee8cd3b3c19a50b7cb4509fe487cbd500db24fc619f6373a996432f6bf675f3480a2226446d9d3b9ef7f0579130102e07eefa31f00e139cc09bf80874e4e9
   languageName: node
   linkType: hard
-
-"webdriverio-test@workspace:examples/webdriverio-test":
-  version: 0.0.0-use.local
-  resolution: "webdriverio-test@workspace:examples/webdriverio-test"
-  dependencies:
-    "@fishjam-cloud/fishjam-openapi": "npm:^0.1.2"
-    "@wdio/appium-service": "npm:^8.40.2"
-    "@wdio/cli": "npm:^8.40.5"
-    "@wdio/local-runner": "npm:^8.40.5"
-    "@wdio/mocha-framework": "npm:^8.40.3"
-    "@wdio/spec-reporter": "npm:^8.40.3"
-    appium-xcuitest-driver: "npm:^7.26.0"
-    dotenv: "npm:^16.3.1"
-    ts-node: "npm:^10.9.1"
-    typescript: "npm:^5.5.4"
-    webdriverio: "npm:^9.0.7"
-  languageName: unknown
-  linkType: soft
 
 "webdriverio@npm:8.38.2":
   version: 8.38.2
