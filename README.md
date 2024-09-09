@@ -19,7 +19,7 @@ We strongly recommend checking out our example app that implements a basic video
 room client. To run the app:
 
 1. Go to Membrane's server demo repo:
-   https://github.com/fishjam-cloud/fishjam-videoroom. Follow instructions there
+   https://fishjam.io/app/login Follow instructions there
    to setup and run demo server.
 2. Clone the repo
 3. ```
