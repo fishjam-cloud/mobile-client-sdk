@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prebuild": "expo prebuild",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
