@@ -64,6 +64,18 @@ const tapApp = async (driver: WebdriverIO.Browser) => {
   ]);
 };
 
+const swipeDown = async (driver: WebdriverIO.Browser, selector: string) => {
+  const element = await getElement(driver, selector);
+
+  await driver.executeScript('mobile: swipeGesture', [
+    {
+      elementId: element.elementId,
+      direction: 'down',
+      percent: 1.0,
+    },
+  ]);
+};
+
 const getWebsocketUrl = (host: string, secure: boolean = false) =>
   `${secure ? 'wss' : 'ws'}://${host}`;
 
@@ -125,6 +137,7 @@ export {
   tapApp,
   typeToInput,
   tapButton,
+  swipeDown,
   getElement,
   getInputValue,
   compareInputValue,

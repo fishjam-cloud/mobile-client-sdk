@@ -33,6 +33,7 @@ const roomScreenLabels = {
 const soundOutputDevicesLabels = {
   TITLE_TEXT: 'title_text',
   OUTPUT_DEVICE_BUTTON: 'output_device_button',
+  OUTPUT_DEVICES_BOTTOM_SHEET: 'output_devices_bottom_sheet',
 };
 
 export {
