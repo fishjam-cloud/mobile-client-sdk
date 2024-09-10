@@ -208,24 +208,27 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
             mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, appGroup: appGroup,
             videoParameters: videoParameters)
 
+        self.localEndpoint = self.localEndpoint.addOrReplaceTrack(track)
+
         broadcastScreenshareReceiver = ScreenBroadcastNotificationReceiver(
             onStart: { [weak self, weak track] in
-                guard let track = track else {
+                guard let track = track, let self = self else {
                     return
                 }
-                let promise = self?.commandsQueue.addCommand(
+
+                let promise = self.commandsQueue.addCommand(
                     Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
-                        if self?.localEndpoint != nil {
-                            self!.localEndpoint = self!.localEndpoint.addOrReplaceTrack(track)
-                            self!.peerConnectionManager.addTrack(track: track)
-                            self!.rtcEngineCommunication.renegotiateTracks()
-                            onStart(track)
+                        self.peerConnectionManager.addTrack(track: track)
+                        if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+                            self.rtcEngineCommunication.renegotiateTracks()
+                        } else {
+                            self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
                         }
+                        onStart(track)
                     })
                 do {
-                    if let promise = promise {
-                        try awaitPromise(promise)
-                    }
+                    try awaitPromise(promise)
+                    self.listener.onTrackAdded(track: track)
                 } catch {
 
                 }
@@ -234,7 +237,10 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 guard let track = track else {
                     return
                 }
+                track.stop()
                 self?.removeTrack(trackId: track.id)
+                self?.listener.onTrackRemoved(track: track)
+
                 onStop(track)
             })
 
@@ -255,6 +261,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 self.localEndpoint = self.localEndpoint.removeTrack(track)
                 self.peerConnectionManager.removeTrack(trackId: track.webrtcId)
                 self.rtcEngineCommunication.renegotiateTracks()
+                self.listener.onTrackRemoved(track: track)
             })
         do {
             try awaitPromise(promise)
