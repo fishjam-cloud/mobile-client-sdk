@@ -1,11 +1,11 @@
 import React, { FC, useCallback } from 'react';
 
 import { InCallButton } from '../../components';
-import { previewScreenLabels } from '../../types/ComponentLabels.ts';
+import { previewScreenLabels } from '../../types/ComponentLabels';
 import {
   displayIosSimulatorCameraAlert,
   isIosSimulator,
-} from '../../utils/deviceUtils.ts';
+} from '../../utils/deviceUtils';
 
 interface SwitchCameraButtonProps {
   switchCamera: () => void;

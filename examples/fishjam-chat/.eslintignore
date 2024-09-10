@@ -1,0 +1,6 @@
+.expo/**
+android/**
+ios/**
+build/*
+node_modules/*
+webdriverio-test/server-api/*

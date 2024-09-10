@@ -1,12 +1,15 @@
 {
-  "name": "fishjam-chat",
+  "name": "@fishjam-example/fishjam-chat",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "test": "jest",
+    "build": "tsc",
+    "lint": "sh ./scripts/lint.sh",
+    "lint:check": "sh ./scripts/lint_check.sh"
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",

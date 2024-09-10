@@ -1,9 +1,9 @@
-import { Camera } from "expo-camera";
-import { CameraView } from "expo-camera";
-import React, { useCallback, useState } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Camera } from 'expo-camera';
+import { CameraView } from 'expo-camera';
+import React, { useCallback, useState } from 'react';
+import { Modal, StyleSheet, View } from 'react-native';
 
-import Button from "./Button";
+import Button from './Button';
 
 type Props = {
   onCodeScanned: (code: string) => void;
@@ -18,7 +18,7 @@ export default function QRCodeScanner({ onCodeScanned }: Props) {
       return;
     }
     const { status } = await Camera.requestCameraPermissionsAsync();
-    if (status === "granted") {
+    if (status === 'granted') {
       setIsBarcodeScannerVisible(true);
     }
   };
@@ -37,13 +37,12 @@ export default function QRCodeScanner({ onCodeScanned }: Props) {
         visible={isBarcodeScannerVisible}
         onRequestClose={() => setIsBarcodeScannerVisible(false)}
         animationType="slide"
-        presentationStyle="pageSheet"
-      >
+        presentationStyle="pageSheet">
         <View style={styles.barcodeWrapper}>
           <CameraView
             onBarcodeScanned={onBarCodeScanned}
             barcodeScannerSettings={{
-              barcodeTypes: ["qr", "pdf417"],
+              barcodeTypes: ['qr', 'pdf417'],
             }}
             style={StyleSheet.absoluteFillObject}
           />
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   barcodeWrapper: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     flex: 1,
   },
 });

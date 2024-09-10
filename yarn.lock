@@ -2430,6 +2430,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fishjam-example/fishjam-chat@workspace:examples/fishjam-chat":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-example/fishjam-chat@workspace:examples/fishjam-chat"
+  dependencies:
+    "@babel/core": "npm:^7.20.0"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@gorhom/bottom-sheet": "npm:^4"
+    "@react-navigation/bottom-tabs": "npm:^6.6.1"
+    "@react-navigation/native": "npm:^6.1.18"
+    "@react-navigation/native-stack": "npm:^6.11.0"
+    "@types/react": "npm:^18.3.5"
+    expo: "npm:^51.0.32"
+    expo-build-properties: "npm:~0.12.5"
+    expo-camera: "npm:^15.0.15"
+    expo-device: "npm:^6.0.2"
+    expo-status-bar: "npm:~1.12.1"
+    react: "npm:18.2.0"
+    react-native: "npm:^0.75.2"
+    react-native-gesture-handler: "npm:~2.19.0"
+    react-native-reanimated: "npm:^3.15.1"
+    react-native-safe-area-context: "npm:4.10.9"
+    react-native-screens: "npm:^3.34.0"
+    react-native-toast-message: "npm:^2.2.0"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "@fishjam-example/webdriverio-test@workspace:examples/webdriverio-test":
   version: 0.0.0-use.local
   resolution: "@fishjam-example/webdriverio-test@workspace:examples/webdriverio-test"
@@ -3923,7 +3950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/eslint-plugin@npm:0.75.2":
+"@react-native/eslint-plugin@npm:0.75.2, @react-native/eslint-plugin@npm:^0.75.2":
   version: 0.75.2
   resolution: "@react-native/eslint-plugin@npm:0.75.2"
   checksum: 10c0/61cda967070913c02ac9626e607ec62584d9d244a046b02c5f3afc4cbbfa59dc10c3dcbda63fc2386478d5fb54ac7e5cae359aea0cdc2b50d209c380a4ebe34d
@@ -9800,38 +9827,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fishjam-chat@workspace:examples/fishjam-chat":
-  version: 0.0.0-use.local
-  resolution: "fishjam-chat@workspace:examples/fishjam-chat"
-  dependencies:
-    "@babel/core": "npm:^7.20.0"
-    "@fishjam-cloud/react-native-client": "npm:*"
-    "@gorhom/bottom-sheet": "npm:^4"
-    "@react-navigation/bottom-tabs": "npm:^6.6.1"
-    "@react-navigation/native": "npm:^6.1.18"
-    "@react-navigation/native-stack": "npm:^6.11.0"
-    "@types/react": "npm:^18.3.5"
-    expo: "npm:^51.0.32"
-    expo-build-properties: "npm:~0.12.5"
-    expo-camera: "npm:^15.0.15"
-    expo-device: "npm:^6.0.2"
-    expo-status-bar: "npm:~1.12.1"
-    react: "npm:18.2.0"
-    react-native: "npm:^0.75.2"
-    react-native-gesture-handler: "npm:~2.19.0"
-    react-native-reanimated: "npm:^3.15.1"
-    react-native-safe-area-context: "npm:4.10.9"
-    react-native-screens: "npm:^3.34.0"
-    react-native-toast-message: "npm:^2.2.0"
-    typescript: "npm:^5.5.4"
-  languageName: unknown
-  linkType: soft
-
 "fishjam-mobile-sdk@workspace:.":
   version: 0.0.0-use.local
   resolution: "fishjam-mobile-sdk@workspace:."
   dependencies:
     "@react-native/eslint-config": "npm:^0.75.2"
+    "@react-native/eslint-plugin": "npm:^0.75.2"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
