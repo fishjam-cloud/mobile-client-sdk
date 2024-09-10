@@ -237,6 +237,20 @@ internal class FishjamClientInternal(
     listener.onJoined(endpointID, remoteEndpoints)
     commandsQueue.finishCommand()
     reconnectionManager.onReconnected()
+
+    coroutineScope.launch {
+      commandsQueue.addCommand(
+        Command(CommandName.ADD_TRACK) {
+          coroutineScope.launch {
+            if (commandsQueue.clientState == ClientState.CONNECTED || commandsQueue.clientState == ClientState.JOINED) {
+              rtcEngineCommunication.renegotiateTracks()
+            } else {
+              commandsQueue.finishCommand(CommandName.ADD_TRACK)
+            }
+          }
+        }
+      )
+    }
   }
 
   fun leave() {
