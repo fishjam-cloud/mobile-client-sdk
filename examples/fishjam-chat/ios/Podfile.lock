@@ -1587,51 +1587,7 @@ PODS:
     - RNNotifee/NotifeeCore (= 7.8.2)
   - RNNotifee/NotifeeCore (7.8.2):
     - React-Core
-  - RNReanimated (3.15.1):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.01.01.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.1)
-    - RNReanimated/worklets (= 3.15.1)
-    - Yoga
-  - RNReanimated/reanimated (3.15.1):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.01.01.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
-  - RNReanimated/worklets (3.15.1):
+  - RNReanimated (3.10.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2016,7 +1972,7 @@ SPEC CHECKSUMS:
   RNFishjamClient: 3c1c86c6ed09cda1a9de03a67a22d34a4d7bdc62
   RNGestureHandler: 3b6fa2bfa341c413d3d08444b838515b58e48ee7
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
-  RNReanimated: 190c12cb20dfa828353e99775beaa1bdf36e7ed9
+  RNReanimated: 45695b9819594a8777d27cf8468f0e12b58fd3e3
   RNScreens: 19719a9c326e925498ac3b2d35c4e50fe87afc06
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9

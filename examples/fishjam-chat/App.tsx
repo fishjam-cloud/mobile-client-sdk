@@ -1,26 +1,21 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Toast from "react-native-toast-message";
 
-import { useReconnection } from "@fishjam-cloud/react-native-client";
+import AppNavigator from "./navigators/AppNavigator";
+import { useReconnectionToasts } from "./hooks/useReconnectionToasts";
 
-export default function App() {
-  const { reconnectionStatus } = useReconnection();
+function App(): React.JSX.Element {
+  useReconnectionToasts();
 
   return (
-    <View style={styles.container}>
-      <Text>
-        Open up App.tsx to start working on your app {reconnectionStatus}!
-      </Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <GestureHandlerRootView>
+        <AppNavigator />
+      </GestureHandlerRootView>
+      <Toast />
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
