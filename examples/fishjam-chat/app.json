@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "fishjam-chat",
+    "slug": "fishjam-chat",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.fishjam.example.fishjamchat"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "io.fishjam.example.fishjamchat"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
