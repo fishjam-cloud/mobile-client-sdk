@@ -47,9 +47,9 @@ const {
 
 const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
-const { OUTPUT_DEVICE_MODAL } = soundOutputDevicesLabels;
+const { OUTPUT_DEVICE_BOTTOM_SHEET } = soundOutputDevicesLabels;
 
-// Remove after fixing: https://linear.app/swmansion/issue/FCE-504/fix-e2e-test-on-ios-related-to-showing-camera-view-when-camera-is
+// TODO: Remove after fixing: https://linear.app/swmansion/issue/FCE-504/fix-e2e-test-on-ios-related-to-showing-camera-view-when-camera-is
 const SKIP_IOS_TODO = driver.isIOS;
 
 type Test = {
@@ -69,7 +69,6 @@ const createFishjamRoom = async () => {
   const createRoomFunction = await createRoom();
   try {
     const response = await createRoomFunction();
-
     return response.data.data.room;
   } catch (e) {
     console.log(e);
@@ -141,7 +140,7 @@ const tests: Test[] = [
       if (driver.isAndroid) {
         await getElement(driver, '~' + TITLE_TEXT);
         await tapButton(driver, '~' + OUTPUT_DEVICE_BUTTON + 0);
-        await swipeDown(driver, '~' + OUTPUT_DEVICE_MODAL);
+        await swipeDown(driver, '~' + OUTPUT_DEVICE_BOTTOM_SHEET);
       }
       await driver.pause(100);
     },
