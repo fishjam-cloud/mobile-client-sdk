@@ -1,9 +1,3 @@
-import {
-  NotoSans_400Regular,
-  NotoSans_500Medium,
-  NotoSans_600SemiBold,
-  useFonts,
-} from '@expo-google-fonts/noto-sans';
 import React, { type ReactNode } from 'react';
 import {
   Dimensions,
@@ -73,12 +67,6 @@ export default function Typo({
   style,
   ...textProps
 }: TypoProps) {
-  useFonts({
-    NotoSans_400Regular,
-    NotoSans_500Medium,
-    NotoSans_600SemiBold,
-  });
-
   const getStyleForVariant = [{ color }, getFontVariant(variant)];
 
   return (
@@ -90,27 +78,27 @@ export default function Typo({
 
 const Headlines = StyleSheet.create({
   h1: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 68,
     lineHeight: 76,
   },
   h2: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 48,
     lineHeight: 54,
   },
   h3: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 36,
     lineHeight: 48,
   },
   h4: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 24,
     lineHeight: 36,
   },
   h5: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 18,
     lineHeight: 28,
   },
@@ -118,27 +106,27 @@ const Headlines = StyleSheet.create({
 
 const HeadlinesSmall = StyleSheet.create({
   h1: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 42,
     lineHeight: 48,
   },
   h2: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 36,
     lineHeight: 42,
   },
   h3: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 24,
     lineHeight: 32,
   },
   h4: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 20,
     lineHeight: 32,
   },
   h5: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 18,
     lineHeight: 28,
   },
@@ -146,29 +134,29 @@ const HeadlinesSmall = StyleSheet.create({
 
 const TextStyles = StyleSheet.create({
   bodyBig: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 20,
     lineHeight: 36,
   },
   bodySmall: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 16,
     lineHeight: 28,
   },
   label: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 12,
     lineHeight: 16,
   },
   caption: {
-    fontFamily: 'NotoSans_600SemiBold',
+    fontWeight: '600',
     fontSize: 18,
     lineHeight: 24,
     letterSpacing: 1,
     textTransform: 'uppercase',
   },
   button: {
-    fontFamily: 'NotoSans_600SemiBold',
+    fontWeight: '600',
     fontSize: 18,
     lineHeight: 24,
     letterSpacing: 0.5,
@@ -177,29 +165,29 @@ const TextStyles = StyleSheet.create({
 
 const TextStylesSmall = StyleSheet.create({
   bodyBig: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 18,
     lineHeight: 32,
   },
   bodySmall: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 16,
     lineHeight: 28,
   },
   label: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 12,
     lineHeight: 16,
   },
   caption: {
-    fontFamily: 'NotoSans_600SemiBold',
+    fontWeight: '600',
     fontSize: 18,
     lineHeight: 24,
     letterSpacing: 1,
     textTransform: 'uppercase',
   },
   button: {
-    fontFamily: 'NotoSans_600SemiBold',
+    fontWeight: '600',
     fontSize: 18,
     lineHeight: 24,
     letterSpacing: 0.5,
@@ -208,22 +196,22 @@ const TextStylesSmall = StyleSheet.create({
 
 const TextStylesCustom = StyleSheet.create({
   videoLabel: {
-    fontFamily: 'NotoSans_500Medium',
+    fontWeight: '500',
     fontSize: 14,
     lineHeight: 18,
   },
   chatRegular: {
-    fontFamily: 'NotoSans_400Regular',
+    fontWeight: '400',
     fontSize: 14,
     lineHeight: 21,
   },
   chatSemibold: {
-    fontFamily: 'NotoSans_600SemiBold',
+    fontWeight: '600',
     fontSize: 14,
     lineHeight: 21,
   },
   chatTitle: {
-    fontFamily: 'NotoSans_600SemiBold',
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
   },
@@ -231,7 +219,6 @@ const TextStylesCustom = StyleSheet.create({
 
 export const TextInputTextStyle = StyleSheet.create({
   body: {
-    fontFamily: TextStylesSmall.bodySmall.fontFamily,
     fontSize: TextStylesSmall.bodySmall.fontSize,
   },
 });
