@@ -2788,13 +2788,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo-google-fonts/noto-sans@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "@expo-google-fonts/noto-sans@npm:0.2.3"
-  checksum: 10c0/41342240a58ce0a2c7d98e1fbef79c9e6c336092e5b23235ea913075d2debae5438d9f94db84b69debe7e25efbaad5f68dad88a50882d32a6f6acc20ee9b16eb
-  languageName: node
-  linkType: hard
-
 "@expo/bunyan@npm:^4.0.0":
   version: 4.0.0
   resolution: "@expo/bunyan@npm:4.0.0"
@@ -3315,7 +3308,6 @@ __metadata:
     "@babel/core": "npm:^7.25.2"
     "@babel/preset-env": "npm:^7.25.4"
     "@babel/runtime": "npm:^7.25.6"
-    "@expo-google-fonts/noto-sans": "npm:^0.2.3"
     "@fishjam-cloud/react-native-client": "npm:*"
     "@gorhom/bottom-sheet": "npm:^4"
     "@notifee/react-native": "npm:^7.8.2"
@@ -3337,7 +3329,6 @@ __metadata:
     expo: "npm:^50.0.20"
     expo-camera: "npm:^14.0.4"
     expo-device: "npm:^5.9.3"
-    expo-font: "npm:^11.10.2"
     jest: "npm:^29.6.3"
     lint-staged: "npm:^15.2.10"
     react: "npm:18.3.1"
@@ -10850,7 +10841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-font@npm:^11.10.2, expo-font@npm:~11.10.3":
+"expo-font@npm:~11.10.3":
   version: 11.10.3
   resolution: "expo-font@npm:11.10.3"
   dependencies:
