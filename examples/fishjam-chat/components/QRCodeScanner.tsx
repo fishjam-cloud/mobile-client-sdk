@@ -1,5 +1,4 @@
-import { Camera } from 'expo-camera';
-import { CameraView } from 'expo-camera';
+import { Camera, CameraView } from 'expo-camera';
 import React, { useCallback, useState } from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 

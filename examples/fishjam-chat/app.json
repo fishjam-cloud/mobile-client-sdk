@@ -2,7 +2,7 @@
   "expo": {
     "name": "FishjamChat",
     "slug": "fishjam-chat",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,9 +21,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "io.fishjam.example.fishjamchat"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [
