@@ -49,7 +49,7 @@ const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
 const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
 
-// TODO: Remove after fixing: https://linear.app/swmansion/issue/FCE-504/fix-e2e-test-on-ios-related-to-showing-camera-view-when-camera-is
+// TODO: Remove after fixing: FCE-504
 const SKIP_IOS_TODO = driver.isIOS;
 
 type Test = {
