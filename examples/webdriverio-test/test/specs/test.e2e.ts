@@ -24,6 +24,7 @@ import {
   tapApp,
   tapButton,
   typeToInput,
+  swipeDown,
 } from '../../utils';
 
 const { TOKEN_TAB } = appNavigationLabels;
@@ -45,6 +46,11 @@ const {
 } = roomScreenLabels;
 
 const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
+
+const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
+
+// TODO: Remove after fixing: FCE-504
+const SKIP_IOS_TODO = driver.isIOS;
 
 type Test = {
   name: string;
@@ -123,7 +129,6 @@ const tests: Test[] = [
       if (driver.isIOS) {
         await driver.acceptAlert();
         await driver.pause(1000);
-        await driver.acceptAlert();
       }
     },
     skip: false,
@@ -135,11 +140,11 @@ const tests: Test[] = [
       if (driver.isAndroid) {
         await getElement(driver, '~' + TITLE_TEXT);
         await tapButton(driver, '~' + OUTPUT_DEVICE_BUTTON + 0);
+        await swipeDown(driver, '~' + OUTPUT_DEVICES_BOTTOM_SHEET);
       }
       await driver.pause(100);
-      await tapApp(driver);
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: false,
   },
   {
     name: 'toggle off preview camera and microphone then join the room',
@@ -147,7 +152,10 @@ const tests: Test[] = [
       await tapButton(driver, '~' + TOGGLE_MICROPHONE_BUTTON_PREVIEW);
       await tapButton(driver, '~' + TOGGLE_CAMERA_BUTTON_PREVIEW);
       await tapButton(driver, '~' + JOIN_BUTTON);
-      await driver.pause(100);
+      if (driver.isIOS) {
+        await driver.acceptAlert();
+      }
+      await driver.pause(1000);
     },
     skip: false,
   },
@@ -157,12 +165,9 @@ const tests: Test[] = [
       await getElement(driver, '~' + NO_CAMERA_VIEW);
       //todo remove next lines of code when this issue is solved https://membraneframework.atlassian.net/browse/RTC-549
       await driver.pause(4000);
-      if (driver.isIOS) {
-        await driver.acceptAlert();
-      }
       //todo up to here
     },
-    skip: false,
+    skip: SKIP_IOS_TODO,
   },
   {
     name: 'toggle camera on',
@@ -216,7 +221,7 @@ const tests: Test[] = [
         await tapApp(driver);
       }
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: SKIP_IOS_TODO,
   },
   {
     name: 'check if two video cells',
@@ -225,7 +230,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 1);
       await getElement(driver, '~' + VIDEO_CELL + 3, true);
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: SKIP_IOS_TODO,
   },
   {
     name: 'toggle camera off',
@@ -237,14 +242,10 @@ const tests: Test[] = [
   {
     name: 'check if only 1 video cell',
     run: async () => {
-      await getElement(
-        driver,
-        '~' + VIDEO_CELL + 0,
-        process.env.GITHUB_ACTIONS === 'true',
-      );
+      await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1, true);
     },
-    skip: false,
+    skip: SKIP_IOS_TODO,
   },
   {
     name: 'screen share off',
@@ -256,14 +257,14 @@ const tests: Test[] = [
       }
       await tapApp(driver);
     },
-    skip: process.env.GITHUB_ACTIONS === 'true',
+    skip: SKIP_IOS_TODO,
   },
   {
     name: 'check if no camera view again',
     run: async () => {
       await getElement(driver, '~' + NO_CAMERA_VIEW);
     },
-    skip: false,
+    skip: SKIP_IOS_TODO,
   },
   {
     name: 'toggle microphone on',

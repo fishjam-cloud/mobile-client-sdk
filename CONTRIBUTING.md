@@ -16,54 +16,55 @@ yarn
 > built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier
 > time if you use `yarn` for development.
 
-While developing, you can run the [example app](/example/) to test your changes.
+While developing, you can run the [example app](/examples/fishjam-chat) to test your changes.
 Any changes you make in your library's JavaScript code will be reflected in the
 example app without a rebuild. If you change any native code, then you'll need
 to rebuild the example app.
 
+Go into the example app:
+
+```sh
+cd examples/fishjam-chat
+```
+
 To start the packager:
 
 ```sh
-yarn example start
+yarn start
 ```
 
 To run the example app on Android:
 
 ```sh
-yarn example android
+yarn android
 ```
 
 To run the example app on iOS:
 
 ```sh
-yarn example ios
+bundle install
+bundle exec pod install --project-directory=ios
+yarn ios
 ```
 
-Make sure your code passes TypeScript and ESLint. Run the following to verify:
+Make sure your code passes TypeScript and ESLint. Run the following (in root folder) to verify:
 
 ```sh
-yarn typescript
+yarn tsc
 yarn lint:check
 ```
 
-To fix formatting errors, run the following:
-
-```sh
-yarn lint:fix
-```
-
-Remember to add tests for your change if possible. Run the unit tests by:
-
-```sh
-yarn test
-```
-
-To edit the Swift files, open `example/ios/MembraneExample.xcworkspace` in XCode
+To edit the React Native SDK's Swift files, open `examples/fishjam-chat/ios/FishjamExample.xcworkspace` in XCode
 and find the source files at
-`Pods > Development Pods > mobile-client-sdk`.
+`Pods > Development Pods > RNFishjamClient`
+to edit the iOS native SDK find
+`Pods > Development Pods > FishjamCloudClient`
 
-To edit the Kotlin files, open `examples/fishjam-chat/android` in Android studio and find the
-source files at `reactnativemembrane` under `Android`.
+To edit the React Native SDK's Kotlin files, open `examples/fishjam-chat/android` in Android studio and find the
+source files at
+`fishjam-cloud-react-native-client`
+to edit the Android native SDK find
+`fishjam-cloud-android-client`
 
 ### Commit message convention
 
@@ -107,7 +108,7 @@ We use [release-it](https://github.com/release-it/release-it) to make it easier
 to publish new versions manually. It handles common tasks like bumping version
 based on semver, creating tags and releases etc.
 
-To publish a new version, run the following:
+To publish a new version, go to `packages/react-native-client` and run the following:
 
 ```sh
 yarn release
