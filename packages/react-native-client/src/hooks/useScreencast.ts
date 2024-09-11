@@ -147,6 +147,7 @@ export function useScreencast() {
      "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"
      "android.permission.FOREGROUND_SERVICE_CAMERA"
      "android.permission.FOREGROUND_SERVICE_MICROPHONE"
+     "android.permission.POST_NOTIFICATIONS"
     *```
     * as well as FishjamForegroundService in your AndroidManifest:
     * @example
