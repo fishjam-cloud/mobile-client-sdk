@@ -53,6 +53,11 @@ export { VideoPreviewView } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export { VideoRendererView } from './components/VideoRendererView';
 
+export {
+  startForegroundService,
+  stopForegroundService,
+} from './utils/foregroundService';
+
 export type {
   TrackBandwidthLimit,
   TrackEncoding,
