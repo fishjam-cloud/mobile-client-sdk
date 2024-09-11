@@ -13,9 +13,7 @@ import androidx.core.app.NotificationCompat
 
 class FishjamForegroundService : Service() {
   companion object {
-    private const val CHANNEL_ID: String =
-      "org.membraneframework.reactnative.ForegroundServiceChannel" // TODO: Move to plugin
-    private const val FOREGROUND_SERVICE_ID = 1
+    private const val FOREGROUND_SERVICE_ID = 1668
   }
 
   override fun onBind(p0: Intent?): IBinder? = null
@@ -25,7 +23,12 @@ class FishjamForegroundService : Service() {
     flags: Int,
     startId: Int
   ): Int {
-    createNotificationChannel()
+    val channelId = intent!!.getStringExtra("channelId")!!
+    val channelName = intent.getStringExtra("channelName")!!
+    val notificationTitle = intent.getStringExtra("notificationTitle")!!
+    val notificationContent = intent.getStringExtra("notificationContent")!!
+
+    createNotificationChannel(channelId, channelName)
 
     val pendingIntent =
       PendingIntent.getActivity(
@@ -37,9 +40,9 @@ class FishjamForegroundService : Service() {
 
     val notification: Notification =
       NotificationCompat
-        .Builder(this, CHANNEL_ID)
-        .setContentTitle("Fishjam Client") // TODO: Use plugin for that
-        .setContentText("Service is running in the foreground")
+        .Builder(this, channelId)
+        .setContentTitle(notificationTitle)
+        .setContentText(notificationContent)
         .setContentIntent(pendingIntent)
         .build()
 
@@ -66,15 +69,15 @@ class FishjamForegroundService : Service() {
     return START_NOT_STICKY
   }
 
-  private fun createNotificationChannel() {
+  private fun createNotificationChannel(channelId: String, channelName: String) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
       return
     }
 
     val serviceChannel =
       NotificationChannel(
-        CHANNEL_ID,
-        "Fishjam Foreground Service Channel",
+        channelId,
+        channelName,
         NotificationManager.IMPORTANCE_DEFAULT
       )
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as? NotificationManager

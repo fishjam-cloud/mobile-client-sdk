@@ -42,7 +42,12 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const { isCameraOn, flipCamera, toggleCamera } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  useForegroundService();
+  useForegroundService({
+    channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+    channelName: 'Fishjam Chat Notifications',
+    notificationTitle: 'Your video call is ongoing',
+    notificationContent: 'Tap to return to the call.',
+  });
 
   const { participants: participants } = useParticipants<ParticipantMetadata>();
 

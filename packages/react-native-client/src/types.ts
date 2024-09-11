@@ -47,3 +47,17 @@ export type GenericMetadata = Record<string, unknown>;
 // branded types are useful for restricting where given value can be passed
 declare const brand: unique symbol;
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
+
+/**
+ * A type describing options needed to be passed to a foreground service.
+ *
+ * At the moment, simulcast track is initialized in three versions - low, medium and high.
+ * High resolution is the original track resolution, while medium and low resolutions are
+ * the original track resolution scaled down by 2 and 4 respectively.
+ */
+export type ForegroundServiceOptions = {
+  channelId: string;
+  channelName: string;
+  notificationTitle: string;
+  notificationContent: string;
+};
