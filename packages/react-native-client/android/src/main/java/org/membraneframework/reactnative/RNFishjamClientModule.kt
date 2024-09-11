@@ -295,10 +295,11 @@ class RNFishjamClientModule : Module() {
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
       Function("startForegroundService") {
-        val serviceIntent = Intent(
-          appContext.reactContext,
-          FishjamForegroundService::class.java
-        )
+        val serviceIntent =
+          Intent(
+            appContext.reactContext,
+            FishjamForegroundService::class.java
+          )
 
         if (appContext.reactContext == null) {
           throw CodedException(message = "reactContext not found")
@@ -311,12 +312,12 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-
       Function("stopForegroundService") {
-        val serviceIntent: Intent = Intent(
-          appContext.reactContext,
-          FishjamForegroundService::class.java
-        )
+        val serviceIntent: Intent =
+          Intent(
+            appContext.reactContext,
+            FishjamForegroundService::class.java
+          )
         if (appContext.reactContext == null) {
           throw CodedException(message = "reactContext not found")
         }
