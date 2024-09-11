@@ -34,7 +34,7 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const [peerToken, onChangePeerToken] = useState(
-    'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQ4NWFhOTg0ZS1jYmY1LTRjNjAtYjQ1NS1hYTc5Y2FlOTgwMzJkAAdyb29tX2lkbQAAAERmMGI2LTQ4MTMtYWNkNy05ZTY0MTJkOGNhMjItNmE2NTZjNmM3OTY2Njk3MzY4NDAzMTMwMmUzMDJlMzEyZTMyMzUzMm4GAIgKsuCRAWIAAVGA.8O2NwYIbQuwpChSbXLhd7Un8DxTb4fXEn-THCu_5q-4',
+    'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQyMGRmZmJhYi0wZmFhLTRjOTQtYTc4Mi1lZmMxNWNiOGY2YjlkAAdyb29tX2lkbQAAAERhMzg3LTRjZTEtYmM2ZS0zOTBhZTgzODVhNzktNmE2NTZjNmM3OTY2Njk3MzY4NDAzMTMwMmUzMDJlMzEyZTMyMzUzMm4GAI741eCRAWIAAVGA.c7xYwO5hHhnn5lv_5kFu_gMn-F4oMQp8wRJ2u8VcABg',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
     'wss://cloud.fishjam.work/api/v1/connect/5c24e323ea9b4b37b9b138e34a43c593',

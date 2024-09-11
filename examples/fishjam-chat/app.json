@@ -33,7 +33,8 @@
             "targetSdkVersion": 34
           }
         }
-      ]
+      ],
+      ["@fishjam-cloud/react-native-client"]
     ]
   }
 }

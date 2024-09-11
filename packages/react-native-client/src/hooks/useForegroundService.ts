@@ -3,8 +3,8 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 import { Platform } from 'react-native';
 
 /**
- * This hook launches a foreground service on Android.
- * It does nothing on other platforms.
+ * Launches a foreground service on Android.
+ * Does nothing on other platforms.
  */
 export function useForegroundService() {
   useEffect(() => {
