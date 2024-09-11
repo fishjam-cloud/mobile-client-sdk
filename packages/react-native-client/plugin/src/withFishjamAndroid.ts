@@ -4,19 +4,27 @@ import { FishjamPluginOptions } from './types';
 
 const withFishjamForegroundService: ConfigPlugin = (config) => {
   return withAndroidManifest(config, async (config) => {
-    const androidManifest = config.modResults;
-
-    const mainApplication = getMainApplicationOrThrow(androidManifest);
+    const mainApplication = getMainApplicationOrThrow(config.modResults);
     mainApplication.service = mainApplication.service || [];
-    mainApplication.service.push({
+
+    const newService = {
       $: {
         'android:name':
           'org.membraneframework.reactnative.FishjamForegroundService',
         'android:foregroundServiceType': 'camera|microphone|mediaProjection',
-      } as any, // TODO: android:foregroundServiceType type not supported
-    });
+      },
+    };
 
-    config.modResults = androidManifest;
+    const existingServiceIndex = mainApplication.service.findIndex(
+      (service: any) =>
+        service.$['android:name'] === newService.$['android:name'],
+    );
+
+    if (existingServiceIndex !== -1) {
+      mainApplication.service[existingServiceIndex] = newService;
+    } else {
+      mainApplication.service.push(newService);
+    }
 
     return config;
   });
@@ -24,9 +32,9 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
 
 export const withFishjamAndroid: ConfigPlugin<FishjamPluginOptions> = (
   config,
-  options,
+  { android: { enableForegroundService } },
 ) => {
-  if (options.android.enableForegroundService) {
+  if (enableForegroundService) {
     config = withFishjamForegroundService(config);
   }
   return config;
