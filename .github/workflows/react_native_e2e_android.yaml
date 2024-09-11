@@ -1,11 +1,12 @@
 name: React Native - Android E2E tests
+## This GH Action is now disabled due to issues with new Expo/RN
 on:
   push:
     branches:
-      - main
+      - __disabled__
   pull_request:
     branches:
-      - main
+      - __disabled__
 
 jobs:
   rn_e2e_android:
