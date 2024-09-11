@@ -96,6 +96,9 @@ class ForegroundServiceConfig : Record {
 
   @Field
   val notificationTitle: String? = null
+
+  @Field
+  val foregroundServiceTypes: IntArray = intArrayOf()
 }
 
 class RNFishjamClientModule : Module() {
@@ -325,6 +328,11 @@ class RNFishjamClientModule : Module() {
         val notificationTitle =
           config.notificationTitle
             ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
+        val foregroundServiceTypes = config.foregroundServiceTypes
+
+        if (foregroundServiceTypes.isEmpty()) {
+          throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
+        }
 
         val serviceIntent =
           Intent(
@@ -336,6 +344,7 @@ class RNFishjamClientModule : Module() {
         serviceIntent.putExtra("channelName", channelName)
         serviceIntent.putExtra("notificationTitle", notificationContent)
         serviceIntent.putExtra("notificationContent", notificationTitle)
+        serviceIntent.putExtra("foregroundServiceTypes", foregroundServiceTypes)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
           appContext.reactContext!!.startForegroundService(serviceIntent)

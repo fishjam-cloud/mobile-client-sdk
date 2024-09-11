@@ -22,6 +22,7 @@ import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parseParticipantsToTracks } from '../components/VideosGrid';
 import { ParticipantMetadata } from '../types/metadata';
+import { AndroidForegroundServiceType } from '@fishjam-cloud/react-native-client/build/types';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -63,25 +64,41 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const handleAndroidScreencastPermission = useCallback(
     async (isScreencastOn: boolean) => {
-      if (!isScreencastOn) {
-        if ((await handleScreencastPermission()) != 'granted') {
-          return;
-        }
-        startForegroundService({
-          channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
-          channelName: 'Fishjam Chat Notifications',
-          notificationTitle: 'Your video call is ongoing',
-          notificationContent: 'Tap to return to the call.',
-        });
-      } else {
-        stopForegroundService();
+      if (isScreencastOn) {
+        return;
       }
+      if ((await handleScreencastPermission()) != 'granted') {
+        return;
+      }
+      startForegroundService({
+        channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+        channelName: 'Fishjam Chat Notifications',
+        notificationTitle: 'Your video call is ongoing (Screencast)',
+        notificationContent: 'Tap to return to the call.',
+        foregroundServiceTypes: [
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
+        ],
+      });
     },
-    [handleScreencastPermission, startForegroundService, stopForegroundService],
+    [handleScreencastPermission, startForegroundService],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => stopForegroundService(), []);
+  useEffect(() => {
+    startForegroundService({
+      channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+      channelName: 'Fishjam Chat Notifications',
+      notificationTitle: 'Your video call is ongoing',
+      notificationContent: 'Tap to return to the call.',
+      foregroundServiceTypes: [
+        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
+        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
+      ],
+    });
+    return () => stopForegroundService();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onToggleScreenCast = useCallback(async () => {
     if (Platform.OS === 'android') {

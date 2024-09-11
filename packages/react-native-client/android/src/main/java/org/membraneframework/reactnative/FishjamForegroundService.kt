@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -27,6 +26,9 @@ class FishjamForegroundService : Service() {
     val channelName = intent.getStringExtra("channelName")!!
     val notificationTitle = intent.getStringExtra("notificationTitle")!!
     val notificationContent = intent.getStringExtra("notificationContent")!!
+    val foregroundServiceTypesArray = intent.getIntArrayExtra("foregroundServiceTypes")!!
+    // Create "bitwise or" of foregroundServiceTypesArray
+    val foregroundServiceType = foregroundServiceTypesArray.reduce { acc, value -> acc or value }
 
     val pendingIntent =
       PendingIntent.getActivity(
@@ -45,24 +47,20 @@ class FishjamForegroundService : Service() {
         .build()
 
     createNotificationChannel(channelId, channelName)
-    startForegroundWithNotification(notification)
+    startForegroundWithNotification(notification, foregroundServiceType)
 
     return START_NOT_STICKY
   }
 
-  private fun startForegroundWithNotification(notification: Notification) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+  private fun startForegroundWithNotification(
+    notification: Notification,
+    foregroundServiceType: Int
+  ) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       startForeground(
         FOREGROUND_SERVICE_ID,
         notification,
-        ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION or ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA or
-          ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
-      )
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-      startForeground(
-        FOREGROUND_SERVICE_ID,
-        notification,
-        ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+        foregroundServiceType
       )
     } else {
       startForeground(
