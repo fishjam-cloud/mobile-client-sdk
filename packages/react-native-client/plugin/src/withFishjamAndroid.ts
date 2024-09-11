@@ -13,7 +13,7 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
         'android:name':
           'org.membraneframework.reactnative.FishjamForegroundService',
         'android:foregroundServiceType': 'camera|microphone|mediaProjection',
-      } as any, // TODO: android:foregroundServiceTyp type not supported
+      } as any, // TODO: android:foregroundServiceType type not supported
     });
 
     config.modResults = androidManifest;

@@ -49,11 +49,12 @@ declare const brand: unique symbol;
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
 
 /**
- * A type describing options needed to be passed to a foreground service.
+ * A type representing the options required for configuring the foreground service.
  *
- * At the moment, simulcast track is initialized in three versions - low, medium and high.
- * High resolution is the original track resolution, while medium and low resolutions are
- * the original track resolution scaled down by 2 and 4 respectively.
+ * @param channelId The id of the channel. Must be unique per package.
+ * @param channelName The user visible name of the channel.
+ * @param notificationTitle The title (first row) of the notification, in a standard notification.
+ * @param notificationContent The text (second row) of the notification, in a standard notification.
  */
 export type ForegroundServiceOptions = {
   channelId: string;
