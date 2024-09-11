@@ -28,8 +28,6 @@ class FishjamForegroundService : Service() {
     val notificationTitle = intent.getStringExtra("notificationTitle")!!
     val notificationContent = intent.getStringExtra("notificationContent")!!
 
-    createNotificationChannel(channelId, channelName)
-
     val pendingIntent =
       PendingIntent.getActivity(
         this,
@@ -46,6 +44,7 @@ class FishjamForegroundService : Service() {
         .setContentIntent(pendingIntent)
         .build()
 
+    createNotificationChannel(channelId, channelName)
     startForegroundWithNotification(notification)
 
     return START_NOT_STICKY
