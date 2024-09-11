@@ -1,6 +1,9 @@
 package org.membraneframework.reactnative
 
+import android.content.Intent
+import android.os.Build
 import expo.modules.kotlin.Promise
+import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
@@ -290,5 +293,34 @@ class RNFishjamClientModule : Module() {
       }
 
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
+
+      Function("startForegroundService") {
+        val serviceIntent = Intent(
+          appContext.reactContext,
+          FishjamForegroundService::class.java
+        )
+
+        if (appContext.reactContext == null) {
+          throw CodedException(message = "reactContext not found")
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          appContext.reactContext!!.startForegroundService(serviceIntent)
+        } else {
+          appContext.reactContext!!.startService(serviceIntent)
+        }
+      }
+
+
+      Function("stopForegroundService") {
+        val serviceIntent: Intent = Intent(
+          appContext.reactContext,
+          FishjamForegroundService::class.java
+        )
+        if (appContext.reactContext == null) {
+          throw CodedException(message = "reactContext not found")
+        }
+        appContext.reactContext!!.stopService(serviceIntent)
+      }
     }
 }

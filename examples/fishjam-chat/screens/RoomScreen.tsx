@@ -5,6 +5,7 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
+  useForegroundService,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -40,6 +41,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { isCameraOn, flipCamera, toggleCamera } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
+
+  useForegroundService();
 
   const { participants: participants } = useParticipants<ParticipantMetadata>();
 

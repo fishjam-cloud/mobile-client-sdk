@@ -66,6 +66,8 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
+  startForegroundService: () => void;
+  stopForegroundService: () => void;
 };
 
 const nativeModule = requireNativeModule('RNFishjamClient');
