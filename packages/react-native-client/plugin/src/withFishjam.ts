@@ -1,12 +1,9 @@
 import { ConfigPlugin } from '@expo/config-plugins';
 import { withFishjamAndroid } from './withFishjamAndroid';
+import { FishjamPluginOptions } from './types';
 
-// type FishjamPluginOptions = {
-//   android:
-// } | void;
-
-const withFishjam: ConfigPlugin = (config) => {
-  withFishjamAndroid(config);
+const withFishjam: ConfigPlugin<FishjamPluginOptions> = (config, options) => {
+  withFishjamAndroid(config, options);
   return config;
 };
 

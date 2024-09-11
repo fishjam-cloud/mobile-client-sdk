@@ -10,10 +10,17 @@ import { ForegroundServiceOptions } from '../types';
  * 
  * It is required to have the following permissions enabled before calling this function:
  * @example
- *"android.permission.FOREGROUND_SERVICE"
-"android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"
-"android.permission.FOREGROUND_SERVICE_CAMERA"
-"android.permission.FOREGROUND_SERVICE_MICROPHONE"
+ *```
+ * "android.permission.FOREGROUND_SERVICE"
+  "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"
+  "android.permission.FOREGROUND_SERVICE_CAMERA"
+  "android.permission.FOREGROUND_SERVICE_MICROPHONE"
+ *```
+ * As well as FishjamForegroundService in your AndroidManifest:
+ * @example
+ *```
+<service android:name="org.membraneframework.reactnative.FishjamForegroundService" android:foregroundServiceType="camera|microphone|mediaProjection"/>
+ *```
  */
 export const startForegroundService = (options: ForegroundServiceOptions) => {
   if (Platform.OS !== 'android') {
