@@ -231,7 +231,7 @@ room client. To run the app:
 
 # Usage
 
-> [!CAUTION] 
+> [!CAUTION]
 > This part of documentation is out of date. It will be updated soon.
 
 Connect to the server and join the room using the `connect` function. Use user
