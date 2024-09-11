@@ -4,7 +4,7 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import { useEffect } from 'react';
 
-export const useStartForegroundService = () => {
+export const useForegroundService = () => {
   useEffect(() => {
     startForegroundService({
       channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',

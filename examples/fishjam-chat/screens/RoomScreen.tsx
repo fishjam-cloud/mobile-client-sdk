@@ -22,7 +22,7 @@ import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parseParticipantsToTracks } from '../components/VideosGrid';
 import { ParticipantMetadata } from '../types/metadata';
-import { useStartForegroundService } from '../hooks/useStartForegroundService';
+import { useForegroundService } from '../hooks/useStartForegroundService';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -42,7 +42,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const { isCameraOn, flipCamera, toggleCamera } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  useStartForegroundService();
+  useForegroundService();
 
   const { participants: participants } = useParticipants<ParticipantMetadata>();
 
