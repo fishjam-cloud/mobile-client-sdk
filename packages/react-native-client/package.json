@@ -55,7 +55,6 @@
     "jest-environment-jsdom": "^29.6.1",
     "jest-expo": "^50.0.2",
     "jest-websocket-mock": "^2.4.0",
-    "lint-staged": "^15.2.10",
     "pod-install": "^0.2.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -78,10 +77,5 @@
       "<rootDir>/lib/"
     ],
     "testEnvironment": "jsdom"
-  },
-  "lint-staged": {
-    "*.(js|ts|tsx)": [
-      "yarn lint:check"
-    ]
   }
 }
