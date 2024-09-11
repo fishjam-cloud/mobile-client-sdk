@@ -1,11 +1,12 @@
 name: React Native - Android E2E tests
+## This GH Action is now disabled due to issues with new Expo/RN
 on:
   push:
     branches:
-      - main
+      - __disabled__
   pull_request:
     branches:
-      - main
+      - __disabled__
 
 jobs:
   rn_e2e_android:
@@ -101,10 +102,10 @@ jobs:
       - name: Install UIAnimator 2
         run: appium driver install uiautomator2
 
-      - name: Setup Java 18
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
-          java-version: "18"
+          java-version: "17"
           distribution: "zulu"
           cache: "gradle"
           cache-dependency-path: |
@@ -151,7 +152,9 @@ jobs:
         if: steps.restore-apk.outputs.cache-hit != 'true'
         timeout-minutes: 20
         run: |
-          cd $GITHUB_WORKSPACE/examples/fishjam-chat/android
+          cd $GITHUB_WORKSPACE/examples/fishjam-chat/
+          yarn prebuild
+          cd android
           ./gradlew assembleRelease
 
       - name: Cache new apk if necessary

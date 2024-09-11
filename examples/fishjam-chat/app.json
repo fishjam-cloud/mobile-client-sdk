@@ -1,4 +1,39 @@
 {
-  "name": "FishjamExample",
-  "displayName": "FishjamExample"
+  "expo": {
+    "name": "FishjamChat",
+    "slug": "fishjam-chat",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.fishjam.example.fishjamchat"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "io.fishjam.example.fishjamchat"
+    },
+    "androidStatusBar": { "hidden": true },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34
+          }
+        }
+      ]
+    ]
+  }
 }
