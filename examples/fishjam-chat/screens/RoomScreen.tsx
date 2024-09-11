@@ -17,10 +17,6 @@ import {
   NoCameraView,
   SoundOutputDevicesBottomSheet,
 } from '../components';
-import {
-  displayScreencastNotification,
-  useForegroundService,
-} from '../hooks/useForegroundService';
 import { usePreventBackButton } from '../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
@@ -45,8 +41,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const { isCameraOn, flipCamera, toggleCamera } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  useForegroundService();
-
   const { participants: participants } = useParticipants<ParticipantMetadata>();
 
   const tracks = useMemo(
@@ -67,7 +61,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
       if ((await handleScreencastPermission()) != 'granted') {
         return;
       }
-      await displayScreencastNotification();
     }
     await toggleScreencast({
       quality: 'HD15',
