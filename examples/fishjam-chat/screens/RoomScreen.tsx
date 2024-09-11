@@ -10,7 +10,7 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
@@ -58,24 +58,34 @@ const RoomScreen = ({ navigation, route }: Props) => {
     navigation.navigate('Home');
   }, [navigation]);
 
-  const onToggleScreenCast = useCallback(async () => {
-    if (!isScreencastOn && Platform.OS === 'android') {
-      if ((await handleScreencastPermission()) != 'granted') {
-        return;
+  const handleAndroidScreencastPermission = useCallback(
+    async (isScreencastOn: boolean) => {
+      if (!isScreencastOn) {
+        if ((await handleScreencastPermission()) != 'granted') {
+          return;
+        }
+        startForegroundService({
+          channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+          channelName: 'Fishjam Chat Notifications',
+          notificationTitle: 'Your video call is ongoing',
+          notificationContent: 'Tap to return to the call.',
+        });
+      } else {
+        stopForegroundService();
       }
-      startForegroundService({
-        channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
-        channelName: 'Fishjam Chat Notifications',
-        notificationTitle: 'Your video call is ongoing',
-        notificationContent: 'Tap to return to the call.',
-      });
+    },
+    [handleScreencastPermission],
+  );
+
+  const onToggleScreenCast = useCallback(async () => {
+    if (Platform.OS === 'android') {
+      await handleAndroidScreencastPermission(isScreencastOn);
     }
+
     await toggleScreencast({
       quality: 'HD15',
     });
-  }, [isScreencastOn, toggleScreencast, handleScreencastPermission]);
-
-  useEffect(() => () => stopForegroundService(), []);
+  }, [isScreencastOn, toggleScreencast, handleAndroidScreencastPermission]);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
