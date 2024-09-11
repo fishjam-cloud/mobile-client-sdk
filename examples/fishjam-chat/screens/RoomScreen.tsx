@@ -8,7 +8,7 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
@@ -79,6 +79,9 @@ const RoomScreen = ({ navigation, route }: Props) => {
     },
     [handleScreencastPermission, startForegroundService, stopForegroundService],
   );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => stopForegroundService(), []);
 
   const onToggleScreenCast = useCallback(async () => {
     if (Platform.OS === 'android') {
