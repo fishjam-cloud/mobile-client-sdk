@@ -46,6 +46,12 @@ class FishjamForegroundService : Service() {
         .setContentIntent(pendingIntent)
         .build()
 
+    startForegroundWithNotification(notification)
+
+    return START_NOT_STICKY
+  }
+
+  private fun startForegroundWithNotification(notification: Notification) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
       startForeground(
         FOREGROUND_SERVICE_ID,
@@ -65,11 +71,12 @@ class FishjamForegroundService : Service() {
         notification
       )
     }
-
-    return START_NOT_STICKY
   }
 
-  private fun createNotificationChannel(channelId: String, channelName: String) {
+  private fun createNotificationChannel(
+    channelId: String,
+    channelName: String
+  ) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
       return
     }

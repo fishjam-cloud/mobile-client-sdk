@@ -5,7 +5,6 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
-  useForegroundService,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -23,6 +22,7 @@ import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parseParticipantsToTracks } from '../components/VideosGrid';
 import { ParticipantMetadata } from '../types/metadata';
+import { useStartForegroundService } from '../hooks/useStartForegroundService';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -42,12 +42,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const { isCameraOn, flipCamera, toggleCamera } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  useForegroundService({
-    channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
-    channelName: 'Fishjam Chat Notifications',
-    notificationTitle: 'Your video call is ongoing',
-    notificationContent: 'Tap to return to the call.',
-  });
+  useStartForegroundService();
 
   const { participants: participants } = useParticipants<ParticipantMetadata>();
 

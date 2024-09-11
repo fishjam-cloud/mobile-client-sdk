@@ -53,7 +53,10 @@ export { VideoPreviewView } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export { VideoRendererView } from './components/VideoRendererView';
 
-export { useForegroundService } from './hooks/useForegroundService';
+export {
+  startForegroundService,
+  stopForegroundService,
+} from './utilities/foregroundService';
 
 export type {
   TrackBandwidthLimit,

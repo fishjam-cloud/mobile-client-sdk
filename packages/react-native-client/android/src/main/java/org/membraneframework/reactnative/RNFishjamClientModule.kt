@@ -317,8 +317,10 @@ class RNFishjamClientModule : Module() {
 
         val channelId = config.channelId ?: throw CodedException(message = "Missing `channelId` for startForegroundService")
         val channelName = config.channelName ?: throw CodedException(message = "Missing `channelName` for startForegroundService")
-        val notificationContent = config.notificationContent ?: throw CodedException(message = "Missing `notificationContent` for startForegroundService")
-        val notificationTitle = config.notificationTitle ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
+        val notificationContent =
+          config.notificationContent ?: throw CodedException(message = "Missing `notificationContent` for startForegroundService")
+        val notificationTitle =
+          config.notificationTitle ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
 
         serviceIntent.putExtra("channelId", channelId)
         serviceIntent.putExtra("channelName", channelName)
