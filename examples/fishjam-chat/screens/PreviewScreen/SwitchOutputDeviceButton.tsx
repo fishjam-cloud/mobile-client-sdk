@@ -4,7 +4,7 @@ import React, { RefObject, useCallback } from 'react';
 import { Platform } from 'react-native';
 
 import { InCallButton } from '../../components';
-import { previewScreenLabels } from '../../types/ComponentLabels.ts';
+import { previewScreenLabels } from '../../types/ComponentLabels';
 
 export const SwitchOutputDeviceButton = (props: {
   bottomSheetRef: RefObject<BottomSheet>;

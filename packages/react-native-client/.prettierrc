@@ -1,6 +1,6 @@
 {
   "bracketSameLine": true,
-  "proseWrap": "always",
+  "proseWrap": "preserve",
   "quoteProps": "consistent",
   "singleQuote": true,
   "tabWidth": 2,
