@@ -10,7 +10,7 @@ import fs from 'promise-fs';
 import * as path from 'path';
 import { FishjamPluginOptions } from './types';
 
-const SBE_TARGET_NAME = 'MembraneScreenBroadcastExtension';
+const SBE_TARGET_NAME = 'FishjamScreenBroadcastExtension';
 const SBE_PODFILE_SNIPPET = `
   target '${SBE_TARGET_NAME}' do
     pod 'MembraneRTC/Broadcast'
@@ -105,7 +105,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
 
     const projPath = `${iosPath}/${appName}.xcodeproj/project.pbxproj`;
     const extFiles = [
-      'MembraneBroadcastSampleHandler.swift',
+      'FishjamBroadcastSampleHandler.swift',
       `${SBE_TARGET_NAME}.entitlements`,
       `Info.plist`,
     ];
@@ -143,13 +143,13 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
       );
       await updateFileWithRegex(
         iosPath,
-        'MembraneBroadcastSampleHandler.swift',
+        'FishjamBroadcastSampleHandler.swift',
         GROUP_IDENTIFIER_TEMPLATE_REGEX,
         `group.${bundleIdentifier}`,
       );
       await updateFileWithRegex(
         iosPath,
-        'MembraneBroadcastSampleHandler.swift',
+        'FishjamBroadcastSampleHandler.swift',
         BUNDLE_IDENTIFIER_TEMPLATE_REGEX,
         bundleIdentifier || '',
       );
@@ -191,7 +191,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
 
       // Add build phases to the new target
       xcodeProject.addBuildPhase(
-        ['MembraneBroadcastSampleHandler.swift'],
+        ['FishjamBroadcastSampleHandler.swift'],
         'PBXSourcesBuildPhase',
         'Sources',
         sbeTarget.uuid,

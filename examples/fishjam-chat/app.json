@@ -54,7 +54,8 @@
             "setUpScreensharing": true
           }
         }
-      ]
+      ],
+      ["./my-plugin.js"]
     ]
   }
 }
