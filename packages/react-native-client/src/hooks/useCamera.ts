@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Platform } from 'react-native';
 
 import {
@@ -10,7 +10,8 @@ import {
   TrackEncoding,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
+import { ReceivableEvents } from '../common/eventEmitter';
+import { useFishjamEvent } from './useFishjamEvent';
 
 type IsCameraOnEvent = { IsCameraOn: boolean };
 type SimulcastConfigUpdateEvent = SimulcastConfig;
@@ -139,30 +140,20 @@ export function updateCameraConfig(
  * This hook can toggle camera on/off and provides current camera state.
  */
 export function useCamera() {
-  const [isCameraOn, setIsCameraOn] = useState<boolean>(
-    RNFishjamClientModule.isCameraOn,
-  );
+  const [isCameraOn, setIsCameraOn] = useState<IsCameraOnEvent>({
+    IsCameraOn: RNFishjamClientModule.isCameraOn,
+  });
 
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     defaultSimulcastConfig(),
   );
 
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<SimulcastConfigUpdateEvent>(
-      ReceivableEvents.SimulcastConfigUpdate,
-      (event) => setSimulcastConfig(event),
-    );
-    return () => eventListener.remove();
-  }, []);
+  useFishjamEvent<SimulcastConfigUpdateEvent>(
+    ReceivableEvents.SimulcastConfigUpdate,
+    setSimulcastConfig,
+  );
 
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<IsCameraOnEvent>(
-      ReceivableEvents.IsCameraOn,
-      (event) => setIsCameraOn(event.IsCameraOn),
-    );
-    setIsCameraOn(RNFishjamClientModule.isCameraOn);
-    return () => eventListener.remove();
-  }, []);
+  useFishjamEvent<IsCameraOnEvent>(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
   /**
    * Function to toggle camera on/off
@@ -173,7 +164,7 @@ export function useCamera() {
       active: state,
       type: 'camera',
     });
-    setIsCameraOn(state);
+    setIsCameraOn({ IsCameraOn: state });
   }, []);
 
   /**
@@ -259,7 +250,7 @@ export function useCamera() {
   );
 
   return {
-    isCameraOn,
+    isCameraOn: isCameraOn.IsCameraOn,
     simulcastConfig,
     toggleCamera,
     startCamera,

@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
+import { ReceivableEvents } from '../common/eventEmitter';
+import { useFishjamEvent } from './useFishjamEvent';
 
 export type BandwidthEstimationEvent = { BandwidthEstimation: number };
 
@@ -10,15 +11,14 @@ export type BandwidthEstimationEvent = { BandwidthEstimation: number };
  * by the server. It's measured in bits per second.
  */
 export function useBandwidthEstimation() {
-  const [estimation, setEstimation] = useState<number | null>(null);
+  const [estimation, setEstimation] = useState<BandwidthEstimationEvent | null>(
+    null,
+  );
 
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<BandwidthEstimationEvent>(
-      ReceivableEvents.BandwidthEstimation,
-      (event) => setEstimation(event.BandwidthEstimation),
-    );
-    return () => eventListener.remove();
-  }, []);
+  useFishjamEvent<BandwidthEstimationEvent>(
+    ReceivableEvents.BandwidthEstimation,
+    setEstimation,
+  );
 
-  return { estimation };
+  return { estimation: estimation?.BandwidthEstimation };
 }

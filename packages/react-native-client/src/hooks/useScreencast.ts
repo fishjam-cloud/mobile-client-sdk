@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   BandwidthLimit,
@@ -8,8 +8,9 @@ import {
   TrackMetadata,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
+import { ReceivableEvents } from '../common/eventEmitter';
 import { Platform } from 'react-native';
+import { useFishjamEvent } from './useFishjamEvent';
 
 type IsScreencastOnEvent = { IsScreencastOn: boolean };
 
@@ -48,22 +49,18 @@ let screencastSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
  * @returns An object with functions to manage screencast.
  */
 export function useScreencast() {
-  const [isScreencastOn, setIsScreencastOn] = useState<boolean>(
-    RNFishjamClientModule.isScreencastOn,
-  );
+  const [isScreencastOn, setIsScreencastOn] = useState<IsScreencastOnEvent>({
+    IsScreencastOn: RNFishjamClientModule.isScreencastOn,
+  });
 
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     screencastSimulcastConfig,
   );
 
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<IsScreencastOnEvent>(
-      ReceivableEvents.IsScreencastOn,
-      (event) => setIsScreencastOn(event.IsScreencastOn),
-    );
-    setIsScreencastOn(RNFishjamClientModule.isScreencastOn);
-    return () => eventListener.remove();
-  }, []);
+  useFishjamEvent<IsScreencastOnEvent>(
+    ReceivableEvents.IsScreencastOn,
+    setIsScreencastOn,
+  );
 
   /**
    * Toggles the screencast on/off
@@ -135,7 +132,7 @@ export function useScreencast() {
   }, []);
 
   return {
-    isScreencastOn,
+    isScreencastOn: isScreencastOn.IsScreencastOn,
     toggleScreencast,
     toggleScreencastTrackEncoding,
     simulcastConfig,
