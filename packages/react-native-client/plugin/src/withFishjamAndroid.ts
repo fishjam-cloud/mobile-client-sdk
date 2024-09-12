@@ -16,8 +16,7 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
     };
 
     const existingServiceIndex = mainApplication.service.findIndex(
-      (service: any) =>
-        service.$['android:name'] === newService.$['android:name'],
+      (service) => service.$['android:name'] === newService.$['android:name'],
     );
 
     if (existingServiceIndex !== -1) {
