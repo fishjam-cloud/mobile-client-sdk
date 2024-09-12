@@ -23,10 +23,13 @@ room client. To run the app:
    to setup and run demo server.
 2. Clone the repo
 3. ```
-   cd `examples`
    yarn
+   yarn prepare
+   cd `examples/fishjam-chat`
+   yarn prebuild
+   yarn run android/ios
    ```
-4. Follow further instructions from your SDK
+4. Follow further instructions from README
 
 ### Developing
 
