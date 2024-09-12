@@ -347,9 +347,7 @@ class RNFishjamClient: FishjamClientListener {
 
             },
             onStop: { [weak self] screencastTrack in
-                print("RNClient 4")
                 guard let self = self else { return }
-                print("RNClient 5")
                 do {
                     //not sure should it be here, or outside or where?
                     try setScreencastTrackState(screencastTrack, enabled: false)
