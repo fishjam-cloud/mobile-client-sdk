@@ -47,7 +47,7 @@ public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCaptur
     }
 
     func stop() {
-        capturer.startCapture()
+        capturer.stopCapture()
     }
 
     internal func started() {
