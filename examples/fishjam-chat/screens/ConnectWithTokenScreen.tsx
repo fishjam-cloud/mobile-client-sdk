@@ -34,10 +34,10 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const [peerToken, onChangePeerToken] = useState(
-    process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
+    'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQwOGU2YzFmNi00OGFhLTQxZDAtOGE2NC04NDA2NWZiMWU4ODRkAAdyb29tX2lkbQAAAERjMjQ4LTQwNTMtYmFlMy0wMjQxZjFmN2YxNDItNmE2NTZjNmM3OTY2Njk3MzY4NDAzMTMwMmUzMDJlMzEyZTMxMzQzNm4GAAx2P-aRAWIAAVGA.upRBK3AzraVKJKNG8loSqfxmMBZfMyeMCVyjyXVbokE',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
-    process.env.EXPO_PUBLIC_FISHJAM_URL ?? '',
+    'wss://cloud.fishjam.work/api/v1/connect/4ccdd468bc58484794f34a9451117632',
   );
 
   usePermissionCheck();
