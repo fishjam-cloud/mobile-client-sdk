@@ -8,9 +8,8 @@ import {
   TrackMetadata,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents } from '../common/eventEmitter';
 import { Platform } from 'react-native';
-import { useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 type IsScreencastOnEvent = { IsScreencastOn: boolean };
 

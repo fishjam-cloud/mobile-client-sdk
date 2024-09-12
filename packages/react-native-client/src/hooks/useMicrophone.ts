@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents } from '../common/eventEmitter';
-import { useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 type IsMicrophoneOnEvent = { IsMicrophoneOn: boolean };
 

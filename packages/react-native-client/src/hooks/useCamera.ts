@@ -10,8 +10,7 @@ import {
   TrackEncoding,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents } from '../common/eventEmitter';
-import { useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 type IsCameraOnEvent = { IsCameraOn: boolean };
 type SimulcastConfigUpdateEvent = SimulcastConfig;

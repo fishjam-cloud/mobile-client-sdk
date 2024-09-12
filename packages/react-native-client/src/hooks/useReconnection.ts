@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
-import { ReceivableEvents } from '../common/eventEmitter';
-import { useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
