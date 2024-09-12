@@ -49,6 +49,9 @@
         {
           "android": {
             "enableForegroundService": true
+          },
+          "ios": {
+            "setUpScreensharing": true
           }
         }
       ]
