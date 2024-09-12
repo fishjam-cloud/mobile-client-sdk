@@ -165,34 +165,6 @@ export function useCamera() {
   }, []);
 
   /**
-   * toggles encoding of a video track on/off
-   * @param encoding encoding to toggle
-   */
-  const toggleVideoTrackEncoding = useCallback(
-    async (encoding: TrackEncoding) => {
-      const videoSimulcastConfig =
-        await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
-      setSimulcastConfig(videoSimulcastConfig);
-    },
-    [],
-  );
-
-  /**
-   * updates maximum bandwidth for the given simulcast encoding of the video track
-   * @param encoding  encoding to update
-   * @param bandwidth BandwidthLimit to set
-   */
-  const setVideoTrackEncodingBandwidth = useCallback(
-    async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
-      await RNFishjamClientModule.setVideoTrackEncodingBandwidth(
-        encoding,
-        bandwidth,
-      );
-    },
-    [],
-  );
-
-  /**
    * Function to toggle camera on/off
    */
   const toggleCamera = useCallback(async () => {
@@ -242,6 +214,7 @@ export function useCamera() {
   }, []);
 
   /**
+   * @deprecated
    * updates maximum bandwidth for the video track. This value directly translates
    * to quality of the stream and the amount of RTP packets being sent. In case simulcast
    * is enabled bandwidth is split between all of the variant streams proportionally to
@@ -251,6 +224,36 @@ export function useCamera() {
   const setVideoTrackBandwidth = useCallback(
     async (bandwidth: BandwidthLimit) => {
       await RNFishjamClientModule.setVideoTrackBandwidth(bandwidth);
+    },
+    [],
+  );
+
+  /**
+   * @deprecated
+   * toggles encoding of a video track on/off
+   * @param encoding encoding to toggle
+   */
+  const toggleVideoTrackEncoding = useCallback(
+    async (encoding: TrackEncoding) => {
+      const videoSimulcastConfig =
+        await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
+      setSimulcastConfig(videoSimulcastConfig);
+    },
+    [],
+  );
+
+  /**
+   * @deprecated
+   * updates maximum bandwidth for the given simulcast encoding of the video track
+   * @param encoding  encoding to update
+   * @param bandwidth BandwidthLimit to set
+   */
+  const setVideoTrackEncodingBandwidth = useCallback(
+    async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
+      await RNFishjamClientModule.setVideoTrackEncodingBandwidth(
+        encoding,
+        bandwidth,
+      );
     },
     [],
   );
