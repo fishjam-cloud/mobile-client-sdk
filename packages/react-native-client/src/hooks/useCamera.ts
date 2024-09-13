@@ -146,7 +146,6 @@ export function useCamera() {
     defaultSimulcastConfig(),
   );
 
-  // please test me
   useFishjamEvent<SimulcastConfigUpdateEvent>(
     ReceivableEvents.SimulcastConfigUpdate,
     setSimulcastConfig,
