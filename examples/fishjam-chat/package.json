@@ -8,7 +8,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "test": "jest",
-    "build": "tsc",
+    "build": "tsc && tsc -p ./plugin",
     "lint": "sh ./scripts/lint.sh",
     "lint:check": "sh ./scripts/lint_check.sh"
   },
