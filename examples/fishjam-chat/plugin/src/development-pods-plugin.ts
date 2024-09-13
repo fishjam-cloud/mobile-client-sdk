@@ -1,31 +1,26 @@
-import { ConfigPlugin, withDangerousMod } from '@expo/config-plugins';
-import * as fs from 'fs';
-import * as path from 'path';
-
-const podName = 'FishjamCloudClient';
+import { ConfigPlugin, withPodfile } from '@expo/config-plugins';
 
 const withCustomPodfile: ConfigPlugin = (config) => {
-  return withDangerousMod(config, [
-    'ios',
-    (config) => {
-      const podfilePath = path.join(
-        config.modRequest.platformProjectRoot,
-        'Podfile',
-      );
-      let podfileContent = fs.readFileSync(podfilePath, 'utf-8');
+  return withPodfile(config, async (config) => {
+    let podfile = config.modResults.contents;
 
-      if (!podfileContent.includes(`pod '${podName}'`)) {
-        podfileContent = podfileContent.replace(
-          /target ['"][^'"]+['"] do/g,
-          (match) => `${match}\n  pod '${podName}', :path => '../../../'`,
-        );
+    const targetName = 'FishjamScreenBroadcastExtension';
+    const podToReplace = "pod 'FishjamCloudClient/Broadcast'";
+    const replacementPod =
+      "pod 'FishjamCloudClient/Broadcast', :path => '../../../'";
 
-        fs.writeFileSync(podfilePath, podfileContent);
-      }
+    const targetRegex = new RegExp(
+      `target '${targetName}' do[\\s\\S]*?${podToReplace}[\\s\\S]*?end`,
+      'g',
+    );
 
-      return config;
-    },
-  ]);
+    podfile = podfile.replace(targetRegex, (match) => {
+      return match.replace(podToReplace, replacementPod);
+    });
+
+    config.modResults.contents = podfile;
+    return config;
+  });
 };
 
 export default withCustomPodfile;

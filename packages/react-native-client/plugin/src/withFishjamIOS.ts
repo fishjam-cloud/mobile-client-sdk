@@ -6,14 +6,14 @@ import {
   withInfoPlist,
   withPodfileProperties,
 } from '@expo/config-plugins';
-import fs from 'promise-fs';
+import * as fs from 'promise-fs';
 import * as path from 'path';
 import { FishjamPluginOptions } from './types';
 
 const SBE_TARGET_NAME = 'FishjamScreenBroadcastExtension';
-const SBE_PODFILE_SNIPPET = `
+export const SBE_PODFILE_SNIPPET = `
   target '${SBE_TARGET_NAME}' do
-    pod 'MembraneRTC/Broadcast'
+    pod 'FishjamCloudClient/Broadcast'
   end`;
 const TARGETED_DEVICE_FAMILY = `"1,2"`;
 const IPHONEOS_DEPLOYMENT_TARGET = '13.4';
