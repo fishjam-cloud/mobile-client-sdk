@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
 import {
@@ -13,10 +13,10 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 type SimulcastConfigUpdateEvent = SimulcastConfig;
-export type CaptureDeviceId = Brand<string, 'CaptureDeviceId'>;
+export type CameraId = Brand<string, 'CameraId'>;
 
-export type CaptureDevice = {
-  id: CaptureDeviceId;
+export type Camera = {
+  id: CameraId;
   name: string;
   isFrontFacing: boolean;
   isBackFacing: boolean;
@@ -53,11 +53,11 @@ type CameraConfigBase = {
    */
   cameraEnabled?: boolean;
   /**
-   * id of the camera to start capture with. Get available cameras with `getCaptureDevices()`.
+   * id of the camera to start capture with. Get available cameras with `camerasList`.
    * You can switch the cameras later with `flipCamera`/`switchCamera` functions.
    * @default the first front camera
    */
-  captureDeviceId?: CaptureDeviceId;
+  cameraId?: CameraId;
 };
 
 export type CameraConfig = CameraConfigBase & {
@@ -190,15 +190,15 @@ export function useCamera() {
    * Function that switches to the specified camera. By default the front camera is used.
    * @returns A promise that resolves when camera is switched.
    */
-  const switchCamera = useCallback(async (captureDeviceId: CaptureDeviceId) => {
-    await RNFishjamClientModule.switchCamera(captureDeviceId);
+  const switchCamera = useCallback(async (cameraId: CameraId) => {
+    await RNFishjamClientModule.switchCamera(cameraId);
   }, []);
 
   /** Function that queries available cameras.
    * @returns A promise that resolves to the list of available cameras.
    */
-  const getCaptureDevices = useCallback(async () => {
-    return RNFishjamClientModule.getCaptureDevices();
+  const camerasList = useMemo(() => {
+    return RNFishjamClientModule.camerasList;
   }, []);
 
   /**
@@ -253,7 +253,7 @@ export function useCamera() {
     startCamera,
     flipCamera,
     switchCamera,
-    getCaptureDevices,
+    camerasList,
     toggleVideoTrackEncoding,
     setVideoTrackEncodingBandwidth,
     setVideoTrackBandwidth,

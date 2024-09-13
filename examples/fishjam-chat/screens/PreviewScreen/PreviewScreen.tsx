@@ -51,13 +51,8 @@ function PreviewScreen({
   const [currentCamera, setCurrentCamera] = useState<CaptureDevice | null>(
     null,
   );
-  const {
-    startCamera,
-    getCaptureDevices,
-    isCameraOn,
-    switchCamera,
-    toggleCamera,
-  } = useCamera();
+  const { startCamera, camerasList, isCameraOn, switchCamera, toggleCamera } =
+    useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   const toggleSwitchCamera = () => {
@@ -73,11 +68,9 @@ function PreviewScreen({
 
   useEffect(() => {
     async function setupCamera() {
-      const devices = await getCaptureDevices();
       console.log();
-      availableCameras.current = devices;
 
-      const captureDevice = devices.find((device) => device.isFrontFacing);
+      const captureDevice = camerasList.find((device) => device.isFrontFacing);
 
       startCamera({
         simulcastEnabled: true,
@@ -90,7 +83,7 @@ function PreviewScreen({
     }
 
     setupCamera();
-  }, [getCaptureDevices, startCamera]);
+  }, [camerasList, startCamera]);
 
   const onJoinPressed = async () => {
     await connect<ParticipantMetadata>(

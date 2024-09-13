@@ -28,7 +28,7 @@ struct CameraConfig: Record {
     var cameraEnabled: Bool = true
 
     @Field
-    var captureDeviceId: String? = nil
+    var cameraId: String? = nil
 }
 
 struct MicrophoneConfig: Record {
@@ -131,8 +131,8 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.flipCamera()
         }
 
-        AsyncFunction("switchCamera") { (captureDeviceId: String) in
-            try rnFishjamClient.switchCamera(captureDeviceId: captureDeviceId)
+        AsyncFunction("switchCamera") { (cameraId: String) in
+            try rnFishjamClient.switchCamera(captureDeviceId: cameraId)
         }
 
         Property("camerasList") {

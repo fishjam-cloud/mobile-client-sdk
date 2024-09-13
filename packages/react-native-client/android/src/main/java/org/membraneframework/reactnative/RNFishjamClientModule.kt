@@ -45,7 +45,7 @@ class CameraConfig : Record {
   val cameraEnabled: Boolean = true
 
   @Field
-  val captureDeviceId: String? = null
+  val cameraId: String? = null
 }
 
 class ScreencastOptions : Record {
@@ -169,10 +169,10 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("switchCamera") Coroutine { captureDeviceId: String ->
+      AsyncFunction("switchCamera") Coroutine { cameraId: String ->
         mutex.withLock {
           withContext(Dispatchers.Main) {
-            rnFishjamClient.switchCamera(captureDeviceId)
+            rnFishjamClient.switchCamera(cameraId)
           }
         }
       }

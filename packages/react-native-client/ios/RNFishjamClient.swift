@@ -21,7 +21,7 @@ class RNFishjamClient: FishjamClientListener {
     var screencastSimulcastConfig: SimulcastConfig = SimulcastConfig()
     var screencastMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
 
-    var captureDeviceId: String? = nil
+    var cameraId: String? = nil
 
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
@@ -224,7 +224,7 @@ class RNFishjamClient: FishjamClientListener {
         return RNFishjamClient.fishjamClient!.createVideoTrack(
             videoParameters: videoParameters,
             metadata: config.videoTrackMetadata.toMetadata(),
-            captureDeviceName: config.captureDeviceId
+            captureDeviceName: config.cameraId
         )
     }
 
@@ -246,9 +246,9 @@ class RNFishjamClient: FishjamClientListener {
         getLocalVideoTrack()?.flipCamera()
     }
 
-    func switchCamera(captureDeviceId: String) throws {
+    func switchCamera(cameraId: String) throws {
         try ensureVideoTrack()
-        getLocalVideoTrack()?.switchCamera(deviceId: captureDeviceId)
+        getLocalVideoTrack()?.switchCamera(deviceId: cameraId)
 
     }
 
