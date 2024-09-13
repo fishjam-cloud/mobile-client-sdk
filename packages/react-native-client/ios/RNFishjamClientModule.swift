@@ -135,7 +135,7 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.switchCamera(captureDeviceId: captureDeviceId)
         }
 
-        AsyncFunction("getCaptureDevices") {
+        Property("camerasList") {
             rnFishjamClient.getCaptureDevices()
         }
 

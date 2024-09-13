@@ -177,12 +177,6 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("getCaptureDevices") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.getCaptureDevices()
-        }
-      }
-
       AsyncFunction("handleScreencastPermission") { promise: Promise ->
         CoroutineScope(Dispatchers.Main).launch {
           rnFishjamClient.handleScreencastPermission(promise)
@@ -193,6 +187,10 @@ class RNFishjamClientModule : Module() {
         withContext(Dispatchers.Main) {
           rnFishjamClient.toggleScreencast(screencastOptions)
         }
+      }
+
+      Property("camerasList") {
+        return@Property rnFishjamClient.getCaptureDevices()
       }
 
       Property("isScreencastOn") {

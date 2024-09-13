@@ -25,7 +25,7 @@ type RNFishjamClient = {
   toggleCamera: () => Promise<boolean>;
   flipCamera: () => Promise<void>;
   switchCamera: (captureDeviceId: string) => Promise<void>;
-  getCaptureDevices: () => Promise<CaptureDevice[]>;
+  camerasList: CaptureDevice[];
   handleScreencastPermission: () => Promise<'granted' | 'denied'>;
   toggleScreencast: (
     screencastOptions: Partial<ScreencastOptionsInternal>,
