@@ -42,18 +42,13 @@ type CameraConfigBase = {
    */
   quality?: VideoQuality;
   /**
-   * whether to flip the dimensions of the video, that is whether to film in vertical orientation.
-   * @default `true`
-   */
-  flipVideo?: boolean;
-  /**
    * whether the camera track is initially enabled, you can toggle it on/off later with toggleCamera method
    * @default `true`
    */
   cameraEnabled?: boolean;
   /**
    * id of the camera to start capture with. Get available cameras with `camerasList`.
-   * You can switch the cameras later with `flipCamera`/`switchCamera` functions.
+   * You can switch the cameras later with `switchCamera` functions.
    * @default the first front camera
    */
   cameraId?: CameraId;
@@ -152,23 +147,10 @@ export function useCamera() {
   useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
   /**
-   * Function to toggle camera on/off
-   */
-  const toggleCamera = useCallback(async () => {
-    const state = await RNFishjamClientModule.toggleCamera();
-    await RNFishjamClientModule.updateVideoTrackMetadata({
-      active: state,
-      type: 'camera',
-    });
-    setIsCameraOn(state);
-  }, []);
-
-  /**
    * Starts local camera capture.
    * @param config configuration of the camera capture
    * @returns A promise that resolves when camera is started.
    */
-
   const startCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {
       const updatedConfig = updateCameraConfig(config);
@@ -178,11 +160,15 @@ export function useCamera() {
   );
 
   /**
-   * Function that toggles between front and back camera. By default the front camera is used.
-   * @returns A promise that resolves when camera is toggled.
+   * Function to toggle camera on/off
    */
-  const flipCamera = useCallback(async () => {
-    await RNFishjamClientModule.flipCamera();
+  const toggleCamera = useCallback(async () => {
+    const state = await RNFishjamClientModule.toggleCamera();
+    await RNFishjamClientModule.updateVideoTrackMetadata({
+      active: state,
+      type: 'camera',
+    });
+    setIsCameraOn(state);
   }, []);
 
   /**
@@ -250,7 +236,7 @@ export function useCamera() {
     simulcastConfig,
     toggleCamera,
     startCamera,
-    flipCamera,
+
     switchCamera,
     camerasList,
     toggleVideoTrackEncoding,
