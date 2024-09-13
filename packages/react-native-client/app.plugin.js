@@ -1,1 +1,1 @@
-module.exports = require('./plugin/build/withMembrane');
+module.exports = require('./plugin/build/withFishjam');

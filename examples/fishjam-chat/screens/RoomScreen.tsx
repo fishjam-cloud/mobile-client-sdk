@@ -22,6 +22,7 @@ import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parseParticipantsToTracks } from '../components/VideosGrid';
 import { ParticipantMetadata } from '../types/metadata';
+import { useForegroundService } from '../hooks/useForegroundService';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -56,16 +57,30 @@ const RoomScreen = ({ navigation, route }: Props) => {
     navigation.navigate('Home');
   }, [navigation]);
 
-  const onToggleScreenCast = useCallback(async () => {
-    if (!isScreencastOn && Platform.OS === 'android') {
+  const { enableScreencastService } = useForegroundService();
+
+  const handleAndroidScreencastPermission = useCallback(
+    async (isScreencastOn: boolean) => {
+      if (isScreencastOn) {
+        return;
+      }
       if ((await handleScreencastPermission()) != 'granted') {
         return;
       }
+      enableScreencastService();
+    },
+    [handleScreencastPermission, enableScreencastService],
+  );
+
+  const onToggleScreenCast = useCallback(async () => {
+    if (Platform.OS === 'android') {
+      await handleAndroidScreencastPermission(isScreencastOn);
     }
+
     await toggleScreencast({
       quality: 'HD15',
     });
-  }, [isScreencastOn, toggleScreencast, handleScreencastPermission]);
+  }, [isScreencastOn, toggleScreencast, handleAndroidScreencastPermission]);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 

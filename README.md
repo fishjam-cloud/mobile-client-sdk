@@ -23,10 +23,13 @@ room client. To run the app:
    to setup and run demo server.
 2. Clone the repo
 3. ```
-   cd `examples`
    yarn
+   yarn build
+   cd `examples/fishjam-chat`
+   yarn prebuild
+   yarn run android/ios
    ```
-4. Follow further instructions from your SDK
+4. Follow further instructions from README
 
 ### Developing
 
@@ -34,6 +37,17 @@ Run `./scripts/init.sh` in the main directory to install swift-format and set up
 git hooks.
 
 Follow further instructions for the SDK you're developing for.
+
+### Releasing
+
+Follow instructions from [RELEASE.md](./RELEASE.md)
+The code should be released using our [release.yml](./.github/workflows/release.yml) Github Action.
+
+This script will:
+
+1. Fetch the dependencies
+2. Run `expo-module prepare` to clean, configure and build source code, plugins etc. [See](https://github.com/expo/expo/tree/main/packages/expo-module-scripts) for more details
+3. Publish to npm.
 
 ## Copyright and License
 

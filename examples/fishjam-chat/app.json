@@ -20,7 +20,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "io.fishjam.example.fishjamchat"
+      "package": "io.fishjam.example.fishjamchat",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION",
+        "android.permission.FOREGROUND_SERVICE_CAMERA",
+        "android.permission.FOREGROUND_SERVICE_MICROPHONE",
+        "android.permission.POST_NOTIFICATIONS"
+      ]
     },
     "androidStatusBar": { "hidden": true },
     "plugins": [
@@ -31,6 +41,14 @@
             "minSdkVersion": 24,
             "compileSdkVersion": 34,
             "targetSdkVersion": 34
+          }
+        }
+      ],
+      [
+        "@fishjam-cloud/react-native-client",
+        {
+          "android": {
+            "enableForegroundService": true
           }
         }
       ]
