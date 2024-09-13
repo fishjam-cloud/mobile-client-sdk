@@ -3,7 +3,7 @@ export type FishjamPluginOptions = {
     enableForegroundService: boolean;
   };
   ios: {
-    iPhoneDeploymentTarget?: string;
-    setUpScreensharing: boolean;
+    iphoneDeploymentTarget?: string;
+    enableScreensharing: boolean;
   };
 };

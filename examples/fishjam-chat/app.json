@@ -51,11 +51,11 @@
             "enableForegroundService": true
           },
           "ios": {
-            "setUpScreensharing": true
+            "enableScreensharing": true
           }
         }
       ],
-      ["./my-plugin.js"]
+      ["./plugin/development-pods-plugin.js"] // Only relevant for local development of packages/ios-client
     ]
   }
 }
