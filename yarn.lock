@@ -2405,7 +2405,7 @@ __metadata:
     expo: "npm:^51.0.32"
     expo-module-scripts: "npm:^3.5.2"
     expo-modules-core: "npm:^1.12.24"
-    husky: "npm:^9.1.5"
+    husky: "npm:^9.1.6"
     jest: "npm:^29.6.1"
     jest-environment-jsdom: "npm:^29.6.1"
     jest-expo: "npm:^51.0.4"
@@ -2448,7 +2448,7 @@ __metadata:
     react-native: "npm:^0.75.2"
     react-native-gesture-handler: "npm:~2.19.0"
     react-native-reanimated: "npm:^3.15.1"
-    react-native-safe-area-context: "npm:4.10.9"
+    react-native-safe-area-context: "npm:4.11.0"
     react-native-screens: "npm:^3.34.0"
     react-native-toast-message: "npm:^2.2.0"
     typescript: "npm:^5.5.4"
@@ -3759,13 +3759,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/eslint-config@npm:^0.75.2":
-  version: 0.75.2
-  resolution: "@react-native/eslint-config@npm:0.75.2"
+"@react-native/eslint-config@npm:^0.75.3":
+  version: 0.75.3
+  resolution: "@react-native/eslint-config@npm:0.75.3"
   dependencies:
     "@babel/core": "npm:^7.20.0"
     "@babel/eslint-parser": "npm:^7.20.0"
-    "@react-native/eslint-plugin": "npm:0.75.2"
+    "@react-native/eslint-plugin": "npm:0.75.3"
     "@typescript-eslint/eslint-plugin": "npm:^7.1.1"
     "@typescript-eslint/parser": "npm:^7.1.1"
     eslint-config-prettier: "npm:^8.5.0"
@@ -3778,14 +3778,14 @@ __metadata:
   peerDependencies:
     eslint: ">=8"
     prettier: ">=2"
-  checksum: 10c0/fe3c2f1d5ad088e914692bc641cd641ccd471538d737e5e791e390ecb55294a405d4ba978a4ab56a4b7b7e8454e1aadeeb3c6fbef67ada758fa88c8d2ec48ff0
+  checksum: 10c0/5034e26f94a0a4b63c8e2868c0b27be7ce067fb4b2edd9c2eb504b9f81bffd3b0083f629297fd3e5d47e7facccb9aec1f7913b0177917d2be0e56c07c1eb0829
   languageName: node
   linkType: hard
 
-"@react-native/eslint-plugin@npm:0.75.2, @react-native/eslint-plugin@npm:^0.75.2":
-  version: 0.75.2
-  resolution: "@react-native/eslint-plugin@npm:0.75.2"
-  checksum: 10c0/61cda967070913c02ac9626e607ec62584d9d244a046b02c5f3afc4cbbfa59dc10c3dcbda63fc2386478d5fb54ac7e5cae359aea0cdc2b50d209c380a4ebe34d
+"@react-native/eslint-plugin@npm:0.75.3, @react-native/eslint-plugin@npm:^0.75.3":
+  version: 0.75.3
+  resolution: "@react-native/eslint-plugin@npm:0.75.3"
+  checksum: 10c0/2d8b98bccd06ad9d645efe030a5dda47503c77b53967670deff2bfc8a28ba515a59adc8573897a6d0ec19487f60191cd2efe01296cc536fdcd740bb9f2763654
   languageName: node
   linkType: hard
 
@@ -9441,8 +9441,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "fishjam-mobile-sdk@workspace:."
   dependencies:
-    "@react-native/eslint-config": "npm:^0.75.2"
-    "@react-native/eslint-plugin": "npm:^0.75.2"
+    "@react-native/eslint-config": "npm:^0.75.3"
+    "@react-native/eslint-plugin": "npm:^0.75.3"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
@@ -10385,12 +10385,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^9.1.5":
-  version: 9.1.5
-  resolution: "husky@npm:9.1.5"
+"husky@npm:^9.1.6":
+  version: 9.1.6
+  resolution: "husky@npm:9.1.6"
   bin:
     husky: bin.js
-  checksum: 10c0/f42efb95a026303eb880898760f802d88409780dd72f17781d2dfc302177d4f80b641cf1f1694f53f6d97c536c7397684133d8c8fe4a4426f7460186a7d1c6b8
+  checksum: 10c0/705673db4a247c1febd9c5df5f6a3519106cf0335845027bb50a15fba9b1f542cb2610932ede96fd08008f6d9f49db0f15560509861808b0031cdc0e7c798bac
   languageName: node
   linkType: hard
 
@@ -14916,13 +14916,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-safe-area-context@npm:4.10.9":
-  version: 4.10.9
-  resolution: "react-native-safe-area-context@npm:4.10.9"
+"react-native-safe-area-context@npm:4.11.0":
+  version: 4.11.0
+  resolution: "react-native-safe-area-context@npm:4.11.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/370be377bc65feb20e9e2c1ca46e9919c87c92346fe55d3006f5dd6169346777433549dc57c444daddc7c9db4a2742d0f5d2aa0be0e2d30b8b1b42d295c10c9e
+  checksum: 10c0/cf50358c1ff0e50d496ba9a76f4823ac5329f0b804f67f605e5b12d0281d07f16a329a4820e7d567d6afb77cc989dfff953ab48ee63cbcaa35d6fb600cbb4325
   languageName: node
   linkType: hard
 
