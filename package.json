@@ -27,7 +27,7 @@
   },
   "scripts": {
     "setup": "sh ./scripts/init.sh",
-    "build": "yarn workspace @fishjam-cloud/react-native-client run tsc",
+    "build": "yarn workspace @fishjam-cloud/react-native-client run build",
     "prepare": "yarn workspace @fishjam-cloud/react-native-client run prepare",
     "tsc": "yarn workspaces foreach -A -p run tsc",
     "lint": "yarn workspaces foreach -A -p run lint",
