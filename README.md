@@ -38,6 +38,17 @@ git hooks.
 
 Follow further instructions for the SDK you're developing for.
 
+### Releasing
+
+Follow instructions from [RELEASE.md](./RELEASE.md)
+The code should be released using our [release.yml](./.github/workflows/release.yml) Github Action.
+
+This script will:
+
+1. Fetch the dependencies
+2. Run `expo-module prepare` to clean, configure and build source code, plugins etc. [See](https://github.com/expo/expo/tree/main/packages/expo-module-scripts) for more details
+3. Publish to npm.
+
 ## Copyright and License
 
 Copyright 2024, [Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
