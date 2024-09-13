@@ -446,11 +446,16 @@ class RNFishjamClient: FishjamClientListener {
     func getCaptureDevices() -> [[String: Any]] {
         let devices = LocalVideoTrack.getCaptureDevices()
         return devices.map { device -> [String: Any] in
+            let facingDirection =
+                switch device.position {
+                case .front: "front"
+                case .back: "back"
+                default: "other"
+                }
             return [
                 "id": device.uniqueID,
                 "name": device.localizedName,
-                "isFrontFacing": device.position == .front,
-                "isBackFacing": device.position == .back,
+                "facingDirection": facingDirection,
             ]
         }
     }

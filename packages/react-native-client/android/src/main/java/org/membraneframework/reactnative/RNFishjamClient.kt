@@ -433,8 +433,12 @@ class RNFishjamClient(
       mapOf<String, Any>(
         "id" to device.deviceName,
         "name" to device.deviceName,
-        "isFrontFacing" to device.isFrontFacing,
-        "isBackFacing" to device.isBackFacing
+        "facingDirection" to
+          when (true) {
+            device.isFrontFacing -> "front"
+            device.isBackFacing -> "back"
+            else -> "other"
+          }
       )
     }
   }

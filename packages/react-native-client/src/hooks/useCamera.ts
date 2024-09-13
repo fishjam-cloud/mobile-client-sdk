@@ -18,8 +18,7 @@ export type CameraId = Brand<string, 'CameraId'>;
 export type Camera = {
   id: CameraId;
   name: string;
-  isFrontFacing: boolean;
-  isBackFacing: boolean;
+  facingDirection: 'front' | 'back' | 'other';
 };
 
 export type VideoQuality =
