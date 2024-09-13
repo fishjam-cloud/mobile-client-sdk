@@ -79,5 +79,6 @@ firebase-admin.json
 *.dSym.zip
 *.mobileprovision
 report.xml
+tsconfig.tsbuildinfo
 
 docs/

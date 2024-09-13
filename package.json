@@ -14,8 +14,8 @@
     ]
   },
   "devDependencies": {
-    "@react-native/eslint-config": "^0.75.2",
-    "@react-native/eslint-plugin": "^0.75.2",
+    "@react-native/eslint-config": "^0.75.3",
+    "@react-native/eslint-plugin": "^0.75.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -27,7 +27,8 @@
   },
   "scripts": {
     "setup": "sh ./scripts/init.sh",
-    "build": "yarn workspace @fishjam-cloud/react-native-client run tsc",
+    "build": "yarn workspace @fishjam-cloud/react-native-client run build",
+    "prepare": "yarn workspace @fishjam-cloud/react-native-client run prepare",
     "tsc": "yarn workspaces foreach -A -p run tsc",
     "lint": "yarn workspaces foreach -A -p run lint",
     "lint:check": "yarn workspaces foreach -A -p run lint:check",

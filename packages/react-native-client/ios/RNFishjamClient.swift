@@ -314,8 +314,7 @@ class RNFishjamClient: FishjamClientListener {
                 description: "No app group name set. Please set AppGroupName in Info.plist")
         }
 
-        guard !isScreencastOn
-        else {
+        guard !isScreencastOn else {
             DispatchQueue.main.async {
                 RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
             }
@@ -334,12 +333,8 @@ class RNFishjamClient: FishjamClientListener {
             videoParameters: videoParameters,
             metadata: screencastMetadata,
             onStart: { [weak self] screencastTrack in
-                guard let self = self else {
-                    DispatchQueue.main.async {
-                        RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
-                    }
-                    return
-                }
+                guard let self = self else { return }
+
                 do {
                     //not sure should it be here, or outside or where?
                     try setScreencastTrackState(screencastTrack, enabled: true)
@@ -352,9 +347,7 @@ class RNFishjamClient: FishjamClientListener {
 
             },
             onStop: { [weak self] screencastTrack in
-                guard let self = self else {
-                    return
-                }
+                guard let self = self else { return }
                 do {
                     //not sure should it be here, or outside or where?
                     try setScreencastTrackState(screencastTrack, enabled: false)
@@ -711,7 +704,9 @@ class RNFishjamClient: FishjamClientListener {
         addOrUpdateTrack(track)
     }
 
-    func onTrackAdded(track: Track) {}
+    func onTrackAdded(track: Track) {
+        emitEndpoints()
+    }
 
     func onTrackRemoved(track: Track) {
         emitEndpoints()
