@@ -20,12 +20,16 @@ const eventEmitter = new EventEmitter(
   RNFishjamClientModule ?? NativeModulesProxy.RNFishjamClient,
 );
 
-export function useFishjamEvent<Xd>(
+export function useFishjamEvent<T>(
   eventName: keyof typeof ReceivableEvents,
-  callback: (event: Xd) => void,
+  callback: (event: T) => void,
 ) {
   useEffect(() => {
-    const eventListener = eventEmitter.addListener<Xd>(eventName, callback);
+    const eventListener = eventEmitter.addListener<
+      Record<keyof typeof ReceivableEvents, T>
+    >(eventName, (event) => {
+      callback(event[eventName]);
+    });
     return () => eventListener.remove();
   }, [callback, eventName]);
 }

@@ -3,20 +3,15 @@ import { useCallback, useState } from 'react';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
-type IsMicrophoneOnEvent = { IsMicrophoneOn: boolean };
-
 /**
  * This hook can toggle microphone on/off and provides current microphone state.
  */
 export function useMicrophone() {
-  const [isMicrophoneOn, setIsMicrophoneOn] = useState<IsMicrophoneOnEvent>({
-    IsMicrophoneOn: RNFishjamClientModule.isMicrophoneOn,
-  });
-
-  useFishjamEvent<IsMicrophoneOnEvent>(
-    ReceivableEvents.IsMicrophoneOn,
-    setIsMicrophoneOn,
+  const [isMicrophoneOn, setIsMicrophoneOn] = useState<boolean>(
+    RNFishjamClientModule.isMicrophoneOn,
   );
+
+  useFishjamEvent(ReceivableEvents.IsMicrophoneOn, setIsMicrophoneOn);
 
   /**
    * Function to toggle microphone on/off
@@ -27,8 +22,8 @@ export function useMicrophone() {
       active: status,
       type: 'audio',
     });
-    setIsMicrophoneOn({ IsMicrophoneOn: status });
+    setIsMicrophoneOn(status);
   }, []);
 
-  return { isMicrophoneOn: isMicrophoneOn.IsMicrophoneOn, toggleMicrophone };
+  return { isMicrophoneOn, toggleMicrophone };
 }

@@ -64,12 +64,6 @@ export type Participant<
   tracks: Track[];
 };
 
-export type ParticipantsUpdateEvent<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
-> = {
-  PeersUpdate: Participant<ParticipantMetadata>[];
-};
-
 function addIsActiveToTracks<
   ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >(
@@ -96,18 +90,13 @@ export function useParticipants<
   >([]);
 
   const updateActiveParticipants = useCallback(
-    (participants: ParticipantsUpdateEvent<ParticipantMetadata>) => {
-      setParticipants(
-        addIsActiveToTracks<ParticipantMetadata>(participants.PeersUpdate),
-      );
+    (participants: Participant<ParticipantMetadata>[]) => {
+      setParticipants(addIsActiveToTracks<ParticipantMetadata>(participants));
     },
     [],
   );
 
-  useFishjamEvent<ParticipantsUpdateEvent<ParticipantMetadata>>(
-    ReceivableEvents.PeersUpdate,
-    updateActiveParticipants,
-  );
+  useFishjamEvent(ReceivableEvents.PeersUpdate, updateActiveParticipants);
 
   useEffect(() => {
     async function updateParticipants() {

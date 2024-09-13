@@ -12,7 +12,6 @@ import {
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
-type IsCameraOnEvent = { IsCameraOn: boolean };
 type SimulcastConfigUpdateEvent = SimulcastConfig;
 export type CaptureDeviceId = Brand<string, 'CaptureDeviceId'>;
 
@@ -139,20 +138,21 @@ export function updateCameraConfig(
  * This hook can toggle camera on/off and provides current camera state.
  */
 export function useCamera() {
-  const [isCameraOn, setIsCameraOn] = useState<IsCameraOnEvent>({
-    IsCameraOn: RNFishjamClientModule.isCameraOn,
-  });
+  const [isCameraOn, setIsCameraOn] = useState<boolean>(
+    RNFishjamClientModule.isCameraOn,
+  );
 
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     defaultSimulcastConfig(),
   );
 
+  // please test me
   useFishjamEvent<SimulcastConfigUpdateEvent>(
     ReceivableEvents.SimulcastConfigUpdate,
     setSimulcastConfig,
   );
 
-  useFishjamEvent<IsCameraOnEvent>(ReceivableEvents.IsCameraOn, setIsCameraOn);
+  useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
   /**
    * Function to toggle camera on/off
@@ -163,7 +163,7 @@ export function useCamera() {
       active: state,
       type: 'camera',
     });
-    setIsCameraOn({ IsCameraOn: state });
+    setIsCameraOn(state);
   }, []);
 
   /**
@@ -249,7 +249,7 @@ export function useCamera() {
   );
 
   return {
-    isCameraOn: isCameraOn.IsCameraOn,
+    isCameraOn,
     simulcastConfig,
     toggleCamera,
     startCamera,

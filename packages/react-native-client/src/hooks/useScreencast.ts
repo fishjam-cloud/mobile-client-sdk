@@ -11,8 +11,6 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 import { Platform } from 'react-native';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
-type IsScreencastOnEvent = { IsScreencastOn: boolean };
-
 export type ScreencastQuality = 'VGA' | 'HD5' | 'HD15' | 'FHD15' | 'FHD30';
 
 export type ScreencastOptions = {
@@ -48,18 +46,15 @@ let screencastSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
  * @returns An object with functions to manage screencast.
  */
 export function useScreencast() {
-  const [isScreencastOn, setIsScreencastOn] = useState<IsScreencastOnEvent>({
-    IsScreencastOn: RNFishjamClientModule.isScreencastOn,
-  });
+  const [isScreencastOn, setIsScreencastOn] = useState(
+    RNFishjamClientModule.isScreencastOn,
+  );
 
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     screencastSimulcastConfig,
   );
 
-  useFishjamEvent<IsScreencastOnEvent>(
-    ReceivableEvents.IsScreencastOn,
-    setIsScreencastOn,
-  );
+  useFishjamEvent(ReceivableEvents.IsScreencastOn, setIsScreencastOn);
 
   /**
    * Toggles the screencast on/off
@@ -131,7 +126,7 @@ export function useScreencast() {
   }, []);
 
   return {
-    isScreencastOn: isScreencastOn.IsScreencastOn,
+    isScreencastOn,
     toggleScreencast,
     toggleScreencastTrackEncoding,
     simulcastConfig,
