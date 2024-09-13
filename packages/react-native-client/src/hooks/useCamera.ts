@@ -68,7 +68,6 @@ export type CameraConfig = CameraConfigBase & {
   /**
    *  bandwidth limit of a video track. By default there is no bandwidth limit.
    */
-  maxBandwidth?: TrackBandwidthLimit;
 };
 
 export type CameraConfigInternal = CameraConfigBase & {
@@ -128,7 +127,7 @@ export function updateCameraConfig(
 ): CameraConfigInternal {
   return {
     ...config,
-    ...maxBandwidthConfig(config.maxBandwidth),
+    ...maxBandwidthConfig({ l: 150, m: 500, h: 1500 }),
     videoTrackMetadata: { active: true, type: 'camera' },
     simulcastConfig: simulcastConfig(config.simulcastEnabled),
   };

@@ -74,6 +74,7 @@ function PreviewScreen({
   useEffect(() => {
     async function setupCamera() {
       const devices = await getCaptureDevices();
+      console.log();
       availableCameras.current = devices;
 
       const captureDevice = devices.find((device) => device.isFrontFacing);
@@ -81,7 +82,6 @@ function PreviewScreen({
       startCamera({
         simulcastEnabled: true,
         quality: 'HD169',
-        maxBandwidth: { l: 150, m: 500, h: 1500 },
         captureDeviceId: captureDevice?.id,
         cameraEnabled: true,
       });
