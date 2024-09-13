@@ -2,7 +2,7 @@ import {
   startForegroundService,
   stopForegroundService,
 } from '@fishjam-cloud/react-native-client';
-import { AndroidForegroundServiceType } from '@fishjam-cloud/react-native-client/build/types';
+import { AndroidForegroundServiceType } from '@fishjam-cloud/react-native-client';
 import { useEffect } from 'react';
 
 const startServiceWithTypes = (

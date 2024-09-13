@@ -53,6 +53,7 @@ export { VideoPreviewView } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export { VideoRendererView } from './components/VideoRendererView';
 
+export { AndroidForegroundServiceType } from './types';
 export {
   startForegroundService,
   stopForegroundService,
