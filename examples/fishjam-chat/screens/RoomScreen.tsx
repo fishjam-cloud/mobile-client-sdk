@@ -38,7 +38,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
   usePreventBackButton();
   const audioSettings = useAudioSettings();
 
-  const { isCameraOn, flipCamera, toggleCamera } = useCamera();
+  const { isCameraOn, toggleCamera, camerasList, currentCamera, switchCamera } =
+    useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   const { participants: participants } = useParticipants<ParticipantMetadata>();
@@ -66,6 +67,16 @@ const RoomScreen = ({ navigation, route }: Props) => {
       quality: 'HD15',
     });
   }, [isScreencastOn, toggleScreencast, handleScreencastPermission]);
+
+  const flipCamera = useCallback(() => {
+    const camera =
+      camerasList.find(
+        (camera) => camera.facingDirection !== currentCamera?.facingDirection,
+      ) || null;
+    if (camera) {
+      switchCamera(camera.id);
+    }
+  }, [camerasList, currentCamera?.facingDirection, switchCamera]);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 

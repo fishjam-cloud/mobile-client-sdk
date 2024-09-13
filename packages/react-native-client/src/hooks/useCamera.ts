@@ -135,6 +135,10 @@ export function useCamera() {
     RNFishjamClientModule.isCameraOn,
   );
 
+  const [currentCamera, setCurrentCamera] = useState<Camera | undefined>(
+    undefined,
+  );
+
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     defaultSimulcastConfig(),
   );
@@ -146,6 +150,13 @@ export function useCamera() {
 
   useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
+  /** Function that queries available cameras.
+   * @returns A promise that resolves to the list of available cameras.
+   */
+  const camerasList = useMemo(() => {
+    return RNFishjamClientModule.camerasList;
+  }, []);
+
   /**
    * Starts local camera capture.
    * @param config configuration of the camera capture
@@ -153,7 +164,17 @@ export function useCamera() {
    */
   const startCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {
-      const updatedConfig = updateCameraConfig(config);
+      const camera = RNFishjamClientModule.camerasList.find((camera) =>
+        config.cameraId
+          ? camera.id === config.cameraId
+          : camera.facingDirection === 'front',
+      );
+
+      setCurrentCamera(camera);
+      const updatedConfig = updateCameraConfig({
+        ...config,
+        cameraId: camera?.id,
+      });
       await RNFishjamClientModule.startCamera(updatedConfig);
     },
     [],
@@ -175,16 +196,13 @@ export function useCamera() {
    * Function that switches to the specified camera. By default the front camera is used.
    * @returns A promise that resolves when camera is switched.
    */
-  const switchCamera = useCallback(async (cameraId: CameraId) => {
-    await RNFishjamClientModule.switchCamera(cameraId);
-  }, []);
-
-  /** Function that queries available cameras.
-   * @returns A promise that resolves to the list of available cameras.
-   */
-  const camerasList = useMemo(() => {
-    return RNFishjamClientModule.camerasList;
-  }, []);
+  const switchCamera = useCallback(
+    async (cameraId: CameraId) => {
+      await RNFishjamClientModule.switchCamera(cameraId);
+      setCurrentCamera(camerasList.find((camera) => camera.id === cameraId));
+    },
+    [camerasList],
+  );
 
   /**
    * @deprecated
@@ -233,12 +251,14 @@ export function useCamera() {
 
   return {
     isCameraOn,
+    currentCamera,
     simulcastConfig,
+    camerasList,
+
     toggleCamera,
     startCamera,
-
     switchCamera,
-    camerasList,
+
     toggleVideoTrackEncoding,
     setVideoTrackEncodingBandwidth,
     setVideoTrackBandwidth,
