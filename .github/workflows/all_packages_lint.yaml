@@ -17,7 +17,7 @@ jobs:
       - name: Install node dependencies
         run: yarn
       - name: Build Types
-        run: yarn build
+        run: yarn prepare
       - name: Check types
         run: yarn tsc
       - name: Lint
