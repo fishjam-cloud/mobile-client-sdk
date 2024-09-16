@@ -17,7 +17,7 @@ export type ConnectionConfig = {
   };
 };
 
-export async function connect<
+export async function joinRoom<
   ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >(
   url: string,
