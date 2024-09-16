@@ -2,7 +2,7 @@ import {
   CaptureDevice,
   useCamera,
   useMicrophone,
-  connect,
+  joinRoom,
   VideoPreviewView,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -93,9 +93,9 @@ function PreviewScreen({
   }, [getCaptureDevices, startCamera]);
 
   const onJoinPressed = async () => {
-    await connect<ParticipantMetadata>(
+    await joinRoom<ParticipantMetadata>(
       route.params.fishjamUrl,
-      route.params.peerToken,
+      route.params.participantToken,
       {
         name: route.params.userName,
       },
