@@ -47,7 +47,7 @@ function PreviewScreen({
   bottomSheetRef,
 }: Props & BottomSheetRef) {
   const {
-    startCamera,
+    prepareCamera,
     cameras,
     isCameraOn,
     switchCamera,
@@ -67,12 +67,12 @@ function PreviewScreen({
   };
 
   useEffect(() => {
-    startCamera({
+    prepareCamera({
       simulcastEnabled: true,
       quality: 'HD169',
       cameraEnabled: true,
     });
-  }, [startCamera]);
+  }, [prepareCamera]);
 
   const onJoinPressed = async () => {
     await connect<ParticipantMetadata>(

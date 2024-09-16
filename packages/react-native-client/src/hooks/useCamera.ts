@@ -152,7 +152,8 @@ export function useCamera() {
 
   useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
-  /** Function that queries available cameras.
+  /**
+   * Property that lists cameras available on device.
    * @returns A promise that resolves to the list of available cameras.
    */
   const cameras = useMemo(() => {
@@ -160,11 +161,11 @@ export function useCamera() {
   }, []);
 
   /**
-   * Starts local camera capture.
+   * Prepares camera and starts local camera capture.
    * @param config configuration of the camera capture
    * @returns A promise that resolves when camera is started.
    */
-  const startCamera = useCallback(
+  const prepareCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {
       const camera = RNFishjamClientModule.cameras.find((camera) =>
         config.cameraId
@@ -183,7 +184,7 @@ export function useCamera() {
   );
 
   /**
-   * Function to toggle camera on/off
+   * Toggles camera on/off
    */
   const toggleCamera = useCallback(async () => {
     const state = await RNFishjamClientModule.toggleCamera();
@@ -195,7 +196,8 @@ export function useCamera() {
   }, []);
 
   /**
-   * Function that switches to the specified camera. By default the front camera is used.
+   * Switches to the specified camera.
+   * List of available devices can be retrieved from `cameras` variable
    * @returns A promise that resolves when camera is switched.
    */
   const switchCamera = useCallback(
@@ -258,7 +260,7 @@ export function useCamera() {
     cameras,
 
     toggleCamera,
-    startCamera,
+    prepareCamera,
     switchCamera,
 
     toggleVideoTrackEncoding,
