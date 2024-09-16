@@ -176,7 +176,10 @@ class RNFishjamClient: FishjamClientListener {
         join()
     }
 
-    func joinRoom(url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig, promise: Promise) {
+    func joinRoom(
+        url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig,
+        promise: Promise
+    ) {
         connectPromise = promise
         localUserMetadata = participantMetadata.toMetadata()
 
@@ -186,7 +189,8 @@ class RNFishjamClient: FishjamClientListener {
 
         RNFishjamClient.fishjamClient?.connect(
             config: FishjamCloudClient.ConnectConfig(
-                websocketUrl: url, token: participantToken, participantMetadata: .init(participantMetadata), reconnectConfig: reconnectConfig
+                websocketUrl: url, token: participantToken, participantMetadata: .init(participantMetadata),
+                reconnectConfig: reconnectConfig
             ))
 
     }
