@@ -39,7 +39,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
   usePreventBackButton();
   const audioSettings = useAudioSettings();
 
-  const { isCameraOn, toggleCamera, camerasList, currentCamera, switchCamera } =
+  const { isCameraOn, toggleCamera, cameras, currentCamera, switchCamera } =
     useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
@@ -85,13 +85,13 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const flipCamera = useCallback(() => {
     const camera =
-      camerasList.find(
+      cameras.find(
         (camera) => camera.facingDirection !== currentCamera?.facingDirection,
       ) || null;
     if (camera) {
       switchCamera(camera.id);
     }
-  }, [camerasList, currentCamera?.facingDirection, switchCamera]);
+  }, [cameras, currentCamera?.facingDirection, switchCamera]);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 

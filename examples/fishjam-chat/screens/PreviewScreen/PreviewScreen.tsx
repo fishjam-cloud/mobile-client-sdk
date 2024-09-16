@@ -48,7 +48,7 @@ function PreviewScreen({
 }: Props & BottomSheetRef) {
   const {
     startCamera,
-    camerasList,
+    cameras,
     isCameraOn,
     switchCamera,
     toggleCamera,
@@ -58,7 +58,7 @@ function PreviewScreen({
 
   const toggleSwitchCamera = () => {
     const camera =
-      camerasList.find(
+      cameras.find(
         (camera) => camera.facingDirection !== currentCamera?.facingDirection,
       ) || null;
     if (camera) {

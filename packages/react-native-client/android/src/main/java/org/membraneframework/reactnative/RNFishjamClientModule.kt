@@ -209,7 +209,7 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      Property("camerasList") {
+      Property("cameras") {
         return@Property rnFishjamClient.getCaptureDevices()
       }
 

@@ -135,7 +135,7 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.switchCamera(captureDeviceId: cameraId)
         }
 
-        Property("camerasList") {
+        Property("cameras") {
             rnFishjamClient.getCaptureDevices()
         }
 

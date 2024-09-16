@@ -15,7 +15,7 @@ export type VideoPreviewViewProps = {
   videoLayout?: VideoLayout;
   style?: ViewStyle;
   /**
-   * Id of the camera used for preview. Get available cameras with `camerasList` property.
+   * Id of the camera used for preview. Get available cameras with `cameras` property.
    * @default the first front camera
    */
   cameraId?: CameraId;

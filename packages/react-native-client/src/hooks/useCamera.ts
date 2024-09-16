@@ -49,7 +49,7 @@ type CameraConfigBase = {
    */
   cameraEnabled?: boolean;
   /**
-   * id of the camera to start capture with. Get available cameras with `camerasList`.
+   * id of the camera to start capture with. Get available cameras with `cameras`.
    * You can switch the cameras later with `switchCamera` functions.
    * @default the first front camera
    */
@@ -155,8 +155,8 @@ export function useCamera() {
   /** Function that queries available cameras.
    * @returns A promise that resolves to the list of available cameras.
    */
-  const camerasList = useMemo(() => {
-    return RNFishjamClientModule.camerasList;
+  const cameras = useMemo(() => {
+    return RNFishjamClientModule.cameras;
   }, []);
 
   /**
@@ -166,7 +166,7 @@ export function useCamera() {
    */
   const startCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {
-      const camera = RNFishjamClientModule.camerasList.find((camera) =>
+      const camera = RNFishjamClientModule.cameras.find((camera) =>
         config.cameraId
           ? camera.id === config.cameraId
           : camera.facingDirection === 'front',
@@ -201,9 +201,9 @@ export function useCamera() {
   const switchCamera = useCallback(
     async (cameraId: CameraId) => {
       await RNFishjamClientModule.switchCamera(cameraId);
-      setCurrentCamera(camerasList.find((camera) => camera.id === cameraId));
+      setCurrentCamera(cameras.find((camera) => camera.id === cameraId));
     },
-    [camerasList],
+    [cameras],
   );
 
   /**
@@ -255,7 +255,7 @@ export function useCamera() {
     isCameraOn,
     currentCamera,
     simulcastConfig,
-    camerasList,
+    cameras,
 
     toggleCamera,
     startCamera,
