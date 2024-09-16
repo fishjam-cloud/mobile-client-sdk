@@ -4,13 +4,13 @@ import WebRTC
 public struct ConnectConfig {
     var websocketUrl: String
     var token: String
-    var peerMetadata: Metadata
+    var participantMetadata: Metadata
     var reconnectConfig: ReconnectConfig
 
-    public init(websocketUrl: String, token: String, peerMetadata: Metadata, reconnectConfig: ReconnectConfig) {
+    public init(websocketUrl: String, token: String, participantMetadata: Metadata, reconnectConfig: ReconnectConfig) {
         self.websocketUrl = websocketUrl + "/socket/peer/websocket"
         self.token = token
-        self.peerMetadata = peerMetadata
+        self.participantMetadata = participantMetadata
         self.reconnectConfig = reconnectConfig
     }
 }

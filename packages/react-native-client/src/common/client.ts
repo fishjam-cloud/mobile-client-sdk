@@ -17,15 +17,27 @@ export type ConnectionConfig = {
   };
 };
 
+/**
+ *
+ * @param url fishjam Url
+ * @param participantToken
+ * @param participantMetadata
+ * @param config
+ */
 export async function joinRoom<
   ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >(
   url: string,
-  peerToken: string,
-  peerMetadata: ParticipantMetadata,
+  participantToken: string,
+  participantMetadata: ParticipantMetadata,
   config: ConnectionConfig = {},
 ) {
-  await RNFishjamClientModule.connect(url, peerToken, peerMetadata, config);
+  await RNFishjamClientModule.connect(
+    url,
+    participantToken,
+    participantMetadata,
+    config,
+  );
 }
 
 export async function leaveRoom() {

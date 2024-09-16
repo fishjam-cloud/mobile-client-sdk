@@ -231,8 +231,8 @@ class RNFishjamClient(
 
   fun connect(
     url: String,
-    peerToken: String,
-    peerMetadata: Map<String, Any>,
+    participantToken: String,
+    participantMetadata: Map<String, Any>,
     config: ConnectConfig,
     promise: Promise
   ) {
@@ -241,8 +241,8 @@ class RNFishjamClient(
     fishjamClient.connect(
       com.fishjamcloud.client.ConnectConfig(
         url,
-        peerToken,
-        peerMetadata,
+        participantToken,
+        participantMetadata,
         ReconnectConfig(
           config.reconnectConfig.maxAttempts,
           config.reconnectConfig.initialDelayMs,

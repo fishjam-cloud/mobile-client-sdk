@@ -98,9 +98,9 @@ public class RNFishjamClientModule: Module {
         }()
 
         AsyncFunction("connect") {
-            (url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig, promise: Promise) in
+            (url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig, promise: Promise) in
             rnFishjamClient.connect(
-                url: url, peerToken: peerToken, peerMetadata: peerMetadata, config: config, promise: promise)
+                url: url, participantToken: participantToken, participantMetadata: participantMetadata, config: config, promise: promise)
         }
 
         AsyncFunction("leaveRoom") {

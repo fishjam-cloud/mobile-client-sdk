@@ -13,8 +13,8 @@ type Metadata = { [key: string]: any };
 type RNFishjamClient = {
   connect: (
     url: string,
-    peerToken: string,
-    peerMetadata: Metadata,
+    participantToken: string,
+    participantMetadata: Metadata,
     config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
