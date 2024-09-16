@@ -19,7 +19,7 @@ const withCustomPodfile: ConfigPlugin = (config) => {
     });
 
     podfile = podfile.replace(
-      /target ['"]FishjamChat['"]/g,
+      /target ['"]FishjamChat['"] do/g,
       (match) => `${match}\n  pod 'FishjamCloudClient', :path => '../../../'`,
     );
 
