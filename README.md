@@ -26,7 +26,6 @@ room client. To run the app:
    yarn
    yarn build
    cd `examples/fishjam-chat`
-   yarn build
    npx expo prebuild --clean
    yarn run android/ios
    ```
