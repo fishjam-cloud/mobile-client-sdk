@@ -1,4 +1,4 @@
-import MembraneRTC
+import FishjamCloudClient
 import Foundation
 import ReplayKit
 import WebRTC
