@@ -1,4 +1,4 @@
-package org.membraneframework.reactnative
+package io.fishjam.reactnative
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition

@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-group = 'org.membraneframework.reactnative'
+group = 'io.fishjam.reactnative'
 version = '0.1.1'
 
 buildscript {
@@ -52,7 +52,7 @@ afterEvaluate {
 }
 
 android {
-  namespace = "org.membraneframework.reactnative"
+  namespace = "io.fishjam.reactnative"
   compileSdk(31)
 
   defaultConfig {

@@ -1,4 +1,4 @@
-package org.membraneframework.reactnative
+package io.fishjam.reactnative
 
 import com.fishjamcloud.client.models.AuthError
 import expo.modules.kotlin.exception.CodedException

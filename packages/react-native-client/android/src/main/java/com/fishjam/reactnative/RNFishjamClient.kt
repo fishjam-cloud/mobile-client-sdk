@@ -1,4 +1,4 @@
-package org.membraneframework.reactnative
+package io.fishjam.reactnative
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
@@ -116,7 +116,7 @@ class RNFishjamClient(
     }
   }
 
-  private fun getSimulcastConfigFromOptions(simulcastConfigMap: org.membraneframework.reactnative.SimulcastConfig): SimulcastConfig {
+  private fun getSimulcastConfigFromOptions(simulcastConfigMap: io.fishjam.reactnative.SimulcastConfig): SimulcastConfig {
     val simulcastEnabled = simulcastConfigMap.enabled
     val activeEncodings = simulcastConfigMap.activeEncodings.map { e -> e.toTrackEncoding() }
     return SimulcastConfig(

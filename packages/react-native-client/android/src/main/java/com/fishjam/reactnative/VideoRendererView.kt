@@ -1,4 +1,4 @@
-package org.membraneframework.reactnative
+package io.fishjam.reactnative
 
 import android.content.Context
 import com.fishjamcloud.client.media.VideoTrack
