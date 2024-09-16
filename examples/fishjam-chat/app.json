@@ -41,14 +41,6 @@
             "minSdkVersion": 24,
             "compileSdkVersion": 34,
             "targetSdkVersion": 34
-          },
-          "ios": {
-            "extraPods": [
-              {
-                "name": "FishjamCloudClient",
-                "path": "../../../" // Only relevant for local development of packages/ios-client
-              }
-            ]
           }
         }
       ],

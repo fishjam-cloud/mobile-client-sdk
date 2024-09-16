@@ -12,9 +12,9 @@ import { FishjamPluginOptions } from './types';
 
 const SBE_TARGET_NAME = 'FishjamScreenBroadcastExtension';
 export const SBE_PODFILE_SNIPPET = `
-  target '${SBE_TARGET_NAME}' do
-    pod 'FishjamCloudClient/Broadcast'
-  end`;
+target '${SBE_TARGET_NAME}' do
+  pod 'FishjamCloudClient/Broadcast'
+end`;
 const TARGETED_DEVICE_FAMILY = `"1,2"`;
 const IPHONEOS_DEPLOYMENT_TARGET = '13.4';
 const GROUP_IDENTIFIER_TEMPLATE_REGEX = /{{GROUP_IDENTIFIER}}/gm;
