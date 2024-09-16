@@ -229,7 +229,7 @@ class RNFishjamClient(
     }
   }
 
-  fun connect(
+  fun joinRoom(
     url: String,
     participantToken: String,
     participantMetadata: Map<String, Any>,

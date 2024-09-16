@@ -173,10 +173,10 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onAuthSuccess() {
-        joinRoom()
+        join()
     }
 
-    func connect(url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig, promise: Promise) {
+    func joinRoom(url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig, promise: Promise) {
         connectPromise = promise
         localUserMetadata = participantMetadata.toMetadata()
 
@@ -191,7 +191,7 @@ class RNFishjamClient: FishjamClientListener {
 
     }
 
-    func joinRoom() {
+    func join() {
         RNFishjamClient.fishjamClient?.join(peerMetadata: localUserMetadata)
     }
 

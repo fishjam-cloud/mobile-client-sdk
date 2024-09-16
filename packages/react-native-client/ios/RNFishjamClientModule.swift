@@ -99,7 +99,7 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("connect") {
             (url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig, promise: Promise) in
-            rnFishjamClient.connect(
+            rnFishjamClient.joinRoom(
                 url: url, participantToken: participantToken, participantMetadata: participantMetadata, config: config, promise: promise)
         }
 

@@ -32,7 +32,7 @@ export async function joinRoom<
   participantMetadata: ParticipantMetadata,
   config: ConnectionConfig = {},
 ) {
-  await RNFishjamClientModule.connect(
+  await RNFishjamClientModule.joinRoom(
     url,
     participantToken,
     participantMetadata,

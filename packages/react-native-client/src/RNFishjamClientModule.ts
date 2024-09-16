@@ -11,7 +11,7 @@ import type { ConnectionConfig } from './common/client';
 type Metadata = { [key: string]: any };
 
 type RNFishjamClient = {
-  connect: (
+  joinRoom: (
     url: string,
     participantToken: string,
     participantMetadata: Metadata,
