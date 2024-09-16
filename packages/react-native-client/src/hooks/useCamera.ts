@@ -15,10 +15,12 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 type SimulcastConfigUpdateEvent = SimulcastConfig;
 export type CameraId = Brand<string, 'CameraId'>;
 
+export type CameraFacingDirection = 'front' | 'back' | 'other';
+
 export type Camera = {
   id: CameraId;
   name: string;
-  facingDirection: 'front' | 'back' | 'other';
+  facingDirection: CameraFacingDirection;
 };
 
 export type VideoQuality =
