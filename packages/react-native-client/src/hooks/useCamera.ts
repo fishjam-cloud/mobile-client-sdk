@@ -15,7 +15,7 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 type SimulcastConfigUpdateEvent = SimulcastConfig;
 export type CameraId = Brand<string, 'CameraId'>;
 
-export type CameraFacingDirection = 'front' | 'back' | 'other';
+export type CameraFacingDirection = 'front' | 'back' | 'unspecified';
 
 export type Camera = {
   id: CameraId;

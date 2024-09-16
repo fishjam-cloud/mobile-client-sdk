@@ -437,7 +437,7 @@ class RNFishjamClient(
           when (true) {
             device.isFrontFacing -> "front"
             device.isBackFacing -> "back"
-            else -> "other"
+            else -> "unspecified"
           }
       )
     }

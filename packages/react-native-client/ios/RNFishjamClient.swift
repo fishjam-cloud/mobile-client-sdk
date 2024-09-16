@@ -443,7 +443,7 @@ class RNFishjamClient: FishjamClientListener {
                 switch device.position {
                 case .front: "front"
                 case .back: "back"
-                default: "other"
+                default: "unspecified"
                 }
             return [
                 "id": device.uniqueID,
