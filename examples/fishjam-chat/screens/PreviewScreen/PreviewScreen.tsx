@@ -1,6 +1,5 @@
 import {
   CaptureDevice,
-  TrackEncoding,
   useCamera,
   useMicrophone,
   connect,
@@ -24,7 +23,6 @@ import { ToggleCameraButton } from './ToggleCameraButton';
 import {
   InCallButton,
   NoCameraView,
-  LetterButton,
   SoundOutputDevicesBottomSheet,
 } from '../../components';
 import { usePreventBackButton } from '../../hooks/usePreventBackButton';
@@ -57,17 +55,10 @@ function PreviewScreen({
     startCamera,
     getCaptureDevices,
     isCameraOn,
-    simulcastConfig,
-    toggleVideoTrackEncoding,
     switchCamera,
     toggleCamera,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
-
-  const encodings: Record<string, TrackEncoding[]> = {
-    ios: ['l', 'h'],
-    android: ['l', 'm', 'h'],
-  };
 
   const toggleSwitchCamera = () => {
     const camera =
@@ -143,16 +134,7 @@ function PreviewScreen({
         <SwitchCameraButton switchCamera={toggleSwitchCamera} />
         <SwitchOutputDeviceButton bottomSheetRef={bottomSheetRef} />
       </View>
-      <View style={styles.simulcastButtonsWrapper}>
-        {encodings[Platform.OS].map((val) => (
-          <LetterButton
-            trackEncoding={val}
-            key={`encoding-${val}`}
-            selected={simulcastConfig.activeEncodings.includes(val)}
-            onPress={() => toggleVideoTrackEncoding(val)}
-          />
-        ))}
-      </View>
+
       <View style={styles.joinButton}>
         <Button
           title="Join Room"

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Platform } from 'react-native';
 
 import {
@@ -10,9 +10,8 @@ import {
   TrackEncoding,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
-type IsCameraOnEvent = { IsCameraOn: boolean };
 type SimulcastConfigUpdateEvent = SimulcastConfig;
 export type CaptureDeviceId = Brand<string, 'CaptureDeviceId'>;
 
@@ -147,50 +146,12 @@ export function useCamera() {
     defaultSimulcastConfig(),
   );
 
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<SimulcastConfigUpdateEvent>(
-      ReceivableEvents.SimulcastConfigUpdate,
-      (event) => setSimulcastConfig(event),
-    );
-    return () => eventListener.remove();
-  }, []);
-
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<IsCameraOnEvent>(
-      ReceivableEvents.IsCameraOn,
-      (event) => setIsCameraOn(event.IsCameraOn),
-    );
-    setIsCameraOn(RNFishjamClientModule.isCameraOn);
-    return () => eventListener.remove();
-  }, []);
-
-  /**
-   * toggles encoding of a video track on/off
-   * @param encoding encoding to toggle
-   */
-  const toggleVideoTrackEncoding = useCallback(
-    async (encoding: TrackEncoding) => {
-      const videoSimulcastConfig =
-        await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
-      setSimulcastConfig(videoSimulcastConfig);
-    },
-    [],
+  useFishjamEvent<SimulcastConfigUpdateEvent>(
+    ReceivableEvents.SimulcastConfigUpdate,
+    setSimulcastConfig,
   );
 
-  /**
-   * updates maximum bandwidth for the given simulcast encoding of the video track
-   * @param encoding  encoding to update
-   * @param bandwidth BandwidthLimit to set
-   */
-  const setVideoTrackEncodingBandwidth = useCallback(
-    async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
-      await RNFishjamClientModule.setVideoTrackEncodingBandwidth(
-        encoding,
-        bandwidth,
-      );
-    },
-    [],
-  );
+  useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
   /**
    * Function to toggle camera on/off
@@ -242,6 +203,7 @@ export function useCamera() {
   }, []);
 
   /**
+   * @deprecated
    * updates maximum bandwidth for the video track. This value directly translates
    * to quality of the stream and the amount of RTP packets being sent. In case simulcast
    * is enabled bandwidth is split between all of the variant streams proportionally to
@@ -251,6 +213,36 @@ export function useCamera() {
   const setVideoTrackBandwidth = useCallback(
     async (bandwidth: BandwidthLimit) => {
       await RNFishjamClientModule.setVideoTrackBandwidth(bandwidth);
+    },
+    [],
+  );
+
+  /**
+   * @deprecated
+   * toggles encoding of a video track on/off
+   * @param encoding encoding to toggle
+   */
+  const toggleVideoTrackEncoding = useCallback(
+    async (encoding: TrackEncoding) => {
+      const videoSimulcastConfig =
+        await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
+      setSimulcastConfig(videoSimulcastConfig);
+    },
+    [],
+  );
+
+  /**
+   * @deprecated
+   * updates maximum bandwidth for the given simulcast encoding of the video track
+   * @param encoding  encoding to update
+   * @param bandwidth BandwidthLimit to set
+   */
+  const setVideoTrackEncodingBandwidth = useCallback(
+    async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
+      await RNFishjamClientModule.setVideoTrackEncodingBandwidth(
+        encoding,
+        bandwidth,
+      );
     },
     [],
   );
