@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
-
-export type BandwidthEstimationEvent = { BandwidthEstimation: number };
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 /**
  * This hook provides current bandwidth estimation
@@ -12,13 +10,7 @@ export type BandwidthEstimationEvent = { BandwidthEstimation: number };
 export function useBandwidthEstimation() {
   const [estimation, setEstimation] = useState<number | null>(null);
 
-  useEffect(() => {
-    const eventListener = eventEmitter.addListener<BandwidthEstimationEvent>(
-      ReceivableEvents.BandwidthEstimation,
-      (event) => setEstimation(event.BandwidthEstimation),
-    );
-    return () => eventListener.remove();
-  }, []);
+  useFishjamEvent(ReceivableEvents.BandwidthEstimation, setEstimation);
 
   return { estimation };
 }

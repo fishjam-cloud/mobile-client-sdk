@@ -1,5 +1,5 @@
+import { useEffect } from 'react';
 import { NativeModulesProxy, EventEmitter } from 'expo-modules-core';
-
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
 export const ReceivableEvents = {
@@ -16,6 +16,20 @@ export const ReceivableEvents = {
   Reconnected: 'Reconnected',
 } as const;
 
-export const eventEmitter = new EventEmitter(
+const eventEmitter = new EventEmitter(
   RNFishjamClientModule ?? NativeModulesProxy.RNFishjamClient,
 );
+
+export function useFishjamEvent<T>(
+  eventName: keyof typeof ReceivableEvents,
+  callback: (event: T) => void,
+) {
+  useEffect(() => {
+    const eventListener = eventEmitter.addListener<
+      Record<keyof typeof ReceivableEvents, T>
+    >(eventName, (event) => {
+      callback(event[eventName]);
+    });
+    return () => eventListener.remove();
+  }, [callback, eventName]);
+}

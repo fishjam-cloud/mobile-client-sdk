@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 export type AudioOutputDeviceType =
   | 'bluetooth'
@@ -18,10 +18,8 @@ export type AudioOutputDevice = {
 };
 
 type OnAudioDeviceEvent = {
-  AudioDeviceUpdate: {
-    selectedDevice: AudioOutputDevice;
-    availableDevices: AudioOutputDevice[];
-  };
+  selectedDevice: AudioOutputDevice;
+  availableDevices: AudioOutputDevice[];
 };
 
 /**
@@ -35,18 +33,15 @@ export function useAudioSettings() {
   );
 
   const onAudioDevice = useCallback((event: OnAudioDeviceEvent) => {
-    setSelectedAudioOutputDevice(event.AudioDeviceUpdate.selectedDevice);
-    setAvailableDevices(event.AudioDeviceUpdate.availableDevices);
+    setSelectedAudioOutputDevice(event.selectedDevice);
+    setAvailableDevices(event.availableDevices);
   }, []);
 
+  useFishjamEvent(ReceivableEvents.AudioDeviceUpdate, onAudioDevice);
+
   useEffect(() => {
-    const eventListener = eventEmitter.addListener(
-      ReceivableEvents.AudioDeviceUpdate,
-      onAudioDevice,
-    );
     RNFishjamClientModule.startAudioSwitcher();
     return () => {
-      eventListener.remove();
       if (Platform.OS === 'android') {
         RNFishjamClientModule.stopAudioSwitcher();
       }

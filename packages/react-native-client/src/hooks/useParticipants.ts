@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, eventEmitter } from '../common/eventEmitter';
+import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 export type TrackType = 'Audio' | 'Video';
 
@@ -64,12 +64,6 @@ export type Participant<
   tracks: Track[];
 };
 
-export type ParticipantsUpdateEvent<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
-> = {
-  PeersUpdate: Participant<ParticipantMetadata>[];
-};
-
 function addIsActiveToTracks<
   ParticipantMetadata extends GenericMetadata = GenericMetadata,
 >(
@@ -95,6 +89,15 @@ export function useParticipants<
     Participant<ParticipantMetadata>[]
   >([]);
 
+  const updateActiveParticipants = useCallback(
+    (participants: Participant<ParticipantMetadata>[]) => {
+      setParticipants(addIsActiveToTracks<ParticipantMetadata>(participants));
+    },
+    [],
+  );
+
+  useFishjamEvent(ReceivableEvents.PeersUpdate, updateActiveParticipants);
+
   useEffect(() => {
     async function updateParticipants() {
       const participants =
@@ -102,16 +105,7 @@ export function useParticipants<
       setParticipants(addIsActiveToTracks<ParticipantMetadata>(participants));
     }
 
-    const eventListener = eventEmitter.addListener<
-      ParticipantsUpdateEvent<ParticipantMetadata>
-    >(ReceivableEvents.PeersUpdate, (event) => {
-      setParticipants(
-        addIsActiveToTracks<ParticipantMetadata>(event.PeersUpdate),
-      );
-    });
-
     updateParticipants();
-    return () => eventListener.remove();
   }, []);
 
   return { participants };

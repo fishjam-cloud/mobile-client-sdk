@@ -14,7 +14,6 @@ export type {
 } from './hooks/useAudioSettings';
 export { useAudioSettings } from './hooks/useAudioSettings';
 
-export type { BandwidthEstimationEvent } from './hooks/useBandwidthEstimation';
 export { useBandwidthEstimation } from './hooks/useBandwidthEstimation';
 
 export type {
