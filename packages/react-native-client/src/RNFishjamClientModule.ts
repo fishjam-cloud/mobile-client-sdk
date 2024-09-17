@@ -11,10 +11,10 @@ import type { ConnectionConfig } from './common/client';
 type Metadata = { [key: string]: any };
 
 type RNFishjamClient = {
-  connect: (
+  joinRoom: (
     url: string,
-    peerToken: string,
-    peerMetadata: Metadata,
+    participantToken: string,
+    participantMetadata: Metadata,
     config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;

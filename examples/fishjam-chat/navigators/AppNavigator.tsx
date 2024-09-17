@@ -17,7 +17,7 @@ export type AppRootStackParamList = {
   Preview: {
     userName?: string;
     fishjamUrl: string;
-    peerToken: string;
+    participantToken: string;
   };
   Room: {
     isCameraOn: boolean;

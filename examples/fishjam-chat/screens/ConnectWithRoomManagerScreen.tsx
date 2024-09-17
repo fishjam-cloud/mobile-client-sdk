@@ -85,7 +85,7 @@ export default function ConnectScreen({ navigation }: Props) {
       navigation.navigate('Preview', {
         userName,
         fishjamUrl,
-        peerToken: token,
+        participantToken: token,
       });
     } catch (e) {
       const message =
