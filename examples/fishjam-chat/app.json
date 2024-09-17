@@ -55,7 +55,7 @@
           }
         }
       ],
-      ["./plugin/build/development-pods-plugin.js"] // Only relevant for local development of packages/ios-client
+      ["./plugin/build/with-custom-development-paths-plugin.js"] // Only relevant for local development of packages/ios-client
     ]
   }
 }
