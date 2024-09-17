@@ -76,5 +76,14 @@
       "<rootDir>/lib/"
     ],
     "testEnvironment": "jsdom"
-  }
+  },
+  "files": [
+    "build/",
+    "ios/*.swift",
+    "android/src",
+    "android/build.gradle",
+    "plugin/build",
+    "app.plugin.js",
+    "README.md"
+  ]
 }
