@@ -20,33 +20,9 @@ const IPHONEOS_DEPLOYMENT_TARGET = '13.4';
 const GROUP_IDENTIFIER_TEMPLATE_REGEX = /{{GROUP_IDENTIFIER}}/gm;
 const BUNDLE_IDENTIFIER_TEMPLATE_REGEX = /{{BUNDLE_IDENTIFIER}}/gm;
 
-const withAppGroupPermissions: ConfigPlugin = (config) => {
-  const APP_GROUP_KEY = 'com.apple.security.application-groups';
-  return withEntitlementsPlist(config, (newConfig) => {
-    if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {
-      newConfig.modResults[APP_GROUP_KEY] = [];
-    }
-    const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as any[];
-    const entitlement = `group.${newConfig?.ios?.bundleIdentifier || ''}`;
-    if (modResultsArray.indexOf(entitlement) !== -1) {
-      return newConfig;
-    }
-    modResultsArray.push(entitlement);
-
-    return newConfig;
-  });
-};
-
-const withInfoPlistConstants: ConfigPlugin = (config) => {
-  return withInfoPlist(config, (config) => {
-    const bundleIdentifier = config.ios?.bundleIdentifier || '';
-    config.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
-    config.modResults['ScreencastExtensionBundleId'] =
-      `${bundleIdentifier}.${SBE_TARGET_NAME}`;
-    return config;
-  });
-};
-
+/**
+ * A helper function for updating a value in a file for given regex
+ */
 async function updateFileWithRegex(
   iosPath: string,
   fileName: string,
@@ -59,6 +35,10 @@ async function updateFileWithRegex(
   await fs.writeFile(filePath, file);
 }
 
+/**
+ * Inserts a required target to Podfile.
+ * This is needed to provide the dependency of FishjamCloudClient/Broadcast to the extension.
+ */
 async function updatePodfile(iosPath: string) {
   let matches;
   try {
@@ -83,6 +63,45 @@ async function updatePodfile(iosPath: string) {
   }
 }
 
+/**
+ * Adds "App Group" permission
+ * App Group allow your app and the FishjamScreenBroadcastExtension to communicate with each other.
+ */
+const withAppGroupPermissions: ConfigPlugin = (config) => {
+  const APP_GROUP_KEY = 'com.apple.security.application-groups';
+  return withEntitlementsPlist(config, (newConfig) => {
+    if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {
+      newConfig.modResults[APP_GROUP_KEY] = [];
+    }
+    const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as any[];
+    const entitlement = `group.${newConfig?.ios?.bundleIdentifier || ''}`;
+    if (modResultsArray.indexOf(entitlement) !== -1) {
+      return newConfig;
+    }
+    modResultsArray.push(entitlement);
+
+    return newConfig;
+  });
+};
+
+/**
+ * Adds constants to Info.plist
+ * In other to dynamically retreive extension's bundleId and group name we need to store it in Info.plist.
+ */
+const withInfoPlistConstants: ConfigPlugin = (config) => {
+  return withInfoPlist(config, (config) => {
+    const bundleIdentifier = config.ios?.bundleIdentifier || '';
+    config.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
+    config.modResults['ScreencastExtensionBundleId'] =
+      `${bundleIdentifier}.${SBE_TARGET_NAME}`;
+    return config;
+  });
+};
+
+/**
+ * Updates and copies required extension files.
+ * Our extension needs to be properly setup inside the XCode project. In order to do that we need to copy the files and update the pbxproj.
+ */
 const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
   config,
   options,
@@ -244,6 +263,10 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
   });
 };
 
+/**
+ * Applies screen sharing plugin if enabled. In order for screensharing to work, we need to copy extension files to your iOS project.
+ * Allows for dynamically changing deploymentTarget.
+ */
 const withFishjamIOS: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   if (props.ios.enableScreensharing) {
     withAppGroupPermissions(config);
