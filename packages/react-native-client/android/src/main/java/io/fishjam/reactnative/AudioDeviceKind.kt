@@ -1,4 +1,4 @@
-package org.membraneframework.reactnative
+package io.fishjam.reactnative
 
 import com.twilio.audioswitch.AudioDevice
 

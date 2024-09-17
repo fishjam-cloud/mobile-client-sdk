@@ -9,9 +9,9 @@
   },
   "android": {
     "modules": [
-      "org.membraneframework.reactnative.RNFishjamClientModule",
-      "org.membraneframework.reactnative.VideoPreviewViewModule",
-      "org.membraneframework.reactnative.VideoRendererViewModule"
+      "io.fishjam.reactnative.RNFishjamClientModule",
+      "io.fishjam.reactnative.VideoPreviewViewModule",
+      "io.fishjam.reactnative.VideoRendererViewModule"
     ]
   }
 }

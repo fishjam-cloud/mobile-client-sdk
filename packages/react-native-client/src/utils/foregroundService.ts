@@ -19,7 +19,7 @@ import { ForegroundServiceOptions } from '../types';
     * as well as FishjamForegroundService in your AndroidManifest:
     * @example
     ```
-      <service android:name="org.membraneframework.reactnative.FishjamForegroundService" android:foregroundServiceType="camera|microphone|mediaProjection"/>
+      <service android:name="io.fishjam.reactnative.FishjamForegroundService" android:foregroundServiceType="camera|microphone|mediaProjection"/>
     ```
     */
 export const startForegroundService = (options: ForegroundServiceOptions) => {
