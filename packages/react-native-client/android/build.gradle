@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
 group = 'io.fishjam.reactnative'
-version = '0.1.1'
+version = '0.2.0'
 
 buildscript {
   def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
@@ -59,7 +59,7 @@ android {
     minSdkVersion safeExtGet("minSdkVersion", 21)
     targetSdkVersion safeExtGet("targetSdkVersion", 31)
     versionCode 1
-    versionName "0.1.1"
+    versionName "0.2.0"
   }
   lintOptions {
     abortOnError false
@@ -81,8 +81,8 @@ dependencies {
   if (findProject(':fishjam-cloud-android-client')) {
     implementation project(':fishjam-cloud-android-client')
   } else {
-//   todo when released, changed repo name etc then update
-    implementation 'com.github.fishjam-cloud:mobile-client-sdk:0.1.1'
+    // update version number when releasing
+    implementation 'com.github.fishjam-cloud:mobile-client-sdk:0.2.0'
   }
   api 'com.github.davidliu:audioswitch:8edf84ee46cdbc84c2b7725aa8f8d66363e19876'
   implementation 'androidx.appcompat:appcompat:1.6.1'

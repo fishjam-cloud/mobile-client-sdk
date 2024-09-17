@@ -1,6 +1,6 @@
 {
   "name": "@fishjam-cloud/react-native-client",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A React Native client for Fishjam Cloud",
   "author": "Fishjam Cloud Team",
   "license": "Apache-2.0",
@@ -76,5 +76,14 @@
       "<rootDir>/lib/"
     ],
     "testEnvironment": "jsdom"
-  }
+  },
+  "files": [
+    "build/",
+    "ios/*.swift",
+    "android/src",
+    "android/build.gradle",
+    "plugin/build",
+    "app.plugin.js",
+    "README.md"
+  ]
 }
