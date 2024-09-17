@@ -48,7 +48,7 @@ Add plugin to your `app.json` if it's not already added:
 }
 ```
 
-If you want to use screensharing feature, enable the following flag:
+If you want to use screensharing feature, enable the following flags:
 
 ```json
 {
@@ -59,7 +59,12 @@ If you want to use screensharing feature, enable the following flag:
       [
         "@fishjam-cloud/react-native-client",
         {
-          "setUpScreensharing": true,
+          "android": {
+            "enableForegroundService": true
+          },
+          "ios": {
+            "enableScreensharing": true
+          }
         }
       ]
     ]
@@ -72,10 +77,13 @@ On bare workflow run `expo prebuild` to configure the app, then run
 
 ### Android
 
-1. Add camera and microphone permissions to your `AndroidManifest.xml`.
+1. Add camera and microphone permissions to your `AndroidManifest.xml` or you app.json permissions.
 2. Rebuild the app. That's it!
 
 ### iOS
+
+> [!NOTE]
+> If you're using our plugin with `enableScreensharing` set to `true`. Not further steps are required.
 
 On iOS installation is a bit more complicated, because you need to setup a
 screen broadcast app extension for screensharing.
@@ -102,7 +110,7 @@ screen broadcast app extension for screensharing.
    Broadcast Upload Extension → Next. Choose the name for the new target, select
    Swift language and deselect "Include UI Extension".
 
-   ![New target config](../../.github/images/xcode1.png)
+   ![New target config](https://github.com/fishjam-cloud/mobile-client-sdk/blob/main/.github/images/xcode1.png)
 
    Press Finish. In the next alert xcode will ask you if you want to activate
    the new scheme - press Cancel.
@@ -110,7 +118,7 @@ screen broadcast app extension for screensharing.
 4. Configure app group. Go to "Signing & Capabilities" tab, click "+ Capability"
    button in upper left corner and select "App Groups".
 
-   ![App groups config](../../.github/images/xcode2.png)
+   ![App groups config](https://github.com/fishjam-cloud/mobile-client-sdk/blob/main/.github/images/xcode2.png)
 
    Then in the "App Groups" add a new group or select existing. Usually group
    name has format `group.<your-bundle-identifier>`. Verify that both app and
@@ -119,7 +127,7 @@ screen broadcast app extension for screensharing.
 5. A new folder with app extension should appear on the left with contents like
    this:
 
-   ![App extension files](../../.github/images/xcode3.png)
+   ![App extension files](https://github.com/fishjam-cloud/mobile-client-sdk/blob/main/.github/images/xcode3.png)
 
    Replace `SampleHandler.swift` with `MembraneBroadcastSampleHandler.swift` and
    this code:
@@ -221,10 +229,12 @@ room client. To run the app:
    instructions there to setup and run demo server.
 2. Clone the repo
 3. ```
-   cd `examples/fishjam-chat`
    yarn
+   yarn build
+   cd `examples/fishjam-chat`
+   npx expo prebuild --clean
    ```
-4. In App.ts replace server url with your server's url.
+4. Copy `.env.template` and create `.env` with proper secrets.
 5. `yarn run android` or `yarn run ios` or run project from Android Studio /
    Xcode just like every RN project. Note that simulators won't work, you have
    to test on real device for camera and screensharing to run.
@@ -322,6 +332,11 @@ toggleScreencast({screencastMetadata: { displayName: "Annie's desktop" }});
 Use track metadata to differentiate between video and screencast tracks.
 
 ### Android foreground service
+
+> [!NOTE]
+> If you're using our plugin with `enableForegroundService` set to `true`. Not further steps are required.
+
+If you
 
 In order for the call to continue running when app is in background, you need to
 set up and start a foreground service. You can use a 3rd party library for this,
