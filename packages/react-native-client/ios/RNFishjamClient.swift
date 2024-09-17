@@ -240,9 +240,10 @@ class RNFishjamClient: FishjamClientListener {
         emitEvent(name: eventName, data: isCameraEnabledMap)
     }
 
-    func toggleCamera() throws {
+    func toggleCamera() throws -> Bool {
         try ensureVideoTrack()
         setCameraTrackState(getLocalVideoTrack()!, enabled: !isCameraOn)
+        return isCameraOn
     }
 
     func flipCamera() throws {
@@ -398,7 +399,7 @@ class RNFishjamClient: FishjamClientListener {
                         return [
                             "id": track.id,
                             "type": "Video",
-                            "metadata": track.metadata,
+                            "metadata": track.metadata.toDict(),
                             "encoding": track.encoding?.description,
                             "encodingReason": track.encodingReason?.rawValue,
                         ]
@@ -407,7 +408,7 @@ class RNFishjamClient: FishjamClientListener {
                         return [
                             "id": track.id,
                             "type": "Audio",
-                            "metadata": track.metadata,
+                            "metadata": track.metadata.toDict(),
                             "vadStatus": track.vadStatus.rawValue,
                         ]
 
@@ -415,21 +416,21 @@ class RNFishjamClient: FishjamClientListener {
                         return [
                             "id": track.id,
                             "type": "Video",
-                            "metadata": track.metadata,
+                            "metadata": track.metadata.toDict(),
                         ]
 
                     case let track as LocalScreencastTrack:
                         return [
                             "id": track.id,
                             "type": "Video",
-                            "metadata": track.metadata,
+                            "metadata": track.metadata.toDict(),
                         ]
 
                     case let track as LocalAudioTrack:
                         return [
                             "id": track.id,
                             "type": "Audio",
-                            "metadata": track.metadata,
+                            "metadata": track.metadata.toDict(),
                         ]
 
                     default:
