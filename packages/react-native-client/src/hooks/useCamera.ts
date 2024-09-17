@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Platform } from 'react-native';
 
 import {
@@ -13,13 +13,14 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 type SimulcastConfigUpdateEvent = SimulcastConfig;
-export type CaptureDeviceId = Brand<string, 'CaptureDeviceId'>;
+export type CameraId = Brand<string, 'CameraId'>;
 
-export type CaptureDevice = {
-  id: CaptureDeviceId;
+export type CameraFacingDirection = 'front' | 'back' | 'unspecified';
+
+export type Camera = {
+  id: CameraId;
   name: string;
-  isFrontFacing: boolean;
-  isBackFacing: boolean;
+  facingDirection: CameraFacingDirection;
 };
 
 export type VideoQuality =
@@ -43,21 +44,16 @@ type CameraConfigBase = {
    */
   quality?: VideoQuality;
   /**
-   * whether to flip the dimensions of the video, that is whether to film in vertical orientation.
-   * @default `true`
-   */
-  flipVideo?: boolean;
-  /**
    * whether the camera track is initially enabled, you can toggle it on/off later with toggleCamera method
    * @default `true`
    */
   cameraEnabled?: boolean;
   /**
-   * id of the camera to start capture with. Get available cameras with `getCaptureDevices()`.
-   * You can switch the cameras later with `flipCamera`/`switchCamera` functions.
+   * id of the camera to start capture with. Get available cameras with `cameras`.
+   * You can switch the cameras later with `switchCamera` functions.
    * @default the first front camera
    */
-  captureDeviceId?: CaptureDeviceId;
+  cameraId?: CameraId;
 };
 
 export type CameraConfig = CameraConfigBase & {
@@ -68,7 +64,6 @@ export type CameraConfig = CameraConfigBase & {
   /**
    *  bandwidth limit of a video track. By default there is no bandwidth limit.
    */
-  maxBandwidth?: TrackBandwidthLimit;
 };
 
 export type CameraConfigInternal = CameraConfigBase & {
@@ -128,7 +123,7 @@ export function updateCameraConfig(
 ): CameraConfigInternal {
   return {
     ...config,
-    ...maxBandwidthConfig(config.maxBandwidth),
+    ...maxBandwidthConfig({ l: 150, m: 500, h: 1500 }),
     videoTrackMetadata: { active: true, type: 'camera' },
     simulcastConfig: simulcastConfig(config.simulcastEnabled),
   };
@@ -140,6 +135,10 @@ export function updateCameraConfig(
 export function useCamera() {
   const [isCameraOn, setIsCameraOn] = useState<boolean>(
     RNFishjamClientModule.isCameraOn,
+  );
+
+  const [currentCamera, setCurrentCamera] = useState<Camera | undefined>(
+    undefined,
   );
 
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
@@ -154,7 +153,38 @@ export function useCamera() {
   useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
   /**
-   * Function to toggle camera on/off
+   * Property that lists cameras available on device.
+   * @returns A promise that resolves to the list of available cameras.
+   */
+  const cameras = useMemo(() => {
+    return RNFishjamClientModule.cameras;
+  }, []);
+
+  /**
+   * Prepares camera and starts local camera capture.
+   * @param config configuration of the camera capture
+   * @returns A promise that resolves when camera is started.
+   */
+  const prepareCamera = useCallback(
+    async (config: Readonly<CameraConfig> = {}) => {
+      const camera = RNFishjamClientModule.cameras.find((camera) =>
+        config.cameraId
+          ? camera.id === config.cameraId
+          : camera.facingDirection === 'front',
+      );
+
+      setCurrentCamera(camera);
+      const updatedConfig = updateCameraConfig({
+        ...config,
+        cameraId: camera?.id,
+      });
+      await RNFishjamClientModule.startCamera(updatedConfig);
+    },
+    [],
+  );
+
+  /**
+   * Toggles camera on/off
    */
   const toggleCamera = useCallback(async () => {
     const state = await RNFishjamClientModule.toggleCamera();
@@ -166,41 +196,17 @@ export function useCamera() {
   }, []);
 
   /**
-   * Starts local camera capture.
-   * @param config configuration of the camera capture
-   * @returns A promise that resolves when camera is started.
-   */
-
-  const startCamera = useCallback(
-    async (config: Readonly<CameraConfig> = {}) => {
-      const updatedConfig = updateCameraConfig(config);
-      await RNFishjamClientModule.startCamera(updatedConfig);
-    },
-    [],
-  );
-
-  /**
-   * Function that toggles between front and back camera. By default the front camera is used.
-   * @returns A promise that resolves when camera is toggled.
-   */
-  const flipCamera = useCallback(async () => {
-    await RNFishjamClientModule.flipCamera();
-  }, []);
-
-  /**
-   * Function that switches to the specified camera. By default the front camera is used.
+   * Switches to the specified camera.
+   * List of available devices can be retrieved from `cameras` variable
    * @returns A promise that resolves when camera is switched.
    */
-  const switchCamera = useCallback(async (captureDeviceId: CaptureDeviceId) => {
-    await RNFishjamClientModule.switchCamera(captureDeviceId);
-  }, []);
-
-  /** Function that queries available cameras.
-   * @returns A promise that resolves to the list of available cameras.
-   */
-  const getCaptureDevices = useCallback(async () => {
-    return RNFishjamClientModule.getCaptureDevices();
-  }, []);
+  const switchCamera = useCallback(
+    async (cameraId: CameraId) => {
+      await RNFishjamClientModule.switchCamera(cameraId);
+      setCurrentCamera(cameras.find((camera) => camera.id === cameraId));
+    },
+    [cameras],
+  );
 
   /**
    * @deprecated
@@ -249,12 +255,14 @@ export function useCamera() {
 
   return {
     isCameraOn,
+    currentCamera,
     simulcastConfig,
+    cameras,
+
     toggleCamera,
-    startCamera,
-    flipCamera,
+    prepareCamera,
     switchCamera,
-    getCaptureDevices,
+
     toggleVideoTrackEncoding,
     setVideoTrackEncodingBandwidth,
     setVideoTrackBandwidth,

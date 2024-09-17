@@ -21,7 +21,7 @@ class RNFishjamClient: FishjamClientListener {
     var screencastSimulcastConfig: SimulcastConfig = SimulcastConfig()
     var screencastMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
 
-    var captureDeviceId: String? = nil
+    var cameraId: String? = nil
 
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
@@ -228,7 +228,7 @@ class RNFishjamClient: FishjamClientListener {
         return RNFishjamClient.fishjamClient!.createVideoTrack(
             videoParameters: videoParameters,
             metadata: config.videoTrackMetadata.toMetadata(),
-            captureDeviceName: config.captureDeviceId
+            captureDeviceName: config.cameraId
         )
     }
 
@@ -251,9 +251,9 @@ class RNFishjamClient: FishjamClientListener {
         getLocalVideoTrack()?.flipCamera()
     }
 
-    func switchCamera(captureDeviceId: String) throws {
+    func switchCamera(cameraId: String) throws {
         try ensureVideoTrack()
-        getLocalVideoTrack()?.switchCamera(deviceId: captureDeviceId)
+        getLocalVideoTrack()?.switchCamera(deviceId: cameraId)
 
     }
 
@@ -444,11 +444,16 @@ class RNFishjamClient: FishjamClientListener {
     func getCaptureDevices() -> [[String: Any]] {
         let devices = LocalVideoTrack.getCaptureDevices()
         return devices.map { device -> [String: Any] in
+            let facingDirection =
+                switch device.position {
+                case .front: "front"
+                case .back: "back"
+                default: "unspecified"
+                }
             return [
                 "id": device.uniqueID,
                 "name": device.localizedName,
-                "isFrontFacing": device.position == .front,
-                "isBackFacing": device.position == .back,
+                "facingDirection": facingDirection,
             ]
         }
     }

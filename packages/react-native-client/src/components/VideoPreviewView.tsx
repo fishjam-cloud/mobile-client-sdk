@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ViewStyle } from 'react-native';
 
 import { VideoLayout } from '../types';
-import { CaptureDeviceId } from '../hooks/useCamera';
+import { CameraId } from '../hooks/useCamera';
 
 export type VideoPreviewViewProps = {
   /**
@@ -15,10 +15,10 @@ export type VideoPreviewViewProps = {
   videoLayout?: VideoLayout;
   style?: ViewStyle;
   /**
-   * Id of the camera used for preview. Get available cameras with `getCaptureDevices()` function.
+   * Id of the camera used for preview. Get available cameras with `cameras` property.
    * @default the first front camera
    */
-  captureDeviceId?: CaptureDeviceId;
+  cameraId?: CameraId;
 };
 
 const NativeView: React.ComponentType<VideoPreviewViewProps> =
@@ -29,5 +29,5 @@ export const VideoPreviewView = React.forwardRef<
   VideoPreviewViewProps
 >((props, ref) => (
   // @ts-expect-error ref prop needs to be updated
-  <NativeView {...props} ref={ref} />
+  <NativeView {...props} captureDeviceId={props.cameraId} ref={ref} />
 ));

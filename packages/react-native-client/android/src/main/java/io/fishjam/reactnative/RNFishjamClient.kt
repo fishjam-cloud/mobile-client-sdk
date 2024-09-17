@@ -275,7 +275,7 @@ class RNFishjamClient(
     return fishjamClient.createVideoTrack(
       videoParameters,
       config.videoTrackMetadata,
-      config.captureDeviceId
+      config.cameraId
     )
   }
 
@@ -303,10 +303,10 @@ class RNFishjamClient(
     onLocalTrackSwitchListener.forEach { it.onLocalTrackSwitched() }
   }
 
-  suspend fun switchCamera(captureDeviceId: String) {
+  suspend fun switchCamera(cameraId: String) {
     ensureVideoTrack()
     onLocalTrackSwitchListener.forEach { it.onLocalTrackWillSwitch() }
-    getLocalVideoTrack()?.switchCamera(captureDeviceId)
+    getLocalVideoTrack()?.switchCamera(cameraId)
     onLocalTrackSwitchListener.forEach {
       it.onLocalTrackSwitched()
     }
@@ -433,8 +433,12 @@ class RNFishjamClient(
       mapOf<String, Any>(
         "id" to device.deviceName,
         "name" to device.deviceName,
-        "isFrontFacing" to device.isFrontFacing,
-        "isBackFacing" to device.isBackFacing
+        "facingDirection" to
+          when (true) {
+            device.isFrontFacing -> "front"
+            device.isBackFacing -> "back"
+            else -> "unspecified"
+          }
       )
     }
   }

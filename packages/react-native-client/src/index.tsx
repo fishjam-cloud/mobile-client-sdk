@@ -17,9 +17,10 @@ export { useAudioSettings } from './hooks/useAudioSettings';
 export { useBandwidthEstimation } from './hooks/useBandwidthEstimation';
 
 export type {
-  CaptureDevice,
+  Camera,
   CameraConfig,
   VideoQuality,
+  CameraFacingDirection,
 } from './hooks/useCamera';
 export { useCamera } from './hooks/useCamera';
 

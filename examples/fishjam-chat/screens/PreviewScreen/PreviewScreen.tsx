@@ -1,5 +1,4 @@
 import {
-  CaptureDevice,
   useCamera,
   useMicrophone,
   joinRoom,
@@ -7,7 +6,7 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Button,
   Platform,
@@ -47,50 +46,33 @@ function PreviewScreen({
   route,
   bottomSheetRef,
 }: Props & BottomSheetRef) {
-  const availableCameras = useRef<CaptureDevice[]>([]);
-  const [currentCamera, setCurrentCamera] = useState<CaptureDevice | null>(
-    null,
-  );
   const {
-    startCamera,
-    getCaptureDevices,
+    prepareCamera,
+    cameras,
     isCameraOn,
     switchCamera,
     toggleCamera,
+    currentCamera,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   const toggleSwitchCamera = () => {
     const camera =
-      availableCameras.current.find(
-        (device) => device.isFrontFacing !== currentCamera?.isFrontFacing,
+      cameras.find(
+        (camera) => camera.facingDirection !== currentCamera?.facingDirection,
       ) || null;
     if (camera) {
       switchCamera(camera.id);
-      setCurrentCamera(camera);
     }
   };
 
   useEffect(() => {
-    async function setupCamera() {
-      const devices = await getCaptureDevices();
-      availableCameras.current = devices;
-
-      const captureDevice = devices.find((device) => device.isFrontFacing);
-
-      startCamera({
-        simulcastEnabled: true,
-        quality: 'HD169',
-        maxBandwidth: { l: 150, m: 500, h: 1500 },
-        captureDeviceId: captureDevice?.id,
-        cameraEnabled: true,
-      });
-
-      setCurrentCamera(captureDevice || null);
-    }
-
-    setupCamera();
-  }, [getCaptureDevices, startCamera]);
+    prepareCamera({
+      simulcastEnabled: true,
+      quality: 'HD169',
+      cameraEnabled: true,
+    });
+  }, [prepareCamera]);
 
   const onJoinPressed = async () => {
     await joinRoom<ParticipantMetadata>(
