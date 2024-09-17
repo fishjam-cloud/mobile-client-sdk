@@ -237,7 +237,7 @@ class RNFishjamClient(
     promise: Promise
   ) {
     connectPromise = promise
-    localUserMetadata = peerMetadata
+    localUserMetadata = participantMetadata
     fishjamClient.connect(
       com.fishjamcloud.client.ConnectConfig(
         url,
