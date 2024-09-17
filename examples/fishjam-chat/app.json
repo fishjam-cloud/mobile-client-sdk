@@ -49,9 +49,13 @@
         {
           "android": {
             "enableForegroundService": true
+          },
+          "ios": {
+            "enableScreensharing": true
           }
         }
-      ]
+      ],
+      ["./plugin/build/development-pods-plugin.js"] // Only relevant for local development of packages/ios-client
     ]
   }
 }

@@ -5,3 +5,4 @@ build/*
 node_modules/*
 webdriverio-test/server-api/*
 vendor/bundle
+plugin/build/*

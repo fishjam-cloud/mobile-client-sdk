@@ -1,4 +1,4 @@
-import FishjamClient
+import FishjamCloudClient
 import Foundation
 import ReplayKit
 import WebRTC
@@ -7,10 +7,10 @@ import os.log
 /// App Group used by the extension to exchange buffers with the target application
 let appGroup = "{{GROUP_IDENTIFIER}}"
 
-let logger = OSLog(subsystem: "{{BUNDLE_IDENTIFIER}}.MembraneBroadcastSampleHandler", category: "Broadcaster")
+let logger = OSLog(subsystem: "{{BUNDLE_IDENTIFIER}}.FishjamBroadcastSampleHandler", category: "Broadcaster")
 
 /// An example `SampleHandler` utilizing `BroadcastSampleSource` from `MembraneRTC` sending broadcast samples and necessary notification enabling device's screencast.
-class MembraneBroadcastSampleHandler: RPBroadcastSampleHandler {
+class FishjamBroadcastSampleHandler: RPBroadcastSampleHandler {
     let broadcastSource = BroadcastSampleSource(appGroup: appGroup)
     var started: Bool = false
 
