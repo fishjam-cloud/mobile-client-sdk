@@ -81,7 +81,7 @@ dependencies {
   if (findProject(':fishjam-cloud-android-client')) {
     implementation project(':fishjam-cloud-android-client')
   } else {
-//   todo when released, changed repo name etc then update
+    // update version number when releasing
     implementation 'com.github.fishjam-cloud:mobile-client-sdk:0.2.0'
   }
   api 'com.github.davidliu:audioswitch:8edf84ee46cdbc84c2b7725aa8f8d66363e19876'
