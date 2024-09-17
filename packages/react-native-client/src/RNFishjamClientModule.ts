@@ -3,7 +3,7 @@ import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './stats/types';
 import type { ForegroundServiceOptions, SimulcastConfig } from './types';
-import type { CameraConfigInternal, CaptureDevice } from './hooks/useCamera';
+import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Participant } from './hooks/useParticipants';
 import type { ScreencastOptionsInternal } from './hooks/useScreencast';
 import type { ConnectionConfig } from './common/client';
@@ -24,8 +24,8 @@ type RNFishjamClient = {
   isCameraOn: boolean;
   toggleCamera: () => Promise<boolean>;
   flipCamera: () => Promise<void>;
-  switchCamera: (captureDeviceId: string) => Promise<void>;
-  getCaptureDevices: () => Promise<CaptureDevice[]>;
+  switchCamera: (cameraId: string) => Promise<void>;
+  cameras: ReadonlyArray<Camera>;
   handleScreencastPermission: () => Promise<'granted' | 'denied'>;
   toggleScreencast: (
     screencastOptions: Partial<ScreencastOptionsInternal>,
