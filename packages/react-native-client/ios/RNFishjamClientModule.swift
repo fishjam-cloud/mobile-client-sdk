@@ -97,7 +97,7 @@ public class RNFishjamClientModule: Module {
             return client
         }()
 
-        AsyncFunction("connect") {
+        AsyncFunction("joinRoom") {
             (
                 url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig,
                 promise: Promise
