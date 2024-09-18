@@ -1,10 +1,12 @@
 import { ConfigPlugin, withPodfile } from '@expo/config-plugins';
+import { INFO_GENERATED_COMMENT_IOS } from './utils';
 
 function replaceCloudClientForExtension(podfileContent: string) {
   const targetName = 'FishjamScreenBroadcastExtension';
   const podToReplace = "pod 'FishjamCloudClient/Broadcast'";
-  const replacementPod =
-    "pod 'FishjamCloudClient/Broadcast', :path => '../../../'";
+  const replacementPod = `
+  ${INFO_GENERATED_COMMENT_IOS}
+  pod 'FishjamCloudClient/Broadcast', :path => '../../../'`;
 
   const targetRegex = new RegExp(
     `target '${targetName}' do[\\s\\S]*?${podToReplace}[\\s\\S]*?end`,
@@ -20,13 +22,14 @@ function replaceCloudClientForExtension(podfileContent: string) {
 function replaceCloudClientForMainApp(podfileContent: string) {
   podfileContent = podfileContent.replace(
     /target ['"]FishjamChat['"] do/g,
-    (match) => `${match}\n  pod 'FishjamCloudClient', :path => '../../../'`,
+    (match) =>
+      `${match}\n ${INFO_GENERATED_COMMENT_IOS}\n pod 'FishjamCloudClient', :path => '../../../'`,
   );
   return podfileContent;
 }
 
-const withCustomPodfile: ConfigPlugin = (config) => {
-  return withPodfile(config, async (config) => {
+export const withCustomConfigIos: ConfigPlugin = (config) => {
+  config = withPodfile(config, (config) => {
     let podfile = config.modResults.contents;
 
     podfile = replaceCloudClientForExtension(podfile);
@@ -35,6 +38,6 @@ const withCustomPodfile: ConfigPlugin = (config) => {
     config.modResults.contents = podfile;
     return config;
   });
-};
 
-export default withCustomPodfile;
+  return config;
+};

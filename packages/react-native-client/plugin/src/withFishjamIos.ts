@@ -267,7 +267,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
  * Applies screen sharing plugin if enabled. In order for screensharing to work, we need to copy extension files to your iOS project.
  * Allows for dynamically changing deploymentTarget.
  */
-const withFishjamIOS: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
+const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   if (props.ios.enableScreensharing) {
     withAppGroupPermissions(config);
     withInfoPlistConstants(config);
@@ -281,4 +281,4 @@ const withFishjamIOS: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   return config;
 };
 
-export default withFishjamIOS;
+export default withFishjamIos;
