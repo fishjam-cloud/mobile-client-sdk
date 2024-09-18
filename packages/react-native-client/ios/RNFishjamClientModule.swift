@@ -97,7 +97,7 @@ public class RNFishjamClientModule: Module {
             return client
         }()
 
-        AsyncFunction("connect") {
+        AsyncFunction("joinRoom") {
             (
                 url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig,
                 promise: Promise
@@ -136,7 +136,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("switchCamera") { (cameraId: String) in
-            try rnFishjamClient.switchCamera(captureDeviceId: cameraId)
+            try rnFishjamClient.switchCamera(cameraId: cameraId)
         }
 
         Property("cameras") {
