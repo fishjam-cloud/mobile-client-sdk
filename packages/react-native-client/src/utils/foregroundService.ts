@@ -21,6 +21,7 @@ import { ForegroundServiceOptions } from '../types';
     ```
       <service android:name="io.fishjam.reactnative.FishjamForegroundService" android:foregroundServiceType="camera|microphone|mediaProjection"/>
     ```
+    * @category Screenshare
     */
 export const startForegroundService = (options: ForegroundServiceOptions) => {
   if (Platform.OS !== 'android') {
@@ -34,6 +35,7 @@ export const startForegroundService = (options: ForegroundServiceOptions) => {
  * @see {@link startForegroundService} for further information.
  *
  * Does nothing on other platforms.
+ * @category Screenshare
  */
 export const stopForegroundService = () => {
   if (Platform.OS !== 'android') {

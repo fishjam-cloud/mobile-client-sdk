@@ -10,9 +10,7 @@ export type VideoRendererProps = {
    */
   trackId: string;
   /**
-   * `FILL` or `FIT` - it works just like RN Image component. `FILL` fills the whole view
-   * with video and it may cut some parts of the video. `FIT` scales the video so the whole
-   * video is visible, but it may leave some empty space in the view.
+   * Video layout inside of the component
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
@@ -22,6 +20,10 @@ export type VideoRendererProps = {
 const NativeView: React.ComponentType<VideoRendererProps> =
   requireNativeViewManager('VideoRendererViewModule');
 
+/**
+ * Render video track received from {@link useParticipants} hook
+ * @category Components
+ */
 export const VideoRendererView = React.forwardRef<
   React.ComponentType<VideoRendererProps>,
   VideoRendererProps
