@@ -27,7 +27,7 @@
     "MembraneWebRTC",
     "fishjam"
   ],
-  "repository": "https://github.com/fishjam-cloud/mobile-client-sdk",
+  "repository": "github:fishjam-cloud/mobile-client-sdk",
   "bugs": {
     "url": "https://github.com/fishjam-cloud/mobile-client-sdk/issues"
   },
