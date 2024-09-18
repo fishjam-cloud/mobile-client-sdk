@@ -336,8 +336,6 @@ Use track metadata to differentiate between video and screencast tracks.
 > [!NOTE]
 > If you're using our plugin with `enableForegroundService` set to `true`. Not further steps are required.
 
-If you
-
 In order for the call to continue running when app is in background, you need to
 set up and start a foreground service. You can use a 3rd party library for this,
 for example [notifee](https://notifee.app/).
