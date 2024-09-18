@@ -79,17 +79,21 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
-        screenOptions={() => ({
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        })}>
+        screenOptions={() => ({ headerBackTitleVisible: false })}>
         <Stack.Screen
           name="Home"
           options={{ headerShown: false }}
           component={TabNavigator}
         />
         <Stack.Screen name="Preview" component={PreviewScreen} />
-        <Stack.Screen name="Room" component={RoomScreen} />
+        <Stack.Screen
+          name="Room"
+          options={{
+            headerBackVisible: false,
+            gestureEnabled: false,
+          }}
+          component={RoomScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
