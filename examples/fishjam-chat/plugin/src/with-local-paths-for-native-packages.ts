@@ -1,9 +1,9 @@
 import { ConfigPlugin } from '@expo/config-plugins';
-import { withCustomConfigIOS } from './with-custom-config-ios';
+import { withCustomConfigIos } from './with-custom-config-ios';
 import { withCustomConfigAndroid } from './with-custom-config-android';
 
 const withLocalPathsForNativePackages: ConfigPlugin = (config) => {
-  config = withCustomConfigIOS(config);
+  config = withCustomConfigIos(config);
   config = withCustomConfigAndroid(config);
 
   return config;
