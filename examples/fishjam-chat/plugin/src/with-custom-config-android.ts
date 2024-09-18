@@ -3,10 +3,12 @@ import {
   withProjectBuildGradle,
   withSettingsGradle,
 } from '@expo/config-plugins';
+import { INFO_GENERATED_COMMENT_ANDROID } from './utils';
 
 const withCustomSettingsGradle: ConfigPlugin = (config) => {
   return withSettingsGradle(config, (config) => {
     config.modResults.contents += `
+${INFO_GENERATED_COMMENT_ANDROID}
 include ':fishjam-cloud-android-client'
 project(':fishjam-cloud-android-client').projectDir = new File('../../../packages/android-client/FishjamClient/')
       `;
@@ -17,7 +19,10 @@ project(':fishjam-cloud-android-client').projectDir = new File('../../../package
 
 const withCustomProjectBuildGradle: ConfigPlugin = (config) => {
   return withProjectBuildGradle(config, (config) => {
-    const dokkaClasspath = `classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")`;
+    const dokkaClasspath = `
+${INFO_GENERATED_COMMENT_ANDROID}
+classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
+`;
 
     const classpathRegex = /dependencies\s*{[\s\S]*?}/;
 
