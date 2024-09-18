@@ -27,6 +27,15 @@ Go into the example app:
 cd examples/fishjam-chat
 ```
 
+Prebuild the app:
+
+```sh
+npx expo prebuild --clean
+```
+
+> [!NOTE]
+> Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+
 To start the packager:
 
 ```sh
@@ -42,8 +51,6 @@ yarn android
 To run the example app on iOS:
 
 ```sh
-bundle install
-bundle exec pod install --project-directory=ios
 yarn ios
 ```
 
