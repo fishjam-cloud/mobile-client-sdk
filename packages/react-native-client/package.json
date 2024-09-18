@@ -79,11 +79,14 @@
   },
   "files": [
     "build/",
-    "ios/*.swift",
-    "android/src",
+    "android/src/",
     "android/build.gradle",
-    "plugin/build",
+    "ios/*.swift",
+    "ios/RNFishjamClient.podspec",
+    "plugin/build/",
     "app.plugin.js",
-    "README.md"
+    "expo-module.config.json",
+    "README.md",
+    "!**/node_modules"
   ]
 }
