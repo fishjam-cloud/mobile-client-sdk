@@ -241,7 +241,7 @@ export function useCamera() {
     /** Enable/disable current camera */
     toggleCamera,
     /**
-     * Prepares camera and starts local video track 
+     * Prepares camera and starts local video track
      * @param config configuration of the camera capture
      * @returns A promise that resolves when camera is started.
      */
