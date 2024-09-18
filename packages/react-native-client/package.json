@@ -78,12 +78,12 @@
     "testEnvironment": "jsdom"
   },
   "files": [
-    "build/",
+    "build/**",
     "android/build.gradle",
-    "android/src/",
+    "android/src/**",
     "ios/*.swift",
     "ios/RNFishjamClient.podspec",
-    "plugin/build/",
+    "plugin/build/**",
     "app.plugin.js",
     "expo-module.config.json",
     "README.md",
