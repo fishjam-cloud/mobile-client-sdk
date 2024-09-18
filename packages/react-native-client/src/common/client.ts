@@ -18,11 +18,11 @@ export type ConnectionConfig = {
 };
 
 /**
- *
  * @param url fishjam Url
  * @param participantToken
  * @param participantMetadata
  * @param config
+ * @category Connection
  */
 export async function joinRoom<
   ParticipantMetadata extends GenericMetadata = GenericMetadata,
@@ -39,7 +39,9 @@ export async function joinRoom<
     config,
   );
 }
-
+/**
+ * @category Connection
+ */
 export async function leaveRoom() {
   await RNFishjamClientModule.leaveRoom();
 }
