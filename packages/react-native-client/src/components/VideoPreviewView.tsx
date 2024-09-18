@@ -7,7 +7,7 @@ import { CameraId } from '../hooks/useCamera';
 
 export type VideoPreviewViewProps = {
   /**
-   * Video layout inside of component
+   * Video layout inside of the component
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
@@ -24,7 +24,7 @@ const NativeView: React.ComponentType<VideoPreviewViewProps> =
 
 /**
  * Render camera preview.
- * Allow to display
+ * Allows to display camera preview beofre streaming is started
  * @category Components
  */
 export const VideoPreviewView = React.forwardRef<

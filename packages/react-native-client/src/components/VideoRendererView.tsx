@@ -10,7 +10,7 @@ export type VideoRendererProps = {
    */
   trackId: string;
   /**
-   * Video layout inside of component
+   * Video layout inside of the component
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
@@ -21,8 +21,7 @@ const NativeView: React.ComponentType<VideoRendererProps> =
   requireNativeViewManager('VideoRendererViewModule');
 
 /**
- * Render Video track received from `useParticipants` hook
- * @see {@link useParticipants}
+ * Render video track received from {@link useParticipants} hook
  * @category Components
  */
 export const VideoRendererView = React.forwardRef<

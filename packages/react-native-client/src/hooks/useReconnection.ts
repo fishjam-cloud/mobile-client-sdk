@@ -4,8 +4,8 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
 /**
- *
- * @returns
+ * Information about reconnection status.
+ * Could be used to retrieve connection status, once user will be disconnected
  * @group Hooks
  * @category Connection
  */

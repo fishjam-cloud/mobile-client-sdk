@@ -25,13 +25,9 @@ export function useMicrophone() {
   }, []);
 
   return {
-    /**
-     * Informs if microhpone is streaming audio
-     */
+    /** Informs if microhpone is streaming audio */
     isMicrophoneOn,
-    /**
-     * Function to toggle microphone on/off
-     */
+    /** Function to toggle microphone on/off */
     toggleMicrophone,
   };
 }
