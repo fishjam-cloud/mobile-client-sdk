@@ -84,6 +84,7 @@
     "ios/*.swift",
     "ios/RNFishjamClient.podspec",
     "plugin/build/**",
+    "plugin/broadcastExtensionFiles/**",
     "app.plugin.js",
     "expo-module.config.json",
     "README.md",
