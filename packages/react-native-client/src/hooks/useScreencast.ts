@@ -44,6 +44,8 @@ let screencastSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 /**
  * This hook can toggle screen sharing on/off and provides current screencast state.
  * @returns An object with functions to manage screencast.
+ * @category Screenshare
+ * @group Hooks
  */
 export function useScreencast() {
   const [isScreencastOn, setIsScreencastOn] = useState(

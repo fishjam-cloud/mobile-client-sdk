@@ -17,6 +17,7 @@ export { useAudioSettings } from './hooks/useAudioSettings';
 export { useBandwidthEstimation } from './hooks/useBandwidthEstimation';
 
 export type {
+  CameraId,
   Camera,
   CameraConfig,
   VideoQuality,
