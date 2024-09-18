@@ -1,6 +1,6 @@
 {
   "name": "@fishjam-cloud/react-native-client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A React Native client for Fishjam Cloud",
   "author": "Fishjam Cloud Team",
   "license": "Apache-2.0",
@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/fishjam-cloud/mobile-client-sdk/issues"
   },
-  "homepage": "https://github.com/fishjam-cloud/mobile-client-sdk#readme",
+  "homepage": "https://fishjam.io",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
@@ -79,11 +79,14 @@
   },
   "files": [
     "build/",
-    "ios/*.swift",
-    "android/src",
     "android/build.gradle",
-    "plugin/build",
+    "android/src/",
+    "ios/*.swift",
+    "ios/RNFishjamClient.podspec",
+    "plugin/build/",
     "app.plugin.js",
-    "README.md"
+    "expo-module.config.json",
+    "README.md",
+    "!**/node_modules"
   ]
 }
