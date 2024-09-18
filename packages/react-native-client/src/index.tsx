@@ -1,3 +1,5 @@
+import { initializeWarningListener } from './utils/errorListener';
+
 export type {
   Participant,
   Track,
@@ -67,3 +69,5 @@ export type {
   SimulcastConfig,
   VideoLayout,
 } from './types';
+
+initializeWarningListener();

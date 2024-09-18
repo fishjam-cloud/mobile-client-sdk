@@ -1,4 +1,4 @@
-import { requireNativeModule } from 'expo-modules-core';
+import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './stats/types';
@@ -71,5 +71,6 @@ type RNFishjamClient = {
 };
 
 const nativeModule = requireNativeModule('RNFishjamClient');
+export const nativeModuleEventEmitter = new EventEmitter(nativeModule);
 
 export default nativeModule as RNFishjamClient & NativeModule;

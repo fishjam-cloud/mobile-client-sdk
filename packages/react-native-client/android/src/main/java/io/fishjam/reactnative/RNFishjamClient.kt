@@ -43,6 +43,8 @@ class RNFishjamClient(
   var isScreencastOn = false
   var isConnected = false
 
+  private var isCameraInitialized = false
+
   private var connectPromise: Promise? = null
   private var screencastPermissionPromise: Promise? = null
 
@@ -260,13 +262,18 @@ class RNFishjamClient(
     isCameraOn = false
     isScreencastOn = false
     isConnected = false
+    isCameraInitialized = false
     fishjamClient.leave()
   }
 
   suspend fun startCamera(config: CameraConfig) {
+    if (isCameraInitialized) {
+      emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
+    }
     val cameraTrack = createCameraTrack(config)
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
+    isCameraInitialized = true
   }
 
   private suspend fun createCameraTrack(config: CameraConfig): LocalVideoTrack {
@@ -721,6 +728,11 @@ class RNFishjamClient(
     data: Map<String, Any?>
   ) {
     sendEvent(eventName, data)
+  }
+
+  private fun emitWarning(warning: String) {
+    val eventName = EmitableEvents.Warning
+    emitEvent(eventName, mapOf("message" to warning))
   }
 
   private fun emitEndpoints() {
