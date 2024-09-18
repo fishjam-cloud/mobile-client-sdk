@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/fishjam-cloud/mobile-client-sdk/issues"
   },
-  "homepage": "https://github.com/fishjam-cloud/mobile-client-sdk#readme",
+  "homepage": "https://fishjam.io",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
