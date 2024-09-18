@@ -6,6 +6,8 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
  * This hook provides current bandwidth estimation
  * estimation - client's available incoming bitrate estimated
  * by the server. It's measured in bits per second.
+ * @category Debugging
+ * @group Hooks
  */
 export function useBandwidthEstimation() {
   const [estimation, setEstimation] = useState<number | null>(null);
