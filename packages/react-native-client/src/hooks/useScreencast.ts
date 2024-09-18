@@ -58,9 +58,6 @@ export function useScreencast() {
 
   useFishjamEvent(ReceivableEvents.IsScreencastOn, setIsScreencastOn);
 
-  /**
-   * Toggles the screencast on/off
-   */
   const toggleScreencast = useCallback(
     async (screencastOptions: Partial<ScreencastOptions> = {}) => {
       const options = {
@@ -78,10 +75,6 @@ export function useScreencast() {
     [isScreencastOn],
   );
 
-  /**
-   * Toggles simulcast encoding of a screencast track on/off
-   * @param encoding encoding to toggle
-   */
   const toggleScreencastTrackEncoding = useCallback(
     async (encoding: TrackEncoding) => {
       screencastSimulcastConfig =
@@ -91,11 +84,6 @@ export function useScreencast() {
     [],
   );
 
-  /**
-   * updates maximum bandwidth for the given simulcast encoding of the screencast track
-   * @param encoding encoding to update
-   * @param bandwidth BandwidthLimit to set
-   */
   const setScreencastTrackEncodingBandwidth = useCallback(
     async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
       await RNFishjamClientModule.setScreencastTrackEncodingBandwidth(
@@ -106,13 +94,6 @@ export function useScreencast() {
     [],
   );
 
-  /**
-   * updates maximum bandwidth for the screencast track. This value directly translates
-   * to quality of the stream and the amount of RTP packets being sent. In case simulcast
-   * is enabled bandwidth is split between all of the variant streams proportionally to
-   * their resolution
-   * @param bandwidth BandwidthLimit to set
-   */
   const setScreencastTrackBandwidth = useCallback(
     async (bandwidth: BandwidthLimit) => {
       await RNFishjamClientModule.setScreencastTrackBandwidth(bandwidth);
@@ -129,11 +110,38 @@ export function useScreencast() {
 
   return {
     isScreencastOn,
-    toggleScreencast,
-    toggleScreencastTrackEncoding,
     simulcastConfig,
-    setScreencastTrackEncodingBandwidth,
-    setScreencastTrackBandwidth,
+
+    /**
+     * Toggles the screencast on/off
+     */
+    toggleScreencast,
     handleScreencastPermission,
+
+    /**
+     * @deprecated
+     */
+    setScreencastTrackBandwidth,
+    /**
+     * Toggles simulcast encoding of a screencast track on/off
+     * @param encoding encoding to toggle
+     * @deprecated
+     */
+    toggleScreencastTrackEncoding,
+    /**
+     * updates maximum bandwidth for the given simulcast encoding of the screencast track
+     * @param encoding encoding to update
+     * @param bandwidth BandwidthLimit to set
+     * @deprecated
+     */
+    setScreencastTrackEncodingBandwidth,
+    /**
+     * updates maximum bandwidth for the screencast track. This value directly translates
+     * to quality of the stream and the amount of RTP packets being sent. In case simulcast
+     * is enabled bandwidth is split between all of the variant streams proportionally to
+     * their resolution
+     * @param bandwidth BandwidthLimit to set
+     * @deprecated
+     */
   };
 }

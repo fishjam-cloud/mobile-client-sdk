@@ -4,7 +4,6 @@ import { ViewStyle } from 'react-native';
 
 import { VideoLayout } from '../types';
 
-
 export type VideoRendererProps = {
   /**
    * id of the video track which you want to render.
@@ -23,7 +22,7 @@ const NativeView: React.ComponentType<VideoRendererProps> =
 
 /**
  * Render Video track received from `useParticipants` hook
- * @see {@link useParticipants} 
+ * @see {@link useParticipants}
  * @category Components
  */
 export const VideoRendererView = React.forwardRef<

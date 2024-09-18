@@ -5,7 +5,6 @@ import { ViewStyle } from 'react-native';
 import { VideoLayout } from '../types';
 import { CameraId } from '../hooks/useCamera';
 
-
 export type VideoPreviewViewProps = {
   /**
    * Video layout inside of component
