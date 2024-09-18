@@ -131,6 +131,8 @@ export function updateCameraConfig(
 
 /**
  * This hook can toggle camera on/off and provides current camera state.
+ * @category Devices
+ * @group Hooks
  */
 export function useCamera() {
   const [isCameraOn, setIsCameraOn] = useState<boolean>(
@@ -152,19 +154,10 @@ export function useCamera() {
 
   useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
-  /**
-   * Property that lists cameras available on device.
-   * @returns A promise that resolves to the list of available cameras.
-   */
   const cameras = useMemo(() => {
     return RNFishjamClientModule.cameras;
   }, []);
 
-  /**
-   * Prepares camera and starts local camera capture.
-   * @param config configuration of the camera capture
-   * @returns A promise that resolves when camera is started.
-   */
   const prepareCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {
       const camera = RNFishjamClientModule.cameras.find((camera) =>
@@ -183,9 +176,6 @@ export function useCamera() {
     [],
   );
 
-  /**
-   * Toggles camera on/off
-   */
   const toggleCamera = useCallback(async () => {
     const state = await RNFishjamClientModule.toggleCamera();
     await RNFishjamClientModule.updateVideoTrackMetadata({
@@ -195,11 +185,6 @@ export function useCamera() {
     setIsCameraOn(state);
   }, []);
 
-  /**
-   * Switches to the specified camera.
-   * List of available devices can be retrieved from `cameras` variable
-   * @returns A promise that resolves when camera is switched.
-   */
   const switchCamera = useCallback(
     async (cameraId: CameraId) => {
       await RNFishjamClientModule.switchCamera(cameraId);
@@ -208,14 +193,6 @@ export function useCamera() {
     [cameras],
   );
 
-  /**
-   * @deprecated
-   * updates maximum bandwidth for the video track. This value directly translates
-   * to quality of the stream and the amount of RTP packets being sent. In case simulcast
-   * is enabled bandwidth is split between all of the variant streams proportionally to
-   * their resolution.
-   * @param BandwidthLimit to set
-   */
   const setVideoTrackBandwidth = useCallback(
     async (bandwidth: BandwidthLimit) => {
       await RNFishjamClientModule.setVideoTrackBandwidth(bandwidth);
@@ -223,11 +200,6 @@ export function useCamera() {
     [],
   );
 
-  /**
-   * @deprecated
-   * toggles encoding of a video track on/off
-   * @param encoding encoding to toggle
-   */
   const toggleVideoTrackEncoding = useCallback(
     async (encoding: TrackEncoding) => {
       const videoSimulcastConfig =
@@ -237,12 +209,6 @@ export function useCamera() {
     [],
   );
 
-  /**
-   * @deprecated
-   * updates maximum bandwidth for the given simulcast encoding of the video track
-   * @param encoding  encoding to update
-   * @param bandwidth BandwidthLimit to set
-   */
   const setVideoTrackEncodingBandwidth = useCallback(
     async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
       await RNFishjamClientModule.setVideoTrackEncodingBandwidth(
@@ -254,17 +220,58 @@ export function useCamera() {
   );
 
   return {
+    /**
+     * Informs if user camera is streaming video
+     */
     isCameraOn,
+    /**
+     * Which camera is now used for streaming (or will be used as default when camera will be enabled)
+     */
     currentCamera,
+    /**
+     * Simulcast configuration
+     */
     simulcastConfig,
+    /**
+     * Property that lists cameras available on device.
+     * @returns A promise that resolves to the list of available cameras.
+     */
     cameras,
 
+    /** Enable/disable current camera */
     toggleCamera,
-    prepareCamera,
-    switchCamera,
+    /**
+     * Prepares camera and starts local camera capture.
+     * @param config configuration of the camera capture
+     * @returns A promise that resolves when camera is started.
+     */ prepareCamera,
+    /**
+     * Switches to the specified camera.
+     * List of available devices can be retrieved from `cameras` variable
+     * @returns A promise that resolves when camera is switched.
+     */ switchCamera,
 
+    /**
+     * @deprecated
+     * toggles encoding of a video track on/off
+     * @param encoding encoding to toggle
+     */
     toggleVideoTrackEncoding,
+    /**
+     * updates maximum bandwidth for the given simulcast encoding of the video track
+     * @param encoding  encoding to update
+     * @param bandwidth BandwidthLimit to set
+     * @deprecated
+     */
     setVideoTrackEncodingBandwidth,
+    /**
+     * updates maximum bandwidth for the video track. This value directly translates
+     * to quality of the stream and the amount of RTP packets being sent. In case simulcast
+     * is enabled bandwidth is split between all of the variant streams proportionally to
+     * their resolution.
+     * @param BandwidthLimit to set
+     * @deprecated
+     */
     setVideoTrackBandwidth,
   };
 }

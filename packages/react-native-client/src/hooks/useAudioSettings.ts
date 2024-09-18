@@ -24,6 +24,8 @@ type OnAudioDeviceEvent = {
 
 /**
  * This hook manages audio settings.
+ * @category Devices
+ * @group Hooks
  */
 export function useAudioSettings() {
   const [selectedAudioOutputDevice, setSelectedAudioOutputDevice] =

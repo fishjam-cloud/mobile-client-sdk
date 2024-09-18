@@ -5,6 +5,8 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 /**
  * This hook can toggle microphone on/off and provides current microphone state.
+ * @category Devices
+ * @group Hooks
  */
 export function useMicrophone() {
   const [isMicrophoneOn, setIsMicrophoneOn] = useState<boolean>(
