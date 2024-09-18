@@ -13,6 +13,8 @@ class RNFishjamClient: FishjamClientListener {
     var isScreencastOn = false
     var isConnected = false
 
+    private var isCameraInitialized = false
+
     var connectPromise: Promise? = nil
 
     var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
@@ -211,14 +213,22 @@ class RNFishjamClient: FishjamClientListener {
         isCameraOn = false
         isScreencastOn = false
         isConnected = false
+        isCameraInitialized = false
         RNFishjamClient.fishjamClient?.leave()
     }
 
     func startCamera(config: CameraConfig) throws {
         try ensureCreated()
+
+        guard !isCameraInitialized else {
+            emit(warning: "Camera already started. You may only call startCamera once before leaveRoom is called.")
+            return
+        }
+
         let cameraTrack = try createCameraTrack(config: config)
         setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
         emitEndpoints()
+        isCameraInitialized = true
     }
 
     private func createCameraTrack(config: CameraConfig) throws -> LocalVideoTrack {
@@ -665,6 +675,10 @@ class RNFishjamClient: FishjamClientListener {
 
     func emitEvent(name: String, data: [String: Any]) {
         sendEvent(name, data)
+    }
+
+    func emit(warning: String) {
+        emitEvent(name: EmitableEvents.Warning, data: ["message": warning])
     }
 
     func emitEndpoints() {

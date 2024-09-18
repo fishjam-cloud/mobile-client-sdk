@@ -269,6 +269,7 @@ class RNFishjamClient(
   suspend fun startCamera(config: CameraConfig) {
     if (isCameraInitialized) {
       emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
+      return
     }
     val cameraTrack = createCameraTrack(config)
     setCameraTrackState(cameraTrack, config.cameraEnabled)

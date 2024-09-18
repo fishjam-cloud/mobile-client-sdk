@@ -10,4 +10,5 @@ struct EmitableEvents {
     static let ReconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"
     static let ReconnectionStarted = "ReconnectionStarted"
     static let Reconnected = "Reconnected"
+    static let Warning = "Warning"
 }
