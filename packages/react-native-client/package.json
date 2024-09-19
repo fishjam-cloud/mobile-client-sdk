@@ -46,7 +46,7 @@
     "@types/lodash": "^4.17.7",
     "@types/phoenix": "^1.6.5",
     "@types/promise-fs": "^2.1.2",
-    "@types/react": "^18.3.5",
+    "@types/react": "^18.3.7",
     "expo": "^51.0.32",
     "expo-module-scripts": "^3.5.2",
     "expo-modules-core": "^1.12.24",

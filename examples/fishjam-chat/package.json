@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "^18.3.5",
+    "@types/react": "^18.3.7",
     "typescript": "^5.5.4"
   },
   "private": true
