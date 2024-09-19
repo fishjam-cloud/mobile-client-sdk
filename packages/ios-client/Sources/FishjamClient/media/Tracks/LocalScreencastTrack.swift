@@ -8,7 +8,7 @@ public protocol LocalScreenBroadcastTrackDelegate: AnyObject {
 }
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing a `BroadcastScreenCapturer`.
-public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCapturerDelegate {
+public class LocalScreenShareTrack: VideoTrack, LocalTrack, ScreenBroadcastCapturerDelegate {
     private let appGroup: String
     internal var capturer: ScreenBroadcastCapturer
     internal var videoParameters: VideoParameters
@@ -30,7 +30,7 @@ public class LocalScreencastTrack: VideoTrack, LocalTrack, ScreenBroadcastCaptur
         capturer.capturerDelegate = self
     }
 
-    internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalScreencastTrack) {
+    internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalScreenShareTrack) {
         self.appGroup = oldTrack.appGroup
         self.videoParameters = oldTrack.videoParameters
         self.delegate = oldTrack.delegate

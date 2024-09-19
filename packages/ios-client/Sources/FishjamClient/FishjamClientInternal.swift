@@ -196,15 +196,15 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         return audioTrack
     }
 
-    public func createScreencastTrack(
+    public func createScreenShareTrack(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreencastTrack) -> Void,
-        onStop: @escaping (_ track: LocalScreencastTrack) -> Void
-    ) -> LocalScreencastTrack {
-        let videoSource = peerConnectionFactoryWrapper.createScreencastVideoSource()
+        onStart: @escaping (_ track: LocalScreenShareTrack) -> Void,
+        onStop: @escaping (_ track: LocalScreenShareTrack) -> Void
+    ) -> LocalScreenShareTrack {
+        let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
 
-        let track = LocalScreencastTrack(
+        let track = LocalScreenShareTrack(
             mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, appGroup: appGroup,
             videoParameters: videoParameters)
 
@@ -279,7 +279,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                 config = track.videoParameters.simulcastConfig
             }
 
-            if let track = track as? LocalScreencastTrack {
+            if let track = track as? LocalScreenShareTrack {
                 config = track.videoParameters.simulcastConfig
             }
 
@@ -712,9 +712,9 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                     audioTrack.start()
                     localEndpoint = localEndpoint.addOrReplaceTrack(audioTrack)
                     break
-                case let track as LocalScreencastTrack:
+                case let track as LocalScreenShareTrack:
                     let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
-                    let videoTrack = LocalScreencastTrack(mediaTrack: webrtcTrack, oldTrack: track)
+                    let videoTrack = LocalScreenShareTrack(mediaTrack: webrtcTrack, oldTrack: track)
                     localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
                     break
                 default:

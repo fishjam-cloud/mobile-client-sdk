@@ -107,7 +107,7 @@ function simulcastConfig(
   simulcastEnabled: boolean | undefined,
 ): SimulcastConfig | undefined {
   // iOS has a limit of 3 hardware encoders
-  // 3 simulcast layers + 1 screencast layer = 4, which is too much
+  // 3 simulcast layers + 1 screen share layer = 4, which is too much
   // so we limit simulcast layers to 2
   if (simulcastEnabled) {
     return Platform.select<SimulcastConfig>({

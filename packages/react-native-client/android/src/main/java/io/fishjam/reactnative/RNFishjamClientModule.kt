@@ -51,12 +51,12 @@ class CameraConfig : Record {
   val cameraId: String? = null
 }
 
-class ScreencastOptions : Record {
+class ScreenShareOptions : Record {
   @Field
   val quality: String = "HD15"
 
   @Field
-  val screencastMetadata: Map<String, Any> = emptyMap()
+  val screenShareMetadata: Map<String, Any> = emptyMap()
 
   @Field
   val simulcastConfig: SimulcastConfig = SimulcastConfig()
@@ -109,7 +109,7 @@ class RNFishjamClientModule : Module() {
       Events(
         "IsCameraOn",
         "IsMicrophoneOn",
-        "IsScreencastOn",
+        "IsScreenShareOn",
         "SimulcastConfigUpdate",
         "PeersUpdate",
         "AudioDeviceUpdate",
@@ -200,15 +200,15 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("handleScreencastPermission") { promise: Promise ->
+      AsyncFunction("handleScreenSharePermission") { promise: Promise ->
         CoroutineScope(Dispatchers.Main).launch {
-          rnFishjamClient.handleScreencastPermission(promise)
+          rnFishjamClient.handleScreenSharePermission(promise)
         }
       }
 
-      AsyncFunction("toggleScreencast") Coroutine { screencastOptions: ScreencastOptions ->
+      AsyncFunction("toggleScreenShare") Coroutine { screenShareOptions: ScreenShareOptions ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleScreencast(screencastOptions)
+          rnFishjamClient.toggleScreenShare(screenShareOptions)
         }
       }
 
@@ -216,8 +216,8 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.getCaptureDevices()
       }
 
-      Property("isScreencastOn") {
-        return@Property rnFishjamClient.isScreencastOn
+      Property("isScreenShareOn") {
+        return@Property rnFishjamClient.isScreenShareOn
       }
 
       AsyncFunction("getPeers") Coroutine { ->
@@ -244,9 +244,9 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("updateScreencastTrackMetadata") Coroutine { metadata: Map<String, Any> ->
+      AsyncFunction("updateScreenShareTrackMetadata") Coroutine { metadata: Map<String, Any> ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.updateLocalScreencastTrackMetadata(metadata)
+          rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata)
         }
       }
 
@@ -262,21 +262,21 @@ class RNFishjamClientModule : Module() {
         rnFishjamClient.stopAudioSwitcher()
       }
 
-      AsyncFunction("toggleScreencastTrackEncoding") Coroutine { encoding: String ->
+      AsyncFunction("toggleScreenShareTrackEncoding") Coroutine { encoding: String ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleScreencastTrackEncoding(encoding)
+          rnFishjamClient.toggleScreenShareTrackEncoding(encoding)
         }
       }
 
-      AsyncFunction("setScreencastTrackBandwidth") Coroutine { bandwidth: Int ->
+      AsyncFunction("setScreenShareTrackBandwidth") Coroutine { bandwidth: Int ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.setScreencastTrackBandwidth(bandwidth)
+          rnFishjamClient.setScreenShareTrackBandwidth(bandwidth)
         }
       }
 
-      AsyncFunction("setScreencastTrackEncodingBandwidth") Coroutine { encoding: String, bandwidth: Int ->
+      AsyncFunction("setScreenShareTrackEncodingBandwidth") Coroutine { encoding: String, bandwidth: Int ->
         withContext(Dispatchers.Main) {
-          rnFishjamClient.setScreencastTrackEncodingBandwidth(encoding, bandwidth)
+          rnFishjamClient.setScreenShareTrackEncodingBandwidth(encoding, bandwidth)
         }
       }
 

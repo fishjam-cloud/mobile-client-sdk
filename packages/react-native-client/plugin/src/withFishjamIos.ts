@@ -92,7 +92,7 @@ const withInfoPlistConstants: ConfigPlugin = (config) => {
   return withInfoPlist(config, (config) => {
     const bundleIdentifier = config.ios?.bundleIdentifier || '';
     config.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
-    config.modResults['ScreencastExtensionBundleId'] =
+    config.modResults['ScreenShareExtensionBundleId'] =
       `${bundleIdentifier}.${SBE_TARGET_NAME}`;
     return config;
   });

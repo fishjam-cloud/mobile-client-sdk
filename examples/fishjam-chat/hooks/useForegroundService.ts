@@ -27,7 +27,7 @@ export const useForegroundService = () => {
   }, []);
 
   return {
-    enableScreencastService: () =>
+    enableScreenShareService: () =>
       startServiceWithTypes([
         AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
         AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,

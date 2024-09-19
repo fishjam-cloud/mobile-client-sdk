@@ -129,17 +129,17 @@ public class FishjamClient {
     * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
     * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
     * @param onEnd callback that will be invoked once the screen capture ends
-    * @return an instance of the screencast track
+    * @return an instance of the screen share track
     */
     @discardableResult
-    public func createScreencastTrack(
+    public func createScreenShareTrack(
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreencastTrack) -> Void,
-        onStop: @escaping (_ track: LocalScreencastTrack) -> Void
-    ) -> LocalScreencastTrack? {
-        return client.createScreencastTrack(
+        onStart: @escaping (_ track: LocalScreenShareTrack) -> Void,
+        onStop: @escaping (_ track: LocalScreenShareTrack) -> Void
+    ) -> LocalScreenShareTrack? {
+        return client.createScreenShareTrack(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,

@@ -13,7 +13,7 @@ import org.webrtc.ScreenCapturerAndroid
 import org.webrtc.VideoSource
 import java.util.ArrayList
 
-class LocalScreencastTrack(
+class LocalScreenShareTrack(
   videoTrack: org.webrtc.VideoTrack,
   endpointId: String,
   metadata: Metadata,
@@ -24,7 +24,7 @@ class LocalScreencastTrack(
   LocalTrack {
   constructor(
     videoTrack: org.webrtc.VideoTrack,
-    oldTrack: LocalScreencastTrack
+    oldTrack: LocalScreenShareTrack
   ) : this(videoTrack, oldTrack.endpointId, oldTrack.metadata, oldTrack.capturer, oldTrack.videoParameters, oldTrack.videoSource)
 
   private val mutex = Mutex()

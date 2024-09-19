@@ -145,7 +145,7 @@ screen broadcast app extension for screensharing.
 
    let logger = OSLog(subsystem: "{{BUNDLE_IDENTIFIER}}.MembraneBroadcastSampleHandler", category: "Broadcaster")
 
-   /// An example `SampleHandler` utilizing `BroadcastSampleSource` from `MembraneRTC` sending broadcast samples and necessary notification enabling device's screencast.
+   /// An example `SampleHandler` utilizing `BroadcastSampleSource` from `MembraneRTC` sending broadcast samples and necessary notification enabling device's screen share.
    class MembraneBroadcastSampleHandler: RPBroadcastSampleHandler {
        let broadcastSource = BroadcastSampleSource(appGroup: appGroup)
        var started: Bool = false
@@ -213,7 +213,7 @@ screen broadcast app extension for screensharing.
    ```xml
    <key>AppGroupName</key>
    <string>{{GROUP_IDENTIFIER}}</string>
-   <key>ScreencastExtensionBundleId</key>
+   <key>ScreenShareExtensionBundleId</key>
    <string>{{BUNDLE_IDENTIFIER}}.MembraneBroadcastSampleHandler</string>
    ```
    Replace `{{GROUP_IDENTIFIER}}` and `{{BUNDLE_IDENTIFIER}}` with your group
@@ -271,7 +271,7 @@ const stopServerConnection = () => {
 Start the device's camera and microphone using `useCamera()` and
 `useMicrophone()` hooks. Use `videoTrackMetadata` and `audioTrackMetadata`
 options to send metadata about the tracks (for example whether it's a camera or
-screencast track).
+screen share track).
 
 ```ts
 const { startCamera } = useCamera();
@@ -319,17 +319,17 @@ const { isCameraOn, toggleCamera } = useCameraState();
 const { isMicrophoneOn, toggleMicrophone } = useMicrophoneState();
 ```
 
-For screencasting use `useScreencast()` hook. The local endpoint will have a new
+For screen sharing use `useScreenShare()` hook. The local endpoint will have a new
 video track which you can render just like an ordinary video track with
 <VideoRendererView />:
 
 ```ts
-const { isScreencastOn, toggleScreencast } = useScreencast();
+const { isScreenShareOn, toggleScreenShare } = useScreenShare();
 ...
-toggleScreencast({screencastMetadata: { displayName: "Annie's desktop" }});
+toggleScreenShare({screenShareMetadata: { displayName: "Annie's desktop" }});
 ```
 
-Use track metadata to differentiate between video and screencast tracks.
+Use track metadata to differentiate between video and screen share tracks.
 
 ### Android foreground service
 
