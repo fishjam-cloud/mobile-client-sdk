@@ -1,6 +1,6 @@
 {
   "name": "@fishjam-cloud/react-native-client",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A React Native client for Fishjam Cloud",
   "author": "Fishjam Cloud Team",
   "license": "Apache-2.0",
@@ -27,7 +27,7 @@
     "MembraneWebRTC",
     "fishjam"
   ],
-  "repository": "https://github.com/fishjam-cloud/mobile-client-sdk",
+  "repository": "github:fishjam-cloud/mobile-client-sdk",
   "bugs": {
     "url": "https://github.com/fishjam-cloud/mobile-client-sdk/issues"
   },
@@ -84,6 +84,7 @@
     "ios/*.swift",
     "ios/RNFishjamClient.podspec",
     "plugin/build/**",
+    "plugin/broadcastExtensionFiles/**",
     "app.plugin.js",
     "expo-module.config.json",
     "README.md",
