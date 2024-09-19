@@ -1,9 +1,9 @@
 export type FishjamPluginOptions = {
-  android: {
-    enableForegroundService: boolean;
+  android?: {
+    enableForegroundService?: boolean;
   };
-  ios: {
+  ios?: {
     iphoneDeploymentTarget?: string;
-    enableScreensharing: boolean;
+    enableScreensharing?: boolean;
   };
 };

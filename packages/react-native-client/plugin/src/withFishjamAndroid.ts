@@ -30,9 +30,9 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
 
 export const withFishjamAndroid: ConfigPlugin<FishjamPluginOptions> = (
   config,
-  { android: { enableForegroundService } },
+  props,
 ) => {
-  if (enableForegroundService) {
+  if (props.android?.enableForegroundService) {
     config = withFishjamForegroundService(config);
   }
   return config;
