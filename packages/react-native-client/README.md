@@ -16,7 +16,7 @@ There is also API documentation available.
 
 # Examples
 
-There is simple example app, that allows you to test our service. To run it locally, follow [instructions](https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/examples/fishjam-chat#react-native-fishjam-example).
+There is simple example app, that allows you to test our service. To run it locally, follow [instructions](https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/examples/fishjam-chat#react-native-fishjam-cloud-example).
 
 ## Copyright and License
 

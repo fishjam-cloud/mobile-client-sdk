@@ -27,15 +27,15 @@
     "MembraneWebRTC",
     "fishjam"
   ],
-  "repository": "github:fishjam-cloud/mobile-client-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fishjam-cloud/mobile-client-sdk.git",
+    "directory": "packages/react-native-client"
+  },
   "bugs": {
     "url": "https://github.com/fishjam-cloud/mobile-client-sdk/issues"
   },
   "homepage": "https://fishjam.io",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
   "dependencies": {
     "phoenix": "^1.7.6",
     "promise-fs": "^2.1.1",
