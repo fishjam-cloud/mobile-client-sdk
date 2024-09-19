@@ -18,6 +18,9 @@ jest.mock('../RNFishjamClientModule', () => ({
   getStatistics: jest.fn(),
   addListener: jest.fn(),
   removeEventListener: jest.fn(),
+  nativeModuleEventEmitter: {
+    addListener: jest.fn(),
+  },
 }));
 
 function mockedStats(numCalled: number) {

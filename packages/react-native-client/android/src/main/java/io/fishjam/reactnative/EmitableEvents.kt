@@ -11,4 +11,5 @@ object EmitableEvents {
   const val ReconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"
   const val ReconnectionStarted = "ReconnectionStarted"
   const val Reconnected = "Reconnected"
+  const val Warning = "Warning"
 }

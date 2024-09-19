@@ -117,7 +117,8 @@ class RNFishjamClientModule : Module() {
         "BandwidthEstimation",
         "ReconnectionRetriesLimitReached",
         "ReconnectionStarted",
-        "Reconnected"
+        "Reconnected",
+        "Warning"
       )
 
       val rnFishjamClient =

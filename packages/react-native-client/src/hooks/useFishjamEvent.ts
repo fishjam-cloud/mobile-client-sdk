@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { NativeModulesProxy, EventEmitter } from 'expo-modules-core';
-import RNFishjamClientModule from '../RNFishjamClientModule';
+import { nativeModuleEventEmitter } from '../RNFishjamClientModule';
 
 export const ReceivableEvents = {
   IsCameraOn: 'IsCameraOn',
@@ -14,18 +13,15 @@ export const ReceivableEvents = {
   ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
   ReconnectionStarted: 'ReconnectionStarted',
   Reconnected: 'Reconnected',
+  Warning: 'Warning',
 } as const;
-
-const eventEmitter = new EventEmitter(
-  RNFishjamClientModule ?? NativeModulesProxy.RNFishjamClient,
-);
 
 export function useFishjamEvent<T>(
   eventName: keyof typeof ReceivableEvents,
   callback: (event: T) => void,
 ) {
   useEffect(() => {
-    const eventListener = eventEmitter.addListener<
+    const eventListener = nativeModuleEventEmitter.addListener<
       Record<keyof typeof ReceivableEvents, T>
     >(eventName, (event) => {
       callback(event[eventName]);
