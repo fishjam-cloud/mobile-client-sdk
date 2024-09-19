@@ -7,9 +7,7 @@ import { CameraId } from '../hooks/useCamera';
 
 export type VideoPreviewViewProps = {
   /**
-   * `FILL` or `FIT` - it works just like RN Image component. `FILL` fills the whole view
-   * with video and it may cut some parts of the video. `FIT` scales the video so the whole
-   * video is visible, but it may leave some empty space in the view.
+   * Video layout inside of the component
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
@@ -24,6 +22,11 @@ export type VideoPreviewViewProps = {
 const NativeView: React.ComponentType<VideoPreviewViewProps> =
   requireNativeViewManager('VideoPreviewViewModule');
 
+/**
+ * Render camera preview.
+ * Allows to display camera preview beofre streaming is started
+ * @category Components
+ */
 export const VideoPreviewView = React.forwardRef<
   React.ComponentType<VideoPreviewViewProps>,
   VideoPreviewViewProps

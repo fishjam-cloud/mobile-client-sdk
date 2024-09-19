@@ -81,6 +81,8 @@ function addIsActiveToTracks<
 /**
  * This hook provides live updates of room participants.
  * @returns An array of room participants.
+ * @category Connection
+ * @group Hooks
  */
 export function useParticipants<
   ParticipantMetadata extends GenericMetadata = GenericMetadata,

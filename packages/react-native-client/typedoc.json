@@ -1,5 +1,16 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "includeVersion": true,
-  "entryPoints": ["src/index.tsx"]
+  "entryPoints": ["src/index.tsx"],
+  "categoryOrder": [
+    "Connection",
+    "Devices",
+    "Screenshare",
+    "Compononents",
+    "*",
+    "Debugging"
+  ],
+  "sort": ["kind", "alphabetical"],
+  "kindSortOrder": ["Method", "Function"],
+  "readme": "none"
 }
