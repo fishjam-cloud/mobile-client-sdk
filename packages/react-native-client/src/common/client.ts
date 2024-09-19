@@ -29,14 +29,14 @@ export async function joinRoom<
 >(
   url: string,
   participantToken: string,
-  participantMetadata: ParticipantMetadata,
-  config: ConnectionConfig = {},
+  participantMetadata?: ParticipantMetadata,
+  config?: ConnectionConfig,
 ) {
   await RNFishjamClientModule.joinRoom(
     url,
     participantToken,
-    participantMetadata,
-    config,
+    participantMetadata ?? {},
+    config ?? {},
   );
 }
 /**
