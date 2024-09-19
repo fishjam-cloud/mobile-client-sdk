@@ -32,7 +32,7 @@ export const withFishjamAndroid: ConfigPlugin<FishjamPluginOptions> = (
   config,
   props,
 ) => {
-  if (props.android?.enableForegroundService) {
+  if (props?.android?.enableForegroundService) {
     config = withFishjamForegroundService(config);
   }
   return config;

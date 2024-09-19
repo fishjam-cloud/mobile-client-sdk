@@ -244,7 +244,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
         ) {
           const buildSettingsObj = configurations[key].buildSettings;
           buildSettingsObj.IPHONEOS_DEPLOYMENT_TARGET =
-            options.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
+            options?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
           buildSettingsObj.TARGETED_DEVICE_FAMILY = TARGETED_DEVICE_FAMILY;
           buildSettingsObj.CODE_SIGN_ENTITLEMENTS = `${SBE_TARGET_NAME}/${SBE_TARGET_NAME}.entitlements`;
           buildSettingsObj.CODE_SIGN_STYLE = 'Automatic';
@@ -268,14 +268,14 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
  * Allows for dynamically changing deploymentTarget.
  */
 const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
-  if (props.ios?.enableScreensharing) {
+  if (props?.ios?.enableScreensharing) {
     withAppGroupPermissions(config);
     withInfoPlistConstants(config);
     withFishjamSBE(config, props);
   }
   withPodfileProperties(config, (config) => {
     config.modResults['ios.deploymentTarget'] =
-      props.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
+      props?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
     return config;
   });
   return config;
