@@ -22,10 +22,12 @@
   "keywords": [
     "react-native",
     "expo",
-    "@fishjam-cloud/react-native-client",
-    "fishjam-cloud",
+    "FishjamCloud",
     "MembraneWebRTC",
-    "fishjam"
+    "webRTC",
+    "streaming",
+    "video",
+    "audio"
   ],
   "repository": {
     "type": "git",
