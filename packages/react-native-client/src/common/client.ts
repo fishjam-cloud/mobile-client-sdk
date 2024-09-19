@@ -19,9 +19,9 @@ export type ConnectionConfig = {
 
 /**
  * @param url fishjam Url
- * @param participantToken
- * @param participantMetadata
- * @param config
+ * @param participantToken token received from server (or Room Manager)
+ * @param participantMetadata string indexed record with metadata, that will be available to all other participants
+ * @param config additional connection configuration
  * @category Connection
  */
 export async function joinRoom<

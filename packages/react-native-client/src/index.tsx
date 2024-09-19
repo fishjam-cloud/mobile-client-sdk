@@ -48,6 +48,7 @@ export {
   setTargetTrackEncoding,
 } from './common/webRTC';
 
+export type { ConnectionConfig } from './common/client';
 export { joinRoom, leaveRoom } from './common/client';
 
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
