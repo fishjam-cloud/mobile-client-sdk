@@ -3,6 +3,7 @@ import {
   useMicrophone,
   joinRoom,
   VideoPreviewView,
+  leaveRoom,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -41,6 +42,8 @@ type BottomSheetRef = Props & {
 
 const { JOIN_BUTTON, TOGGLE_MICROPHONE_BUTTON } = previewScreenLabels;
 
+let unsubscribeBeforeRemove: () => void;
+
 function PreviewScreen({
   navigation,
   route,
@@ -72,7 +75,11 @@ function PreviewScreen({
       quality: 'HD169',
       cameraEnabled: true,
     });
-  }, [prepareCamera]);
+
+    unsubscribeBeforeRemove = navigation.addListener('beforeRemove', () => {
+      leaveRoom();
+    });
+  }, [prepareCamera, navigation]);
 
   const onJoinPressed = async () => {
     await joinRoom<ParticipantMetadata>(
@@ -82,6 +89,9 @@ function PreviewScreen({
         name: route.params.userName,
       },
     );
+
+    unsubscribeBeforeRemove();
+
     navigation.navigate('Room', {
       isCameraOn,
       userName: route?.params?.userName,
