@@ -29,8 +29,10 @@ room client. To run the app:
       npx expo prebuild --clean
       yarn run android/ios
    ```
-   > [!NOTE]
-   > Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+
+> [!NOTE]
+> Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+
 4. Follow further instructions from README
 
 ### Developing

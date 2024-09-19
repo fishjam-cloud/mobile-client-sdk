@@ -6,6 +6,7 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 
 /**
  * This hook provides access to current rtc statistics data.
+ * @category Debugging
  */
 export function useRTCStatistics(refreshInterval: number) {
   const MAX_SIZE = 120;

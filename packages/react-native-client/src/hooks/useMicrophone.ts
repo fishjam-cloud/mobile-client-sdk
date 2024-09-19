@@ -5,6 +5,8 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 
 /**
  * This hook can toggle microphone on/off and provides current microphone state.
+ * @category Devices
+ * @group Hooks
  */
 export function useMicrophone() {
   const [isMicrophoneOn, setIsMicrophoneOn] = useState<boolean>(
@@ -13,9 +15,6 @@ export function useMicrophone() {
 
   useFishjamEvent(ReceivableEvents.IsMicrophoneOn, setIsMicrophoneOn);
 
-  /**
-   * Function to toggle microphone on/off
-   */
   const toggleMicrophone = useCallback(async () => {
     const status = await RNFishjamClientModule.toggleMicrophone();
     await RNFishjamClientModule.updateAudioTrackMetadata({
@@ -25,5 +24,10 @@ export function useMicrophone() {
     setIsMicrophoneOn(status);
   }, []);
 
-  return { isMicrophoneOn, toggleMicrophone };
+  return {
+    /** Informs if microhpone is streaming audio */
+    isMicrophoneOn,
+    /** Function to toggle microphone on/off */
+    toggleMicrophone,
+  };
 }

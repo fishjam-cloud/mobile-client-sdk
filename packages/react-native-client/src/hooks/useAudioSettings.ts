@@ -24,6 +24,8 @@ type OnAudioDeviceEvent = {
 
 /**
  * This hook manages audio settings.
+ * @category Devices
+ * @group Hooks
  */
 export function useAudioSettings() {
   const [selectedAudioOutputDevice, setSelectedAudioOutputDevice] =
@@ -48,10 +50,6 @@ export function useAudioSettings() {
     };
   }, [onAudioDevice]);
 
-  /**
-   * [Android only] selects output audio device.
-   * For detecting and selecting bluettoth devices make sure you have the BLUETOOTH_CONNECT permission.
-   */
   const selectOutputAudioDevice = useCallback(
     async (device: AudioOutputDeviceType) => {
       if (Platform.OS === 'ios') {
@@ -65,11 +63,6 @@ export function useAudioSettings() {
     [],
   );
 
-  /**
-   * [iOS only] selects audio session mode. For more information refer to Apple's documentation:
-   *  https://developer.apple.com/documentation/avfaudio/avaudiosession/mode/
-   *
-   */
   const selectAudioSessionMode = useCallback(
     async (audioSessionMode: AudioSessionMode) => {
       if (Platform.OS === 'android') {
@@ -80,10 +73,6 @@ export function useAudioSettings() {
     [],
   );
 
-  /**
-   * [iOS only] Shows a picker modal that allows user to select output audio device. For more
-   * information refer to Apple's documentation: https://developer.apple.com/documentation/avkit/avroutepickerview
-   */
   const showAudioRoutePicker = useCallback(async () => {
     if (Platform.OS === 'android') {
       throw Error(
@@ -103,8 +92,21 @@ export function useAudioSettings() {
      * [Android only] available audio output devices to be set
      */
     availableDevices,
+    /**
+     * [Android only] selects output audio device.
+     * For detecting and selecting bluettoth devices make sure you have the BLUETOOTH_CONNECT permission.
+     */
     selectOutputAudioDevice,
+    /**
+     * [iOS only] selects audio session mode. For more information refer to Apple's documentation:
+     *  https://developer.apple.com/documentation/avfaudio/avaudiosession/mode/
+     *
+     */
     selectAudioSessionMode,
+    /**
+     * [iOS only] Shows a picker modal that allows user to select output audio device. For more
+     * information refer to Apple's documentation: https://developer.apple.com/documentation/avkit/avroutepickerview
+     */
     showAudioRoutePicker,
   };
 }
