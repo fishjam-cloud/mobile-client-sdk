@@ -56,7 +56,7 @@ export function useScreenShare() {
     screenShareSimulcastConfig,
   );
 
-  useFishjamEvent(ReceivableEvents.isScreenShareOn, setIsScreenShareOn);
+  useFishjamEvent(ReceivableEvents.IsScreenShareOn, setIsScreenShareOn);
 
   const toggleScreenShare = useCallback(
     async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
