@@ -86,7 +86,8 @@ public class RNFishjamClientModule: Module {
             "BandwidthEstimation",
             "ReconnectionRetriesLimitReached",
             "ReconnectionStarted",
-            "Reconnected")
+            "Reconnected",
+            "Warning")
 
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {
