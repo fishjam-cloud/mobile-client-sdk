@@ -30,14 +30,4 @@ runs:
             '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/App.tsx',
             '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/yarn.lock',
             '/home/runner/work/mobile-client-sdk/mobile-client-sdk/yarn.lock',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/app/src/**/*',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/app/build.gradle',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/app/debug.keystore',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/app/proguard-rules.pro',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/gradle/**/*',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/build.gradle',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/gradle.properties',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/gradlew',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/gradle.bat',
-            '/home/runner/work/mobile-client-sdk/mobile-client-sdk/examples/fishjam-chat/android/settings.gradle'
           ) }}
