@@ -87,11 +87,10 @@ jobs:
           cd $GITHUB_WORKSPACE
           yarn install --frozen-lockfile
       - name: Upload yarn.lock artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: yarn-lock
-          path: |
-            /home/runner/work/mobile-client-sdk/mobile-client-sdk/yarn.lock
+          path: /home/runner/work/mobile-client-sdk/mobile-client-sdk/yarn.lock
       - name: Run yarn build
         run: |
           cd $GITHUB_WORKSPACE
