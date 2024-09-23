@@ -29,7 +29,7 @@ class CameraConfig : Record {
   val quality: String = "VGA169"
 
   @Field
-  val flipVideo: Boolean = false
+  val flipDimensions: Boolean = false
 
   @Field
   val videoTrackMetadata: Map<String, Any> = emptyMap()

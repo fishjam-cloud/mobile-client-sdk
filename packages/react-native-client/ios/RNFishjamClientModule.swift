@@ -13,7 +13,7 @@ struct CameraConfig: Record {
     var quality: String = "VGA169"
 
     @Field
-    var flipVideo: Bool = false
+    var flipDimensions: Bool = false
 
     @Field
     var videoTrackMetadata: [String: Any] = [:]
@@ -86,7 +86,8 @@ public class RNFishjamClientModule: Module {
             "BandwidthEstimation",
             "ReconnectionRetriesLimitReached",
             "ReconnectionStarted",
-            "Reconnected")
+            "Reconnected",
+            "Warning")
 
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {

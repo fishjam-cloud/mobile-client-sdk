@@ -72,7 +72,7 @@ class RNFishjamClient: FishjamClientListener {
 
     func getVideoParametersFromOptions(connectionOptions: CameraConfig) throws -> VideoParameters {
         let videoQuality = connectionOptions.quality
-        let flipVideo = connectionOptions.flipVideo
+        let flipDimensions = connectionOptions.flipDimensions
         let videoBandwidthLimit = getMaxBandwidthFromOptions(maxBandwidth: connectionOptions.maxBandwidth)
         let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: connectionOptions.simulcastConfig)
 
@@ -103,7 +103,7 @@ class RNFishjamClient: FishjamClientListener {
             }
         }()
         let videoParameters = VideoParameters(
-            dimensions: flipVideo ? preset.dimensions.flip() : preset.dimensions,
+            dimensions: flipDimensions ? preset.dimensions.flip() : preset.dimensions,
             maxBandwidth: videoBandwidthLimit,
             simulcastConfig: simulcastConfig
         )
