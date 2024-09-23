@@ -30,11 +30,11 @@ cd examples/fishjam-chat
 Prebuild the app:
 
 ```sh
-npx expo prebuild --clean
+npx expo prebuild
 ```
 
 > [!NOTE]
-> Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for ios/.xcode.env.local
 
 To start the packager:
 

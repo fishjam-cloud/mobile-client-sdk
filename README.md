@@ -26,12 +26,12 @@ room client. To run the app:
       yarn
       yarn build
       cd `examples/fishjam-chat`
-      npx expo prebuild --clean
+      npx expo prebuild
       yarn run android/ios
    ```
 
 > [!NOTE]
-> Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for ios/.xcode.env.local
 
 4. Follow further instructions from README
 
