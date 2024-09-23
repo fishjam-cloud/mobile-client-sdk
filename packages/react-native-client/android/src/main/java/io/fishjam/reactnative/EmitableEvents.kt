@@ -3,7 +3,7 @@ package io.fishjam.reactnative
 object EmitableEvents {
   const val IsCameraOn = "IsCameraOn"
   const val IsMicrophoneOn = "IsMicrophoneOn"
-  const val IsScreencastOn = "IsScreencastOn"
+  const val IsScreenShareOn = "IsScreenShareOn"
   const val SimulcastConfigUpdate = "SimulcastConfigUpdate"
   const val PeersUpdate = "PeersUpdate"
   const val AudioDeviceUpdate = "AudioDeviceUpdate"

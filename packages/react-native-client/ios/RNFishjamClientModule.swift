@@ -39,12 +39,12 @@ struct MicrophoneConfig: Record {
     var microphoneEnabled: Bool = true
 }
 
-struct ScreencastOptions: Record {
+struct ScreenShareOptions: Record {
     @Field
     var quality: String = "HD15"
 
     @Field
-    var screencastMetadata: [String: Any] = [:]
+    var screenShareMetadata: [String: Any] = [:]
 
     @Field
     var simulcastConfig: RNSimulcastConfig = RNSimulcastConfig()
@@ -78,7 +78,7 @@ public class RNFishjamClientModule: Module {
         Events(
             "IsCameraOn",
             "IsMicrophoneOn",
-            "IsScreencastOn",
+            "IsScreenShareOn",
             "SimulcastConfigUpdate",
             "PeersUpdate",
             "AudioDeviceUpdate",
@@ -144,12 +144,12 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.getCaptureDevices()
         }
 
-        AsyncFunction("toggleScreencast") { (screencastOptions: ScreencastOptions) in
-            try rnFishjamClient.toggleScreencast(screencastOptions: screencastOptions)
+        AsyncFunction("toggleScreenShare") { (screenShareOptions: ScreenShareOptions) in
+            try rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
         }
 
-        Property("isScreencastOn") {
-            return rnFishjamClient.isScreencastOn
+        Property("isScreenShareOn") {
+            return rnFishjamClient.isScreenShareOn
         }
 
         AsyncFunction("getPeers") {
@@ -168,20 +168,20 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.updateLocalAudioTrackMetadata(metadata: metadata)
         }
 
-        AsyncFunction("updateScreencastTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateLocalScreencastTrackMetadata(metadata: metadata)
+        AsyncFunction("updateScreenShareTrackMetadata") { (metadata: [String: Any]) in
+            try rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata: metadata)
         }
 
-        AsyncFunction("toggleScreencastTrackEncoding") { (encoding: String) in
-            try rnFishjamClient.toggleScreencastTrackEncoding(encoding: encoding)
+        AsyncFunction("toggleScreenShareTrackEncoding") { (encoding: String) in
+            try rnFishjamClient.toggleScreenShareTrackEncoding(encoding: encoding)
         }
 
-        AsyncFunction("setScreencastTrackBandwidth") { (bandwidth: Int) in
-            try rnFishjamClient.setScreencastTrackBandwidth(bandwidth: bandwidth)
+        AsyncFunction("setScreenShareTrackBandwidth") { (bandwidth: Int) in
+            try rnFishjamClient.setScreenShareTrackBandwidth(bandwidth: bandwidth)
         }
 
-        AsyncFunction("setScreencastTrackEncodingBandwidth") { (encoding: String, bandwidth: Int) in
-            try rnFishjamClient.setScreencastTrackEncodingBandwidth(
+        AsyncFunction("setScreenShareTrackEncodingBandwidth") { (encoding: String, bandwidth: Int) in
+            try rnFishjamClient.setScreenShareTrackEncodingBandwidth(
                 encoding: encoding, bandwidth: bandwidth)
         }
 

@@ -1,7 +1,7 @@
 package com.fishjamcloud.client.webrtc
 
 import com.fishjamcloud.client.events.OfferData
-import com.fishjamcloud.client.media.LocalScreencastTrack
+import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.models.Constants
@@ -74,7 +74,7 @@ internal class PeerConnectionManager(
     streamIds: List<String>
   ) {
     val videoParameters =
-      (track as? LocalVideoTrack)?.videoParameters ?: (track as? LocalScreencastTrack)?.videoParameters
+      (track as? LocalVideoTrack)?.videoParameters ?: (track as? LocalScreenShareTrack)?.videoParameters
 
     val simulcastConfig = videoParameters?.simulcastConfig
     val sendEncodings =

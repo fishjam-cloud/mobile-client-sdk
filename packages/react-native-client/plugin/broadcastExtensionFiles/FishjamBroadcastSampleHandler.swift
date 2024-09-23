@@ -9,7 +9,7 @@ let appGroup = "{{GROUP_IDENTIFIER}}"
 
 let logger = OSLog(subsystem: "{{BUNDLE_IDENTIFIER}}.FishjamBroadcastSampleHandler", category: "Broadcaster")
 
-/// An example `SampleHandler` utilizing `BroadcastSampleSource` from `MembraneRTC` sending broadcast samples and necessary notification enabling device's screencast.
+/// An example `SampleHandler` utilizing `BroadcastSampleSource` from `MembraneRTC` sending broadcast samples and necessary notification enabling device's screen share.
 class FishjamBroadcastSampleHandler: RPBroadcastSampleHandler {
     let broadcastSource = BroadcastSampleSource(appGroup: appGroup)
     var started: Bool = false

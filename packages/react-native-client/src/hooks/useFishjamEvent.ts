@@ -4,7 +4,7 @@ import { nativeModuleEventEmitter } from '../RNFishjamClientModule';
 export const ReceivableEvents = {
   IsCameraOn: 'IsCameraOn',
   IsMicrophoneOn: 'IsMicrophoneOn',
-  IsScreencastOn: 'IsScreencastOn',
+  IsScreenShareOn: 'IsScreenShareOn',
   SimulcastConfigUpdate: 'SimulcastConfigUpdate',
   PeersUpdate: 'PeersUpdate',
   AudioDeviceUpdate: 'AudioDeviceUpdate',

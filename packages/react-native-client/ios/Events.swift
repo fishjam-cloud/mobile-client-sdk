@@ -1,7 +1,7 @@
 struct EmitableEvents {
     static let IsCameraOn = "IsCameraOn"
     static let IsMicrophoneOn = "IsMicrophoneOn"
-    static let IsScreencastOn = "IsScreencastOn"
+    static let IsScreenShareOn = "IsScreenShareOn"
     static let SimulcastConfigUpdate = "SimulcastConfigUpdate"
     static let PeersUpdate = "PeersUpdate"
     static let AudioDeviceUpdate = "AudioDeviceUpdate"

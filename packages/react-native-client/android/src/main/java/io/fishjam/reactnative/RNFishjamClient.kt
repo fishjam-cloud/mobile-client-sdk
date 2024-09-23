@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
 import com.fishjamcloud.client.media.LocalAudioTrack
-import com.fishjamcloud.client.media.LocalScreencastTrack
+import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.RemoteAudioTrack
 import com.fishjamcloud.client.media.RemoteVideoTrack
@@ -36,26 +36,26 @@ import org.webrtc.Logging
 class RNFishjamClient(
   val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
 ) : FishjamClientListener {
-  private val SCREENCAST_REQUEST = 1
+  private val SCREENSHARE_REQUEST = 1
 
   var isMicrophoneOn = false
   var isCameraOn = false
-  var isScreencastOn = false
+  var isScreenShareOn = false
   var isConnected = false
 
   private var isCameraInitialized = false
 
   private var connectPromise: Promise? = null
-  private var screencastPermissionPromise: Promise? = null
+  private var screenSharePermissionPromise: Promise? = null
 
   var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
   private var localUserMetadata: Metadata = mutableMapOf()
 
-  var screencastQuality: String? = null
-  var screencastSimulcastConfig: SimulcastConfig = SimulcastConfig()
-  var screencastMaxBandwidth: TrackBandwidthLimit = TrackBandwidthLimit.BandwidthLimit(0)
+  var screenShareQuality: String? = null
+  var screenShareSimulcastConfig: SimulcastConfig = SimulcastConfig()
+  var screenShareMaxBandwidth: TrackBandwidthLimit = TrackBandwidthLimit.BandwidthLimit(0)
 
-  var screencastMetadata: Map<String, Any> = mutableMapOf()
+  var screenShareMetadata: Map<String, Any> = mutableMapOf()
 
   private var mediaProjectionIntent: Intent? = null
 
@@ -105,16 +105,16 @@ class RNFishjamClient(
     data: Intent?
   ) {
     coroutineScope.launch(Dispatchers.Main) {
-      if (requestCode != SCREENCAST_REQUEST) return@launch
+      if (requestCode != SCREENSHARE_REQUEST) return@launch
       if (resultCode != Activity.RESULT_OK) {
-        screencastPermissionPromise?.resolve("denied")
-        screencastPermissionPromise = null
+        screenSharePermissionPromise?.resolve("denied")
+        screenSharePermissionPromise = null
         return@launch
       }
 
       mediaProjectionIntent = data
-      screencastPermissionPromise?.resolve("granted")
-      screencastPermissionPromise = null
+      screenSharePermissionPromise?.resolve("granted")
+      screenSharePermissionPromise = null
     }
   }
 
@@ -192,12 +192,12 @@ class RNFishjamClient(
       .filterIsInstance<LocalAudioTrack>()
       .firstOrNull()
 
-  private fun getLocalScreencastTrack(): LocalScreencastTrack? =
+  private fun getLocalScreenShareTrack(): LocalScreenShareTrack? =
     fishjamClient
       .getLocalEndpoint()
       .tracks
       .values
-      .filterIsInstance<LocalScreencastTrack>()
+      .filterIsInstance<LocalScreenShareTrack>()
       .firstOrNull()
 
   private fun ensureConnected() {
@@ -218,9 +218,9 @@ class RNFishjamClient(
     }
   }
 
-  private fun ensureScreencastTrack() {
-    if (getLocalScreencastTrack() == null) {
-      throw NoScreencastTrackError()
+  private fun ensureScreenShareTrack() {
+    if (getLocalScreenShareTrack() == null) {
+      throw NoScreenShareTrackError()
     }
   }
 
@@ -255,12 +255,12 @@ class RNFishjamClient(
   }
 
   fun leaveRoom() {
-    if (isScreencastOn) {
-      stopScreencast()
+    if (isScreenShareOn) {
+      stopScreenShare()
     }
     isMicrophoneOn = false
     isCameraOn = false
-    isScreencastOn = false
+    isScreenShareOn = false
     isConnected = false
     isCameraInitialized = false
     fishjamClient.leave()
@@ -346,9 +346,9 @@ class RNFishjamClient(
     return isMicrophoneOn
   }
 
-  fun handleScreencastPermission(promise: Promise) {
-    screencastPermissionPromise = promise
-    if (!isScreencastOn) {
+  fun handleScreenSharePermission(promise: Promise) {
+    screenSharePermissionPromise = promise
+    if (!isScreenShareOn) {
       ensureConnected()
       val currentActivity = appContext?.currentActivity ?: throw ActivityNotFoundException()
 
@@ -357,25 +357,25 @@ class RNFishjamClient(
           AppCompatActivity.MEDIA_PROJECTION_SERVICE
         ) as MediaProjectionManager
       val intent = mediaProjectionManager.createScreenCaptureIntent()
-      currentActivity.startActivityForResult(intent, SCREENCAST_REQUEST)
+      currentActivity.startActivityForResult(intent, SCREENSHARE_REQUEST)
     }
   }
 
-  suspend fun toggleScreencast(screencastOptions: ScreencastOptions) {
-    this.screencastMetadata = screencastOptions.screencastMetadata
-    this.screencastQuality = screencastOptions.quality
-    this.screencastSimulcastConfig =
-      getSimulcastConfigFromOptions(screencastOptions.simulcastConfig)
-    this.screencastMaxBandwidth =
+  suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
+    this.screenShareMetadata = screenShareOptions.screenShareMetadata
+    this.screenShareQuality = screenShareOptions.quality
+    this.screenShareSimulcastConfig =
+      getSimulcastConfigFromOptions(screenShareOptions.simulcastConfig)
+    this.screenShareMaxBandwidth =
       getMaxBandwidthFromOptions(
-        screencastOptions.maxBandwidthMap,
-        screencastOptions.maxBandwidthInt
+        screenShareOptions.maxBandwidthMap,
+        screenShareOptions.maxBandwidthInt
       )
-    if (!isScreencastOn) {
+    if (!isScreenShareOn) {
       ensureConnected()
-      startScreencast()
+      startScreenShare()
     } else {
-      stopScreencast()
+      stopScreenShare()
     }
   }
 
@@ -413,7 +413,7 @@ class RNFishjamClient(
                   "metadata" to track.metadata
                 )
 
-              is LocalScreencastTrack ->
+              is LocalScreenShareTrack ->
                 mapOf(
                   "id" to track.id(),
                   "type" to "Video",
@@ -478,9 +478,9 @@ class RNFishjamClient(
     }
   }
 
-  fun updateLocalScreencastTrackMetadata(metadata: Metadata) {
-    ensureScreencastTrack()
-    getLocalScreencastTrack()?.let {
+  fun updateLocalScreenShareTrackMetadata(metadata: Metadata) {
+    ensureScreenShareTrack()
+    getLocalScreenShareTrack()?.let {
       updateTrackMetadata(it.id(), metadata)
     }
   }
@@ -531,27 +531,27 @@ class RNFishjamClient(
     )
   }
 
-  fun toggleScreencastTrackEncoding(encoding: String): Map<String, Any> {
-    ensureScreencastTrack()
-    getLocalScreencastTrack()?.let {
-      screencastSimulcastConfig = toggleTrackEncoding(encoding, it.id(), screencastSimulcastConfig)
+  fun toggleScreenShareTrackEncoding(encoding: String): Map<String, Any> {
+    ensureScreenShareTrack()
+    getLocalScreenShareTrack()?.let {
+      screenShareSimulcastConfig = toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
     }
-    return getSimulcastConfigAsRNMap(screencastSimulcastConfig)
+    return getSimulcastConfigAsRNMap(screenShareSimulcastConfig)
   }
 
-  fun setScreencastTrackBandwidth(bandwidth: Int) {
-    ensureScreencastTrack()
-    getLocalScreencastTrack()?.let {
+  fun setScreenShareTrackBandwidth(bandwidth: Int) {
+    ensureScreenShareTrack()
+    getLocalScreenShareTrack()?.let {
       fishjamClient.setTrackBandwidth(it.id(), TrackBandwidthLimit.BandwidthLimit(bandwidth))
     }
   }
 
-  fun setScreencastTrackEncodingBandwidth(
+  fun setScreenShareTrackEncodingBandwidth(
     encoding: String,
     bandwidth: Int
   ) {
-    ensureScreencastTrack()
-    getLocalScreencastTrack()?.let {
+    ensureScreenShareTrack()
+    getLocalScreenShareTrack()?.let {
       fishjamClient.setEncodingBandwidth(
         it.id(),
         encoding,
@@ -669,25 +669,25 @@ class RNFishjamClient(
     return newMap
   }
 
-  private suspend fun startScreencast() {
-    val videoParameters = getScreencastVideoParameters()
+  private suspend fun startScreenShare() {
+    val videoParameters = getScreenShareVideoParameters()
     if (mediaProjectionIntent == null) {
-      throw MissingScreencastPermission()
+      throw MissingScreenSharePermission()
     }
-    fishjamClient.createScreencastTrack(
+    fishjamClient.createScreenShareTrack(
       mediaProjectionIntent!!,
       videoParameters,
-      screencastMetadata
+      screenShareMetadata
     )
     mediaProjectionIntent = null
 
-    setScreencastTrackState(true)
+    setScreenShareTrackState(true)
     emitEndpoints()
   }
 
-  private fun getScreencastVideoParameters(): VideoParameters {
+  private fun getScreenShareVideoParameters(): VideoParameters {
     val videoParameters =
-      when (screencastQuality) {
+      when (screenShareQuality) {
         "VGA" -> VideoParameters.presetScreenShareVGA
         "HD5" -> VideoParameters.presetScreenShareHD5
         "HD15" -> VideoParameters.presetScreenShareHD15
@@ -698,28 +698,28 @@ class RNFishjamClient(
     val dimensions = videoParameters.dimensions.flip()
     return videoParameters.copy(
       dimensions = dimensions,
-      simulcastConfig = screencastSimulcastConfig,
-      maxBitrate = screencastMaxBandwidth
+      simulcastConfig = screenShareSimulcastConfig,
+      maxBitrate = screenShareMaxBandwidth
     )
   }
 
-  private fun setScreencastTrackState(isEnabled: Boolean) {
-    isScreencastOn = isEnabled
-    val eventName = EmitableEvents.IsScreencastOn
+  private fun setScreenShareTrackState(isEnabled: Boolean) {
+    isScreenShareOn = isEnabled
+    val eventName = EmitableEvents.IsScreenShareOn
     emitEvent(eventName, mapOf(eventName to isEnabled))
   }
 
-  private fun stopScreencast() {
-    ensureScreencastTrack()
+  private fun stopScreenShare() {
+    ensureScreenShareTrack()
     coroutineScope.launch {
-      val screencastTrack =
+      val screenShareTrack =
         fishjamClient.getLocalEndpoint().tracks.values.first { track ->
-          track is LocalScreencastTrack
-        } as? LocalScreencastTrack
-      if (screencastTrack != null) {
-        fishjamClient.removeTrack(screencastTrack.id())
+          track is LocalScreenShareTrack
+        } as? LocalScreenShareTrack
+      if (screenShareTrack != null) {
+        fishjamClient.removeTrack(screenShareTrack.id())
       }
-      setScreencastTrackState(false)
+      setScreenShareTrackState(false)
       emitEndpoints()
     }
   }

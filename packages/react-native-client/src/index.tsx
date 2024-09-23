@@ -32,10 +32,10 @@ export { useMicrophone } from './hooks/useMicrophone';
 export { useRTCStatistics } from './stats/useRTCStatistics';
 
 export type {
-  ScreencastOptions,
-  ScreencastQuality,
-} from './hooks/useScreencast';
-export { useScreencast } from './hooks/useScreencast';
+  ScreenShareOptions,
+  ScreenShareQuality,
+} from './hooks/useScreenShare';
+export { useScreenShare } from './hooks/useScreenShare';
 
 export type { ReconnectionStatus } from './hooks/useReconnection';
 export { useReconnection } from './hooks/useReconnection';

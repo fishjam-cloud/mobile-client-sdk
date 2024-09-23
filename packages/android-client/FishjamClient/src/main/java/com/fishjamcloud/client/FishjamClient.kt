@@ -3,7 +3,7 @@ package com.fishjamcloud.client
 import android.content.Context
 import android.content.Intent
 import com.fishjamcloud.client.media.LocalAudioTrack
-import com.fishjamcloud.client.media.LocalScreencastTrack
+import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.createAudioDeviceModule
 import com.fishjamcloud.client.models.EncoderOptions
@@ -94,15 +94,15 @@ class FishjamClient(
    * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
    * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
    * @param onEnd callback that will be invoked once the screen capture ends
-   * @return an instance of the screencast track
+   * @return an instance of the screen share track
    */
-  suspend fun createScreencastTrack(
+  suspend fun createScreenShareTrack(
     mediaProjectionPermission: Intent,
     videoParameters: VideoParameters,
     metadata: Metadata,
     onEnd: (() -> Unit)? = null
-  ): LocalScreencastTrack =
-    client.createScreencastTrack(
+  ): LocalScreenShareTrack =
+    client.createScreenShareTrack(
       mediaProjectionPermission,
       videoParameters,
       metadata,

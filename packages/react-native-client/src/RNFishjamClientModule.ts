@@ -5,7 +5,7 @@ import type { RTCStats } from './stats/types';
 import type { ForegroundServiceOptions, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Participant } from './hooks/useParticipants';
-import type { ScreencastOptionsInternal } from './hooks/useScreencast';
+import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 
 type Metadata = { [key: string]: any };
@@ -26,11 +26,11 @@ type RNFishjamClient = {
   flipCamera: () => Promise<void>;
   switchCamera: (cameraId: string) => Promise<void>;
   cameras: ReadonlyArray<Camera>;
-  handleScreencastPermission: () => Promise<'granted' | 'denied'>;
-  toggleScreencast: (
-    screencastOptions: Partial<ScreencastOptionsInternal>,
+  handleScreenSharePermission: () => Promise<'granted' | 'denied'>;
+  toggleScreenShare: (
+    screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
-  isScreencastOn: boolean;
+  isScreenShareOn: boolean;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<
     Participant<PeerMetadataType>[]
   >;
@@ -43,7 +43,7 @@ type RNFishjamClient = {
   updateAudioTrackMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
-  updateScreencastTrackMetadata: <MetadataType extends Metadata>(
+  updateScreenShareTrackMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
   setOutputAudioDevice: (audioDevice: string) => Promise<void>;
@@ -51,9 +51,11 @@ type RNFishjamClient = {
   stopAudioSwitcher: () => Promise<void>;
   selectAudioSessionMode: (sessionMode: string) => Promise<void>;
   showAudioRoutePicker: () => Promise<void>;
-  toggleScreencastTrackEncoding: (encoding: string) => Promise<SimulcastConfig>;
-  setScreencastTrackBandwidth: (bandwidth: number) => Promise<void>;
-  setScreencastTrackEncodingBandwidth: (
+  toggleScreenShareTrackEncoding: (
+    encoding: string,
+  ) => Promise<SimulcastConfig>;
+  setScreenShareTrackBandwidth: (bandwidth: number) => Promise<void>;
+  setScreenShareTrackEncodingBandwidth: (
     encoding: string,
     bandwidth: number,
   ) => Promise<void>;

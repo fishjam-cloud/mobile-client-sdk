@@ -4,7 +4,7 @@ import android.content.Intent
 import com.fishjamcloud.client.events.OfferData
 import com.fishjamcloud.client.events.TrackData
 import com.fishjamcloud.client.media.LocalAudioTrack
-import com.fishjamcloud.client.media.LocalScreencastTrack
+import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.RemoteAudioTrack
@@ -321,7 +321,7 @@ internal class FishjamClientInternal(
         var config: SimulcastConfig? = null
         if (localTrack is LocalVideoTrack) {
           config = localTrack.videoParameters.simulcastConfig
-        } else if (localTrack is LocalScreencastTrack) {
+        } else if (localTrack is LocalScreenShareTrack) {
           config = localTrack.videoParameters.simulcastConfig
         }
         listOf(TrackEncoding.L, TrackEncoding.M, TrackEncoding.H).forEach {
@@ -360,24 +360,24 @@ internal class FishjamClientInternal(
     return audioTrack
   }
 
-  suspend fun createScreencastTrack(
+  suspend fun createScreenShareTrack(
     mediaProjectionPermission: Intent,
     videoParameters: VideoParameters,
     metadata: Metadata,
     onEnd: (() -> Unit)? = null
-  ): LocalScreencastTrack {
-    val videoSource = peerConnectionFactoryWrapper.createScreencastVideoSource()
+  ): LocalScreenShareTrack {
+    val videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
     val webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
-    val callback = LocalScreencastTrack.ProjectionCallback()
+    val callback = LocalScreenShareTrack.ProjectionCallback()
     val capturer =
       peerConnectionFactoryWrapper.createScreenCapturer(
         videoSource,
         callback,
         mediaProjectionPermission
       )
-    val screencastTrack =
-      LocalScreencastTrack(webrtcTrack, localEndpoint.id, metadata, capturer, videoParameters, videoSource)
-    screencastTrack.start()
+    val screenShareTrack =
+      LocalScreenShareTrack(webrtcTrack, localEndpoint.id, metadata, capturer, videoParameters, videoSource)
+    screenShareTrack.start()
     callback.addCallback {
       if (onEnd != null) {
         onEnd()
@@ -387,16 +387,16 @@ internal class FishjamClientInternal(
     commandsQueue
       .addCommand(
         Command(CommandName.ADD_TRACK) {
-          localEndpoint = localEndpoint.addOrReplaceTrack(screencastTrack)
+          localEndpoint = localEndpoint.addOrReplaceTrack(screenShareTrack)
 
           coroutineScope.launch {
-            peerConnectionManager.addTrack(screencastTrack)
+            peerConnectionManager.addTrack(screenShareTrack)
             rtcEngineCommunication.renegotiateTracks()
           }
         }
       )
 
-    return screencastTrack
+    return screenShareTrack
   }
 
   suspend fun removeTrack(trackId: String) {
@@ -610,10 +610,10 @@ internal class FishjamClientInternal(
           val audioTrack = LocalAudioTrack(webrtcAudioTrack, track)
           localEndpoint = localEndpoint.addOrReplaceTrack(audioTrack)
         }
-        is LocalScreencastTrack -> {
+        is LocalScreenShareTrack -> {
           val webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(track.videoSource)
-          val screencastTrack = LocalScreencastTrack(webrtcTrack, track)
-          localEndpoint = localEndpoint.addOrReplaceTrack(screencastTrack)
+          val screenShareTrack = LocalScreenShareTrack(webrtcTrack, track)
+          localEndpoint = localEndpoint.addOrReplaceTrack(screenShareTrack)
         }
       }
     }

@@ -59,7 +59,7 @@ internal class PeerConnectionFactoryWrapper(
 
   fun createVideoSource(): VideoSource = peerConnectionFactory.createVideoSource(false)
 
-  fun createScreencastVideoSource(): VideoSource = peerConnectionFactory.createVideoSource(true)
+  fun createScreenShareVideoSource(): VideoSource = peerConnectionFactory.createVideoSource(true)
 
   fun createVideoTrack(source: VideoSource): VideoTrack = peerConnectionFactory.createVideoTrack(UUID.randomUUID().toString(), source)
 
@@ -103,7 +103,7 @@ internal class PeerConnectionFactoryWrapper(
 
   fun createScreenCapturer(
     source: VideoSource,
-    callback: com.fishjamcloud.client.media.LocalScreencastTrack.ProjectionCallback,
+    callback: com.fishjamcloud.client.media.LocalScreenShareTrack.ProjectionCallback,
     mediaProjectionPermission: Intent
   ): ScreenCapturerAndroid {
     val capturer = ScreenCapturerAndroid(mediaProjectionPermission, callback)

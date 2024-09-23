@@ -10,7 +10,7 @@ class RNFishjamClient: FishjamClientListener {
 
     var isMicrophoneOn = false
     var isCameraOn = false
-    var isScreencastOn = false
+    var isScreenShareOn = false
     var isConnected = false
 
     private var isCameraInitialized = false
@@ -20,8 +20,8 @@ class RNFishjamClient: FishjamClientListener {
     var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
     var localUserMetadata: Metadata = .init()
 
-    var screencastSimulcastConfig: SimulcastConfig = SimulcastConfig()
-    var screencastMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
+    var screenShareSimulcastConfig: SimulcastConfig = SimulcastConfig()
+    var screenShareMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
 
     var cameraId: String? = nil
 
@@ -120,9 +120,9 @@ class RNFishjamClient: FishjamClientListener {
             as? LocalAudioTrack
     }
 
-    private func getLocalScreencastTrack() -> LocalScreencastTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalScreencastTrack }?
-            .value as? LocalScreencastTrack
+    private func getLocalScreenShareTrack() -> LocalScreenShareTrack? {
+        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalScreenShareTrack }?
+            .value as? LocalScreenShareTrack
     }
 
     private func ensureCreated() throws {
@@ -159,11 +159,11 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    private func ensureScreencastTrack() throws {
-        if getLocalScreencastTrack() == nil {
+    private func ensureScreenShareTrack() throws {
+        if getLocalScreenShareTrack() == nil {
             throw Exception(
-                name: "E_NO_LOCAL_SCREENCAST_TRACK",
-                description: "No local screencast track. Make sure to toggle screencast on first!")
+                name: "E_NO_LOCAL_SCREENSHARE_TRACK",
+                description: "No local screen share track. Make sure to toggle screen share on first!")
         }
     }
 
@@ -202,16 +202,16 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func leaveRoom() {
-        if isScreencastOn {
-            let screencastExtensionBundleId =
-                Bundle.main.infoDictionary?["ScreencastExtensionBundleId"] as? String
+        if isScreenShareOn {
+            let screenShareExtensionBundleId =
+                Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
             DispatchQueue.main.async {
-                RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+                RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
             }
         }
         isMicrophoneOn = false
         isCameraOn = false
-        isScreencastOn = false
+        isScreenShareOn = false
         isConnected = false
         isCameraInitialized = false
         RNFishjamClient.fishjamClient?.leave()
@@ -311,15 +311,15 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func toggleScreencast(screencastOptions: ScreencastOptions) throws {
+    func toggleScreenShare(screenShareOptions: ScreenShareOptions) throws {
         try ensureCreated()
         try ensureConnected()
-        guard let screencastExtensionBundleId = Bundle.main.infoDictionary?["ScreencastExtensionBundleId"] as? String
+        guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
         else {
             throw Exception(
                 name: "E_NO_BUNDLE_ID_SET",
                 description:
-                    "No screencast extension bundle id set. Please set ScreencastExtensionBundleId in Info.plist"
+                    "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
             )
         }
         guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
@@ -329,63 +329,63 @@ class RNFishjamClient: FishjamClientListener {
                 description: "No app group name set. Please set AppGroupName in Info.plist")
         }
 
-        guard !isScreencastOn else {
+        guard !isScreenShareOn else {
             DispatchQueue.main.async {
-                RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+                RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
             }
             return
         }
 
-        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screencastOptions.simulcastConfig)
+        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
 
-        screencastSimulcastConfig = simulcastConfig
-        screencastMaxBandwidth = getMaxBandwidthFromOptions(
-            maxBandwidth: screencastOptions.maxBandwidth)
-        let screencastMetadata = screencastOptions.screencastMetadata.toMetadata()
-        let videoParameters = getScreencastVideoParameters(options: screencastOptions)
-        RNFishjamClient.fishjamClient!.createScreencastTrack(
+        screenShareSimulcastConfig = simulcastConfig
+        screenShareMaxBandwidth = getMaxBandwidthFromOptions(
+            maxBandwidth: screenShareOptions.maxBandwidth)
+        let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
+        let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
+        RNFishjamClient.fishjamClient!.createScreenShareTrack(
             appGroup: appGroupName,
             videoParameters: videoParameters,
-            metadata: screencastMetadata,
-            onStart: { [weak self] screencastTrack in
+            metadata: screenShareMetadata,
+            onStart: { [weak self] screenShareTrack in
                 guard let self = self else { return }
 
                 do {
                     //not sure should it be here, or outside or where?
-                    try setScreencastTrackState(screencastTrack, enabled: true)
+                    try setScreenShareTrackState(screenShareTrack, enabled: true)
                 } catch {
                     os_log(
-                        "Error starting screencast: %{public}s", log: log, type: .error,
+                        "Error starting screen share: %{public}s", log: log, type: .error,
                         String(describing: error)
                     )
                 }
 
             },
-            onStop: { [weak self] screencastTrack in
+            onStop: { [weak self] screenShareTrack in
                 guard let self = self else { return }
                 do {
                     //not sure should it be here, or outside or where?
-                    try setScreencastTrackState(screencastTrack, enabled: false)
+                    try setScreenShareTrackState(screenShareTrack, enabled: false)
                 } catch {
                     os_log(
-                        "Error stopping screencast: %{public}s", log: log, type: .error,
+                        "Error stopping screen share: %{public}s", log: log, type: .error,
                         String(describing: error)
                     )
                 }
             }
         )
         DispatchQueue.main.async {
-            RPSystemBroadcastPickerView.show(for: screencastExtensionBundleId)
+            RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
         }
     }
 
-    private func setScreencastTrackState(_ screencastTrack: LocalScreencastTrack, enabled: Bool) throws {
+    private func setScreenShareTrackState(_ screenShareTrack: LocalScreenShareTrack, enabled: Bool) throws {
         //was not present before, test and maybe delete?
-        screencastTrack.enabled = enabled
-        isScreencastOn = enabled
-        let eventName = EmitableEvents.IsScreencastOn
-        let isScreencastEnabled = [eventName: enabled]
-        emitEvent(name: eventName, data: isScreencastEnabled)
+        screenShareTrack.enabled = enabled
+        isScreenShareOn = enabled
+        let eventName = EmitableEvents.IsScreenShareOn
+        let isScreenShareEnabled = [eventName: enabled]
+        emitEvent(name: eventName, data: isScreenShareEnabled)
     }
 
     //returns local endpoint and remote endpoints
@@ -429,7 +429,7 @@ class RNFishjamClient: FishjamClientListener {
                             "metadata": track.metadata.toDict(),
                         ]
 
-                    case let track as LocalScreencastTrack:
+                    case let track as LocalScreenShareTrack:
                         return [
                             "id": track.id,
                             "type": "Video",
@@ -492,9 +492,9 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func updateLocalScreencastTrackMetadata(metadata: [String: Any]) throws {
-        try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack() {
+    func updateLocalScreenShareTrackMetadata(metadata: [String: Any]) throws {
+        try ensureScreenShareTrack()
+        if let track = getLocalScreenShareTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)
         }
     }
@@ -518,25 +518,25 @@ class RNFishjamClient: FishjamClientListener {
         return SimulcastConfig(enabled: true, activeEncodings: updatedEncodings)
     }
 
-    func toggleScreencastTrackEncoding(encoding: String) throws -> [String: Any] {
-        try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack() {
-            screencastSimulcastConfig = try toggleTrackEncoding(
-                encoding: encoding, trackId: track.id, simulcastConfig: screencastSimulcastConfig)
+    func toggleScreenShareTrackEncoding(encoding: String) throws -> [String: Any] {
+        try ensureScreenShareTrack()
+        if let track = getLocalScreenShareTrack() {
+            screenShareSimulcastConfig = try toggleTrackEncoding(
+                encoding: encoding, trackId: track.id, simulcastConfig: screenShareSimulcastConfig)
         }
-        return getSimulcastConfigAsRNMap(screencastSimulcastConfig)
+        return getSimulcastConfigAsRNMap(screenShareSimulcastConfig)
     }
 
-    func setScreencastTrackBandwidth(bandwidth: Int) throws {
-        try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack() {
+    func setScreenShareTrackBandwidth(bandwidth: Int) throws {
+        try ensureScreenShareTrack()
+        if let track = getLocalScreenShareTrack() {
             RNFishjamClient.fishjamClient?.setTrackBandwidth(trackId: track.id, bandwidthLimit: bandwidth)
         }
     }
 
-    func setScreencastTrackEncodingBandwidth(encoding: String, bandwidth: Int) throws {
-        try ensureScreencastTrack()
-        if let track = getLocalScreencastTrack() {
+    func setScreenShareTrackEncodingBandwidth(encoding: String, bandwidth: Int) throws {
+        try ensureScreenShareTrack()
+        if let track = getLocalScreenShareTrack() {
             RNFishjamClient.fishjamClient?.setEncodingBandwidth(
                 trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
         }
@@ -649,7 +649,7 @@ class RNFishjamClient: FishjamClientListener {
         return Dictionary(uniqueKeysWithValues: pairs)
     }
 
-    private func getScreencastVideoParameters(options: ScreencastOptions) -> VideoParameters {
+    private func getScreenShareVideoParameters(options: ScreenShareOptions) -> VideoParameters {
         let preset: VideoParameters
         switch options.quality {
         case "VGA":
@@ -667,9 +667,9 @@ class RNFishjamClient: FishjamClientListener {
         }
         return VideoParameters(
             dimensions: preset.dimensions.flip(),
-            maxBandwidth: screencastMaxBandwidth,
+            maxBandwidth: screenShareMaxBandwidth,
             maxFps: preset.maxFps,
-            simulcastConfig: screencastSimulcastConfig
+            simulcastConfig: screenShareSimulcastConfig
         )
     }
 

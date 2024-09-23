@@ -1,7 +1,7 @@
 import {
   leaveRoom,
   useParticipants,
-  useScreencast,
+  useScreenShare,
   useCamera,
   useMicrophone,
   useAudioSettings,
@@ -50,38 +50,38 @@ const RoomScreen = ({ navigation, route }: Props) => {
     [participants],
   );
 
-  const { toggleScreencast, isScreencastOn, handleScreencastPermission } =
-    useScreencast();
+  const { toggleScreenShare, isScreenShareOn, handleScreenSharePermission } =
+    useScreenShare();
 
   const onDisconnectPress = useCallback(() => {
     leaveRoom();
     navigation.navigate('Home');
   }, [navigation]);
 
-  const { enableScreencastService } = useForegroundService();
+  const { enableScreenShareService } = useForegroundService();
 
-  const handleAndroidScreencastPermission = useCallback(
-    async (isScreencastOn: boolean) => {
-      if (isScreencastOn) {
+  const handleAndroidScreenSharePermission = useCallback(
+    async (isScreenShareOn: boolean) => {
+      if (isScreenShareOn) {
         return;
       }
-      if ((await handleScreencastPermission()) != 'granted') {
+      if ((await handleScreenSharePermission()) != 'granted') {
         return;
       }
-      enableScreencastService();
+      enableScreenShareService();
     },
-    [handleScreencastPermission, enableScreencastService],
+    [handleScreenSharePermission, enableScreenShareService],
   );
 
-  const onToggleScreenCast = useCallback(async () => {
+  const onToggleScreenShare = useCallback(async () => {
     if (Platform.OS === 'android') {
-      await handleAndroidScreencastPermission(isScreencastOn);
+      await handleAndroidScreenSharePermission(isScreenShareOn);
     }
 
-    await toggleScreencast({
+    await toggleScreenShare({
       quality: 'HD15',
     });
-  }, [isScreencastOn, toggleScreencast, handleAndroidScreencastPermission]);
+  }, [isScreenShareOn, toggleScreenShare, handleAndroidScreenSharePermission]);
 
   const flipCamera = useCallback(() => {
     const camera =
@@ -137,8 +137,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
           accessibilityLabel={SWITCH_CAMERA_BUTTON}
         />
         <InCallButton
-          iconName={isScreencastOn ? 'share' : 'share-off'}
-          onPress={onToggleScreenCast}
+          iconName={isScreenShareOn ? 'share' : 'share-off'}
+          onPress={onToggleScreenShare}
           accessibilityLabel={SHARE_SCREEN_BUTTON}
         />
         <InCallButton

@@ -11,7 +11,8 @@ class ConnectionError(
   reason: AuthError
 ) : CodedException(message = "Connection error: ${reason.error}")
 
-class MissingScreencastPermission : CodedException(message = "No permission to start screencast, call handleScreencastPermission first.")
+class MissingScreenSharePermission :
+  CodedException(message = "No permission to start screen share, call handleScreenSharePermission first.")
 
 class ClientNotConnectedError : CodedException(message = "Client not connected to server yet. Make sure to call connect() first!")
 
@@ -19,7 +20,7 @@ class NoLocalVideoTrackError : CodedException(message = "No local video track. M
 
 class NoLocalAudioTrackError : CodedException(message = "No local audio track. Make sure to call connect() first!")
 
-class NoScreencastTrackError : CodedException(message = "No local screencast track. Make sure to toggle screencast on first!")
+class NoScreenShareTrackError : CodedException(message = "No local screen share track. Make sure to toggle screen share on first!")
 
 class SocketClosedError(
   code: Int,
