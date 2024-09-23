@@ -1,4 +1,4 @@
-# React native fishjam example
+# React Native Fishjam Cloud example
 
 ## Running the Example app
 
@@ -9,46 +9,30 @@ git clone https://github.com/fishjam-cloud/mobile-client-sdk.git
 cd mobile-client-sdk
 ```
 
-2. Install node_modules in project root directory:
+2. Install dependencies and build project:
 
 ```cmd
 yarn
+yarn build
 ```
 
-3. Install node_modules in `examples/fishjam-chat` directory:
+3. Prebuild native files in example directory:
 
 ```cmd
-cd `examples/fishjam-chat` && yarn
+cd `examples/fishjam-chat`
+npx expo prebuild --clean
 ```
 
-4. Install bundler deps and cocoapods:
+> [!NOTE]
+> Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+
+4. Build app:
 
 ```
-bundle install
-bundle exec pod install --project-directory=ios
-```
-
-5. Start Metro bundler in `examples/fishjam-chat` directory
-
-```cmd
-yarn start
-```
-
-6. Run in other terminal window command below to run app on selected platform.
-
-```cmd
 yarn ios
-```
-
-or
-
-```cmd
 yarn android
 ```
 
 ## Testing
 
-> [!NOTE]
-> If you add crucial files that should affect output of android .apk file make sure to add that file to github actions files: [cache action](../.github/actions/cache_apk_file/action.yml) and [restore action](../.github/actions/restore_apk_file/action.yml).
-
-For testing checkout [README](webdriverio-test/readme.md) in `webdriverio-test` directory.
+For testing checkout [README](../webdriverio-test/readme.md) in `webdriverio-test` directory.
