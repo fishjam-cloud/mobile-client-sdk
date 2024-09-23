@@ -169,7 +169,7 @@ class RNFishjamClient(
       }
     videoParameters =
       videoParameters.copy(
-        dimensions = if (createOptions.flipVideo) videoParameters.dimensions.flip() else videoParameters.dimensions,
+        dimensions = if (createOptions.flipDimensions) videoParameters.dimensions.flip() else videoParameters.dimensions,
         simulcastConfig = getSimulcastConfigFromOptions(createOptions.simulcastConfig),
         maxBitrate = videoMaxBandwidth
       )

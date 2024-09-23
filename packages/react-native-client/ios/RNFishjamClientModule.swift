@@ -13,7 +13,7 @@ struct CameraConfig: Record {
     var quality: String = "VGA169"
 
     @Field
-    var flipVideo: Bool = false
+    var flipDimensions: Bool = false
 
     @Field
     var videoTrackMetadata: [String: Any] = [:]
