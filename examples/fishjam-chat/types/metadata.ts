@@ -1,1 +1,1 @@
-export type ParticipantMetadata = { name?: string };
+export type PeerMetadata = { name?: string };

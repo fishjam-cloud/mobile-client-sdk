@@ -4,7 +4,7 @@ import { NativeModule } from 'react-native';
 import type { RTCStats } from './stats/types';
 import type { ForegroundServiceOptions, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
-import type { Participant } from './hooks/useParticipants';
+import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 
@@ -13,8 +13,8 @@ type Metadata = { [key: string]: any };
 type RNFishjamClient = {
   joinRoom: (
     url: string,
-    participantToken: string,
-    participantMetadata: Metadata,
+    peerToken: string,
+    peerMetadata: Metadata,
     config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
@@ -32,7 +32,7 @@ type RNFishjamClient = {
   ) => Promise<void>;
   isScreenShareOn: boolean;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<
-    Participant<PeerMetadataType>[]
+    Peer<PeerMetadataType>[]
   >;
   updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
