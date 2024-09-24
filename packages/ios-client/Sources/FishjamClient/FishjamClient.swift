@@ -73,8 +73,8 @@ public class FishjamClient {
     * dedicated, custom button `disconnect`. As a result there will be generated one more media event that should be sent
     * to the RTC Engine. Thanks to it each other peer will be notified that peer left in onPeerLeft,
     */
-    public func leave() {
-        client.leave()
+    public func leave(onLeave: (() -> Void)? = nil) {
+        client.leave(onLeave: onLeave)
     }
 
     /**

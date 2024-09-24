@@ -263,7 +263,9 @@ class RNFishjamClient(
     isScreenShareOn = false
     isConnected = false
     isCameraInitialized = false
-    fishjamClient.leave()
+    fishjamClient.leave {
+      emitEndpoints()
+    }
   }
 
   suspend fun startCamera(config: CameraConfig) {
