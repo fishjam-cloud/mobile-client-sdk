@@ -253,7 +253,7 @@ internal class FishjamClientInternal(
     }
   }
 
-  fun leave() {
+  fun leave(onLeave: (() -> Unit)? = null) {
     coroutineScope.launch {
       rtcEngineCommunication.disconnect()
       localEndpoint.tracks.values.forEach { (it as? LocalTrack)?.stop() }
@@ -265,6 +265,7 @@ internal class FishjamClientInternal(
       webSocket?.close(1000, null)
       webSocket = null
       commandsQueue.clear()
+      onLeave?.invoke()
     }
   }
 

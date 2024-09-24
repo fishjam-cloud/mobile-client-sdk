@@ -214,7 +214,9 @@ class RNFishjamClient: FishjamClientListener {
         isScreenShareOn = false
         isConnected = false
         isCameraInitialized = false
-        RNFishjamClient.fishjamClient?.leave()
+        RNFishjamClient.fishjamClient?.leave { [weak self] in
+            self?.emitEndpoints()
+        }
     }
 
     func startCamera(config: CameraConfig) throws {
