@@ -28,7 +28,8 @@ Follow further instructions for the SDK you're developing for.
 
 ### Releasing
 
-Follow instructions from [RELEASE.md](./RELEASE.md)
+Follow instructions from [RELEASE.md](./RELEASE.md).
+
 The code should be released using our [release.yml](./.github/workflows/release.yml) Github Action.
 
 ## Copyright and License
