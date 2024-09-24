@@ -14,10 +14,7 @@ export const ReceivableEvents = {
   ReconnectionStarted: 'ReconnectionStarted',
   Reconnected: 'Reconnected',
   Warning: 'Warning',
-  ParticipantStatusConnecting: 'ParticipantStatusConnecting',
-  ParticipantStatusConnected: 'ParticipantStatusConnected',
-  ParticipantStatusError: 'ParticipantStatusError',
-  ParticipantStatusDisconnected: 'ParticipantStatusDisconnected',
+  ParticipantStatusChanged: 'ParticipantStatusChanged',
 } as const;
 
 export function useFishjamEvent<T>(
@@ -28,6 +25,7 @@ export function useFishjamEvent<T>(
     const eventListener = nativeModuleEventEmitter.addListener<
       Record<keyof typeof ReceivableEvents, T>
     >(eventName, (event) => {
+      console.log({ event: eventName });
       callback(event[eventName]);
     });
     return () => eventListener.remove();

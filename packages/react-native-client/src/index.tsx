@@ -63,6 +63,8 @@ export {
   stopForegroundService,
 } from './utils/foregroundService';
 
+export { useParticipantStatus } from './hooks/useParticipantStatus';
+
 export type {
   TrackBandwidthLimit,
   TrackEncoding,
@@ -70,6 +72,7 @@ export type {
   BandwidthLimit,
   SimulcastConfig,
   VideoLayout,
+  ParticipantStatus,
 } from './types';
 
 initializeWarningListener();
