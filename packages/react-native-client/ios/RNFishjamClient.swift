@@ -172,6 +172,7 @@ class RNFishjamClient: FishjamClientListener {
             connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
         }
         connectPromise = nil
+        emit(event: .participantStatusError, data: ["reason": reason.rawValue])
     }
 
     func onAuthSuccess() {
@@ -753,6 +754,7 @@ class RNFishjamClient: FishjamClientListener {
                 "E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
+        emit(event: .participantStatusDisconnected)
     }
 
     func onSocketError() {
@@ -764,7 +766,9 @@ class RNFishjamClient: FishjamClientListener {
 
     func onSocketOpen() {}
 
-    func onDisconnected() {}
+    func onDisconnected() {
+        emit(event: .participantStatusDisconnected)
+    }
 
     func getSimulcastConfigAsRNMap(_ simulcastConfig: SimulcastConfig) -> [String: Any] {
         return [
