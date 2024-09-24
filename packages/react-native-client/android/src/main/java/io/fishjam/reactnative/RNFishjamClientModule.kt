@@ -146,9 +146,9 @@ class RNFishjamClientModule : Module() {
 
       AsyncFunction(
         "joinRoom"
-      ) { url: String, participantToken: String, participantMetadata: Map<String, Any>, config: ConnectConfig, promise: Promise ->
+      ) { url: String, peerToken: String, peerMetadata: Map<String, Any>, config: ConnectConfig, promise: Promise ->
         CoroutineScope(Dispatchers.Main).launch {
-          rnFishjamClient.joinRoom(url, participantToken, participantMetadata, config, promise)
+          rnFishjamClient.joinRoom(url, peerToken, peerMetadata, config, promise)
         }
       }
 

@@ -233,18 +233,18 @@ class RNFishjamClient(
 
   fun joinRoom(
     url: String,
-    participantToken: String,
-    participantMetadata: Map<String, Any>,
+    peerToken: String,
+    peerMetadata: Map<String, Any>,
     config: ConnectConfig,
     promise: Promise
   ) {
     connectPromise = promise
-    localUserMetadata = participantMetadata
+    localUserMetadata = peerMetadata
     fishjamClient.connect(
       com.fishjamcloud.client.ConnectConfig(
         url,
-        participantToken,
-        participantMetadata,
+        peerToken,
+        peerMetadata,
         ReconnectConfig(
           config.reconnectConfig.maxAttempts,
           config.reconnectConfig.initialDelayMs,
