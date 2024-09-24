@@ -75,19 +75,7 @@ public class RNFishjamClientModule: Module {
     public func definition() -> ModuleDefinition {
         Name("RNFishjamClient")
 
-        Events(
-            "IsCameraOn",
-            "IsMicrophoneOn",
-            "IsScreenShareOn",
-            "SimulcastConfigUpdate",
-            "PeersUpdate",
-            "AudioDeviceUpdate",
-            "SendMediaEvent",
-            "BandwidthEstimation",
-            "ReconnectionRetriesLimitReached",
-            "ReconnectionStarted",
-            "Reconnected",
-            "Warning")
+        Events(EmitableEvents.allEvents)
 
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {

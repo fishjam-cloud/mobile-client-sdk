@@ -1,14 +1,24 @@
-struct EmitableEvents {
-    static let IsCameraOn = "IsCameraOn"
-    static let IsMicrophoneOn = "IsMicrophoneOn"
-    static let IsScreenShareOn = "IsScreenShareOn"
-    static let SimulcastConfigUpdate = "SimulcastConfigUpdate"
-    static let PeersUpdate = "PeersUpdate"
-    static let AudioDeviceUpdate = "AudioDeviceUpdate"
-    static let SendMediaEvent = "SendMediaEvent"
-    static let BandwidthEstimation = "BandwidthEstimation"
-    static let ReconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"
-    static let ReconnectionStarted = "ReconnectionStarted"
-    static let Reconnected = "Reconnected"
-    static let Warning = "Warning"
+enum EmitableEvents: String, CaseIterable {
+    case isCameraOn = "IsCameraOn"
+    case isMicrophoneOn = "IsMicrophoneOn"
+    case isScreenShareOn = "IsScreenShareOn"
+    case simulcastConfigUpdate = "SimulcastConfigUpdate"
+    case peersUpdate = "PeersUpdate"
+    case audioDeviceUpdate = "AudioDeviceUpdate"
+    case sendMediaEvent = "SendMediaEvent"
+    case bandwidthEstimation = "BandwidthEstimation"
+    case reconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"
+    case reconnectionStarted = "ReconnectionStarted"
+    case reconnected = "Reconnected"
+    case warning = "Warning"    
+    
+    var name: String {
+        rawValue
+    }
+    
+    static var allEvents: [String] {
+        EmitableEvents.allCases.map({ event in
+            event.rawValue
+        })
+    }
 }
