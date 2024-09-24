@@ -183,6 +183,7 @@ class RNFishjamClient: FishjamClientListener {
         url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
     ) {
+        emit(event: .participantStatusConnecting)
         connectPromise = promise
         localUserMetadata = participantMetadata.toMetadata()
 
