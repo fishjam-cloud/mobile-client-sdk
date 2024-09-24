@@ -100,7 +100,7 @@ const withInfoPlistConstants: ConfigPlugin = (config) => {
 
 /**
  * Updates and copies required extension files.
- * Our extension needs to be properly setup inside the XCode project. In order to do that we need to copy the files and update the pbxproj.
+ * Our extension needs to be properly setup inside the Xcode project. In order to do that we need to copy the files and update the pbxproj.
  */
 const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
   config,
@@ -135,7 +135,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
         return;
       }
 
-      if (xcodeProject.pbxTargetByName(`"${SBE_TARGET_NAME}"`)) {
+      if (xcodeProject.pbxTargetByName(SBE_TARGET_NAME)) {
         console.log(
           `${SBE_TARGET_NAME} already exists in project. Skipping...`,
         );

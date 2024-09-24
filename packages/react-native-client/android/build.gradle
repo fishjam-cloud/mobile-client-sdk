@@ -55,11 +55,11 @@ afterEvaluate {
 
 android {
   namespace = "io.fishjam.reactnative"
-  compileSdk(31)
+  compileSdk(34)
 
   defaultConfig {
     minSdkVersion safeExtGet("minSdkVersion", 21)
-    targetSdkVersion safeExtGet("targetSdkVersion", 31)
+    targetSdkVersion safeExtGet("targetSdkVersion", 34)
     versionCode 1
     versionName "${packageVersion}"
   }

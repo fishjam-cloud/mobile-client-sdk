@@ -20,11 +20,11 @@ yarn build
 
 ```cmd
 cd `examples/fishjam-chat`
-npx expo prebuild --clean
+npx expo prebuild
 ```
 
 > [!NOTE]
-> Be sure to run `npx expo prebuild --clean` and not `yarn prebuild --clean` as there's an issue with path generation for ios/.xcode.env.local
+> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for ios/.xcode.env.local
 
 4. Build app:
 

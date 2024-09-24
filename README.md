@@ -11,22 +11,22 @@ Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fis
 > [!NOTE]
 > Native SDK for Android and iOS do not have stable API. We strongly recommend using our React Native SDK
 
-# Documentation
+## Documentation
 
 Our [official documentation](https://fishjam-cloud.github.io/documentation/) on how [Fishjam Cloud](https://fishjam.io) works and how to integrate our service with your app.
 
-# Example
+## Example
 
 You can run our Video Chat example app to see how it works. Source code and instruction on how to run it is available here.
 
-### Developing
+## Developing
 
 Run `./scripts/init.sh` in the main directory to install swift-format and set up
 git hooks.
 
 Follow further instructions for the SDK you're developing for.
 
-### Releasing
+## Releasing
 
 Follow instructions from [RELEASE.md](./RELEASE.md).
 
