@@ -1,57 +1,36 @@
+<img src="./.github/images/fishjam-card.png" width="100%">
+
 # Fishjam Cloud Mobile Client
 
-Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fishjam) server
+Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fishjam) server.
 
-- [android-client](./packages/android-client/README.md)
-- [ios-client](./packages/ios-client/README.md)
-- [react-native](./packages/react-native-client/README.md)
-
-# Documentation
-
-API documentation is available here:
-[Android](https://fishjam-cloud.github.io/mobile-client-sdk/modules/android_client.html)
-[iOS](https://fishjam-cloud.github.io/mobile-client-sdk/modules/ios_client.html)
-[React Native](https://fishjam-cloud.github.io/mobile-client-sdk/modules/_fishjam_cloud_react_native_client.html)
-
-# Example
-
-We strongly recommend checking out our example app that implements a basic video
-room client. To run the app:
-
-1. Go to Membrane's server demo repo:
-   https://fishjam.io/app/login Follow instructions there
-   to setup and run demo server.
-2. Clone the repo
-3. ```
-      yarn
-      yarn build
-      cd `examples/fishjam-chat`
-      npx expo prebuild
-      yarn run android/ios
-   ```
+- [React Native](./packages/react-native-client/README.md)
+- [Android Client](./packages/android-client/README.md)
+- [iOS Client](./packages/ios-client/README.md)
 
 > [!NOTE]
-> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for ios/.xcode.env.local
+> Native SDK for Android and iOS do not have stable API. We strongly recommend using our React Native SDK
 
-4. Follow further instructions from README
+## Documentation
 
-### Developing
+Our [official documentation](https://fishjam-cloud.github.io/documentation/) on how [Fishjam Cloud](https://fishjam.io) works and how to integrate our service with your app.
+
+## Example
+
+You can run our Video Chat example app to see how it works. Source code and instruction on how to run it is available here.
+
+## Developing
 
 Run `./scripts/init.sh` in the main directory to install swift-format and set up
 git hooks.
 
 Follow further instructions for the SDK you're developing for.
 
-### Releasing
+## Releasing
 
-Follow instructions from [RELEASE.md](./RELEASE.md)
+Follow instructions from [RELEASE.md](./RELEASE.md).
+
 The code should be released using our [release.yml](./.github/workflows/release.yml) Github Action.
-
-This script will:
-
-1. Fetch the dependencies
-2. Run `expo-module prepare` to clean, configure and build source code, plugins etc. [See](https://github.com/expo/expo/tree/main/packages/expo-module-scripts) for more details
-3. Publish to npm.
 
 ## Copyright and License
 
