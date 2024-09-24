@@ -693,6 +693,7 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise?.resolve(nil)
         connectPromise = nil
         emitEndpoints()
+        emit(event: .participantStatusConnected)
     }
 
     func onJoinError(metadata: Any) {
