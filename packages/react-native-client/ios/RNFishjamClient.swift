@@ -28,7 +28,7 @@ class RNFishjamClient: FishjamClientListener {
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
     
-    var participantStatus: ParticipantStatus = .idle {
+    private(set) var participantStatus: ParticipantStatus = .idle {
         didSet {
             let event = EmitableEvents.participantStatusChanged
             emit(event: event, data: [event.name: participantStatus.rawValue])

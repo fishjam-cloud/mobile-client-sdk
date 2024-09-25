@@ -118,7 +118,8 @@ class RNFishjamClientModule : Module() {
         "ReconnectionRetriesLimitReached",
         "ReconnectionStarted",
         "Reconnected",
-        "Warning"
+        "Warning",
+        "ParticipantStatusChanged"
       )
 
       val rnFishjamClient =
@@ -366,6 +367,10 @@ class RNFishjamClientModule : Module() {
           )
 
         appContext.reactContext!!.stopService(serviceIntent)
+      }
+
+      Property("participantStatus") {
+        return@Property rnFishjamClient.participantStatus
       }
     }
 }

@@ -63,6 +63,13 @@ class RNFishjamClient(
 
   var appContext: AppContext? = null
 
+  var participantStatus = ParticipantStatus.idle
+    private set(value) {
+      field = value
+      val eventName = EmitableEvents.ParticipantStatusChanged
+      emitEvent(eventName, mapOf(eventName to value))
+    }
+
   interface OnTrackUpdateListener {
     fun onTracksUpdate()
   }
@@ -228,6 +235,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(ConnectionError(reason))
       connectPromise = null
+      participantStatus = ParticipantStatus.error
     }
   }
 
@@ -238,6 +246,7 @@ class RNFishjamClient(
     config: ConnectConfig,
     promise: Promise
   ) {
+    participantStatus = ParticipantStatus.connecting
     connectPromise = promise
     localUserMetadata = peerMetadata
     fishjamClient.connect(
@@ -798,6 +807,7 @@ class RNFishjamClient(
       connectPromise?.resolve(null)
       connectPromise = null
       emitEndpoints()
+      participantStatus = ParticipantStatus.connected
     }
   }
 
@@ -852,7 +862,9 @@ class RNFishjamClient(
     emitEvent(eventName, mapOf(eventName to estimation.toFloat()))
   }
 
-  override fun onDisconnected() {}
+  override fun onDisconnected() {
+    participantStatus = ParticipantStatus.idle
+  }
 
   override fun onSocketClose(
     code: Int,
@@ -861,6 +873,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketClosedError(code, reason))
       connectPromise = null
+      participantStatus = ParticipantStatus.error
     }
   }
 
