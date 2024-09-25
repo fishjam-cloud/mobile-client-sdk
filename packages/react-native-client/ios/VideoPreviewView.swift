@@ -19,7 +19,7 @@ class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
 
     private func trySetLocalCameraTrack() {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else {
                 os_log(
                     "Error moving VideoPreviewView: %{public}s", log: log, type: .error,
