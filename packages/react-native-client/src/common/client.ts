@@ -19,23 +19,23 @@ export type ConnectionConfig = {
 
 /**
  * @param url fishjam Url
- * @param participantToken token received from server (or Room Manager)
- * @param participantMetadata string indexed record with metadata, that will be available to all other participants
+ * @param peerToken token received from server (or Room Manager)
+ * @param peerMetadata string indexed record with metadata, that will be available to all other peers
  * @param config additional connection configuration
  * @category Connection
  */
 export async function joinRoom<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
+  PeerMetadata extends GenericMetadata = GenericMetadata,
 >(
   url: string,
-  participantToken: string,
-  participantMetadata?: ParticipantMetadata,
+  peerToken: string,
+  peerMetadata?: PeerMetadata,
   config?: ConnectionConfig,
 ) {
   await RNFishjamClientModule.joinRoom(
     url,
-    participantToken,
-    participantMetadata ?? {},
+    peerToken,
+    peerMetadata ?? {},
     config ?? {},
   );
 }
