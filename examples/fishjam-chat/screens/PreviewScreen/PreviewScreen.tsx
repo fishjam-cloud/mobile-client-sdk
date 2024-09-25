@@ -33,7 +33,7 @@ import {
   displayIosSimulatorCameraAlert,
   isIosSimulator,
 } from '../../utils/deviceUtils';
-import { ParticipantMetadata } from '../../types/metadata';
+import { PeerMetadata } from '../../types/metadata';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Preview'>;
 type BottomSheetRef = Props & {
@@ -82,9 +82,9 @@ function PreviewScreen({
   }, [prepareCamera, navigation]);
 
   const onJoinPressed = async () => {
-    await joinRoom<ParticipantMetadata>(
+    await joinRoom<PeerMetadata>(
       route.params.fishjamUrl,
-      route.params.participantToken,
+      route.params.peerToken,
       {
         name: route.params.userName,
       },

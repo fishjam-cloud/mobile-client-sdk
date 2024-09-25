@@ -179,11 +179,11 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func joinRoom(
-        url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig,
+        url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
     ) {
         connectPromise = promise
-        localUserMetadata = participantMetadata.toMetadata()
+        localUserMetadata = peerMetadata.toMetadata()
 
         let reconnectConfig = FishjamCloudClient.ReconnectConfig(
             maxAttempts: config.reconnectConfig.maxAttempts, initialDelayMs: config.reconnectConfig.initialDelayMs,
@@ -191,7 +191,7 @@ class RNFishjamClient: FishjamClientListener {
 
         RNFishjamClient.fishjamClient?.connect(
             config: FishjamCloudClient.ConnectConfig(
-                websocketUrl: url, token: participantToken, participantMetadata: .init(participantMetadata),
+                websocketUrl: url, token: peerToken, peerMetadata: .init(peerMetadata),
                 reconnectConfig: reconnectConfig
             ))
 

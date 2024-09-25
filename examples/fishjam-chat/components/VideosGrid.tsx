@@ -1,7 +1,7 @@
 import {
   Track,
   VideoRendererView,
-  Participant,
+  Peer,
 } from '@fishjam-cloud/react-native-client';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
@@ -9,7 +9,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { BrandColors } from '../utils/Colors';
 import Typo from './Typo';
-import { ParticipantMetadata } from '../types/metadata';
+import { PeerMetadata } from '../types/metadata';
 
 type Props = {
   tracks: GridTrack[];
@@ -22,17 +22,15 @@ type GridTrack = Track & {
 
 const { VIDEO_CELL } = roomScreenLabels;
 
-export function parseParticipantsToTracks(
-  participants: Participant<ParticipantMetadata>[],
-): GridTrack[] {
-  return participants
-    .sort((participant) => (participant.isLocal ? -1 : 1))
-    .flatMap((participant) =>
-      participant.tracks
+export function parsePeersToTracks(peers: Peer<PeerMetadata>[]): GridTrack[] {
+  return peers
+    .sort((peer) => (peer.isLocal ? -1 : 1))
+    .flatMap((peer) =>
+      peer.tracks
         .map((track) => ({
           ...track,
-          isLocal: participant.isLocal,
-          userName: participant.metadata?.name,
+          isLocal: peer.isLocal,
+          userName: peer.metadata?.name,
         }))
         .filter((track) => track.type === 'Video' && track.isActive),
     );

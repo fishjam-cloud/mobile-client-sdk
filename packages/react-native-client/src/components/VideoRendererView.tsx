@@ -21,7 +21,7 @@ const NativeView: React.ComponentType<VideoRendererProps> =
   requireNativeViewManager('VideoRendererViewModule');
 
 /**
- * Render video track received from {@link useParticipants} hook
+ * Render video track received from {@link usePeers} hook
  * @category Components
  */
 export const VideoRendererView = React.forwardRef<

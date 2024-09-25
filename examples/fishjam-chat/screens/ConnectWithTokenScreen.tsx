@@ -33,7 +33,7 @@ const { URL_INPUT, TOKEN_INPUT, CONNECT_BUTTON } = connectScreenLabels;
 const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
-  const [participantToken, onChangeParticipantToken] = useState(
+  const [peerToken, onChangePeerToken] = useState(
     process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
@@ -47,7 +47,7 @@ const ConnectScreen = ({ navigation }: Props) => {
       setConnectionError(null);
       navigation.navigate('Preview', {
         fishjamUrl: fishjamUrl.trim(),
-        participantToken: participantToken.trim(),
+        peerToken: peerToken.trim(),
       });
     } catch (e) {
       const message =
@@ -75,8 +75,8 @@ const ConnectScreen = ({ navigation }: Props) => {
             placeholder="Fishjam URL"
           />
           <TextInput
-            onChangeText={onChangeParticipantToken}
-            defaultValue={participantToken}
+            onChangeText={onChangePeerToken}
+            defaultValue={peerToken}
             accessibilityLabel={TOKEN_INPUT}
             placeholder="Peer Token"
           />
@@ -85,7 +85,7 @@ const ConnectScreen = ({ navigation }: Props) => {
             onPress={onTapConnectButton}
             accessibilityLabel={CONNECT_BUTTON}
           />
-          <QRCodeScanner onCodeScanned={onChangeParticipantToken} />
+          <QRCodeScanner onCodeScanned={onChangePeerToken} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </DismissKeyboard>
