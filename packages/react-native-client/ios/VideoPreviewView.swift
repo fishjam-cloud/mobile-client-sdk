@@ -1,7 +1,7 @@
 import ExpoModulesCore
 import FishjamCloudClient
 
-internal protocol OnLocalCameraTrackChangedListener {
+protocol OnLocalCameraTrackChangedListener: AnyObject {
     func onLocalCameraTrackChanged()
 }
 
@@ -18,7 +18,8 @@ class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
     }
 
     private func trySetLocalCameraTrack() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else {
                 os_log(
                     "Error moving VideoPreviewView: %{public}s", log: log, type: .error,
@@ -39,12 +40,7 @@ class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         if newSuperview == nil {
-            RNFishjamClient.localCameraTrackListeners.removeAll(where: {
-                if let view = $0 as? VideoRendererView {
-                    return view === self
-                }
-                return false
-            })
+            RNFishjamClient.localCameraTrackListeners.removeAll(where: { $0 === self })
             localVideoTrack?.stop()
         } else {
             RNFishjamClient.localCameraTrackListeners.append(self)
@@ -80,8 +76,7 @@ class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
     }
 
     func onLocalCameraTrackChanged() {
-        if localVideoTrack == nil {
-            trySetLocalCameraTrack()
-        }
+        guard localVideoTrack == nil else { return }
+        trySetLocalCameraTrack()
     }
 }
