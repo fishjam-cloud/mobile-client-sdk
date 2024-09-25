@@ -33,8 +33,8 @@ const { URL_INPUT, TOKEN_INPUT, CONNECT_BUTTON } = connectScreenLabels;
 const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
-  const [participantToken, onChangeParticipantToken] = useState(
-    'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQ0YjYwNmE1ZC01MzU0LTQ4NzItYWQ4Zi1hMzhjMDU5YjkyYzlkAAdyb29tX2lkbQAAAERlZmQwLTRhMjAtYjZiZi1lMmE3OTdjMGVlZmMtNmE2NTZjNmM3OTY2Njk3MzY4NDAzMTMwMmUzMDJlMzEyZTMxMzQzNm4GAPbY7yOSAWIAAVGA.--UTGGy8w0cZF3VKLPAOnvOyTPE_z7DflDF89icwROI',
+  const [peerToken, onChangePeerToken] = useState(
+    process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
     'wss://cloud.fishjam.work/api/v1/connect/4ccdd468bc58484794f34a9451117632',
@@ -47,7 +47,7 @@ const ConnectScreen = ({ navigation }: Props) => {
       setConnectionError(null);
       navigation.navigate('Preview', {
         fishjamUrl: fishjamUrl.trim(),
-        participantToken: participantToken.trim(),
+        peerToken: peerToken.trim(),
       });
     } catch (e) {
       const message =
@@ -75,8 +75,8 @@ const ConnectScreen = ({ navigation }: Props) => {
             placeholder="Fishjam URL"
           />
           <TextInput
-            onChangeText={onChangeParticipantToken}
-            defaultValue={participantToken}
+            onChangeText={onChangePeerToken}
+            defaultValue={peerToken}
             accessibilityLabel={TOKEN_INPUT}
             placeholder="Peer Token"
           />
@@ -85,7 +85,7 @@ const ConnectScreen = ({ navigation }: Props) => {
             onPress={onTapConnectButton}
             accessibilityLabel={CONNECT_BUTTON}
           />
-          <QRCodeScanner onCodeScanned={onChangeParticipantToken} />
+          <QRCodeScanner onCodeScanned={onChangePeerToken} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </DismissKeyboard>

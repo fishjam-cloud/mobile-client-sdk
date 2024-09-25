@@ -16,7 +16,7 @@ The repository consists of 3 separate components:
 Really simple App allowing to test `Fishjam client` functionalities. It consist of 2 screens:
 
 - Joining screen where user passes peer token followed by join button click
-- Room's screen consisting of set of control buttons and an area where participants' videos get displayed
+- Room's screen consisting of set of control buttons and an area where videos of peers get displayed
 
 ## Documentation
 

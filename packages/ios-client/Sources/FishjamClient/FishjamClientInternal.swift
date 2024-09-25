@@ -88,7 +88,7 @@ internal class FishjamClientInternal {
             })
     }
     
-    func leave() {
+    func leave(onLeave: (() -> Void)? = nil) {
         rtcEngineCommunication.disconnect()
         for track in localEndpoint.tracks.values {
             if let track = track as? LocalTrack {
@@ -104,6 +104,7 @@ internal class FishjamClientInternal {
         webSocket = nil
         isAuthenticated = false
         commandsQueue.clear()
+        onLeave?()
     }
     
     func createVideoTrack(videoParameters: VideoParameters, metadata: Metadata, captureDeviceName: String? = nil)

@@ -43,35 +43,31 @@ export type Track = VideoTrack | AudioTrack;
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type Participant<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
-> = {
+export type Peer<PeerMetadata extends GenericMetadata = GenericMetadata> = {
   /**
-   *  id used to identify a participant
+   *  id used to identify a peer
    */
   id: string;
   /**
-   * whether the participant is local or remote
+   * whether the peer is local or remote
    */
   isLocal: boolean;
   /**
-   * a map indexed by strings, containing participant metadata from the server
+   * a map indexed by strings, containing peer metadata from the server
    */
-  metadata: ParticipantMetadata;
+  metadata: PeerMetadata;
   /**
-   * a list of participants's video and audio tracks
+   * a list of peer's video and audio tracks
    */
   tracks: Track[];
 };
 
 function addIsActiveToTracks<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
->(
-  participants: ReadonlyArray<Participant<ParticipantMetadata>>,
-): Participant<ParticipantMetadata>[] {
-  return participants.map((participant) => ({
-    ...participant,
-    tracks: participant.tracks.map((track) => ({
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+>(peers: ReadonlyArray<Peer<PeerMetadata>>): Peer<PeerMetadata>[] {
+  return peers.map((peer) => ({
+    ...peer,
+    tracks: peer.tracks.map((track) => ({
       ...track,
       isActive:
         (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
@@ -79,36 +75,30 @@ function addIsActiveToTracks<
   }));
 }
 /**
- * This hook provides live updates of room participants.
- * @returns An array of room participants.
+ * This hook provides live updates of room peers.
+ * @returns An array of room peers.
  * @category Connection
  * @group Hooks
  */
-export function useParticipants<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
+export function usePeers<
+  PeerMetadata extends GenericMetadata = GenericMetadata,
 >() {
-  const [participants, setParticipants] = useState<
-    Participant<ParticipantMetadata>[]
-  >([]);
+  const [peers, setPeers] = useState<Peer<PeerMetadata>[]>([]);
 
-  const updateActiveParticipants = useCallback(
-    (participants: Participant<ParticipantMetadata>[]) => {
-      setParticipants(addIsActiveToTracks<ParticipantMetadata>(participants));
-    },
-    [],
-  );
-
-  useFishjamEvent(ReceivableEvents.PeersUpdate, updateActiveParticipants);
-
-  useEffect(() => {
-    async function updateParticipants() {
-      const participants =
-        await RNFishjamClientModule.getPeers<ParticipantMetadata>();
-      setParticipants(addIsActiveToTracks<ParticipantMetadata>(participants));
-    }
-
-    updateParticipants();
+  const updateActivePeers = useCallback((peers: Peer<PeerMetadata>[]) => {
+    setPeers(addIsActiveToTracks<PeerMetadata>(peers));
   }, []);
 
-  return { participants };
+  useFishjamEvent(ReceivableEvents.PeersUpdate, updateActivePeers);
+
+  useEffect(() => {
+    async function updatePeers() {
+      const peers = await RNFishjamClientModule.getPeers<PeerMetadata>();
+      setPeers(addIsActiveToTracks<PeerMetadata>(peers));
+    }
+
+    updatePeers();
+  }, []);
+
+  return { peers };
 }

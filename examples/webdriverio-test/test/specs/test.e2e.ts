@@ -74,50 +74,47 @@ const createFishjamRoom = async () => {
     console.log(e);
   }
 };
-const addParticipantToRoom = async (
+const addPeerToRoom = async (
   roomId: string,
   enableSimulcast: boolean = true,
 ) => {
-  const { addPeer: addParticipant } = RoomApiFp(config);
-  const addParticipantRequest: AddPeerRequest = {
+  const { addPeer } = RoomApiFp(config);
+  const addPeerRequest: AddPeerRequest = {
     type: 'webrtc',
     options: { enableSimulcast },
   };
-  const addParticipantFunction = await addParticipant(
-    roomId,
-    addParticipantRequest,
-  );
+  const addPeerFunction = await addPeer(roomId, addPeerRequest);
   try {
-    const response = await addParticipantFunction();
+    const response = await addPeerFunction();
     return response.data.data;
   } catch (e) {
     console.log(e);
   }
 };
 
-let participantDetail: PeerDetailsResponseData | undefined;
+let peerDetails: PeerDetailsResponseData | undefined;
 let room: Room | undefined;
 
 const tests: Test[] = [
   {
-    name: 'create room and participant to obtain credentials',
+    name: 'create room and peer to obtain credentials',
     run: async () => {
       room = await createFishjamRoom();
       assert.ok(room !== undefined);
-      participantDetail = await addParticipantToRoom(room.id);
-      assert.ok(participantDetail !== undefined);
+      peerDetails = await addPeerToRoom(room.id);
+      assert.ok(peerDetails !== undefined);
     },
     skip: false,
   },
   {
     name: 'type fishjam url and token',
     run: async () => {
-      assert.ok(participantDetail !== undefined);
+      assert.ok(peerDetails !== undefined);
       const webSocketUrl = getWebsocketUrl(
         process.env.FISHJAM_HOST_MOBILE as string,
       );
       await tapButton(driver, '~' + TOKEN_TAB);
-      await typeToInput(driver, '~' + TOKEN_INPUT, participantDetail.token);
+      await typeToInput(driver, '~' + TOKEN_INPUT, peerDetails.token);
       await typeToInput(driver, '~' + URL_INPUT, webSocketUrl);
     },
     skip: false,

@@ -1,13 +1,13 @@
 import { initializeWarningListener } from './utils/errorListener';
 
 export type {
-  Participant,
+  Peer,
   Track,
   TrackType,
   VadStatus,
   EncodingReason,
-} from './hooks/useParticipants';
-export { useParticipants } from './hooks/useParticipants';
+} from './hooks/usePeers';
+export { usePeers } from './hooks/usePeers';
 
 export type {
   AudioOutputDevice,

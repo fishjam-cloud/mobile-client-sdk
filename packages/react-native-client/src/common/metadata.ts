@@ -2,12 +2,12 @@ import { GenericMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
 /**
- * Updates metadata send to other participants
- * @param participantMetadata string indexed record with metadata, that will be available to all other participants
+ * Updates metadata send to other peers
+ * @param peerMetadata string indexed record with metadata, that will be available to all other peers
  * @category Connection
  */
 export async function updatePeerMetadata<
-  ParticipantMetadata extends GenericMetadata = GenericMetadata,
->(participantMetadata: ParticipantMetadata) {
-  await RNFishjamClientModule.updatePeerMetadata(participantMetadata);
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+>(peerMetadata: PeerMetadata) {
+  await RNFishjamClientModule.updatePeerMetadata(peerMetadata);
 }

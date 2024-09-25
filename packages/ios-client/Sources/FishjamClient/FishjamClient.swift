@@ -4,13 +4,13 @@ import WebRTC
 public struct ConnectConfig {
     var websocketUrl: String
     var token: String
-    var participantMetadata: Metadata
+    var peerMetadata: Metadata
     var reconnectConfig: ReconnectConfig
 
-    public init(websocketUrl: String, token: String, participantMetadata: Metadata, reconnectConfig: ReconnectConfig) {
+    public init(websocketUrl: String, token: String, peerMetadata: Metadata, reconnectConfig: ReconnectConfig) {
         self.websocketUrl = websocketUrl + "/socket/peer/websocket"
         self.token = token
-        self.participantMetadata = participantMetadata
+        self.peerMetadata = peerMetadata
         self.reconnectConfig = reconnectConfig
     }
 }
@@ -75,8 +75,8 @@ public class FishjamClient {
     * dedicated, custom button `disconnect`. As a result there will be generated one more media event that should be sent
     * to the RTC Engine. Thanks to it each other peer will be notified that peer left in onPeerLeft,
     */
-    public func leave() {
-        client.leave()
+    public func leave(onLeave: (() -> Void)? = nil) {
+        client.leave(onLeave: onLeave)
     }
 
     /**
