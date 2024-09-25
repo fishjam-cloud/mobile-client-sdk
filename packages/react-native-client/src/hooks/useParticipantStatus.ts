@@ -14,9 +14,8 @@ export const useParticipantStatus = () => {
     RNFishjamClientModule.participantStatus,
   );
 
-  const onParticipantStatus = useCallback((newValue: any) => {
-    console.log('new part status', { newValue });
-    // setParticipantStatus('connecting');
+  const onParticipantStatus = useCallback((status?: ParticipantStatus) => {
+    status && setParticipantStatus(status);
   }, []);
 
   useFishjamEvent(

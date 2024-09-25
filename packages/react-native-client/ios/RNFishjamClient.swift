@@ -30,7 +30,8 @@ class RNFishjamClient: FishjamClientListener {
     
     var participantStatus: ParticipantStatus = .idle {
         didSet {
-            emit(event: .participantStatusChanged, data: ["status": participantStatus])
+            let event = EmitableEvents.participantStatusChanged
+            emit(event: event, data: [event.name: participantStatus.rawValue])
         }
     }
 
@@ -179,7 +180,6 @@ class RNFishjamClient: FishjamClientListener {
         }
         connectPromise = nil
         participantStatus = .error
-//        emit(event: .participantStatusError, data: ["reason": reason.rawValue])
     }
 
     func onAuthSuccess() {
@@ -190,7 +190,6 @@ class RNFishjamClient: FishjamClientListener {
         url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
     ) {
-//        emit(event: .participantStatusConnecting)
         participantStatus = .connecting
         connectPromise = promise
         localUserMetadata = peerMetadata.toMetadata()

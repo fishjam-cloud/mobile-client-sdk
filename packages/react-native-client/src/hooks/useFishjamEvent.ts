@@ -25,7 +25,6 @@ export function useFishjamEvent<T>(
     const eventListener = nativeModuleEventEmitter.addListener<
       Record<keyof typeof ReceivableEvents, T>
     >(eventName, (event) => {
-      console.log({ event: eventName });
       callback(event[eventName]);
     });
     return () => eventListener.remove();

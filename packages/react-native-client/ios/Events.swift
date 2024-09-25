@@ -18,10 +18,6 @@ enum EmitableEvents: String, CaseIterable {
     case reconnectionStarted = "ReconnectionStarted"
     case reconnected = "Reconnected"
     case warning = "Warning"
-//    case participantStatusConnecting = "ParticipantStatusConnecting"
-//    case participantStatusConnected = "ParticipantStatusConnected"
-//    case participantStatusError = "ParticipantStatusError"
-//    case participantStatusDisconnected = "ParticipantStatusDisconnected"
     case participantStatusChanged = "ParticipantStatusChanged"
     
     var name: String {
