@@ -107,7 +107,7 @@ function PreviewScreen({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cameraPreview}>
-        {!isIosSimulator && isCameraOn ? (
+        {!isIosSimulator ? (
           <VideoPreviewView style={styles.cameraPreviewView} />
         ) : (
           <NoCameraView username={route?.params?.userName || 'RN Mobile'} />

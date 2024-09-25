@@ -73,9 +73,14 @@ class RNFishjamClient(
     suspend fun onLocalTrackSwitched()
   }
 
+  interface OnLocalCameraTrackChangedListener {
+    fun onLocalCameraTrackChanged()
+  }
+
   companion object {
     var onTracksUpdateListeners: MutableList<OnTrackUpdateListener> = mutableListOf()
     val onLocalTrackSwitchListener: MutableList<OnLocalTrackSwitchListener> = mutableListOf()
+    var onLocalCameraTrackListeners: MutableList<OnLocalCameraTrackChangedListener> = mutableListOf()
     lateinit var fishjamClient: FishjamClient
 
     fun getAllPeers(): List<Peer> {
@@ -298,6 +303,7 @@ class RNFishjamClient(
     val eventName = EmitableEvents.IsCameraOn
     val isCameraOnMap = mapOf(eventName to isEnabled)
     emitEvent(eventName, isCameraOnMap)
+    onLocalCameraTrackListeners.forEach { it.onLocalCameraTrackChanged() }
   }
 
   fun toggleCamera(): Boolean {
