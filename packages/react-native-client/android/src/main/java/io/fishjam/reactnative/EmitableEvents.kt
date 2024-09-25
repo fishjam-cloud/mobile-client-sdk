@@ -2,7 +2,7 @@ package io.fishjam.reactnative
 
 object ParticipantStatus {
   const val connecting = "connecting"
-  const val connected  = "connected"
+  const val connected = "connected"
   const val error = "error"
   const val idle = "idle"
 }

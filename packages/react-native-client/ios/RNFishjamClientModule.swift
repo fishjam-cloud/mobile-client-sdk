@@ -209,7 +209,7 @@ public class RNFishjamClientModule: Module {
         AsyncFunction("startAudioSwitcher") {
             rnFishjamClient.startAudioSwitcher()
         }
-        
+
         Property("participantStatus") {
             return rnFishjamClient.participantStatus.rawValue
         }

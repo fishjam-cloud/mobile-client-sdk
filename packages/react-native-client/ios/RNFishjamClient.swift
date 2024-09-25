@@ -27,7 +27,7 @@ class RNFishjamClient: FishjamClientListener {
 
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
-    
+
     private(set) var participantStatus: ParticipantStatus = .idle {
         didSet {
             let event = EmitableEvents.participantStatusChanged
@@ -702,7 +702,7 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise?.resolve(nil)
         connectPromise = nil
         emitEndpoints()
-//        emit(event: .participantStatusConnected)
+        //        emit(event: .participantStatusConnected)
         participantStatus = .connected
     }
 
@@ -765,7 +765,7 @@ class RNFishjamClient: FishjamClientListener {
                 "E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
-//        emit(event: .participantStatusError, data: ["reason": reason])
+        //        emit(event: .participantStatusError, data: ["reason": reason])
         participantStatus = .error
     }
 
@@ -779,7 +779,7 @@ class RNFishjamClient: FishjamClientListener {
     func onSocketOpen() {}
 
     func onDisconnected() {
-//        emit(event: .participantStatusDisconnected)
+        //        emit(event: .participantStatusDisconnected)
         participantStatus = .idle
     }
 

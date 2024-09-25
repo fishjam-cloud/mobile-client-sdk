@@ -37,7 +37,7 @@ const ConnectScreen = ({ navigation }: Props) => {
     process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
-    'wss://cloud.fishjam.work/api/v1/connect/4ccdd468bc58484794f34a9451117632',
+    process.env.EXPO_PUBLIC_FISHJAM_URL ?? '',
   );
 
   usePermissionCheck();

@@ -5,7 +5,6 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
-  useParticipantStatus,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -47,10 +46,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const { peers } = usePeers<PeerMetadata>();
 
   const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
-
-  const participantStatus = useParticipantStatus();
-
-  console.log({ participantStatus });
 
   const { toggleScreenShare, isScreenShareOn, handleScreenSharePermission } =
     useScreenShare();

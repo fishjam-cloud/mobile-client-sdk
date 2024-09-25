@@ -19,11 +19,11 @@ enum EmitableEvents: String, CaseIterable {
     case reconnected = "Reconnected"
     case warning = "Warning"
     case participantStatusChanged = "ParticipantStatusChanged"
-    
+
     var name: String {
         rawValue
     }
-    
+
     static var allEvents: [String] {
         EmitableEvents.allCases.map({ event in
             event.rawValue

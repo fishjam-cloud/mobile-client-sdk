@@ -39,7 +39,7 @@ public class FishjamClientWebSocket: FishjamWebsocket {
 
     func disconnect(closeCode: UInt16 = CloseCode.normal.rawValue) {
         socket.disconnect(closeCode: closeCode)
-        // Starscream doesn't emit any event on manual disconnect so we need to force it.
+        // Starscream doesn't emit any event on client initiated disconnect, so we need to force it.
         delegate?.didReceive(event: .cancelled, client: socket)
     }
 
