@@ -12,7 +12,7 @@ class VideoPreviewView(
   RNFishjamClient.OnLocalCameraTrackChangedListener {
   private var localVideoTrack: LocalVideoTrack? = null
 
-  private fun getLocalTrackAndInitializeView() {
+  private fun trySetLocalCameraTrack() {
     localVideoTrack =
       RNFishjamClient.fishjamClient.getLocalEndpoint().tracks.values.firstOrNull { track ->
         track is LocalVideoTrack
@@ -21,7 +21,7 @@ class VideoPreviewView(
   }
 
   private fun initialize() {
-    getLocalTrackAndInitializeView()
+    trySetLocalCameraTrack()
     super.setupTrack()
   }
 
@@ -31,13 +31,13 @@ class VideoPreviewView(
   }
 
   override fun onDetachedFromWindow() {
-    RNFishjamClient.onLocalCameraTrackListeners.remove(this)
+    RNFishjamClient.localCameraTrackListeners.remove(this)
     super.onDetachedFromWindow()
     dispose()
   }
 
   override fun onAttachedToWindow() {
-    RNFishjamClient.onLocalCameraTrackListeners.add(this)
+    RNFishjamClient.localCameraTrackListeners.add(this)
     super.onAttachedToWindow()
     initialize()
   }
@@ -45,6 +45,6 @@ class VideoPreviewView(
   override fun getVideoTrack(): VideoTrack? = localVideoTrack
 
   override fun onLocalCameraTrackChanged() {
-    if (localVideoTrack == null) getLocalTrackAndInitializeView()
+    if (localVideoTrack == null) trySetLocalCameraTrack()
   }
 }

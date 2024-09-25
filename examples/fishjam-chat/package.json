@@ -5,8 +5,8 @@
   "scripts": {
     "prebuild": "expo prebuild",
     "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "android": "expo run:android -d",
+    "ios": "expo run:ios -d",
     "test": "jest",
     "build": "tsc && tsc --project ./plugin",
     "lint": "sh ./scripts/lint.sh",

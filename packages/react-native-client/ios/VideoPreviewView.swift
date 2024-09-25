@@ -1,7 +1,11 @@
 import ExpoModulesCore
 import FishjamCloudClient
 
-class VideoPreviewView: ExpoView {
+internal protocol OnLocalCameraTrackChangedListener {
+    func onLocalCameraTrackChanged()
+}
+
+class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
     var videoView: VideoView? = nil
     private var localVideoTrack: LocalVideoTrack? = nil
 
@@ -13,11 +17,8 @@ class VideoPreviewView: ExpoView {
         addSubview(videoView!)
     }
 
-    override func willMove(toSuperview newSuperview: UIView?) {
-        super.willMove(toSuperview: newSuperview)
-        if newSuperview == nil {
-            localVideoTrack?.stop()
-        } else {
+    private func trySetLocalCameraTrack() {
+        DispatchQueue.main.async {
             guard let tracks = RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks else {
                 os_log(
                     "Error moving VideoPreviewView: %{public}s", log: log, type: .error,
@@ -26,12 +27,28 @@ class VideoPreviewView: ExpoView {
                 return
             }
 
-            localVideoTrack =
+            self.localVideoTrack =
                 tracks.first(where: { (key, track) in
                     track is LocalVideoTrack
                 })?.value as? LocalVideoTrack
-            localVideoTrack?.start()
-            videoView?.track = localVideoTrack
+            self.localVideoTrack?.start()
+            self.videoView?.track = self.localVideoTrack
+        }
+    }
+
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        if newSuperview == nil {
+            RNFishjamClient.localCameraTrackListeners.removeAll(where: {
+                if let view = $0 as? VideoRendererView {
+                    return view === self
+                }
+                return false
+            })
+            localVideoTrack?.stop()
+        } else {
+            RNFishjamClient.localCameraTrackListeners.append(self)
+            trySetLocalCameraTrack()
         }
     }
 
@@ -59,6 +76,12 @@ class VideoPreviewView: ExpoView {
             if let captureDeviceId = captureDeviceId {
                 localVideoTrack?.switchCamera(deviceId: captureDeviceId)
             }
+        }
+    }
+
+    func onLocalCameraTrackChanged() {
+        if localVideoTrack == nil {
+            trySetLocalCameraTrack()
         }
     }
 }
