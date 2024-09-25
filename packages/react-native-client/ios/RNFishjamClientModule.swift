@@ -100,11 +100,11 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("joinRoom") {
             (
-                url: String, participantToken: String, participantMetadata: [String: Any], config: ConnectConfig,
+                url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
                 promise: Promise
             ) in
             rnFishjamClient.joinRoom(
-                url: url, participantToken: participantToken, participantMetadata: participantMetadata, config: config,
+                url: url, peerToken: peerToken, peerMetadata: peerMetadata, config: config,
                 promise: promise)
         }
 
