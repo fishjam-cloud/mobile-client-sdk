@@ -20,5 +20,9 @@ enum class EmitableEvents {
   ReconnectionStarted,
   Reconnected,
   Warning,
-  PeerStatusChanged
+  PeerStatusChanged;
+
+  companion object {
+    val allEvents = EmitableEvents.entries.map { it.name }.toTypedArray()
+  }
 }

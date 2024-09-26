@@ -106,7 +106,7 @@ class RNFishjamClientModule : Module() {
     ModuleDefinition {
       Name("RNFishjamClient")
 
-      Events(EmitableEvents.entries.joinToString())
+      Events(EmitableEvents.allEvents)
 
       val rnFishjamClient =
         RNFishjamClient { name: String, data: Map<String, Any?> ->
