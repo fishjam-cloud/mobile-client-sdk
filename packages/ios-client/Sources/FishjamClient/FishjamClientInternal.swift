@@ -80,11 +80,11 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         )
     }
 
-    func join(peerMetadata: Metadata = Metadata()) {
+    func join() {
         commandsQueue.addCommand(
             Command(commandName: .JOIN, clientStateAfterCommand: .JOINED) {
-                self.localEndpoint = self.localEndpoint.copyWith(metadata: peerMetadata)
-                self.rtcEngineCommunication.connect(metadata: peerMetadata)
+                self.localEndpoint = self.localEndpoint.copyWith(metadata: self.config?.peerMetadata)
+                self.rtcEngineCommunication.connect(metadata: self.config?.peerMetadata ?? Metadata())
             })
     }
 

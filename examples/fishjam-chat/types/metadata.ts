@@ -1,1 +1,1 @@
-export type PeerMetadata = { name?: string };
+export type PeerMetadata = { displayName?: string };
