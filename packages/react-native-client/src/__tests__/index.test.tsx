@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import * as membraneWebRTC from '../index';
+import { useRTCStatistics } from '../debug';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
 jest.mock('expo-modules-core', () => ({
@@ -62,7 +62,7 @@ test('processing statistics', async () => {
   const getStatisticsMocked = RNFishjamClientModule.getStatistics as jest.Mock;
   getStatisticsMocked.mockResolvedValueOnce(mockedStats(1));
 
-  const { result } = renderHook(() => membraneWebRTC.useRTCStatistics(1000));
+  const { result } = renderHook(() => useRTCStatistics(1000));
   expect(getStatisticsMocked.call.length).toBe(1);
 
   expect(result.current.statistics).toEqual([]);
