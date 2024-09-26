@@ -355,8 +355,8 @@ class RNFishjamClientModule : Module() {
         appContext.reactContext!!.stopService(serviceIntent)
       }
 
-      Property("participantStatus") {
-        return@Property rnFishjamClient.participantStatus
+      Property("peerStatus") {
+        return@Property rnFishjamClient.peerStatus
       }
     }
 }

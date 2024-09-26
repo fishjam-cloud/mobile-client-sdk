@@ -1,4 +1,4 @@
-enum ParticipantStatus: String {
+enum PeerStatus: String {
     case connecting
     case connected
     case error
@@ -18,7 +18,7 @@ enum EmitableEvents: String, CaseIterable {
     case reconnectionStarted = "ReconnectionStarted"
     case reconnected = "Reconnected"
     case warning = "Warning"
-    case participantStatusChanged = "ParticipantStatusChanged"
+    case peerStatusChanged = "PeerStatusChanged"
 
     var name: String {
         rawValue

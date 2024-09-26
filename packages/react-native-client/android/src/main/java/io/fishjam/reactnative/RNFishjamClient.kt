@@ -63,10 +63,10 @@ class RNFishjamClient(
 
   var appContext: AppContext? = null
 
-  var participantStatus = ParticipantStatus.idle
+  var peerStatus = PeerStatus.idle
     private set(value) {
       field = value
-      val event = EmitableEvents.ParticipantStatusChanged
+      val event = EmitableEvents.PeerStatusChanged
       emitEvent(event, mapOf(event.name to value))
     }
 
@@ -235,7 +235,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(ConnectionError(reason))
       connectPromise = null
-      participantStatus = ParticipantStatus.error
+      peerStatus = PeerStatus.error
     }
   }
 
@@ -246,7 +246,7 @@ class RNFishjamClient(
     config: ConnectConfig,
     promise: Promise
   ) {
-    participantStatus = ParticipantStatus.connecting
+    peerStatus = PeerStatus.connecting
     connectPromise = promise
     localUserMetadata = peerMetadata
     fishjamClient.connect(
@@ -803,7 +803,7 @@ class RNFishjamClient(
       connectPromise?.resolve(null)
       connectPromise = null
       emitEndpoints()
-      participantStatus = ParticipantStatus.connected
+      peerStatus = PeerStatus.connected
     }
   }
 
@@ -859,7 +859,7 @@ class RNFishjamClient(
   }
 
   override fun onDisconnected() {
-    participantStatus = ParticipantStatus.idle
+    peerStatus = PeerStatus.idle
   }
 
   override fun onSocketClose(
@@ -869,7 +869,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketClosedError(code, reason))
       connectPromise = null
-      participantStatus = ParticipantStatus.error
+      peerStatus = PeerStatus.error
     }
   }
 

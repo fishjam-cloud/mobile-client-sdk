@@ -1,6 +1,6 @@
 package io.fishjam.reactnative
 
-enum class ParticipantStatus {
+enum class PeerStatus {
   connecting,
   connected,
   error,
@@ -19,5 +19,5 @@ enum class EmitableEvents {
   ReconnectionStarted,
   Reconnected,
   Warning,
-  ParticipantStatusChanged
+  PeerStatusChanged
 }

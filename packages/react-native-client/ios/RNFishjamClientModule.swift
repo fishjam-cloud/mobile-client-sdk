@@ -210,8 +210,8 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.startAudioSwitcher()
         }
 
-        Property("participantStatus") {
-            return rnFishjamClient.participantStatus.rawValue
+        Property("peerStatus") {
+            return rnFishjamClient.peerStatus.rawValue
         }
     }
 }

@@ -81,11 +81,11 @@ export type ForegroundServiceOptions = {
 };
 
 /**
- * Represents the possible statuses of a peer connection.
+ * Represents the possible statuses of a peer connection to a room (websocket state).
  *
- * idle - Participant is not connected, either never connected or successfully disconnected.
- * connecting - Participant is in the process of connecting.
- * connected - Participant has successfully connected.
+ * idle - Peer is not connected, either never connected or successfully disconnected.
+ * connecting - Peer is in the process of connecting.
+ * connected - Peer has successfully connected.
  * error - There was an error in the connection process.
  */
-export type ParticipantStatus = 'connecting' | 'connected' | 'error' | 'idle';
+export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';

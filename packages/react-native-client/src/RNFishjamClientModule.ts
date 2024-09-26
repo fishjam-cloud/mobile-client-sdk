@@ -4,7 +4,7 @@ import { NativeModule } from 'react-native';
 import type { RTCStats } from './stats/types';
 import type {
   ForegroundServiceOptions,
-  ParticipantStatus,
+  PeerStatus,
   SimulcastConfig,
 } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
@@ -74,7 +74,7 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (options: ForegroundServiceOptions) => void;
   stopForegroundService: () => void;
-  participantStatus: ParticipantStatus;
+  peerStatus: PeerStatus;
 };
 
 const nativeModule = requireNativeModule('RNFishjamClient');

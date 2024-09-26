@@ -28,10 +28,10 @@ class RNFishjamClient: FishjamClientListener {
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
 
-    private(set) var participantStatus: ParticipantStatus = .idle {
+    private(set) var peerStatus: PeerStatus = .idle {
         didSet {
-            let event = EmitableEvents.participantStatusChanged
-            emit(event: event, data: [event.name: participantStatus.rawValue])
+            let event = EmitableEvents.peerStatusChanged
+            emit(event: event, data: [event.name: peerStatus.name])
         }
     }
 
@@ -179,7 +179,7 @@ class RNFishjamClient: FishjamClientListener {
             connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
         }
         connectPromise = nil
-        participantStatus = .error
+        peerStatus = .error
     }
 
     func onAuthSuccess() {
@@ -190,7 +190,7 @@ class RNFishjamClient: FishjamClientListener {
         url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
     ) {
-        participantStatus = .connecting
+        peerStatus = .connecting
         connectPromise = promise
         localUserMetadata = peerMetadata.toMetadata()
 
@@ -702,8 +702,7 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise?.resolve(nil)
         connectPromise = nil
         emitEndpoints()
-        //        emit(event: .participantStatusConnected)
-        participantStatus = .connected
+        peerStatus = .connected
     }
 
     func onJoinError(metadata: Any) {
@@ -765,8 +764,7 @@ class RNFishjamClient: FishjamClientListener {
                 "E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
-        //        emit(event: .participantStatusError, data: ["reason": reason])
-        participantStatus = .error
+        peerStatus = .error
     }
 
     func onSocketError() {
@@ -779,8 +777,7 @@ class RNFishjamClient: FishjamClientListener {
     func onSocketOpen() {}
 
     func onDisconnected() {
-        //        emit(event: .participantStatusDisconnected)
-        participantStatus = .idle
+        peerStatus = .idle
     }
 
     func getSimulcastConfigAsRNMap(_ simulcastConfig: SimulcastConfig) -> [String: Any] {
