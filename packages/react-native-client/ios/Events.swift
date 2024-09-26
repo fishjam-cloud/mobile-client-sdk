@@ -6,19 +6,19 @@ enum PeerStatus: String {
 }
 
 enum EmitableEvents: String, CaseIterable {
-    case isCameraOn = "IsCameraOn"
-    case isMicrophoneOn = "IsMicrophoneOn"
-    case isScreenShareOn = "IsScreenShareOn"
-    case simulcastConfigUpdate = "SimulcastConfigUpdate"
-    case peersUpdate = "PeersUpdate"
-    case audioDeviceUpdate = "AudioDeviceUpdate"
-    case sendMediaEvent = "SendMediaEvent"
-    case bandwidthEstimation = "BandwidthEstimation"
-    case reconnectionRetriesLimitReached = "ReconnectionRetriesLimitReached"
-    case reconnectionStarted = "ReconnectionStarted"
-    case reconnected = "Reconnected"
-    case warning = "Warning"
-    case peerStatusChanged = "PeerStatusChanged"
+    case IsCameraOn
+    case IsMicrophoneOn
+    case IsScreenShareOn
+    case SimulcastConfigUpdate
+    case PeersUpdate
+    case AudioDeviceUpdate
+    case SendMediaEvent
+    case BandwidthEstimation
+    case ReconnectionRetriesLimitReached
+    case ReconnectionStarted
+    case Reconnected
+    case Warning
+    case PeerStatusChanged
 
     var name: String {
         rawValue
@@ -26,7 +26,7 @@ enum EmitableEvents: String, CaseIterable {
 
     static var allEvents: [String] {
         EmitableEvents.allCases.map({ event in
-            event.rawValue
+            event.name
         })
     }
 }

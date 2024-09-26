@@ -30,8 +30,8 @@ class RNFishjamClient: FishjamClientListener {
 
     private(set) var peerStatus: PeerStatus = .idle {
         didSet {
-            let event = EmitableEvents.peerStatusChanged
-            emit(event: event, data: [event.name: peerStatus.name])
+            let event = EmitableEvents.PeerStatusChanged
+            emit(event: event, data: [event.name: peerStatus.rawValue])
         }
     }
 
@@ -256,7 +256,7 @@ class RNFishjamClient: FishjamClientListener {
     private func setCameraTrackState(_ cameraTrack: LocalVideoTrack, enabled: Bool) {
         cameraTrack.enabled = enabled
         isCameraOn = enabled
-        let event = EmitableEvents.isCameraOn
+        let event = EmitableEvents.IsCameraOn
         let isCameraEnabledMap = [event.name: enabled]
         emit(event: event, data: isCameraEnabledMap)
     }
@@ -298,7 +298,7 @@ class RNFishjamClient: FishjamClientListener {
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) {
         microphoneTrack.enabled = enabled
         isMicrophoneOn = enabled
-        let event = EmitableEvents.isMicrophoneOn
+        let event = EmitableEvents.IsMicrophoneOn
         let isMicrophoneOnMap = [event.name: enabled]
         emit(event: event, data: isMicrophoneOnMap)
     }
@@ -393,7 +393,7 @@ class RNFishjamClient: FishjamClientListener {
         //was not present before, test and maybe delete?
         screenShareTrack.enabled = enabled
         isScreenShareOn = enabled
-        let event = EmitableEvents.isScreenShareOn
+        let event = EmitableEvents.IsScreenShareOn
         let isScreenShareEnabled = [event.name: enabled]
         emit(event: event, data: isScreenShareEnabled)
     }
@@ -566,7 +566,7 @@ class RNFishjamClient: FishjamClientListener {
         videoSimulcastConfig = try toggleTrackEncoding(
             encoding: encoding, trackId: track.id, simulcastConfig: videoSimulcastConfig)
 
-        let event = EmitableEvents.simulcastConfigUpdate
+        let event = EmitableEvents.SimulcastConfigUpdate
         let simulcastConfigAsRNMap = getSimulcastConfigAsRNMap(videoSimulcastConfig)
         emit(event: event, data: simulcastConfigAsRNMap)
 
@@ -688,11 +688,11 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emit(warning: String) {
-        emit(event: .warning, data: ["message": warning])
+        emit(event: .Warning, data: ["message": warning])
     }
 
     func emitEndpoints() {
-        let event = EmitableEvents.peersUpdate
+        let event = EmitableEvents.PeersUpdate
         let EndpointsUpdateMap = [event.name: (try? getPeers()) ?? []]
         emit(event: event, data: EndpointsUpdateMap)
     }
@@ -840,7 +840,7 @@ class RNFishjamClient: FishjamClientListener {
         default:
             deviceTypeString = deviceType.rawValue
         }
-        let event = EmitableEvents.audioDeviceUpdate
+        let event = EmitableEvents.AudioDeviceUpdate
         emit(
             event: event,
             data: [
@@ -852,20 +852,20 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onBandwidthEstimationChanged(estimation: Int) {
-        let event = EmitableEvents.bandwidthEstimation
+        let event = EmitableEvents.BandwidthEstimation
         emit(event: event, data: [event.name: estimation])
     }
 
     func onReconnectionStarted() {
-        emit(event: .reconnectionStarted)
+        emit(event: .ReconnectionStarted)
     }
 
     func onReconnected() {
-        emit(event: .reconnected)
+        emit(event: .Reconnected)
     }
 
     func onReconnectionRetriesLimitReached() {
-        emit(event: .reconnectionRetriesLimitReached)
+        emit(event: .ReconnectionRetriesLimitReached)
     }
 
 }
