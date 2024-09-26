@@ -231,6 +231,11 @@ class RNFishjamClient: FishjamClientListener {
 
     func startCamera(config: CameraConfig) throws {
         try ensureCreated()
+        
+        if AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
+            emit(warning: "No camera access. You must first request permission before calling startCamera.")
+            return
+        }
 
         guard !isCameraInitialized else {
             emit(warning: "Camera already started. You may only call startCamera once before leaveRoom is called.")
