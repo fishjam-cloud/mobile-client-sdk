@@ -227,7 +227,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         iceServers = servers
         config = RTCConfiguration()
         config?.iceServers = servers
-        config?.iceTransportPolicy = .relay
+        config?.iceTransportPolicy = .all
     }
 
     public func close() {
@@ -394,18 +394,12 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     ) {
         setTurnServers(integratedTurnServers)
 
-        var needsRestart = true
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
-            needsRestart = false
         }
 
         guard let pc = connection else {
             return
-        }
-
-        if needsRestart {
-            pc.restartIce()
         }
 
         addNecessaryTransceivers(tracksTypes)

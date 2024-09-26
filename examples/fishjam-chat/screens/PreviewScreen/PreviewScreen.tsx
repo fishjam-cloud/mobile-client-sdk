@@ -4,6 +4,7 @@ import {
   joinRoom,
   VideoPreviewView,
   leaveRoom,
+  changeWebRTCLoggingSeverity,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -70,6 +71,7 @@ function PreviewScreen({
   };
 
   useEffect(() => {
+    changeWebRTCLoggingSeverity('info');
     prepareCamera({
       simulcastEnabled: true,
       quality: 'HD169',

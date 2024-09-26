@@ -19,6 +19,7 @@ import com.fishjamcloud.client.utils.getEncodings
 import com.fishjamcloud.client.utils.setLocalDescription
 import com.fishjamcloud.client.utils.setRemoteDescription
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -45,6 +46,8 @@ internal class PeerConnectionManager(
   private var peerConnection: PeerConnection? = null
   private val peerConnectionMutex = Mutex()
   private val peerConnectionStats = mutableMapOf<String, RTCStats>()
+  private val coroutineScope: CoroutineScope =
+    ClosableCoroutineScope(SupervisorJob() + Dispatchers.Default)
 
   private var iceServers: List<PeerConnection.IceServer>? = null
   private var config: PeerConnection.RTCConfiguration? = null
@@ -52,10 +55,10 @@ internal class PeerConnectionManager(
   private val qrcMutex = Mutex()
   private var midToTrackId: Map<String, String> = HashMap<String, String>()
 
-  private val coroutineScope: CoroutineScope =
-    ClosableCoroutineScope(SupervisorJob())
-
   private var streamIds: List<String> = listOf(UUID.randomUUID().toString())
+
+  private var sentSdpOffer = false
+  private var localCandidatesList = mutableListOf<IceCandidate>()
 
   private fun getSendEncodingsFromConfig(simulcastConfig: SimulcastConfig): List<RtpParameters.Encoding> {
     val sendEncodings = Constants.simulcastEncodings()
@@ -84,7 +87,7 @@ internal class PeerConnectionManager(
         listOf(RtpParameters.Encoding(null, true, null))
       }
 
-    peerConnectionMutex.withLock {
+    //peerConnectionMutex.withLock {
       val pc =
         peerConnection ?: run {
           Timber.e("addTrack: Peer connection not yet established")
@@ -102,7 +105,7 @@ internal class PeerConnectionManager(
         sendEncodings
       )
       pc.enforceSendOnlyDirection()
-    }
+    //}
   }
 
   private fun applyBitrate(
@@ -233,17 +236,15 @@ internal class PeerConnectionManager(
       peerConnectionFactory.createPeerConnection(config, this)
         ?: throw IllegalStateException("Failed to create a peerConnection")
 
-    peerConnectionMutex.withLock {
       this@PeerConnectionManager.peerConnection = pc
-    }
+
 
     localTracks.forEach {
       addTrack(it, streamIds)
     }
 
-    peerConnectionMutex.withLock {
       pc.enforceSendOnlyDirection()
-    }
+
   }
 
   private suspend fun drainCandidates() {
@@ -284,7 +285,10 @@ internal class PeerConnectionManager(
       }
 
     val config = PeerConnection.RTCConfiguration(iceServers)
-    config.iceTransportsType = PeerConnection.IceTransportsType.RELAY
+    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
+   // config.continualGatheringPolicy = PeerConnection.ContinualGatheringPolicy.GATHER_CONTINUALLY
+    config.iceTransportsType = PeerConnection.IceTransportsType.ALL
+    //config.tcpCandidatePolicy = PeerConnection.TcpCandidatePolicy.DISABLED
     this.config = config
   }
 
@@ -372,19 +376,16 @@ internal class PeerConnectionManager(
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
     }
-    prepareIceServers(integratedTurnServers)
 
-    var needsRestart = true
-    if (peerConnection == null) {
-      setupPeerConnection(localTracks)
-      needsRestart = false
-    }
     peerConnectionMutex.withLock {
-      val pc = peerConnection!!
+      sentSdpOffer = false
+      prepareIceServers(integratedTurnServers)
 
-      if (needsRestart) {
-        pc.restartIce()
+      if (peerConnection == null) {
+        setupPeerConnection(localTracks)
       }
+
+      val pc = peerConnection!!
 
       addNecessaryTransceivers(tracksTypes)
 
@@ -475,9 +476,27 @@ internal class PeerConnectionManager(
     Timber.d("Change ice gathering state to $state")
   }
 
+  suspend fun onSentSdpOffer() {
+    peerConnectionMutex.withLock {
+      sentSdpOffer = true
+      localCandidatesList.forEach { candidate ->  listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }}
+      localCandidatesList = mutableListOf()
+    }
+
+  }
+
   override fun onIceCandidate(candidate: IceCandidate?) {
-    if (candidate != null) {
-      listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }
+    coroutineScope.launch {
+      peerConnectionMutex.withLock {
+
+        if (candidate != null) {
+          if(sentSdpOffer) {
+            listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }
+          } else {
+            localCandidatesList.add(candidate)
+          }
+        }
+      }
     }
   }
 

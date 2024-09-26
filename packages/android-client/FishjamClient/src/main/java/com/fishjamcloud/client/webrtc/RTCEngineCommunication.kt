@@ -77,12 +77,16 @@ internal class RTCEngineCommunication {
 
   fun localCandidate(
     sdp: String,
-    sdpMLineIndex: Int
+    sdpMLineIndex: Int,
+    sdpMid: Int,
+    usernameFragment: String
   ) {
     sendEvent(
       LocalCandidate(
         sdp,
-        sdpMLineIndex
+        sdpMLineIndex,
+        sdpMid,
+        usernameFragment
       )
     )
   }
@@ -107,10 +111,12 @@ internal class RTCEngineCommunication {
 
   private fun sendEvent(event: SendableEvent) {
     val serializedMediaEvent = gson.toJson(event.serializeToMap())
+    Timber.e("SEND: "+ serializedMediaEvent)
     listeners.forEach { listener -> listener.onSendMediaEvent(serializedMediaEvent) }
   }
 
   private fun decodeEvent(event: SerializedMediaEvent): ReceivableEvent? {
+    Timber.e("RECEIVE: "+ event)
     val type = object : TypeToken<Map<String, Any?>>() {}.type
 
     val rawMessage: Map<String, Any?> = gson.fromJson(event, type)

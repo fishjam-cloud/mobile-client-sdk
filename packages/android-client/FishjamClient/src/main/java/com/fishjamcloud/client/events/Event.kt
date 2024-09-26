@@ -4,12 +4,14 @@ import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Payload
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import com.google.gson.ToNumberPolicy
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 
-internal val gson = Gson()
+internal val gson = GsonBuilder().setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE).create()
 
 // convert a data class to a map
 internal fun <T> T.serializeToMap(): Map<String, Any?> = convert()
@@ -63,7 +65,7 @@ data class LocalCandidate(
   val type: String,
   val data: Payload
 ) : SendableEvent() {
-  constructor(candidate: String, sdpMLineIndex: Int) :
+  constructor(candidate: String, sdpMLineIndex: Int, sdpMid: Int, usernameFragment: String) :
     this(
       "custom",
       mapOf(
@@ -71,7 +73,9 @@ data class LocalCandidate(
         "data" to
           mapOf(
             "candidate" to candidate,
-            "sdpMLineIndex" to sdpMLineIndex
+            "sdpMLineIndex" to sdpMLineIndex,
+            "sdpMid" to sdpMid,
+            "usernameFragment" to usernameFragment
           )
       )
     )
@@ -375,7 +379,8 @@ data class RemoteCandidate(
   data class Data(
     val candidate: String,
     val sdpMLineIndex: Int,
-    val sdpMid: String?
+    val sdpMid: Int,
+    val usernameFragment: String
   )
 }
 

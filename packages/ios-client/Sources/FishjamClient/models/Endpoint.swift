@@ -1,8 +1,9 @@
 public enum EndpointType: String, Codable {
     case WEBRTC
+    case EXWEBRTC
 
     init(fromString s: String) {
-        self = EndpointType(rawValue: s.uppercased()) ?? .WEBRTC
+        self = EndpointType(rawValue: s.uppercased()) ?? .EXWEBRTC
     }
 
     public init(from decoder: Decoder) throws {
