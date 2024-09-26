@@ -1,5 +1,6 @@
 package io.fishjam.reactnative
 
+@Suppress("ktlint:standard:enum-entry-name-case")
 enum class PeerStatus {
   connecting,
   connected,
