@@ -63,6 +63,7 @@ export {
   stopForegroundService,
 } from './utils/foregroundService';
 
+export type { PeerStatus } from './hooks/usePeerStatus';
 export { usePeerStatus } from './hooks/usePeerStatus';
 
 export type {
@@ -72,7 +73,6 @@ export type {
   BandwidthLimit,
   SimulcastConfig,
   VideoLayout,
-  PeerStatus,
 } from './types';
 
 initializeWarningListener();
