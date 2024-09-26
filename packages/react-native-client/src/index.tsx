@@ -29,8 +29,6 @@ export { useCamera } from './hooks/useCamera';
 
 export { useMicrophone } from './hooks/useMicrophone';
 
-export { useRTCStatistics } from './stats/useRTCStatistics';
-
 export type {
   ScreenShareOptions,
   ScreenShareQuality,
@@ -42,11 +40,7 @@ export { useReconnection } from './hooks/useReconnection';
 
 export { updatePeerMetadata } from './common/metadata';
 
-export type { LoggingSeverity } from './common/webRTC';
-export {
-  changeWebRTCLoggingSeverity,
-  setTargetTrackEncoding,
-} from './common/webRTC';
+export { setTargetTrackEncoding } from './common/webRTC';
 
 export type { ConnectionConfig } from './common/client';
 export { joinRoom, leaveRoom } from './common/client';

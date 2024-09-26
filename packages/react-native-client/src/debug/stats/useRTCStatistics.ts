@@ -2,7 +2,7 @@ import { takeRight } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 
 import type { RTCInboundStats, RTCOutboundStats, RTCStats } from './types';
-import RNFishjamClientModule from '../RNFishjamClientModule';
+import RNFishjamClientModule from '../../RNFishjamClientModule';
 
 /**
  * This hook provides access to current rtc statistics data.
