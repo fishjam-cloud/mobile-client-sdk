@@ -106,21 +106,7 @@ class RNFishjamClientModule : Module() {
     ModuleDefinition {
       Name("RNFishjamClient")
 
-      Events(
-        "IsCameraOn",
-        "IsMicrophoneOn",
-        "IsScreenShareOn",
-        "SimulcastConfigUpdate",
-        "PeersUpdate",
-        "AudioDeviceUpdate",
-        "SendMediaEvent",
-        "BandwidthEstimation",
-        "ReconnectionRetriesLimitReached",
-        "ReconnectionStarted",
-        "Reconnected",
-        "Warning",
-        "ParticipantStatusChanged"
-      )
+      Events(EmitableEvents.entries.joinToString())
 
       val rnFishjamClient =
         RNFishjamClient { name: String, data: Map<String, Any?> ->
