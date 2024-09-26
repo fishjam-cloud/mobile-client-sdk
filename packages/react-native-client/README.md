@@ -18,11 +18,12 @@ There is also [API documentation](https://fishjam-cloud.github.io/mobile-client-
 
 There is simple example app, that allows you to test our service. To run it locally, follow [instructions](https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/examples/fishjam-chat#react-native-fishjam-cloud-example).
 
-## Copyright and License
-
-Copyright 2024,
-[Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
-
-[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
+## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE)
+
+## Fishjam Cloud is created by Software Mansion
+
+Since 2012 [Software Mansion](https://swmansion.com) is a software agency with experience in building web and mobile apps. We are Core React Native Contributors and experts in dealing with all kinds of React Native issues. We can help you build your next dream product – [Hire us](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme).
+
+[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme)
