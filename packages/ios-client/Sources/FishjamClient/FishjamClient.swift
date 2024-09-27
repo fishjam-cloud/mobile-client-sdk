@@ -121,24 +121,23 @@ public class FishjamClient {
     }
 
     /**
-    * Creates a screen track recording the entire device's screen.
+    * Prepares functionality allowing for recording and sending the entire device's screen.
     *
     * The method requires a media projection permission to be able to start the recording. The client assumes that the intent is valid.
-    *
+    * @param appGroup an application group identifier used to allow communication between user app and upload extension
     * @param mediaProjectionPermission a valid media projection permission intent that can be used to starting a screen capture
     * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
     * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
     * @param onEnd callback that will be invoked once the screen capture ends
-    * @return an instance of the screen share track
     */
-    public func createScreenShareTrack(
+    public func prepareForScreenSharing(
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
     ) {
-        return client.createScreenShareTrack(
+        client.prepareForScreenSharing(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
@@ -151,10 +150,9 @@ public class FishjamClient {
     * Removes an instance of local track from the client.
     *
     * @param trackId an id of a valid local track that has been created using the current client
-    * @return a boolean whether the track has been successfully removed or not
     */
     public func removeTrack(trackId: String) {
-        return client.removeTrack(trackId: trackId)
+        client.removeTrack(trackId: trackId)
     }
 
     /**

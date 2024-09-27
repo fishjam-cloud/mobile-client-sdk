@@ -347,7 +347,7 @@ class RNFishjamClient: FishjamClientListener {
             maxBandwidth: screenShareOptions.maxBandwidth)
         let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
         let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-        RNFishjamClient.fishjamClient!.createScreenShareTrack(
+        RNFishjamClient.fishjamClient!.prepareForScreenSharing(
             appGroup: appGroupName,
             videoParameters: videoParameters,
             metadata: screenShareMetadata,

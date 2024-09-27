@@ -200,7 +200,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         return audioTrack
     }
 
-    public func createScreenShareTrack(
+    public func prepareForScreenSharing(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
@@ -228,7 +228,6 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
                     })
                 do {
                     try awaitPromise(promise)
-                    screenBroadcastCapturer?.startCapture()
                     listener.onTrackAdded(track: track)
                 } catch {}
             },
@@ -245,7 +244,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         screenBroadcastCapturer = ScreenBroadcastCapturer(
             videoSource, appGroup: appGroup, videoParameters: videoParameters)
         screenBroadcastCapturer?.capturerDelegate = screenshareBroadcastReciver
-        screenBroadcastCapturer?.startCapture()
+        screenBroadcastCapturer?.startListening()
     }
 
     public func removeTrack(trackId: String) {
