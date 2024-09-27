@@ -1,7 +1,7 @@
 import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
-import type { RTCStats } from './stats/types';
+import type { RTCStats } from './debug/stats/types';
 import type { ForegroundServiceOptions, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
