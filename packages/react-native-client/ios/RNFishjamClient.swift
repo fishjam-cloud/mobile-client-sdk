@@ -28,6 +28,13 @@ class RNFishjamClient: FishjamClientListener {
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
 
+    private(set) var peerStatus: PeerStatus = .idle {
+        didSet {
+            let event = EmitableEvents.PeerStatusChanged
+            emit(event: event, data: [event.name: peerStatus.rawValue])
+        }
+    }
+
     let sendEvent: (_ eventName: String, _ data: [String: Any]) -> Void
 
     static var onTracksUpdateListeners: [OnTrackUpdateListener] = []
@@ -173,6 +180,7 @@ class RNFishjamClient: FishjamClientListener {
             connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
         }
         connectPromise = nil
+        peerStatus = .error
     }
 
     func onAuthSuccess() {
@@ -183,6 +191,7 @@ class RNFishjamClient: FishjamClientListener {
         url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
     ) {
+        peerStatus = .connecting
         connectPromise = promise
         localUserMetadata = peerMetadata.toMetadata()
 
@@ -248,9 +257,9 @@ class RNFishjamClient: FishjamClientListener {
     private func setCameraTrackState(_ cameraTrack: LocalVideoTrack, enabled: Bool) {
         cameraTrack.enabled = enabled
         isCameraOn = enabled
-        let eventName = EmitableEvents.IsCameraOn
-        let isCameraEnabledMap = [eventName: enabled]
-        emitEvent(name: eventName, data: isCameraEnabledMap)
+        let event = EmitableEvents.IsCameraOn
+        let isCameraEnabledMap = [event.name: enabled]
+        emit(event: event, data: isCameraEnabledMap)
         RNFishjamClient.localCameraTrackListeners.forEach { $0.onLocalCameraTrackChanged() }
     }
 
@@ -291,10 +300,9 @@ class RNFishjamClient: FishjamClientListener {
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) {
         microphoneTrack.enabled = enabled
         isMicrophoneOn = enabled
-        let eventName = EmitableEvents.IsMicrophoneOn
-        let isMicrophoneOnMap = [eventName: enabled]
-        print(isMicrophoneOnMap)
-        emitEvent(name: eventName, data: isMicrophoneOnMap)
+        let event = EmitableEvents.IsMicrophoneOn
+        let isMicrophoneOnMap = [event.name: enabled]
+        emit(event: event, data: isMicrophoneOnMap)
     }
 
     func setAudioSessionMode() {
@@ -383,9 +391,9 @@ class RNFishjamClient: FishjamClientListener {
 
     private func setScreenShareTrackState(enabled: Bool) throws {
         isScreenShareOn = enabled
-        let eventName = EmitableEvents.IsScreenShareOn
-        let isScreenShareEnabled = [eventName: enabled]
-        emitEvent(name: eventName, data: isScreenShareEnabled)
+        let event = EmitableEvents.IsScreenShareOn
+        let isScreenShareEnabled = [event.name: enabled]
+        emit(event: event, data: isScreenShareEnabled)
     }
 
     //returns local endpoint and remote endpoints
@@ -556,9 +564,9 @@ class RNFishjamClient: FishjamClientListener {
         videoSimulcastConfig = try toggleTrackEncoding(
             encoding: encoding, trackId: track.id, simulcastConfig: videoSimulcastConfig)
 
-        let eventName = EmitableEvents.SimulcastConfigUpdate
+        let event = EmitableEvents.SimulcastConfigUpdate
         let simulcastConfigAsRNMap = getSimulcastConfigAsRNMap(videoSimulcastConfig)
-        emitEvent(name: eventName, data: simulcastConfigAsRNMap)
+        emit(event: event, data: simulcastConfigAsRNMap)
 
         return simulcastConfigAsRNMap
     }
@@ -673,18 +681,18 @@ class RNFishjamClient: FishjamClientListener {
         )
     }
 
-    func emitEvent(name: String, data: [String: Any]) {
-        sendEvent(name, data)
+    func emit(event: EmitableEvents, data: [String: Any] = [:]) {
+        sendEvent(event.name, data)
     }
 
     func emit(warning: String) {
-        emitEvent(name: EmitableEvents.Warning, data: ["message": warning])
+        emit(event: .Warning, data: ["message": warning])
     }
 
     func emitEndpoints() {
-        let eventName = EmitableEvents.PeersUpdate
-        let EndpointsUpdateMap = [eventName: (try? getPeers()) ?? []]
-        emitEvent(name: eventName, data: EndpointsUpdateMap)
+        let event = EmitableEvents.PeersUpdate
+        let EndpointsUpdateMap = [event.name: (try? getPeers()) ?? []]
+        emit(event: event, data: EndpointsUpdateMap)
     }
 
     func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {
@@ -692,6 +700,7 @@ class RNFishjamClient: FishjamClientListener {
         connectPromise?.resolve(nil)
         connectPromise = nil
         emitEndpoints()
+        peerStatus = .connected
     }
 
     func onJoinError(metadata: Any) {
@@ -753,6 +762,7 @@ class RNFishjamClient: FishjamClientListener {
                 "E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
+        peerStatus = .error
     }
 
     func onSocketError() {
@@ -764,7 +774,9 @@ class RNFishjamClient: FishjamClientListener {
 
     func onSocketOpen() {}
 
-    func onDisconnected() {}
+    func onDisconnected() {
+        peerStatus = .idle
+    }
 
     func getSimulcastConfigAsRNMap(_ simulcastConfig: SimulcastConfig) -> [String: Any] {
         return [
@@ -826,11 +838,11 @@ class RNFishjamClient: FishjamClientListener {
         default:
             deviceTypeString = deviceType.rawValue
         }
-        let eventName = EmitableEvents.AudioDeviceUpdate
-        emitEvent(
-            name: eventName,
+        let event = EmitableEvents.AudioDeviceUpdate
+        emit(
+            event: event,
             data: [
-                eventName: [
+                event.name: [
                     "selectedDevice": ["name": output.portName, "type": deviceTypeString],
                     "availableDevices": [],
                 ]
@@ -838,20 +850,20 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onBandwidthEstimationChanged(estimation: Int) {
-        let eventName = EmitableEvents.BandwidthEstimation
-        emitEvent(name: eventName, data: [eventName: estimation])
+        let event = EmitableEvents.BandwidthEstimation
+        emit(event: event, data: [event.name: estimation])
     }
 
     func onReconnectionStarted() {
-        emitEvent(name: EmitableEvents.ReconnectionStarted, data: [:])
+        emit(event: .ReconnectionStarted)
     }
 
     func onReconnected() {
-        emitEvent(name: EmitableEvents.Reconnected, data: [:])
+        emit(event: .Reconnected)
     }
 
     func onReconnectionRetriesLimitReached() {
-        emitEvent(name: EmitableEvents.ReconnectionRetriesLimitReached, data: [:])
+        emit(event: .ReconnectionRetriesLimitReached)
     }
 
 }

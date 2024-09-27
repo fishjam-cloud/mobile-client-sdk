@@ -106,20 +106,7 @@ class RNFishjamClientModule : Module() {
     ModuleDefinition {
       Name("RNFishjamClient")
 
-      Events(
-        "IsCameraOn",
-        "IsMicrophoneOn",
-        "IsScreenShareOn",
-        "SimulcastConfigUpdate",
-        "PeersUpdate",
-        "AudioDeviceUpdate",
-        "SendMediaEvent",
-        "BandwidthEstimation",
-        "ReconnectionRetriesLimitReached",
-        "ReconnectionStarted",
-        "Reconnected",
-        "Warning"
-      )
+      Events(EmitableEvents.allEvents)
 
       val rnFishjamClient =
         RNFishjamClient { name: String, data: Map<String, Any?> ->
@@ -366,6 +353,10 @@ class RNFishjamClientModule : Module() {
           )
 
         appContext.reactContext!!.stopService(serviceIntent)
+      }
+
+      Property("peerStatus") {
+        return@Property rnFishjamClient.peerStatus
       }
     }
 }

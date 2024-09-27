@@ -81,6 +81,7 @@
   },
   "files": [
     "build/**",
+    "debug",
     "android/build.gradle",
     "android/src/**",
     "ios/*.swift",

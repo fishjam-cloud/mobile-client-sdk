@@ -63,6 +63,13 @@ class RNFishjamClient(
 
   var appContext: AppContext? = null
 
+  var peerStatus = PeerStatus.idle
+    private set(value) {
+      field = value
+      val event = EmitableEvents.PeerStatusChanged
+      emitEvent(event, mapOf(event.name to value))
+    }
+
   interface OnTrackUpdateListener {
     fun onTracksUpdate()
   }
@@ -233,6 +240,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(ConnectionError(reason))
       connectPromise = null
+      peerStatus = PeerStatus.error
     }
   }
 
@@ -243,6 +251,7 @@ class RNFishjamClient(
     config: ConnectConfig,
     promise: Promise
   ) {
+    peerStatus = PeerStatus.connecting
     connectPromise = promise
     localUserMetadata = peerMetadata
     fishjamClient.connect(
@@ -300,9 +309,8 @@ class RNFishjamClient(
   ) {
     cameraTrack.setEnabled(isEnabled)
     isCameraOn = isEnabled
-    val eventName = EmitableEvents.IsCameraOn
-    val isCameraOnMap = mapOf(eventName to isEnabled)
-    emitEvent(eventName, isCameraOnMap)
+    val event = EmitableEvents.IsCameraOn
+    emitEvent(event, mapOf(event.name to isEnabled))
     localCameraTrackListeners.forEach { it.onLocalCameraTrackChanged() }
   }
 
@@ -340,9 +348,8 @@ class RNFishjamClient(
   ) {
     microphoneTrack.setEnabled(isEnabled)
     isMicrophoneOn = isEnabled
-    val eventName = EmitableEvents.IsMicrophoneOn
-    val isMicrophoneOnMap = mapOf(eventName to isEnabled)
-    emitEvent(eventName, isMicrophoneOnMap)
+    val event = EmitableEvents.IsMicrophoneOn
+    emitEvent(event, mapOf(event.name to isEnabled))
   }
 
   suspend fun toggleMicrophone(): Boolean {
@@ -713,8 +720,8 @@ class RNFishjamClient(
 
   private fun setScreenShareTrackState(isEnabled: Boolean) {
     isScreenShareOn = isEnabled
-    val eventName = EmitableEvents.IsScreenShareOn
-    emitEvent(eventName, mapOf(eventName to isEnabled))
+    val event = EmitableEvents.IsScreenShareOn
+    emitEvent(event, mapOf(event.name to isEnabled))
   }
 
   private fun stopScreenShare() {
@@ -733,21 +740,19 @@ class RNFishjamClient(
   }
 
   private fun emitEvent(
-    eventName: String,
-    data: Map<String, Any?>
+    event: EmitableEvents,
+    data: Map<String, Any?> = mapOf()
   ) {
-    sendEvent(eventName, data)
+    sendEvent(event.name, data)
   }
 
   private fun emitWarning(warning: String) {
-    val eventName = EmitableEvents.Warning
-    emitEvent(eventName, mapOf("message" to warning))
+    emitEvent(EmitableEvents.Warning, mapOf("message" to warning))
   }
 
   private fun emitEndpoints() {
-    val eventName = EmitableEvents.PeersUpdate
-    val map = mapOf(eventName to getPeers())
-    emitEvent(eventName, map)
+    val event = EmitableEvents.PeersUpdate
+    emitEvent(event, mapOf(event.name to getPeers()))
   }
 
   private fun audioDeviceAsRNMap(audioDevice: AudioDevice): Map<String, String?> =
@@ -760,10 +765,11 @@ class RNFishjamClient(
     audioDevices: List<AudioDevice>,
     selectedDevice: AudioDevice?
   ) {
-    val eventName = EmitableEvents.AudioDeviceUpdate
-    val map =
+    val event = EmitableEvents.AudioDeviceUpdate
+    emitEvent(
+      event,
       mapOf(
-        eventName to
+        event.name to
           mapOf(
             "selectedDevice" to (
               if (selectedDevice != null) {
@@ -782,8 +788,7 @@ class RNFishjamClient(
               }
           )
       )
-
-    emitEvent(eventName, map)
+    )
   }
 
   private fun getSimulcastConfigAsRNMap(simulcastConfig: SimulcastConfig): Map<String, Any> =
@@ -804,6 +809,7 @@ class RNFishjamClient(
       connectPromise?.resolve(null)
       connectPromise = null
       emitEndpoints()
+      peerStatus = PeerStatus.connected
     }
   }
 
@@ -854,11 +860,13 @@ class RNFishjamClient(
   override fun onPeerUpdated(peer: Peer) {}
 
   override fun onBandwidthEstimationChanged(estimation: Long) {
-    val eventName = EmitableEvents.BandwidthEstimation
-    emitEvent(eventName, mapOf(eventName to estimation.toFloat()))
+    val event = EmitableEvents.BandwidthEstimation
+    emitEvent(event, mapOf(event.name to estimation.toFloat()))
   }
 
-  override fun onDisconnected() {}
+  override fun onDisconnected() {
+    peerStatus = PeerStatus.idle
+  }
 
   override fun onSocketClose(
     code: Int,
@@ -867,6 +875,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketClosedError(code, reason))
       connectPromise = null
+      peerStatus = PeerStatus.error
     }
   }
 
@@ -878,14 +887,14 @@ class RNFishjamClient(
   }
 
   override fun onReconnected() {
-    emitEvent(EmitableEvents.Reconnected, emptyMap())
+    emitEvent(EmitableEvents.Reconnected)
   }
 
   override fun onReconnectionStarted() {
-    emitEvent(EmitableEvents.ReconnectionStarted, emptyMap())
+    emitEvent(EmitableEvents.ReconnectionStarted)
   }
 
   override fun onReconnectionRetriesLimitReached() {
-    emitEvent(EmitableEvents.ReconnectionRetriesLimitReached, emptyMap())
+    emitEvent(EmitableEvents.ReconnectionRetriesLimitReached)
   }
 }

@@ -1,16 +1,23 @@
 import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
-import type { RTCStats } from './stats/types';
+import type { RTCStats } from './debug/stats/types';
 import type { ForegroundServiceOptions, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
+import { PeerStatus } from './hooks/usePeerStatus';
 
 type Metadata = { [key: string]: any };
 
 type RNFishjamClient = {
+  isMicrophoneOn: boolean;
+  isCameraOn: boolean;
+  isScreenShareOn: boolean;
+  cameras: ReadonlyArray<Camera>;
+  peerStatus: PeerStatus;
+
   joinRoom: (
     url: string,
     peerToken: string,
@@ -19,18 +26,14 @@ type RNFishjamClient = {
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
   startCamera: (config: CameraConfigInternal) => Promise<void>;
-  isMicrophoneOn: boolean;
   toggleMicrophone: () => Promise<boolean>;
-  isCameraOn: boolean;
   toggleCamera: () => Promise<boolean>;
   flipCamera: () => Promise<void>;
   switchCamera: (cameraId: string) => Promise<void>;
-  cameras: ReadonlyArray<Camera>;
   handleScreenSharePermission: () => Promise<'granted' | 'denied'>;
   toggleScreenShare: (
     screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
-  isScreenShareOn: boolean;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<
     Peer<PeerMetadataType>[]
   >;
