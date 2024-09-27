@@ -80,17 +80,6 @@ public class FishjamClient {
     }
 
     /**
-    * Tries to join the room. If user is accepted then {@link FishjamClient.onJoinSuccess} will be called.
-    * In other case {@link FishjamClient.onJoinError} is invoked.
-    *
-    * @param peerMetadata - Any information that other peers will receive in onPeerJoined
-    * after accepting this peer
-    */
-    public func join(peerMetadata: Metadata = Metadata()) {
-        client.join(peerMetadata: peerMetadata)
-    }
-
-    /**
     * Creates a video track utilizing device's camera.
     *
     * The client assumes that the user has already granted camera permissions.

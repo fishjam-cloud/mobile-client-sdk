@@ -30,7 +30,7 @@ export function parsePeersToTracks(peers: Peer<PeerMetadata>[]): GridTrack[] {
         .map((track) => ({
           ...track,
           isLocal: peer.isLocal,
-          userName: peer.metadata?.name,
+          userName: peer.metadata?.displayName,
         }))
         .filter((track) => track.type === 'Video' && track.isActive),
     );

@@ -183,10 +183,6 @@ class RNFishjamClient: FishjamClientListener {
         peerStatus = .error
     }
 
-    func onAuthSuccess() {
-        join()
-    }
-
     func joinRoom(
         url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
@@ -205,10 +201,6 @@ class RNFishjamClient: FishjamClientListener {
                 reconnectConfig: reconnectConfig
             ))
 
-    }
-
-    func join() {
-        RNFishjamClient.fishjamClient?.join(peerMetadata: localUserMetadata)
     }
 
     func leaveRoom() {
@@ -410,7 +402,7 @@ class RNFishjamClient: FishjamClientListener {
                 "id": endpoint.id,
                 "isLocal": endpoint.id == RNFishjamClient.fishjamClient!.getLocalEndpoint().id,
                 "type": endpoint.type,
-                "metadata": endpoint.metadata,
+                "metadata": endpoint.metadata.toDict(),
                 "tracks": endpoint.tracks.values.compactMap { track -> [String: Any?]? in
                     switch track {
                     case let track as RemoteVideoTrack:
