@@ -63,6 +63,9 @@ export {
   stopForegroundService,
 } from './utils/foregroundService';
 
+export type { PeerStatus } from './hooks/usePeerStatus';
+export { usePeerStatus } from './hooks/usePeerStatus';
+
 export type {
   TrackBandwidthLimit,
   TrackEncoding,
