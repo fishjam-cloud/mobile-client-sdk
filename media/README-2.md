@@ -1,28 +1,41 @@
-<img src="../../.github/images/fishjam-card.png" width="100%">
+# Fishjam iOS Client
 
-# Fishjam Cloud React Native client
+[Fishjam](https://github.com/fishjam-dev/fishjam) Client library for iOS apps written in Swift.
 
-`@fishjam-cloud/react-native-client` is an easiest way to add video streaming to your React Native app.
+> [!WARNING]  
+> This SDK is not stable yet. We recommend to use
+> [React Native Client](https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/packages/react-native-client) for Fishjam Cloud
+> services.
 
-# Installation
+## Components
 
-Check out the [installation](https://fishjam-cloud.github.io/documentation/guide/react-native/installation) section of our docs for the detailed installation instructions.
+The repository consists of 3 separate components:
 
-# Documentation
+- `FishjamClient` - Fishjam client fully compatible with `Fishjam`, responsible for exchanging media events and
+  receiving media streams which then are presented to the user
+- `FishjamClientDemo` - Demo application utilizing `Fishjam` client
+- `MembraneRTC` - iOS WebRTC client
 
-Check out our [documentation](https://fishjam-cloud.github.io/documentation/) on how Fishjam Cloud work and how to integrate our service with your app.
+## Installation
 
-There is also API documentation available.
+Add FishjamClient dependency to your project.
 
-# Examples
+## Developing
 
-There is simple example app, that allows you to test our service. To run it locally, follow [instructions](https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/examples/fishjam-chat#react-native-fishjam-cloud-example).
+1. Run `./scripts/init.sh` in the main directory to install swift-format and release-it and set up git hooks
+2. Edit `Debug.xcconfig` to set backend url in development.
 
-## Copyright and License
+## Contributing
 
-Copyright 2024,
-[Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
+We welcome contributions to iOS Client SDK. Please report any bugs or issues you find or feel free to make a pull
+request with your own bug fixes and/or features.
 
-[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=react-client)
+## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE)
+
+## Fishjam Cloud is created by Software Mansion
+
+Since 2012 [Software Mansion](https://swmansion.com) is a software agency with experience in building web and mobile apps. We are Core React Native Contributors and experts in dealing with all kinds of React Native issues. We can help you build your next dream product – [Hire us](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme).
+
+[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme)

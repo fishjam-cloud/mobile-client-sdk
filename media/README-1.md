@@ -1,47 +1,56 @@
-# Fishjam iOS Client
+# Fishjam Android Client
 
-[Fishjam](https://github.com/fishjam-dev/fishjam) Client library for iOS apps written in Swift.
+Android client library for [Fishjam](https://github.com/fishjam-dev/fishjam).
 
-## Components
-
-The repository consists of 3 separate components:
-
-- `FishjamClient` - Fishjam client fully compatible with `Fishjam`, responsible for exchanging media events and
-  receiving media streams which then are presented to the user
-- `FishjamClientDemo` - Demo application utilizing `Fishjam` client
-- `MembraneRTC` - iOS WebRTC client
-
-### Example App
-
-Really simple App allowing to test `Fishjam client` functionalities. It consist of 2 screens:
-
-- Joining screen where user passes peer token followed by join button click
-- Room's screen consisting of set of control buttons and an area where participants' videos get displayed
-
-## Documentation
-
-API documentation is available [here](https://fishjam-cloud.github.io/mobile-client-sdk/modules/ios_client.html).
+> [!WARNING]  
+> This SDK is not stable yet. We recommend to use
+> [React Native Client](https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/packages/react-native-client) for Fishjam Cloud
+> services.
 
 ## Installation
 
-Add FishjamClient dependency to your project.
+Add jitpack repo to your build.gradle:
 
-## Developing
+```gradle
+ allprojects {
+  repositories {
+   ...
+   maven { url 'https://jitpack.io' }
+  }
+ }
+```
 
-1. Run `./scripts/init.sh` in the main directory to install swift-format and release-it and set up git hooks
-2. Edit `Debug.xcconfig` to set backend url in development.
-3. Run `release-it` to release. Follow the prompts, it should update version in podspec, make a commit and tag and push
-   the new version.
+Add the dependency:
+
+```gradle
+ dependencies {
+   implementation 'com.github.fishjam-cloud:android-client-sdk:<<version>>'
+ }
+```
+
+## Usage
+
+Make sure you have:
+
+- Running [Fishjam Cloud](https://fishjam.io) account.
+- Created room and token of peer in that room. You can use [Room Manager](https://fishjam.io/app) from your account dashboard
+
+## Development
+
+1. Set `FISHJAM_SOCKET_URL` in `~/.gradle/gradle.properties` to your dev backend.
+2. Run `ktlint` to format code (if missing, install it with `brew install ktlint`)
 
 ## Contributing
 
-We welcome contributions to iOS Client SDK. Please report any bugs or issues you find or feel free to make a pull
-request with your own bug fixes and/or features.
+We welcome contributions to this SDK. Please report any bugs or issues you find or feel free to make a pull request with
+your own bug fixes and/or features.`
 
-## Copyright and License
-
-Copyright 2023, [Software Mansion](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=fishjam)
-
-[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=membrane-github)](https://swmansion.com/?utm_source=git&utm_medium=readme&utm_campaign=fishjam)
+## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE)
+
+## Fishjam Cloud is created by Software Mansion
+
+Since 2012 [Software Mansion](https://swmansion.com) is a software agency with experience in building web and mobile apps. We are Core React Native Contributors and experts in dealing with all kinds of React Native issues. We can help you build your next dream product – [Hire us](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme).
+
+[![Software Mansion](https://logo.swmansion.com/logo?color=white&variant=desktop&width=200&tag=react-client)](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme)
