@@ -394,7 +394,7 @@ class RNFishjamClient: FishjamClientListener {
     func getPeers() throws -> [[String: Any?]] {
         let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
         return endpoints.compactMap { endpoint in
-            return [
+            [
                 "id": endpoint.id,
                 "isLocal": endpoint.id == RNFishjamClient.fishjamClient!.getLocalEndpoint().id,
                 "type": endpoint.type,

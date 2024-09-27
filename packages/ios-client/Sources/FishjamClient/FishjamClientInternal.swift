@@ -84,7 +84,7 @@ internal class FishjamClientInternal: WebSocketDelegate, PeerConnectionListener,
         commandsQueue.addCommand(
             Command(commandName: .JOIN, clientStateAfterCommand: .JOINED) {
                 self.localEndpoint = self.localEndpoint.copyWith(metadata: self.config?.peerMetadata)
-                self.rtcEngineCommunication.connect(metadata: self.config?.peerMetadata ?? Metadata())
+                self.rtcEngineCommunication.connect(metadata: self.localEndpoint.metadata)
             })
     }
 
