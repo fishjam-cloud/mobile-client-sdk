@@ -78,7 +78,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer {
     private let videoParameters: VideoParameters
     private let appGroup: String
     private let ipcServer: IPCServer
-    internal let source: RTCVideoSource
+    let source: RTCVideoSource
     private var started = false
     private var isReceivingSamples: Bool = false
 
