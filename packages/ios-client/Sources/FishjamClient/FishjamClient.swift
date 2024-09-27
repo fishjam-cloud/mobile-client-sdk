@@ -131,14 +131,13 @@ public class FishjamClient {
     * @param onEnd callback that will be invoked once the screen capture ends
     * @return an instance of the screen share track
     */
-    @discardableResult
     public func createScreenShareTrack(
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreenShareTrack) -> Void,
-        onStop: @escaping (_ track: LocalScreenShareTrack) -> Void
-    ) -> LocalScreenShareTrack? {
+        onStart: @escaping () -> Void,
+        onStop: @escaping () -> Void
+    ) {
         return client.createScreenShareTrack(
             appGroup: appGroup,
             videoParameters: videoParameters,

@@ -52,12 +52,12 @@ async function getFishjamServer(
   }
   const tokenData = (await response.json()) as {
     url: string;
-    token: string;
+    participantToken: string;
   };
 
   return {
     fishjamUrl: tokenData.url,
-    token: tokenData.token,
+    token: tokenData.participantToken,
   };
 }
 

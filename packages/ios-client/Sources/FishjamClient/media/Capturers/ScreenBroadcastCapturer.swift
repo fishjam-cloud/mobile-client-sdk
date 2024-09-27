@@ -78,7 +78,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
     private let videoParameters: VideoParameters
     private let appGroup: String
     private let ipcServer: IPCServer
-    private let source: RTCVideoSource
+    internal let source: RTCVideoSource
     private var started = false
     private var isReceivingSamples: Bool = false
 
@@ -220,6 +220,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
     }
 
     public func startCapture() {
+        guard !ipcServer.connected else { return }
         guard ipcServer.listen(for: appGroup) else {
             fatalError(
                 "Failed to open IPC for screen broadcast, make sure that both app and extension are using same App Group"

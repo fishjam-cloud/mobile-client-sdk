@@ -351,12 +351,11 @@ class RNFishjamClient: FishjamClientListener {
             appGroup: appGroupName,
             videoParameters: videoParameters,
             metadata: screenShareMetadata,
-            onStart: { [weak self] screenShareTrack in
-                guard let self = self else { return }
+            onStart: { [weak self] in
+                guard let self else { return }
 
                 do {
-                    //not sure should it be here, or outside or where?
-                    try setScreenShareTrackState(screenShareTrack, enabled: true)
+                    try setScreenShareTrackState(enabled: true)
                 } catch {
                     os_log(
                         "Error starting screen share: %{public}s", log: log, type: .error,
@@ -365,11 +364,10 @@ class RNFishjamClient: FishjamClientListener {
                 }
 
             },
-            onStop: { [weak self] screenShareTrack in
-                guard let self = self else { return }
+            onStop: { [weak self] in
+                guard let self else { return }
                 do {
-                    //not sure should it be here, or outside or where?
-                    try setScreenShareTrackState(screenShareTrack, enabled: false)
+                    try setScreenShareTrackState(enabled: false)
                 } catch {
                     os_log(
                         "Error stopping screen share: %{public}s", log: log, type: .error,
@@ -383,9 +381,7 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    private func setScreenShareTrackState(_ screenShareTrack: LocalScreenShareTrack, enabled: Bool) throws {
-        //was not present before, test and maybe delete?
-        screenShareTrack.enabled = enabled
+    private func setScreenShareTrackState(enabled: Bool) throws {
         isScreenShareOn = enabled
         let eventName = EmitableEvents.IsScreenShareOn
         let isScreenShareEnabled = [eventName: enabled]
