@@ -116,10 +116,10 @@ public class FishjamClient {
     *
     * The method requires a media projection permission to be able to start the recording. The client assumes that the intent is valid.
     * @param appGroup an application group identifier used to allow communication between user app and upload extension
-    * @param mediaProjectionPermission a valid media projection permission intent that can be used to starting a screen capture
     * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
-    * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
-    * @param onEnd callback that will be invoked once the screen capture ends
+    * @param metadata the metadata that will be sent to the <strong>WebRTC Engine</strong> for media negotiation
+    * @param onStart callback that will be invoked once the screen capture starts
+    * @param onStop callback that will be invoked once the screen capture stops
     */
     public func prepareForScreenSharing(
         appGroup: String,

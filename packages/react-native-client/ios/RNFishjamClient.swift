@@ -282,8 +282,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func startMicrophone() throws {
-        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
-            metadata: Metadata())
+        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(metadata: Metadata())
         setAudioSessionMode()
         setMicrophoneTrackState(microphoneTrack, enabled: true)
         emitEndpoints()
