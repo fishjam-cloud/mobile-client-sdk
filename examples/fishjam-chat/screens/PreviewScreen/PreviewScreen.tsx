@@ -86,7 +86,7 @@ function PreviewScreen({
       route.params.fishjamUrl,
       route.params.peerToken,
       {
-        name: route.params.userName,
+        displayName: route.params.userName,
       },
     );
 
