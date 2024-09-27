@@ -25,8 +25,6 @@ enum EmitableEvents: String, CaseIterable {
     }
 
     static var allEvents: [String] {
-        EmitableEvents.allCases.map({ event in
-            event.name
-        })
+        EmitableEvents.allCases.map(\.name)
     }
 }
