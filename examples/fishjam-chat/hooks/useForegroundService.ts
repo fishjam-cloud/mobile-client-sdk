@@ -3,7 +3,7 @@ import {
   stopForegroundService,
 } from '@fishjam-cloud/react-native-client';
 import { AndroidForegroundServiceType } from '@fishjam-cloud/react-native-client';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const startServiceWithTypes = (
   foregroundServiceTypes: AndroidForegroundServiceType[],
@@ -37,18 +37,10 @@ export const useForegroundService = ({
   }, [enableCamera, enableMicrophone]);
 
   useEffect(() => {
-    startServiceWithTypes(foregroundServiceTypes);
+    startServiceWithTypes([
+      ...foregroundServiceTypes,
+      AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
+    ]);
     return () => stopForegroundService();
   }, [foregroundServiceTypes]);
-
-  const enableScreenShareService = useCallback(
-    () =>
-      startServiceWithTypes([
-        ...foregroundServiceTypes,
-        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-      ]),
-    [foregroundServiceTypes],
-  );
-
-  return { enableScreenShareService };
 };
