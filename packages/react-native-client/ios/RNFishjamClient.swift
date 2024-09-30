@@ -237,7 +237,7 @@ class RNFishjamClient: FishjamClientListener {
             return
         }
         
-        guard await PermissionUtils.isCameraAuthorized else {
+        guard await PermissionUtils.requestCameraPermission() else {
             emit(warning: "Camera permission not granted.")
             return
         }
@@ -295,7 +295,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func startMicrophone() async throws {
-        guard await PermissionUtils.isMicrophoneAuthorized else {
+        guard await PermissionUtils.requestMicrophonePermission() else {
             emit(warning: "Microphone permission not granted.")
             return
         }

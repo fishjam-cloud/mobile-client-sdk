@@ -1,17 +1,8 @@
 import AVFoundation
 
 class PermissionUtils {
-    static var isCameraAuthorized: Bool {
-        get async {
-            await requestAccessIfNeeded(for: .video)
-        }
-    }
-    
-    static var isMicrophoneAuthorized: Bool {
-        get async {
-            await requestAccessIfNeeded(for: .audio)
-        }
-    }
+    static func requestCameraPermission() async -> Bool { await requestAccessIfNeeded(for: .video) }
+    static func requestMicrophonePermission() async -> Bool { await requestAccessIfNeeded(for: .audio) }
     
     private static func requestAccessIfNeeded(for mediaType: AVMediaType) async -> Bool {
         let status = AVCaptureDevice.authorizationStatus(for: mediaType)
