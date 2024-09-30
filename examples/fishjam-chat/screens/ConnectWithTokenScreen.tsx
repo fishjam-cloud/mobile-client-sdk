@@ -17,7 +17,6 @@ import {
   QRCodeScanner,
   DismissKeyboard,
 } from '../components';
-import { usePermissionCheck } from '../hooks/usePermissionCheck';
 import {
   TabParamList,
   AppRootStackParamList,
@@ -39,8 +38,6 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [fishjamUrl, onChangeFishjamUrl] = useState(
     'wss://fishjam.io/api/v1/connect/14e9c99eb7264a5595b04dd818be56d7"',
   );
-
-  usePermissionCheck();
 
   const onTapConnectButton = async () => {
     try {
