@@ -143,10 +143,6 @@ jobs:
           adb devices
           sleep 10
 
-      - name: Try to restore last apk
-        id: restore-apk
-        uses: ./.github/actions/restore_apk_file
-
       - name: Build release app
         if: steps.restore-apk.outputs.cache-hit != 'true'
         timeout-minutes: 20
@@ -156,9 +152,6 @@ jobs:
           cd android
           ./gradlew assembleRelease
 
-      - name: Cache new apk if necessary
-        if: steps.restore-apk.outputs.cache-hit != 'true'
-        uses: ./.github/actions/cache_apk_file
 
       - name: Logs from app to file
         run: |
