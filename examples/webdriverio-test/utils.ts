@@ -107,7 +107,7 @@ const getIosDeviceCapabilities = (
     'appium:app': process.env.IOS_APP_PATH,
     'appium:newCommandTimeout': TIMEOUT,
     'appium:xcodeOrgId': teamId,
-    'appium:xcodeSigningId': 'App Developer',
+    'appium:xcodeSigningId': 'iPhone Developer',
     'appium:fullReset': true,
   };
 };

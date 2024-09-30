@@ -49,9 +49,6 @@ const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
 const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
 
-// TODO: Remove after fixing: FCE-504
-const SKIP_IOS_TODO = driver.isIOS;
-
 type Test = {
   name: string;
   run: () => Promise<void>;
@@ -114,7 +111,11 @@ const tests: Test[] = [
         process.env.FISHJAM_HOST_MOBILE as string,
       );
       await tapButton(driver, '~' + TOKEN_TAB);
-      await typeToInput(driver, '~' + TOKEN_INPUT, peerDetails.token);
+      await typeToInput(
+        driver,
+        '~' + TOKEN_INPUT,
+        'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQwZjYwYmE5Ny0zOWY1LTQxZTktYjgwMC1iZGU3NjJjOTc3ZTBkAAdyb29tX2lkbQAAAAE5bgYADH9jQ5IBYgABUYA.RLquiU0W34ROD8nOW38m_8v18kTC8EJcUxNKnyEvrTg',
+      );
       await typeToInput(driver, '~' + URL_INPUT, webSocketUrl);
     },
     skip: false,
@@ -138,6 +139,8 @@ const tests: Test[] = [
         await getElement(driver, '~' + TITLE_TEXT);
         await tapButton(driver, '~' + OUTPUT_DEVICE_BUTTON + 0);
         await swipeDown(driver, '~' + OUTPUT_DEVICES_BOTTOM_SHEET);
+      } else {
+        await tapApp(driver);
       }
       await driver.pause(100);
     },
@@ -146,13 +149,23 @@ const tests: Test[] = [
   {
     name: 'toggle off preview camera and microphone then join the room',
     run: async () => {
-      await tapButton(driver, '~' + TOGGLE_MICROPHONE_BUTTON_PREVIEW);
-      await tapButton(driver, '~' + TOGGLE_CAMERA_BUTTON_PREVIEW);
-      await tapButton(driver, '~' + JOIN_BUTTON);
-      if (driver.isIOS) {
-        await driver.acceptAlert();
-      }
       await driver.pause(1000);
+      await tapButton(driver, '~' + TOGGLE_MICROPHONE_BUTTON_PREVIEW);
+      await driver.pause(1000);
+      await tapButton(driver, '~' + TOGGLE_CAMERA_BUTTON_PREVIEW);
+      await driver.pause(1000);
+      await tapButton(driver, '~' + JOIN_BUTTON);
+      await driver.pause(1000);
+      if (driver.isIOS) {
+        try {
+          await driver.acceptAlert();
+          await driver.pause(1000);
+          await tapButton(driver, '~' + JOIN_BUTTON);
+          await driver.pause(1000);
+        } catch (e) {
+          console.log('Alert could not be accepted');
+        }
+      }
     },
     skip: false,
   },
@@ -164,7 +177,7 @@ const tests: Test[] = [
       await driver.pause(4000);
       //todo up to here
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'toggle camera on',
@@ -218,7 +231,7 @@ const tests: Test[] = [
         await tapApp(driver);
       }
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'check if two video cells',
@@ -227,7 +240,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 1);
       await getElement(driver, '~' + VIDEO_CELL + 3, true);
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'toggle camera off',
@@ -242,7 +255,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1, true);
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'screen share off',
@@ -254,14 +267,14 @@ const tests: Test[] = [
       }
       await tapApp(driver);
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'check if no camera view again',
     run: async () => {
       await getElement(driver, '~' + NO_CAMERA_VIEW);
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'toggle microphone on',
