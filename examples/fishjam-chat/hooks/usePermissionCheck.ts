@@ -18,6 +18,6 @@ export function usePermissionCheck() {
       }
     }
 
-    request();
+    // request();
   }, []);
 }

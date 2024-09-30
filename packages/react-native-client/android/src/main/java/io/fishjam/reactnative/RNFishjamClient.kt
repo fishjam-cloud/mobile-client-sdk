@@ -1,10 +1,13 @@
 package io.fishjam.reactnative
 
+import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
 import com.fishjamcloud.client.media.LocalAudioTrack
@@ -27,6 +30,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -287,6 +291,11 @@ class RNFishjamClient(
       emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
       return
     }
+    if (!PermissionUtils.isCameraAuthorized(context = appContext?.reactContext!!)) {
+      emitWarning("Camera permission not granted.")
+      return
+    }
+
     val cameraTrack = createCameraTrack(config)
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
@@ -337,6 +346,11 @@ class RNFishjamClient(
   }
 
   private suspend fun startMicrophone() {
+    if (!PermissionUtils.isMicrophoneAuthorized(context = appContext?.reactContext!!)) {
+      emitWarning("Microphone permission not granted.")
+      return
+    }
+
     val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
     setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
