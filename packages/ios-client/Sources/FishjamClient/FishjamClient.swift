@@ -80,17 +80,6 @@ public class FishjamClient {
     }
 
     /**
-    * Tries to join the room. If user is accepted then {@link FishjamClient.onJoinSuccess} will be called.
-    * In other case {@link FishjamClient.onJoinError} is invoked.
-    *
-    * @param peerMetadata - Any information that other peers will receive in onPeerJoined
-    * after accepting this peer
-    */
-    public func join(peerMetadata: Metadata = Metadata()) {
-        client.join(peerMetadata: peerMetadata)
-    }
-
-    /**
     * Creates a video track utilizing device's camera.
     *
     * The client assumes that the user has already granted camera permissions.
@@ -123,25 +112,23 @@ public class FishjamClient {
     }
 
     /**
-    * Creates a screen track recording the entire device's screen.
+    * Prepares functionality allowing for recording and sending the entire device's screen.
     *
     * The method requires a media projection permission to be able to start the recording. The client assumes that the intent is valid.
-    *
-    * @param mediaProjectionPermission a valid media projection permission intent that can be used to starting a screen capture
+    * @param appGroup an application group identifier used to allow communication between user app and upload extension
     * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
-    * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
-    * @param onEnd callback that will be invoked once the screen capture ends
-    * @return an instance of the screen share track
+    * @param metadata the metadata that will be sent to the <strong>WebRTC Engine</strong> for media negotiation
+    * @param onStart callback that will be invoked once the screen capture starts
+    * @param onStop callback that will be invoked once the screen capture stops
     */
-    @discardableResult
-    public func createScreenShareTrack(
+    public func prepareForScreenSharing(
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
-        onStart: @escaping (_ track: LocalScreenShareTrack) -> Void,
-        onStop: @escaping (_ track: LocalScreenShareTrack) -> Void
-    ) -> LocalScreenShareTrack? {
-        return client.createScreenShareTrack(
+        onStart: @escaping () -> Void,
+        onStop: @escaping () -> Void
+    ) {
+        client.prepareForScreenSharing(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
@@ -154,10 +141,9 @@ public class FishjamClient {
     * Removes an instance of local track from the client.
     *
     * @param trackId an id of a valid local track that has been created using the current client
-    * @return a boolean whether the track has been successfully removed or not
     */
     public func removeTrack(trackId: String) {
-        return client.removeTrack(trackId: trackId)
+        client.removeTrack(trackId: trackId)
     }
 
     /**

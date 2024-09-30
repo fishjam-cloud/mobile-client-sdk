@@ -1,6 +1,6 @@
 {
   "name": "@fishjam-cloud/react-native-client",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "A React Native client for Fishjam Cloud",
   "author": "Fishjam Cloud Team",
   "license": "Apache-2.0",
@@ -45,10 +45,10 @@
   },
   "devDependencies": {
     "@testing-library/react": "^15.0.7",
-    "@types/lodash": "^4.17.7",
+    "@types/lodash": "^4.17.9",
     "@types/phoenix": "^1.6.5",
     "@types/promise-fs": "^2.1.2",
-    "@types/react": "^18.3.7",
+    "@types/react": "^18.3.9",
     "expo": "^51.0.32",
     "expo-module-scripts": "^3.5.2",
     "expo-modules-core": "^1.12.24",
