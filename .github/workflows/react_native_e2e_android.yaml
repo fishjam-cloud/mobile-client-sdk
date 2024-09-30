@@ -3,10 +3,10 @@ name: React Native - Android E2E tests
 on:
   push:
     branches:
-      - __disabled__
+      - main
   pull_request:
     branches:
-      - __disabled__
+      - main
 
 jobs:
   rn_e2e_android:
