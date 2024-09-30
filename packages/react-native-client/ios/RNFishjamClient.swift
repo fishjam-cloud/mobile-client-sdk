@@ -236,7 +236,7 @@ class RNFishjamClient: FishjamClientListener {
             emit(warning: "Camera already started. You may only call startCamera once before leaveRoom is called.")
             return
         }
-        
+
         guard await PermissionUtils.requestCameraPermission() else {
             emit(warning: "Camera permission not granted.")
             return

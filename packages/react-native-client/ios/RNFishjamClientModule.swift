@@ -81,27 +81,27 @@ public class RNFishjamClientModule: Module {
             client.create()
             return client
         }()
-        
+
         Name("RNFishjamClient")
 
         Events(EmitableEvents.allEvents)
-        
+
         Property("peerStatus") {
             rnFishjamClient.peerStatus.rawValue
         }
-        
+
         Property("isMicrophoneOn") {
             return rnFishjamClient.isMicrophoneOn
         }
-        
+
         Property("isCameraOn") {
             return rnFishjamClient.isCameraOn
         }
-        
+
         Property("cameras") {
             rnFishjamClient.getCaptureDevices()
         }
-        
+
         Property("isScreenShareOn") {
             return rnFishjamClient.isScreenShareOn
         }

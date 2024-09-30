@@ -9,7 +9,6 @@ import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import expo.modules.kotlin.modules.ModuleDefinitionData
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
 import io.fishjam.reactnative.utils.PermissionUtils
@@ -327,12 +326,18 @@ class RNFishjamClientModule : Module() {
         }
 
         if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_CAMERA) && !PermissionUtils.hasCameraPermission(appContext)) {
-          rnFishjamClient.emitWarning(warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_CAMERA will fail without CAMERA permission. Foreground Service not started.")
+          @Suppress("ktlint:standard:max-line-length")
+          rnFishjamClient.emitWarning(
+            warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_CAMERA will fail without CAMERA permission. Foreground Service not started."
+          )
           return@Function
         }
 
         if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_MICROPHONE) && !PermissionUtils.hasMicrophonePermission(appContext)) {
-          rnFishjamClient.emitWarning(warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_MICROPHONE will fail without RECORD_AUDIO permission. Foreground Service not started.")
+          @Suppress("ktlint:standard:max-line-length")
+          rnFishjamClient.emitWarning(
+            warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_MICROPHONE will fail without RECORD_AUDIO permission. Foreground Service not started."
+          )
           return@Function
         }
 
