@@ -72,13 +72,13 @@ internal protocol ScreenBroadcastCapturerDelegate: AnyObject {
 ///
 /// It is important that the capturer gets started with a proper `appGroup` that is shared between the application and the `Broadcast Extension` itself
 /// (required by `IPC` mechanism).
-class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
+class ScreenBroadcastCapturer: RTCVideoCapturer {
     public weak var capturerDelegate: ScreenBroadcastCapturerDelegate?
 
     private let videoParameters: VideoParameters
     private let appGroup: String
     private let ipcServer: IPCServer
-    private let source: RTCVideoSource
+    let source: RTCVideoSource
     private var started = false
     private var isReceivingSamples: Bool = false
 
@@ -112,7 +112,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
         // this is needed as we can't know if the IPC Client stopped working or not, so at least
         // we can check that that we receiving some samples
         timeoutTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
-            guard let self = self else {
+            guard let self else {
                 timer.invalidate()
                 return
             }
@@ -135,7 +135,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
 
         ipcServer.onReceive = { [weak self] _, _, data in
             guard
-                let self = self,
+                let self,
                 let sample = try? BroadcastMessage(serializedData: data)
             else {
                 return
@@ -219,7 +219,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
         }
     }
 
-    public func startCapture() {
+    public func startListening() {
         guard ipcServer.listen(for: appGroup) else {
             fatalError(
                 "Failed to open IPC for screen broadcast, make sure that both app and extension are using same App Group"
@@ -227,7 +227,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer, VideoCapturer {
         }
     }
 
-    public func stopCapture() {
+    public func stopListening() {
         ipcServer.close()
         ipcServer.dispose()
     }
