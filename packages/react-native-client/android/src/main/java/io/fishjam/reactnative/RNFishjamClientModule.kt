@@ -325,22 +325,6 @@ class RNFishjamClientModule : Module() {
           throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
         }
 
-        if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_CAMERA) && !PermissionUtils.hasCameraPermission(appContext)) {
-          @Suppress("ktlint:standard:max-line-length")
-          rnFishjamClient.emitWarning(
-            warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_CAMERA will fail without CAMERA permission. Foreground Service not started."
-          )
-          return@Function
-        }
-
-        if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_MICROPHONE) && !PermissionUtils.hasMicrophonePermission(appContext)) {
-          @Suppress("ktlint:standard:max-line-length")
-          rnFishjamClient.emitWarning(
-            warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_MICROPHONE will fail without RECORD_AUDIO permission. Foreground Service not started."
-          )
-          return@Function
-        }
-
         val serviceIntent =
           Intent(
             appContext.reactContext,
