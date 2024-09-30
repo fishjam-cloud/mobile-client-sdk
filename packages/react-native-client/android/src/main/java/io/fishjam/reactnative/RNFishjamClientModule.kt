@@ -1,14 +1,18 @@
 package io.fishjam.reactnative
 
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
 import android.os.Build
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.modules.ModuleDefinitionData
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
+import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -320,6 +324,16 @@ class RNFishjamClientModule : Module() {
 
         if (foregroundServiceTypes.isEmpty()) {
           throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
+        }
+
+        if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_CAMERA) && !PermissionUtils.hasCameraPermission(appContext)) {
+          rnFishjamClient.emitWarning(warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_CAMERA will fail without CAMERA permission. Foreground Service not started.")
+          return@Function
+        }
+
+        if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_MICROPHONE) && !PermissionUtils.hasMicrophonePermission(appContext)) {
+          rnFishjamClient.emitWarning(warning = "Requesting foreground service with FOREGROUND_SERVICE_TYPE_MICROPHONE will fail without RECORD_AUDIO permission. Foreground Service not started.")
+          return@Function
         }
 
         val serviceIntent =

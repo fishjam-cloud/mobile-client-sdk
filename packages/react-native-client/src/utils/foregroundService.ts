@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ForegroundServiceOptions } from '../types';
 
@@ -23,10 +23,25 @@ import { ForegroundServiceOptions } from '../types';
     ```
     * @category Screenshare
     */
-export const startForegroundService = (options: ForegroundServiceOptions) => {
+export const startForegroundService = async (
+  options: ForegroundServiceOptions,
+): Promise<void> => {
   if (Platform.OS !== 'android') {
     return;
   }
+  try {
+    const result = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
+    if (result !== PermissionsAndroid.RESULTS.GRANTED) {
+      console.warn(
+        "Notifications permission not granted. User won't be able to see a the app is in background.",
+      );
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+
   RNFishjamClientModule.startForegroundService(options);
 };
 

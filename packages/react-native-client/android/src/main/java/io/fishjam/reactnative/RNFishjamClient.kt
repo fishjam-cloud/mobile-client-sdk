@@ -288,7 +288,7 @@ class RNFishjamClient(
       emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
       return
     }
-    if (!PermissionUtils.isCameraAuthorized(appContext = appContext)) {
+    if (!PermissionUtils.requestCameraPermission(appContext = appContext)) {
       emitWarning("Camera permission not granted.")
       return
     }
@@ -343,7 +343,7 @@ class RNFishjamClient(
   }
 
   private suspend fun startMicrophone() {
-    if (!PermissionUtils.isMicrophoneAuthorized(appContext = appContext)) {
+    if (!PermissionUtils.requestMicrophonePermission(appContext = appContext)) {
       emitWarning("Microphone permission not granted.")
       return
     }
@@ -757,7 +757,7 @@ class RNFishjamClient(
     sendEvent(event.name, data)
   }
 
-  private fun emitWarning(warning: String) {
+  fun emitWarning(warning: String) {
     emitEvent(EmitableEvents.Warning, mapOf("message" to warning))
   }
 

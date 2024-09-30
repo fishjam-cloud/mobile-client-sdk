@@ -33,10 +33,10 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const [peerToken, onChangePeerToken] = useState(
-    'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQ0OTY2MzI1My02ZTk1LTQ5YTMtYjBhMC01ZGFhMjczNTViY2NkAAdyb29tX2lkbQAAAEZjOWY1LTQyZGYtYjBjNC0xZTY2ODAwMmU2YjMtNjY2OTczNjg2YTYxNmQ0MDMxMzAyZTMyMzQzMDJlMzMzMjJlMzEzMzM2bgYAUbO5M5IBYgABUYA.KkYoWt7Zw49xGiGmff5E_UVhlNX6lGqEckAAUHxoiJk',
+    process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
-    'wss://fishjam.io/api/v1/connect/14e9c99eb7264a5595b04dd818be56d7"',
+    process.env.EXPO_PUBLIC_FISHJAM_URL ?? '',
   );
 
   const onTapConnectButton = async () => {
