@@ -1,13 +1,10 @@
 package io.fishjam.reactnative
 
-import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
 import com.fishjamcloud.client.media.LocalAudioTrack
@@ -291,7 +288,7 @@ class RNFishjamClient(
       emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
       return
     }
-    if (!PermissionUtils.isCameraAuthorized(context = appContext?.reactContext!!)) {
+    if (!PermissionUtils.isCameraAuthorized(appContext = appContext)) {
       emitWarning("Camera permission not granted.")
       return
     }
@@ -346,7 +343,7 @@ class RNFishjamClient(
   }
 
   private suspend fun startMicrophone() {
-    if (!PermissionUtils.isMicrophoneAuthorized(context = appContext?.reactContext!!)) {
+    if (!PermissionUtils.isMicrophoneAuthorized(appContext = appContext)) {
       emitWarning("Microphone permission not granted.")
       return
     }

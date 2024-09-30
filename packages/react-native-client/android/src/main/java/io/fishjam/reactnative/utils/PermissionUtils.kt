@@ -1,67 +1,36 @@
 package io.fishjam.reactnative.utils
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
+import expo.modules.interfaces.permissions.Permissions
+import expo.modules.interfaces.permissions.PermissionsStatus
 import expo.modules.kotlin.AppContext
-import kotlinx.coroutines.suspendCancellableCoroutine
+import expo.modules.kotlin.exception.Exceptions
 import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object PermissionUtils {
+  suspend fun isCameraAuthorized(appContext: AppContext?): Boolean = requestAccessIfNeeded(appContext, Manifest.permission.CAMERA)
+  suspend fun isMicrophoneAuthorized(appContext: AppContext?): Boolean = requestAccessIfNeeded(appContext, Manifest.permission.RECORD_AUDIO)
 
+  private suspend fun requestAccessIfNeeded(
+    appContext: AppContext?,
+    permission: String
+  ): Boolean {
+    val permissionsManager: Permissions =
+      appContext?.permissions
+        ?: throw Exceptions.PermissionsModuleNotFound()
 
-    suspend fun isCameraAuthorized(appContext: AppContext?): Boolean {
-        return when {
-            ContextCompat.checkSelfPermission(appContext?.reactContext!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
-                true
-            }
-            else -> {
-                suspendCancellableCoroutine { continuation ->
-                    val activity = context as? FragmentActivity
-                    activity?.let {
-                        val requestPermissionLauncher = activity.registerForActivityResult(
-                            ActivityResultContracts.RequestPermission()
-                        ) { isGranted: Boolean ->
-                            continuation.resume(isGranted)
-                        }
+    val isGranted = appContext.reactContext?.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 
-                        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-
-                        continuation.invokeOnCancellation {
-                            requestPermissionLauncher.unregister()
-                        }
-                    } ?: continuation.resume(false)
-                }
-            }
-        }
+    if (isGranted) {
+      return true
     }
 
-  suspend fun isMicrophoneAuthorized(context: Context): Boolean {
-    return when {
-      ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED -> {
-        true
-      }
-      else -> {
-        suspendCancellableCoroutine { continuation ->
-          val activity = context as? FragmentActivity
-          activity?.let {
-            val requestPermissionLauncher = activity.registerForActivityResult(
-              ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-              continuation.resume(isGranted)
-            }
-
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-
-            continuation.invokeOnCancellation {
-              requestPermissionLauncher.unregister()
-            }
-          } ?: continuation.resume(false)
-        }
-      }
+    return suspendCoroutine { continuation ->
+      permissionsManager.askForPermissions({ result ->
+        continuation.resume(result[permission]?.status == PermissionsStatus.GRANTED)
+      }, permission)
     }
   }
 }
