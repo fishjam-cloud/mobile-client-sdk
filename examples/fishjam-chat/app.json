@@ -37,6 +37,14 @@
     },
     "plugins": [
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      [
         "@fishjam-cloud/react-native-client",
         {
           "android": {
@@ -47,15 +55,7 @@
           }
         }
       ],
-      ["./plugin/build/with-local-paths-for-native-packages.js"],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "usesCleartextTraffic": true
-          }
-        }
-      ]
+      ["./plugin/build/with-local-paths-for-native-packages.js"] // Only relevant for local development of packages/ios-client and packages/android-client
     ]
   }
 }
