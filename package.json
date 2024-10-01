@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "license": "MIT",
   "private": true,
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.5.0",
   "homepage": "https://fishjam.io",
   "workspaces": {
     "packages": [
