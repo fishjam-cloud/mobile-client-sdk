@@ -2450,6 +2450,7 @@ __metadata:
     react-native-safe-area-context: "npm:4.11.0"
     react-native-screens: "npm:^3.34.0"
     react-native-toast-message: "npm:^2.2.1"
+    react-native-url-polyfill: "npm:^2.0.0"
     typescript: "npm:^5.5.4"
   languageName: unknown
   linkType: soft
@@ -14936,6 +14937,17 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/03418b03ae345f5fe1c1747a98ae9c420a9ea37402d849920a14bfc6eb01541ad934266ae2656433604448d2fba1266ab6f6be649a49c9b22445e86444c1f6de
+  languageName: node
+  linkType: hard
+
+"react-native-url-polyfill@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-native-url-polyfill@npm:2.0.0"
+  dependencies:
+    whatwg-url-without-unicode: "npm:8.0.0-3"
+  peerDependencies:
+    react-native: "*"
+  checksum: 10c0/a48e6978f5a2c9e225bb93cc5f9985a8ac0fe7d8122105bcd88ef8d8420a3b33a67ce5d2bda2b606bf5fa94af9f6d04efce354580b60900e7c967fd2ebdc42cf
   languageName: node
   linkType: hard
 

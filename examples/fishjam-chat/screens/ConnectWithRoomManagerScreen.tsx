@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import { URL } from 'react-native-url-polyfill';
 
 import { Button, TextInput, DismissKeyboard } from '../components';
 import { usePermissionCheck } from '../hooks/usePermissionCheck';
@@ -26,21 +27,14 @@ type Props = CompositeScreenProps<
 async function getFishjamServer(
   roomManagerUrl: string,
   roomName: string,
-  userName: string,
+  peerName: string,
 ) {
-  const ensureUrlEndsWith = (url: string, ending: string) =>
-    url.endsWith(ending) ? url : url + ending;
+  const url = new URL(roomManagerUrl);
+  url.searchParams.set('roomName', roomName);
+  url.searchParams.set('peerName', peerName);
 
-  let url = roomManagerUrl.trim();
-  // in case user copied url from the main Fishjam panel
-  url = url.replace('/*roomName*/users/*username*', '');
-  url = ensureUrlEndsWith(url, '/');
-  // in case user copied url from the app view
-  url = ensureUrlEndsWith(url, 'room-manager/');
+  const response = await fetch(url.toString());
 
-  const response = await fetch(
-    `${url}${roomName.trim()}/users/${userName.trim()}`,
-  );
   if (!response.ok) {
     const responseText = await response.text();
     console.warn(
