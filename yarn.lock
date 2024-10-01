@@ -2380,6 +2380,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fishjam-cloud/fishjam-openapi@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@fishjam-cloud/fishjam-openapi@npm:0.1.2"
+  checksum: 10c0/75fbde4913a17ab834d104c00b6aa5f491978161bb13f836b325911136fbc82bff1ab5d41010f2d5d5cd3c1b38931238866bd7cfcad40a827ed139a599d57c0f
+  languageName: node
+  linkType: hard
+
 "@fishjam-cloud/ios-client@workspace:packages/ios-client":
   version: 0.0.0-use.local
   resolution: "@fishjam-cloud/ios-client@workspace:packages/ios-client"
@@ -2452,6 +2459,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fishjam-example/webdriverio-test@workspace:examples/webdriverio-test"
   dependencies:
+    "@fishjam-cloud/fishjam-openapi": "npm:^0.1.2"
     "@wdio/appium-service": "npm:^8.40.2"
     "@wdio/cli": "npm:^8.40.5"
     "@wdio/local-runner": "npm:^8.40.5"
