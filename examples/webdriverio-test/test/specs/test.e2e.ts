@@ -111,11 +111,7 @@ const tests: Test[] = [
         process.env.FISHJAM_HOST_MOBILE as string,
       );
       await tapButton(driver, '~' + TOKEN_TAB);
-      await typeToInput(
-        driver,
-        '~' + TOKEN_INPUT,
-        'SFMyNTY.g2gDdAAAAAJkAAdwZWVyX2lkbQAAACQwZjYwYmE5Ny0zOWY1LTQxZTktYjgwMC1iZGU3NjJjOTc3ZTBkAAdyb29tX2lkbQAAAAE5bgYADH9jQ5IBYgABUYA.RLquiU0W34ROD8nOW38m_8v18kTC8EJcUxNKnyEvrTg',
-      );
+      await typeToInput(driver, '~' + TOKEN_INPUT, peerDetails.token);
       await typeToInput(driver, '~' + URL_INPUT, webSocketUrl);
     },
     skip: false,
@@ -125,8 +121,12 @@ const tests: Test[] = [
     run: async () => {
       await tapButton(driver, '~' + CONNECT_BUTTON);
       if (driver.isIOS) {
-        await driver.acceptAlert();
-        await driver.pause(1000);
+        try {
+          // sometimes permissions are already granted
+          await driver.acceptAlert();
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
     skip: false,
@@ -149,19 +149,13 @@ const tests: Test[] = [
   {
     name: 'toggle off preview camera and microphone then join the room',
     run: async () => {
-      await driver.pause(1000);
       await tapButton(driver, '~' + TOGGLE_MICROPHONE_BUTTON_PREVIEW);
-      await driver.pause(1000);
       await tapButton(driver, '~' + TOGGLE_CAMERA_BUTTON_PREVIEW);
-      await driver.pause(1000);
       await tapButton(driver, '~' + JOIN_BUTTON);
-      await driver.pause(1000);
       if (driver.isIOS) {
         try {
+          // sometimes permissions for local network are already granted or connection is not for local network
           await driver.acceptAlert();
-          await driver.pause(1000);
-          await tapButton(driver, '~' + JOIN_BUTTON);
-          await driver.pause(1000);
         } catch (e) {
           console.log('Alert could not be accepted');
         }
@@ -173,9 +167,6 @@ const tests: Test[] = [
     name: 'check if no camera view',
     run: async () => {
       await getElement(driver, '~' + NO_CAMERA_VIEW);
-      //todo remove next lines of code when this issue is solved https://membraneframework.atlassian.net/browse/RTC-549
-      await driver.pause(4000);
-      //todo up to here
     },
     skip: false,
   },

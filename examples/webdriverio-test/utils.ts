@@ -92,7 +92,8 @@ const getAndroidDeviceCapabilities = (
     'appium:autoGrantPermissions': true,
     'appium:app': process.env.ANDROID_APP_PATH,
     'appium:newCommandTimeout': TIMEOUT,
-    'appium:fullReset': true,
+    'appium:noReset': true,
+    'appium:fullReset': false,
   };
 };
 
@@ -108,7 +109,8 @@ const getIosDeviceCapabilities = (
     'appium:newCommandTimeout': TIMEOUT,
     'appium:xcodeOrgId': teamId,
     'appium:xcodeSigningId': 'iPhone Developer',
-    'appium:fullReset': true,
+    'appium:noReset': true,
+    'appium:fullReset': false,
   };
 };
 

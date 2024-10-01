@@ -8,7 +8,7 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useRef } from 'react';
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, View, Button } from 'react-native';
 
 import { SwitchCameraButton } from './SwitchCameraButton';
 import { SwitchOutputDeviceButton } from './SwitchOutputDeviceButton';
@@ -17,7 +17,6 @@ import {
   InCallButton,
   NoCameraView,
   SoundOutputDevicesBottomSheet,
-  Button,
 } from '../../components';
 import { usePreventBackButton } from '../../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../../navigators/AppNavigator';
