@@ -221,11 +221,16 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func startCamera(config: CameraConfig) throws {
+    func startCamera(config: CameraConfig) async throws {
         try ensureCreated()
 
         guard !isCameraInitialized else {
             emit(warning: "Camera already started. You may only call startCamera once before leaveRoom is called.")
+            return
+        }
+
+        guard await PermissionUtils.requestCameraPermission() else {
+            emit(warning: "Camera permission not granted.")
             return
         }
 
@@ -272,17 +277,22 @@ class RNFishjamClient: FishjamClientListener {
 
     }
 
-    func toggleMicrophone() throws -> Bool {
+    func toggleMicrophone() async throws -> Bool {
         if let audioTrack = getLocalAudioTrack() {
             setMicrophoneTrackState(audioTrack, enabled: !isMicrophoneOn)
         } else {
-            try startMicrophone()
+            try await startMicrophone()
         }
         return isMicrophoneOn
     }
 
-    func startMicrophone() throws {
-        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(metadata: Metadata())
+    func startMicrophone() async throws {
+        guard await PermissionUtils.requestMicrophonePermission() else {
+            emit(warning: "Microphone permission not granted.")
+            return
+        }
+        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
+            metadata: Metadata())
         setAudioSessionMode()
         setMicrophoneTrackState(microphoneTrack, enabled: true)
         emitEndpoints()
