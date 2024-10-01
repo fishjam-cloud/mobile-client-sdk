@@ -104,16 +104,16 @@ class ForegroundServiceConfig : Record {
 class RNFishjamClientModule : Module() {
   override fun definition() =
     ModuleDefinition {
-      Name("RNFishjamClient")
-
-      Events(EmitableEvents.allEvents)
+      val mutex = Mutex()
 
       val rnFishjamClient =
         RNFishjamClient { name: String, data: Map<String, Any?> ->
           sendEvent(name, data)
         }
 
-      val mutex = Mutex()
+      Name("RNFishjamClient")
+
+      Events(EmitableEvents.allEvents)
 
       OnCreate {
         rnFishjamClient.onModuleCreate(appContext)
@@ -129,6 +129,26 @@ class RNFishjamClientModule : Module() {
 
       OnActivityResult { _, result ->
         rnFishjamClient.onActivityResult(result.requestCode, result.resultCode, result.data)
+      }
+
+      Property("isCameraOn") {
+        return@Property rnFishjamClient.isCameraOn
+      }
+
+      Property("isMicrophoneOn") {
+        return@Property rnFishjamClient.isMicrophoneOn
+      }
+
+      Property("cameras") {
+        return@Property rnFishjamClient.getCaptureDevices()
+      }
+
+      Property("isScreenShareOn") {
+        return@Property rnFishjamClient.isScreenShareOn
+      }
+
+      Property("peerStatus") {
+        return@Property rnFishjamClient.peerStatus
       }
 
       AsyncFunction(
@@ -151,18 +171,10 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      Property("isMicrophoneOn") {
-        return@Property rnFishjamClient.isMicrophoneOn
-      }
-
       AsyncFunction("toggleMicrophone") Coroutine { ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.toggleMicrophone()
         }
-      }
-
-      Property("isCameraOn") {
-        return@Property rnFishjamClient.isCameraOn
       }
 
       AsyncFunction("toggleCamera") Coroutine { ->
@@ -197,14 +209,6 @@ class RNFishjamClientModule : Module() {
         withContext(Dispatchers.Main) {
           rnFishjamClient.toggleScreenShare(screenShareOptions)
         }
-      }
-
-      Property("cameras") {
-        return@Property rnFishjamClient.getCaptureDevices()
-      }
-
-      Property("isScreenShareOn") {
-        return@Property rnFishjamClient.isScreenShareOn
       }
 
       AsyncFunction("getPeers") Coroutine { ->
@@ -353,10 +357,6 @@ class RNFishjamClientModule : Module() {
           )
 
         appContext.reactContext!!.stopService(serviceIntent)
-      }
-
-      Property("peerStatus") {
-        return@Property rnFishjamClient.peerStatus
       }
     }
 }
