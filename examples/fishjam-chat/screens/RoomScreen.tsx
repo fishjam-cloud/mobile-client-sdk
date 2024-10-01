@@ -55,7 +55,10 @@ const RoomScreen = ({ navigation, route }: Props) => {
     navigation.navigate('Home');
   }, [navigation]);
 
-  const { enableScreenShareService } = useForegroundService();
+  useForegroundService({
+    enableCamera: isCameraOn,
+    enableMicrophone: isMicrophoneOn,
+  });
 
   const handleAndroidScreenSharePermission = useCallback(
     async (isScreenShareOn: boolean) => {
@@ -65,9 +68,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
       if ((await handleScreenSharePermission()) != 'granted') {
         return;
       }
-      enableScreenShareService();
     },
-    [handleScreenSharePermission, enableScreenShareService],
+    [handleScreenSharePermission],
   );
 
   const onToggleScreenShare = useCallback(async () => {

@@ -27,6 +27,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -287,6 +288,11 @@ class RNFishjamClient(
       emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
       return
     }
+    if (!PermissionUtils.requestCameraPermission(appContext)) {
+      emitWarning("Camera permission not granted.")
+      return
+    }
+
     val cameraTrack = createCameraTrack(config)
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
@@ -337,6 +343,11 @@ class RNFishjamClient(
   }
 
   private suspend fun startMicrophone() {
+    if (!PermissionUtils.requestMicrophonePermission(appContext)) {
+      emitWarning("Microphone permission not granted.")
+      return
+    }
+
     val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
     setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
@@ -746,7 +757,7 @@ class RNFishjamClient(
     sendEvent(event.name, data)
   }
 
-  private fun emitWarning(warning: String) {
+  fun emitWarning(warning: String) {
     emitEvent(EmitableEvents.Warning, mapOf("message" to warning))
   }
 

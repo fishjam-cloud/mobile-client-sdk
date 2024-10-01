@@ -73,10 +73,6 @@ typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
     public func definition() -> ModuleDefinition {
-        Name("RNFishjamClient")
-
-        Events(EmitableEvents.allEvents)
-
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {
                 (eventName: String, data: [String: Any]) in
@@ -85,6 +81,30 @@ public class RNFishjamClientModule: Module {
             client.create()
             return client
         }()
+
+        Name("RNFishjamClient")
+
+        Events(EmitableEvents.allEvents)
+
+        Property("peerStatus") {
+            return rnFishjamClient.peerStatus.rawValue
+        }
+
+        Property("isMicrophoneOn") {
+            return rnFishjamClient.isMicrophoneOn
+        }
+
+        Property("isCameraOn") {
+            return rnFishjamClient.isCameraOn
+        }
+
+        Property("cameras") {
+            return rnFishjamClient.getCaptureDevices()
+        }
+
+        Property("isScreenShareOn") {
+            return rnFishjamClient.isScreenShareOn
+        }
 
         AsyncFunction("joinRoom") {
             (
@@ -101,19 +121,11 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("startCamera") { (config: CameraConfig) in
-            try rnFishjamClient.startCamera(config: config)
-        }
-
-        Property("isMicrophoneOn") {
-            return rnFishjamClient.isMicrophoneOn
+            try await rnFishjamClient.startCamera(config: config)
         }
 
         AsyncFunction("toggleMicrophone") {
-            try rnFishjamClient.toggleMicrophone()
-        }
-
-        Property("isCameraOn") {
-            return rnFishjamClient.isCameraOn
+            try await rnFishjamClient.toggleMicrophone()
         }
 
         AsyncFunction("toggleCamera") {
@@ -128,16 +140,8 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.switchCamera(cameraId: cameraId)
         }
 
-        Property("cameras") {
-            rnFishjamClient.getCaptureDevices()
-        }
-
         AsyncFunction("toggleScreenShare") { (screenShareOptions: ScreenShareOptions) in
             try rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
-        }
-
-        Property("isScreenShareOn") {
-            return rnFishjamClient.isScreenShareOn
         }
 
         AsyncFunction("getPeers") {
@@ -208,10 +212,6 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("startAudioSwitcher") {
             rnFishjamClient.startAudioSwitcher()
-        }
-
-        Property("peerStatus") {
-            return rnFishjamClient.peerStatus.rawValue
         }
     }
 }
