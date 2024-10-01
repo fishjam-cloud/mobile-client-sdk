@@ -32,8 +32,18 @@
         "android.permission.POST_NOTIFICATIONS"
       ]
     },
-    "androidStatusBar": { "hidden": true },
+    "androidStatusBar": {
+      "hidden": true
+    },
     "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
       [
         "@fishjam-cloud/react-native-client",
         {
