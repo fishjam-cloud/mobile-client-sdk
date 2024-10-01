@@ -4,7 +4,7 @@ import {
   Peer,
 } from '@fishjam-cloud/react-native-client';
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { BrandColors } from '../utils/Colors';
@@ -13,6 +13,7 @@ import { PeerMetadata } from '../types/metadata';
 
 type Props = {
   tracks: GridTrack[];
+  onVideoTrackPress: (trackId: string) => void;
 };
 
 type GridTrack = Track & {
@@ -36,7 +37,7 @@ export function parsePeersToTracks(peers: Peer<PeerMetadata>[]): GridTrack[] {
     );
 }
 
-export default function VideosGrid({ tracks }: Props) {
+export default function VideosGrid({ tracks, onVideoTrackPress }: Props) {
   return (
     <FlatList<GridTrack>
       data={tracks}
@@ -52,11 +53,15 @@ export default function VideosGrid({ tracks }: Props) {
             },
           ]}
           key={idx}>
-          <VideoRendererView
-            trackId={track.id}
-            videoLayout="FIT"
+          <TouchableOpacity
             style={styles.flexOne}
-          />
+            onPress={() => onVideoTrackPress(track.id)}>
+            <VideoRendererView
+              trackId={track.id}
+              videoLayout="FIT"
+              style={styles.flexOne}
+            />
+          </TouchableOpacity>
           <View style={styles.userLabel}>
             <Typo variant="chat-regular">{track.userName}</Typo>
           </View>

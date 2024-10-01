@@ -5,6 +5,7 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
+  Peer,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -34,6 +35,22 @@ const {
   NO_CAMERA_VIEW,
 } = roomScreenLabels;
 
+function parsePeersToRemoteAudioTracks(peers: Peer<PeerMetadata>[]) {
+  return peers
+    .sort((peer) => (peer.isLocal ? -1 : 1))
+    .flatMap((peer) =>
+      peer.tracks
+        .map((track) => ({
+          ...track,
+          isLocal: peer.isLocal,
+          userName: peer.metadata?.displayName,
+        }))
+        .filter(
+          (track) => track.type === 'Audio' && track.isActive && !track.isLocal,
+        ),
+    );
+}
+
 const RoomScreen = ({ navigation, route }: Props) => {
   const { userName } = route?.params ?? {};
   usePreventBackButton();
@@ -43,9 +60,13 @@ const RoomScreen = ({ navigation, route }: Props) => {
     useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  const { peers } = usePeers<PeerMetadata>();
+  const { peers, toggleAudioTrack } = usePeers<PeerMetadata>();
 
   const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
+
+  const remoteAudioTracks = parsePeersToRemoteAudioTracks(peers);
+
+  console.log('remoteAudioTracks', remoteAudioTracks);
 
   const { toggleScreenShare, isScreenShareOn, handleScreenSharePermission } =
     useScreenShare();
@@ -105,7 +126,22 @@ const RoomScreen = ({ navigation, route }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       {tracks.length > 0 ? (
-        <VideosGrid tracks={tracks} />
+        <VideosGrid
+          tracks={tracks}
+          onVideoTrackPress={(videoTrackId: String) => {
+            const videTrackPeer = peers.find(
+              (peer) =>
+                !peer.isLocal &&
+                peer.tracks.find((track) => track.id === videoTrackId),
+            );
+
+            const peerAudioTrack = videTrackPeer?.tracks.find((track) => {
+              return track.type === 'Audio' && track.isActive;
+            });
+            console.log('peerAudioTrack', peerAudioTrack);
+            peerAudioTrack && toggleAudioTrack(peerAudioTrack?.id);
+          }}
+        />
       ) : (
         <NoCameraView
           username={userName || 'username'}

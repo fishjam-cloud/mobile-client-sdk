@@ -73,6 +73,7 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (options: ForegroundServiceOptions) => void;
   stopForegroundService: () => void;
+  toggleAudioTrack: (trackId: string) => void;
 };
 
 const nativeModule = requireNativeModule('RNFishjamClient');

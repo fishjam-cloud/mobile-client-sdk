@@ -100,5 +100,9 @@ export function usePeers<
     updatePeers();
   }, []);
 
-  return { peers };
+  const toggleAudioTrack = useCallback((trackId: string) => {
+    RNFishjamClientModule.toggleAudioTrack(trackId);
+  }, []);
+
+  return { peers, toggleAudioTrack };
 }

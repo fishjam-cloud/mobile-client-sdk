@@ -4,6 +4,7 @@ import {
   joinRoom,
   VideoPreviewView,
   leaveRoom,
+  usePeerStatus,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -58,6 +59,10 @@ function PreviewScreen({
     currentCamera,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
+
+  const { peerStatus } = usePeerStatus();
+
+  console.log('peerStatus', peerStatus);
 
   const toggleSwitchCamera = () => {
     const camera =

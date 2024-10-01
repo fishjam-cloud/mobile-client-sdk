@@ -358,5 +358,9 @@ class RNFishjamClientModule : Module() {
 
         appContext.reactContext!!.stopService(serviceIntent)
       }
+
+      Function("toggleAudioTrack") { trackId: String ->
+        rnFishjamClient.toggleRemoteAudioTrackId(trackId)
+      }
     }
 }

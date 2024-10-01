@@ -695,6 +695,14 @@ class RNFishjamClient(
     return newMap
   }
 
+  fun toggleRemoteAudioTrackId(trackId: String){
+    val first = getAllPeers().find {
+      it.tracks[trackId] is RemoteAudioTrack
+    }
+
+    first!!.tracks[trackId]?.setEnabled(!first.tracks[trackId]!!.isEnabled())
+  }
+
   private suspend fun startScreenShare() {
     val videoParameters = getScreenShareVideoParameters()
     if (mediaProjectionIntent == null) {

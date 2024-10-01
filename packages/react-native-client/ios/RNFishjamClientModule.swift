@@ -213,5 +213,9 @@ public class RNFishjamClientModule: Module {
         AsyncFunction("startAudioSwitcher") {
             rnFishjamClient.startAudioSwitcher()
         }
+        
+        Function("toggleAudioTrack") { (trackId: String) in
+            rnFishjamClient.toggle(remoteAudioTrackId: trackId)
+        }
     }
 }

@@ -429,6 +429,7 @@ class RNFishjamClient: FishjamClientListener {
                             "type": "Audio",
                             "metadata": track.metadata.toDict(),
                             "vadStatus": track.vadStatus.rawValue,
+                            "isEnabled": track.enabled
                         ]
 
                     case let track as LocalVideoTrack:
@@ -458,6 +459,17 @@ class RNFishjamClient: FishjamClientListener {
                 },
             ]
         }
+    }
+    
+    func toggle(remoteAudioTrackId trackId: String) {
+        let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
+        let first = endpoints.first { ep in
+            guard ep.id != RNFishjamClient.fishjamClient!.getLocalEndpoint().id else { return false }
+            return ep.tracks[trackId] != nil
+        }
+        guard let first else { return }
+        guard let track = first.tracks[trackId] as? RemoteAudioTrack else { return }
+        track.enabled.toggle()
     }
 
     func getCaptureDevices() -> [[String: Any]] {
