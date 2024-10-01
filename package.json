@@ -33,7 +33,6 @@
     "tsc": "yarn workspaces foreach -A -p run tsc",
     "lint": "yarn workspaces foreach -A -p run lint",
     "lint:check": "yarn workspaces foreach -A -p run lint:check",
-    "postinstall": "patch-package",
     "docs": "typedoc"
   }
 }
