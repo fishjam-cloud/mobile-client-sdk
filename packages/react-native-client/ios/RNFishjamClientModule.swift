@@ -87,7 +87,7 @@ public class RNFishjamClientModule: Module {
         Events(EmitableEvents.allEvents)
 
         Property("peerStatus") {
-            rnFishjamClient.peerStatus.rawValue
+            return rnFishjamClient.peerStatus.rawValue
         }
 
         Property("isMicrophoneOn") {
@@ -99,7 +99,7 @@ public class RNFishjamClientModule: Module {
         }
 
         Property("cameras") {
-            rnFishjamClient.getCaptureDevices()
+            return rnFishjamClient.getCaptureDevices()
         }
 
         Property("isScreenShareOn") {
