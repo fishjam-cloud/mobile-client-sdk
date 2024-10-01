@@ -2,7 +2,11 @@ import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './debug/stats/types';
-import type { ForegroundServiceOptions, SimulcastConfig } from './types';
+import type {
+  ForegroundServiceOptions,
+  SimulcastConfig,
+  ToggleTrackConfig,
+} from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
@@ -73,7 +77,7 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (options: ForegroundServiceOptions) => void;
   stopForegroundService: () => void;
-  toggleAudioTrack: (trackId: string) => void;
+  toggleTrack: (endpointId: ToggleTrackConfig) => void;
 };
 
 const nativeModule = requireNativeModule('RNFishjamClient');

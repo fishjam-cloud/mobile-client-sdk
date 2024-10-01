@@ -69,6 +69,15 @@ struct ConnectConfig: Record {
     var reconnectConfig: ReconnectConfig = ReconnectConfig()
 }
 
+struct ToggleTrackConfig: Record {
+    @Field
+    var endpointId: String
+    
+    @Field
+    var trackId: String
+}
+
+
 typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
@@ -214,8 +223,8 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.startAudioSwitcher()
         }
         
-        Function("toggleAudioTrack") { (trackId: String) in
-            rnFishjamClient.toggle(remoteAudioTrackId: trackId)
+        Function("toggleTrack") { (config: ToggleTrackConfig) in
+            rnFishjamClient.toggle(trackId: config.trackId, forEndpointId: config.endpointId)
         }
     }
 }

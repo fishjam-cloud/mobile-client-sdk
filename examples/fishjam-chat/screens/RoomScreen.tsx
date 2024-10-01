@@ -60,7 +60,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  const { peers, toggleAudioTrack } = usePeers<PeerMetadata>();
+  const { peers, toggleTrack } = usePeers<PeerMetadata>();
 
   const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
 
@@ -128,18 +128,15 @@ const RoomScreen = ({ navigation, route }: Props) => {
       {tracks.length > 0 ? (
         <VideosGrid
           tracks={tracks}
-          onVideoTrackPress={(videoTrackId: String) => {
-            const videTrackPeer = peers.find(
-              (peer) =>
-                !peer.isLocal &&
-                peer.tracks.find((track) => track.id === videoTrackId),
-            );
+          onVideoTrackPress={(videoTrackId: string, endpointId: string) => {
+            const videoTrackPeer = peers.find((peer) => peer.id === endpointId);
 
-            const peerAudioTrack = videTrackPeer?.tracks.find((track) => {
+            const peerAudioTrack = videoTrackPeer?.tracks.find((track) => {
               return track.type === 'Audio' && track.isActive;
             });
             console.log('peerAudioTrack', peerAudioTrack);
-            peerAudioTrack && toggleAudioTrack(peerAudioTrack?.id);
+            peerAudioTrack &&
+              toggleTrack({ endpointId, trackId: peerAudioTrack.id });
           }}
         />
       ) : (

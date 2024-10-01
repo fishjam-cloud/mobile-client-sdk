@@ -251,4 +251,8 @@ public class FishjamClient {
     public func getRemoteEndpoints() -> [Endpoint] {
         return client.remoteEndpoints
     }
+    
+    public func getRemoteEndpointsMap() -> [String: Endpoint] {
+        return client.remoteEndpointsMap
+    }
 }

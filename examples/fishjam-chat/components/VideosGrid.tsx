@@ -13,12 +13,13 @@ import { PeerMetadata } from '../types/metadata';
 
 type Props = {
   tracks: GridTrack[];
-  onVideoTrackPress: (trackId: string) => void;
+  onVideoTrackPress: (trackId: string, endpointId: string) => void;
 };
 
 type GridTrack = Track & {
   isLocal: boolean;
   userName: string | undefined;
+  endpointId: string;
 };
 
 const { VIDEO_CELL } = roomScreenLabels;
@@ -32,6 +33,7 @@ export function parsePeersToTracks(peers: Peer<PeerMetadata>[]): GridTrack[] {
           ...track,
           isLocal: peer.isLocal,
           userName: peer.metadata?.displayName,
+          endpointId: peer.id,
         }))
         .filter((track) => track.type === 'Video' && track.isActive),
     );
@@ -55,7 +57,7 @@ export default function VideosGrid({ tracks, onVideoTrackPress }: Props) {
           key={idx}>
           <TouchableOpacity
             style={styles.flexOne}
-            onPress={() => onVideoTrackPress(track.id)}>
+            onPress={() => onVideoTrackPress(track.id, track.endpointId)}>
             <VideoRendererView
               trackId={track.id}
               videoLayout="FIT"

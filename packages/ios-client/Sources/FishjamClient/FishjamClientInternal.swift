@@ -23,7 +23,7 @@ class FishjamClientInternal {
 
     private(set) var localEndpoint: Endpoint = Endpoint(id: "", type: .WEBRTC)
     private var prevTracks: [Track] = []
-    private var remoteEndpointsMap: [String: Endpoint] = [:]
+    private(set) var remoteEndpointsMap: [String: Endpoint] = [:]
 
     public init(listener: FishjamClientListener, websocketFactory: @escaping (String) -> FishjamWebsocket) {
         self.listener = listener

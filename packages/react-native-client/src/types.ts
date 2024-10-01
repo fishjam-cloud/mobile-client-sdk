@@ -79,3 +79,14 @@ export type ForegroundServiceOptions = {
   notificationContent: string;
   foregroundServiceTypes: AndroidForegroundServiceType[];
 };
+
+/**
+ * A type representing the options required for toggling a track.
+ *
+ * @param trackId The id of the track to toggle.
+ * @param endpointId The id of the endpoint to toggle the track for.
+ */
+export type ToggleTrackConfig = {
+  trackId: string;
+  endpointId: string;
+};

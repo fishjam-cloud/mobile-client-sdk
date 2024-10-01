@@ -397,11 +397,17 @@ class RNFishjamClient: FishjamClientListener {
         emit(event: event, data: isScreenShareEnabled)
     }
 
-    //returns local endpoint and remote endpoints
     static func getLocalAndRemoteEndpoints() -> [Endpoint] {
         let localEndpoint = RNFishjamClient.fishjamClient!.getLocalEndpoint()
         let remoteEndpoints = RNFishjamClient.fishjamClient!.getRemoteEndpoints()
         return [localEndpoint] + remoteEndpoints
+    }
+    
+    private static var localAndRemoteEndpointsMap: [String: Endpoint] {
+        var remoteEndpoints = RNFishjamClient.fishjamClient!.getRemoteEndpointsMap()
+        let localEndpoint = RNFishjamClient.fishjamClient!.getLocalEndpoint()
+        remoteEndpoints[localEndpoint.id] = localEndpoint
+        return remoteEndpoints
     }
 
     func getPeers() throws -> [[String: Any?]] {
@@ -461,15 +467,8 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
     
-    func toggle(remoteAudioTrackId trackId: String) {
-        let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
-        let first = endpoints.first { ep in
-            guard ep.id != RNFishjamClient.fishjamClient!.getLocalEndpoint().id else { return false }
-            return ep.tracks[trackId] != nil
-        }
-        guard let first else { return }
-        guard let track = first.tracks[trackId] as? RemoteAudioTrack else { return }
-        track.enabled.toggle()
+    func toggle(trackId: String, forEndpointId endpointId: String) {
+        RNFishjamClient.localAndRemoteEndpointsMap[endpointId]?.tracks[trackId]?.enabled.toggle()
     }
 
     func getCaptureDevices() -> [[String: Any]] {
