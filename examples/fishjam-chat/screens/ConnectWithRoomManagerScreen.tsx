@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import { Button, TextInput, DismissKeyboard } from '../components';
-import { usePermissionCheck } from '../hooks/usePermissionCheck';
 import {
   AppRootStackParamList,
   TabParamList,
@@ -70,7 +69,6 @@ export default function ConnectScreen({ navigation }: Props) {
   );
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
-  usePermissionCheck();
 
   const onTapConnectButton = async () => {
     try {
