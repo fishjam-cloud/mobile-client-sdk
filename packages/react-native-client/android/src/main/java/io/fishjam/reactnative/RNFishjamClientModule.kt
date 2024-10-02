@@ -9,6 +9,7 @@ import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
+import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -102,261 +103,212 @@ class ForegroundServiceConfig : Record {
 }
 
 class RNFishjamClientModule : Module() {
-  override fun definition() =
-    ModuleDefinition {
-      val mutex = Mutex()
+  override fun definition() = ModuleDefinition {
+    val mutex = Mutex()
 
-      val rnFishjamClient =
-        RNFishjamClient { name: String, data: Map<String, Any?> ->
-          sendEvent(name, data)
-        }
+    val rnFishjamClient = RNFishjamClient { name: String, data: Map<String, Any?> ->
+      sendEvent(name, data)
+    }
 
-      Name("RNFishjamClient")
+    Name("RNFishjamClient")
 
-      Events(EmitableEvents.allEvents)
+    Events(EmitableEvents.allEvents)
 
-      OnCreate {
-        rnFishjamClient.onModuleCreate(appContext)
-      }
+    OnCreate {
+      rnFishjamClient.onModuleCreate(appContext)
+    }
 
-      OnDestroy {
-        rnFishjamClient.onModuleDestroy()
-      }
+    OnDestroy {
+      rnFishjamClient.onModuleDestroy()
+    }
 
-      OnActivityDestroys {
-        rnFishjamClient.leaveRoom()
-      }
+    OnActivityDestroys {
+      rnFishjamClient.leaveRoom()
+    }
 
-      OnActivityResult { _, result ->
-        rnFishjamClient.onActivityResult(result.requestCode, result.resultCode, result.data)
-      }
+    OnActivityResult { _, result ->
+      rnFishjamClient.onActivityResult(result.requestCode, result.resultCode, result.data)
+    }
 
-      Property("isCameraOn") {
-        return@Property rnFishjamClient.isCameraOn
-      }
+    Property("isCameraOn") {
+      return@Property rnFishjamClient.isCameraOn
+    }
 
-      Property("isMicrophoneOn") {
-        return@Property rnFishjamClient.isMicrophoneOn
-      }
+    Property("isMicrophoneOn") {
+      return@Property rnFishjamClient.isMicrophoneOn
+    }
 
-      Property("cameras") {
-        return@Property rnFishjamClient.getCaptureDevices()
-      }
+    Property("cameras") {
+      return@Property rnFishjamClient.getCaptureDevices()
+    }
 
-      Property("isScreenShareOn") {
-        return@Property rnFishjamClient.isScreenShareOn
-      }
+    Property("isScreenShareOn") {
+      return@Property rnFishjamClient.isScreenShareOn
+    }
 
-      Property("peerStatus") {
-        return@Property rnFishjamClient.peerStatus
-      }
+    Property("peerStatus") {
+      return@Property rnFishjamClient.peerStatus
+    }
 
-      AsyncFunction(
-        "joinRoom"
-      ) { url: String, peerToken: String, peerMetadata: Map<String, Any>, config: ConnectConfig, promise: Promise ->
-        CoroutineScope(Dispatchers.Main).launch {
-          rnFishjamClient.joinRoom(url, peerToken, peerMetadata, config, promise)
-        }
-      }
-
-      AsyncFunction("leaveRoom") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.leaveRoom()
-        }
-      }
-
-      AsyncFunction("startCamera") Coroutine { config: CameraConfig ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.startCamera(config)
-        }
-      }
-
-      AsyncFunction("toggleMicrophone") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleMicrophone()
-        }
-      }
-
-      AsyncFunction("toggleCamera") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleCamera()
-        }
-      }
-
-      AsyncFunction("flipCamera") Coroutine { ->
-        mutex.withLock {
-          withContext(Dispatchers.Main) {
-            rnFishjamClient.flipCamera()
-          }
-        }
-      }
-
-      AsyncFunction("switchCamera") Coroutine { cameraId: String ->
-        mutex.withLock {
-          withContext(Dispatchers.Main) {
-            rnFishjamClient.switchCamera(cameraId)
-          }
-        }
-      }
-
-      AsyncFunction("handleScreenSharePermission") { promise: Promise ->
-        CoroutineScope(Dispatchers.Main).launch {
-          rnFishjamClient.handleScreenSharePermission(promise)
-        }
-      }
-
-      AsyncFunction("toggleScreenShare") Coroutine { screenShareOptions: ScreenShareOptions ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleScreenShare(screenShareOptions)
-        }
-      }
-
-      AsyncFunction("getPeers") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.getPeers()
-        }
-      }
-
-      AsyncFunction("updatePeerMetadata") Coroutine { metadata: Map<String, Any> ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.updatePeerMetadata(metadata)
-        }
-      }
-
-      AsyncFunction("updateVideoTrackMetadata") Coroutine { metadata: Map<String, Any> ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.updateLocalVideoTrackMetadata(metadata)
-        }
-      }
-
-      AsyncFunction("updateAudioTrackMetadata") Coroutine { metadata: Map<String, Any> ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.updateLocalAudioTrackMetadata(metadata)
-        }
-      }
-
-      AsyncFunction("updateScreenShareTrackMetadata") Coroutine { metadata: Map<String, Any> ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata)
-        }
-      }
-
-      AsyncFunction("setOutputAudioDevice") { audioDevice: String ->
-        rnFishjamClient.setOutputAudioDevice(audioDevice)
-      }
-
-      AsyncFunction("startAudioSwitcher") {
-        rnFishjamClient.startAudioSwitcher()
-      }
-
-      AsyncFunction("stopAudioSwitcher") {
-        rnFishjamClient.stopAudioSwitcher()
-      }
-
-      AsyncFunction("toggleScreenShareTrackEncoding") Coroutine { encoding: String ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleScreenShareTrackEncoding(encoding)
-        }
-      }
-
-      AsyncFunction("setScreenShareTrackBandwidth") Coroutine { bandwidth: Int ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.setScreenShareTrackBandwidth(bandwidth)
-        }
-      }
-
-      AsyncFunction("setScreenShareTrackEncodingBandwidth") Coroutine { encoding: String, bandwidth: Int ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.setScreenShareTrackEncodingBandwidth(encoding, bandwidth)
-        }
-      }
-
-      AsyncFunction("setTargetTrackEncoding") Coroutine { trackId: String, encoding: String ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.setTargetTrackEncoding(trackId, encoding)
-        }
-      }
-
-      AsyncFunction("toggleVideoTrackEncoding") Coroutine { encoding: String ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.toggleVideoTrackEncoding(encoding)
-        }
-      }
-
-      AsyncFunction("setVideoTrackEncodingBandwidth") Coroutine { encoding: String, bandwidth: Int ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.setVideoTrackEncodingBandwidth(encoding, bandwidth)
-        }
-      }
-
-      AsyncFunction("setVideoTrackBandwidth") Coroutine { bandwidth: Int ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.setVideoTrackBandwidth(bandwidth)
-        }
-      }
-
-      AsyncFunction("changeWebRTCLoggingSeverity") Coroutine { severity: String ->
-        CoroutineScope(Dispatchers.Main).launch {
-          rnFishjamClient.changeWebRTCLoggingSeverity(severity)
-        }
-      }
-
-      AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
-
-      Function("startForegroundService") { config: ForegroundServiceConfig ->
-        if (appContext.reactContext == null) {
-          throw CodedException(message = "reactContext not found")
-        }
-
-        val channelId =
-          config.channelId
-            ?: throw CodedException(message = "Missing `channelId` for startForegroundService")
-        val channelName =
-          config.channelName
-            ?: throw CodedException(message = "Missing `channelName` for startForegroundService")
-        val notificationContent =
-          config.notificationContent
-            ?: throw CodedException(message = "Missing `notificationContent` for startForegroundService")
-        val notificationTitle =
-          config.notificationTitle
-            ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
-        val foregroundServiceTypes = config.foregroundServiceTypes
-
-        if (foregroundServiceTypes.isEmpty()) {
-          throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
-        }
-
-        val serviceIntent =
-          Intent(
-            appContext.reactContext,
-            FishjamForegroundService::class.java
-          )
-
-        serviceIntent.putExtra("channelId", channelId)
-        serviceIntent.putExtra("channelName", channelName)
-        serviceIntent.putExtra("notificationTitle", notificationContent)
-        serviceIntent.putExtra("notificationContent", notificationTitle)
-        serviceIntent.putExtra("foregroundServiceTypes", foregroundServiceTypes)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          appContext.reactContext!!.startForegroundService(serviceIntent)
-        } else {
-          appContext.reactContext!!.startService(serviceIntent)
-        }
-      }
-
-      Function("stopForegroundService") {
-        if (appContext.reactContext == null) {
-          throw CodedException(message = "reactContext not found")
-        }
-
-        val serviceIntent: Intent =
-          Intent(
-            appContext.reactContext,
-            FishjamForegroundService::class.java
-          )
-
-        appContext.reactContext!!.stopService(serviceIntent)
+    AsyncFunction(
+      "joinRoom"
+    ) { url: String, peerToken: String, peerMetadata: Map<String, Any>, config: ConnectConfig, promise: Promise ->
+      CoroutineScope(Dispatchers.Main).launch {
+        rnFishjamClient.joinRoom(url, peerToken, peerMetadata, config, promise)
       }
     }
+
+    AsyncFunction("leaveRoom") Coroutine { ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.leaveRoom()
+      }
+    }
+
+    AsyncFunction("startCamera") Coroutine { config: CameraConfig ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.startCamera(config)
+      }
+    }
+
+    AsyncFunction("toggleMicrophone") Coroutine { ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.toggleMicrophone()
+      }
+    }
+
+    AsyncFunction("toggleCamera") Coroutine { ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.toggleCamera()
+      }
+    }
+
+    AsyncFunction("flipCamera") Coroutine { ->
+      mutex.withLock {
+        withContext(Dispatchers.Main) {
+          rnFishjamClient.flipCamera()
+        }
+      }
+    }
+
+    AsyncFunction("switchCamera") Coroutine { cameraId: String ->
+      mutex.withLock {
+        withContext(Dispatchers.Main) {
+          rnFishjamClient.switchCamera(cameraId)
+        }
+      }
+    }
+
+    AsyncFunction("handleScreenSharePermission") { promise: Promise ->
+      CoroutineScope(Dispatchers.Main).launch {
+        rnFishjamClient.handleScreenSharePermission(promise)
+      }
+    }
+
+    AsyncFunction("toggleScreenShare") Coroutine { screenShareOptions: ScreenShareOptions ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.toggleScreenShare(screenShareOptions)
+      }
+    }
+
+    AsyncFunction("getPeers") Coroutine { ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.getPeers()
+      }
+    }
+
+    AsyncFunction("updatePeerMetadata") Coroutine { metadata: Map<String, Any> ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.updatePeerMetadata(metadata)
+      }
+    }
+
+    AsyncFunction("updateVideoTrackMetadata") Coroutine { metadata: Map<String, Any> ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.updateLocalVideoTrackMetadata(metadata)
+      }
+    }
+
+    AsyncFunction("updateAudioTrackMetadata") Coroutine { metadata: Map<String, Any> ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.updateLocalAudioTrackMetadata(metadata)
+      }
+    }
+
+    AsyncFunction("updateScreenShareTrackMetadata") Coroutine { metadata: Map<String, Any> ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata)
+      }
+    }
+
+    AsyncFunction("setOutputAudioDevice") { audioDevice: String ->
+      rnFishjamClient.setOutputAudioDevice(audioDevice)
+    }
+
+    AsyncFunction("startAudioSwitcher") {
+      rnFishjamClient.startAudioSwitcher()
+    }
+
+    AsyncFunction("stopAudioSwitcher") {
+      rnFishjamClient.stopAudioSwitcher()
+    }
+
+    AsyncFunction("toggleScreenShareTrackEncoding") Coroutine { encoding: String ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.toggleScreenShareTrackEncoding(encoding)
+      }
+    }
+
+    AsyncFunction("setScreenShareTrackBandwidth") Coroutine { bandwidth: Int ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.setScreenShareTrackBandwidth(bandwidth)
+      }
+    }
+
+    AsyncFunction("setScreenShareTrackEncodingBandwidth") Coroutine { encoding: String, bandwidth: Int ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.setScreenShareTrackEncodingBandwidth(encoding, bandwidth)
+      }
+    }
+
+    AsyncFunction("setTargetTrackEncoding") Coroutine { trackId: String, encoding: String ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.setTargetTrackEncoding(trackId, encoding)
+      }
+    }
+
+    AsyncFunction("toggleVideoTrackEncoding") Coroutine { encoding: String ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.toggleVideoTrackEncoding(encoding)
+      }
+    }
+
+    AsyncFunction("setVideoTrackEncodingBandwidth") Coroutine { encoding: String, bandwidth: Int ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.setVideoTrackEncodingBandwidth(encoding, bandwidth)
+      }
+    }
+
+    AsyncFunction("setVideoTrackBandwidth") Coroutine { bandwidth: Int ->
+      withContext(Dispatchers.Main) {
+        rnFishjamClient.setVideoTrackBandwidth(bandwidth)
+      }
+    }
+
+    AsyncFunction("changeWebRTCLoggingSeverity") Coroutine { severity: String ->
+      CoroutineScope(Dispatchers.Main).launch {
+        rnFishjamClient.changeWebRTCLoggingSeverity(severity)
+      }
+    }
+
+    AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
+
+    AsyncFunction("startForegroundService") Coroutine { config: ForegroundServiceConfig ->
+      rnFishjamClient.startForegroundService(config)
+    }
+
+    AsyncFunction("stopForegroundService") Coroutine { ->
+      rnFishjamClient.stopForegroundService()
+    }
+  }
 }
+

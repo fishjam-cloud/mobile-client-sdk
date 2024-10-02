@@ -82,7 +82,7 @@ class FishjamForegroundService : Service() {
       NotificationChannel(
         channelId,
         channelName,
-        NotificationManager.IMPORTANCE_DEFAULT
+        NotificationManager.IMPORTANCE_LOW
       )
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
     notificationManager?.createNotificationChannel(serviceChannel)

@@ -19,7 +19,7 @@ import { ForegroundServiceOptions } from '../types';
     * as well as FishjamForegroundService in your AndroidManifest:
     * @example
     ```
-      <service android:name="io.fishjam.reactnative.FishjamForegroundService" android:foregroundServiceType="camera|microphone|mediaProjection"/>
+      <service android:name="io.fishjam.reactnative.FishjamForegroundService" />
     ```
     * @category Screenshare
     */
@@ -42,7 +42,7 @@ export const startForegroundService = async (
     console.warn(err);
   }
 
-  RNFishjamClientModule.startForegroundService(options);
+  await RNFishjamClientModule.startForegroundService(options);
 };
 
 /**
@@ -52,9 +52,9 @@ export const startForegroundService = async (
  * Does nothing on other platforms.
  * @category Screenshare
  */
-export const stopForegroundService = () => {
+export const stopForegroundService = async () => {
   if (Platform.OS !== 'android') {
     return;
   }
-  RNFishjamClientModule.stopForegroundService();
+  await RNFishjamClientModule.stopForegroundService();
 };

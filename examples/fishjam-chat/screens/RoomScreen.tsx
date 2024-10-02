@@ -5,6 +5,7 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
+  useForegroundService,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -22,7 +23,6 @@ import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parsePeersToTracks } from '../components/VideosGrid';
 import { PeerMetadata } from '../types/metadata';
-import { useForegroundService } from '../hooks/useForegroundService';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -55,7 +55,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
     navigation.navigate('Home');
   }, [navigation]);
 
-  useForegroundService({
+  console.log('wtf');
+  const { switchScreenSharingForegroundService } = useForegroundService({
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
   });
@@ -63,13 +64,17 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const handleAndroidScreenSharePermission = useCallback(
     async (isScreenShareOn: boolean) => {
       if (isScreenShareOn) {
+        await switchScreenSharingForegroundService({ enabled: false });
         return;
       }
-      if ((await handleScreenSharePermission()) != 'granted') {
-        return;
+
+      const screenSharingPermission = await handleScreenSharePermission();
+
+      if (screenSharingPermission == 'granted') {
+        await switchScreenSharingForegroundService({ enabled: true });
       }
     },
-    [handleScreenSharePermission],
+    [handleScreenSharePermission, switchScreenSharingForegroundService],
   );
 
   const onToggleScreenShare = useCallback(async () => {
@@ -77,6 +82,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
       await handleAndroidScreenSharePermission(isScreenShareOn);
     }
 
+    console.log('Toggling screen share:', isScreenShareOn);
     await toggleScreenShare({
       quality: 'HD15',
     });

@@ -50,7 +50,7 @@ async function getFishjamServer(
 
   return {
     fishjamUrl: tokenData.url,
-    token: tokenData.peerToken,
+    token: tokenData.participantToken,
   };
 }
 
@@ -59,10 +59,11 @@ export default function ConnectScreen({ navigation }: Props) {
   const [loading, setLoading] = useState(false);
 
   const [roomManagerUrl, setRoomManagerUrl] = useState(
-    process.env.EXPO_PUBLIC_ROOM_MANAGER_URL ?? '',
+    process.env.EXPO_PUBLIC_ROOM_MANAGER_URL ??
+      'https://fishjam.io/api/v1/connect/14e9c99eb7264a5595b04dd818be56d7/room-manager',
   );
-  const [roomName, setRoomName] = useState('');
-  const [userName, setUserName] = useState('');
+  const [roomName, setRoomName] = useState('test');
+  const [userName, setUserName] = useState('test1');
 
   const onTapConnectButton = async () => {
     try {
