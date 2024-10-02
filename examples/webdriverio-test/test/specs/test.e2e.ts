@@ -1,11 +1,4 @@
-import {
-  ConfigurationParameters,
-  Configuration,
-  RoomApiFp,
-  AddPeerRequest,
-  PeerDetailsResponseData,
-  Room,
-} from '@fishjam-cloud/fishjam-openapi';
+import { PeerDetailsResponseData, Room } from '@fishjam-cloud/fishjam-openapi';
 import { driver } from '@wdio/globals';
 import * as assert from 'assert';
 import type { Suite } from 'mocha';
@@ -19,13 +12,17 @@ import {
 
 import {
   getElement,
-  getWebsocketUrl,
-  getHttpUrl,
   tapApp,
   tapButton,
   typeToInput,
   swipeDown,
-} from '../../utils';
+} from '../../utils/appium_utils.ts';
+import {
+  addPeerToRoom,
+  createFishjamRoom,
+  getWebsocketUrl,
+} from '../../utils/fishjam_cloud_utils.ts';
+import { type Test } from '../../models.ts';
 
 const { TOKEN_TAB } = appNavigationLabels;
 const { URL_INPUT, TOKEN_INPUT, CONNECT_BUTTON } = connectScreenLabels;
@@ -49,48 +46,11 @@ const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
 const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
 
-type Test = {
-  name: string;
-  run: () => Promise<void>;
-  skip: boolean;
-};
-
-const configParam: ConfigurationParameters = {
-  accessToken: 'development',
-  basePath: getHttpUrl(process.env.FISHJAM_HOST_SERVER as string),
-};
-
-const config = new Configuration(configParam);
-const createFishjamRoom = async () => {
-  const { createRoom } = RoomApiFp(config);
-  const createRoomFunction = await createRoom();
-  try {
-    const response = await createRoomFunction();
-    return response.data.data.room;
-  } catch (e) {
-    console.log(e);
-  }
-};
-const addPeerToRoom = async (
-  roomId: string,
-  enableSimulcast: boolean = true,
-) => {
-  const { addPeer } = RoomApiFp(config);
-  const addPeerRequest: AddPeerRequest = {
-    type: 'webrtc',
-    options: { enableSimulcast },
-  };
-  const addPeerFunction = await addPeer(roomId, addPeerRequest);
-  try {
-    const response = await addPeerFunction();
-    return response.data.data;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 let peerDetails: PeerDetailsResponseData | undefined;
 let room: Room | undefined;
+
+const shouldSkipIOSScreenCast =
+  driver.isIOS && !(process.env.IOS_TEST_SCREEN_BROADCAST === 'true');
 
 const tests: Test[] = [
   {
@@ -222,7 +182,7 @@ const tests: Test[] = [
         await tapApp(driver);
       }
     },
-    skip: false,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'check if two video cells',
@@ -231,7 +191,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 1);
       await getElement(driver, '~' + VIDEO_CELL + 3, true);
     },
-    skip: false,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'toggle camera off',
@@ -246,7 +206,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1, true);
     },
-    skip: false,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'screen share off',
@@ -258,7 +218,7 @@ const tests: Test[] = [
       }
       await tapApp(driver);
     },
-    skip: false,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'check if no camera view again',

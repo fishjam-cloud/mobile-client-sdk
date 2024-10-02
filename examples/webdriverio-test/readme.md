@@ -23,6 +23,7 @@
   - choose archive and tap on distribute > custom > development > next ... > automatically manage signing > export
   - choose file to export your app, recommend to do it in ios folder
   - your path should look like path/to/your/app/FishjamExample.ipa
+- IOS_TEST_SCREEN_BROADCAST - indicates if ios screen broadcast should be tested
 
 #### additional envs for github action
 
