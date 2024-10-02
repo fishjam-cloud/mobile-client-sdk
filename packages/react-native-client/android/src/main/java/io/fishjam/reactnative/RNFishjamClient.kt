@@ -309,7 +309,7 @@ class RNFishjamClient(
     isCameraOn = isEnabled
     val event = EmitableEvents.IsCameraOn
     emitEvent(event, mapOf(event.name to isEnabled))
-    localCameraTracksChangedListenersManager.notify()
+    localCameraTracksChangedListenersManager.notifyListeners()
   }
 
   fun toggleCamera(): Boolean {
@@ -823,7 +823,7 @@ class RNFishjamClient(
 
   private fun addOrUpdateTrack(track: Track) {
     emitEndpoints()
-    trackUpdateListenersManager.notify()
+    trackUpdateListenersManager.notifyListeners()
   }
 
   override fun onTrackReady(track: Track) {

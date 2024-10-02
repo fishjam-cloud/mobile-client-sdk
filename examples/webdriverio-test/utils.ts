@@ -92,7 +92,8 @@ const getAndroidDeviceCapabilities = (
     'appium:autoGrantPermissions': true,
     'appium:app': process.env.ANDROID_APP_PATH,
     'appium:newCommandTimeout': TIMEOUT,
-    'appium:fullReset': true,
+    'appium:fullReset': false,
+    'appium:noReset': true,
   };
 };
 

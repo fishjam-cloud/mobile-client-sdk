@@ -15,7 +15,7 @@ class TracksUpdateListenersManager {
     listeners.remove(listener)
   }
 
-  fun notify() {
+  fun notifyListeners() {
     for (listener in listeners) listener.onTracksUpdate()
   }
 }
