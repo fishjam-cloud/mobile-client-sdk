@@ -16,7 +16,7 @@ class VideoRendererView(
   private var trackId: String? = null
 
   init {
-    RNFishjamClient.onTracksUpdateListeners.add(this)
+    RNFishjamClient.addTrackUpdateListener(this)
   }
 
   private fun setupTrack(videoTrack: VideoTrack) {
@@ -46,7 +46,7 @@ class VideoRendererView(
 
   override fun dispose() {
     activeVideoTrack?.removeRenderer(videoView)
-    RNFishjamClient.onTracksUpdateListeners.remove(this)
+    RNFishjamClient.removeTrackUpdateListener(this)
     super.dispose()
   }
 

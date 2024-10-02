@@ -37,7 +37,7 @@ abstract class VideoView(
   val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
   init {
-    RNFishjamClient.onLocalTrackSwitchListener.add(this)
+    RNFishjamClient.addLocalTrackSwitchListener(this)
   }
 
   fun setVideoLayout(videoLayout: String) {
