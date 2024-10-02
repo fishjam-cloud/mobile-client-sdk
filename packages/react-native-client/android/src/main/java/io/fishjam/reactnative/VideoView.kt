@@ -9,6 +9,7 @@ import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.VideoTrack
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
+import io.fishjam.reactnative.managers.LocalTrackSwitchListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,7 +19,7 @@ abstract class VideoView(
   context: Context,
   appContext: AppContext
 ) : ExpoView(context, appContext),
-  RNFishjamClient.OnLocalTrackSwitchListener {
+  LocalTrackSwitchListener {
   protected val videoView =
     RNFishjamClient.fishjamClient.createVideoViewRenderer().also {
       addView(it)
@@ -37,7 +38,7 @@ abstract class VideoView(
   val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
   init {
-    RNFishjamClient.addLocalTrackSwitchListener(this)
+    RNFishjamClient.localTracksSwitchListenerManager.add(this)
   }
 
   fun setVideoLayout(videoLayout: String) {
