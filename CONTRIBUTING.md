@@ -34,7 +34,7 @@ npx expo prebuild
 ```
 
 > [!NOTE]
-> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for ios/.xcode.env.local
+> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for the `ios/.xcode.env.local` file
 
 To start the packager:
 
@@ -73,22 +73,6 @@ source files at
 to edit the Android native SDK find
 `fishjam-cloud-android-client`
 
-### Commit message convention
-
-We follow the
-[conventional commits specification](https://www.conventionalcommits.org/en) for
-our commit messages:
-
-- `fix`: bug fixes, e.g. fix crash due to deprecated method.
-- `feat`: new features, e.g. add new method to the module.
-- `refactor`: code refactor, e.g. migrate from class components to hooks.
-- `docs`: changes into documentation, e.g. add usage example for the module..
-- `test`: adding or updating tests, e.g. add integration tests using detox.
-- `chore`: tooling changes, e.g. change CI config.
-
-Our pre-commit hooks verify that your commit message matches this format when
-committing.
-
 ### Linting and tests
 
 [ESLint](https://eslint.org/), [Prettier](https://prettier.io/),
@@ -97,29 +81,6 @@ committing.
 We use [TypeScript](https://www.typescriptlang.org/) for type checking,
 [ESLint](https://eslint.org/) with [Prettier](https://prettier.io/) for linting
 and formatting the code, and [Jest](https://jestjs.io/) for testing.
-
-Our pre-commit hooks verify that the linter and tests pass when committing.
-
-### Publishing to npm
-
-#### Releasing via GitHub Actions
-
-To release a new version of the package, navigate to `Actions` >
-`Release package` workflow and trigger it with the chosen release type. The
-workflow will update the package version in `package.json`, release the package
-to NPM, create a new git tag and a GitHub release.
-
-#### Releasing manually
-
-We use [release-it](https://github.com/release-it/release-it) to make it easier
-to publish new versions manually. It handles common tasks like bumping version
-based on semver, creating tags and releases etc.
-
-To publish a new version, go to `packages/react-native-client` and run the following:
-
-```sh
-yarn release
-```
 
 ### Sending a pull request
 
