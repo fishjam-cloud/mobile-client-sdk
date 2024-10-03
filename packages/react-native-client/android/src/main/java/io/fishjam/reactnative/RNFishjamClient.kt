@@ -37,6 +37,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.webrtc.Logging
 import android.content.Intent
+import android.util.Log
 import io.fishjam.reactnative.foregroundService.FishjamForegroundService
 
 class RNFishjamClient(
@@ -52,7 +53,7 @@ class RNFishjamClient(
   private var isCameraInitialized = false
 
   private var connectPromise: Promise? = null
-  private var screenSharePermissionPromise: Promise? = null
+  private var toggleScreenSharePromise: Promise? = null
 
   var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
   private var localUserMetadata: Metadata = mutableMapOf()
@@ -109,7 +110,6 @@ class RNFishjamClient(
   fun onModuleCreate(appContext: AppContext) {
     this.appContext = appContext
     this.audioSwitchManager = AudioSwitchManager(appContext.reactContext!!)
-    this.foregroundServiceManager = ForegroundServiceManager(appContext)
     create()
   }
 
@@ -128,8 +128,8 @@ class RNFishjamClient(
     coroutineScope.launch(Dispatchers.Main) {
       if (requestCode != SCREENSHARE_REQUEST) return@launch
       if (resultCode != Activity.RESULT_OK) {
-        screenSharePermissionPromise?.resolve("denied")
-        screenSharePermissionPromise = null
+        toggleScreenSharePromise?.resolve("denied")
+        toggleScreenSharePromise = null
         return@launch
       }
 
@@ -397,7 +397,8 @@ class RNFishjamClient(
     }
   }
 
-  fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
+  fun toggleScreenShare(screenShareOptions: ScreenShareOptions, promise: Promise) {
+    this.toggleScreenSharePromise = promise
     this.screenShareMetadata = screenShareOptions.screenShareMetadata
     this.screenShareQuality = screenShareOptions.quality
     this.screenShareSimulcastConfig =
@@ -707,7 +708,23 @@ class RNFishjamClient(
   }
 
   fun setForegroundServiceConfig(config: ForegroundServiceConfig) {
-    foregroundServiceManager?.config = config
+    this.foregroundServiceManager = ForegroundServiceManager(appContext!!, config) { service ->
+      if (this.foregroundServiceManager?.hasScreenSharingEnabled == true) {
+        val videoParameters = getScreenShareVideoParameters()
+        coroutineScope.launch {
+          fishjamClient.createScreenShareTrack(
+            mediaProjectionIntent!!,
+            videoParameters,
+            screenShareMetadata
+          )
+          mediaProjectionIntent = null
+
+          setScreenShareTrackState(true)
+          emitEndpoints()
+          toggleScreenSharePromise?.resolve()
+        }
+      }
+    }
   }
 
   fun startForegroundService() {
@@ -718,46 +735,41 @@ class RNFishjamClient(
     foregroundServiceManager?.stopForegroundService()
   }
 
-  private lateinit var mService: FishjamForegroundService
-  private var mBound: Boolean = false
-  private val connection = object : ServiceConnection {
-
-    override fun onServiceConnected(className: ComponentName, service: IBinder) {
-      val binder = service as FishjamForegroundService.LocalBinder
-      mService = binder.getService()
-      mBound = true
-
-      val videoParameters = getScreenShareVideoParameters()
-
-      CoroutineScope(Dispatchers.Main).launch {
-        fishjamClient.createScreenShareTrack(
-          mediaProjectionIntent!!,
-          videoParameters,
-          screenShareMetadata
-        )
-        mediaProjectionIntent = null
-
-        setScreenShareTrackState(true)
-        emitEndpoints()
-      }
-    }
-
-    override fun onServiceDisconnected(arg0: ComponentName) {
-      mBound = false
-    }
-  }
+//  private lateinit var mService: FishjamForegroundService
+//  private var mBound: Boolean = false
+//  private val connection = object : ServiceConnection {
+//
+//    override fun onServiceConnected(className: ComponentName, service: IBinder) {
+//      val binder = service as FishjamForegroundService.LocalBinder
+//      mService = binder.getService()
+//      mBound = true
+//
+//      val videoParameters = getScreenShareVideoParameters()
+//
+//      coroutineScope.launch {
+//        fishjamClient.createScreenShareTrack(
+//          mediaProjectionIntent!!,
+//          videoParameters,
+//          screenShareMetadata
+//        )
+//        mediaProjectionIntent = null
+//
+//        setScreenShareTrackState(true)
+//        emitEndpoints()
+//      }
+//    }
+//
+//    override fun onServiceDisconnected(arg0: ComponentName) {
+//      mBound = false
+//    }
+//  }
 
   private suspend fun startScreenShare() {
     if (mediaProjectionIntent == null) {
       throw MissingScreenSharePermission()
     }
 
-    val intent = foregroundServiceManager?.startForegroundService(withScreenCast = true)
-
-    intent.also { intent ->
-      appContext!!.currentActivity!!.bindService(intent!!, connection, Context.BIND_AUTO_CREATE)
-    }
-
+    foregroundServiceManager?.startForegroundService(withScreenCast = true)
   }
 
   private fun getScreenShareVideoParameters(): VideoParameters {

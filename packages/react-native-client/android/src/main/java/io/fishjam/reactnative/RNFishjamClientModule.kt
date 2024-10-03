@@ -213,10 +213,8 @@ class RNFishjamClientModule : Module() {
       }
     }
 
-    AsyncFunction("toggleScreenShare") Coroutine { screenShareOptions: ScreenShareOptions ->
-      withContext(Dispatchers.Main) {
-        rnFishjamClient.toggleScreenShare(screenShareOptions)
-      }
+    AsyncFunction("toggleScreenShare") { screenShareOptions: ScreenShareOptions, promise: Promise ->
+        rnFishjamClient.toggleScreenShare(screenShareOptions, promise)
     }
 
     AsyncFunction("getPeers") Coroutine { ->
