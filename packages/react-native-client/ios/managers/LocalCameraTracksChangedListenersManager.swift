@@ -12,8 +12,7 @@ class LocalCameraTracksChangedListenersManager {
     }
 
     func remove(_ listener: LocalCameraTrackChangedListener) {
-      listeners.removeAll{ $0 === listener}
-
+        listeners.removeAll { $0 === listener }
     }
 
     func notifyListeners() {

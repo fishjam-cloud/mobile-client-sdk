@@ -1,4 +1,4 @@
-protocol TrackUpdateListener : AnyObject{
+protocol TrackUpdateListener: AnyObject {
     func onTracksUpdate()
 }
 
@@ -10,8 +10,7 @@ class TracksUpdateListenersManager {
     }
 
     func remove(_ listener: TrackUpdateListener) {
-      listeners.removeAll{$0 === listener}
-
+        listeners.removeAll { $0 === listener }
     }
 
     func notifyListeners() {
