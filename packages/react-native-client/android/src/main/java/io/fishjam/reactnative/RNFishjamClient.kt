@@ -2,11 +2,11 @@ package io.fishjam.reactnative
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+import android.content.ComponentName
+import android.content.Context
+import android.content.ServiceConnection
 import android.media.projection.MediaProjectionManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import android.os.IBinder
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
 import com.fishjamcloud.client.media.LocalAudioTrack
@@ -29,13 +29,15 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
-import io.fishjam.reactnative.utils.ForegroundServiceManager
+import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.webrtc.Logging
+import android.content.Intent
+import io.fishjam.reactnative.foregroundService.FishjamForegroundService
 
 class RNFishjamClient(
   val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
@@ -568,7 +570,8 @@ class RNFishjamClient(
   fun toggleScreenShareTrackEncoding(encoding: String): Map<String, Any> {
     ensureScreenShareTrack()
     getLocalScreenShareTrack()?.let {
-      screenShareSimulcastConfig = toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
+      screenShareSimulcastConfig =
+        toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
     }
     return getSimulcastConfigAsRNMap(screenShareSimulcastConfig)
   }
@@ -715,23 +718,46 @@ class RNFishjamClient(
     foregroundServiceManager?.stopForegroundService()
   }
 
+  private lateinit var mService: FishjamForegroundService
+  private var mBound: Boolean = false
+  private val connection = object : ServiceConnection {
+
+    override fun onServiceConnected(className: ComponentName, service: IBinder) {
+      val binder = service as FishjamForegroundService.LocalBinder
+      mService = binder.getService()
+      mBound = true
+
+      val videoParameters = getScreenShareVideoParameters()
+
+      CoroutineScope(Dispatchers.Main).launch {
+        fishjamClient.createScreenShareTrack(
+          mediaProjectionIntent!!,
+          videoParameters,
+          screenShareMetadata
+        )
+        mediaProjectionIntent = null
+
+        setScreenShareTrackState(true)
+        emitEndpoints()
+      }
+    }
+
+    override fun onServiceDisconnected(arg0: ComponentName) {
+      mBound = false
+    }
+  }
+
   private suspend fun startScreenShare() {
-    val videoParameters = getScreenShareVideoParameters()
     if (mediaProjectionIntent == null) {
       throw MissingScreenSharePermission()
     }
 
-    foregroundServiceManager?.startForegroundService(withScreenCast = true)
+    val intent = foregroundServiceManager?.startForegroundService(withScreenCast = true)
 
-    fishjamClient.createScreenShareTrack(
-      mediaProjectionIntent!!,
-      videoParameters,
-      screenShareMetadata
-    )
-    mediaProjectionIntent = null
+    intent.also { intent ->
+      appContext!!.currentActivity!!.bindService(intent!!, connection, Context.BIND_AUTO_CREATE)
+    }
 
-    setScreenShareTrackState(true)
-    emitEndpoints()
   }
 
   private fun getScreenShareVideoParameters(): VideoParameters {
@@ -813,7 +839,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-            ),
+              ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(
