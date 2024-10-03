@@ -13,7 +13,7 @@ Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fis
 
 ## Documentation
 
-Our [official documentation](https://fishjam-cloud.github.io/documentation/) on how [Fishjam Cloud](https://fishjam.io) works and how to integrate our service with your app.
+Our [official documentation](https://docs.fishjam.io/) on how [Fishjam Cloud](https://fishjam.io) works and how to integrate our service with your app.
 
 ## Example
 
