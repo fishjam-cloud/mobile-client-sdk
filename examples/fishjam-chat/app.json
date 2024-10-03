@@ -13,7 +13,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.fishjam.example.fishjamchat"
+      "bundleIdentifier": "io.fishjam.example.fishjamchat",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true //this allows for testing in local network without secured connections
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {

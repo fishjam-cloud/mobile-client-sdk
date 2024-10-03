@@ -1,6 +1,6 @@
 import type { Options } from '@wdio/types';
 
-import { capabilities } from './utils';
+import { capabilities } from './configuration';
 import * as dotenv from 'dotenv';
 
 dotenv.config({

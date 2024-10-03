@@ -8,14 +8,7 @@ import {
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useRef } from 'react';
-import {
-  Button,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, View, Button } from 'react-native';
 
 import { SwitchCameraButton } from './SwitchCameraButton';
 import { SwitchOutputDeviceButton } from './SwitchOutputDeviceButton';
@@ -146,17 +139,6 @@ export default function PreviewScreenWrapper({ navigation, route }: Props) {
   const bottomSheetRef = useRef<BottomSheet>(null);
   usePreventBackButton();
 
-  if (Platform.OS === 'android') {
-    return (
-      <TouchableWithoutFeedback onPress={() => bottomSheetRef.current?.close()}>
-        <PreviewScreen
-          navigation={navigation}
-          route={route}
-          bottomSheetRef={bottomSheetRef}
-        />
-      </TouchableWithoutFeedback>
-    );
-  }
   return (
     <PreviewScreen
       navigation={navigation}
@@ -198,6 +180,7 @@ const styles = StyleSheet.create({
   },
   joinButton: {
     flex: 1,
+    padding: 20,
   },
   cameraPreviewView: {
     width: '100%',
