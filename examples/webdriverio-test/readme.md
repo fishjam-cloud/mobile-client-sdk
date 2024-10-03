@@ -18,12 +18,12 @@
 
 - IOS_DEVICE_ID - id of your ios device, can be obtained using: xcrun xctrace list devices
 - IOS_TEAM_ID - id of your team, can be obtained at apple developer page
-- IOS_APP_PATH - Path to .ipa file on your computer, to generate it:
+- IOS_APP_PATH - path to .ipa file on your computer, to generate it:
   - open example app in xcode, tap on product > archive
   - choose archive and tap on distribute > custom > development > next ... > automatically manage signing > export
   - choose file to export your app, recommend to do it in ios folder
   - your path should look like path/to/your/app/FishjamExample.ipa
-- IOS_TEST_SCREEN_BROADCAST - indicates if ios screen broadcast should be tested
+- IOS_TEST_SCREEN_BROADCAST - indicates if ios screen broadcast should be tested, for some reason XCUITest driver is not capable of tapping 'Start Broadcast' button. It may depend on system version, software, hardware, package versions etc.
 
 #### additional envs for github action
 

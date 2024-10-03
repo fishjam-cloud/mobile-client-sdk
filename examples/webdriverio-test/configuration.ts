@@ -5,33 +5,29 @@ const INTERVAL = 1000;
 
 const getAndroidDeviceCapabilities = (
   name: string,
-): Capabilities.RemoteCapability => {
-  return {
-    'platformName': 'Android',
-    'appium:automationName': 'UiAutomator2',
-    'appium:deviceName': name,
-    'appium:autoGrantPermissions': true,
-    'appium:app': process.env.ANDROID_APP_PATH,
-    'appium:newCommandTimeout': TIMEOUT,
-    'appium:fullReset': true,
-  };
-};
+): Capabilities.RemoteCapability => ({
+  'platformName': 'Android',
+  'appium:automationName': 'UiAutomator2',
+  'appium:deviceName': name,
+  'appium:autoGrantPermissions': true,
+  'appium:app': process.env.ANDROID_APP_PATH,
+  'appium:newCommandTimeout': TIMEOUT,
+  'appium:fullReset': true,
+});
 
 const getIosDeviceCapabilities = (
   id: string,
   teamId?: string,
-): Capabilities.RemoteCapability => {
-  return {
-    'platformName': 'iOS',
-    'appium:automationName': 'XCUITest',
-    'appium:udid': id,
-    'appium:app': process.env.IOS_APP_PATH,
-    'appium:newCommandTimeout': TIMEOUT,
-    'appium:xcodeOrgId': teamId,
-    'appium:xcodeSigningId': 'iPhone Developer',
-    'appium:fullReset': true,
-  };
-};
+): Capabilities.RemoteCapability => ({
+  'platformName': 'iOS',
+  'appium:automationName': 'XCUITest',
+  'appium:udid': id,
+  'appium:app': process.env.IOS_APP_PATH,
+  'appium:newCommandTimeout': TIMEOUT,
+  'appium:xcodeOrgId': teamId,
+  'appium:xcodeSigningId': 'iPhone Developer',
+  'appium:fullReset': true,
+});
 
 const getCapabilityIfDeviceAvailable = (
   deviceName: string | undefined,
