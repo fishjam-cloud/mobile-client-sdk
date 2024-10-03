@@ -24,7 +24,7 @@ npx expo prebuild
 ```
 
 > [!NOTE]
-> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for ios/.xcode.env.local
+> Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for the `ios/.xcode.env.local` file
 
 4. Build app:
 
