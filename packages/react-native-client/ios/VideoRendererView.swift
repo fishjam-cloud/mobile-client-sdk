@@ -2,17 +2,13 @@ import Combine
 import ExpoModulesCore
 import FishjamCloudClient
 
-protocol OnTrackUpdateListener {
-    func onTrackUpdate()
-}
-
-class VideoRendererView: ExpoView, OnTrackUpdateListener {
+class VideoRendererView: ExpoView, TrackUpdateListener {
     var videoView: VideoView? = nil
     var cancellableEndpoints: Cancellable? = nil
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
-        RNFishjamClient.onTracksUpdateListeners.append(self)
+        RNFishjamClient.tracksUpdateListenersManager.add(self)
         videoView = VideoView()
         videoView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView?.clipsToBounds = true
@@ -20,12 +16,7 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
     }
 
     deinit {
-        RNFishjamClient.onTracksUpdateListeners.removeAll(where: {
-            if let view = $0 as? VideoRendererView {
-                return view === self
-            }
-            return false
-        })
+        RNFishjamClient.tracksUpdateListenersManager.remove(self)
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
@@ -52,7 +43,7 @@ class VideoRendererView: ExpoView, OnTrackUpdateListener {
         }
     }
 
-    func onTrackUpdate() {
+    func onTracksUpdate() {
         updateVideoTrack()
     }
 

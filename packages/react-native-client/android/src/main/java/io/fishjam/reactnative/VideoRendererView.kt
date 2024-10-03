@@ -3,6 +3,7 @@ package io.fishjam.reactnative
 import android.content.Context
 import com.fishjamcloud.client.media.VideoTrack
 import expo.modules.kotlin.AppContext
+import io.fishjam.reactnative.managers.TrackUpdateListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,12 +12,12 @@ class VideoRendererView(
   context: Context,
   appContext: AppContext
 ) : VideoView(context, appContext),
-  RNFishjamClient.OnTrackUpdateListener {
+  TrackUpdateListener {
   private var activeVideoTrack: VideoTrack? = null
   private var trackId: String? = null
 
   init {
-    RNFishjamClient.onTracksUpdateListeners.add(this)
+    RNFishjamClient.trackUpdateListenersManager.add(this)
   }
 
   private fun setupTrack(videoTrack: VideoTrack) {
@@ -46,7 +47,7 @@ class VideoRendererView(
 
   override fun dispose() {
     activeVideoTrack?.removeRenderer(videoView)
-    RNFishjamClient.onTracksUpdateListeners.remove(this)
+    RNFishjamClient.trackUpdateListenersManager.add(this)
     super.dispose()
   }
 
