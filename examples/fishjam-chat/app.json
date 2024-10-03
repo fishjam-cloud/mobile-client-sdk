@@ -16,7 +16,7 @@
       "bundleIdentifier": "io.fishjam.example.fishjamchat",
       "infoPlist": {
         "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
+          "NSAllowsArbitraryLoads": true //this allows for testing in local network without secured connections
         }
       }
     },
