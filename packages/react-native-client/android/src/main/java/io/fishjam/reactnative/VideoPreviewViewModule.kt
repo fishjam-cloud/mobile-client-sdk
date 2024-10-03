@@ -9,6 +9,11 @@ class VideoPreviewViewModule : Module() {
       Name("VideoPreviewViewModule")
 
       View(VideoPreviewView::class) {
+        OnViewDestroys { view: VideoPreviewView ->
+          view.dispose()
+          RNFishjamClient.localTracksSwitchListenerManager.remove(view)
+        }
+
         Prop("videoLayout") { view: VideoPreviewView, videoLayout: String ->
           view.setVideoLayout(videoLayout)
         }

@@ -37,8 +37,8 @@ class RNFishjamClient: FishjamClientListener {
 
     let sendEvent: (_ eventName: String, _ data: [String: Any]) -> Void
 
-    static var onTracksUpdateListeners: [OnTrackUpdateListener] = []
-    static var localCameraTrackListeners: [OnLocalCameraTrackChangedListener] = []
+    static var tracksUpdateListenersManager = TracksUpdateListenersManager()
+    static var localCameraTracksChangedListenersManager = LocalCameraTracksChangedListenersManager()
 
     init(sendEvent: @escaping (_ eventName: String, _ data: [String: Any]) -> Void) {
         self.sendEvent = sendEvent
@@ -257,7 +257,7 @@ class RNFishjamClient: FishjamClientListener {
         let event = EmitableEvents.IsCameraOn
         let isCameraEnabledMap = [event.name: enabled]
         emit(event: event, data: isCameraEnabledMap)
-        RNFishjamClient.localCameraTrackListeners.forEach { $0.onLocalCameraTrackChanged() }
+        RNFishjamClient.localCameraTracksChangedListenersManager.notifyListeners()
     }
 
     func toggleCamera() throws -> Bool {
@@ -722,9 +722,7 @@ class RNFishjamClient: FishjamClientListener {
             }
         }
 
-        RNFishjamClient.onTracksUpdateListeners.forEach {
-            $0.onTrackUpdate()
-        }
+        RNFishjamClient.tracksUpdateListenersManager.notifyListeners()
 
         emitEndpoints()
     }
