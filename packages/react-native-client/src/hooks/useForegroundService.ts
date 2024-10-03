@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
-import {
-  startForegroundService,
-  stopForegroundService,
-} from '../utils/foregroundService';
-import { AndroidForegroundServiceType } from '../types';
+import { useEffect } from 'react';
+import RNFishjamClientModule from '../RNFishjamClientModule';
 
 /**
  * useForegroundService
@@ -22,6 +18,7 @@ import { AndroidForegroundServiceType } from '../types';
  * @param {Object} options - The options for the foreground service.
  * @param {boolean} options.enableCamera - Flag to enable or disable the camera service.
  * @param {boolean} options.enableMicrophone - Flag to enable or disable the microphone service.
+ * @param {boolean} options.enableScreencast - Flag to enable or disable the screencast service.
  *
  * @example
  * const { switchMediaProjectionService } = useForegroundService({
@@ -38,75 +35,28 @@ import { AndroidForegroundServiceType } from '../types';
 export const useForegroundService = ({
   enableCamera,
   enableMicrophone,
+  enableScreencast,
 }: {
   enableCamera: boolean;
   enableMicrophone: boolean;
+  enableScreencast: boolean;
 }) => {
-  const serviceTypesRef = useRef<Set<AndroidForegroundServiceType>>(new Set());
-
-  const setServiceTypeEnabled = (
-    serviceType: AndroidForegroundServiceType,
-    enabled: boolean,
-  ) => {
-    if (enabled) {
-      serviceTypesRef.current.add(serviceType);
-    } else {
-      serviceTypesRef.current.delete(serviceType);
-    }
-  };
-
-  const refreshForegroundService = async () => {
-    if (serviceTypesRef.current.size > 0) {
-      console.log('Starting foreground service with types:', [
-        ...serviceTypesRef.current,
-      ]);
-      await startServiceWithTypes([...serviceTypesRef.current]);
-    } else {
-      await stopForegroundService();
-    }
-  };
-
   useEffect(() => {
-    setServiceTypeEnabled(
-      AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
+    RNFishjamClientModule.setForegroundServiceConfig({
+      channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+      channelName: 'Fishjam Chat Notifications',
+      notificationTitle: 'Your video call is ongoing',
+      notificationContent: 'Tap to return to the call.',
       enableCamera,
-    );
-    setServiceTypeEnabled(
-      AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
       enableMicrophone,
-    );
-
-    refreshForegroundService();
-  }, [enableCamera, enableMicrophone]);
+      enableScreencast,
+    });
+    RNFishjamClientModule.startForegroundService();
+  }, [enableCamera, enableMicrophone, enableScreencast]);
 
   useEffect(() => {
     return () => {
-      stopForegroundService();
+      RNFishjamClientModule.stopForegroundService();
     };
   }, []);
-
-  const switchScreenSharingForegroundService = useCallback(
-    async ({ enabled }: { enabled: boolean }) => {
-      setServiceTypeEnabled(
-        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-        enabled,
-      );
-
-      await refreshForegroundService();
-    },
-    [],
-  );
-
-  return { switchScreenSharingForegroundService };
 };
-
-const startServiceWithTypes = (
-  foregroundServiceTypes: AndroidForegroundServiceType[],
-) =>
-  startForegroundService({
-    channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
-    channelName: 'Fishjam Chat Notifications',
-    notificationTitle: 'Your video call is ongoing',
-    notificationContent: 'Tap to return to the call.',
-    foregroundServiceTypes,
-  });

@@ -99,7 +99,16 @@ class ForegroundServiceConfig : Record {
   val notificationTitle: String? = null
 
   @Field
-  val foregroundServiceTypes: IntArray = intArrayOf()
+  val enableCamera: Boolean = false
+
+  @Field
+  val enableMicrophone: Boolean = false
+
+  @Field
+  val enableScreencast: Boolean = false
+
+//  @Field
+//  val foregroundServiceTypes: IntArray = intArrayOf()
 }
 
 class RNFishjamClientModule : Module() {
@@ -200,7 +209,7 @@ class RNFishjamClientModule : Module() {
 
     AsyncFunction("handleScreenSharePermission") { promise: Promise ->
       CoroutineScope(Dispatchers.Main).launch {
-        rnFishjamClient.handleScreenSharePermission(promise)
+        rnFishjamClient.handleScreenSharePermission()
       }
     }
 
@@ -302,11 +311,15 @@ class RNFishjamClientModule : Module() {
 
     AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
-    AsyncFunction("startForegroundService") Coroutine { config: ForegroundServiceConfig ->
-      rnFishjamClient.startForegroundService(config)
+    Function("setForegroundServiceConfig") { config: ForegroundServiceConfig ->
+      rnFishjamClient.setForegroundServiceConfig(config)
     }
 
-    AsyncFunction("stopForegroundService") Coroutine { ->
+    Function("startForegroundService")  {
+      rnFishjamClient.startForegroundService()
+    }
+
+    Function("stopForegroundService") { ->
       rnFishjamClient.stopForegroundService()
     }
   }

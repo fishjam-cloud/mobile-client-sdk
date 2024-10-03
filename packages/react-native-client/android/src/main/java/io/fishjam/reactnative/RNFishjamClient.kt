@@ -132,8 +132,9 @@ class RNFishjamClient(
       }
 
       mediaProjectionIntent = data
-      screenSharePermissionPromise?.resolve("granted")
-      screenSharePermissionPromise = null
+      startScreenShare()
+//      screenSharePermissionPromise?.resolve("granted")
+//      screenSharePermissionPromise = null
     }
   }
 
@@ -378,8 +379,8 @@ class RNFishjamClient(
     return isMicrophoneOn
   }
 
-  fun handleScreenSharePermission(promise: Promise) {
-    screenSharePermissionPromise = promise
+  fun handleScreenSharePermission() {
+//    screenSharePermissionPromise = promise
     if (!isScreenShareOn) {
       ensureConnected()
       val currentActivity = appContext?.currentActivity ?: throw ActivityNotFoundException()
@@ -394,7 +395,7 @@ class RNFishjamClient(
     }
   }
 
-  suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
+  fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
     this.screenShareMetadata = screenShareOptions.screenShareMetadata
     this.screenShareQuality = screenShareOptions.quality
     this.screenShareSimulcastConfig =
@@ -406,7 +407,7 @@ class RNFishjamClient(
       )
     if (!isScreenShareOn) {
       ensureConnected()
-      startScreenShare()
+      handleScreenSharePermission()
     } else {
       stopScreenShare()
     }
@@ -702,11 +703,12 @@ class RNFishjamClient(
     return newMap
   }
 
-  fun startForegroundService(config: ForegroundServiceConfig) {
-    if (foregroundServiceManager?.mediaProjectionForegroundServiceStarted == false && config.foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION) && mediaProjectionIntent == null) {
-      throw CodedException("Cannot start a media projection foreground service without screen sharing permission.")
-    }
-    foregroundServiceManager?.startForegroundService(config)
+  fun setForegroundServiceConfig(config: ForegroundServiceConfig) {
+    foregroundServiceManager?.config = config
+  }
+
+  fun startForegroundService() {
+    foregroundServiceManager?.startForegroundService(withScreenCast = false)
   }
 
   fun stopForegroundService() {
@@ -718,9 +720,9 @@ class RNFishjamClient(
     if (mediaProjectionIntent == null) {
       throw MissingScreenSharePermission()
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && foregroundServiceManager?.mediaProjectionForegroundServiceStarted != true) {
-      throw CodedException("Cannot start a media projection foreground service without a foreground service on Android version >= 34.")
-    }
+
+    foregroundServiceManager?.startForegroundService(withScreenCast = true)
+
     fishjamClient.createScreenShareTrack(
       mediaProjectionIntent!!,
       videoParameters,

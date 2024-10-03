@@ -47,8 +47,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
 
-  const { toggleScreenShare, isScreenShareOn, handleScreenSharePermission } =
-    useScreenShare();
+  const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
   const onDisconnectPress = useCallback(() => {
     leaveRoom();
@@ -56,37 +55,18 @@ const RoomScreen = ({ navigation, route }: Props) => {
   }, [navigation]);
 
   console.log('wtf');
-  const { switchScreenSharingForegroundService } = useForegroundService({
+  useForegroundService({
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
+    enableScreencast: true,
   });
 
-  const handleAndroidScreenSharePermission = useCallback(
-    async (isScreenShareOn: boolean) => {
-      if (isScreenShareOn) {
-        await switchScreenSharingForegroundService({ enabled: false });
-        return;
-      }
-
-      const screenSharingPermission = await handleScreenSharePermission();
-
-      if (screenSharingPermission == 'granted') {
-        await switchScreenSharingForegroundService({ enabled: true });
-      }
-    },
-    [handleScreenSharePermission, switchScreenSharingForegroundService],
-  );
-
   const onToggleScreenShare = useCallback(async () => {
-    if (Platform.OS === 'android') {
-      await handleAndroidScreenSharePermission(isScreenShareOn);
-    }
-
     console.log('Toggling screen share:', isScreenShareOn);
     await toggleScreenShare({
       quality: 'HD15',
     });
-  }, [isScreenShareOn, toggleScreenShare, handleAndroidScreenSharePermission]);
+  }, [isScreenShareOn, toggleScreenShare]);
 
   const flipCamera = useCallback(() => {
     const camera =
