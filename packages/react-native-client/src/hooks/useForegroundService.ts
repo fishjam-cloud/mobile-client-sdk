@@ -1,47 +1,38 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import RNFishjamClientModule from '../RNFishjamClientModule';
 import {
-  startForegroundService,
-  stopForegroundService,
-} from '../utils/foregroundService';
-import { AndroidForegroundServiceType } from '../types';
-
-const startServiceWithTypes = (
-  foregroundServiceTypes: AndroidForegroundServiceType[],
-) =>
-  startForegroundService({
-    channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
-    channelName: 'Fishjam Chat Notifications',
-    notificationTitle: 'Your video call is ongoing',
-    notificationContent: 'Tap to return to the call.',
-    foregroundServiceTypes,
-  });
+  ForegroundServiceNotificationConfig,
+  ForegroundServicePermissionsConfig,
+} from '../types';
+import { Platform } from 'react-native';
 
 export const useForegroundService = ({
   enableCamera,
   enableMicrophone,
-}: {
-  enableCamera: boolean;
-  enableMicrophone: boolean;
-}) => {
-  useEffect(() => {
-    const foregroundTypes: AndroidForegroundServiceType[] = [];
+  ...restOptions
+}: ForegroundServiceNotificationConfig &
+  ForegroundServicePermissionsConfig) => {
+  /* eslint-disable react-hooks/rules-of-hooks */
+  if (Platform.OS !== 'android') {
+    return;
+  }
 
-    if (enableCamera) {
-      foregroundTypes.push(
-        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
-      );
-    }
-
-    if (enableMicrophone) {
-      foregroundTypes.push(
-        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
-      );
-    }
-
-    startServiceWithTypes(foregroundTypes);
-  }, [enableCamera, enableMicrophone]);
+  const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
-    return () => stopForegroundService();
+    if (!isConfigured) {
+      return;
+    }
+    RNFishjamClientModule.startForegroundService({
+      enableCamera,
+      enableMicrophone,
+    });
+  }, [enableCamera, enableMicrophone, isConfigured]);
+
+  useEffect(() => {
+    RNFishjamClientModule.configureForegroundService(restOptions);
+    setIsConfigured(true);
+    return () => RNFishjamClientModule.stopForegroundService();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

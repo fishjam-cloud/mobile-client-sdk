@@ -55,8 +55,12 @@ const RoomScreen = ({ navigation, route }: Props) => {
   }, [navigation]);
 
   useForegroundService({
-    enableCamera: true,
-    enableMicrophone: true,
+    channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+    channelName: 'Fishjam Chat Notifications',
+    notificationTitle: 'Your video call is ongoing',
+    notificationContent: 'Tap to return to the call.',
+    enableCamera: isCameraOn,
+    enableMicrophone: isMicrophoneOn,
   });
 
   const onToggleScreenShare = useCallback(async () => {

@@ -380,19 +380,23 @@ class RNFishjamClient(
     }
   }
 
-  fun getForegroundServiceConfig(): ForegroundServiceConfig? {
-    return foregroundServiceManager?.latestConfig
+  fun configureForegroundService(config: ForegroundServiceNotificationConfig) {
+    if (foregroundServiceManager == null) {
+      foregroundServiceManager = ForegroundServiceManager(appContext!!, config)
+    }
   }
 
-  fun startForegroundService(config: ForegroundServiceConfig, promise: Promise) {
-    if (foregroundServiceManager?.isServiceBound == true) {
-      foregroundServiceManager?.startForegroundService(config)
+  fun startForegroundService(
+    config: ForegroundServicePermissionsConfig,
+    promise: Promise
+  ) {
+    if (foregroundServiceManager == null) {
+      promise.reject(CodedException("Foreground service not configured."))
+      return
+    }
+
+    foregroundServiceManager?.startForegroundService(config) {
       promise.resolve()
-    } else {
-      foregroundServiceManager = ForegroundServiceManager(appContext!!) {
-        promise.resolve()
-      }
-      foregroundServiceManager?.startForegroundService(config)
     }
   }
 

@@ -92,41 +92,13 @@ export function useScreenShare() {
     return 'denied';
   }, []);
 
-  const handleAndroidForegroundService = useCallback(async () => {
-    const foregroundServiceConfig =
-      RNFishjamClientModule.getForegroundServiceConfig();
-
-    if (!foregroundServiceConfig) {
-      console.warn(
-        'In order to start screen sharing on Android 34+, you must first start a foreground service. You can utilize useForegroundService() for that.',
-      );
-      return;
-    }
-
-    const existingTypes = new Set(
-      foregroundServiceConfig.foregroundServiceTypes,
-    );
-
-    if (
-      !existingTypes.has(
-        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-      )
-    ) {
-      await RNFishjamClientModule.startForegroundService({
-        ...foregroundServiceConfig,
-        foregroundServiceTypes: [
-          ...existingTypes,
-          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-        ],
-      });
-    }
-  }, []);
-
   const toggleScreenShare = useCallback(
     async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
       if (Platform.OS === 'android' && !isScreenShareOn) {
         (await handleScreenSharePermission()) == 'granted' &&
-          (await handleAndroidForegroundService());
+          (await RNFishjamClientModule.startForegroundService({
+            enableScreenSharing: true,
+          }));
       }
       const options = {
         ...screenShareOptions,
@@ -140,11 +112,7 @@ export function useScreenShare() {
       screenShareSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
       setSimulcastConfig(screenShareSimulcastConfig);
     },
-    [
-      isScreenShareOn,
-      handleScreenSharePermission,
-      handleAndroidForegroundService,
-    ],
+    [isScreenShareOn, handleScreenSharePermission],
   );
 
   return {

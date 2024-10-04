@@ -2,7 +2,11 @@ import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './debug/stats/types';
-import type { ForegroundServiceOptions, SimulcastConfig } from './types';
+import type {
+  ForegroundServiceNotificationConfig,
+  ForegroundServicePermissionsConfigInternal,
+  SimulcastConfig,
+} from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
@@ -71,9 +75,13 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  startForegroundService: (options: ForegroundServiceOptions) => Promise<void>;
+  configureForegroundService: (
+    config: ForegroundServiceNotificationConfig,
+  ) => void;
+  startForegroundService: (
+    config: ForegroundServicePermissionsConfigInternal,
+  ) => Promise<void>;
   stopForegroundService: () => void;
-  getForegroundServiceConfig: () => ForegroundServiceOptions | null;
 };
 
 const nativeModule = requireNativeModule('RNFishjamClient');
