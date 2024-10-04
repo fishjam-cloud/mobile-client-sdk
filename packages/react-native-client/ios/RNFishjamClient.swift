@@ -11,6 +11,7 @@ class RNFishjamClient: FishjamClientListener {
     var isMicrophoneOn = false
     var isCameraOn = false
     var isScreenShareOn = false
+    var isAppScreenShareOn = false
     var isConnected = false
 
     private var isCameraInitialized = false
@@ -118,19 +119,27 @@ class RNFishjamClient: FishjamClientListener {
         return videoParameters
     }
 
-    private func getLocalVideoTrack() -> LocalVideoTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalVideoTrack }?.value
-            as? LocalVideoTrack
+    private var localEndpoint: Endpoint? {
+        RNFishjamClient.fishjamClient?.getLocalEndpoint()
+    }
+
+    private func getLocalCameraTrack() -> LocalCameraTrack? {
+        return localEndpoint?.tracks.compactMap { $0.value as? LocalCameraTrack }.first
+
     }
 
     private func getLocalAudioTrack() -> LocalAudioTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalAudioTrack }?.value
-            as? LocalAudioTrack
+        return localEndpoint?.tracks.compactMap { $0.value as? LocalAudioTrack }.first
+
     }
 
-    private func getLocalScreenShareTrack() -> LocalScreenShareTrack? {
-        return RNFishjamClient.fishjamClient?.getLocalEndpoint().tracks.first { $0.value is LocalScreenShareTrack }?
-            .value as? LocalScreenShareTrack
+    private func getLocalScreenBroadcastTrack() -> LocalScreenBroadcastTrack? {
+        return localEndpoint?.tracks.compactMap { $0.value as? LocalScreenBroadcastTrack }.first
+
+    }
+
+    private func getLocalScreenAppTrack() -> LocalScreenAppTrack? {
+        return localEndpoint?.tracks.compactMap { $0.value as? LocalScreenAppTrack }.first
     }
 
     private func ensureCreated() throws {
@@ -151,8 +160,8 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    private func ensureVideoTrack() throws {
-        if getLocalVideoTrack() == nil {
+    private func ensureCameraTrack() throws {
+        if getLocalCameraTrack() == nil {
             throw Exception(
                 name: "E_NO_LOCAL_VIDEO_TRACK",
                 description: "No local video track. Make sure to call connect() first!")
@@ -167,11 +176,19 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    private func ensureScreenShareTrack() throws {
-        if getLocalScreenShareTrack() == nil {
+    private func ensureScreenBroadcastTrack() throws {
+        if getLocalScreenBroadcastTrack() == nil {
             throw Exception(
                 name: "E_NO_LOCAL_SCREENSHARE_TRACK",
-                description: "No local screen share track. Make sure to toggle screen share on first!")
+                description: "No local screen broadcast track. Make sure to toggle screen broadcast on first!")
+        }
+    }
+
+    private func ensureScreenAppTrack() throws {
+        if getLocalScreenAppTrack() == nil {
+            throw Exception(
+                name: "E_NO_LOCAL_SCREENSHARE_TRACK",
+                description: "No local screen app track. Make sure to toggle screen app on first!")
         }
     }
 
@@ -240,7 +257,7 @@ class RNFishjamClient: FishjamClientListener {
         isCameraInitialized = true
     }
 
-    private func createCameraTrack(config: CameraConfig) throws -> LocalVideoTrack {
+    private func createCameraTrack(config: CameraConfig) throws -> LocalCameraTrack {
         try ensureCreated()
         let videoParameters = try getVideoParametersFromOptions(connectionOptions: config)
         videoSimulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: config.simulcastConfig)
@@ -251,7 +268,7 @@ class RNFishjamClient: FishjamClientListener {
         )
     }
 
-    private func setCameraTrackState(_ cameraTrack: LocalVideoTrack, enabled: Bool) {
+    private func setCameraTrackState(_ cameraTrack: LocalCameraTrack, enabled: Bool) {
         cameraTrack.enabled = enabled
         isCameraOn = enabled
         let event = EmitableEvents.IsCameraOn
@@ -261,19 +278,19 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func toggleCamera() throws -> Bool {
-        try ensureVideoTrack()
-        setCameraTrackState(getLocalVideoTrack()!, enabled: !isCameraOn)
+        try ensureCameraTrack()
+        setCameraTrackState(getLocalCameraTrack()!, enabled: !isCameraOn)
         return isCameraOn
     }
 
     func flipCamera() throws {
-        try ensureVideoTrack()
-        getLocalVideoTrack()?.flipCamera()
+        try ensureCameraTrack()
+        getLocalCameraTrack()?.flipCamera()
     }
 
     func switchCamera(cameraId: String) throws {
-        try ensureVideoTrack()
-        getLocalVideoTrack()?.switchCamera(deviceId: cameraId)
+        try ensureCameraTrack()
+        getLocalCameraTrack()?.switchCamera(deviceId: cameraId)
 
     }
 
@@ -291,8 +308,7 @@ class RNFishjamClient: FishjamClientListener {
             emit(warning: "Microphone permission not granted.")
             return
         }
-        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
-            metadata: Metadata())
+        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(metadata: Metadata())
         setAudioSessionMode()
         setMicrophoneTrackState(microphoneTrack, enabled: true)
         emitEndpoints()
@@ -356,7 +372,7 @@ class RNFishjamClient: FishjamClientListener {
             maxBandwidth: screenShareOptions.maxBandwidth)
         let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
         let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-        RNFishjamClient.fishjamClient!.prepareForScreenSharing(
+        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
             appGroup: appGroupName,
             videoParameters: videoParameters,
             metadata: screenShareMetadata,
@@ -397,6 +413,38 @@ class RNFishjamClient: FishjamClientListener {
         emit(event: event, data: isScreenShareEnabled)
     }
 
+    func startScreenAppShare(screenShareOptions: ScreenShareOptions) throws {
+        try ensureCreated()
+        try ensureConnected()
+
+        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
+
+        screenShareSimulcastConfig = simulcastConfig
+        screenShareMaxBandwidth = getMaxBandwidthFromOptions(maxBandwidth: screenShareOptions.maxBandwidth)
+        let metadata = screenShareOptions.screenShareMetadata.toMetadata()
+        let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
+        let screenAppTrack = RNFishjamClient.fishjamClient!.createScreenAppTrack(
+            videoParameters: videoParameters, metadata: metadata)
+        setScreenAppTrackState(screenAppTrack, enabled: true)
+        emitEndpoints()
+    }
+
+    func toggleAppScreenShare(screenShareOptions: ScreenShareOptions) throws {
+        if let screenAppTrack = getLocalScreenAppTrack() {
+            setScreenAppTrackState(screenAppTrack, enabled: !isAppScreenShareOn)
+        } else {
+            try startScreenAppShare(screenShareOptions: screenShareOptions)
+        }
+    }
+
+    private func setScreenAppTrackState(_ track: LocalScreenAppTrack, enabled: Bool) {
+        track.enabled = enabled
+        isAppScreenShareOn = enabled
+        let event = EmitableEvents.IsAppScreenShareOn
+        let eventMap = [event.name: enabled]
+        emit(event: event, data: eventMap)
+    }
+
     //returns local endpoint and remote endpoints
     static func getLocalAndRemoteEndpoints() -> [Endpoint] {
         let localEndpoint = RNFishjamClient.fishjamClient!.getLocalEndpoint()
@@ -431,14 +479,21 @@ class RNFishjamClient: FishjamClientListener {
                             "vadStatus": track.vadStatus.rawValue,
                         ]
 
-                    case let track as LocalVideoTrack:
+                    case let track as LocalCameraTrack:
                         return [
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
                         ]
 
-                    case let track as LocalScreenShareTrack:
+                    case let track as LocalScreenBroadcastTrack:
+                        return [
+                            "id": track.id,
+                            "type": "Video",
+                            "metadata": track.metadata.toDict(),
+                        ]
+
+                    case let track as LocalScreenAppTrack:
                         return [
                             "id": track.id,
                             "type": "Video",
@@ -461,7 +516,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func getCaptureDevices() -> [[String: Any]] {
-        let devices = LocalVideoTrack.getCaptureDevices()
+        let devices = LocalCameraTrack.getCaptureDevices()
         return devices.map { device -> [String: Any] in
             let facingDirection =
                 switch device.position {
@@ -488,8 +543,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func updateLocalVideoTrackMetadata(metadata: [String: Any]) throws {
-        try ensureVideoTrack()
-        if let track = getLocalVideoTrack() {
+        try ensureCameraTrack()
+        if let track = getLocalCameraTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)
         }
     }
@@ -502,8 +557,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func updateLocalScreenShareTrackMetadata(metadata: [String: Any]) throws {
-        try ensureScreenShareTrack()
-        if let track = getLocalScreenShareTrack() {
+        try ensureScreenBroadcastTrack()
+        if let track = getLocalScreenBroadcastTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)
         }
     }
@@ -528,8 +583,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func toggleScreenShareTrackEncoding(encoding: String) throws -> [String: Any] {
-        try ensureScreenShareTrack()
-        if let track = getLocalScreenShareTrack() {
+        try ensureScreenBroadcastTrack()
+        if let track = getLocalScreenBroadcastTrack() {
             screenShareSimulcastConfig = try toggleTrackEncoding(
                 encoding: encoding, trackId: track.id, simulcastConfig: screenShareSimulcastConfig)
         }
@@ -537,15 +592,15 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func setScreenShareTrackBandwidth(bandwidth: Int) throws {
-        try ensureScreenShareTrack()
-        if let track = getLocalScreenShareTrack() {
+        try ensureScreenBroadcastTrack()
+        if let track = getLocalScreenBroadcastTrack() {
             RNFishjamClient.fishjamClient?.setTrackBandwidth(trackId: track.id, bandwidthLimit: bandwidth)
         }
     }
 
     func setScreenShareTrackEncodingBandwidth(encoding: String, bandwidth: Int) throws {
-        try ensureScreenShareTrack()
-        if let track = getLocalScreenShareTrack() {
+        try ensureScreenBroadcastTrack()
+        if let track = getLocalScreenBroadcastTrack() {
             RNFishjamClient.fishjamClient?.setEncodingBandwidth(
                 trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
         }
@@ -558,10 +613,10 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func toggleVideoTrackEncoding(encoding: String) throws -> [String: Any] {
-        try ensureVideoTrack()
+        try ensureCameraTrack()
         try ensureConnected()
 
-        let track = getLocalVideoTrack()!
+        let track = getLocalCameraTrack()!
         videoSimulcastConfig = try toggleTrackEncoding(
             encoding: encoding, trackId: track.id, simulcastConfig: videoSimulcastConfig)
 
@@ -573,15 +628,15 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func setVideoTrackEncodingBandwidth(encoding: String, bandwidth: Int) throws {
-        try ensureVideoTrack()
-        let track = getLocalVideoTrack()!
+        try ensureCameraTrack()
+        let track = getLocalCameraTrack()!
         RNFishjamClient.fishjamClient?.setEncodingBandwidth(
             trackId: track.id, encoding: encoding, bandwidthLimit: bandwidth)
     }
 
     func setVideoTrackBandwidth(bandwidth: Int) throws {
-        try ensureVideoTrack()
-        let track = getLocalVideoTrack()!
+        try ensureCameraTrack()
+        let track = getLocalCameraTrack()!
         RNFishjamClient.fishjamClient?.setTrackBandwidth(trackId: track.id, bandwidthLimit: bandwidth)
     }
 

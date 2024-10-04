@@ -106,6 +106,10 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isScreenShareOn
         }
 
+        Property("isAppScreenShareOn") {
+            return rnFishjamClient.isAppScreenShareOn
+        }
+
         AsyncFunction("joinRoom") {
             (
                 url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
@@ -142,6 +146,10 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("toggleScreenShare") { (screenShareOptions: ScreenShareOptions) in
             try rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
+        }
+
+        AsyncFunction("toggleAppScreenShare") { (screenShareOptions: ScreenShareOptions) in
+            try rnFishjamClient.toggleAppScreenShare(screenShareOptions: screenShareOptions)
         }
 
         AsyncFunction("getPeers") {

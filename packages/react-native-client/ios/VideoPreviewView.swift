@@ -3,7 +3,7 @@ import FishjamCloudClient
 
 class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
     var videoView: VideoView? = nil
-    private var localVideoTrack: LocalVideoTrack? = nil
+    private var localVideoTrack: LocalCameraTrack? = nil
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -26,8 +26,8 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
 
             self.localVideoTrack =
                 tracks.first(where: { (key, track) in
-                    track is LocalVideoTrack
-                })?.value as? LocalVideoTrack
+                    track is LocalCameraTrack
+                })?.value as? LocalCameraTrack
             self.localVideoTrack?.start()
             self.videoView?.track = self.localVideoTrack
         }

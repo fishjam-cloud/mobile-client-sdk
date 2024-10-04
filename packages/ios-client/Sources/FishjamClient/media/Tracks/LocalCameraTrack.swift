@@ -1,7 +1,7 @@
 import WebRTC
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing an instance of `VideoCapturer`
-public class LocalVideoTrack: VideoTrack, LocalTrack {
+public class LocalCameraTrack: VideoTrack, LocalTrack {
     internal var capturer: CameraCapturer
     internal var videoParameters: VideoParameters
     internal var videoSource: RTCVideoSource
@@ -11,13 +11,14 @@ public class LocalVideoTrack: VideoTrack, LocalTrack {
         videoParameters: VideoParameters, capturer: CameraCapturer
 
     ) {
+        mediaTrack.shouldReceive = false
         self.videoParameters = videoParameters
         self.capturer = capturer
         self.videoSource = videoSource
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
     }
 
-    convenience internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalVideoTrack) {
+    convenience internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalCameraTrack) {
         self.init(
             mediaTrack: mediaTrack, videoSource: oldTrack.videoSource, endpointId: oldTrack.endpointId,
             metadata: oldTrack.metadata, videoParameters: oldTrack.videoParameters, capturer: oldTrack.capturer)

@@ -94,8 +94,8 @@ public class FishjamClient {
         videoParameters: VideoParameters,
         metadata: Metadata,
         captureDeviceName: String? = nil
-    ) -> LocalVideoTrack {
-        return client.createVideoTrack(
+    ) -> LocalCameraTrack {
+        return client.createCameraTrack(
             videoParameters: videoParameters, metadata: metadata, captureDeviceName: captureDeviceName)
     }
 
@@ -121,20 +121,34 @@ public class FishjamClient {
     * @param onStart callback that will be invoked once the screen capture starts
     * @param onStop callback that will be invoked once the screen capture stops
     */
-    public func prepareForScreenSharing(
+    public func prepareForScreenBroadcast(
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
     ) {
-        client.prepareForScreenSharing(
+        client.prepareForScreenBroadcast(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
             onStart: onStart,
             onStop: onStop
         )
+    }
+
+    /**
+  * Creates a app screencast track utilizing `RPScreenRecorder`
+  *
+  * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
+  * @param metadata the metadata that will be sent to the <strong>Membrane RTC Engine</strong> for media negotiation
+  * @return an instance of the app screencast track
+  */
+    public func createScreenAppTrack(
+        videoParameters: VideoParameters,
+        metadata: Metadata
+    ) -> LocalScreenAppTrack {
+        return client.createScreenAppTrack(videoParameters: videoParameters, metadata: metadata)
     }
 
     /**

@@ -5,6 +5,7 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
+  useAppScreenShare,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -49,6 +50,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { toggleScreenShare, isScreenShareOn, handleScreenSharePermission } =
     useScreenShare();
+
+  const iosAppScreenShare = useAppScreenShare();
 
   const onDisconnectPress = useCallback(() => {
     leaveRoom();
@@ -140,6 +143,17 @@ const RoomScreen = ({ navigation, route }: Props) => {
           onPress={onToggleScreenShare}
           accessibilityLabel={SHARE_SCREEN_BUTTON}
         />
+        {Platform.OS === 'ios' ? (
+          <InCallButton
+            iconName={
+              iosAppScreenShare?.isAppScreenShareOn ? 'share' : 'share-off'
+            }
+            onPress={() => {
+              iosAppScreenShare?.toggleAppScreenShare();
+            }}
+          />
+        ) : null}
+
         <InCallButton
           iconName="volume-high"
           onPress={toggleOutputSoundDevice}

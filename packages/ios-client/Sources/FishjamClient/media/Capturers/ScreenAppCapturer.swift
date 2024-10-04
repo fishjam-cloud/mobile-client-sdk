@@ -2,8 +2,8 @@ import Foundation
 import ReplayKit
 import WebRTC
 
-/// `VideoCapturer` responsible for capturing in-app screen, for device screen capture go see `BroadcastScreenCapture`
-class ScreenCapturer: RTCVideoCapturer, VideoCapturer {
+/// Responsible for capturing only user app
+class ScreenAppCapturer: RTCVideoCapturer, VideoCapturer {
     let screenRecorder: RPScreenRecorder
     let source: RTCVideoSource
 
@@ -17,22 +17,6 @@ class ScreenCapturer: RTCVideoCapturer, VideoCapturer {
             sdkLogger.error("Screen recording is not available")
             return
         }
-    }
-
-    func startCapture() {
-        screenRecorder.startCapture(
-            handler: { sampleBuffer, bufferType, _ in
-                // capture video only
-                if bufferType == RPSampleBufferType.video {
-                    self.handleSourceBuffer(buffer: sampleBuffer, type: bufferType)
-                }
-
-            },
-            completionHandler: {
-                error in
-                sdkLogger.error(
-                    "Encountered error while capturing screen: \(error?.localizedDescription ?? "")")
-            })
     }
 
     private func handleSourceBuffer(buffer: CMSampleBuffer, type _: RPSampleBufferType) {
@@ -62,6 +46,18 @@ class ScreenCapturer: RTCVideoCapturer, VideoCapturer {
         let delegate = source as RTCVideoCapturerDelegate
 
         delegate.capturer(self, didCapture: videoFrame)
+    }
+
+    func startCapture() {
+        screenRecorder.startCapture(
+            handler: { sampleBuffer, bufferType, _ in
+                if bufferType == RPSampleBufferType.video {
+                    self.handleSourceBuffer(buffer: sampleBuffer, type: bufferType)
+                }
+            },
+            completionHandler: { error in
+                sdkLogger.error("Encountered error while capturing screen: \(error?.localizedDescription ?? "")")
+            })
     }
 
     func stopCapture() {

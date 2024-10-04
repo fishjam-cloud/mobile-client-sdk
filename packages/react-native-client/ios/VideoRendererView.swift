@@ -32,7 +32,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
             if self.superview != nil {
                 for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
                     if let track = endpoint.tracks[self.trackId] as? VideoTrack {
-                        if let track = track as? LocalVideoTrack {
+                        if let track = track as? LocalCameraTrack {
                             self.mirrorVideo = track.isFrontCamera
                         }
                         self.videoView?.track = track
