@@ -1,9 +1,9 @@
 import {
+  AndroidForegroundServiceType,
   startForegroundService,
   stopForegroundService,
 } from '@fishjam-cloud/react-native-client';
-import { AndroidForegroundServiceType } from '@fishjam-cloud/react-native-client';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const startServiceWithTypes = (
   foregroundServiceTypes: AndroidForegroundServiceType[],
@@ -23,24 +23,54 @@ export const useForegroundService = ({
   enableCamera: boolean;
   enableMicrophone: boolean;
 }) => {
-  const foregroundServiceTypes = useMemo(() => {
-    const types: AndroidForegroundServiceType[] = [];
-    if (enableCamera) {
-      types.push(AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA);
+  const foregroundTypes = useRef<Set<AndroidForegroundServiceType>>(new Set());
+
+  const refreshService = useCallback(async () => {
+    if (foregroundTypes.current.size === 0) {
+      stopForegroundService();
+    } else {
+      await startServiceWithTypes([...foregroundTypes.current]);
     }
-    if (enableMicrophone) {
-      types.push(
-        AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
-      );
-    }
-    return types;
-  }, [enableCamera, enableMicrophone]);
+  }, []);
 
   useEffect(() => {
-    startServiceWithTypes([
-      ...foregroundServiceTypes,
-      AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-    ]);
+    enableCamera
+      ? foregroundTypes.current.add(
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
+        )
+      : foregroundTypes.current.delete(
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_CAMERA,
+        );
+
+    enableMicrophone
+      ? foregroundTypes.current.add(
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
+        )
+      : foregroundTypes.current.delete(
+          AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MICROPHONE,
+        );
+
+    refreshService();
+  }, [enableCamera, enableMicrophone, refreshService]);
+
+  useEffect(() => {
     return () => stopForegroundService();
-  }, [foregroundServiceTypes]);
+  }, []);
+
+  const switchMediaProjectionService = useCallback(
+    async ({ enable }: { enable: boolean }) => {
+      enable
+        ? foregroundTypes.current.add(
+            AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
+          )
+        : foregroundTypes.current.delete(
+            AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
+          );
+
+      await refreshService();
+    },
+    [refreshService],
+  );
+
+  return { switchMediaProjectionService };
 };

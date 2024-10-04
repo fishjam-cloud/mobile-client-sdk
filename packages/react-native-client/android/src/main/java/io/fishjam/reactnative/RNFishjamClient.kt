@@ -27,6 +27,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.foreground.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
 import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
 import io.fishjam.reactnative.managers.TracksUpdateListenersManager
@@ -73,6 +74,8 @@ class RNFishjamClient(
       val event = EmitableEvents.PeerStatusChanged
       emitEvent(event, mapOf(event.name to value))
     }
+
+  private var foregroundServiceManager: ForegroundServiceManager? = null
 
   companion object {
     val trackUpdateListenersManager = TracksUpdateListenersManager()
@@ -375,6 +378,21 @@ class RNFishjamClient(
       val intent = mediaProjectionManager.createScreenCaptureIntent()
       currentActivity.startActivityForResult(intent, SCREENSHARE_REQUEST)
     }
+  }
+
+  fun startForegroundService(config: ForegroundServiceConfig, promise: Promise) {
+    if (foregroundServiceManager?.isServiceBound == true) {
+      foregroundServiceManager?.startForegroundService(config)
+      promise.resolve()
+    } else {
+      foregroundServiceManager = ForegroundServiceManager(appContext!!) {
+        promise.resolve()
+      }
+    }
+  }
+
+  fun stopForegroundService() {
+    foregroundServiceManager?.stopForegroundService()
   }
 
   suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {

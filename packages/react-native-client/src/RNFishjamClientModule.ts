@@ -71,7 +71,7 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  startForegroundService: (options: ForegroundServiceOptions) => void;
+  startForegroundService: (options: ForegroundServiceOptions) => Promise<void>;
   stopForegroundService: () => void;
 };
 

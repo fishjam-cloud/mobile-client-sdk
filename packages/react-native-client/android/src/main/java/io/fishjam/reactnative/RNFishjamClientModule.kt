@@ -303,60 +303,12 @@ class RNFishjamClientModule : Module() {
 
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
-      Function("startForegroundService") { config: ForegroundServiceConfig ->
-        if (appContext.reactContext == null) {
-          throw CodedException(message = "reactContext not found")
-        }
-
-        val channelId =
-          config.channelId
-            ?: throw CodedException(message = "Missing `channelId` for startForegroundService")
-        val channelName =
-          config.channelName
-            ?: throw CodedException(message = "Missing `channelName` for startForegroundService")
-        val notificationContent =
-          config.notificationContent
-            ?: throw CodedException(message = "Missing `notificationContent` for startForegroundService")
-        val notificationTitle =
-          config.notificationTitle
-            ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
-        val foregroundServiceTypes = config.foregroundServiceTypes
-
-        if (foregroundServiceTypes.isEmpty()) {
-          throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
-        }
-
-        val serviceIntent =
-          Intent(
-            appContext.reactContext,
-            FishjamForegroundService::class.java
-          )
-
-        serviceIntent.putExtra("channelId", channelId)
-        serviceIntent.putExtra("channelName", channelName)
-        serviceIntent.putExtra("notificationTitle", notificationContent)
-        serviceIntent.putExtra("notificationContent", notificationTitle)
-        serviceIntent.putExtra("foregroundServiceTypes", foregroundServiceTypes)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          appContext.reactContext!!.startForegroundService(serviceIntent)
-        } else {
-          appContext.reactContext!!.startService(serviceIntent)
-        }
+      Function("startForegroundService") { config: ForegroundServiceConfig, promise: Promise ->
+        rnFishjamClient.startForegroundService(config, promise)
       }
 
       Function("stopForegroundService") {
-        if (appContext.reactContext == null) {
-          throw CodedException(message = "reactContext not found")
-        }
-
-        val serviceIntent: Intent =
-          Intent(
-            appContext.reactContext,
-            FishjamForegroundService::class.java
-          )
-
-        appContext.reactContext!!.stopService(serviceIntent)
+        rnFishjamClient.stopForegroundService()
       }
     }
 }

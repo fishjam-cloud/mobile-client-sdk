@@ -55,7 +55,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     navigation.navigate('Home');
   }, [navigation]);
 
-  useForegroundService({
+  const { switchMediaProjectionService } = useForegroundService({
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
   });
@@ -75,12 +75,18 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const onToggleScreenShare = useCallback(async () => {
     if (Platform.OS === 'android') {
       await handleAndroidScreenSharePermission(isScreenShareOn);
+      await switchMediaProjectionService({ enable: !isScreenShareOn });
     }
 
     await toggleScreenShare({
       quality: 'HD15',
     });
-  }, [isScreenShareOn, toggleScreenShare, handleAndroidScreenSharePermission]);
+  }, [
+    toggleScreenShare,
+    handleAndroidScreenSharePermission,
+    isScreenShareOn,
+    switchMediaProjectionService,
+  ]);
 
   const flipCamera = useCallback(() => {
     const camera =
