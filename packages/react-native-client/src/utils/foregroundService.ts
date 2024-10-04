@@ -42,7 +42,7 @@ export const startForegroundService = async (
     console.warn(err);
   }
 
-  RNFishjamClientModule.startForegroundService(options);
+  return RNFishjamClientModule.startForegroundService(options);
 };
 
 /**

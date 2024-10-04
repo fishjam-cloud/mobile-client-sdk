@@ -388,6 +388,7 @@ class RNFishjamClient(
       foregroundServiceManager = ForegroundServiceManager(appContext!!) {
         promise.resolve()
       }
+      foregroundServiceManager?.startForegroundService(config)
     }
   }
 

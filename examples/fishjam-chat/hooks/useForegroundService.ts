@@ -28,7 +28,9 @@ export const useForegroundService = ({
   const refreshService = useCallback(async () => {
     if (foregroundTypes.current.size === 0) {
       stopForegroundService();
+      console.log('stop');
     } else {
+      console.log('start');
       await startServiceWithTypes([...foregroundTypes.current]);
     }
   }, []);

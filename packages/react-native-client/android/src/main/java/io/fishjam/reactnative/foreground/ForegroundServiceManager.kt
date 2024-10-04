@@ -1,29 +1,15 @@
 package io.fishjam.reactnative.foreground
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.core.app.NotificationCompat
 import expo.modules.kotlin.AppContext
-import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
 import io.fishjam.reactnative.FishjamForegroundService
 import io.fishjam.reactnative.ForegroundServiceConfig
-import io.fishjam.reactnative.RNFishjamClient.Companion.fishjamClient
-import io.fishjam.reactnative.utils.PermissionUtils
-import kotlinx.coroutines.launch
 
 class ForegroundServiceManager(
   private val appContext: AppContext,
@@ -96,6 +82,9 @@ class ForegroundServiceManager(
       throw CodedException(message = "reactContext not found")
     }
 
+    isServiceBound = false
+    appContext.currentActivity!!.unbindService(connection)
     appContext.reactContext!!.stopService(serviceIntent)
+
   }
 }

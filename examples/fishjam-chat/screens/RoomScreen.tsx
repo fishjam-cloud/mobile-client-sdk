@@ -75,9 +75,10 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const onToggleScreenShare = useCallback(async () => {
     if (Platform.OS === 'android') {
       await handleAndroidScreenSharePermission(isScreenShareOn);
-      await switchMediaProjectionService({ enable: !isScreenShareOn });
+      await switchMediaProjectionService({ enable: true });
+      console.log('switch');
     }
-
+    console.log('toggle');
     await toggleScreenShare({
       quality: 'HD15',
     });
