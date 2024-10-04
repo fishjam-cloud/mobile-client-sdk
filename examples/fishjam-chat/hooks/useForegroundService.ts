@@ -26,13 +26,7 @@ export const useForegroundService = ({
   const foregroundTypes = useRef<Set<AndroidForegroundServiceType>>(new Set());
 
   const refreshService = useCallback(async () => {
-    if (foregroundTypes.current.size === 0) {
-      stopForegroundService();
-      console.log('stop');
-    } else {
-      console.log('start');
-      await startServiceWithTypes([...foregroundTypes.current]);
-    }
+    await startServiceWithTypes([...foregroundTypes.current]);
   }, []);
 
   useEffect(() => {
@@ -58,21 +52,4 @@ export const useForegroundService = ({
   useEffect(() => {
     return () => stopForegroundService();
   }, []);
-
-  const switchMediaProjectionService = useCallback(
-    async ({ enable }: { enable: boolean }) => {
-      enable
-        ? foregroundTypes.current.add(
-            AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-          )
-        : foregroundTypes.current.delete(
-            AndroidForegroundServiceType.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION,
-          );
-
-      await refreshService();
-    },
-    [refreshService],
-  );
-
-  return { switchMediaProjectionService };
 };

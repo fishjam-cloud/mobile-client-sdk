@@ -303,6 +303,10 @@ class RNFishjamClientModule : Module() {
 
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
+      Function("getForegroundServiceConfig") {
+        return@Function rnFishjamClient.getForegroundServiceConfig()
+      }
+
       AsyncFunction("startForegroundService") { config: ForegroundServiceConfig, promise: Promise ->
         rnFishjamClient.startForegroundService(config, promise)
       }

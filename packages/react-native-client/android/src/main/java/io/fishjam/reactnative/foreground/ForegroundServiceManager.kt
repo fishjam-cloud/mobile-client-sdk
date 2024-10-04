@@ -20,6 +20,9 @@ class ForegroundServiceManager(
   var isServiceBound: Boolean = false
     private set
 
+  var latestConfig: ForegroundServiceConfig? = null
+    private set
+
   private val serviceIntent = Intent(
     appContext.reactContext, FishjamForegroundService::class.java
   )
@@ -42,10 +45,6 @@ class ForegroundServiceManager(
       throw CodedException(message = "reactContext not found")
     }
 
-    if (!isServiceBound) {
-      appContext.currentActivity!!.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
-    }
-
     val channelId =
       config.channelId
         ?: throw CodedException(message = "Missing `channelId` for startForegroundService")
@@ -60,8 +59,15 @@ class ForegroundServiceManager(
         ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
     val foregroundServiceTypes = config.foregroundServiceTypes
 
+    latestConfig = config
+
+    // If no service type was passed, we only need to save the latest config for later use.
     if (foregroundServiceTypes.isEmpty()) {
-      throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
+      return
+    }
+
+    if (!isServiceBound) {
+      appContext.currentActivity!!.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
     }
 
     serviceIntent.putExtra("channelId", channelId)
@@ -82,9 +88,11 @@ class ForegroundServiceManager(
       throw CodedException(message = "reactContext not found")
     }
 
-    isServiceBound = false
-    appContext.currentActivity!!.unbindService(connection)
+    if (isServiceBound) {
+      isServiceBound = false
+      appContext.currentActivity!!.unbindService(connection)
+    }
+    latestConfig = null
     appContext.reactContext!!.stopService(serviceIntent)
-
   }
 }

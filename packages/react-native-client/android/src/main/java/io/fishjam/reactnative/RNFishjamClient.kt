@@ -380,6 +380,10 @@ class RNFishjamClient(
     }
   }
 
+  fun getForegroundServiceConfig(): ForegroundServiceConfig? {
+    return foregroundServiceManager?.latestConfig
+  }
+
   fun startForegroundService(config: ForegroundServiceConfig, promise: Promise) {
     if (foregroundServiceManager?.isServiceBound == true) {
       foregroundServiceManager?.startForegroundService(config)
@@ -569,7 +573,8 @@ class RNFishjamClient(
   fun toggleScreenShareTrackEncoding(encoding: String): Map<String, Any> {
     ensureScreenShareTrack()
     getLocalScreenShareTrack()?.let {
-      screenShareSimulcastConfig = toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
+      screenShareSimulcastConfig =
+        toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
     }
     return getSimulcastConfigAsRNMap(screenShareSimulcastConfig)
   }
@@ -799,7 +804,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-            ),
+              ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(
