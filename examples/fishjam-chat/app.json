@@ -33,7 +33,8 @@
       ]
     },
     "androidStatusBar": {
-      "hidden": true
+      "backgroundColor": "#BFE7F8",
+      "translucent": false
     },
     "plugins": [
       [
