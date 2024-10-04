@@ -1,7 +1,7 @@
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import { URL } from 'react-native-url-polyfill';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, TextInput, DismissKeyboard } from '../components';
 import {
   AppRootStackParamList,
@@ -63,6 +63,18 @@ export default function ConnectScreen({ navigation }: Props) {
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
 
+  useEffect(() => {
+    async function readData() {
+      const storedRoomName = await AsyncStorage.getItem('roomName');
+      if (storedRoomName) setRoomName(storedRoomName);
+      const storedUserName = await AsyncStorage.getItem('userName');
+      if (storedUserName) setUserName(storedUserName);
+      const storedEnv = await AsyncStorage.getItem('env');
+      if (storedEnv === 'prod') setEnv(storedEnv);
+    }
+    readData();
+  }, []);
+
   const onTapConnectButton = async () => {
     try {
       setConnectionError(null);
@@ -76,6 +88,9 @@ export default function ConnectScreen({ navigation }: Props) {
         roomName,
         userName,
       );
+      AsyncStorage.setItem('roomName', roomName);
+      AsyncStorage.setItem('userName', userName);
+      AsyncStorage.setItem('env', env);
 
       navigation.navigate('Preview', {
         userName,
