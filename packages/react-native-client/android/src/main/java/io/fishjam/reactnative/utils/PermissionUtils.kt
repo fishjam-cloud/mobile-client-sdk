@@ -1,7 +1,9 @@
 package io.fishjam.reactnative.utils
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import androidx.core.content.PermissionChecker
 import expo.modules.interfaces.permissions.Permissions
 import expo.modules.interfaces.permissions.PermissionsStatus
 import expo.modules.kotlin.AppContext
@@ -10,8 +12,11 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object PermissionUtils {
-  suspend fun requestCameraPermission(appContext: AppContext?): Boolean = requestAccessIfNeeded(appContext, Manifest.permission.CAMERA)
+  fun hasCameraPermission(appContext: AppContext?): Boolean = hasPermission(appContext, Manifest.permission.CAMERA)
+  fun hasMicrophonePermission(appContext: AppContext?): Boolean = hasPermission(appContext, Manifest.permission.RECORD_AUDIO)
 
+  suspend fun requestCameraPermission(appContext: AppContext?): Boolean =
+    requestAccessIfNeeded(appContext, Manifest.permission.CAMERA)
   suspend fun requestMicrophonePermission(appContext: AppContext?): Boolean =
     requestAccessIfNeeded(appContext, Manifest.permission.RECORD_AUDIO)
 
@@ -23,7 +28,7 @@ object PermissionUtils {
       appContext?.permissions
         ?: throw Exceptions.PermissionsModuleNotFound()
 
-    if (appContext.reactContext?.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+    if (hasPermission(appContext, permission)) {
       return true
     }
 
@@ -32,5 +37,12 @@ object PermissionUtils {
         continuation.resume(result[permission]?.status == PermissionsStatus.GRANTED)
       }, permission)
     }
+  }
+
+  private fun hasPermission(
+    appContext: AppContext?,
+    permission: String
+  ): Boolean {
+    return appContext?.reactContext?.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
   }
 }

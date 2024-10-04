@@ -60,6 +60,8 @@ export {
 export type { PeerStatus } from './hooks/usePeerStatus';
 export { usePeerStatus } from './hooks/usePeerStatus';
 
+export { useForegroundService } from './hooks/useForegroundService';
+
 export type {
   TrackBandwidthLimit,
   TrackEncoding,

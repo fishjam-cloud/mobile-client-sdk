@@ -4,19 +4,20 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
 import android.os.Build
 import android.os.IBinder
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.exception.CodedException
 import io.fishjam.reactnative.FishjamForegroundService
 import io.fishjam.reactnative.ForegroundServiceConfig
+import io.fishjam.reactnative.utils.PermissionUtils
 
 class ForegroundServiceManager(
   private val appContext: AppContext,
   private val onServiceConnected: () -> Unit
 ) {
-  private lateinit var serviceInstance: FishjamForegroundService
-
   var isServiceBound: Boolean = false
     private set
 
@@ -29,8 +30,6 @@ class ForegroundServiceManager(
 
   private val connection = object : ServiceConnection {
     override fun onServiceConnected(className: ComponentName, service: IBinder) {
-      val binder = service as FishjamForegroundService.LocalBinder
-      serviceInstance = binder.getService()
       isServiceBound = true
       onServiceConnected()
     }
@@ -58,6 +57,21 @@ class ForegroundServiceManager(
       config.notificationTitle
         ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
     val foregroundServiceTypes = config.foregroundServiceTypes
+
+
+    if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_CAMERA) && !PermissionUtils.hasCameraPermission(
+        appContext
+      )
+    ) {
+      throw CodedException("Cannot start a camera foreground service without camera permission.")
+    }
+
+    if (foregroundServiceTypes.contains(FOREGROUND_SERVICE_TYPE_MICROPHONE) && !PermissionUtils.hasMicrophonePermission(
+        appContext
+      )
+    ) {
+      throw CodedException("Cannot start a microphone foreground service without microphone permission.")
+    }
 
     latestConfig = config
 
@@ -89,10 +103,10 @@ class ForegroundServiceManager(
     }
 
     if (isServiceBound) {
-      isServiceBound = false
       appContext.currentActivity!!.unbindService(connection)
+      isServiceBound = false
     }
-    latestConfig = null
     appContext.reactContext!!.stopService(serviceIntent)
+    latestConfig = null
   }
 }

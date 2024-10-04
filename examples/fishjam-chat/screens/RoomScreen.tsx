@@ -5,6 +5,7 @@ import {
   useCamera,
   useMicrophone,
   useAudioSettings,
+  useForegroundService,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -22,7 +23,6 @@ import type { AppRootStackParamList } from '../navigators/AppNavigator';
 import { roomScreenLabels } from '../types/ComponentLabels';
 import { parsePeersToTracks } from '../components/VideosGrid';
 import { PeerMetadata } from '../types/metadata';
-import { useForegroundService } from '../hooks/useForegroundService';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -55,15 +55,15 @@ const RoomScreen = ({ navigation, route }: Props) => {
   }, [navigation]);
 
   useForegroundService({
-    enableCamera: isCameraOn,
-    enableMicrophone: isMicrophoneOn,
+    enableCamera: true,
+    enableMicrophone: true,
   });
 
   const onToggleScreenShare = useCallback(async () => {
     await toggleScreenShare({
       quality: 'HD15',
     });
-  }, [toggleScreenShare, isScreenShareOn]);
+  }, [toggleScreenShare]);
 
   const flipCamera = useCallback(() => {
     const camera =
