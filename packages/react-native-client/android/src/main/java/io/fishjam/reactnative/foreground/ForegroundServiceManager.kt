@@ -18,7 +18,7 @@ import io.fishjam.reactnative.utils.PermissionUtils
 
 class ForegroundServiceManager(
   private val appContext: AppContext,
-  private val notificationConfig: ForegroundServiceNotificationConfig
+  notificationConfig: ForegroundServiceNotificationConfig
 ) {
   private var isServiceBound: Boolean = false
 
@@ -26,7 +26,12 @@ class ForegroundServiceManager(
     Intent(
       appContext.reactContext,
       FishjamForegroundService::class.java
-    )
+    ).apply {
+      putExtra("channelId", notificationConfig.channelId ?: throw CodedException("Missing `channelId` for startForegroundService"))
+      putExtra("channelName", notificationConfig.channelName ?: throw CodedException("Missing `channelName` for startForegroundService"))
+      putExtra("notificationContent", notificationConfig.notificationContent ?: throw CodedException("Missing `notificationContent` for startForegroundService"))
+      putExtra("notificationTitle", notificationConfig.notificationTitle ?: throw CodedException("Missing `notificationTitle` for startForegroundService"))
+    }
 
   private var onServiceConnected: (() -> Unit)? = null
 
@@ -49,42 +54,10 @@ class ForegroundServiceManager(
     permissionsConfig: ForegroundServicePermissionsConfig,
     onServiceConnected: (() -> Unit)
   ) {
-    if (appContext.reactContext == null) {
-      throw CodedException(message = "reactContext not found")
-    }
+    val reactContext = appContext.reactContext
+      ?: throw CodedException("reactContext not found")
 
-    val channelId =
-      notificationConfig.channelId
-        ?: throw CodedException(message = "Missing `channelId` for startForegroundService")
-    val channelName =
-      notificationConfig.channelName
-        ?: throw CodedException(message = "Missing `channelName` for startForegroundService")
-    val notificationContent =
-      notificationConfig.notificationContent
-        ?: throw CodedException(message = "Missing `notificationContent` for startForegroundService")
-    val notificationTitle =
-      notificationConfig.notificationTitle
-        ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
-
-    val foregroundServiceTypes = mutableListOf<Int>()
-
-    if (permissionsConfig.enableCamera) {
-      if (!PermissionUtils.hasCameraPermission(appContext)) {
-        throw CodedException("Cannot start a camera foreground service without camera permission.")
-      }
-      foregroundServiceTypes.add(FOREGROUND_SERVICE_TYPE_CAMERA)
-    }
-
-    if (permissionsConfig.enableMicrophone) {
-      if (!PermissionUtils.hasMicrophonePermission(appContext)) {
-        throw CodedException("Cannot start a microphone foreground service without microphone permission.")
-      }
-      foregroundServiceTypes.add(FOREGROUND_SERVICE_TYPE_MICROPHONE)
-    }
-
-    if (permissionsConfig.enableScreenSharing) {
-      foregroundServiceTypes.add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
-    }
+    val foregroundServiceTypes = buildForegroundServiceTypes(permissionsConfig)
 
     // If no service type was passed, save the latest config for later calls to startForegroundService
     // for example to use with screen sharing.
@@ -92,24 +65,15 @@ class ForegroundServiceManager(
       return
     }
 
-    serviceIntent.putExtra("channelId", channelId)
-    serviceIntent.putExtra("channelName", channelName)
-    serviceIntent.putExtra("notificationTitle", notificationContent)
-    serviceIntent.putExtra("notificationContent", notificationTitle)
     serviceIntent.putExtra("foregroundServiceTypes", foregroundServiceTypes.toIntArray())
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      appContext.reactContext!!.startForegroundService(serviceIntent)
+      reactContext.startForegroundService(serviceIntent)
     } else {
-      appContext.reactContext!!.startService(serviceIntent)
+      reactContext.startService(serviceIntent)
     }
 
-    if (!isServiceBound) {
-      this.onServiceConnected = onServiceConnected
-      appContext.currentActivity!!.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
-    } else {
-      onServiceConnected()
-    }
+    bindServiceIfNeeded(onServiceConnected)
   }
 
   fun stopForegroundService() {
@@ -122,5 +86,40 @@ class ForegroundServiceManager(
       isServiceBound = false
     }
     appContext.reactContext!!.stopService(serviceIntent)
+  }
+
+  private fun buildForegroundServiceTypes(permissionsConfig: ForegroundServicePermissionsConfig): List<Int> {
+    return buildList {
+      if (permissionsConfig.enableCamera) {
+        checkPermissionAndAdd(FOREGROUND_SERVICE_TYPE_CAMERA, "camera", PermissionUtils::hasCameraPermission)
+      }
+      if (permissionsConfig.enableMicrophone) {
+        checkPermissionAndAdd(FOREGROUND_SERVICE_TYPE_MICROPHONE, "microphone", PermissionUtils::hasMicrophonePermission)
+      }
+      if (permissionsConfig.enableScreenSharing) {
+        add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
+      }
+    }
+  }
+
+  private fun MutableList<Int>.checkPermissionAndAdd(
+    serviceType: Int,
+    permissionName: String,
+    hasPermission: (AppContext) -> Boolean
+  ) {
+    if (!hasPermission(appContext)) {
+      throw CodedException("Cannot start a $permissionName foreground service without $permissionName permission.")
+    }
+    add(serviceType)
+  }
+
+  private fun bindServiceIfNeeded(onServiceConnected: () -> Unit) {
+    if (!isServiceBound) {
+      this.onServiceConnected = onServiceConnected
+      appContext.currentActivity?.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
+        ?: throw CodedException("Current activity not found")
+    } else {
+      onServiceConnected()
+    }
   }
 }
