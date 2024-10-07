@@ -29,8 +29,14 @@ class ForegroundServiceManager(
     ).apply {
       putExtra("channelId", notificationConfig.channelId ?: throw CodedException("Missing `channelId` for startForegroundService"))
       putExtra("channelName", notificationConfig.channelName ?: throw CodedException("Missing `channelName` for startForegroundService"))
-      putExtra("notificationContent", notificationConfig.notificationContent ?: throw CodedException("Missing `notificationContent` for startForegroundService"))
-      putExtra("notificationTitle", notificationConfig.notificationTitle ?: throw CodedException("Missing `notificationTitle` for startForegroundService"))
+      putExtra(
+        "notificationContent",
+        notificationConfig.notificationContent ?: throw CodedException("Missing `notificationContent` for startForegroundService")
+      )
+      putExtra(
+        "notificationTitle",
+        notificationConfig.notificationTitle ?: throw CodedException("Missing `notificationTitle` for startForegroundService")
+      )
     }
 
   private var onServiceConnected: (() -> Unit)? = null
@@ -54,8 +60,9 @@ class ForegroundServiceManager(
     permissionsConfig: ForegroundServicePermissionsConfig,
     onServiceConnected: (() -> Unit)
   ) {
-    val reactContext = appContext.reactContext
-      ?: throw CodedException("reactContext not found")
+    val reactContext =
+      appContext.reactContext
+        ?: throw CodedException("reactContext not found")
 
     val foregroundServiceTypes = buildForegroundServiceTypes(permissionsConfig)
 
@@ -88,8 +95,8 @@ class ForegroundServiceManager(
     appContext.reactContext!!.stopService(serviceIntent)
   }
 
-  private fun buildForegroundServiceTypes(permissionsConfig: ForegroundServicePermissionsConfig): List<Int> {
-    return buildList {
+  private fun buildForegroundServiceTypes(permissionsConfig: ForegroundServicePermissionsConfig): List<Int> =
+    buildList {
       if (permissionsConfig.enableCamera) {
         checkPermissionAndAdd(FOREGROUND_SERVICE_TYPE_CAMERA, "camera", PermissionUtils::hasCameraPermission)
       }
@@ -100,7 +107,6 @@ class ForegroundServiceManager(
         add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
       }
     }
-  }
 
   private fun MutableList<Int>.checkPermissionAndAdd(
     serviceType: Int,
