@@ -1,4 +1,4 @@
-package io.fishjam.reactnative
+package io.fishjam.reactnative.foreground
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -18,9 +18,7 @@ class FishjamForegroundService : Service() {
 
   private val binder = LocalBinder()
 
-  inner class LocalBinder : Binder() {
-    fun getService(): FishjamForegroundService = this@FishjamForegroundService
-  }
+  inner class LocalBinder : Binder()
 
   override fun onBind(intent: Intent): IBinder = binder
 

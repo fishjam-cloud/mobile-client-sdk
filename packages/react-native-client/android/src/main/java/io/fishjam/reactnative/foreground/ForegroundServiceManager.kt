@@ -11,35 +11,45 @@ import android.os.Build
 import android.os.IBinder
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.exception.CodedException
-import io.fishjam.reactnative.FishjamForegroundService
 import io.fishjam.reactnative.ForegroundServiceNotificationConfig
 import io.fishjam.reactnative.ForegroundServicePermissionsConfig
 import io.fishjam.reactnative.utils.PermissionUtils
+import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 class ForegroundServiceManager(
   private val appContext: AppContext,
   notificationConfig: ForegroundServiceNotificationConfig
 ) {
+  private val reactContext by lazy {
+    appContext.reactContext ?: throw CodedException("reactContext not found")
+  }
   private var isServiceBound: Boolean = false
+  private var serviceConnectedContinuation: CancellableContinuation<Unit>? = null
 
   private val serviceIntent =
     Intent(
       appContext.reactContext,
       FishjamForegroundService::class.java
     ).apply {
-      putExtra("channelId", notificationConfig.channelId ?: throw CodedException("Missing `channelId` for startForegroundService"))
-      putExtra("channelName", notificationConfig.channelName ?: throw CodedException("Missing `channelName` for startForegroundService"))
+      putExtra(
+        "channelId",
+        notificationConfig.channelId.orThrow("channelId")
+      )
+      putExtra(
+        "channelName",
+        notificationConfig.channelName.orThrow("channelName")
+      )
       putExtra(
         "notificationContent",
-        notificationConfig.notificationContent ?: throw CodedException("Missing `notificationContent` for startForegroundService")
+        notificationConfig.notificationContent.orThrow("notificationContent")
       )
       putExtra(
         "notificationTitle",
-        notificationConfig.notificationTitle ?: throw CodedException("Missing `notificationTitle` for startForegroundService")
+        notificationConfig.notificationTitle.orThrow("notificationTitle")
       )
     }
-
-  private var onServiceConnected: (() -> Unit)? = null
 
   private val connection =
     object : ServiceConnection {
@@ -48,26 +58,22 @@ class ForegroundServiceManager(
         service: IBinder
       ) {
         isServiceBound = true
-        onServiceConnected?.invoke()
+        serviceConnectedContinuation?.resume(Unit)
+        serviceConnectedContinuation = null
       }
 
       override fun onServiceDisconnected(arg0: ComponentName) {
         isServiceBound = false
+        serviceConnectedContinuation?.cancel()
+        serviceConnectedContinuation = null
       }
     }
 
-  fun startForegroundService(
-    permissionsConfig: ForegroundServicePermissionsConfig,
-    onServiceConnected: (() -> Unit)
+  suspend fun startForegroundService(
+    permissionsConfig: ForegroundServicePermissionsConfig
   ) {
-    val reactContext =
-      appContext.reactContext
-        ?: throw CodedException("reactContext not found")
-
     val foregroundServiceTypes = buildForegroundServiceTypes(permissionsConfig)
 
-    // If no service type was passed, save the latest config for later calls to startForegroundService
-    // for example to use with screen sharing.
     if (foregroundServiceTypes.isEmpty()) {
       return
     }
@@ -80,35 +86,28 @@ class ForegroundServiceManager(
       reactContext.startService(serviceIntent)
     }
 
-    bindServiceIfNeeded(onServiceConnected)
+    bindServiceIfNeededAndAwait()
   }
 
   fun stopForegroundService() {
-    if (appContext.reactContext == null) {
-      throw CodedException(message = "reactContext not found")
-    }
-
     if (isServiceBound) {
-      appContext.currentActivity!!.unbindService(connection)
+      appContext.currentActivity?.unbindService(connection)
+        ?: throw CodedException("Current activity not found")
       isServiceBound = false
     }
-    appContext.reactContext!!.stopService(serviceIntent)
+    reactContext.stopService(serviceIntent)
+    serviceConnectedContinuation?.cancel()
+    serviceConnectedContinuation = null
   }
 
   private fun buildForegroundServiceTypes(permissionsConfig: ForegroundServicePermissionsConfig): List<Int> =
     buildList {
-      if (permissionsConfig.enableCamera) {
-        checkPermissionAndAdd(FOREGROUND_SERVICE_TYPE_CAMERA, "camera", PermissionUtils::hasCameraPermission)
-      }
-      if (permissionsConfig.enableMicrophone) {
-        checkPermissionAndAdd(FOREGROUND_SERVICE_TYPE_MICROPHONE, "microphone", PermissionUtils::hasMicrophonePermission)
-      }
-      if (permissionsConfig.enableScreenSharing) {
-        add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
-      }
+      if (permissionsConfig.enableCamera) addIfPermissionGranted(FOREGROUND_SERVICE_TYPE_CAMERA, "camera", PermissionUtils::hasCameraPermission)
+      if (permissionsConfig.enableMicrophone) addIfPermissionGranted(FOREGROUND_SERVICE_TYPE_MICROPHONE, "microphone", PermissionUtils::hasMicrophonePermission)
+      if (permissionsConfig.enableScreenSharing) add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
     }
 
-  private fun MutableList<Int>.checkPermissionAndAdd(
+  private fun MutableList<Int>.addIfPermissionGranted(
     serviceType: Int,
     permissionName: String,
     hasPermission: (AppContext) -> Boolean
@@ -119,13 +118,20 @@ class ForegroundServiceManager(
     add(serviceType)
   }
 
-  private fun bindServiceIfNeeded(onServiceConnected: () -> Unit) {
+  private suspend fun bindServiceIfNeededAndAwait() = suspendCancellableCoroutine { continuation ->
     if (!isServiceBound) {
-      this.onServiceConnected = onServiceConnected
-      appContext.currentActivity?.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
-        ?: throw CodedException("Current activity not found")
+      serviceConnectedContinuation = continuation
+      runCatching {
+        appContext.currentActivity?.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
+      }.onFailure { error ->
+        continuation.cancel(CodedException("Failed to bind service: ${error.message}"))
+      }
     } else {
-      onServiceConnected()
+      continuation.resume(Unit)
+      serviceConnectedContinuation = null
     }
   }
 }
+
+private fun String?.orThrow(fieldName: String): String =
+  this ?: throw CodedException("Missing `$fieldName` for startForegroundService")

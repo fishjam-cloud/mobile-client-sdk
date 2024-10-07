@@ -312,8 +312,8 @@ class RNFishjamClientModule : Module() {
         return@Function rnFishjamClient.configureForegroundService(config)
       }
 
-      AsyncFunction("startForegroundService") { config: ForegroundServicePermissionsConfig, promise: Promise ->
-        rnFishjamClient.startForegroundService(config, promise)
+      AsyncFunction("startForegroundService") Coroutine { config: ForegroundServicePermissionsConfig ->
+        rnFishjamClient.startForegroundService(config)
       }
 
       Function("stopForegroundService") {

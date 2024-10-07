@@ -386,18 +386,12 @@ class RNFishjamClient(
     }
   }
 
-  fun startForegroundService(
-    config: ForegroundServicePermissionsConfig,
-    promise: Promise
-  ) {
+  suspend fun startForegroundService(config: ForegroundServicePermissionsConfig) {
     if (foregroundServiceManager == null) {
-      promise.reject(CodedException("Foreground service not configured."))
-      return
+      throw CodedException("Foreground service not configured.")
     }
 
-    foregroundServiceManager?.startForegroundService(config) {
-      promise.resolve()
-    }
+    foregroundServiceManager?.startForegroundService(config)
   }
 
   fun stopForegroundService() {
@@ -808,7 +802,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-            ),
+              ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(
