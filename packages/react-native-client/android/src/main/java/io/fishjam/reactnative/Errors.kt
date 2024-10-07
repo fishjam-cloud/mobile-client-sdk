@@ -12,7 +12,7 @@ class ConnectionError(
 ) : CodedException(message = "Connection error: ${reason.error}")
 
 class MissingScreenSharePermission :
-  CodedException(message = "No permission to start screen share, call handleScreenSharePermission first.")
+  CodedException(message = "No permission to start screen share.")
 
 class ClientNotConnectedError : CodedException(message = "Client not connected to server yet. Make sure to call connect() first!")
 
