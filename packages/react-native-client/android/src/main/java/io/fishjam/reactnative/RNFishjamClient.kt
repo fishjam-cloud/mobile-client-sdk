@@ -802,7 +802,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-              ),
+            ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(

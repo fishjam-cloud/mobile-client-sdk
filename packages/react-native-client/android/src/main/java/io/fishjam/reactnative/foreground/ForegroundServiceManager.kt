@@ -69,9 +69,7 @@ class ForegroundServiceManager(
       }
     }
 
-  suspend fun startForegroundService(
-    permissionsConfig: ForegroundServicePermissionsConfig
-  ) {
+  suspend fun startForegroundService(permissionsConfig: ForegroundServicePermissionsConfig) {
     val foregroundServiceTypes = buildForegroundServiceTypes(permissionsConfig)
 
     if (foregroundServiceTypes.isEmpty()) {
@@ -102,8 +100,20 @@ class ForegroundServiceManager(
 
   private fun buildForegroundServiceTypes(permissionsConfig: ForegroundServicePermissionsConfig): List<Int> =
     buildList {
-      if (permissionsConfig.enableCamera) addIfPermissionGranted(FOREGROUND_SERVICE_TYPE_CAMERA, "camera", PermissionUtils::hasCameraPermission)
-      if (permissionsConfig.enableMicrophone) addIfPermissionGranted(FOREGROUND_SERVICE_TYPE_MICROPHONE, "microphone", PermissionUtils::hasMicrophonePermission)
+      if (permissionsConfig.enableCamera) {
+        addIfPermissionGranted(
+          FOREGROUND_SERVICE_TYPE_CAMERA,
+          "camera",
+          PermissionUtils::hasCameraPermission
+        )
+      }
+      if (permissionsConfig.enableMicrophone) {
+        addIfPermissionGranted(
+          FOREGROUND_SERVICE_TYPE_MICROPHONE,
+          "microphone",
+          PermissionUtils::hasMicrophonePermission
+        )
+      }
       if (permissionsConfig.enableScreenSharing) add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
     }
 
@@ -118,20 +128,20 @@ class ForegroundServiceManager(
     add(serviceType)
   }
 
-  private suspend fun bindServiceIfNeededAndAwait() = suspendCancellableCoroutine { continuation ->
-    if (!isServiceBound) {
-      serviceConnectedContinuation = continuation
-      runCatching {
-        appContext.currentActivity?.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
-      }.onFailure { error ->
-        continuation.cancel(CodedException("Failed to bind service: ${error.message}"))
+  private suspend fun bindServiceIfNeededAndAwait() =
+    suspendCancellableCoroutine { continuation ->
+      if (!isServiceBound) {
+        serviceConnectedContinuation = continuation
+        runCatching {
+          appContext.currentActivity?.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
+        }.onFailure { error ->
+          continuation.cancel(CodedException("Failed to bind service: ${error.message}"))
+        }
+      } else {
+        continuation.resume(Unit)
+        serviceConnectedContinuation = null
       }
-    } else {
-      continuation.resume(Unit)
-      serviceConnectedContinuation = null
     }
-  }
 }
 
-private fun String?.orThrow(fieldName: String): String =
-  this ?: throw CodedException("Missing `$fieldName` for startForegroundService")
+private fun String?.orThrow(fieldName: String): String = this ?: throw CodedException("Missing `$fieldName` for startForegroundService")
