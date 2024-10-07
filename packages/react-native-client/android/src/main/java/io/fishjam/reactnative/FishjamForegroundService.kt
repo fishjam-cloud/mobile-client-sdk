@@ -22,9 +22,7 @@ class FishjamForegroundService : Service() {
     fun getService(): FishjamForegroundService = this@FishjamForegroundService
   }
 
-  override fun onBind(intent: Intent): IBinder {
-    return binder
-  }
+  override fun onBind(intent: Intent): IBinder = binder
 
   override fun onStartCommand(
     intent: Intent?,

@@ -18,29 +18,37 @@ import io.fishjam.reactnative.utils.PermissionUtils
 
 class ForegroundServiceManager(
   private val appContext: AppContext,
-  private val notificationConfig: ForegroundServiceNotificationConfig,
+  private val notificationConfig: ForegroundServiceNotificationConfig
 ) {
-
   private var isServiceBound: Boolean = false
 
-  private val serviceIntent = Intent(
-    appContext.reactContext, FishjamForegroundService::class.java
-  )
+  private val serviceIntent =
+    Intent(
+      appContext.reactContext,
+      FishjamForegroundService::class.java
+    )
 
   private var onServiceConnected: (() -> Unit)? = null
 
-  private val connection = object : ServiceConnection {
-    override fun onServiceConnected(className: ComponentName, service: IBinder) {
-      isServiceBound = true
-      onServiceConnected?.invoke()
+  private val connection =
+    object : ServiceConnection {
+      override fun onServiceConnected(
+        className: ComponentName,
+        service: IBinder
+      ) {
+        isServiceBound = true
+        onServiceConnected?.invoke()
+      }
+
+      override fun onServiceDisconnected(arg0: ComponentName) {
+        isServiceBound = false
+      }
     }
 
-    override fun onServiceDisconnected(arg0: ComponentName) {
-      isServiceBound = false
-    }
-  }
-
-  fun startForegroundService(permissionsConfig: ForegroundServicePermissionsConfig, onServiceConnected: (() -> Unit)) {
+  fun startForegroundService(
+    permissionsConfig: ForegroundServicePermissionsConfig,
+    onServiceConnected: (() -> Unit)
+  ) {
     if (appContext.reactContext == null) {
       throw CodedException(message = "reactContext not found")
     }

@@ -1,9 +1,6 @@
 package io.fishjam.reactnative
 
-import android.content.Intent
-import android.os.Build
 import expo.modules.kotlin.Promise
-import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
