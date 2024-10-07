@@ -21,17 +21,12 @@ const requestNotificationsPermission = async () => {
   }
 };
 
-export const useForegroundService = ({
+const useForegroundServiceAndroid = ({
   enableCamera,
   enableMicrophone,
   ...restOptions
 }: ForegroundServiceNotificationConfig &
   ForegroundServicePermissionsConfig) => {
-  /* eslint-disable react-hooks/rules-of-hooks */
-  if (Platform.OS !== 'android') {
-    return;
-  }
-
   const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
@@ -55,3 +50,10 @@ export const useForegroundService = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
+
+const emptyFunction = () => {};
+
+export const useForegroundService = Platform.select({
+  android: useForegroundServiceAndroid,
+  default: emptyFunction,
+});
