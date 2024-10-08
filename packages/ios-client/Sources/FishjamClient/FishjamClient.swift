@@ -118,6 +118,7 @@ public class FishjamClient {
     * @param appGroup an application group identifier used to allow communication between user app and upload extension
     * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
     * @param metadata the metadata that will be sent to the <strong>WebRTC Engine</strong> for media negotiation
+    * @param canStart callback that will be invoked once tbefore the screen capture starts, and if returns true then capture starts, otherwise it stops
     * @param onStart callback that will be invoked once the screen capture starts
     * @param onStop callback that will be invoked once the screen capture stops
     */

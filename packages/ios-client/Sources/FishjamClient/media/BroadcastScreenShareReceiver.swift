@@ -1,4 +1,4 @@
-/// `BroadcastScreenReceiver` is responsible for receiving screen broadcast events such as
+/// `BroadcastScreenShareReceiver` is responsible for receiving screen broadcast events such as
 /// `started` or `stopped` and accorindly calls given callbacks passed during initialization.
 internal class BroadcastScreenShareReceiver: BroadcastScreenShareReceiverDelegate {
     let onStart: () -> Void
