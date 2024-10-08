@@ -11,49 +11,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import { URL } from 'react-native-url-polyfill';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, TextInput, DismissKeyboard } from '../components';
 import {
   AppRootStackParamList,
   TabParamList,
 } from '../navigators/AppNavigator';
+import { joinRoomWithRoomManager } from '../utils/roomManager';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithVideoRoom'>,
   NativeStackScreenProps<AppRootStackParamList>
 >;
-
-async function getFishjamServer(
-  roomManagerUrl: string,
-  roomName: string,
-  peerName: string,
-) {
-  const url = new URL(roomManagerUrl);
-  url.searchParams.set('roomName', roomName);
-  url.searchParams.set('peerName', peerName);
-
-  const response = await fetch(url.toString());
-
-  if (!response.ok) {
-    const responseText = await response.text();
-    console.warn(
-      'get_fishjam_failed',
-      `statusCode=${response.status}`,
-      `message=${responseText}`,
-    );
-    throw new Error(responseText);
-  }
-  const tokenData = (await response.json()) as {
-    url: string;
-    peerToken: string;
-  };
-
-  return {
-    fishjamUrl: tokenData.url,
-    token: tokenData.peerToken,
-  };
-}
 
 type VideoRoomEnv = 'staging' | 'prod';
 
@@ -76,6 +45,9 @@ async function readStorageData(): Promise<VideoRoomData> {
   return { env: 'staging', roomName: '', userName: '' };
 }
 
+/**
+ * Connect with the VideoRoom - our example service for video conferences
+ */
 export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [env, setEnv] = useState<VideoRoomEnv>('staging');
@@ -109,7 +81,7 @@ export default function ConnectScreen({ navigation }: Props) {
           : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION!;
       saveStorageData({ env, roomName, userName });
 
-      const { fishjamUrl, token } = await getFishjamServer(
+      const { fishjamUrl, token } = await joinRoomWithRoomManager(
         roomManagerUrl,
         roomName,
         userName,
