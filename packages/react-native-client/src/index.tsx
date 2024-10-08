@@ -57,7 +57,7 @@ export { usePeerStatus } from './hooks/usePeerStatus';
 export type {
   ForegroundServiceNotificationConfig,
   ForegroundServicePermissionsConfig,
-} from './types';
+} from './hooks/useForegroundService';
 export { useForegroundService } from './hooks/useForegroundService';
 
 export type {

@@ -52,36 +52,3 @@ export type GenericMetadata = Record<string, unknown>;
 // branded types are useful for restricting where given value can be passed
 declare const brand: unique symbol;
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
-
-/**
- * A type representing the options required for configuring the foreground service notifcation.
- *
- * @param channelId The id of the channel. Must be unique per package.
- * @param channelName The user visible name of the channel.
- * @param notificationTitle The title (first row) of the notification, in a standard notification.
- * @param notificationContent The text (second row) of the notification, in a standard notification.
- */
-export type ForegroundServiceNotificationConfig = {
-  channelId: string;
-  channelName: string;
-  notificationTitle: string;
-  notificationContent: string;
-};
-
-export type ForegroundServicePermissionsConfigInternal = {
-  enableCamera?: boolean;
-  enableMicrophone?: boolean;
-  enableScreenSharing?: boolean;
-};
-
-/**
- * A type representing the configuration for foreground service permissions.
- *
- * @param enableCamera Indicates whether the camera is enabled for the foreground service.
- * @param enableMicrophone Indicates whether the microphone is enabled for the foreground service.
- *
- */
-export type ForegroundServicePermissionsConfig = Pick<
-  ForegroundServicePermissionsConfigInternal,
-  'enableCamera' | 'enableMicrophone'
->;
