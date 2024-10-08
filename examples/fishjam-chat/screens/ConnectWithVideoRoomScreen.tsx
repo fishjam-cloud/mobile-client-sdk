@@ -55,9 +55,30 @@ async function getFishjamServer(
   };
 }
 
+type VideoRoomEnv = 'staging' | 'prod';
+
+type VideoRoomData = {
+  env: VideoRoomEnv;
+  roomName: string;
+  userName: string;
+};
+
+async function saveStorageData(videoRoomData: VideoRoomData) {
+  await AsyncStorage.setItem('videoRoomData', JSON.stringify(videoRoomData));
+}
+
+async function readStorageData(): Promise<VideoRoomData> {
+  const storageData = await AsyncStorage.getItem('videoRoomData');
+  if (storageData) {
+    const videoRoomData = JSON.parse(storageData) as VideoRoomData;
+    return videoRoomData;
+  }
+  return { env: 'staging', roomName: '', userName: '' };
+}
+
 export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
-  const [env, setEnv] = useState<'staging' | 'prod'>('staging');
+  const [env, setEnv] = useState<VideoRoomEnv>('staging');
   const [loading, setLoading] = useState(false);
 
   const [roomName, setRoomName] = useState('');
@@ -65,12 +86,15 @@ export default function ConnectScreen({ navigation }: Props) {
 
   useEffect(() => {
     async function readData() {
-      const storedRoomName = await AsyncStorage.getItem('roomName');
-      if (storedRoomName) setRoomName(storedRoomName);
-      const storedUserName = await AsyncStorage.getItem('userName');
-      if (storedUserName) setUserName(storedUserName);
-      const storedEnv = await AsyncStorage.getItem('env');
-      if (storedEnv === 'prod') setEnv(storedEnv);
+      const {
+        env: storedEnv,
+        roomName: storedRoomName,
+        userName: storedUserName,
+      } = await readStorageData();
+
+      setRoomName(storedRoomName);
+      setUserName(storedUserName);
+      setEnv(storedEnv);
     }
     readData();
   }, []);
@@ -82,15 +106,14 @@ export default function ConnectScreen({ navigation }: Props) {
       const roomManagerUrl =
         env === 'staging'
           ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING!
-          : process.env.EXPO_PUBLIC_VIDEOROOM_PROD!;
+          : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION!;
+      saveStorageData({ env, roomName, userName });
+
       const { fishjamUrl, token } = await getFishjamServer(
         roomManagerUrl,
         roomName,
         userName,
       );
-      AsyncStorage.setItem('roomName', roomName);
-      AsyncStorage.setItem('userName', userName);
-      AsyncStorage.setItem('env', env);
 
       navigation.navigate('Preview', {
         userName,
