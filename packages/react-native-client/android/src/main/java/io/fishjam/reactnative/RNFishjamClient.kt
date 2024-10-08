@@ -766,7 +766,9 @@ class RNFishjamClient(
     event: EmitableEvents,
     data: Map<String, Any?> = mapOf()
   ) {
-    sendEvent(event.name, data)
+    CoroutineScope(Dispatchers.Main).launch {
+      sendEvent(event.name, data)
+    }
   }
 
   fun emitWarning(warning: String) {
