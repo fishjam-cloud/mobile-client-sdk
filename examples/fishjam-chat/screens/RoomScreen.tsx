@@ -146,7 +146,9 @@ const RoomScreen = ({ navigation, route }: Props) => {
         {Platform.OS === 'ios' ? (
           <InCallButton
             iconName={
-              iosAppScreenShare?.isAppScreenShareOn ? 'share' : 'share-off'
+              iosAppScreenShare?.isAppScreenShareOn
+                ? 'cellphone-screenshot'
+                : 'cellphone-off'
             }
             onPress={() => {
               iosAppScreenShare?.toggleAppScreenShare();

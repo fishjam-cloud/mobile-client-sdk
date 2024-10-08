@@ -168,6 +168,7 @@ class FishjamClientInternal {
 
     public func prepareForScreenBroadcast(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
+        canStart: @escaping () -> Bool,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
     ) {
@@ -175,7 +176,9 @@ class FishjamClientInternal {
 
         screenshareBroadcastReciver = ScreenBroadcastReceiver(
             onStart: { [weak self] in
+                print("ON START")
                 guard let self, let videoSource = screenBroadcastCapturer?.source else { return }
+                guard canStart() else { return }
                 let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
                 let track = LocalScreenBroadcastTrack(
                     mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
@@ -199,6 +202,8 @@ class FishjamClientInternal {
                 } catch {}
             },
             onStop: { [weak self] in
+                print("ON STOP")
+
                 guard let self,
                     let track = localEndpoint.tracks.values.first(where: { $0 is LocalScreenBroadcastTrack })
                         as? LocalScreenBroadcastTrack
@@ -248,8 +253,11 @@ class FishjamClientInternal {
                 }
                 (track as? LocalTrack)?.stop()
                 self.localEndpoint = self.localEndpoint.removeTrack(track)
-                self.peerConnectionManager.removeTrack(trackId: track.webrtcId)
-                self.rtcEngineCommunication.renegotiateTracks()
+                if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+                    self.peerConnectionManager.removeTrack(trackId: track.webrtcId)
+                    self.rtcEngineCommunication.renegotiateTracks()
+                }
+
                 self.listener.onTrackRemoved(track: track)
             })
         do {

@@ -14,7 +14,7 @@ let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 
 /**
  * This hook can toggle client app screen sharing on/off and provides current screen share state. It works only on iOS.
- * @returns An object with functions to manage screen share on iOS and null on android.
+ * @returns An object with functions to manage app screen share on iOS and null on android.
  * @category Screenshare
  * @group Hooks
  */

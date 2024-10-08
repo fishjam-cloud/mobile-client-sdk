@@ -125,6 +125,7 @@ public class FishjamClient {
         appGroup: String,
         videoParameters: VideoParameters,
         metadata: Metadata,
+        canStart: @escaping () -> Bool,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
     ) {
@@ -132,6 +133,7 @@ public class FishjamClient {
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
+            canStart: canStart,
             onStart: onStart,
             onStop: onStop
         )

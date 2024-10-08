@@ -231,6 +231,7 @@ class RNFishjamClient: FishjamClientListener {
         isMicrophoneOn = false
         isCameraOn = false
         isScreenShareOn = false
+        isAppScreenShareOn = false
         isConnected = false
         isCameraInitialized = false
         RNFishjamClient.fishjamClient?.leave { [weak self] in
@@ -343,6 +344,10 @@ class RNFishjamClient: FishjamClientListener {
     func toggleScreenShare(screenShareOptions: ScreenShareOptions) throws {
         try ensureCreated()
         try ensureConnected()
+        guard isAppScreenShareOn == false else {
+            emit(warning: "Screensharing screen not available during screensharing app.")
+            return
+        }
         guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
         else {
             throw Exception(
@@ -376,9 +381,14 @@ class RNFishjamClient: FishjamClientListener {
             appGroup: appGroupName,
             videoParameters: videoParameters,
             metadata: screenShareMetadata,
+            canStart: {
+                if self.isAppScreenShareOn {
+                    self.emit(warning: "Screensharing screen not available during screensharing app.")
+                }
+                return !self.isAppScreenShareOn
+            },
             onStart: { [weak self] in
                 guard let self else { return }
-
                 do {
                     try setScreenShareTrackState(enabled: true)
                 } catch {
@@ -429,9 +439,21 @@ class RNFishjamClient: FishjamClientListener {
         emitEndpoints()
     }
 
+    func stopAppScreenShare() throws {
+        try ensureScreenAppTrack()
+        let track = getLocalScreenAppTrack()!
+        setScreenAppTrackState(track, enabled: false)
+        RNFishjamClient.fishjamClient?.removeTrack(trackId: track.id)
+        emitEndpoints()
+    }
+
     func toggleAppScreenShare(screenShareOptions: ScreenShareOptions) throws {
-        if let screenAppTrack = getLocalScreenAppTrack() {
-            setScreenAppTrackState(screenAppTrack, enabled: !isAppScreenShareOn)
+        guard isScreenShareOn == false else {
+            emit(warning: "App screensharing not available during screensharing.")
+            return
+        }
+        if getLocalScreenAppTrack() != nil {
+            try stopAppScreenShare()
         } else {
             try startScreenAppShare(screenShareOptions: screenShareOptions)
         }

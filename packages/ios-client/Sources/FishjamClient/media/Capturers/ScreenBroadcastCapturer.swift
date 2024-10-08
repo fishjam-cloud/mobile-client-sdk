@@ -163,7 +163,9 @@ class ScreenBroadcastCapturer: RTCVideoCapturer {
 
             case .video(let video):
                 if !self.started {
-                    fatalError("Started receiving video samples without `started` notification...")
+                    self.stopListening()
+                    sdkLogger.info("Started receiving video samples without `started` notification...")
+                    return
                 }
 
                 self.isReceivingSamples = true
