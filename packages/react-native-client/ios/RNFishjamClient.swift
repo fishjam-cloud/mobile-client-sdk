@@ -683,7 +683,9 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emit(event: EmitableEvents, data: [String: Any] = [:]) {
-        sendEvent(event.name, data)
+        DispatchQueue.main.async { [weak self] in
+            self?.sendEvent(event.name, data)
+        }
     }
 
     func emit(warning: String) {
