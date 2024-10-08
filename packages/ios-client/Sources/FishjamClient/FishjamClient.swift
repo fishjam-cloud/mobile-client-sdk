@@ -129,7 +129,7 @@ public class FishjamClient {
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
     ) {
-        client.prepareForScreenBroadcast(
+        client.prepareForBroadcastScreenSharing(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
@@ -150,7 +150,7 @@ public class FishjamClient {
         videoParameters: VideoParameters,
         metadata: Metadata
     ) -> LocalAppScreenShareTrack {
-        return client.createScreenAppTrack(videoParameters: videoParameters, metadata: metadata)
+        return client.createAppScreenShareTrack(videoParameters: videoParameters, metadata: metadata)
     }
 
     /**

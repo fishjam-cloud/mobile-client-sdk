@@ -166,7 +166,7 @@ class FishjamClientInternal {
         return audioTrack
     }
 
-    public func prepareForScreenBroadcast(
+    public func prepareForBroadcastScreenSharing(
         appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
         canStart: @escaping () -> Bool,
         onStart: @escaping () -> Void,
@@ -176,7 +176,6 @@ class FishjamClientInternal {
 
         broadcastScreenShareReceiver = BroadcastScreenShareReceiver(
             onStart: { [weak self] in
-                print("ON START")
                 guard let self, let videoSource = broadcastScreenShareCapturer?.source else { return }
                 guard canStart() else { return }
                 let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
@@ -202,8 +201,6 @@ class FishjamClientInternal {
                 } catch {}
             },
             onStop: { [weak self] in
-                print("ON STOP")
-
                 guard let self,
                     let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
                         as? LocalBroadcastScreenShareTrack
@@ -219,7 +216,9 @@ class FishjamClientInternal {
         broadcastScreenShareCapturer?.startListening()
     }
 
-    public func createScreenAppTrack(videoParameters: VideoParameters, metadata: Metadata) -> LocalAppScreenShareTrack {
+    public func createAppScreenShareTrack(videoParameters: VideoParameters, metadata: Metadata)
+        -> LocalAppScreenShareTrack
+    {
         let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
         let videoCapturer = AppScreenShareCapturer(videoSource)
@@ -240,7 +239,7 @@ class FishjamClientInternal {
         do {
             try awaitPromise(promise)
         } catch {
-            sdkLogger.error("\(_loggerPrefix) Error during awaiting for for createAppScreenshareTrack")
+            sdkLogger.error("\(_loggerPrefix) Error during awaiting for for \(#function)")
         }
         return videoTrack
     }
@@ -433,6 +432,11 @@ class FishjamClientInternal {
                 case let track as LocalBroadcastScreenShareTrack:
                     let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
                     let videoTrack = LocalBroadcastScreenShareTrack(mediaTrack: webrtcTrack, oldTrack: track)
+                    localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
+                    break
+                case let track as LocalAppScreenShareTrack:
+                    let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
+                    let videoTrack = LocalAppScreenShareTrack(mediaTrack: webrtcTrack, oldTrack: track)
                     localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
                     break
                 default:
