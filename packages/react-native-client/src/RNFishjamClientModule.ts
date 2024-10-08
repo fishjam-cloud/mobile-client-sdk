@@ -2,16 +2,16 @@ import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './debug/stats/types';
-import type {
-  ForegroundServiceNotificationConfig,
-  ForegroundServicePermissionsConfigInternal,
-  SimulcastConfig,
-} from './types';
+import type { SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
+import {
+  ForegroundServiceNotificationConfig,
+  ForegroundServicePermissionsConfigInternal,
+} from './hooks/useForegroundService';
 
 type Metadata = { [key: string]: any };
 
