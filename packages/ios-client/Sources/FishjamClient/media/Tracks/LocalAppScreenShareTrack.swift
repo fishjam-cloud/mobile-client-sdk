@@ -18,7 +18,7 @@ public class LocalAppScreenShareTrack: VideoTrack, LocalTrack {
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
     }
 
-    convenience internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalAppScreenShareTrack) {
+    convenience init(mediaTrack: RTCVideoTrack, oldTrack: LocalAppScreenShareTrack) {
         self.init(
             mediaTrack: mediaTrack, videoSource: oldTrack.videoSource, endpointId: oldTrack.endpointId,
             metadata: oldTrack.metadata, videoParameters: oldTrack.videoParameters, capturer: oldTrack.capturer)

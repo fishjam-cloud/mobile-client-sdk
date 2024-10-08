@@ -3,7 +3,6 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 import { SimulcastConfig } from '../types';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 import { ScreenShareOptions } from './useScreenShare';
-import { Platform } from 'react-native';
 
 const defaultSimulcastConfig = () => ({
   enabled: false,
@@ -24,23 +23,17 @@ export function useAppScreenShare(): {
   toggleAppScreenShare: (
     screenShareOptions?: Partial<ScreenShareOptions>,
   ) => Promise<void>;
-} | null {
-  if (Platform.OS === 'android') return null;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+} {
   const [isAppScreenShareOn, setIsAppScreenShareOn] = useState(
     RNFishjamClientModule.isAppScreenShareOn,
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
     screenShareSimulcastConfig,
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useFishjamEvent(ReceivableEvents.IsAppScreenShareOn, setIsAppScreenShareOn);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const toggleAppScreenShare = useCallback(
     async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
       const options = {
@@ -61,7 +54,6 @@ export function useAppScreenShare(): {
   return {
     isAppScreenShareOn,
     simulcastConfig,
-
     /**
      * Toggles the screen share on/off.
      * Emits warning on ios when user is screensharing full screen.
