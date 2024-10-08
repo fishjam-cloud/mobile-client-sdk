@@ -3,6 +3,7 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 import { SimulcastConfig } from '../types';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 import { ScreenShareOptions } from './useScreenShare';
+import { Platform } from 'react-native';
 
 const defaultSimulcastConfig = () => ({
   enabled: false,
@@ -11,19 +12,21 @@ const defaultSimulcastConfig = () => ({
 
 let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 
+type AppScreenShareData = {
+  isAppScreenShareOn: boolean;
+  simulcastConfig: SimulcastConfig;
+  toggleAppScreenShare: (
+    screenShareOptions?: Partial<ScreenShareOptions>,
+  ) => Promise<void>;
+};
+
 /**
  * This hook can toggle client app screen sharing on/off and provides current screen share state. It works only on iOS.
  * @returns An object with functions to manage app screen share on iOS and null on android.
  * @category Screenshare
  * @group Hooks
  */
-export function useAppScreenShare(): {
-  isAppScreenShareOn: boolean;
-  simulcastConfig: SimulcastConfig;
-  toggleAppScreenShare: (
-    screenShareOptions?: Partial<ScreenShareOptions>,
-  ) => Promise<void>;
-} {
+function useIosAppScreenShare(): AppScreenShareData {
   const [isAppScreenShareOn, setIsAppScreenShareOn] = useState(
     RNFishjamClientModule.isAppScreenShareOn,
   );
@@ -61,3 +64,16 @@ export function useAppScreenShare(): {
     toggleAppScreenShare,
   };
 }
+
+function useDefaultAppScreenShareAndroid(): AppScreenShareData {
+  return {
+    isAppScreenShareOn: false,
+    simulcastConfig: defaultSimulcastConfig(),
+    toggleAppScreenShare: async () => {},
+  };
+}
+
+export const useAppScreenShare = Platform.select({
+  ios: useIosAppScreenShare,
+  default: useDefaultAppScreenShareAndroid,
+});
