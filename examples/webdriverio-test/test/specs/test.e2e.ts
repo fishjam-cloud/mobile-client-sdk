@@ -187,6 +187,7 @@ const tests: Test[] = [
   {
     name: 'check if two video cells',
     run: async () => {
+      await driver.pause(500);
       await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1);
       await getElement(driver, '~' + VIDEO_CELL + 3, true);
