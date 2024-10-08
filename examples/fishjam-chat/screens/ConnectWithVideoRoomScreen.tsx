@@ -45,6 +45,13 @@ async function readStorageData(): Promise<VideoRoomData> {
   return { env: 'staging', roomName: '', userName: '' };
 }
 
+export function shouldShowVideoRoomTab() {
+  return (
+    !!process.env.EXPO_PUBLIC_VIDEOROOM_STAGING &&
+    !!process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION
+  );
+}
+
 /**
  * Connect with the VideoRoom - our example service for video conferences
  */
