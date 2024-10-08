@@ -3,7 +3,7 @@ import ReplayKit
 import WebRTC
 
 /// Responsible for capturing only user app
-class ScreenAppCapturer: RTCVideoCapturer, VideoCapturer {
+class AppScreenShareCapturer: RTCVideoCapturer, VideoCapturer {
     let screenRecorder: RPScreenRecorder
     let source: RTCVideoSource
 

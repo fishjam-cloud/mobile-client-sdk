@@ -133,13 +133,13 @@ class RNFishjamClient: FishjamClientListener {
 
     }
 
-    private func getLocalScreenBroadcastTrack() -> LocalScreenBroadcastTrack? {
-        return localEndpoint?.tracks.compactMap { $0.value as? LocalScreenBroadcastTrack }.first
+    private func getLocalScreenBroadcastTrack() -> LocalBroadcastScreenShareTrack? {
+        return localEndpoint?.tracks.compactMap { $0.value as? LocalBroadcastScreenShareTrack }.first
 
     }
 
-    private func getLocalScreenAppTrack() -> LocalScreenAppTrack? {
-        return localEndpoint?.tracks.compactMap { $0.value as? LocalScreenAppTrack }.first
+    private func getLocalScreenAppTrack() -> LocalAppScreenShareTrack? {
+        return localEndpoint?.tracks.compactMap { $0.value as? LocalAppScreenShareTrack }.first
     }
 
     private func ensureCreated() throws {
@@ -459,7 +459,7 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    private func setScreenAppTrackState(_ track: LocalScreenAppTrack, enabled: Bool) {
+    private func setScreenAppTrackState(_ track: LocalAppScreenShareTrack, enabled: Bool) {
         track.enabled = enabled
         isAppScreenShareOn = enabled
         let event = EmitableEvents.IsAppScreenShareOn
@@ -508,14 +508,14 @@ class RNFishjamClient: FishjamClientListener {
                             "metadata": track.metadata.toDict(),
                         ]
 
-                    case let track as LocalScreenBroadcastTrack:
+                    case let track as LocalBroadcastScreenShareTrack:
                         return [
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
                         ]
 
-                    case let track as LocalScreenAppTrack:
+                    case let track as LocalAppScreenShareTrack:
                         return [
                             "id": track.id,
                             "type": "Video",

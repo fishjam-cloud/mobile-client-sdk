@@ -14,8 +14,8 @@ class FishjamClientInternal {
     private var rtcEngineCommunication: RTCEngineCommunication
     private var isAuthenticated = false
 
-    private var screenshareBroadcastReciver: ScreenBroadcastReceiver?
-    private var screenBroadcastCapturer: ScreenBroadcastCapturer?
+    private var broadcastScreenShareReceiver: BroadcastScreenShareReceiver?
+    private var broadcastScreenShareCapturer: BroadcastScreenShareCapturer?
 
     private var reconnectionManager: ReconnectionManager?
 
@@ -174,13 +174,13 @@ class FishjamClientInternal {
     ) {
         let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
 
-        screenshareBroadcastReciver = ScreenBroadcastReceiver(
+        broadcastScreenShareReceiver = BroadcastScreenShareReceiver(
             onStart: { [weak self] in
                 print("ON START")
-                guard let self, let videoSource = screenBroadcastCapturer?.source else { return }
+                guard let self, let videoSource = broadcastScreenShareCapturer?.source else { return }
                 guard canStart() else { return }
                 let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
-                let track = LocalScreenBroadcastTrack(
+                let track = LocalBroadcastScreenShareTrack(
                     mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
                     appGroup: appGroup,
                     videoParameters: videoParameters)
@@ -205,25 +205,25 @@ class FishjamClientInternal {
                 print("ON STOP")
 
                 guard let self,
-                    let track = localEndpoint.tracks.values.first(where: { $0 is LocalScreenBroadcastTrack })
-                        as? LocalScreenBroadcastTrack
+                    let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
+                        as? LocalBroadcastScreenShareTrack
                 else { return }
                 removeTrack(trackId: track.id)
                 listener.onTrackRemoved(track: track)
                 onStop()
             })
 
-        screenBroadcastCapturer = ScreenBroadcastCapturer(
+        broadcastScreenShareCapturer = BroadcastScreenShareCapturer(
             videoSource, appGroup: appGroup, videoParameters: videoParameters)
-        screenBroadcastCapturer?.capturerDelegate = screenshareBroadcastReciver
-        screenBroadcastCapturer?.startListening()
+        broadcastScreenShareCapturer?.capturerDelegate = broadcastScreenShareReceiver
+        broadcastScreenShareCapturer?.startListening()
     }
 
-    public func createScreenAppTrack(videoParameters: VideoParameters, metadata: Metadata) -> LocalScreenAppTrack {
+    public func createScreenAppTrack(videoParameters: VideoParameters, metadata: Metadata) -> LocalAppScreenShareTrack {
         let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
-        let videoCapturer = ScreenAppCapturer(videoSource)
-        let videoTrack = LocalScreenAppTrack(
+        let videoCapturer = AppScreenShareCapturer(videoSource)
+        let videoTrack = LocalAppScreenShareTrack(
             mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
             videoParameters: videoParameters, capturer: videoCapturer)
         videoTrack.start()
@@ -430,9 +430,9 @@ class FishjamClientInternal {
                     audioTrack.start()
                     localEndpoint = localEndpoint.addOrReplaceTrack(audioTrack)
                     break
-                case let track as LocalScreenBroadcastTrack:
+                case let track as LocalBroadcastScreenShareTrack:
                     let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
-                    let videoTrack = LocalScreenBroadcastTrack(mediaTrack: webrtcTrack, oldTrack: track)
+                    let videoTrack = LocalBroadcastScreenShareTrack(mediaTrack: webrtcTrack, oldTrack: track)
                     localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
                     break
                 default:
@@ -649,7 +649,7 @@ extension FishjamClientInternal: RTCEngineListener {
                 config = track.videoParameters.simulcastConfig
             }
 
-            if let track = track as? LocalScreenBroadcastTrack {
+            if let track = track as? LocalBroadcastScreenShareTrack {
                 config = track.videoParameters.simulcastConfig
             }
 

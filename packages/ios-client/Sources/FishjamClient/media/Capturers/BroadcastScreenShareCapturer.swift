@@ -53,7 +53,7 @@ extension CVPixelBuffer {
     }
 }
 
-internal protocol ScreenBroadcastCapturerDelegate: AnyObject {
+internal protocol BroadcastScreenShareReceiverDelegate: AnyObject {
     func started()
     func stopped()
     func paused()
@@ -72,8 +72,8 @@ internal protocol ScreenBroadcastCapturerDelegate: AnyObject {
 ///
 /// It is important that the capturer gets started with a proper `appGroup` that is shared between the application and the `Broadcast Extension` itself
 /// (required by `IPC` mechanism).
-class ScreenBroadcastCapturer: RTCVideoCapturer {
-    public weak var capturerDelegate: ScreenBroadcastCapturerDelegate?
+class BroadcastScreenShareCapturer: RTCVideoCapturer {
+    public weak var capturerDelegate: BroadcastScreenShareReceiverDelegate?
 
     private let videoParameters: VideoParameters
     private let appGroup: String
@@ -97,7 +97,7 @@ class ScreenBroadcastCapturer: RTCVideoCapturer {
      */
     init(
         _ source: RTCVideoSource, appGroup: String, videoParameters: VideoParameters,
-        delegate: ScreenBroadcastCapturerDelegate? = nil
+        delegate: BroadcastScreenShareReceiverDelegate? = nil
     ) {
         self.source = source
         self.appGroup = appGroup

@@ -149,7 +149,7 @@ public class FishjamClient {
     public func createScreenAppTrack(
         videoParameters: VideoParameters,
         metadata: Metadata
-    ) -> LocalScreenAppTrack {
+    ) -> LocalAppScreenShareTrack {
         return client.createScreenAppTrack(videoParameters: videoParameters, metadata: metadata)
     }
 
