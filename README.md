@@ -4,16 +4,16 @@
 
 Monorepo containing mobile SDKs for [Fishjam](https://github.com/fishjam-dev/fishjam) server.
 
-- [React Native](./packages/react-native-client/README.md)
-- [Android Client](./packages/android-client/README.md)
-- [iOS Client](./packages/ios-client/README.md)
+- [React Native](./packages/react-native-client/#readme)
+- [Android Client](./packages/android-client/#readme)
+- [iOS Client](./packages/ios-client/#readme)
 
 > [!NOTE]
 > Native SDK for Android and iOS do not have stable API. We strongly recommend using our React Native SDK
 
 ## Documentation
 
-Our [official documentation](https://fishjam-cloud.github.io/documentation/) on how [Fishjam Cloud](https://fishjam.io) works and how to integrate our service with your app.
+Our [official documentation](https://docs.fishjam.io/) on how [Fishjam Cloud](https://fishjam.io) works and how to integrate our service with your app.
 
 ## Example
 
