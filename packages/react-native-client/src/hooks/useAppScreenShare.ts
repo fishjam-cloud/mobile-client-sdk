@@ -63,7 +63,8 @@ export function useAppScreenShare(): {
     simulcastConfig,
 
     /**
-     * Toggles the screen share on/off
+     * Toggles the screen share on/off.
+     * Emits warning on ios when user is screensharing full screen.
      */
     toggleAppScreenShare,
   };
