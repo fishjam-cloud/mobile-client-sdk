@@ -120,6 +120,7 @@ export function useScreenShare() {
 
     /**
      * Toggles the screen share on/off
+     * Emits warning on ios when user is screensharing app screen.
      */
     toggleScreenShare,
     handleScreenSharePermission,

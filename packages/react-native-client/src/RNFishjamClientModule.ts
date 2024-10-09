@@ -19,9 +19,9 @@ type RNFishjamClient = {
   isMicrophoneOn: boolean;
   isCameraOn: boolean;
   isScreenShareOn: boolean;
+  isAppScreenShareOn: boolean; // only available on ios
   cameras: ReadonlyArray<Camera>;
   peerStatus: PeerStatus;
-
   joinRoom: (
     url: string,
     peerToken: string,
@@ -36,6 +36,9 @@ type RNFishjamClient = {
   switchCamera: (cameraId: string) => Promise<void>;
   handleScreenSharePermission: () => Promise<'granted' | 'denied'>;
   toggleScreenShare: (
+    screenShareOptions: Partial<ScreenShareOptionsInternal>,
+  ) => Promise<void>;
+  toggleAppScreenShare: (
     screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<

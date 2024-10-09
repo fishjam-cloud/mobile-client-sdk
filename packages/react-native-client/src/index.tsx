@@ -35,6 +35,8 @@ export type {
 } from './hooks/useScreenShare';
 export { useScreenShare } from './hooks/useScreenShare';
 
+export { useAppScreenShare } from './hooks/useAppScreenShare';
+
 export type { ReconnectionStatus } from './hooks/useReconnection';
 export { useReconnection } from './hooks/useReconnection';
 

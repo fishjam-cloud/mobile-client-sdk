@@ -1,11 +1,11 @@
 import {
   leaveRoom,
+  useAudioSettings,
+  useCamera,
+  useForegroundService,
+  useMicrophone,
   usePeers,
   useScreenShare,
-  useCamera,
-  useMicrophone,
-  useAudioSettings,
-  useForegroundService,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -14,15 +14,16 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
   InCallButton,
-  VideosGrid,
   NoCameraView,
   SoundOutputDevicesBottomSheet,
-} from '../components';
-import { usePreventBackButton } from '../hooks/usePreventBackButton';
-import type { AppRootStackParamList } from '../navigators/AppNavigator';
-import { roomScreenLabels } from '../types/ComponentLabels';
-import { parsePeersToTracks } from '../components/VideosGrid';
-import { PeerMetadata } from '../types/metadata';
+  VideosGrid,
+} from '../../components';
+import { parsePeersToTracks } from '../../components/VideosGrid';
+import { usePreventBackButton } from '../../hooks/usePreventBackButton';
+import type { AppRootStackParamList } from '../../navigators/AppNavigator';
+import { roomScreenLabels } from '../../types/ComponentLabels';
+import { PeerMetadata } from '../../types/metadata';
+import { ToggleAppScreenButton } from './ToggleAppScreenShare.ios';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -127,6 +128,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
           onPress={onToggleScreenShare}
           accessibilityLabel={SHARE_SCREEN_BUTTON}
         />
+        {Platform.OS === 'ios' && <ToggleAppScreenButton />}
         <InCallButton
           iconName="volume-high"
           onPress={toggleOutputSoundDevice}
