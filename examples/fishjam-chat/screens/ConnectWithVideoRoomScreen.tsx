@@ -47,8 +47,8 @@ async function readStorageData(): Promise<VideoRoomData> {
 
 export function shouldShowVideoRoomTab() {
   return (
-    !!process.env.EXPO_PUBLIC_VIDEOROOM_STAGING &&
-    !!process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION
+    !!process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER &&
+    !!process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER
   );
 }
 
@@ -84,8 +84,8 @@ export default function ConnectScreen({ navigation }: Props) {
       setLoading(true);
       const roomManagerUrl =
         env === 'staging'
-          ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING!
-          : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION!;
+          ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER!
+          : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER!;
       saveStorageData({ env, roomName, userName });
 
       const { fishjamUrl, token } = await joinRoomWithRoomManager(
