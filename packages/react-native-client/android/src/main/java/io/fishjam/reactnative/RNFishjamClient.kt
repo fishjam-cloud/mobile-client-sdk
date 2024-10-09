@@ -27,6 +27,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
 import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
 import io.fishjam.reactnative.managers.TracksUpdateListenersManager
@@ -73,6 +74,8 @@ class RNFishjamClient(
       val event = EmitableEvents.PeerStatusChanged
       emitEvent(event, mapOf(event.name to value))
     }
+
+  private var foregroundServiceManager: ForegroundServiceManager? = null
 
   companion object {
     val trackUpdateListenersManager = TracksUpdateListenersManager()
@@ -377,6 +380,24 @@ class RNFishjamClient(
     }
   }
 
+  fun configureForegroundService(config: ForegroundServiceNotificationConfig) {
+    if (foregroundServiceManager == null) {
+      foregroundServiceManager = ForegroundServiceManager(appContext!!, config)
+    }
+  }
+
+  suspend fun startForegroundService(config: ForegroundServicePermissionsConfig) {
+    if (foregroundServiceManager == null) {
+      throw CodedException("Foreground service not configured.")
+    }
+
+    foregroundServiceManager?.startForegroundService(config)
+  }
+
+  fun stopForegroundService() {
+    foregroundServiceManager?.stopForegroundService()
+  }
+
   suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
     this.screenShareMetadata = screenShareOptions.screenShareMetadata
     this.screenShareQuality = screenShareOptions.quality
@@ -550,7 +571,8 @@ class RNFishjamClient(
   fun toggleScreenShareTrackEncoding(encoding: String): Map<String, Any> {
     ensureScreenShareTrack()
     getLocalScreenShareTrack()?.let {
-      screenShareSimulcastConfig = toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
+      screenShareSimulcastConfig =
+        toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
     }
     return getSimulcastConfigAsRNMap(screenShareSimulcastConfig)
   }

@@ -53,14 +53,14 @@ export { VideoPreviewView } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export { VideoRendererView } from './components/VideoRendererView';
 
-export { AndroidForegroundServiceType } from './types';
-export {
-  startForegroundService,
-  stopForegroundService,
-} from './utils/foregroundService';
-
 export type { PeerStatus } from './hooks/usePeerStatus';
 export { usePeerStatus } from './hooks/usePeerStatus';
+
+export type {
+  ForegroundServiceNotificationConfig,
+  ForegroundServicePermissionsConfig,
+} from './hooks/useForegroundService';
+export { useForegroundService } from './hooks/useForegroundService';
 
 export type {
   TrackBandwidthLimit,

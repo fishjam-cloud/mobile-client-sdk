@@ -1,4 +1,4 @@
-package io.fishjam.reactnative
+package io.fishjam.reactnative.foregroundService
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -15,7 +16,11 @@ class FishjamForegroundService : Service() {
     private const val FOREGROUND_SERVICE_ID = 1668
   }
 
-  override fun onBind(p0: Intent?): IBinder? = null
+  private val binder = LocalBinder()
+
+  inner class LocalBinder : Binder()
+
+  override fun onBind(intent: Intent): IBinder = binder
 
   override fun onStartCommand(
     intent: Intent?,

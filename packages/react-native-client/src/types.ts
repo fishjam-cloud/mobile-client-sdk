@@ -52,30 +52,3 @@ export type GenericMetadata = Record<string, unknown>;
 // branded types are useful for restricting where given value can be passed
 declare const brand: unique symbol;
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
-
-/**
- * Enum used to set the foreground service types identifying the work done by the service.
- * See Android's [foreground service types](https://developer.android.com/develop/background-work/services/fg-service-types) documentation.
- */
-export enum AndroidForegroundServiceType {
-  FOREGROUND_SERVICE_TYPE_CAMERA = 64,
-  FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION = 32,
-  FOREGROUND_SERVICE_TYPE_MICROPHONE = 128,
-}
-
-/**
- * A type representing the options required for configuring the foreground service.
- *
- * @param channelId The id of the channel. Must be unique per package.
- * @param channelName The user visible name of the channel.
- * @param notificationTitle The title (first row) of the notification, in a standard notification.
- * @param notificationContent The text (second row) of the notification, in a standard notification.
- * @param foregroundServiceTypes The type of foreground service to launch.
- */
-export type ForegroundServiceOptions = {
-  channelId: string;
-  channelName: string;
-  notificationTitle: string;
-  notificationContent: string;
-  foregroundServiceTypes: AndroidForegroundServiceType[];
-};
