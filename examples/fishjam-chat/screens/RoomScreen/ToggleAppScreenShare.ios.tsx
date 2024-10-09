@@ -4,20 +4,16 @@ import { InCallButton } from '../../components';
 import { useAppScreenShare } from '@fishjam-cloud/react-native-client';
 
 export const ToggleAppScreenButton = () => {
-  const iosAppScreenShare = useAppScreenShare();
+  const { toggleAppScreenShare, isAppScreenShareOn } = useAppScreenShare();
 
-  const toggleAppScreenShare = useCallback(() => {
-    iosAppScreenShare?.toggleAppScreenShare();
-  }, [iosAppScreenShare]);
+  const onPress = useCallback(async () => {
+    await toggleAppScreenShare();
+  }, [toggleAppScreenShare]);
 
   return (
     <InCallButton
-      iconName={
-        iosAppScreenShare?.isAppScreenShareOn
-          ? 'cellphone-screenshot'
-          : 'cellphone-off'
-      }
-      onPress={toggleAppScreenShare}
+      iconName={isAppScreenShareOn ? 'cellphone-screenshot' : 'cellphone-off'}
+      onPress={onPress}
       accessibilityLabel={roomScreenLabels.APP_SCREEN_SHARE_BUTTON}
     />
   );
