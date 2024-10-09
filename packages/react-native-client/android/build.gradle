@@ -86,6 +86,6 @@ dependencies {
     // update version number when releasing
     implementation "com.github.fishjam-cloud:mobile-client-sdk:${packageVersion}"
   }
-  api 'com.github.davidliu:audioswitch:8edf84ee46cdbc84c2b7725aa8f8d66363e19876'
+  implementation 'com.twilio:audioswitch:1.2.0'
   implementation 'androidx.appcompat:appcompat:1.6.1'
 }
