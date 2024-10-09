@@ -1,11 +1,4 @@
-import {
-  ConfigurationParameters,
-  Configuration,
-  RoomApiFp,
-  AddPeerRequest,
-  PeerDetailsResponseData,
-  Room,
-} from '@fishjam-cloud/fishjam-openapi';
+import { PeerDetailsResponseData, Room } from '@fishjam-cloud/fishjam-openapi';
 import { driver } from '@wdio/globals';
 import * as assert from 'assert';
 import type { Suite } from 'mocha';
@@ -19,13 +12,17 @@ import {
 
 import {
   getElement,
-  getWebsocketUrl,
-  getHttpUrl,
   tapApp,
   tapButton,
   typeToInput,
   swipeDown,
-} from '../../utils';
+} from '../../utils/appium_utils.ts';
+import {
+  addPeerToRoom,
+  createFishjamRoom,
+  getWebsocketUrl,
+} from '../../utils/fishjam_cloud_utils.ts';
+import { type Test } from '../../models.ts';
 
 const { TOKEN_TAB } = appNavigationLabels;
 const { URL_INPUT, TOKEN_INPUT, CONNECT_BUTTON } = connectScreenLabels;
@@ -49,51 +46,11 @@ const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
 
 const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
 
-// TODO: Remove after fixing: FCE-504
-const SKIP_IOS_TODO = driver.isIOS;
-
-type Test = {
-  name: string;
-  run: () => Promise<void>;
-  skip: boolean;
-};
-
-const configParam: ConfigurationParameters = {
-  accessToken: 'development',
-  basePath: getHttpUrl(process.env.FISHJAM_HOST_SERVER as string),
-};
-
-const config = new Configuration(configParam);
-const createFishjamRoom = async () => {
-  const { createRoom } = RoomApiFp(config);
-  const createRoomFunction = await createRoom();
-  try {
-    const response = await createRoomFunction();
-    return response.data.data.room;
-  } catch (e) {
-    console.log(e);
-  }
-};
-const addPeerToRoom = async (
-  roomId: string,
-  enableSimulcast: boolean = true,
-) => {
-  const { addPeer } = RoomApiFp(config);
-  const addPeerRequest: AddPeerRequest = {
-    type: 'webrtc',
-    options: { enableSimulcast },
-  };
-  const addPeerFunction = await addPeer(roomId, addPeerRequest);
-  try {
-    const response = await addPeerFunction();
-    return response.data.data;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 let peerDetails: PeerDetailsResponseData | undefined;
 let room: Room | undefined;
+
+const shouldSkipIOSScreenCast =
+  driver.isIOS && !(process.env.IOS_TEST_SCREEN_BROADCAST === 'true');
 
 const tests: Test[] = [
   {
@@ -124,8 +81,12 @@ const tests: Test[] = [
     run: async () => {
       await tapButton(driver, '~' + CONNECT_BUTTON);
       if (driver.isIOS) {
-        await driver.acceptAlert();
-        await driver.pause(1000);
+        try {
+          // sometimes permissions are already granted
+          await driver.acceptAlert();
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
     skip: false,
@@ -138,6 +99,8 @@ const tests: Test[] = [
         await getElement(driver, '~' + TITLE_TEXT);
         await tapButton(driver, '~' + OUTPUT_DEVICE_BUTTON + 0);
         await swipeDown(driver, '~' + OUTPUT_DEVICES_BOTTOM_SHEET);
+      } else {
+        await tapApp(driver);
       }
       await driver.pause(100);
     },
@@ -150,9 +113,13 @@ const tests: Test[] = [
       await tapButton(driver, '~' + TOGGLE_CAMERA_BUTTON_PREVIEW);
       await tapButton(driver, '~' + JOIN_BUTTON);
       if (driver.isIOS) {
-        await driver.acceptAlert();
+        try {
+          // sometimes permissions for local network are already granted or connection is not for local network
+          await driver.acceptAlert();
+        } catch (e) {
+          console.log('Alert could not be accepted');
+        }
       }
-      await driver.pause(1000);
     },
     skip: false,
   },
@@ -160,11 +127,8 @@ const tests: Test[] = [
     name: 'check if no camera view',
     run: async () => {
       await getElement(driver, '~' + NO_CAMERA_VIEW);
-      //todo remove next lines of code when this issue is solved https://membraneframework.atlassian.net/browse/RTC-549
-      await driver.pause(4000);
-      //todo up to here
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'toggle camera on',
@@ -218,16 +182,17 @@ const tests: Test[] = [
         await tapApp(driver);
       }
     },
-    skip: SKIP_IOS_TODO,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'check if two video cells',
     run: async () => {
+      await driver.pause(500);
       await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1);
       await getElement(driver, '~' + VIDEO_CELL + 3, true);
     },
-    skip: SKIP_IOS_TODO,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'toggle camera off',
@@ -242,7 +207,7 @@ const tests: Test[] = [
       await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1, true);
     },
-    skip: SKIP_IOS_TODO,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'screen share off',
@@ -254,14 +219,14 @@ const tests: Test[] = [
       }
       await tapApp(driver);
     },
-    skip: SKIP_IOS_TODO,
+    skip: shouldSkipIOSScreenCast,
   },
   {
     name: 'check if no camera view again',
     run: async () => {
       await getElement(driver, '~' + NO_CAMERA_VIEW);
     },
-    skip: SKIP_IOS_TODO,
+    skip: false,
   },
   {
     name: 'toggle microphone on',

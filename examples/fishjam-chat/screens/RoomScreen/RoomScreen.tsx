@@ -1,10 +1,11 @@
 import {
   leaveRoom,
+  useAudioSettings,
+  useCamera,
+  useForegroundService,
+  useMicrophone,
   usePeers,
   useScreenShare,
-  useCamera,
-  useMicrophone,
-  useAudioSettings,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -13,16 +14,16 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
   InCallButton,
-  VideosGrid,
   NoCameraView,
   SoundOutputDevicesBottomSheet,
-} from '../components';
-import { usePreventBackButton } from '../hooks/usePreventBackButton';
-import type { AppRootStackParamList } from '../navigators/AppNavigator';
-import { roomScreenLabels } from '../types/ComponentLabels';
-import { parsePeersToTracks } from '../components/VideosGrid';
-import { PeerMetadata } from '../types/metadata';
-import { useForegroundService } from '../hooks/useForegroundService';
+  VideosGrid,
+} from '../../components';
+import { parsePeersToTracks } from '../../components/VideosGrid';
+import { usePreventBackButton } from '../../hooks/usePreventBackButton';
+import type { AppRootStackParamList } from '../../navigators/AppNavigator';
+import { roomScreenLabels } from '../../types/ComponentLabels';
+import { PeerMetadata } from '../../types/metadata';
+import { ToggleAppScreenButton } from './ToggleAppScreenShare.ios';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -47,8 +48,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
 
-  const { toggleScreenShare, isScreenShareOn, handleScreenSharePermission } =
-    useScreenShare();
+  const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
   const onDisconnectPress = useCallback(() => {
     leaveRoom();
@@ -56,31 +56,19 @@ const RoomScreen = ({ navigation, route }: Props) => {
   }, [navigation]);
 
   useForegroundService({
+    channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
+    channelName: 'Fishjam Chat Notifications',
+    notificationTitle: 'Your video call is ongoing',
+    notificationContent: 'Tap to return to the call.',
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
   });
 
-  const handleAndroidScreenSharePermission = useCallback(
-    async (isScreenShareOn: boolean) => {
-      if (isScreenShareOn) {
-        return;
-      }
-      if ((await handleScreenSharePermission()) != 'granted') {
-        return;
-      }
-    },
-    [handleScreenSharePermission],
-  );
-
   const onToggleScreenShare = useCallback(async () => {
-    if (Platform.OS === 'android') {
-      await handleAndroidScreenSharePermission(isScreenShareOn);
-    }
-
     await toggleScreenShare({
       quality: 'HD15',
     });
-  }, [isScreenShareOn, toggleScreenShare, handleAndroidScreenSharePermission]);
+  }, [toggleScreenShare]);
 
   const flipCamera = useCallback(() => {
     const camera =
@@ -140,6 +128,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
           onPress={onToggleScreenShare}
           accessibilityLabel={SHARE_SCREEN_BUTTON}
         />
+        {Platform.OS === 'ios' && <ToggleAppScreenButton />}
         <InCallButton
           iconName="volume-high"
           onPress={toggleOutputSoundDevice}

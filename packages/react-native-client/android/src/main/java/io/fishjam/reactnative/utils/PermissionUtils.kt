@@ -10,6 +10,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object PermissionUtils {
+  fun hasCameraPermission(appContext: AppContext?): Boolean = hasPermission(appContext, Manifest.permission.CAMERA)
+
+  fun hasMicrophonePermission(appContext: AppContext?): Boolean = hasPermission(appContext, Manifest.permission.RECORD_AUDIO)
+
   suspend fun requestCameraPermission(appContext: AppContext?): Boolean = requestAccessIfNeeded(appContext, Manifest.permission.CAMERA)
 
   suspend fun requestMicrophonePermission(appContext: AppContext?): Boolean =
@@ -23,7 +27,7 @@ object PermissionUtils {
       appContext?.permissions
         ?: throw Exceptions.PermissionsModuleNotFound()
 
-    if (appContext.reactContext?.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+    if (hasPermission(appContext, permission)) {
       return true
     }
 
@@ -33,4 +37,9 @@ object PermissionUtils {
       }, permission)
     }
   }
+
+  private fun hasPermission(
+    appContext: AppContext?,
+    permission: String
+  ): Boolean = appContext?.reactContext?.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 }

@@ -6,11 +6,11 @@
 
 # Installation
 
-Check out the [installation](https://fishjam-cloud.github.io/documentation/guide/react-native/installation) section of our docs for the detailed installation instructions.
+Check out the [installation](https://docs.fishjam.io/react-native/installation) section of our docs for the detailed installation instructions.
 
 # Documentation
 
-Check out our [documentation](https://fishjam-cloud.github.io/documentation/) on how Fishjam Cloud work and how to integrate our service with your app.
+Check out our [documentation](https://docs.fishjam.io/) on how Fishjam Cloud work and how to integrate our service with your app.
 
 There is also [API documentation](https://fishjam-cloud.github.io/mobile-client-sdk/modules/_fishjam_cloud_react_native_client.html) available.
 

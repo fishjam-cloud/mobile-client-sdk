@@ -5,6 +5,7 @@ export const ReceivableEvents = {
   IsCameraOn: 'IsCameraOn',
   IsMicrophoneOn: 'IsMicrophoneOn',
   IsScreenShareOn: 'IsScreenShareOn',
+  IsAppScreenShareOn: 'IsAppScreenShareOn', // only for iOS
   SimulcastConfigUpdate: 'SimulcastConfigUpdate',
   PeersUpdate: 'PeersUpdate',
   AudioDeviceUpdate: 'AudioDeviceUpdate',

@@ -27,6 +27,10 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
+import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
+import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
+import io.fishjam.reactnative.managers.TracksUpdateListenersManager
 import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,24 +75,15 @@ class RNFishjamClient(
       emitEvent(event, mapOf(event.name to value))
     }
 
-  interface OnTrackUpdateListener {
-    fun onTracksUpdate()
-  }
-
-  interface OnLocalTrackSwitchListener {
-    suspend fun onLocalTrackWillSwitch()
-
-    suspend fun onLocalTrackSwitched()
-  }
-
-  interface OnLocalCameraTrackChangedListener {
-    fun onLocalCameraTrackChanged()
-  }
+  private var foregroundServiceManager: ForegroundServiceManager? = null
 
   companion object {
-    var onTracksUpdateListeners: MutableList<OnTrackUpdateListener> = mutableListOf()
-    val onLocalTrackSwitchListener: MutableList<OnLocalTrackSwitchListener> = mutableListOf()
-    var localCameraTrackListeners: MutableList<OnLocalCameraTrackChangedListener> = mutableListOf()
+    val trackUpdateListenersManager = TracksUpdateListenersManager()
+
+    val localTracksSwitchListenerManager = LocalTracksSwitchListenersManager()
+
+    val localCameraTracksChangedListenersManager = LocalCameraTracksChangedListenersManager()
+
     lateinit var fishjamClient: FishjamClient
 
     fun getAllPeers(): List<Peer> {
@@ -254,12 +249,12 @@ class RNFishjamClient(
   ) {
     peerStatus = PeerStatus.connecting
     connectPromise = promise
-    localUserMetadata = peerMetadata
+    localUserMetadata = mapOf("server" to emptyMap(), "peer" to peerMetadata)
     fishjamClient.connect(
       com.fishjamcloud.client.ConnectConfig(
         url,
         peerToken,
-        peerMetadata,
+        localUserMetadata,
         ReconnectConfig(
           config.reconnectConfig.maxAttempts,
           config.reconnectConfig.initialDelayMs,
@@ -317,7 +312,7 @@ class RNFishjamClient(
     isCameraOn = isEnabled
     val event = EmitableEvents.IsCameraOn
     emitEvent(event, mapOf(event.name to isEnabled))
-    localCameraTrackListeners.forEach { it.onLocalCameraTrackChanged() }
+    localCameraTracksChangedListenersManager.notifyListeners()
   }
 
   fun toggleCamera(): Boolean {
@@ -328,18 +323,16 @@ class RNFishjamClient(
 
   suspend fun flipCamera() {
     ensureVideoTrack()
-    onLocalTrackSwitchListener.forEach { it.onLocalTrackWillSwitch() }
+    localTracksSwitchListenerManager.notifyWillSwitch()
     getLocalVideoTrack()?.flipCamera()
-    onLocalTrackSwitchListener.forEach { it.onLocalTrackSwitched() }
+    localTracksSwitchListenerManager.notifySwitched()
   }
 
   suspend fun switchCamera(cameraId: String) {
     ensureVideoTrack()
-    onLocalTrackSwitchListener.forEach { it.onLocalTrackWillSwitch() }
+    localTracksSwitchListenerManager.notifyWillSwitch()
     getLocalVideoTrack()?.switchCamera(cameraId)
-    onLocalTrackSwitchListener.forEach {
-      it.onLocalTrackSwitched()
-    }
+    localTracksSwitchListenerManager.notifySwitched()
   }
 
   private suspend fun startMicrophone() {
@@ -385,6 +378,24 @@ class RNFishjamClient(
       val intent = mediaProjectionManager.createScreenCaptureIntent()
       currentActivity.startActivityForResult(intent, SCREENSHARE_REQUEST)
     }
+  }
+
+  fun configureForegroundService(config: ForegroundServiceNotificationConfig) {
+    if (foregroundServiceManager == null) {
+      foregroundServiceManager = ForegroundServiceManager(appContext!!, config)
+    }
+  }
+
+  suspend fun startForegroundService(config: ForegroundServicePermissionsConfig) {
+    if (foregroundServiceManager == null) {
+      throw CodedException("Foreground service not configured.")
+    }
+
+    foregroundServiceManager?.startForegroundService(config)
+  }
+
+  fun stopForegroundService() {
+    foregroundServiceManager?.stopForegroundService()
   }
 
   suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
@@ -560,7 +571,8 @@ class RNFishjamClient(
   fun toggleScreenShareTrackEncoding(encoding: String): Map<String, Any> {
     ensureScreenShareTrack()
     getLocalScreenShareTrack()?.let {
-      screenShareSimulcastConfig = toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
+      screenShareSimulcastConfig =
+        toggleTrackEncoding(encoding, it.id(), screenShareSimulcastConfig)
     }
     return getSimulcastConfigAsRNMap(screenShareSimulcastConfig)
   }
@@ -754,7 +766,9 @@ class RNFishjamClient(
     event: EmitableEvents,
     data: Map<String, Any?> = mapOf()
   ) {
-    sendEvent(event.name, data)
+    CoroutineScope(Dispatchers.Main).launch {
+      sendEvent(event.name, data)
+    }
   }
 
   fun emitWarning(warning: String) {
@@ -833,7 +847,7 @@ class RNFishjamClient(
 
   private fun addOrUpdateTrack(track: Track) {
     emitEndpoints()
-    onTracksUpdateListeners.forEach { it.onTracksUpdate() }
+    trackUpdateListenersManager.notifyListeners()
   }
 
   override fun onTrackReady(track: Track) {

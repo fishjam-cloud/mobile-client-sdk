@@ -1,13 +1,9 @@
 import ExpoModulesCore
 import FishjamCloudClient
 
-protocol OnLocalCameraTrackChangedListener: AnyObject {
-    func onLocalCameraTrackChanged()
-}
-
-class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
+class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
     var videoView: VideoView? = nil
-    private var localVideoTrack: LocalVideoTrack? = nil
+    private var localVideoTrack: LocalCameraTrack? = nil
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -30,8 +26,8 @@ class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
 
             self.localVideoTrack =
                 tracks.first(where: { (key, track) in
-                    track is LocalVideoTrack
-                })?.value as? LocalVideoTrack
+                    track is LocalCameraTrack
+                })?.value as? LocalCameraTrack
             self.localVideoTrack?.start()
             self.videoView?.track = self.localVideoTrack
         }
@@ -40,10 +36,10 @@ class VideoPreviewView: ExpoView, OnLocalCameraTrackChangedListener {
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         if newSuperview == nil {
-            RNFishjamClient.localCameraTrackListeners.removeAll(where: { $0 === self })
+            RNFishjamClient.localCameraTracksChangedListenersManager.remove(self)
             localVideoTrack?.stop()
         } else {
-            RNFishjamClient.localCameraTrackListeners.append(self)
+            RNFishjamClient.localCameraTracksChangedListenersManager.add(self)
             trySetLocalCameraTrack()
         }
     }

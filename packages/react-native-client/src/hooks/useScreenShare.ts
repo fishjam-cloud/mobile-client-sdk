@@ -58,23 +58,6 @@ export function useScreenShare() {
 
   useFishjamEvent(ReceivableEvents.IsScreenShareOn, setIsScreenShareOn);
 
-  const toggleScreenShare = useCallback(
-    async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
-      const options = {
-        ...screenShareOptions,
-        screenShareMetadata: {
-          displayName: 'presenting',
-          type: 'screensharing' as const,
-          active: !isScreenShareOn,
-        },
-      };
-      await RNFishjamClientModule.toggleScreenShare(options);
-      screenShareSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
-      setSimulcastConfig(screenShareSimulcastConfig);
-    },
-    [isScreenShareOn],
-  );
-
   const toggleScreenShareTrackEncoding = useCallback(
     async (encoding: TrackEncoding) => {
       screenShareSimulcastConfig =
@@ -108,12 +91,36 @@ export function useScreenShare() {
     return 'denied';
   }, []);
 
+  const toggleScreenShare = useCallback(
+    async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
+      if (Platform.OS === 'android' && !isScreenShareOn) {
+        (await handleScreenSharePermission()) == 'granted' &&
+          (await RNFishjamClientModule.startForegroundService({
+            enableScreenSharing: true,
+          }));
+      }
+      const options = {
+        ...screenShareOptions,
+        screenShareMetadata: {
+          displayName: 'presenting',
+          type: 'screensharing' as const,
+          active: !isScreenShareOn,
+        },
+      };
+      await RNFishjamClientModule.toggleScreenShare(options);
+      screenShareSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
+      setSimulcastConfig(screenShareSimulcastConfig);
+    },
+    [isScreenShareOn, handleScreenSharePermission],
+  );
+
   return {
     isScreenShareOn,
     simulcastConfig,
 
     /**
      * Toggles the screen share on/off
+     * Emits warning on ios when user is screensharing app screen.
      */
     toggleScreenShare,
     handleScreenSharePermission,

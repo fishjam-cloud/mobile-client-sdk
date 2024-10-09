@@ -1,9 +1,6 @@
 package io.fishjam.reactnative
 
-import android.content.Intent
-import android.os.Build
 import expo.modules.kotlin.Promise
-import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
@@ -84,7 +81,7 @@ class ConnectConfig : Record {
   val reconnectConfig: ReconnectConfig = ReconnectConfig()
 }
 
-class ForegroundServiceConfig : Record {
+class ForegroundServiceNotificationConfig : Record {
   @Field
   val channelId: String? = null
 
@@ -96,9 +93,17 @@ class ForegroundServiceConfig : Record {
 
   @Field
   val notificationTitle: String? = null
+}
+
+class ForegroundServicePermissionsConfig : Record {
+  @Field
+  val enableCamera: Boolean = false
 
   @Field
-  val foregroundServiceTypes: IntArray = intArrayOf()
+  val enableMicrophone: Boolean = false
+
+  @Field
+  val enableScreenSharing: Boolean = false
 }
 
 class RNFishjamClientModule : Module() {
@@ -303,60 +308,16 @@ class RNFishjamClientModule : Module() {
 
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
-      Function("startForegroundService") { config: ForegroundServiceConfig ->
-        if (appContext.reactContext == null) {
-          throw CodedException(message = "reactContext not found")
-        }
+      Function("configureForegroundService") { config: ForegroundServiceNotificationConfig ->
+        return@Function rnFishjamClient.configureForegroundService(config)
+      }
 
-        val channelId =
-          config.channelId
-            ?: throw CodedException(message = "Missing `channelId` for startForegroundService")
-        val channelName =
-          config.channelName
-            ?: throw CodedException(message = "Missing `channelName` for startForegroundService")
-        val notificationContent =
-          config.notificationContent
-            ?: throw CodedException(message = "Missing `notificationContent` for startForegroundService")
-        val notificationTitle =
-          config.notificationTitle
-            ?: throw CodedException(message = "Missing `notificationTitle` for startForegroundService")
-        val foregroundServiceTypes = config.foregroundServiceTypes
-
-        if (foregroundServiceTypes.isEmpty()) {
-          throw CodedException(message = "`foregroundServiceTypes` cannot be empty")
-        }
-
-        val serviceIntent =
-          Intent(
-            appContext.reactContext,
-            FishjamForegroundService::class.java
-          )
-
-        serviceIntent.putExtra("channelId", channelId)
-        serviceIntent.putExtra("channelName", channelName)
-        serviceIntent.putExtra("notificationTitle", notificationContent)
-        serviceIntent.putExtra("notificationContent", notificationTitle)
-        serviceIntent.putExtra("foregroundServiceTypes", foregroundServiceTypes)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          appContext.reactContext!!.startForegroundService(serviceIntent)
-        } else {
-          appContext.reactContext!!.startService(serviceIntent)
-        }
+      AsyncFunction("startForegroundService") Coroutine { config: ForegroundServicePermissionsConfig ->
+        rnFishjamClient.startForegroundService(config)
       }
 
       Function("stopForegroundService") {
-        if (appContext.reactContext == null) {
-          throw CodedException(message = "reactContext not found")
-        }
-
-        val serviceIntent: Intent =
-          Intent(
-            appContext.reactContext,
-            FishjamForegroundService::class.java
-          )
-
-        appContext.reactContext!!.stopService(serviceIntent)
+        rnFishjamClient.stopForegroundService()
       }
     }
 }

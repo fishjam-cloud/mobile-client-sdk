@@ -14,5 +14,5 @@ cd ..
 
 echo "Running swift-format for react-native ios files \n"
 cd ios
-swift-format format -i -r ./*.swift --configuration swift-format-config.json
+swift-format format -i -r ./ --configuration swift-format-config.json
 cd ..

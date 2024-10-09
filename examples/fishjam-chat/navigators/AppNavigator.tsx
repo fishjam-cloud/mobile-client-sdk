@@ -11,7 +11,7 @@ import ConnectWithVideoRoomScreen, {
 } from '../screens/ConnectWithVideoRoomScreen';
 import ConnectWithTokenScreen from '../screens/ConnectWithTokenScreen';
 import PreviewScreen from '../screens/PreviewScreen/PreviewScreen';
-import RoomScreen from '../screens/RoomScreen';
+import RoomScreen from '../screens/RoomScreen/RoomScreen';
 import { appNavigationLabels } from '../types/ComponentLabels';
 import { AdditionalColors, BrandColors } from '../utils/Colors';
 

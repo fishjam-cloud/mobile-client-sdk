@@ -11,6 +11,8 @@ class VideoRendererViewModule : Module() {
       View(VideoRendererView::class) {
         OnViewDestroys { view: VideoRendererView ->
           view.dispose()
+          RNFishjamClient.trackUpdateListenersManager.remove(view)
+          RNFishjamClient.localTracksSwitchListenerManager.remove(view)
         }
 
         Prop("trackId") { view: VideoRendererView, trackId: String ->

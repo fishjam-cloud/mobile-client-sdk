@@ -2,12 +2,16 @@ import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './debug/stats/types';
-import type { ForegroundServiceOptions, SimulcastConfig } from './types';
+import type { SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
+import {
+  ForegroundServiceNotificationConfig,
+  ForegroundServicePermissionsConfigInternal,
+} from './hooks/useForegroundService';
 
 type Metadata = { [key: string]: any };
 
@@ -15,9 +19,9 @@ type RNFishjamClient = {
   isMicrophoneOn: boolean;
   isCameraOn: boolean;
   isScreenShareOn: boolean;
+  isAppScreenShareOn: boolean; // only available on ios
   cameras: ReadonlyArray<Camera>;
   peerStatus: PeerStatus;
-
   joinRoom: (
     url: string,
     peerToken: string,
@@ -32,6 +36,9 @@ type RNFishjamClient = {
   switchCamera: (cameraId: string) => Promise<void>;
   handleScreenSharePermission: () => Promise<'granted' | 'denied'>;
   toggleScreenShare: (
+    screenShareOptions: Partial<ScreenShareOptionsInternal>,
+  ) => Promise<void>;
+  toggleAppScreenShare: (
     screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
   getPeers: <PeerMetadataType extends Metadata>() => Promise<
@@ -71,7 +78,12 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  startForegroundService: (options: ForegroundServiceOptions) => void;
+  configureForegroundService: (
+    config: ForegroundServiceNotificationConfig,
+  ) => void;
+  startForegroundService: (
+    config: ForegroundServicePermissionsConfigInternal,
+  ) => Promise<void>;
   stopForegroundService: () => void;
 };
 
