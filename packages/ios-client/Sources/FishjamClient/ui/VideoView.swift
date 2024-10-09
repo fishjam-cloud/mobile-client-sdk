@@ -64,7 +64,7 @@ public class VideoView: UIView {
     /// To avoid leaking resources the old renderer gets removed from the old track.
     public var track: VideoTrack? {
         didSet {
-            if let localCameraTrack = track as? LocalVideoTrack {
+            if let localCameraTrack = track as? LocalCameraTrack {
                 localCameraTrack.mirrorVideo = { shouldMirror in
                     self.update(mirror: shouldMirror)
                 }

@@ -9,6 +9,7 @@ enum EmitableEvents: String, CaseIterable {
     case IsCameraOn
     case IsMicrophoneOn
     case IsScreenShareOn
+    case IsAppScreenShareOn
     case SimulcastConfigUpdate
     case PeersUpdate
     case AudioDeviceUpdate

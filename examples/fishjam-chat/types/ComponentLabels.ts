@@ -21,6 +21,7 @@ const roomScreenLabels = {
   SWITCH_CAMERA_BUTTON: 'room_switch_camera_button',
   TOGGLE_STATISTICS_BUTTON: 'toggle_statistics_button',
   SHARE_SCREEN_BUTTON: 'share_screen_button',
+  APP_SCREEN_SHARE_BUTTON: 'app_share_screen_button',
   DISCONNECT_BUTTON: 'disconnect_button',
   TOGGLE_CAMERA_BUTTON: 'room_toggle_camera_button',
   NO_CAMERA_VIEW: 'no_camera_view',

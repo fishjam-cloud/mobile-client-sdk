@@ -16,13 +16,14 @@ import {
   VideosGrid,
   NoCameraView,
   SoundOutputDevicesBottomSheet,
-} from '../components';
-import { usePreventBackButton } from '../hooks/usePreventBackButton';
-import type { AppRootStackParamList } from '../navigators/AppNavigator';
-import { roomScreenLabels } from '../types/ComponentLabels';
-import { parsePeersToTracks } from '../components/VideosGrid';
-import { PeerMetadata } from '../types/metadata';
-import { useForegroundService } from '../hooks/useForegroundService';
+} from '../../components';
+import { usePreventBackButton } from '../../hooks/usePreventBackButton';
+import type { AppRootStackParamList } from '../../navigators/AppNavigator';
+import { roomScreenLabels } from '../../types/ComponentLabels';
+import { parsePeersToTracks } from '../../components/VideosGrid';
+import { PeerMetadata } from '../../types/metadata';
+import { useForegroundService } from '../../hooks/useForegroundService';
+import { ToggleAppScreenButton } from './ToggleAppScreenShare.ios';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -140,6 +141,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
           onPress={onToggleScreenShare}
           accessibilityLabel={SHARE_SCREEN_BUTTON}
         />
+        {Platform.OS === 'ios' && <ToggleAppScreenButton />}
         <InCallButton
           iconName="volume-high"
           onPress={toggleOutputSoundDevice}
