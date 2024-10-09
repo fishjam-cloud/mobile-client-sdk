@@ -7,7 +7,6 @@ The easiest way to test whether audio is received on a mobile device is to strea
 ### Setup
 
 1. Install BlackHole
-
    - Visit the [BlackHole GitHub page](https://github.com/ExistentialAudio/BlackHole?tab=readme-ov-file#installation-instructions) and follow the installation instructions.
 
 2. Set up audio routing
