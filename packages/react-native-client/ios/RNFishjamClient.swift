@@ -206,7 +206,7 @@ class RNFishjamClient: FishjamClientListener {
     ) {
         peerStatus = .connecting
         connectPromise = promise
-        localUserMetadata = peerMetadata.toMetadata()
+        localUserMetadata = ["server": [:], "peer": peerMetadata].toMetadata()
 
         let reconnectConfig = FishjamCloudClient.ReconnectConfig(
             maxAttempts: config.reconnectConfig.maxAttempts, initialDelayMs: config.reconnectConfig.initialDelayMs,
@@ -214,7 +214,7 @@ class RNFishjamClient: FishjamClientListener {
 
         RNFishjamClient.fishjamClient?.connect(
             config: FishjamCloudClient.ConnectConfig(
-                websocketUrl: url, token: peerToken, peerMetadata: .init(peerMetadata),
+                websocketUrl: url, token: peerToken, peerMetadata: localUserMetadata,
                 reconnectConfig: reconnectConfig
             ))
 

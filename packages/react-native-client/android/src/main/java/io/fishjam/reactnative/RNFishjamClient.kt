@@ -249,12 +249,12 @@ class RNFishjamClient(
   ) {
     peerStatus = PeerStatus.connecting
     connectPromise = promise
-    localUserMetadata = peerMetadata
+    localUserMetadata = mapOf("server" to emptyMap(), "peer" to peerMetadata)
     fishjamClient.connect(
       com.fishjamcloud.client.ConnectConfig(
         url,
         peerToken,
-        peerMetadata,
+        localUserMetadata,
         ReconnectConfig(
           config.reconnectConfig.maxAttempts,
           config.reconnectConfig.initialDelayMs,
