@@ -31,6 +31,20 @@ public class VideoView: UIView {
         }
     }
 
+    /// If set to `nil` the view will always be rendered
+    public var checkVisibilityTimeInterval: TimeInterval? {
+        didSet {
+            checkVisibilityTimer?.invalidate()
+            checkVisibilityTimer = nil
+
+            if checkVisibilityTimeInterval == nil {
+                track?.videoTrack.shouldReceive = true
+            } else {
+                setupCheckVisibilityTimer()
+            }
+        }
+    }
+
     /// Dimensions can change dynamically, either when the device changes the orientation
     /// or when the resolution changes adaptively.
     public private(set) var dimensions: Dimensions? {
@@ -47,6 +61,13 @@ public class VideoView: UIView {
 
     /// usually should be equal to `frame.size`
     private var viewSize: CGSize
+
+    private var checkVisibilityTimer: Timer?
+
+    private var isVisibleOnScreen: Bool {
+        let globalFrame = convert(frame, to: nil)
+        return UIScreen.main.bounds.intersects(globalFrame)
+    }
 
     override init(frame: CGRect) {
         viewSize = frame.size
@@ -108,6 +129,15 @@ public class VideoView: UIView {
         if let view = rendererView as? UIView {
             view.translatesAutoresizingMaskIntoConstraints = true
             addSubview(view)
+        }
+    }
+
+    private func setupCheckVisibilityTimer() {
+        guard let checkVisibilityTimeInterval else { return }
+        checkVisibilityTimer = Timer.scheduledTimer(withTimeInterval: checkVisibilityTimeInterval, repeats: true) {
+            [weak self] timer in
+            guard let self else { return }
+            self.track?.videoTrack.shouldReceive = self.isVisibleOnScreen
         }
     }
 

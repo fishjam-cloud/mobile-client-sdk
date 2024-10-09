@@ -72,4 +72,10 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
             self.videoView?.mirror = mirrorVideo
         }
     }
+
+    var checkVisibilityTimeInterval: TimeInterval? {
+        didSet {
+            self.videoView?.checkVisibilityTimeInterval = checkVisibilityTimeInterval
+        }
+    }
 }

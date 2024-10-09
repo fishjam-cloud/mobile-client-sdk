@@ -2,16 +2,18 @@ package io.fishjam.reactnative
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.LinearInterpolator
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.VideoTrack
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
 import io.fishjam.reactnative.managers.LocalTrackSwitchListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import org.webrtc.RendererCommon
 
@@ -35,7 +37,41 @@ abstract class VideoView(
       }
     }
 
-  val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+  private val checkVisibilityHandler: Handler = Handler(Looper.getMainLooper())
+
+  // If set to `null` the view will always be rendered
+  var checkVisibilityDelayMillis: Long? = null
+    set(value) {
+      field = value
+      if (value == null) {
+        getVideoTrack()?.setShouldReceive(true)
+      } else {
+        checkVisibilityHandler.post(checkVisibility)
+      }
+    }
+
+  private val checkVisibility =
+    object : Runnable {
+      override fun run() {
+        checkVisibilityDelayMillis?.let {
+          getVideoTrack()?.setShouldReceive(isVisibleOnScreen)
+          checkVisibilityHandler.postDelayed(this, it)
+        }
+      }
+    }
+
+  private val isVisibleOnScreen: Boolean
+    get() {
+      if (!isShown) {
+        return false
+      }
+
+      val globalVisibleRect = Rect()
+      getGlobalVisibleRect(globalVisibleRect)
+      val displayMetrics = Resources.getSystem().displayMetrics
+      val screen = Rect(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+      return screen.intersect(globalVisibleRect)
+    }
 
   init {
     RNFishjamClient.localTracksSwitchListenerManager.add(this)
@@ -74,5 +110,6 @@ abstract class VideoView(
 
   fun setupTrack() {
     videoView.setMirror((getVideoTrack() as? LocalVideoTrack)?.isFrontCamera() ?: false)
+    checkVisibilityHandler.post(checkVisibility)
   }
 }

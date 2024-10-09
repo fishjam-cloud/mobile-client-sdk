@@ -24,4 +24,8 @@ open class VideoTrack(
   fun removeRenderer(renderer: VideoSink) {
     this.videoTrack.removeSink(renderer)
   }
+
+  fun setShouldReceive(shouldReceive: Boolean) {
+    videoTrack.setShouldReceive(shouldReceive)
+  }
 }

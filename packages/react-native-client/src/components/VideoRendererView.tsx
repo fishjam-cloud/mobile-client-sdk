@@ -14,6 +14,7 @@ export type VideoRendererProps = {
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
+  alwaysRender?: boolean;
   style?: ViewStyle;
 };
 
