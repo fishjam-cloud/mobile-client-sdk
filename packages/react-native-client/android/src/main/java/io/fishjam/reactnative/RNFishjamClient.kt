@@ -27,7 +27,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
-import io.fishjam.reactnative.foreground.ForegroundServiceManager
+import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
 import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
 import io.fishjam.reactnative.managers.TracksUpdateListenersManager

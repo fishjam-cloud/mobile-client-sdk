@@ -10,7 +10,7 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
     const newService = {
       $: {
         'android:name':
-          'io.fishjam.reactnative.foreground.FishjamForegroundService',
+          'io.fishjam.reactnative.foregroundService.FishjamForegroundService',
         'android:foregroundServiceType': 'camera|microphone|mediaProjection',
       },
     };

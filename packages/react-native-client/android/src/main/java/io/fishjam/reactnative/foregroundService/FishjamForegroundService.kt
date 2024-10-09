@@ -1,4 +1,4 @@
-package io.fishjam.reactnative.foreground
+package io.fishjam.reactnative.foregroundService
 
 import android.app.Notification
 import android.app.NotificationChannel
