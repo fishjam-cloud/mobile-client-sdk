@@ -44,7 +44,7 @@ abstract class VideoView(
     set(value) {
       field = value
       if (value == null) {
-        getVideoTrack()?.setShouldReceive(true)
+        getVideoTrack()?.shouldReceive(true)
       } else {
         checkVisibilityHandler.post(checkVisibility)
       }
@@ -54,7 +54,7 @@ abstract class VideoView(
     object : Runnable {
       override fun run() {
         checkVisibilityDelayMillis?.let {
-          getVideoTrack()?.setShouldReceive(isVisibleOnScreen)
+          getVideoTrack()?.shouldReceive(isVisibleOnScreen)
           checkVisibilityHandler.postDelayed(this, it)
         }
       }

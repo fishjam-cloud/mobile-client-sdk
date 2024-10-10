@@ -28,17 +28,15 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
     }
 
     func updateVideoTrack() {
-        DispatchQueue.main.async {
-            if self.superview != nil {
-                for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
-                    if let track = endpoint.tracks[self.trackId] as? VideoTrack {
-                        if let track = track as? LocalCameraTrack {
-                            self.mirrorVideo = track.isFrontCamera
-                        }
-                        self.videoView?.track = track
-                        return
-                    }
+        DispatchQueue.main.async { [weak self] in
+            guard let self, self.superview != nil else { return }
+            for endpoint in RNFishjamClient.getLocalAndRemoteEndpoints() {
+                guard let track = endpoint.tracks[self.trackId] as? VideoTrack else { continue }
+                if let track = track as? LocalCameraTrack {
+                    self.mirrorVideo = track.isFrontCamera
                 }
+                self.videoView?.track = track
+                return
             }
         }
     }
@@ -57,11 +55,11 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
         didSet {
             switch videoLayout {
             case "FIT":
-                self.videoView?.layout = .fit
+                videoView?.layout = .fit
             case "FILL":
-                self.videoView?.layout = .fill
+                videoView?.layout = .fill
             default:
-                self.videoView?.layout = .fill
+                videoView?.layout = .fill
             }
 
         }
@@ -69,13 +67,13 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
 
     var mirrorVideo: Bool = false {
         didSet {
-            self.videoView?.mirror = mirrorVideo
+            videoView?.mirror = mirrorVideo
         }
     }
 
     var checkVisibilityTimeInterval: TimeInterval? {
         didSet {
-            self.videoView?.checkVisibilityTimeInterval = checkVisibilityTimeInterval
+            videoView?.checkVisibilityTimeInterval = checkVisibilityTimeInterval
         }
     }
 }

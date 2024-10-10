@@ -55,7 +55,7 @@ export default function VideosGrid({ tracks }: Props) {
           <VideoRendererView
             trackId={track.id}
             videoLayout="FIT"
-            alwaysRender={false}
+            shouldRenderIfNotVisible={false}
             style={styles.flexOne}
           />
           <View style={styles.userLabel}>

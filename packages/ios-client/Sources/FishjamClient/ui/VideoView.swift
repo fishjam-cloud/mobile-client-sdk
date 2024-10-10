@@ -65,6 +65,7 @@ public class VideoView: UIView {
     private var checkVisibilityTimer: Timer?
 
     private var isVisibleOnScreen: Bool {
+        guard !isEffectivelyHidden else { return false }
         let globalFrame = convert(frame, to: nil)
         return UIScreen.main.bounds.intersects(globalFrame)
     }
