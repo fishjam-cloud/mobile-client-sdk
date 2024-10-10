@@ -72,7 +72,7 @@ class CameraCapturer: VideoCapturer {
             if diff < currentDiff {
                 selectedFormat = format
                 currentDiff = diff
-                selectedDimension = dimension
+                selectedDimension = Dimensions(dimension)
             }
         }
 

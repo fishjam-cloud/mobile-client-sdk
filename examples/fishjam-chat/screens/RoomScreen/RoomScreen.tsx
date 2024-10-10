@@ -46,7 +46,14 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { peers } = usePeers<PeerMetadata>();
 
-  const tracks = useMemo(() => parsePeersToTracks(peers), [peers]);
+  const videoTracks = useMemo(
+    () => parsePeersToTracks(peers, 'Video'),
+    [peers],
+  );
+  const audioTracks = useMemo(
+    () => parsePeersToTracks(peers, 'Audio'),
+    [peers],
+  );
 
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
@@ -92,8 +99,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {tracks.length > 0 ? (
-        <VideosGrid tracks={tracks} />
+      {videoTracks.length > 0 ? (
+        <VideosGrid videoTracks={videoTracks} audioTracks={audioTracks} />
       ) : (
         <NoCameraView
           username={userName || 'username'}
