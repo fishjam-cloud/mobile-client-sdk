@@ -77,12 +77,16 @@ internal class RTCEngineCommunication {
 
   fun localCandidate(
     sdp: String,
-    sdpMLineIndex: Int
+    sdpMLineIndex: Int,
+    sdpMid: Int,
+    usernameFragment: String
   ) {
     sendEvent(
       LocalCandidate(
         sdp,
-        sdpMLineIndex
+        sdpMLineIndex,
+        sdpMid,
+        usernameFragment
       )
     )
   }

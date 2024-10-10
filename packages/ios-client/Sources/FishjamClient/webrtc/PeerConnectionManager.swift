@@ -21,7 +21,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
-    private var queuedRemoteCandidates: [RTCIceCandidate] = []
 
     private var midToTrackId: [String: String] = [:]
 
@@ -201,12 +200,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         peerConnection.enforceSendOnlyDirection()
     }
 
-    private func drainCandidates() {
-        for candidate in queuedRemoteCandidates {
-            connection?.add(candidate, completionHandler: { _ in })
-        }
-    }
-
     /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
     private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
         config?.iceTransportPolicy = .relay
@@ -227,7 +220,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         iceServers = servers
         config = RTCConfiguration()
         config?.iceServers = servers
-        config?.iceTransportPolicy = .relay
+        config?.iceTransportPolicy = .all
     }
 
     public func close() {
@@ -394,18 +387,12 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     ) {
         setTurnServers(integratedTurnServers)
 
-        var needsRestart = true
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
-            needsRestart = false
         }
 
         guard let pc = connection else {
             return
-        }
-
-        if needsRestart {
-            pc.restartIce()
         }
 
         addNecessaryTransceivers(tracksTypes)

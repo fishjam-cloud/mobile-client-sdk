@@ -1,7 +1,8 @@
 package com.fishjamcloud.client.models
 
 enum class EndpointType {
-  WEBRTC;
+  WEBRTC,
+  EXWEBRTC;
 
   companion object {
     fun fromString(type: String): EndpointType = EndpointType.valueOf(type.uppercase())

@@ -42,7 +42,7 @@ internal interface RTCEngineListener {
   fun onRemoteCandidate(
     candidate: String,
     sdpMLineIndex: Int,
-    sdpMid: String?
+    sdpMid: Int
   )
 
   fun onTracksAdded(
