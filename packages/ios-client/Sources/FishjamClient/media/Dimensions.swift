@@ -18,7 +18,7 @@ public struct Dimensions {
         self.dimensions = dimensions
     }
 
-    /// Swaps height with width.
+    /// Returns new struct with swapped height and width.
     public var flipped: Dimensions {
         Dimensions(width: height, height: width)
     }

@@ -3,7 +3,7 @@ import Promises
 class CommandQueueError: Error {
     let message: String
 
-    init(message: String) {
+    init(_ message: String) {
         self.message = message
     }
 }
@@ -48,7 +48,7 @@ internal class CommandsQueue {
     func clear() {
         clientState = .CREATED
         commandsQueue.forEach { command in
-            command.promise.reject(CommandQueueError(message: "Command queue was cleared"))
+            command.promise.reject(CommandQueueError("Command queue was cleared"))
         }
         commandsQueue.removeAll()
     }
