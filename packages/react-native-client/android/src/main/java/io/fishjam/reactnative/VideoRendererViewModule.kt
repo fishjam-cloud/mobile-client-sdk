@@ -22,6 +22,10 @@ class VideoRendererViewModule : Module() {
         Prop("videoLayout") { view: VideoRendererView, videoLayout: String ->
           view.setVideoLayout(videoLayout)
         }
+
+        Prop("shouldRenderIfNotVisible") { view: VideoRendererView, shouldRenderIfNotVisible: Boolean ->
+          view.checkVisibilityDelayMillis = if (shouldRenderIfNotVisible) null else 1000
+        }
       }
     }
 }
