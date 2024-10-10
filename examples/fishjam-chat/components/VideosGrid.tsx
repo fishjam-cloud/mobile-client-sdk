@@ -3,6 +3,7 @@ import {
   VideoRendererView,
   Peer,
   TrackType,
+  AudioTrack,
 } from '@fishjam-cloud/react-native-client';
 import React, { useCallback } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
@@ -12,7 +13,6 @@ import { BrandColors } from '../utils/Colors';
 import Typo from './Typo';
 import { PeerMetadata } from '../types/metadata';
 import VADIcon from './VADIcon';
-import { AudioTrack } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
 
 type Props = {
   videoTracks: GridTrack[];

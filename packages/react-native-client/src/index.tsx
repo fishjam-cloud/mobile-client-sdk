@@ -6,7 +6,10 @@ export type {
   TrackType,
   VadStatus,
   EncodingReason,
+  AudioTrack,
+  VideoTrack,
 } from './hooks/usePeers';
+
 export { usePeers } from './hooks/usePeers';
 
 export type {
