@@ -750,7 +750,7 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onVadNotification(trackId: String, status: String) {
-        guard let track = getTrackWithRtcEngineId(trackId: trackId) else {
+        guard let track = getTrackWithRtcEngineId(trackId: trackId) as? RemoteAudioTrack else {
             sdkLogger.error("Invalid trackId in onVadNotification: \(trackId)")
             return
         }
@@ -759,8 +759,8 @@ extension FishjamClientInternal: RTCEngineListener {
             sdkLogger.error("Invalid vad status in onVadNotification: \(status)")
             return
         }
-        if (track as? RemoteAudioTrack)?.vadStatus != vadStatus {
-            (track as? RemoteAudioTrack)?.vadStatus = vadStatus
+        if track.vadStatus != vadStatus {
+            track.vadStatus = vadStatus
             listener.onTrackUpdated(track: track)
         }
 
