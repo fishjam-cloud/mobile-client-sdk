@@ -35,7 +35,7 @@ public class VideoView: UIView {
     /// or when the resolution changes adaptively.
     public private(set) var dimensions: Dimensions? {
         didSet {
-            guard oldValue?.width != dimensions?.width || oldValue?.height != dimensions?.height else { return }
+            guard oldValue != dimensions else { return }
 
             // when the dimensions change force the new layout
             shouldLayout()
