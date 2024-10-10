@@ -112,7 +112,7 @@ class RNFishjamClient: FishjamClientListener {
             }
         }()
         let videoParameters = VideoParameters(
-            dimensions: flipDimensions ? preset.dimensions.flip() : preset.dimensions,
+            dimensions: flipDimensions ? preset.dimensions.flipped : preset.dimensions,
             maxBandwidth: videoBandwidthLimit,
             simulcastConfig: simulcastConfig
         )
@@ -752,7 +752,7 @@ class RNFishjamClient: FishjamClientListener {
             preset = VideoParameters.presetScreenShareHD15
         }
         return VideoParameters(
-            dimensions: preset.dimensions.flip(),
+            dimensions: preset.dimensions.flipped,
             maxBandwidth: screenShareMaxBandwidth,
             maxFps: preset.maxFps,
             simulcastConfig: screenShareSimulcastConfig

@@ -756,7 +756,7 @@ internal class FishjamClientInternal(
     status: String
   ) {
     val track =
-      getTrack(trackId) as? RemoteAudioTrack ?: run {
+      getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: run {
         Timber.e("Invalid track id = $trackId")
         return
       }
@@ -765,7 +765,10 @@ internal class FishjamClientInternal(
       Timber.e("Invalid vad status = $status")
       return
     }
-    track.vadStatus = vadStatus
+    if (track.vadStatus != vadStatus) {
+      track.vadStatus = vadStatus
+      listener.onTrackUpdated(track)
+    }
   }
 
   override fun onBandwidthEstimation(estimation: Long) {
