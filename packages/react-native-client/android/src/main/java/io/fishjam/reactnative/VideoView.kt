@@ -89,6 +89,7 @@ abstract class VideoView(
   }
 
   open fun dispose() {
+    checkVisibilityHandler.removeCallbacksAndMessages(null)
     videoView.release()
   }
 

@@ -3,26 +3,25 @@ import ExpoModulesCore
 import FishjamCloudClient
 
 class VideoRendererView: ExpoView, TrackUpdateListener {
-    var videoView: VideoView? = nil
-    var cancellableEndpoints: Cancellable? = nil
+    var videoView: VideoView!
+    var cancellableEndpoints: Cancellable?
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
-        RNFishjamClient.tracksUpdateListenersManager.add(self)
         videoView = VideoView()
-        videoView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        videoView?.clipsToBounds = true
-        addSubview(videoView!)
-    }
-
-    deinit {
-        RNFishjamClient.tracksUpdateListenersManager.remove(self)
+        videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        videoView.clipsToBounds = true
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
 
-        if newSuperview != nil {
+        if newSuperview == nil {
+            videoView.removeFromSuperview()
+            RNFishjamClient.tracksUpdateListenersManager.remove(self)
+        } else {
+            addSubview(videoView)
+            RNFishjamClient.tracksUpdateListenersManager.add(self)
             updateVideoTrack()
         }
     }
@@ -35,7 +34,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
                 if let track = track as? LocalCameraTrack {
                     self.mirrorVideo = track.isFrontCamera
                 }
-                self.videoView?.track = track
+                self.videoView.track = track
                 return
             }
         }
@@ -55,11 +54,11 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
         didSet {
             switch videoLayout {
             case "FIT":
-                videoView?.layout = .fit
+                videoView.layout = .fit
             case "FILL":
-                videoView?.layout = .fill
+                videoView.layout = .fill
             default:
-                videoView?.layout = .fill
+                videoView.layout = .fill
             }
 
         }
@@ -67,13 +66,13 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
 
     var mirrorVideo: Bool = false {
         didSet {
-            videoView?.mirror = mirrorVideo
+            videoView.mirror = mirrorVideo
         }
     }
 
     var checkVisibilityTimeInterval: TimeInterval? {
         didSet {
-            videoView?.checkVisibilityTimeInterval = checkVisibilityTimeInterval
+            videoView.checkVisibilityTimeInterval = checkVisibilityTimeInterval
         }
     }
 }

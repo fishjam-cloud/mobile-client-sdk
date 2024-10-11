@@ -15,15 +15,15 @@ class VideoRendererViewModule : Module() {
           RNFishjamClient.localTracksSwitchListenerManager.remove(view)
         }
 
-        Prop("trackId") { view: VideoRendererView, trackId: String ->
+        Prop("trackId") { view, trackId: String ->
           view.init(trackId)
         }
 
-        Prop("videoLayout") { view: VideoRendererView, videoLayout: String ->
+        Prop("videoLayout") { view, videoLayout: String ->
           view.setVideoLayout(videoLayout)
         }
 
-        Prop("shouldRenderIfNotVisible") { view: VideoRendererView, shouldRenderIfNotVisible: Boolean ->
+        Prop("shouldRenderIfNotVisible") { view, shouldRenderIfNotVisible: Boolean ->
           view.checkVisibilityDelayMillis = if (shouldRenderIfNotVisible) null else 1000
         }
       }

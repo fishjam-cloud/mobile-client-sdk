@@ -34,8 +34,7 @@ public class VideoView: UIView {
     /// If set to `nil` the view will always be rendered
     public var checkVisibilityTimeInterval: TimeInterval? {
         didSet {
-            checkVisibilityTimer?.invalidate()
-            checkVisibilityTimer = nil
+            removeCheckVisibilityTimer()
 
             if checkVisibilityTimeInterval == nil {
                 track?.videoTrack.shouldReceive = true
@@ -110,10 +109,12 @@ public class VideoView: UIView {
         }
     }
 
-    deinit {
+    public override func removeFromSuperview() {
+        removeCheckVisibilityTimer()
         if let rendererView = rendererView {
             track?.removeRenderer(rendererView)
         }
+        super.removeFromSuperview()
     }
 
     /// Delegate listening for the view's changes such as dimensions.
@@ -138,8 +139,13 @@ public class VideoView: UIView {
         checkVisibilityTimer = Timer.scheduledTimer(withTimeInterval: checkVisibilityTimeInterval, repeats: true) {
             [weak self] timer in
             guard let self else { return }
-            self.track?.videoTrack.shouldReceive = self.isVisibleOnScreen
+            self.track?.shouldReceive(self.isVisibleOnScreen)
         }
+    }
+
+    private func removeCheckVisibilityTimer() {
+        checkVisibilityTimer?.invalidate()
+        checkVisibilityTimer = nil
     }
 
     // this somehow fixes a bug where the view would get layouted but somehow
