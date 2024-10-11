@@ -95,8 +95,6 @@ export default function ConnectScreen({ navigation }: Props) {
   );
 }
 
-const windowWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -116,6 +114,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   logo: {
-    width: windowWidth - 40,
+    width: Dimensions.get('window').width - 40,
   },
 });

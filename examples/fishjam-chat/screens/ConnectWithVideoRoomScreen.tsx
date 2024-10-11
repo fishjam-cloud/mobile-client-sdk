@@ -27,7 +27,7 @@ type Props = CompositeScreenProps<
 type VideoRoomEnv = 'staging' | 'prod';
 
 type VideoRoomData = {
-  env: VideoRoomEnv;
+  videoRoomEnv: VideoRoomEnv;
   roomName: string;
   userName: string;
 };
@@ -42,7 +42,7 @@ async function readStorageData(): Promise<VideoRoomData> {
     const videoRoomData = JSON.parse(storageData) as VideoRoomData;
     return videoRoomData;
   }
-  return { env: 'staging', roomName: '', userName: '' };
+  return { videoRoomEnv: 'staging', roomName: '', userName: '' };
 }
 
 export function shouldShowVideoRoomTab() {
@@ -57,7 +57,7 @@ export function shouldShowVideoRoomTab() {
  */
 export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
-  const [env, setEnv] = useState<VideoRoomEnv>('staging');
+  const [videoRoomEnv, setVideoRoomEnv] = useState<VideoRoomEnv>('staging');
   const [loading, setLoading] = useState(false);
 
   const [roomName, setRoomName] = useState('');
@@ -66,14 +66,14 @@ export default function ConnectScreen({ navigation }: Props) {
   useEffect(() => {
     async function readData() {
       const {
-        env: storedEnv,
+        videoRoomEnv: storedVideoRoomEnv,
         roomName: storedRoomName,
         userName: storedUserName,
       } = await readStorageData();
 
       setRoomName(storedRoomName);
       setUserName(storedUserName);
-      setEnv(storedEnv);
+      setVideoRoomEnv(storedVideoRoomEnv);
     }
     readData();
   }, []);
@@ -83,10 +83,10 @@ export default function ConnectScreen({ navigation }: Props) {
       setConnectionError(null);
       setLoading(true);
       const roomManagerUrl =
-        env === 'staging'
+        videoRoomEnv === 'staging'
           ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER!
           : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER!;
-      saveStorageData({ env, roomName, userName });
+      saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
       const { fishjamUrl, token } = await joinRoomWithRoomManager(
         roomManagerUrl,
@@ -128,14 +128,14 @@ export default function ConnectScreen({ navigation }: Props) {
             }}>
             <Button
               title="Staging"
-              type={env === 'staging' ? 'primary' : 'secondary'}
-              onPress={() => setEnv('staging')}
+              type={videoRoomEnv === 'staging' ? 'primary' : 'secondary'}
+              onPress={() => setVideoRoomEnv('staging')}
               disabled={loading}
             />
             <Button
               title="Production"
-              type={env === 'prod' ? 'primary' : 'secondary'}
-              onPress={() => setEnv('prod')}
+              type={videoRoomEnv === 'prod' ? 'primary' : 'secondary'}
+              onPress={() => setVideoRoomEnv('prod')}
               disabled={loading}
             />
           </View>
@@ -160,8 +160,6 @@ export default function ConnectScreen({ navigation }: Props) {
   );
 }
 
-const windowWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -181,6 +179,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   logo: {
-    width: windowWidth - 40,
+    width: Dimensions.get('window').width - 40,
   },
 });
