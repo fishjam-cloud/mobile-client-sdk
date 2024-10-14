@@ -2624,7 +2624,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.25.7"
     "@fishjam-cloud/react-native-client": "npm:*"
-    "@gorhom/bottom-sheet": "npm:^4"
+    "@gorhom/bottom-sheet": "npm:^5"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-navigation/bottom-tabs": "npm:^6.6.1"
     "@react-navigation/native": "npm:^6.1.18"
@@ -2665,9 +2665,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gorhom/bottom-sheet@npm:^4":
-  version: 4.6.4
-  resolution: "@gorhom/bottom-sheet@npm:4.6.4"
+"@gorhom/bottom-sheet@npm:^5":
+  version: 5.0.1
+  resolution: "@gorhom/bottom-sheet@npm:5.0.1"
   dependencies:
     "@gorhom/portal": "npm:1.0.14"
     invariant: "npm:^2.2.4"
@@ -2676,14 +2676,14 @@ __metadata:
     "@types/react-native": "*"
     react: "*"
     react-native: "*"
-    react-native-gesture-handler: ">=1.10.1"
-    react-native-reanimated: ">=2.2.0"
+    react-native-gesture-handler: ">=2.16.1"
+    react-native-reanimated: ">=3.10.1"
   peerDependenciesMeta:
     "@types/react":
       optional: true
     "@types/react-native":
       optional: true
-  checksum: 10c0/1e724733e55d200490234b00e034f5ffbf312570469c1431358ef123f52b398e3300588ffef17deba82a37deb980ddf316454429600b778344dfd8c36669ab35
+  checksum: 10c0/46df09498fcba2de85aec4eec9916929a9ac46e0eac47245c2b8fd6c6b4aa6ba130b7583cf3c9873abdf3a0a94e3e15f2ac033d32c05dab2557da8d518395cc6
   languageName: node
   linkType: hard
 
