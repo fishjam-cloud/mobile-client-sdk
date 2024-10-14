@@ -2,6 +2,7 @@
   "name": "@fishjam-cloud/android-client",
   "scripts": {
     "lint": "ktlint -F **/*.kt",
-    "lint:check": "ktlint **/*.kt"
+    "lint:check": "ktlint **/*.kt",
+    "jitpack-cache": "curl https://www.jitpack.io/com/github/fishjam-cloud/mobile-client-sdk/${0}/mobile-client-sdk-${0}.pom"
   }
 }

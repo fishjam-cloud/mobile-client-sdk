@@ -152,7 +152,6 @@ jobs:
           cd android
           ./gradlew assembleRelease
 
-
       - name: Logs from app to file
         run: |
           cd $GITHUB_WORKSPACE/examples/webdriverio-test
