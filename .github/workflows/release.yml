@@ -35,7 +35,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish-android-client:
-    # actually it just warmup jitpack cache, so android client is available sooner
+    # Packages built by Jitpack are not immediately available upon the creation of a tag or branch.
+    # Instead, availability occurs when an initial attempt is made to download the specified tag or branch.
+    # This mechanism ensures that Jitpack only builds a package when it is first requested and efficiently handles the generation of newly released versions.
     runs-on: ubuntu-latest
     steps:
       - name: Fetch POM file
