@@ -49,6 +49,7 @@ class FishjamForegroundService : Service() {
         .setContentTitle(notificationTitle)
         .setContentText(notificationContent)
         .setContentIntent(pendingIntent)
+        .setSmallIcon(android.R.drawable.ic_dialog_info)
         .build()
 
     createNotificationChannel(channelId, channelName)

@@ -8,10 +8,7 @@ import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
-import {
-  ForegroundServiceNotificationConfig,
-  ForegroundServicePermissionsConfigInternal,
-} from './hooks/useForegroundService';
+import { ForegroundServiceConfigInternal } from './hooks/useForegroundService';
 
 type Metadata = { [key: string]: any };
 
@@ -78,11 +75,8 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  configureForegroundService: (
-    config: ForegroundServiceNotificationConfig,
-  ) => void;
   startForegroundService: (
-    config: ForegroundServicePermissionsConfigInternal,
+    config: ForegroundServiceConfigInternal,
   ) => Promise<void>;
   stopForegroundService: () => void;
 };

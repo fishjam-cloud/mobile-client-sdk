@@ -11,16 +11,15 @@ import android.os.Build
 import android.os.IBinder
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.exception.CodedException
-import io.fishjam.reactnative.ForegroundServiceNotificationConfig
-import io.fishjam.reactnative.ForegroundServicePermissionsConfig
+import io.fishjam.reactnative.ForegroundServiceConfig
 import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
+
 class ForegroundServiceManager(
-  private val appContext: AppContext,
-  notificationConfig: ForegroundServiceNotificationConfig
+  private val appContext: AppContext
 ) {
   private val reactContext by lazy {
     appContext.reactContext ?: throw CodedException("reactContext not found")
@@ -32,24 +31,16 @@ class ForegroundServiceManager(
     Intent(
       appContext.reactContext,
       FishjamForegroundService::class.java
-    ).apply {
-      putExtra(
-        "channelId",
-        notificationConfig.channelId.orThrow("channelId")
-      )
-      putExtra(
-        "channelName",
-        notificationConfig.channelName.orThrow("channelName")
-      )
-      putExtra(
-        "notificationContent",
-        notificationConfig.notificationContent.orThrow("notificationContent")
-      )
-      putExtra(
-        "notificationTitle",
-        notificationConfig.notificationTitle.orThrow("notificationTitle")
-      )
-    }
+    )
+
+  private var cameraEnabled = false
+  private var microphoneEnabled = false
+  private var screenSharingEnabled = false
+
+  private var channelId = "com.fishjam.foregroundservice.channel"
+  private var channelName = "Fishjam Notifications"
+  private var notificationContent = "[PLACEHOLDER] Your video call is ongoing"
+  private var notificationTitle = "[PLACEHOLDER] Tap to return to the call."
 
   private val connection =
     object : ServiceConnection {
@@ -69,14 +60,30 @@ class ForegroundServiceManager(
       }
     }
 
-  suspend fun startForegroundService(permissionsConfig: ForegroundServicePermissionsConfig) {
-    val foregroundServiceTypes = buildForegroundServiceTypes(permissionsConfig)
+  suspend fun startForegroundService(
+    config: ForegroundServiceConfig
+  ) {
+    config.enableCamera?.let { cameraEnabled = it }
+    config.enableMicrophone?.let { microphoneEnabled = it }
+    config.enableScreenSharing?.let { screenSharingEnabled = it }
+    config.channelId?.let { channelId = it }
+    config.channelName?.let { channelName = it }
+    config.notificationContent?.let { notificationContent = it }
+    config.notificationTitle?.let { notificationTitle = it }
+
+    val foregroundServiceTypes = buildForegroundServiceTypes()
 
     if (foregroundServiceTypes.isEmpty()) {
       return
     }
 
-    serviceIntent.putExtra("foregroundServiceTypes", foregroundServiceTypes.toIntArray())
+    serviceIntent.apply {
+      putExtra("channelId", channelId)
+      putExtra("channelName", channelName)
+      putExtra("notificationContent", notificationContent)
+      putExtra("notificationTitle", notificationTitle)
+      putExtra("foregroundServiceTypes", foregroundServiceTypes.toIntArray())
+    }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       reactContext.startForegroundService(serviceIntent)
@@ -98,23 +105,23 @@ class ForegroundServiceManager(
     serviceConnectedContinuation = null
   }
 
-  private fun buildForegroundServiceTypes(permissionsConfig: ForegroundServicePermissionsConfig): List<Int> =
+  private fun buildForegroundServiceTypes(): List<Int> =
     buildList {
-      if (permissionsConfig.enableCamera) {
+      if (cameraEnabled) {
         addIfPermissionGranted(
           FOREGROUND_SERVICE_TYPE_CAMERA,
           "camera",
           PermissionUtils::hasCameraPermission
         )
       }
-      if (permissionsConfig.enableMicrophone) {
+      if (microphoneEnabled) {
         addIfPermissionGranted(
           FOREGROUND_SERVICE_TYPE_MICROPHONE,
           "microphone",
           PermissionUtils::hasMicrophonePermission
         )
       }
-      if (permissionsConfig.enableScreenSharing) add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
+      if (screenSharingEnabled) add(FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
     }
 
   private fun MutableList<Int>.addIfPermissionGranted(
@@ -133,7 +140,11 @@ class ForegroundServiceManager(
       if (!isServiceBound) {
         serviceConnectedContinuation = continuation
         runCatching {
-          appContext.currentActivity?.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE)
+          appContext.currentActivity?.bindService(
+            serviceIntent,
+            connection,
+            Context.BIND_AUTO_CREATE
+          )
         }.onFailure { error ->
           continuation.cancel(CodedException("Failed to bind service: ${error.message}"))
         }
@@ -144,4 +155,5 @@ class ForegroundServiceManager(
     }
 }
 
-private fun String?.orThrow(fieldName: String): String = this ?: throw CodedException("Missing `$fieldName` for startForegroundService")
+private fun String?.orThrow(fieldName: String): String =
+  this ?: throw CodedException("Missing `$fieldName` for startForegroundService")
