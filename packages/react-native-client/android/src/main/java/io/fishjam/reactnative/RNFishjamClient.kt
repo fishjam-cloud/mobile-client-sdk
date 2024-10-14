@@ -400,6 +400,7 @@ class RNFishjamClient(
         screenShareOptions.maxBandwidthMap,
         screenShareOptions.maxBandwidthInt
       )
+
     if (!isScreenShareOn) {
       ensureConnected()
       startScreenShare()
@@ -704,6 +705,9 @@ class RNFishjamClient(
     if (mediaProjectionIntent == null) {
       throw MissingScreenSharePermission()
     }
+
+    foregroundServiceManager.startForegroundServiceForScreenSharingEnabled(true)
+
     fishjamClient.createScreenShareTrack(
       mediaProjectionIntent!!,
       videoParameters,
@@ -742,6 +746,7 @@ class RNFishjamClient(
   private fun stopScreenShare() {
     ensureScreenShareTrack()
     coroutineScope.launch {
+      foregroundServiceManager.startForegroundServiceForScreenSharingEnabled(false)
       val screenShareTrack =
         fishjamClient.getLocalEndpoint().tracks.values.first { track ->
           track is LocalScreenShareTrack

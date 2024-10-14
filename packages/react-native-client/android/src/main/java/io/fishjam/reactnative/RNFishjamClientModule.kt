@@ -99,9 +99,6 @@ class ForegroundServiceConfig : Record {
 
   @Field
   val enableMicrophone: Boolean? = null
-
-  @Field
-  val enableScreenSharing: Boolean? = null
 }
 
 class RNFishjamClientModule : Module() {

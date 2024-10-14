@@ -3,16 +3,6 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 
 import { PermissionsAndroid, Platform } from 'react-native';
 
-export type ForegroundServiceConfigInternal = {
-  enableCamera?: boolean;
-  enableMicrophone?: boolean;
-  enableScreenSharing?: boolean;
-  channelId?: string;
-  channelName?: string;
-  notificationTitle?: string;
-  notificationContent?: string;
-};
-
 /**
  * A type representing the configuration for foreground service permissions.
  *
@@ -24,10 +14,15 @@ export type ForegroundServiceConfigInternal = {
  * @param notificationContent The text (second row) of the notification, in a standard notification.
  *
  */
-export type ForegroundServiceConfig = Omit<
-  ForegroundServiceConfigInternal,
-  'enableScreenSharing'
->;
+export type ForegroundServiceConfig = {
+  enableCamera?: boolean;
+  enableMicrophone?: boolean;
+  enableScreenSharing?: boolean;
+  channelId?: string;
+  channelName?: string;
+  notificationTitle?: string;
+  notificationContent?: string;
+};
 
 const requestNotificationsPermission = async () => {
   try {

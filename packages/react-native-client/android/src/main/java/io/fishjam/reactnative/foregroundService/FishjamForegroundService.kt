@@ -18,7 +18,9 @@ class FishjamForegroundService : Service() {
 
   private val binder = LocalBinder()
 
-  inner class LocalBinder : Binder()
+  inner class LocalBinder : Binder() {
+    fun getService(): FishjamForegroundService = this@FishjamForegroundService
+  }
 
   override fun onBind(intent: Intent): IBinder = binder
 
@@ -27,6 +29,12 @@ class FishjamForegroundService : Service() {
     flags: Int,
     startId: Int
   ): Int {
+
+    restartService(intent)
+    return START_NOT_STICKY
+  }
+
+  fun restartService(intent: Intent?) {
     val channelId = intent!!.getStringExtra("channelId")!!
     val channelName = intent.getStringExtra("channelName")!!
     val notificationTitle = intent.getStringExtra("notificationTitle")!!
@@ -54,8 +62,6 @@ class FishjamForegroundService : Service() {
 
     createNotificationChannel(channelId, channelName)
     startForegroundWithNotification(notification, foregroundServiceType)
-
-    return START_NOT_STICKY
   }
 
   private fun startForegroundWithNotification(
@@ -88,7 +94,7 @@ class FishjamForegroundService : Service() {
       NotificationChannel(
         channelId,
         channelName,
-        NotificationManager.IMPORTANCE_DEFAULT
+        NotificationManager.IMPORTANCE_HIGH
       )
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
     notificationManager?.createNotificationChannel(serviceChannel)

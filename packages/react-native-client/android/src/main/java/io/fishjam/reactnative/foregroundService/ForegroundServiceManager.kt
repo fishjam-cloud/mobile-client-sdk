@@ -24,6 +24,7 @@ class ForegroundServiceManager(
   private val reactContext by lazy {
     appContext.reactContext ?: throw CodedException("reactContext not found")
   }
+  private var serviceInstance: FishjamForegroundService? = null
   private var isServiceBound: Boolean = false
   private var serviceConnectedContinuation: CancellableContinuation<Unit>? = null
 
@@ -49,31 +50,33 @@ class ForegroundServiceManager(
         service: IBinder
       ) {
         isServiceBound = true
+        serviceInstance = (service as FishjamForegroundService.LocalBinder).getService()
         serviceConnectedContinuation?.resume(Unit)
         serviceConnectedContinuation = null
       }
 
       override fun onServiceDisconnected(arg0: ComponentName) {
         isServiceBound = false
+        serviceInstance = null
         serviceConnectedContinuation?.cancel()
         serviceConnectedContinuation = null
       }
     }
 
   suspend fun startForegroundService(
-    config: ForegroundServiceConfig
+    config: ForegroundServiceConfig?
   ) {
-    config.enableCamera?.let { cameraEnabled = it }
-    config.enableMicrophone?.let { microphoneEnabled = it }
-    config.enableScreenSharing?.let { screenSharingEnabled = it }
-    config.channelId?.let { channelId = it }
-    config.channelName?.let { channelName = it }
-    config.notificationContent?.let { notificationContent = it }
-    config.notificationTitle?.let { notificationTitle = it }
+    config?.enableCamera?.let { cameraEnabled = it }
+    config?.enableMicrophone?.let { microphoneEnabled = it }
+    config?.channelId?.let { channelId = it }
+    config?.channelName?.let { channelName = it }
+    config?.notificationContent?.let { notificationContent = it }
+    config?.notificationTitle?.let { notificationTitle = it }
 
-    val foregroundServiceTypes = buildForegroundServiceTypes()
+    val foregroundServiceTypes = buildForegroundServiceTypes() // TODO: combine this all into some kind of state
 
     if (foregroundServiceTypes.isEmpty()) {
+      stopForegroundService()
       return
     }
 
@@ -94,11 +97,17 @@ class ForegroundServiceManager(
     bindServiceIfNeededAndAwait()
   }
 
+  suspend fun startForegroundServiceForScreenSharingEnabled(enabled: Boolean) {
+    screenSharingEnabled = enabled
+    startForegroundService(null)
+  }
+
   fun stopForegroundService() {
     if (isServiceBound) {
       appContext.currentActivity?.unbindService(connection)
         ?: throw CodedException("Current activity not found")
       isServiceBound = false
+      serviceInstance = null
     }
     reactContext.stopService(serviceIntent)
     serviceConnectedContinuation?.cancel()
@@ -149,6 +158,7 @@ class ForegroundServiceManager(
           continuation.cancel(CodedException("Failed to bind service: ${error.message}"))
         }
       } else {
+        serviceInstance?.restartService(serviceIntent)
         continuation.resume(Unit)
         serviceConnectedContinuation = null
       }
