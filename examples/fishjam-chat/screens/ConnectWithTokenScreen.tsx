@@ -91,8 +91,6 @@ const ConnectScreen = ({ navigation }: Props) => {
 
 export default ConnectScreen;
 
-const windowWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -112,6 +110,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   logo: {
-    width: windowWidth - 40,
+    width: Dimensions.get('window').width - 40,
   },
 });
