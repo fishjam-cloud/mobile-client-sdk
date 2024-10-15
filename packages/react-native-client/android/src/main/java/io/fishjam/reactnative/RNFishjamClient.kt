@@ -383,11 +383,12 @@ class RNFishjamClient(
   }
 
   suspend fun startForegroundService(config: ForegroundServiceConfig) {
-    foregroundServiceManager.startForegroundService(config)
+    foregroundServiceManager.updateServiceWithConfig(config)
+    foregroundServiceManager.start()
   }
 
   fun stopForegroundService() {
-    foregroundServiceManager.stopForegroundService()
+    foregroundServiceManager.stop()
   }
 
   suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
@@ -706,7 +707,8 @@ class RNFishjamClient(
       throw MissingScreenSharePermission()
     }
 
-    foregroundServiceManager.startForegroundServiceForScreenSharingEnabled(true)
+    foregroundServiceManager.updateService { screenSharingEnabled = true }
+    foregroundServiceManager.start()
 
     fishjamClient.createScreenShareTrack(
       mediaProjectionIntent!!,
@@ -746,7 +748,8 @@ class RNFishjamClient(
   private fun stopScreenShare() {
     ensureScreenShareTrack()
     coroutineScope.launch {
-      foregroundServiceManager.startForegroundServiceForScreenSharingEnabled(false)
+      foregroundServiceManager.updateService { screenSharingEnabled = false }
+      foregroundServiceManager.start()
       val screenShareTrack =
         fishjamClient.getLocalEndpoint().tracks.values.first { track ->
           track is LocalScreenShareTrack
