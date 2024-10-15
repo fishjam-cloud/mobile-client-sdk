@@ -3,5 +3,5 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-package fishjam;
 
+package fishjam
