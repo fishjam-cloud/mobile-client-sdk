@@ -8,7 +8,10 @@ package fishjam
 
 @kotlin.jvm.JvmName("-initializepeerMessage")
 public inline fun peerMessage(block: fishjam.PeerMessageKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage =
-  fishjam.PeerMessageKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.newBuilder()).apply { block() }._build()
+  fishjam.PeerMessageKt.Dsl
+    ._create(fishjam.PeerNotifications.PeerMessage.newBuilder())
+    .apply { block() }
+    ._build()
 
 /**
  * ```
@@ -56,9 +59,7 @@ public object PeerMessageKt {
      * `.fishjam.PeerMessage.Authenticated authenticated = 1;`
      * @return Whether the authenticated field is set.
      */
-    public fun hasAuthenticated(): kotlin.Boolean {
-      return _builder.hasAuthenticated()
-    }
+    public fun hasAuthenticated(): kotlin.Boolean = _builder.hasAuthenticated()
 
     /**
      * `.fishjam.PeerMessage.AuthRequest auth_request = 2;`
@@ -83,9 +84,7 @@ public object PeerMessageKt {
      * `.fishjam.PeerMessage.AuthRequest auth_request = 2;`
      * @return Whether the authRequest field is set.
      */
-    public fun hasAuthRequest(): kotlin.Boolean {
-      return _builder.hasAuthRequest()
-    }
+    public fun hasAuthRequest(): kotlin.Boolean = _builder.hasAuthRequest()
 
     /**
      * `.fishjam.PeerMessage.MediaEvent media_event = 3;`
@@ -110,9 +109,7 @@ public object PeerMessageKt {
      * `.fishjam.PeerMessage.MediaEvent media_event = 3;`
      * @return Whether the mediaEvent field is set.
      */
-    public fun hasMediaEvent(): kotlin.Boolean {
-      return _builder.hasMediaEvent()
-    }
+    public fun hasMediaEvent(): kotlin.Boolean = _builder.hasMediaEvent()
 
     /**
      * `.fishjam.PeerMessage.RTCStatsReport rtc_stats_report = 4;`
@@ -137,9 +134,7 @@ public object PeerMessageKt {
      * `.fishjam.PeerMessage.RTCStatsReport rtc_stats_report = 4;`
      * @return Whether the rtcStatsReport field is set.
      */
-    public fun hasRtcStatsReport(): kotlin.Boolean {
-      return _builder.hasRtcStatsReport()
-    }
+    public fun hasRtcStatsReport(): kotlin.Boolean = _builder.hasRtcStatsReport()
 
     public val contentCase: fishjam.PeerNotifications.PeerMessage.ContentCase
       @JvmName("getContentCase")
@@ -154,9 +149,13 @@ public object PeerMessageKt {
   public inline fun authenticated(
     block: fishjam.PeerMessageKt.AuthenticatedKt.Dsl.() -> kotlin.Unit
   ): fishjam.PeerNotifications.PeerMessage.Authenticated =
-    fishjam.PeerMessageKt.AuthenticatedKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.Authenticated.newBuilder()).apply {
-      block()
-    }._build()
+    fishjam.PeerMessageKt.AuthenticatedKt.Dsl
+      ._create(
+        fishjam.PeerNotifications.PeerMessage.Authenticated
+          .newBuilder()
+      ).apply {
+        block()
+      }._build()
 
   /**
    * ```
@@ -187,9 +186,12 @@ public object PeerMessageKt {
   public inline fun authRequest(
     block: fishjam.PeerMessageKt.AuthRequestKt.Dsl.() -> kotlin.Unit
   ): fishjam.PeerNotifications.PeerMessage.AuthRequest =
-    fishjam.PeerMessageKt.AuthRequestKt.Dsl._create(
-      fishjam.PeerNotifications.PeerMessage.AuthRequest.newBuilder()
-    ).apply { block() }._build()
+    fishjam.PeerMessageKt.AuthRequestKt.Dsl
+      ._create(
+        fishjam.PeerNotifications.PeerMessage.AuthRequest
+          .newBuilder()
+      ).apply { block() }
+      ._build()
 
   /**
    * ```
@@ -239,7 +241,12 @@ public object PeerMessageKt {
   public inline fun mediaEvent(
     block: fishjam.PeerMessageKt.MediaEventKt.Dsl.() -> kotlin.Unit
   ): fishjam.PeerNotifications.PeerMessage.MediaEvent =
-    fishjam.PeerMessageKt.MediaEventKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.MediaEvent.newBuilder()).apply { block() }._build()
+    fishjam.PeerMessageKt.MediaEventKt.Dsl
+      ._create(
+        fishjam.PeerNotifications.PeerMessage.MediaEvent
+          .newBuilder()
+      ).apply { block() }
+      ._build()
 
   /**
    * ```
@@ -289,9 +296,13 @@ public object PeerMessageKt {
   public inline fun rTCStatsReport(
     block: fishjam.PeerMessageKt.RTCStatsReportKt.Dsl.() -> kotlin.Unit
   ): fishjam.PeerNotifications.PeerMessage.RTCStatsReport =
-    fishjam.PeerMessageKt.RTCStatsReportKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.RTCStatsReport.newBuilder()).apply {
-      block()
-    }._build()
+    fishjam.PeerMessageKt.RTCStatsReportKt.Dsl
+      ._create(
+        fishjam.PeerNotifications.PeerMessage.RTCStatsReport
+          .newBuilder()
+      ).apply {
+        block()
+      }._build()
 
   /**
    * ```
@@ -342,31 +353,47 @@ public object PeerMessageKt {
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.copy(
   block: `fishjam`.PeerMessageKt.Dsl.() -> kotlin.Unit
-): fishjam.PeerNotifications.PeerMessage = `fishjam`.PeerMessageKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+): fishjam.PeerNotifications.PeerMessage =
+  `fishjam`.PeerMessageKt.Dsl
+    ._create(this.toBuilder())
+    .apply { block() }
+    ._build()
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.Authenticated.copy(
   block: `fishjam`.PeerMessageKt.AuthenticatedKt.Dsl.() -> kotlin.Unit
 ): fishjam.PeerNotifications.PeerMessage.Authenticated =
-  `fishjam`.PeerMessageKt.AuthenticatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+  `fishjam`.PeerMessageKt.AuthenticatedKt.Dsl
+    ._create(this.toBuilder())
+    .apply { block() }
+    ._build()
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.AuthRequest.copy(
   block: `fishjam`.PeerMessageKt.AuthRequestKt.Dsl.() -> kotlin.Unit
 ): fishjam.PeerNotifications.PeerMessage.AuthRequest =
-  `fishjam`.PeerMessageKt.AuthRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+  `fishjam`.PeerMessageKt.AuthRequestKt.Dsl
+    ._create(this.toBuilder())
+    .apply { block() }
+    ._build()
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.MediaEvent.copy(
   block: `fishjam`.PeerMessageKt.MediaEventKt.Dsl.() -> kotlin.Unit
 ): fishjam.PeerNotifications.PeerMessage.MediaEvent =
-  `fishjam`.PeerMessageKt.MediaEventKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+  `fishjam`.PeerMessageKt.MediaEventKt.Dsl
+    ._create(this.toBuilder())
+    .apply { block() }
+    ._build()
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.RTCStatsReport.copy(
   block: `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl.() -> kotlin.Unit
 ): fishjam.PeerNotifications.PeerMessage.RTCStatsReport =
-  `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+  `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl
+    ._create(this.toBuilder())
+    .apply { block() }
+    ._build()
 
 public val fishjam.PeerNotifications.PeerMessageOrBuilder.authenticatedOrNull: fishjam.PeerNotifications.PeerMessage.Authenticated?
   get() = if (hasAuthenticated()) getAuthenticated() else null
