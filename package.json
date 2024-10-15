@@ -20,10 +20,10 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
     "patch-package": "8.0.0",
     "prettier": "^3.3.3",
-    "typedoc": "^0.26.8",
+    "typedoc": "^0.26.9",
     "typedoc-material-theme": "^1.1.0"
   },
   "scripts": {
