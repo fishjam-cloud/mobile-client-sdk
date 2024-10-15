@@ -17,7 +17,6 @@ import { PermissionsAndroid, Platform } from 'react-native';
 export type ForegroundServiceConfig = {
   enableCamera?: boolean;
   enableMicrophone?: boolean;
-  enableScreenSharing?: boolean;
   channelId?: string;
   channelName?: string;
   notificationTitle?: string;
