@@ -17,7 +17,6 @@ import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-
 class ForegroundServiceManager(
   private val appContext: AppContext
 ) {
@@ -63,9 +62,7 @@ class ForegroundServiceManager(
       }
     }
 
-  suspend fun startForegroundService(
-    config: ForegroundServiceConfig?
-  ) {
+  suspend fun startForegroundService(config: ForegroundServiceConfig?) {
     config?.enableCamera?.let { cameraEnabled = it }
     config?.enableMicrophone?.let { microphoneEnabled = it }
     config?.channelId?.let { channelId = it }
@@ -165,5 +162,4 @@ class ForegroundServiceManager(
     }
 }
 
-private fun String?.orThrow(fieldName: String): String =
-  this ?: throw CodedException("Missing `$fieldName` for startForegroundService")
+private fun String?.orThrow(fieldName: String): String = this ?: throw CodedException("Missing `$fieldName` for startForegroundService")

@@ -76,7 +76,7 @@ class RNFishjamClient(
     }
 
   private val foregroundServiceManager by lazy {
-    ForegroundServiceManager( appContext ?: throw CodedException("appContext not found"))
+    ForegroundServiceManager(appContext ?: throw CodedException("appContext not found"))
   }
 
   companion object {

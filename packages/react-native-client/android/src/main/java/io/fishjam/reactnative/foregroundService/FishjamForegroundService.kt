@@ -29,7 +29,6 @@ class FishjamForegroundService : Service() {
     flags: Int,
     startId: Int
   ): Int {
-
     restartService(intent)
     return START_NOT_STICKY
   }
