@@ -33,6 +33,7 @@
     "tsc": "yarn workspaces foreach -A -p run tsc",
     "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "gen:proto": "sh ./scripts/compile_proto.sh"
   }
 }
