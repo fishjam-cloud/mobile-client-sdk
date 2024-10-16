@@ -77,7 +77,6 @@ const useForegroundServiceAndroid = ({
     };
     runConfiguration();
     return () => RNFishjamClientModule.stopForegroundService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
