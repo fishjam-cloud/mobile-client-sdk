@@ -3,19 +3,19 @@ on:
   release:
     types: [published]
 jobs:
-  publish-pod:
+  publish-ios-client:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Install Cocoapods
-      run: gem install cocoapods
-    - name: Deploy to Cocoapods
-      run: |
-        set -eo pipefail
-        pod lib lint --allow-warnings
-        pod trunk push --allow-warnings
-      env:
-        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      - uses: actions/checkout@v1
+      - name: Install Cocoapods
+        run: gem install cocoapods
+      - name: Deploy to Cocoapods
+        run: |
+          set -eo pipefail
+          pod lib lint --allow-warnings
+          pod trunk push --allow-warnings
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
   publish-react-native-client:
     runs-on: ubuntu-latest
     permissions:
@@ -23,14 +23,18 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
       - run: yarn
       - run: yarn prepare
-      - run: yarn npm publish --access public 
+      - run: yarn npm publish --access public
         working-directory: packages/react-native-client
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  publish-android-client:
+    # Packages built by Jitpack are not immediately available upon the creation of a tag or branch.
+    # Instead, availability occurs when an initial attempt is made to download the specified tag or branch.
+    # This mechanism ensures that Jitpack only builds a package when it is first requested and efficiently handles the generation of newly released versions.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch POM file
+        run: yarn jitpack-cache ${{ github.ref_name }}
+        working-directory: packages/android-client
