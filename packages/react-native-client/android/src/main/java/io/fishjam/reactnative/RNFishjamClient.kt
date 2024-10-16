@@ -362,6 +362,15 @@ class RNFishjamClient(
     } else {
       getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
     }
+
+    updateLocalAudioTrackMetadata(
+      mapOf(
+        "active" to isMicrophoneOn,
+        "paused" to !isMicrophoneOn, // TODO: FCE-711,
+        "type" to "microphone"
+      )
+    )
+
     return isMicrophoneOn
   }
 

@@ -301,6 +301,13 @@ class RNFishjamClient: FishjamClientListener {
         } else {
             try await startMicrophone()
         }
+
+        try updateLocalAudioTrackMetadata(metadata: [
+            "active": isMicrophoneOn,
+            "paused": !isMicrophoneOn,  //TODO: FCE-711
+            "type": "microphone",
+        ])
+
         return isMicrophoneOn
     }
 
