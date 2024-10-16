@@ -644,9 +644,14 @@ extension FishjamClientInternal: RTCEngineListener {
 
     func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
-
+        
         localEndpoint.tracks.values.forEach { track in
-            guard !(track is LocalAudioTrack) else { return }
+            if track is LocalAudioTrack {
+                if let rtcEngineId = track.mediaTrack?.trackId {
+                    track.rtcEngineId = rtcEngineId
+                }
+                return
+            }
 
             var config: SimulcastConfig? = nil
             if let track = track as? LocalCameraTrack {
