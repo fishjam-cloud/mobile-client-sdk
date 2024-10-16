@@ -111,6 +111,31 @@ public object PeerMessageKt {
      */
     public fun hasMediaEvent(): kotlin.Boolean = _builder.hasMediaEvent()
 
+    /**
+     * `.fishjam.PeerMessage.RTCStatsReport rtc_stats_report = 4;`
+     */
+    public var rtcStatsReport: fishjam.PeerNotifications.PeerMessage.RTCStatsReport
+      @JvmName("getRtcStatsReport")
+      get() = _builder.getRtcStatsReport()
+
+      @JvmName("setRtcStatsReport")
+      set(value) {
+        _builder.setRtcStatsReport(value)
+      }
+
+    /**
+     * `.fishjam.PeerMessage.RTCStatsReport rtc_stats_report = 4;`
+     */
+    public fun clearRtcStatsReport() {
+      _builder.clearRtcStatsReport()
+    }
+
+    /**
+     * `.fishjam.PeerMessage.RTCStatsReport rtc_stats_report = 4;`
+     * @return Whether the rtcStatsReport field is set.
+     */
+    public fun hasRtcStatsReport(): kotlin.Boolean = _builder.hasRtcStatsReport()
+
     public val contentCase: fishjam.PeerNotifications.PeerMessage.ContentCase
       @JvmName("getContentCase")
       get() = _builder.getContentCase()
@@ -266,6 +291,63 @@ public object PeerMessageKt {
       }
     }
   }
+
+  @kotlin.jvm.JvmName("-initializerTCStatsReport")
+  public inline fun rTCStatsReport(
+    block: fishjam.PeerMessageKt.RTCStatsReportKt.Dsl.() -> kotlin.Unit
+  ): fishjam.PeerNotifications.PeerMessage.RTCStatsReport =
+    fishjam.PeerMessageKt.RTCStatsReportKt.Dsl
+      ._create(
+        fishjam.PeerNotifications.PeerMessage.RTCStatsReport
+          .newBuilder()
+      ).apply {
+        block()
+      }._build()
+
+  /**
+   * ```
+   * PeerConnection stats sent by peer
+   * https://developer.mozilla.org/en-US/docs/Web/API/RTCStatsReport#the_statistic_types
+   * ```
+   *
+   * Protobuf type `fishjam.PeerMessage.RTCStatsReport`
+   */
+  public object RTCStatsReportKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.PeerNotifications.PeerMessage.RTCStatsReport.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.PeerNotifications.PeerMessage.RTCStatsReport.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.PeerNotifications.PeerMessage.RTCStatsReport = _builder.build()
+
+      /**
+       * `string data = 1;`
+       */
+      public var data: kotlin.String
+        @JvmName("getData")
+        get() = _builder.getData()
+
+        @JvmName("setData")
+        set(value) {
+          _builder.setData(value)
+        }
+
+      /**
+       * `string data = 1;`
+       */
+      public fun clearData() {
+        _builder.clearData()
+      }
+    }
+  }
 }
 
 @kotlin.jvm.JvmSynthetic
@@ -304,6 +386,15 @@ public inline fun fishjam.PeerNotifications.PeerMessage.MediaEvent.copy(
     .apply { block() }
     ._build()
 
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.PeerNotifications.PeerMessage.RTCStatsReport.copy(
+  block: `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl.() -> kotlin.Unit
+): fishjam.PeerNotifications.PeerMessage.RTCStatsReport =
+  `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl
+    ._create(this.toBuilder())
+    .apply { block() }
+    ._build()
+
 public val fishjam.PeerNotifications.PeerMessageOrBuilder.authenticatedOrNull: fishjam.PeerNotifications.PeerMessage.Authenticated?
   get() = if (hasAuthenticated()) getAuthenticated() else null
 
@@ -312,3 +403,6 @@ public val fishjam.PeerNotifications.PeerMessageOrBuilder.authRequestOrNull: fis
 
 public val fishjam.PeerNotifications.PeerMessageOrBuilder.mediaEventOrNull: fishjam.PeerNotifications.PeerMessage.MediaEvent?
   get() = if (hasMediaEvent()) getMediaEvent() else null
+
+public val fishjam.PeerNotifications.PeerMessageOrBuilder.rtcStatsReportOrNull: fishjam.PeerNotifications.PeerMessage.RTCStatsReport?
+  get() = if (hasRtcStatsReport()) getRtcStatsReport() else null
