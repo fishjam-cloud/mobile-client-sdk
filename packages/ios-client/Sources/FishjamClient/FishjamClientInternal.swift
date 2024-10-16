@@ -644,7 +644,7 @@ extension FishjamClientInternal: RTCEngineListener {
 
     func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
-        
+
         localEndpoint.tracks.values.forEach { track in
             if track is LocalAudioTrack {
                 if let rtcEngineId = track.mediaTrack?.trackId {
