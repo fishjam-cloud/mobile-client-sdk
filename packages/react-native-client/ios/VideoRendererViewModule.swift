@@ -13,8 +13,8 @@ public class VideoRendererViewModule: Module {
                 view.videoLayout = videoLayout
             }
 
-            Prop("shouldRenderIfNotVisible") { (view, shouldRenderIfNotVisible) in
-                view.checkVisibilityTimeInterval = shouldRenderIfNotVisible ? nil : 1
+            Prop("skipRenderOutsideVisibleArea") { (view, skipRenderOutsideVisibleArea) in
+                view.checkVisibilityTimeInterval = skipRenderOutsideVisibleArea ? nil : 1
             }
         }
     }

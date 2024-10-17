@@ -17,7 +17,7 @@ export type VideoRendererProps = {
   /**
    * Whether the video should be rendered if it's off screen or hidden.
    */
-  shouldRenderIfNotVisible?: boolean;
+  skipRenderOutsideVisibleArea?: boolean;
   style?: ViewStyle;
 };
 
