@@ -7,6 +7,8 @@ import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
+import com.fishjamcloud.client.media.CaptureDevice
+import com.fishjamcloud.client.media.CaptureDeviceChangedListener
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
@@ -40,7 +42,7 @@ import org.webrtc.Logging
 
 class RNFishjamClient(
   val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
-) : FishjamClientListener {
+) : FishjamClientListener, CaptureDeviceChangedListener {
   private val SCREENSHARE_REQUEST = 1
 
   var isMicrophoneOn = false
@@ -291,6 +293,7 @@ class RNFishjamClient(
     }
 
     val cameraTrack = createCameraTrack(config)
+    cameraTrack.captureDeviceChangedListener = this
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
     isCameraInitialized = true
@@ -312,8 +315,11 @@ class RNFishjamClient(
   ) {
     cameraTrack.setEnabled(isEnabled)
     isCameraOn = isEnabled
-    val event = EmitableEvents.IsCameraOn
-    emitEvent(event, mapOf(event.name to isEnabled))
+    emitEvent(
+      EmitableEvents.CurrentCameraChanged,
+      mapOf(EmitableEvents.CurrentCameraChanged.name to getCurrentCaptureDevice()) // TODO: Make this an extension as on iOS
+    )
+    emitEvent(EmitableEvents.IsCameraOn, mapOf(EmitableEvents.IsCameraOn.name to isEnabled))
     localCameraTracksChangedListenersManager.notifyListeners()
   }
 
@@ -480,6 +486,23 @@ class RNFishjamClient(
           }
       )
     }
+  }
+
+  fun getCurrentCaptureDevice(): Map<String, Any>? {
+    val device = getLocalVideoTrack()?.getCaptureDevice()
+    if (device != null) {
+      return mapOf<String, Any>(
+        "id" to device.deviceName,
+        "name" to device.deviceName,
+        "facingDirection" to
+          when (true) {
+            device.isFrontFacing -> "front"
+            device.isBackFacing -> "back"
+            else -> "unspecified"
+          }
+      )
+    }
+    return null
   }
 
   fun updatePeerMetadata(metadata: Metadata) {
@@ -804,7 +827,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-            ),
+              ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(
@@ -921,5 +944,12 @@ class RNFishjamClient(
 
   override fun onReconnectionRetriesLimitReached() {
     emitEvent(EmitableEvents.ReconnectionRetriesLimitReached)
+  }
+
+  override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
+    emitEvent(
+      EmitableEvents.CurrentCameraChanged,
+      mapOf(EmitableEvents.CurrentCameraChanged.name to getCurrentCaptureDevice()) // TODO: Make this an extension as on iOS
+    )
   }
 }

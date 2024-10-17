@@ -26,8 +26,10 @@ class RNFishjamClient: FishjamClientListener {
 
     var cameraId: String? = nil
 
-    var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
+    var audioSessionMode: AVAudioSession.Mode = .videoChat
     var errorMessage: String?
+    
+    var currentCamera: LocalCamera? { getLocalCameraTrack()?.currentCaptureDevice?.toLocalCamera() }
 
     private(set) var peerStatus: PeerStatus = .idle {
         didSet {
@@ -36,12 +38,12 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    let sendEvent: (_ eventName: String, _ data: [String: Any]) -> Void
+    let sendEvent: (_ eventName: String, _ data: [String: Any?]) -> Void
 
     static var tracksUpdateListenersManager = TracksUpdateListenersManager()
     static var localCameraTracksChangedListenersManager = LocalCameraTracksChangedListenersManager()
 
-    init(sendEvent: @escaping (_ eventName: String, _ data: [String: Any]) -> Void) {
+    init(sendEvent: @escaping (_ eventName: String, _ data: [String: Any?]) -> Void) {
         self.sendEvent = sendEvent
         NotificationCenter.default.addObserver(
             self,
@@ -253,6 +255,7 @@ class RNFishjamClient: FishjamClientListener {
         }
 
         let cameraTrack = try createCameraTrack(config: config)
+        cameraTrack.captureDeviceChangedListener = self
         setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
         emitEndpoints()
         isCameraInitialized = true
@@ -272,9 +275,9 @@ class RNFishjamClient: FishjamClientListener {
     private func setCameraTrackState(_ cameraTrack: LocalCameraTrack, enabled: Bool) {
         cameraTrack.enabled = enabled
         isCameraOn = enabled
-        let event = EmitableEvents.IsCameraOn
-        let isCameraEnabledMap = [event.name: enabled]
-        emit(event: event, data: isCameraEnabledMap)
+        // TODO: Send this as one event?
+        emit(event: .CurrentCameraChanged, data: [EmitableEvents.CurrentCameraChanged.name: cameraTrack.currentCaptureDevice?.toLocalCamera()])
+        emit(event: .IsCameraOn, data: [EmitableEvents.IsCameraOn.name: enabled])
         RNFishjamClient.localCameraTracksChangedListenersManager.notifyListeners()
     }
 
@@ -539,19 +542,7 @@ class RNFishjamClient: FishjamClientListener {
 
     func getCaptureDevices() -> [[String: Any]] {
         let devices = LocalCameraTrack.getCaptureDevices()
-        return devices.map { device -> [String: Any] in
-            let facingDirection =
-                switch device.position {
-                case .front: "front"
-                case .back: "back"
-                default: "unspecified"
-                }
-            return [
-                "id": device.uniqueID,
-                "name": device.localizedName,
-                "facingDirection": facingDirection,
-            ]
-        }
+        return devices.map { $0.toLocalCamera() }
     }
 
     func updatePeerMetadata(metadata: [String: Any]) throws {
@@ -759,7 +750,7 @@ class RNFishjamClient: FishjamClientListener {
         )
     }
 
-    func emit(event: EmitableEvents, data: [String: Any] = [:]) {
+    func emit(event: EmitableEvents, data: [String: Any?] = [:]) {
         DispatchQueue.main.async { [weak self] in
             self?.sendEvent(event.name, data)
         }
@@ -944,4 +935,11 @@ class RNFishjamClient: FishjamClientListener {
         emit(event: .ReconnectionRetriesLimitReached)
     }
 
+}
+
+extension RNFishjamClient: CameraCapturerDeviceChangedListener {
+    func onCaptureDeviceChanged(_ device: AVCaptureDevice?) {
+        let event = EmitableEvents.CurrentCameraChanged
+        emit(event: .CurrentCameraChanged, data: [event.name: device?.toLocalCamera()])
+    }
 }
