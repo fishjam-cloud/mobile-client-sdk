@@ -3,37 +3,25 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 
 import { PermissionsAndroid, Platform } from 'react-native';
 
-export type ForegroundServicePermissionsConfigInternal = {
-  enableCamera?: boolean;
-  enableMicrophone?: boolean;
-  enableScreenSharing?: boolean;
-};
-
-/**
- * A type representing the options required for configuring the foreground service notifcation.
- *
- * @param channelId The id of the channel. Must be unique per package.
- * @param channelName The user visible name of the channel.
- * @param notificationTitle The title (first row) of the notification, in a standard notification.
- * @param notificationContent The text (second row) of the notification, in a standard notification.
- */
-export type ForegroundServiceNotificationConfig = {
-  channelId: string;
-  channelName: string;
-  notificationTitle: string;
-  notificationContent: string;
-};
 /**
  * A type representing the configuration for foreground service permissions.
  *
  * @param enableCamera Indicates whether the camera is enabled for the foreground service.
  * @param enableMicrophone Indicates whether the microphone is enabled for the foreground service.
+ * @param channelId The id of the channel. Must be unique per package.
+ * @param channelName The user visible name of the channel.
+ * @param notificationTitle The title (first row) of the notification, in a standard notification.
+ * @param notificationContent The text (second row) of the notification, in a standard notification.
  *
  */
-export type ForegroundServicePermissionsConfig = Pick<
-  ForegroundServicePermissionsConfigInternal,
-  'enableCamera' | 'enableMicrophone'
->;
+export type ForegroundServiceConfig = {
+  enableCamera?: boolean;
+  enableMicrophone?: boolean;
+  channelId?: string;
+  channelName?: string;
+  notificationTitle?: string;
+  notificationContent?: string;
+};
 
 const requestNotificationsPermission = async () => {
   try {
@@ -53,9 +41,11 @@ const requestNotificationsPermission = async () => {
 const useForegroundServiceAndroid = ({
   enableCamera,
   enableMicrophone,
-  ...restOptions
-}: ForegroundServiceNotificationConfig &
-  ForegroundServicePermissionsConfig) => {
+  channelId,
+  channelName,
+  notificationContent,
+  notificationTitle,
+}: ForegroundServiceConfig) => {
   const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
@@ -65,18 +55,28 @@ const useForegroundServiceAndroid = ({
     RNFishjamClientModule.startForegroundService({
       enableCamera,
       enableMicrophone,
+      channelId,
+      channelName,
+      notificationContent,
+      notificationTitle,
     });
-  }, [enableCamera, enableMicrophone, isConfigured]);
+  }, [
+    channelId,
+    channelName,
+    enableCamera,
+    enableMicrophone,
+    isConfigured,
+    notificationContent,
+    notificationTitle,
+  ]);
 
   useEffect(() => {
     const runConfiguration = async () => {
       await requestNotificationsPermission();
-      RNFishjamClientModule.configureForegroundService(restOptions);
       setIsConfigured(true);
     };
     runConfiguration();
     return () => RNFishjamClientModule.stopForegroundService();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

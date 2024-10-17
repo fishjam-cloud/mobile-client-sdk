@@ -81,7 +81,7 @@ class ConnectConfig : Record {
   val reconnectConfig: ReconnectConfig = ReconnectConfig()
 }
 
-class ForegroundServiceNotificationConfig : Record {
+class ForegroundServiceConfig : Record {
   @Field
   val channelId: String? = null
 
@@ -93,17 +93,12 @@ class ForegroundServiceNotificationConfig : Record {
 
   @Field
   val notificationTitle: String? = null
-}
-
-class ForegroundServicePermissionsConfig : Record {
-  @Field
-  val enableCamera: Boolean = false
 
   @Field
-  val enableMicrophone: Boolean = false
+  val enableCamera: Boolean? = null
 
   @Field
-  val enableScreenSharing: Boolean = false
+  val enableMicrophone: Boolean? = null
 }
 
 class RNFishjamClientModule : Module() {
@@ -308,11 +303,7 @@ class RNFishjamClientModule : Module() {
 
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
-      Function("configureForegroundService") { config: ForegroundServiceNotificationConfig ->
-        return@Function rnFishjamClient.configureForegroundService(config)
-      }
-
-      AsyncFunction("startForegroundService") Coroutine { config: ForegroundServicePermissionsConfig ->
+      AsyncFunction("startForegroundService") Coroutine { config: ForegroundServiceConfig ->
         rnFishjamClient.startForegroundService(config)
       }
 
