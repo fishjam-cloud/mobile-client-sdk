@@ -2,7 +2,7 @@ import WebRTC
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing an instance of `VideoCapturer`
 public class LocalCameraTrack: VideoTrack, LocalTrack {
-    internal var capturer: CameraCapturer
+    public var capturer: CameraCapturer
     internal var videoParameters: VideoParameters
     internal var videoSource: RTCVideoSource
 

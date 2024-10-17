@@ -28,6 +28,8 @@ class RNFishjamClient: FishjamClientListener {
 
     var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
     var errorMessage: String?
+    
+    var currentCamera: [String: Any]? { getLocalCameraTrack()?.capturer.device?.convertToCurrentCamera() }
 
     private(set) var peerStatus: PeerStatus = .idle {
         didSet {
@@ -253,9 +255,10 @@ class RNFishjamClient: FishjamClientListener {
         }
 
         let cameraTrack = try createCameraTrack(config: config)
+        cameraTrack.capturer.delegate = self
         setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
         emitEndpoints()
-        isCameraInitialized = true
+        isCameraInitialized = true        
     }
 
     private func createCameraTrack(config: CameraConfig) throws -> LocalCameraTrack {
@@ -540,17 +543,7 @@ class RNFishjamClient: FishjamClientListener {
     func getCaptureDevices() -> [[String: Any]] {
         let devices = LocalCameraTrack.getCaptureDevices()
         return devices.map { device -> [String: Any] in
-            let facingDirection =
-                switch device.position {
-                case .front: "front"
-                case .back: "back"
-                default: "unspecified"
-                }
-            return [
-                "id": device.uniqueID,
-                "name": device.localizedName,
-                "facingDirection": facingDirection,
-            ]
+            return device.convertToCurrentCamera()
         }
     }
 
@@ -945,3 +938,27 @@ class RNFishjamClient: FishjamClientListener {
     }
 
 }
+
+extension AVCaptureDevice {
+    func convertToCurrentCamera() -> [String: Any] {
+        let facingDirection =
+        switch position {
+        case .front: "front"
+        case .back: "back"
+        default: "unspecified"
+        }
+        return [
+            "id": uniqueID,
+            "name": localizedName,
+            "facingDirection": facingDirection,
+        ]
+    }
+}
+
+extension RNFishjamClient: CameraCapturerDeviceChangedDelegate {
+    func cameraCapturer(_ capturer: FishjamCloudClient.CameraCapturer, deviceChanged device: AVCaptureDevice?) {
+        emit(event: .CurrentCameraChanged)
+    }
+}
+
+

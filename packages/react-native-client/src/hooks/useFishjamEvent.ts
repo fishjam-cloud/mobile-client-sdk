@@ -16,6 +16,7 @@ export const ReceivableEvents = {
   Reconnected: 'Reconnected',
   Warning: 'Warning',
   PeerStatusChanged: 'PeerStatusChanged',
+  CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 
 export function useFishjamEvent<T>(

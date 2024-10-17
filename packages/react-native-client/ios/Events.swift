@@ -20,6 +20,7 @@ enum EmitableEvents: String, CaseIterable {
     case Reconnected
     case Warning
     case PeerStatusChanged
+    case CurrentCameraChanged
 
     var name: String {
         rawValue

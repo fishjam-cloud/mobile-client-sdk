@@ -156,8 +156,8 @@ export function useCamera() {
     RNFishjamClientModule.isCameraOn,
   );
 
-  const [currentCamera, setCurrentCamera] = useState<Camera | undefined>(
-    undefined,
+  const [currentCamera, setCurrentCamera] = useState<Camera | null>(
+    RNFishjamClientModule.currentCamera,
   );
 
   const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
@@ -171,6 +171,10 @@ export function useCamera() {
 
   useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
 
+  useFishjamEvent(ReceivableEvents.CurrentCameraChanged, () => {
+    setCurrentCamera(RNFishjamClientModule.currentCamera);
+  });
+
   const cameras = useMemo(() => {
     return RNFishjamClientModule.cameras;
   }, []);
@@ -183,7 +187,6 @@ export function useCamera() {
           : camera.facingDirection === 'front',
       );
 
-      setCurrentCamera(camera);
       const updatedConfig = updateCameraConfig({
         ...config,
         cameraId: camera?.id,
@@ -202,13 +205,9 @@ export function useCamera() {
     setIsCameraOn(state);
   }, []);
 
-  const switchCamera = useCallback(
-    async (cameraId: CameraId) => {
-      await RNFishjamClientModule.switchCamera(cameraId);
-      setCurrentCamera(cameras.find((camera) => camera.id === cameraId));
-    },
-    [cameras],
-  );
+  const switchCamera = useCallback(async (cameraId: CameraId) => {
+    await RNFishjamClientModule.switchCamera(cameraId);
+  }, []);
 
   const setVideoTrackBandwidth = useCallback(
     async (bandwidth: BandwidthLimit) => {
