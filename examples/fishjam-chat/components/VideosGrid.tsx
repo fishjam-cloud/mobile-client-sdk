@@ -75,6 +75,7 @@ export default function VideosGrid({ videoTracks, audioTracks }: Props) {
           <VideoRendererView
             trackId={track.id}
             videoLayout="FIT"
+            skipRenderOutsideVisibleArea={false}
             style={styles.flexOne}
           />
           {vadActive(track) && (
