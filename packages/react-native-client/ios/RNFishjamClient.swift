@@ -26,10 +26,10 @@ class RNFishjamClient: FishjamClientListener {
 
     var cameraId: String? = nil
 
-    var audioSessionMode: AVAudioSession.Mode = AVAudioSession.Mode.videoChat
+    var audioSessionMode: AVAudioSession.Mode = .videoChat
     var errorMessage: String?
     
-    var currentCamera: [String: Any]? { getLocalCameraTrack()?.capturer.device?.convertToCurrentCamera() }
+    var currentCamera: LocalCamera? { getLocalCameraTrack()?.capturer.device?.toLocalCamera() }
 
     private(set) var peerStatus: PeerStatus = .idle {
         didSet {
@@ -542,9 +542,7 @@ class RNFishjamClient: FishjamClientListener {
 
     func getCaptureDevices() -> [[String: Any]] {
         let devices = LocalCameraTrack.getCaptureDevices()
-        return devices.map { device -> [String: Any] in
-            return device.convertToCurrentCamera()
-        }
+        return devices.map { $0.toLocalCamera() }
     }
 
     func updatePeerMetadata(metadata: [String: Any]) throws {
@@ -939,26 +937,8 @@ class RNFishjamClient: FishjamClientListener {
 
 }
 
-extension AVCaptureDevice {
-    func convertToCurrentCamera() -> [String: Any] {
-        let facingDirection =
-        switch position {
-        case .front: "front"
-        case .back: "back"
-        default: "unspecified"
-        }
-        return [
-            "id": uniqueID,
-            "name": localizedName,
-            "facingDirection": facingDirection,
-        ]
-    }
-}
-
 extension RNFishjamClient: CameraCapturerDeviceChangedDelegate {
-    func cameraCapturer(_ capturer: FishjamCloudClient.CameraCapturer, deviceChanged device: AVCaptureDevice?) {
+    func cameraCapturer(_ capturer: CameraCapturer, deviceChanged device: AVCaptureDevice?) {
         emit(event: .CurrentCameraChanged)
     }
 }
-
-

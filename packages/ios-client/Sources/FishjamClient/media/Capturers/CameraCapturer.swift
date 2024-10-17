@@ -9,7 +9,7 @@ public class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer
     internal var isFront: Bool = true
-    public var device: AVCaptureDevice? = nil {
+    public private(set) var device: AVCaptureDevice? = nil {
         didSet {
             delegate?.cameraCapturer(self, deviceChanged: device)
         }
