@@ -14,4 +14,6 @@ cd ..
 
 echo "Running swift-format:check for react-native ios files \n"
 cd ios
-swift-format lint -r -s ./ --configuration swift-format-config.json
+swift-format format -i -r ./ --configuration swift-format-config.json
+swift-format lint -s -r ./ --configuration swift-format-config.json
+
