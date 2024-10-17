@@ -17,10 +17,6 @@ export function useMicrophone() {
 
   const toggleMicrophone = useCallback(async () => {
     const status = await RNFishjamClientModule.toggleMicrophone();
-    await RNFishjamClientModule.updateAudioTrackMetadata({
-      active: status,
-      type: 'audio',
-    });
     setIsMicrophoneOn(status);
   }, []);
 
