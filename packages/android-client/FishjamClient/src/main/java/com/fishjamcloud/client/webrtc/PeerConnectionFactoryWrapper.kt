@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.fishjamcloud.client.media.CameraCapturer
-import com.fishjamcloud.client.media.CameraNameChangedListener
 import com.fishjamcloud.client.media.SimulcastVideoEncoderFactoryWrapper
 import com.fishjamcloud.client.models.EncoderOptions
 import com.fishjamcloud.client.models.VideoParameters

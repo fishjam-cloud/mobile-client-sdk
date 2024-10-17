@@ -1,8 +1,12 @@
 package io.fishjam.reactnative.managers
 
-interface CameraDeviceChangedListener {
-  fun onCameraDeviceChanged()
+interface LocalCameraTrackChangedListener {
+  fun onLocalCameraTrackChanged()
 }
 
-class CameraDeviceChangedListenerManager :
-  SingleListenerManager<CameraDeviceChangedListener>(CameraDeviceChangedListener::onCameraDeviceChanged)
+class LocalCameraTracksChangedListenersManager :
+  ListenerManager<LocalCameraTrackChangedListener>() {
+  fun notifyListeners() {
+    for (listener in listeners) listener.onLocalCameraTrackChanged()
+  }
+}

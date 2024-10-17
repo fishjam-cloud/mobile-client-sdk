@@ -7,7 +7,8 @@ import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
-import com.fishjamcloud.client.media.CameraNameChangedListener
+import com.fishjamcloud.client.media.CaptureDevice
+import com.fishjamcloud.client.media.CaptureDeviceChangedListener
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
@@ -41,7 +42,7 @@ import org.webrtc.Logging
 
 class RNFishjamClient(
   val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
-) : FishjamClientListener, CameraNameChangedListener {
+) : FishjamClientListener, CaptureDeviceChangedListener {
   private val SCREENSHARE_REQUEST = 1
 
   var isMicrophoneOn = false
@@ -292,7 +293,7 @@ class RNFishjamClient(
     }
 
     val cameraTrack = createCameraTrack(config)
-    cameraTrack.capturer.camerNameChangedListener = this
+    cameraTrack.captureDeviceChangedListener = this
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
     isCameraInitialized = true
@@ -942,7 +943,7 @@ class RNFishjamClient(
     emitEvent(EmitableEvents.ReconnectionRetriesLimitReached)
   }
 
-  override fun onCameraNameChanged(newName: String?) {
+  override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
     emitEvent(EmitableEvents.CurrentCameraChanged)
   }
 }
