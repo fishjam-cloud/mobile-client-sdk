@@ -1,6 +1,7 @@
 package com.fishjamcloud.client.media
 
 import android.content.Context
+import com.fishjamcloud.client.media.LocalVideoTrack.CaptureDevice
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.VideoParameters
 import com.fishjamcloud.client.utils.getEnumerator
@@ -11,21 +12,24 @@ import org.webrtc.CameraVideoCapturer
 import org.webrtc.EglBase
 import org.webrtc.Size
 import org.webrtc.SurfaceTextureHelper
-import org.webrtc.VideoCapturer
 import org.webrtc.VideoSource
 import timber.log.Timber
 import java.util.concurrent.CancellationException
+
+interface CameraNameChangedListener {
+  fun onCameraNameChanged(newName: String?)
+}
 
 class LocalVideoTrack(
   mediaTrack: org.webrtc.VideoTrack,
   endpointId: String,
   metadata: Metadata,
-  private val capturer: Capturer,
+  val capturer: CameraCapturer,
   val videoParameters: VideoParameters
 ) : VideoTrack(mediaTrack, endpointId, null, metadata),
   LocalTrack {
   val videoSource: VideoSource
-    get() = (capturer as CameraCapturer).source
+    get() = capturer.source
 
   constructor(mediaTrack: org.webrtc.VideoTrack, oldTrack: LocalVideoTrack) : this(
     mediaTrack,
@@ -63,22 +67,18 @@ class LocalVideoTrack(
   }
 
   suspend fun flipCamera() {
-    (capturer as? CameraCapturer)?.flipCamera()
+    capturer.flipCamera()
   }
 
   suspend fun switchCamera(deviceName: String) {
-    (capturer as? CameraCapturer)?.switchCamera(deviceName)
+    capturer.switchCamera(deviceName)
   }
 
-  fun isFrontCamera(): Boolean = (capturer as? CameraCapturer)?.isFrontFacingCamera ?: false
-}
+  fun isFrontCamera(): Boolean = capturer.isFrontFacingCamera ?: false
 
-interface Capturer {
-  fun capturer(): VideoCapturer
-
-  fun startCapture()
-
-  fun stopCapture()
+  fun getCaptureDevice(): CaptureDevice? {
+    return capturer.getCaptureDevice()
+  }
 }
 
 class CameraCapturer(
@@ -86,8 +86,8 @@ class CameraCapturer(
   val source: VideoSource,
   private val rootEglBase: EglBase,
   private val videoParameters: VideoParameters,
-  cameraName: String?
-) : Capturer,
+  cameraName: String?,
+  ) :
   CameraVideoCapturer.CameraSwitchHandler {
   private lateinit var cameraCapturer: CameraVideoCapturer
   private lateinit var size: Size
@@ -95,39 +95,59 @@ class CameraCapturer(
   private var switchingCameraJob: CompletableJob? = null
   var isFrontFacingCamera = false
 
+  var camerNameChangedListener: CameraNameChangedListener? = null
+
+  private var cameraName: String? = cameraName
+    set(value) {
+      field = value
+      camerNameChangedListener?.onCameraNameChanged(field)
+    }
+
   init {
     createCapturer(cameraName)
   }
 
-  override fun capturer(): VideoCapturer = cameraCapturer
-
-  override fun startCapture() {
+  fun startCapture() {
     isCapturing = true
     cameraCapturer.startCapture(size.width, size.height, videoParameters.maxFps)
   }
 
-  override fun stopCapture() {
+  fun stopCapture() {
     isCapturing = false
     cameraCapturer.stopCapture()
     cameraCapturer.dispose()
   }
 
   suspend fun flipCamera() {
-    switchingCameraJob = Job()
     val devices = LocalVideoTrack.getCaptureDevices(context)
     val deviceName =
       devices
         .first {
           (isFrontFacingCamera && it.isBackFacing) || (!isFrontFacingCamera && it.isFrontFacing)
         }.deviceName
-    cameraCapturer.switchCamera(this, deviceName)
-    switchingCameraJob?.join()
+    switchCamera(deviceName)
   }
 
   suspend fun switchCamera(deviceName: String) {
     switchingCameraJob = Job()
     cameraCapturer.switchCamera(this, deviceName)
     switchingCameraJob?.join()
+    cameraName = deviceName
+  }
+
+  fun getCaptureDevice(): CaptureDevice? {
+    val enumerator = getEnumerator(context)
+
+    enumerator.deviceNames.forEach { name ->
+      if (cameraName == name) {
+        return CaptureDevice(
+          name,
+          enumerator.isFrontFacing(name),
+          enumerator.isBackFacing(name)
+        )
+      }
+    }
+    return null
   }
 
   private fun createCapturer(providedDeviceName: String?) {
@@ -143,6 +163,8 @@ class CameraCapturer(
         }
       }
     }
+
+    cameraName = deviceName
 
     isFrontFacingCamera = enumerator.isFrontFacing(deviceName)
 

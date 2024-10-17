@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.fishjamcloud.client.media.CameraCapturer
+import com.fishjamcloud.client.media.CameraNameChangedListener
 import com.fishjamcloud.client.media.SimulcastVideoEncoderFactoryWrapper
 import com.fishjamcloud.client.models.EncoderOptions
 import com.fishjamcloud.client.models.VideoParameters
@@ -69,11 +70,11 @@ internal class PeerConnectionFactoryWrapper(
     captureDeviceName: String? = null
   ): CameraCapturer =
     CameraCapturer(
-      context = appContext,
-      source = source,
-      rootEglBase = eglBase,
-      videoParameters = videoParameters,
-      captureDeviceName
+        context = appContext,
+        source = source,
+        rootEglBase = eglBase,
+        videoParameters = videoParameters,
+        captureDeviceName
     )
 
   fun createAudioSource(): AudioSource {

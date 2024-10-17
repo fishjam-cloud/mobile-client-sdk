@@ -143,6 +143,10 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.getCaptureDevices()
       }
 
+      Property("currentCamera") {
+        return@Property rnFishjamClient.getCurrentCaptureDevice()
+      }
+
       Property("isScreenShareOn") {
         return@Property rnFishjamClient.isScreenShareOn
       }
