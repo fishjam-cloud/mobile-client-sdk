@@ -1,21 +1,21 @@
 import WebRTC
 
-public protocol CameraCapturerDeviceChangedDelegate: AnyObject {
-    func cameraCapturer(_ capturer: CameraCapturer, deviceChanged device: AVCaptureDevice?) -> Void
+public protocol CameraCapturerDeviceChangedListener: AnyObject {
+    func onCaptureDeviceChanged(_ device: AVCaptureDevice?) -> Void
 }
 
 /// `VideoCapturer` responsible for capturing device's camera.
-public class CameraCapturer: VideoCapturer {
+class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer
     internal var isFront: Bool = true
-    public private(set) var device: AVCaptureDevice? = nil {
+    private(set) var device: AVCaptureDevice? = nil {
         didSet {
-            delegate?.cameraCapturer(self, deviceChanged: device)
+            captureDeviceChangedListener?.onCaptureDeviceChanged(device)
         }
     }
     internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in }
-    public weak var delegate: CameraCapturerDeviceChangedDelegate?
+    weak var captureDeviceChangedListener: CameraCapturerDeviceChangedListener?
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters

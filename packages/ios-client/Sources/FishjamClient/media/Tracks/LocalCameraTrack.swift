@@ -2,9 +2,22 @@ import WebRTC
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing an instance of `VideoCapturer`
 public class LocalCameraTrack: VideoTrack, LocalTrack {
-    public private(set) var capturer: CameraCapturer
+    private var capturer: CameraCapturer
     internal var videoParameters: VideoParameters
     internal var videoSource: RTCVideoSource
+    
+    public weak var captureDeviceChangedListener: CameraCapturerDeviceChangedListener? {
+        get {
+            return capturer.captureDeviceChangedListener
+        }
+        set {
+            capturer.captureDeviceChangedListener = newValue
+        }
+    }
+    
+    public var currentCaptureDevice: AVCaptureDevice? {
+        return capturer.device
+    }
 
     internal init(
         mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),

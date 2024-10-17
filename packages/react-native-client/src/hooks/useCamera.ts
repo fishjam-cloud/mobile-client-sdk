@@ -154,7 +154,7 @@ export function updateCameraConfig(
 export function useCamera() {
   const simulcastConfig = useFishjamEventState<SimulcastConfig>(
     ReceivableEvents.SimulcastConfigUpdate,
-    defaultSimulcastConfig(),
+    defaultSimulcastConfig(), // TODO: Fetch from native
   );
 
   const isCameraOn = useFishjamEventState<boolean>(
@@ -162,20 +162,12 @@ export function useCamera() {
     RNFishjamClientModule.isCameraOn,
   );
 
-  const getCurrentCamera = useCallback(
-    () => RNFishjamClientModule.currentCamera,
-    [],
-  );
-
-  const currentCamera = useFishjamEventState<Camera | null, unknown>(
+  const currentCamera = useFishjamEventState<Camera | null>(
     ReceivableEvents.CurrentCameraChanged,
     RNFishjamClientModule.currentCamera,
-    getCurrentCamera,
   );
 
-  const cameras = useMemo(() => {
-    return RNFishjamClientModule.cameras;
-  }, []);
+  const cameras = useMemo(() => RNFishjamClientModule.cameras, []);
 
   const prepareCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {

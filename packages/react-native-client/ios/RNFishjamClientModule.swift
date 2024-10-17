@@ -75,7 +75,7 @@ public class RNFishjamClientModule: Module {
     public func definition() -> ModuleDefinition {
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {
-                (eventName: String, data: [String: Any]) in
+                (eventName: String, data: [String: Any?]) in
                 self.sendEvent(eventName, data)
             }
             client.create()
