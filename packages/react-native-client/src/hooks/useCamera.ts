@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Platform } from 'react-native';
 
 import {
@@ -10,9 +10,9 @@ import {
   TrackEncoding,
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
+import { useFishjamEventState } from './useFishjamEventState';
 
-type SimulcastConfigUpdateEvent = SimulcastConfig;
 export type CameraId = Brand<string, 'CameraId'>;
 
 export type CameraFacingDirection = 'front' | 'back' | 'unspecified';
@@ -152,28 +152,26 @@ export function updateCameraConfig(
  * @group Hooks
  */
 export function useCamera() {
-  const [isCameraOn, setIsCameraOn] = useState<boolean>(
-    RNFishjamClientModule.isCameraOn,
-  );
-
-  const [currentCamera, setCurrentCamera] = useState<Camera | null>(
-    RNFishjamClientModule.currentCamera,
-  );
-
-  const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
+  const simulcastConfig = useFishjamEventState<SimulcastConfig>(
+    ReceivableEvents.SimulcastConfigUpdate,
     defaultSimulcastConfig(),
   );
 
-  useFishjamEvent<SimulcastConfigUpdateEvent>(
-    ReceivableEvents.SimulcastConfigUpdate,
-    setSimulcastConfig,
+  const isCameraOn = useFishjamEventState<boolean>(
+    ReceivableEvents.IsCameraOn,
+    RNFishjamClientModule.isCameraOn,
   );
 
-  useFishjamEvent(ReceivableEvents.IsCameraOn, setIsCameraOn);
+  const getCurrentCamera = useCallback(
+    () => RNFishjamClientModule.currentCamera,
+    [],
+  );
 
-  useFishjamEvent(ReceivableEvents.CurrentCameraChanged, () => {
-    setCurrentCamera(RNFishjamClientModule.currentCamera);
-  });
+  const currentCamera = useFishjamEventState<Camera | null, unknown>(
+    ReceivableEvents.CurrentCameraChanged,
+    RNFishjamClientModule.currentCamera,
+    getCurrentCamera,
+  );
 
   const cameras = useMemo(() => {
     return RNFishjamClientModule.cameras;
@@ -202,7 +200,6 @@ export function useCamera() {
       active: state,
       type: 'camera',
     });
-    setIsCameraOn(state);
   }, []);
 
   const switchCamera = useCallback(async (cameraId: CameraId) => {
@@ -218,9 +215,7 @@ export function useCamera() {
 
   const toggleVideoTrackEncoding = useCallback(
     async (encoding: TrackEncoding) => {
-      const videoSimulcastConfig =
-        await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
-      setSimulcastConfig(videoSimulcastConfig);
+      await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
     },
     [],
   );
