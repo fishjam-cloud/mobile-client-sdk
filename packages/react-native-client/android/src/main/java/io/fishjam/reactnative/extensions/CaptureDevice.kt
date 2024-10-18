@@ -4,8 +4,8 @@ import com.fishjamcloud.client.media.CaptureDevice
 
 typealias LocalCamera = Map<String, Any>
 
-fun CaptureDevice.toLocalCamera(): LocalCamera {
-  return mapOf<String, Any>(
+fun CaptureDevice.toLocalCamera(): LocalCamera =
+  mapOf<String, Any>(
     "id" to deviceName,
     "name" to deviceName,
     "facingDirection" to
@@ -15,4 +15,3 @@ fun CaptureDevice.toLocalCamera(): LocalCamera {
         else -> "unspecified"
       }
   )
-}

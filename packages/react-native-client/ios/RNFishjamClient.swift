@@ -278,10 +278,12 @@ class RNFishjamClient: FishjamClientListener {
         let event = EmitableEvents.CurrentCameraChanged
         emit(
             event: event,
-            data: [event.name: [
-                "currentCamera": cameraTrack.currentCaptureDevice?.toLocalCamera() as Any,
-                "isCameraOn": enabled
-            ]])
+            data: [
+                event.name: [
+                    "currentCamera": cameraTrack.currentCaptureDevice?.toLocalCamera() as Any,
+                    "isCameraOn": enabled,
+                ]
+            ])
         RNFishjamClient.localCameraTracksChangedListenersManager.notifyListeners()
     }
 
@@ -944,9 +946,13 @@ class RNFishjamClient: FishjamClientListener {
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {
     func onCaptureDeviceChanged(_ device: AVCaptureDevice?) {
         let event = EmitableEvents.CurrentCameraChanged
-        emit(event: event, data: [event.name: [
-            "currentCamera": device?.toLocalCamera() as Any,
-            "isCameraOn": isCameraOn
-        ]])
+        emit(
+            event: event,
+            data: [
+                event.name: [
+                    "currentCamera": device?.toLocalCamera() as Any,
+                    "isCameraOn": isCameraOn,
+                ]
+            ])
     }
 }

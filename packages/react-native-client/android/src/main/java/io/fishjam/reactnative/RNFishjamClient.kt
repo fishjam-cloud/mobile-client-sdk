@@ -321,10 +321,11 @@ class RNFishjamClient(
     emitEvent(
       event,
       mapOf(
-        event.name to mapOf(
-          "currentCamera" to cameraTrack.getCaptureDevice()?.toLocalCamera(),
-          "isCameraOn" to isEnabled
-        )
+        event.name to
+          mapOf(
+            "currentCamera" to cameraTrack.getCaptureDevice()?.toLocalCamera(),
+            "isCameraOn" to isEnabled
+          )
       )
     )
     localCameraTracksChangedListenersManager.notifyListeners()
@@ -486,9 +487,7 @@ class RNFishjamClient(
     }
   }
 
-  fun getCurrentCaptureDevice(): Map<String, Any>? {
-    return getLocalVideoTrack()?.getCaptureDevice()?.toLocalCamera()
-  }
+  fun getCurrentCaptureDevice(): Map<String, Any>? = getLocalVideoTrack()?.getCaptureDevice()?.toLocalCamera()
 
   fun updatePeerMetadata(metadata: Metadata) {
     ensureConnected()
@@ -812,7 +811,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-              ),
+            ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(
@@ -936,10 +935,11 @@ class RNFishjamClient(
     emitEvent(
       event,
       mapOf(
-        event.name to mapOf(
-          "currentCamera" to captureDevice?.toLocalCamera(),
-          "isCameraOn" to isCameraOn
-        )
+        event.name to
+          mapOf(
+            "currentCamera" to captureDevice?.toLocalCamera(),
+            "isCameraOn" to isCameraOn
+          )
       )
     )
   }
