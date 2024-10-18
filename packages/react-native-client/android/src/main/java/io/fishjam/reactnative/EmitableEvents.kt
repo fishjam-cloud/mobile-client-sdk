@@ -1,8 +1,8 @@
 package io.fishjam.reactnative
 
+import com.fishjamcloud.client.models.SimulcastConfig
 import com.twilio.audioswitch.AudioDevice
 import io.fishjam.reactnative.extensions.LocalCamera
-import com.fishjamcloud.client.models.SimulcastConfig
 
 @Suppress("ktlint:standard:enum-entry-name-case")
 enum class PeerStatus {
@@ -28,7 +28,7 @@ class EmitableEvent private constructor(
     Reconnected,
     Warning,
     PeerStatusChanged,
-    CurrentCameraChanged;
+    CurrentCameraChanged
   }
 
   val name: String
@@ -43,15 +43,19 @@ class EmitableEvent private constructor(
     val reconnected = EmitableEvent(EventName.Reconnected)
 
     fun isMicrophoneOn(enabled: Boolean) = EmitableEvent(EventName.IsMicrophoneOn, enabled)
+
     fun isScreenShareOn(enabled: Boolean) = EmitableEvent(EventName.IsScreenShareOn, enabled)
-    fun bandwidthEstimation(estimation: Long) =
-      EmitableEvent(EventName.BandwidthEstimation, estimation.toFloat())
+
+    fun bandwidthEstimation(estimation: Long) = EmitableEvent(EventName.BandwidthEstimation, estimation.toFloat())
 
     fun warning(message: String) = EmitableEvent(EventName.Warning, message)
-    fun peerStatusChanged(peerStatus: PeerStatus) =
-      EmitableEvent(EventName.PeerStatusChanged, peerStatus.name)
 
-    fun currentCameraChanged(localCamera: LocalCamera?, isCameraOn: Boolean) = EmitableEvent(
+    fun peerStatusChanged(peerStatus: PeerStatus) = EmitableEvent(EventName.PeerStatusChanged, peerStatus.name)
+
+    fun currentCameraChanged(
+      localCamera: LocalCamera?,
+      isCameraOn: Boolean
+    ) = EmitableEvent(
       EventName.CurrentCameraChanged,
       mapOf(
         "currentCamera" to localCamera,
@@ -59,16 +63,16 @@ class EmitableEvent private constructor(
       )
     )
 
-    fun simulcastConfigUpdate(simulcastConfig: SimulcastConfig) = EmitableEvent(
-      EventName.SimulcastConfigUpdate,
-      mapOf(
-        "enabled" to simulcastConfig.enabled,
-        "activeEncodings" to simulcastConfig.activeEncodings.map { it.rid }
+    fun simulcastConfigUpdate(simulcastConfig: SimulcastConfig) =
+      EmitableEvent(
+        EventName.SimulcastConfigUpdate,
+        mapOf(
+          "enabled" to simulcastConfig.enabled,
+          "activeEncodings" to simulcastConfig.activeEncodings.map { it.rid }
+        )
       )
-    )
 
-    fun peersUpdate(peersData: List<Map<String, Any?>>) =
-      EmitableEvent(EventName.PeersUpdate, peersData)
+    fun peersUpdate(peersData: List<Map<String, Any?>>) = EmitableEvent(EventName.PeersUpdate, peersData)
 
     fun audioDeviceUpdate(
       audioDevices: List<AudioDevice>,
@@ -92,7 +96,7 @@ class EmitableEvent private constructor(
             } else {
               null
             }
-            ),
+          ),
           "availableDevices" to
             audioDevices.map { audioDevice ->
               audioDeviceAsMap(

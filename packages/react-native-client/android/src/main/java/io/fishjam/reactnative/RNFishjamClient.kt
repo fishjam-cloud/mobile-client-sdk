@@ -758,9 +758,7 @@ class RNFishjamClient(
     }
   }
 
-  private fun emitEvent(
-    event: EmitableEvent
-  ) {
+  private fun emitEvent(event: EmitableEvent) {
     CoroutineScope(Dispatchers.Main).launch {
       sendEvent(event.name, event.data)
     }
@@ -884,7 +882,6 @@ class RNFishjamClient(
   }
 
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
-
     emitEvent(EmitableEvent.currentCameraChanged(captureDevice?.toLocalCamera(), isCameraOn))
   }
 }
