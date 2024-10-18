@@ -84,7 +84,7 @@ public class RNFishjamClientModule: Module {
 
         Name("RNFishjamClient")
 
-        Events(EmitableEvents.allEvents)
+        Events(EmitableEvent.allEvents)
 
         Property("peerStatus") {
             return rnFishjamClient.peerStatus.rawValue
