@@ -4,7 +4,7 @@ interface TrackUpdateListener {
   fun onTracksUpdate()
 }
 
-class TracksUpdateListenersManager: ListenerManager<TrackUpdateListener>() {
+class TracksUpdateListenersManager : ListenerManager<TrackUpdateListener>() {
   fun notifyListeners() {
     for (listener in listeners) listener.onTracksUpdate()
   }

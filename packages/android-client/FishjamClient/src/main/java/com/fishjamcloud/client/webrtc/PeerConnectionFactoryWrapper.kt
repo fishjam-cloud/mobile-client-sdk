@@ -69,11 +69,11 @@ internal class PeerConnectionFactoryWrapper(
     captureDeviceName: String? = null
   ): CameraCapturer =
     CameraCapturer(
-        context = appContext,
-        source = source,
-        rootEglBase = eglBase,
-        videoParameters = videoParameters,
-        captureDeviceName
+      context = appContext,
+      source = source,
+      rootEglBase = eglBase,
+      videoParameters = videoParameters,
+      captureDeviceName
     )
 
   fun createAudioSource(): AudioSource {

@@ -62,7 +62,5 @@ class LocalVideoTrack(
 
   fun isFrontCamera(): Boolean = capturer.isFrontFacingCamera ?: false
 
-  fun getCaptureDevice(): CaptureDevice? {
-    return capturer.getCaptureDevice()
-  }
+  fun getCaptureDevice(): CaptureDevice? = capturer.getCaptureDevice()
 }

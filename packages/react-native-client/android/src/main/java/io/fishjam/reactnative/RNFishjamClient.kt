@@ -42,7 +42,8 @@ import org.webrtc.Logging
 
 class RNFishjamClient(
   val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
-) : FishjamClientListener, CaptureDeviceChangedListener {
+) : FishjamClientListener,
+  CaptureDeviceChangedListener {
   private val SCREENSHARE_REQUEST = 1
 
   var isMicrophoneOn = false
@@ -827,7 +828,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-              ),
+            ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(

@@ -29,9 +29,8 @@ class CameraCapturer(
   val source: VideoSource,
   private val rootEglBase: EglBase,
   private val videoParameters: VideoParameters,
-  cameraName: String?,
-) :
-  CameraVideoCapturer.CameraSwitchHandler {
+  cameraName: String?
+) : CameraVideoCapturer.CameraSwitchHandler {
   private lateinit var cameraCapturer: CameraVideoCapturer
   private lateinit var size: Size
   private var isCapturing = false

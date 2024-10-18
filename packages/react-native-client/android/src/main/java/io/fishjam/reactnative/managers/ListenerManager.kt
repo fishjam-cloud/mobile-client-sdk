@@ -13,7 +13,9 @@ abstract class ListenerManager<T> {
   }
 }
 
-open class SingleListenerManager<T>(private val notify: (T) -> Unit): ListenerManager<T>() {
+open class SingleListenerManager<T>(
+  private val notify: (T) -> Unit
+) : ListenerManager<T>() {
   fun notifyListeners() {
     for (listener in listeners) notify(listener)
   }
