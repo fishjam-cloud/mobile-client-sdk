@@ -296,7 +296,7 @@ class RNFishjamClientModule : Module() {
       }
 
       AsyncFunction("changeWebRTCLoggingSeverity") Coroutine { severity: String ->
-        CoroutineScope(Dispatchers.Main).launch {
+        withContext(Dispatchers.Main) {
           rnFishjamClient.changeWebRTCLoggingSeverity(severity)
         }
       }
