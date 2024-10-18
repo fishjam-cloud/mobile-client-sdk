@@ -25,7 +25,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: yarn
       - run: yarn prepare
-      - run: yarn npm publish --access public
+      - name: Publish to NPM
+        run: yarn npm publish --access public
         working-directory: packages/react-native-client
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -35,6 +36,7 @@ jobs:
     # This mechanism ensures that Jitpack only builds a package when it is first requested and efficiently handles the generation of newly released versions.
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Fetch POM file
         run: yarn jitpack-cache ${{ github.ref_name }}
         working-directory: packages/android-client
