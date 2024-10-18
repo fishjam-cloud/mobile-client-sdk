@@ -29,6 +29,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.extensions.toLocalCamera
 import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
 import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
@@ -318,7 +319,9 @@ class RNFishjamClient(
     isCameraOn = isEnabled
     emitEvent(
       EmitableEvents.CurrentCameraChanged,
-      mapOf(EmitableEvents.CurrentCameraChanged.name to getCurrentCaptureDevice()) // TODO: Make this an extension as on iOS
+      mapOf(
+        EmitableEvents.CurrentCameraChanged.name to cameraTrack.getCaptureDevice()?.toLocalCamera()
+      )
     )
     emitEvent(EmitableEvents.IsCameraOn, mapOf(EmitableEvents.IsCameraOn.name to isEnabled))
     localCameraTracksChangedListenersManager.notifyListeners()
@@ -476,34 +479,12 @@ class RNFishjamClient(
   fun getCaptureDevices(): List<Map<String, Any>> {
     val devices = LocalVideoTrack.getCaptureDevices(appContext?.reactContext!!)
     return devices.map { device ->
-      mapOf<String, Any>(
-        "id" to device.deviceName,
-        "name" to device.deviceName,
-        "facingDirection" to
-          when (true) {
-            device.isFrontFacing -> "front"
-            device.isBackFacing -> "back"
-            else -> "unspecified"
-          }
-      )
+      device.toLocalCamera()
     }
   }
 
   fun getCurrentCaptureDevice(): Map<String, Any>? {
-    val device = getLocalVideoTrack()?.getCaptureDevice()
-    if (device != null) {
-      return mapOf<String, Any>(
-        "id" to device.deviceName,
-        "name" to device.deviceName,
-        "facingDirection" to
-          when (true) {
-            device.isFrontFacing -> "front"
-            device.isBackFacing -> "back"
-            else -> "unspecified"
-          }
-      )
-    }
-    return null
+    return getLocalVideoTrack()?.getCaptureDevice()?.toLocalCamera()
   }
 
   fun updatePeerMetadata(metadata: Metadata) {
@@ -828,7 +809,7 @@ class RNFishjamClient(
               } else {
                 null
               }
-            ),
+              ),
             "availableDevices" to
               audioDevices.map { audioDevice ->
                 audioDeviceAsRNMap(
@@ -950,7 +931,7 @@ class RNFishjamClient(
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
     emitEvent(
       EmitableEvents.CurrentCameraChanged,
-      mapOf(EmitableEvents.CurrentCameraChanged.name to getCurrentCaptureDevice()) // TODO: Make this an extension as on iOS
+      mapOf(EmitableEvents.CurrentCameraChanged.name to captureDevice?.toLocalCamera())
     )
   }
 }
