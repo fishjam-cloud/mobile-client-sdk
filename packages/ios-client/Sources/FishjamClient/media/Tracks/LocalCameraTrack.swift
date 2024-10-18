@@ -5,7 +5,7 @@ public class LocalCameraTrack: VideoTrack, LocalTrack {
     private var capturer: CameraCapturer
     internal var videoParameters: VideoParameters
     internal var videoSource: RTCVideoSource
-    
+
     public weak var captureDeviceChangedListener: CameraCapturerDeviceChangedListener? {
         get {
             return capturer.captureDeviceChangedListener
@@ -14,7 +14,7 @@ public class LocalCameraTrack: VideoTrack, LocalTrack {
             capturer.captureDeviceChangedListener = newValue
         }
     }
-    
+
     public var currentCaptureDevice: AVCaptureDevice? {
         return capturer.device
     }

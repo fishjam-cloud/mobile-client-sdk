@@ -28,7 +28,7 @@ class RNFishjamClient: FishjamClientListener {
 
     var audioSessionMode: AVAudioSession.Mode = .videoChat
     var errorMessage: String?
-    
+
     var currentCamera: LocalCamera? { getLocalCameraTrack()?.currentCaptureDevice?.toLocalCamera() }
 
     private(set) var peerStatus: PeerStatus = .idle {
@@ -276,7 +276,9 @@ class RNFishjamClient: FishjamClientListener {
         cameraTrack.enabled = enabled
         isCameraOn = enabled
         // TODO: Send this as one event?
-        emit(event: .CurrentCameraChanged, data: [EmitableEvents.CurrentCameraChanged.name: cameraTrack.currentCaptureDevice?.toLocalCamera()])
+        emit(
+            event: .CurrentCameraChanged,
+            data: [EmitableEvents.CurrentCameraChanged.name: cameraTrack.currentCaptureDevice?.toLocalCamera()])
         emit(event: .IsCameraOn, data: [EmitableEvents.IsCameraOn.name: enabled])
         RNFishjamClient.localCameraTracksChangedListenersManager.notifyListeners()
     }

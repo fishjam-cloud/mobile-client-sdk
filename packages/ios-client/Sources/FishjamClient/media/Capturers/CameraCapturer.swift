@@ -1,7 +1,7 @@
 import WebRTC
 
 public protocol CameraCapturerDeviceChangedListener: AnyObject {
-    func onCaptureDeviceChanged(_ device: AVCaptureDevice?) -> Void
+    func onCaptureDeviceChanged(_ device: AVCaptureDevice?)
 }
 
 /// `VideoCapturer` responsible for capturing device's camera.
