@@ -6,7 +6,6 @@ enum PeerStatus: String {
 }
 
 enum EmitableEvents: String, CaseIterable {
-    case IsCameraOn
     case IsMicrophoneOn
     case IsScreenShareOn
     case IsAppScreenShareOn

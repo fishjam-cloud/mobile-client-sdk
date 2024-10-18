@@ -23,6 +23,11 @@ export type Camera = {
   facingDirection: CameraFacingDirection;
 };
 
+export type CurrentCameraChangedType = {
+  currentCamera: Camera | null;
+  isCameraOn: boolean;
+};
+
 export type VideoQuality =
   | 'QVGA169'
   | 'VGA169'
@@ -157,15 +162,17 @@ export function useCamera() {
     defaultSimulcastConfig(), // TODO: Fetch from native
   );
 
-  const isCameraOn = useFishjamEventState<boolean>(
-    ReceivableEvents.IsCameraOn,
-    RNFishjamClientModule.isCameraOn,
-  );
+  const { currentCamera: currentCameraState, isCameraOn } =
+    useFishjamEventState<CurrentCameraChangedType>(
+      ReceivableEvents.CurrentCameraChanged,
+      {
+        currentCamera: RNFishjamClientModule.currentCamera,
+        isCameraOn: RNFishjamClientModule.isCameraOn,
+      },
+    );
 
-  const currentCamera = useFishjamEventState<Camera | null>(
-    ReceivableEvents.CurrentCameraChanged,
-    RNFishjamClientModule.currentCamera,
-  );
+  // For Android Expo converts null to undefined ¯\_(ツ)_/¯
+  const currentCamera = currentCameraState ?? null;
 
   const cameras = useMemo(() => RNFishjamClientModule.cameras, []);
 

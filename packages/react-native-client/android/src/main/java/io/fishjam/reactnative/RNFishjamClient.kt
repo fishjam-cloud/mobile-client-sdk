@@ -317,13 +317,16 @@ class RNFishjamClient(
   ) {
     cameraTrack.setEnabled(isEnabled)
     isCameraOn = isEnabled
+    val event = EmitableEvents.CurrentCameraChanged
     emitEvent(
-      EmitableEvents.CurrentCameraChanged,
+      event,
       mapOf(
-        EmitableEvents.CurrentCameraChanged.name to cameraTrack.getCaptureDevice()?.toLocalCamera()
+        event.name to mapOf(
+          "currentCamera" to cameraTrack.getCaptureDevice()?.toLocalCamera(),
+          "isCameraOn" to isEnabled
+        )
       )
     )
-    emitEvent(EmitableEvents.IsCameraOn, mapOf(EmitableEvents.IsCameraOn.name to isEnabled))
     localCameraTracksChangedListenersManager.notifyListeners()
   }
 
@@ -929,9 +932,15 @@ class RNFishjamClient(
   }
 
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
+    val event = EmitableEvents.CurrentCameraChanged
     emitEvent(
-      EmitableEvents.CurrentCameraChanged,
-      mapOf(EmitableEvents.CurrentCameraChanged.name to captureDevice?.toLocalCamera())
+      event,
+      mapOf(
+        event.name to mapOf(
+          "currentCamera" to captureDevice?.toLocalCamera(),
+          "isCameraOn" to isCameraOn
+        )
+      )
     )
   }
 }

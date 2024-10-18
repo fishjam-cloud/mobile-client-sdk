@@ -9,7 +9,6 @@ enum class PeerStatus {
 }
 
 enum class EmitableEvents {
-  IsCameraOn,
   IsMicrophoneOn,
   IsScreenShareOn,
   SimulcastConfigUpdate,
