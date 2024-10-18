@@ -8,8 +8,8 @@ export const initializeWarningListener = () => {
   try {
     nativeModuleEventEmitter.addListener(
       ReceivableEvents.Warning,
-      ({ message }: { message: string }) => {
-        console.warn(message);
+      (event: { [ReceivableEvents.Warning]: string }) => {
+        console.warn(event[ReceivableEvents.Warning]);
       },
     );
   } catch (error) {

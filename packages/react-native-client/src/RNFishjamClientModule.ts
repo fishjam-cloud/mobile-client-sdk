@@ -18,6 +18,7 @@ type RNFishjamClient = {
   isScreenShareOn: boolean;
   isAppScreenShareOn: boolean; // only available on ios
   cameras: ReadonlyArray<Camera>;
+  currentCamera: Camera | null;
   peerStatus: PeerStatus;
   joinRoom: (
     url: string,

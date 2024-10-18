@@ -113,7 +113,7 @@ class RNFishjamClientModule : Module() {
 
       Name("RNFishjamClient")
 
-      Events(EmitableEvents.allEvents)
+      Events(EmitableEvent.allEvents)
 
       OnCreate {
         rnFishjamClient.onModuleCreate(appContext)
@@ -141,6 +141,10 @@ class RNFishjamClientModule : Module() {
 
       Property("cameras") {
         return@Property rnFishjamClient.getCaptureDevices()
+      }
+
+      Property("currentCamera") {
+        return@Property rnFishjamClient.getCurrentCaptureDevice()
       }
 
       Property("isScreenShareOn") {

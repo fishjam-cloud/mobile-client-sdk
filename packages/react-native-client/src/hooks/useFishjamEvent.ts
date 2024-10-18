@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { nativeModuleEventEmitter } from '../RNFishjamClientModule';
 
 export const ReceivableEvents = {
-  IsCameraOn: 'IsCameraOn',
   IsMicrophoneOn: 'IsMicrophoneOn',
   IsScreenShareOn: 'IsScreenShareOn',
   IsAppScreenShareOn: 'IsAppScreenShareOn', // only for iOS
@@ -16,6 +15,7 @@ export const ReceivableEvents = {
   Reconnected: 'Reconnected',
   Warning: 'Warning',
   PeerStatusChanged: 'PeerStatusChanged',
+  CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 
 export function useFishjamEvent<T>(
