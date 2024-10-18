@@ -113,7 +113,7 @@ class RNFishjamClientModule : Module() {
 
       Name("RNFishjamClient")
 
-      Events(EmitableEvents.allEvents)
+      Events(EmitableEvent.allEvents)
 
       OnCreate {
         rnFishjamClient.onModuleCreate(appContext)

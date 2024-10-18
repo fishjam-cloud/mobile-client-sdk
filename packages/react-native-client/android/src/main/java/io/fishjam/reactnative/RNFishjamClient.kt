@@ -75,8 +75,7 @@ class RNFishjamClient(
   var peerStatus = PeerStatus.idle
     private set(value) {
       field = value
-      val event = EmitableEvents.PeerStatusChanged
-      emitEvent(event, mapOf(event.name to value))
+      emitEvent(EmitableEvent.peerStatusChanged(value))
     }
 
   private val foregroundServiceManager by lazy {
@@ -286,11 +285,11 @@ class RNFishjamClient(
 
   suspend fun startCamera(config: CameraConfig) {
     if (isCameraInitialized) {
-      emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
+      emitEvent(EmitableEvent.warning("Camera already started. You may only call startCamera once before leaveRoom is called."))
       return
     }
     if (!PermissionUtils.requestCameraPermission(appContext)) {
-      emitWarning("Camera permission not granted.")
+      emitEvent(EmitableEvent.warning("Camera permission not granted."))
       return
     }
 
@@ -317,17 +316,7 @@ class RNFishjamClient(
   ) {
     cameraTrack.setEnabled(isEnabled)
     isCameraOn = isEnabled
-    val event = EmitableEvents.CurrentCameraChanged
-    emitEvent(
-      event,
-      mapOf(
-        event.name to
-          mapOf(
-            "currentCamera" to cameraTrack.getCaptureDevice()?.toLocalCamera(),
-            "isCameraOn" to isEnabled
-          )
-      )
-    )
+    emitEvent(EmitableEvent.currentCameraChanged(cameraTrack.getCaptureDevice()?.toLocalCamera(), isEnabled))
     localCameraTracksChangedListenersManager.notifyListeners()
   }
 
@@ -353,7 +342,7 @@ class RNFishjamClient(
 
   private suspend fun startMicrophone() {
     if (!PermissionUtils.requestMicrophonePermission(appContext)) {
-      emitWarning("Microphone permission not granted.")
+      emitEvent(EmitableEvent.warning("Microphone permission not granted."))
       return
     }
 
@@ -368,8 +357,7 @@ class RNFishjamClient(
   ) {
     microphoneTrack.setEnabled(isEnabled)
     isMicrophoneOn = isEnabled
-    val event = EmitableEvents.IsMicrophoneOn
-    emitEvent(event, mapOf(event.name to isEnabled))
+    emitEvent(EmitableEvent.isMicrophoneOn(isEnabled))
   }
 
   suspend fun toggleMicrophone(): Boolean {
@@ -607,13 +595,15 @@ class RNFishjamClient(
     fishjamClient.setTargetTrackEncoding(trackId, encoding.toTrackEncoding())
   }
 
-  fun toggleVideoTrackEncoding(encoding: String): Map<String, Any> {
+  fun toggleVideoTrackEncoding(encoding: String): Map<String, Any?> {
     ensureVideoTrack()
     val trackId = getLocalVideoTrack()?.id() ?: return emptyMap()
     videoSimulcastConfig = toggleTrackEncoding(encoding, trackId, videoSimulcastConfig)
-    val eventName = EmitableEvents.SimulcastConfigUpdate
-    emitEvent(eventName, getSimulcastConfigAsRNMap(videoSimulcastConfig))
-    return getSimulcastConfigAsRNMap(videoSimulcastConfig)
+
+    val event = EmitableEvent.simulcastConfigUpdate(videoSimulcastConfig)
+    emitEvent(event)
+
+    return event.data
   }
 
   fun setVideoTrackEncodingBandwidth(
@@ -748,8 +738,7 @@ class RNFishjamClient(
 
   private fun setScreenShareTrackState(isEnabled: Boolean) {
     isScreenShareOn = isEnabled
-    val event = EmitableEvents.IsScreenShareOn
-    emitEvent(event, mapOf(event.name to isEnabled))
+    emitEvent(EmitableEvent.isScreenShareOn(isEnabled))
   }
 
   private fun stopScreenShare() {
@@ -770,57 +759,22 @@ class RNFishjamClient(
   }
 
   private fun emitEvent(
-    event: EmitableEvents,
-    data: Map<String, Any?> = mapOf()
+    event: EmitableEvent
   ) {
     CoroutineScope(Dispatchers.Main).launch {
-      sendEvent(event.name, data)
+      sendEvent(event.name, event.data)
     }
   }
 
-  fun emitWarning(warning: String) {
-    emitEvent(EmitableEvents.Warning, mapOf("message" to warning))
-  }
-
   private fun emitEndpoints() {
-    val event = EmitableEvents.PeersUpdate
-    emitEvent(event, mapOf(event.name to getPeers()))
+    emitEvent(EmitableEvent.peersUpdate(getPeers()))
   }
-
-  private fun audioDeviceAsRNMap(audioDevice: AudioDevice): Map<String, String?> =
-    mapOf(
-      "name" to audioDevice.name,
-      "type" to AudioDeviceKind.fromAudioDevice(audioDevice)?.typeName
-    )
 
   private fun emitAudioDeviceEvent(
     audioDevices: List<AudioDevice>,
     selectedDevice: AudioDevice?
   ) {
-    val event = EmitableEvents.AudioDeviceUpdate
-    emitEvent(
-      event,
-      mapOf(
-        event.name to
-          mapOf(
-            "selectedDevice" to (
-              if (selectedDevice != null) {
-                audioDeviceAsRNMap(
-                  selectedDevice
-                )
-              } else {
-                null
-              }
-            ),
-            "availableDevices" to
-              audioDevices.map { audioDevice ->
-                audioDeviceAsRNMap(
-                  audioDevice
-                )
-              }
-          )
-      )
-    )
+    emitEvent(EmitableEvent.audioDeviceUpdate(audioDevices, selectedDevice))
   }
 
   private fun getSimulcastConfigAsRNMap(simulcastConfig: SimulcastConfig): Map<String, Any> =
@@ -892,8 +846,7 @@ class RNFishjamClient(
   override fun onPeerUpdated(peer: Peer) {}
 
   override fun onBandwidthEstimationChanged(estimation: Long) {
-    val event = EmitableEvents.BandwidthEstimation
-    emitEvent(event, mapOf(event.name to estimation.toFloat()))
+    emitEvent(EmitableEvent.bandwidthEstimation(estimation))
   }
 
   override fun onDisconnected() {
@@ -919,28 +872,19 @@ class RNFishjamClient(
   }
 
   override fun onReconnected() {
-    emitEvent(EmitableEvents.Reconnected)
+    emitEvent(EmitableEvent.reconnected)
   }
 
   override fun onReconnectionStarted() {
-    emitEvent(EmitableEvents.ReconnectionStarted)
+    emitEvent(EmitableEvent.reconnectionStarted)
   }
 
   override fun onReconnectionRetriesLimitReached() {
-    emitEvent(EmitableEvents.ReconnectionRetriesLimitReached)
+    emitEvent(EmitableEvent.reconnectionRetriesLimitReached)
   }
 
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
-    val event = EmitableEvents.CurrentCameraChanged
-    emitEvent(
-      event,
-      mapOf(
-        event.name to
-          mapOf(
-            "currentCamera" to captureDevice?.toLocalCamera(),
-            "isCameraOn" to isCameraOn
-          )
-      )
-    )
+
+    emitEvent(EmitableEvent.currentCameraChanged(captureDevice?.toLocalCamera(), isCameraOn))
   }
 }
