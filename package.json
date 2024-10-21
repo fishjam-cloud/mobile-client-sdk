@@ -34,6 +34,6 @@
     "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",
-    "gen:proto": "sh ./scripts/compile_proto.sh"
+    "gen:proto": "make -f ./scripts/compile_protos.mk"
   }
 }
