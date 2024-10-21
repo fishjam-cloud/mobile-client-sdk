@@ -578,7 +578,7 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func updateLocalAudioTrackMetadata(metadata: [String: Any]) throws {
+    private func updateLocalAudioTrackMetadata(metadata: [String: Any]) throws {
         try ensureAudioTrack()
         if let track = getLocalAudioTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)

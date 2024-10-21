@@ -511,7 +511,7 @@ class RNFishjamClient(
     }
   }
 
-  fun updateLocalAudioTrackMetadata(metadata: Metadata) {
+  private fun updateLocalAudioTrackMetadata(metadata: Metadata) {
     ensureAudioTrack()
     getLocalAudioTrack()?.let {
       updateTrackMetadata(it.id(), metadata)
