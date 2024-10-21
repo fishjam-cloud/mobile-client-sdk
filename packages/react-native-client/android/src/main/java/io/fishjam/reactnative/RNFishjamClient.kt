@@ -256,7 +256,7 @@ class RNFishjamClient(
       com.fishjamcloud.client.ConnectConfig(
         url,
         peerToken,
-        localUserMetadata,
+        peerMetadata,
         ReconnectConfig(
           config.reconnectConfig.maxAttempts,
           config.reconnectConfig.initialDelayMs,

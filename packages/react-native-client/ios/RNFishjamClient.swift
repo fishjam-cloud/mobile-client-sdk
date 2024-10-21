@@ -214,7 +214,7 @@ class RNFishjamClient: FishjamClientListener {
 
         RNFishjamClient.fishjamClient?.connect(
             config: FishjamCloudClient.ConnectConfig(
-                websocketUrl: url, token: peerToken, peerMetadata: localUserMetadata,
+                websocketUrl: url, token: peerToken, peerMetadata: peerMetadata.toMetadata(),
                 reconnectConfig: reconnectConfig
             ))
 
