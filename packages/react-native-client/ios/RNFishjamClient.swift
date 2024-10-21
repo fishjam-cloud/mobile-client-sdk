@@ -301,6 +301,13 @@ class RNFishjamClient: FishjamClientListener {
         } else {
             try await startMicrophone()
         }
+
+        try updateLocalAudioTrackMetadata(metadata: [
+            "active": isMicrophoneOn,
+            "paused": !isMicrophoneOn,  //TODO: FCE-711
+            "type": "microphone",
+        ])
+
         return isMicrophoneOn
     }
 
@@ -571,7 +578,7 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func updateLocalAudioTrackMetadata(metadata: [String: Any]) throws {
+    private func updateLocalAudioTrackMetadata(metadata: [String: Any]) throws {
         try ensureAudioTrack()
         if let track = getLocalAudioTrack() {
             updateTrackMetadata(trackId: track.id, metadata: metadata)

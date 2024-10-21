@@ -229,12 +229,6 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("updateAudioTrackMetadata") Coroutine { metadata: Map<String, Any> ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.updateLocalAudioTrackMetadata(metadata)
-        }
-      }
-
       AsyncFunction("updateScreenShareTrackMetadata") Coroutine { metadata: Map<String, Any> ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata)
