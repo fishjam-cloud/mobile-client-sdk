@@ -75,7 +75,9 @@ class RNFishjamClient(
       emitEvent(event, mapOf(event.name to value))
     }
 
-  private var foregroundServiceManager: ForegroundServiceManager? = null
+  private val foregroundServiceManager by lazy {
+    ForegroundServiceManager(appContext ?: throw CodedException("appContext not found"))
+  }
 
   companion object {
     val trackUpdateListenersManager = TracksUpdateListenersManager()
@@ -389,22 +391,13 @@ class RNFishjamClient(
     }
   }
 
-  fun configureForegroundService(config: ForegroundServiceNotificationConfig) {
-    if (foregroundServiceManager == null) {
-      foregroundServiceManager = ForegroundServiceManager(appContext!!, config)
-    }
-  }
-
-  suspend fun startForegroundService(config: ForegroundServicePermissionsConfig) {
-    if (foregroundServiceManager == null) {
-      throw CodedException("Foreground service not configured.")
-    }
-
-    foregroundServiceManager?.startForegroundService(config)
+  suspend fun startForegroundService(config: ForegroundServiceConfig) {
+    foregroundServiceManager.updateServiceWithConfig(config)
+    foregroundServiceManager.start()
   }
 
   fun stopForegroundService() {
-    foregroundServiceManager?.stopForegroundService()
+    foregroundServiceManager.stop()
   }
 
   suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
@@ -417,6 +410,7 @@ class RNFishjamClient(
         screenShareOptions.maxBandwidthMap,
         screenShareOptions.maxBandwidthInt
       )
+
     if (!isScreenShareOn) {
       ensureConnected()
       startScreenShare()
@@ -721,6 +715,10 @@ class RNFishjamClient(
     if (mediaProjectionIntent == null) {
       throw MissingScreenSharePermission()
     }
+
+    foregroundServiceManager.updateService { screenSharingEnabled = true }
+    foregroundServiceManager.start()
+
     fishjamClient.createScreenShareTrack(
       mediaProjectionIntent!!,
       videoParameters,
@@ -759,6 +757,8 @@ class RNFishjamClient(
   private fun stopScreenShare() {
     ensureScreenShareTrack()
     coroutineScope.launch {
+      foregroundServiceManager.updateService { screenSharingEnabled = false }
+      foregroundServiceManager.start()
       val screenShareTrack =
         fishjamClient.getLocalEndpoint().tracks.values.first { track ->
           track is LocalScreenShareTrack
