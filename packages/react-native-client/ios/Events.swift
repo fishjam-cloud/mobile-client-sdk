@@ -91,7 +91,7 @@ class EmitableEvent {
         case .builtInSpeaker: "speaker"
         case .builtInReceiver: "earpiece"
         case .headphones: "headphones"
-        default:  deviceType.rawValue
+        default: deviceType.rawValue
         }
 
         return .init(
