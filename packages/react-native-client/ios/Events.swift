@@ -85,23 +85,13 @@ class EmitableEvent {
     static func audioDeviceUpdate(currentRoute: AVAudioSessionRouteDescription) -> EmitableEvent {
         let output = currentRoute.outputs[0]
         let deviceType = output.portType
-        var deviceTypeString: String = ""
 
-        switch deviceType {
-        case .bluetoothA2DP, .bluetoothLE, .bluetoothHFP:
-            deviceTypeString = "bluetooth"
-            break
-        case .builtInSpeaker:
-            deviceTypeString = "speaker"
-            break
-        case .builtInReceiver:
-            deviceTypeString = "earpiece"
-            break
-        case .headphones:
-            deviceTypeString = "headphones"
-            break
-        default:
-            deviceTypeString = deviceType.rawValue
+        let deviceTypeString = switch deviceType {
+        case .bluetoothA2DP, .bluetoothLE, .bluetoothHFP: "bluetooth"
+        case .builtInSpeaker: "speaker"
+        case .builtInReceiver: "earpiece"
+        case .headphones: "headphones"
+        default:  deviceType.rawValue
         }
 
         return .init(
