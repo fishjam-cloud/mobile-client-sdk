@@ -9,7 +9,8 @@ SWIFT_PROTOBUF_BASE_PATH := $(PROJECT_ROOT)/scripts/.swift-protobuf/$(SWIFT_PROT
 PROTOC := $(PROTOC_BASE_PATH)/bin/protoc
 PROTOC_GEN_SWIFT := $(SWIFT_PROTOBUF_BASE_PATH)/bin/protoc-gen-swift
 
-PROTO_FILE := $(PROTOS_PATH)/fishjam/peer_notifications.proto
+PROTO_FILES := $(shell find $(PROTOS_PATH)/fishjam -name "*.proto")
+
 ANDROID_OUT := $(PROJECT_ROOT)/packages/android-client/FishjamClient/src/main/java/
 IOS_OUT := $(PROJECT_ROOT)/packages/ios-client/Sources/FishjamClient/protos
 
@@ -52,13 +53,19 @@ sync:
 	@echo "DONE"
 
 compile_android: $(PROTOC) sync
-	@echo "Compiling: $(PROTO_FILE) for android"
-	@$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --java_out=$(ANDROID_OUT) --kotlin_out=$(ANDROID_OUT) $(PROTO_FILE)
-	@echo "DONE for android"
+	@echo "Compiling proto files for Android"
+	@for proto in $(PROTO_FILES); do \
+		echo "Compiling: $$proto"; \
+		$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --java_out=$(ANDROID_OUT) --kotlin_out=$(ANDROID_OUT) $$proto; \
+	done
+	@echo "DONE for Android"
 
 compile_ios: $(PROTOC) $(PROTOC_GEN_SWIFT) sync
-	@echo "Compiling: $(PROTO_FILE) for iOS"
-	@$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --plugin=$(PROTOC_GEN_SWIFT) --swift_out=$(IOS_OUT) $(PROTO_FILE)
+	@echo "Compiling proto files for iOS"
+	@for proto in $(PROTO_FILES); do \
+		echo "Compiling: $$proto"; \
+		$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --plugin=$(PROTOC_GEN_SWIFT) --swift_out=$(IOS_OUT) $$proto; \
+	done
 	@echo "DONE for iOS"
 
 lint_all: compile_android compile_ios
