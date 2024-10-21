@@ -75,7 +75,7 @@ public class RNFishjamClientModule: Module {
     public func definition() -> ModuleDefinition {
         let rnFishjamClient: RNFishjamClient = {
             let client = RNFishjamClient {
-                (eventName: String, data: [String: Any]) in
+                (eventName: String, data: [String: Any?]) in
                 self.sendEvent(eventName, data)
             }
             client.create()
@@ -84,7 +84,7 @@ public class RNFishjamClientModule: Module {
 
         Name("RNFishjamClient")
 
-        Events(EmitableEvents.allEvents)
+        Events(EmitableEvent.allEvents)
 
         Property("peerStatus") {
             return rnFishjamClient.peerStatus.rawValue
@@ -100,6 +100,10 @@ public class RNFishjamClientModule: Module {
 
         Property("cameras") {
             return rnFishjamClient.getCaptureDevices()
+        }
+
+        Property("currentCamera") {
+            return rnFishjamClient.currentCamera
         }
 
         Property("isScreenShareOn") {
