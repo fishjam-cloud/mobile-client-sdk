@@ -48,9 +48,6 @@ type RNFishjamClient = {
   updateVideoTrackMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
-  updateAudioTrackMetadata: <MetadataType extends Metadata>(
-    metadata: MetadataType,
-  ) => Promise<void>;
   updateScreenShareTrackMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;

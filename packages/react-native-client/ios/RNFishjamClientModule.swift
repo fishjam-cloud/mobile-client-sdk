@@ -168,10 +168,6 @@ public class RNFishjamClientModule: Module {
             try rnFishjamClient.updateLocalVideoTrackMetadata(metadata: metadata)
         }
 
-        AsyncFunction("updateAudioTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateLocalAudioTrackMetadata(metadata: metadata)
-        }
-
         AsyncFunction("updateScreenShareTrackMetadata") { (metadata: [String: Any]) in
             try rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata: metadata)
         }
