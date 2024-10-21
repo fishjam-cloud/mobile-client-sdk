@@ -11,7 +11,7 @@ PROTOC_GEN_SWIFT := $(SWIFT_PROTOBUF_BASE_PATH)/bin/protoc-gen-swift
 
 PROTO_FILES := $(shell find $(PROTOS_PATH)/fishjam -name "*.proto")
 
-ANDROID_OUT := $(PROJECT_ROOT)/packages/android-client/FishjamClient/src/main/java/
+ANDROID_OUT := $(PROJECT_ROOT)/packages/android-client/FishjamClient/src/main/java/com/protos
 IOS_OUT := $(PROJECT_ROOT)/packages/ios-client/Sources/FishjamClient/protos
 
 MAKEFLAGS += -j2
