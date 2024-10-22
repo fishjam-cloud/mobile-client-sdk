@@ -11,12 +11,7 @@ import {
   Text,
 } from 'react-native';
 
-import {
-  Button,
-  TextInput,
-  QRCodeScanner,
-  DismissKeyboard,
-} from '../components';
+import { Button, TextInput, DismissKeyboard } from '../components';
 import {
   TabParamList,
   AppRootStackParamList,
@@ -82,7 +77,6 @@ const ConnectScreen = ({ navigation }: Props) => {
             onPress={onTapConnectButton}
             accessibilityLabel={CONNECT_BUTTON}
           />
-          <QRCodeScanner onCodeScanned={onChangePeerToken} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </DismissKeyboard>
