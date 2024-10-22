@@ -2654,7 +2654,6 @@ __metadata:
     "@types/react": "npm:^18.3.11"
     expo: "npm:^51.0.32"
     expo-build-properties: "npm:~0.12.5"
-    expo-camera: "npm:^15.0.15"
     expo-device: "npm:^6.0.2"
     expo-status-bar: "npm:~1.12.1"
     react: "npm:^18.2.0"
@@ -9303,17 +9302,6 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/1418c94d97cc5c5ecb5ec947ca7eb218bb3d14a5c7127c6acaf9f763af5060df6e581e90b7ec210cdf4fb16d676f58500414127375b2e169646c66b5bd79e9cc
-  languageName: node
-  linkType: hard
-
-"expo-camera@npm:^15.0.15":
-  version: 15.0.15
-  resolution: "expo-camera@npm:15.0.15"
-  dependencies:
-    invariant: "npm:^2.2.4"
-  peerDependencies:
-    expo: "*"
-  checksum: 10c0/c93bf2b71121a9f38cba7283c05b7f89a6003e14db4d59fd23aaa9c65cef1d5a9f65e4908daa9ca9503093170c7cca5c8c7bcbe51431ab9fbfb09f8dad1f545e
   languageName: node
   linkType: hard
 
