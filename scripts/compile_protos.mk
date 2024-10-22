@@ -17,6 +17,7 @@ IOS_OUT := $(PROJECT_ROOT)/packages/ios-client/Sources/FishjamClient/protos
 MAKEFLAGS += -j2
 
 all: compile_android compile_ios lint_all
+.PHONY: all
 
 $(PROTOC):
 	@if [ ! -f $(PROTOC) ]; then \
@@ -55,7 +56,7 @@ sync:
 compile_android: $(PROTOC) sync
 	@echo "Compiling proto files for Android"
 	@for proto in $(PROTO_FILES); do \
-		echo "Compiling: $$proto"; \
+		echo "Compiling Android: $$proto"; \
 		$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --java_out=$(ANDROID_OUT) --kotlin_out=$(ANDROID_OUT) $$proto; \
 	done
 	@echo "DONE for Android"
@@ -63,14 +64,7 @@ compile_android: $(PROTOC) sync
 compile_ios: $(PROTOC) $(PROTOC_GEN_SWIFT) sync
 	@echo "Compiling proto files for iOS"
 	@for proto in $(PROTO_FILES); do \
-		echo "Compiling: $$proto"; \
+		echo "Compiling iOS: $$proto"; \
 		$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --plugin=$(PROTOC_GEN_SWIFT) --swift_out=$(IOS_OUT) $$proto; \
 	done
 	@echo "DONE for iOS"
-
-lint_all: compile_android compile_ios
-	@echo "Linting files..."
-	@yarn --cwd $(PROJECT_ROOT) lint
-	@echo "DONE linting"
-
-.PHONY: all

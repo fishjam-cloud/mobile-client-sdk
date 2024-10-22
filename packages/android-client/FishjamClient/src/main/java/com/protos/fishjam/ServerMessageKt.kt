@@ -3,16 +3,11 @@
 
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
-
-package fishjam
+package fishjam;
 
 @kotlin.jvm.JvmName("-initializeserverMessage")
 public inline fun serverMessage(block: fishjam.ServerMessageKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage =
-  fishjam.ServerMessageKt.Dsl
-    ._create(fishjam.ServerNotifications.ServerMessage.newBuilder())
-    .apply { block() }
-    ._build()
-
+  fishjam.ServerMessageKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.newBuilder()).apply { block() }._build()
 /**
  * ```
  * Defines any type of message passed between FJ and server client
@@ -42,24 +37,23 @@ public object ServerMessageKt {
     public var roomCrashed: fishjam.ServerNotifications.ServerMessage.RoomCrashed
       @JvmName("getRoomCrashed")
       get() = _builder.getRoomCrashed()
-
       @JvmName("setRoomCrashed")
       set(value) {
         _builder.setRoomCrashed(value)
       }
-
     /**
      * `.fishjam.ServerMessage.RoomCrashed room_crashed = 1;`
      */
     public fun clearRoomCrashed() {
       _builder.clearRoomCrashed()
     }
-
     /**
      * `.fishjam.ServerMessage.RoomCrashed room_crashed = 1;`
      * @return Whether the roomCrashed field is set.
      */
-    public fun hasRoomCrashed(): kotlin.Boolean = _builder.hasRoomCrashed()
+    public fun hasRoomCrashed(): kotlin.Boolean {
+      return _builder.hasRoomCrashed()
+    }
 
     /**
      * `.fishjam.ServerMessage.PeerConnected peer_connected = 2;`
@@ -67,24 +61,23 @@ public object ServerMessageKt {
     public var peerConnected: fishjam.ServerNotifications.ServerMessage.PeerConnected
       @JvmName("getPeerConnected")
       get() = _builder.getPeerConnected()
-
       @JvmName("setPeerConnected")
       set(value) {
         _builder.setPeerConnected(value)
       }
-
     /**
      * `.fishjam.ServerMessage.PeerConnected peer_connected = 2;`
      */
     public fun clearPeerConnected() {
       _builder.clearPeerConnected()
     }
-
     /**
      * `.fishjam.ServerMessage.PeerConnected peer_connected = 2;`
      * @return Whether the peerConnected field is set.
      */
-    public fun hasPeerConnected(): kotlin.Boolean = _builder.hasPeerConnected()
+    public fun hasPeerConnected(): kotlin.Boolean {
+      return _builder.hasPeerConnected()
+    }
 
     /**
      * `.fishjam.ServerMessage.PeerDisconnected peer_disconnected = 3;`
@@ -92,24 +85,23 @@ public object ServerMessageKt {
     public var peerDisconnected: fishjam.ServerNotifications.ServerMessage.PeerDisconnected
       @JvmName("getPeerDisconnected")
       get() = _builder.getPeerDisconnected()
-
       @JvmName("setPeerDisconnected")
       set(value) {
         _builder.setPeerDisconnected(value)
       }
-
     /**
      * `.fishjam.ServerMessage.PeerDisconnected peer_disconnected = 3;`
      */
     public fun clearPeerDisconnected() {
       _builder.clearPeerDisconnected()
     }
-
     /**
      * `.fishjam.ServerMessage.PeerDisconnected peer_disconnected = 3;`
      * @return Whether the peerDisconnected field is set.
      */
-    public fun hasPeerDisconnected(): kotlin.Boolean = _builder.hasPeerDisconnected()
+    public fun hasPeerDisconnected(): kotlin.Boolean {
+      return _builder.hasPeerDisconnected()
+    }
 
     /**
      * `.fishjam.ServerMessage.PeerCrashed peer_crashed = 4;`
@@ -117,24 +109,23 @@ public object ServerMessageKt {
     public var peerCrashed: fishjam.ServerNotifications.ServerMessage.PeerCrashed
       @JvmName("getPeerCrashed")
       get() = _builder.getPeerCrashed()
-
       @JvmName("setPeerCrashed")
       set(value) {
         _builder.setPeerCrashed(value)
       }
-
     /**
      * `.fishjam.ServerMessage.PeerCrashed peer_crashed = 4;`
      */
     public fun clearPeerCrashed() {
       _builder.clearPeerCrashed()
     }
-
     /**
      * `.fishjam.ServerMessage.PeerCrashed peer_crashed = 4;`
      * @return Whether the peerCrashed field is set.
      */
-    public fun hasPeerCrashed(): kotlin.Boolean = _builder.hasPeerCrashed()
+    public fun hasPeerCrashed(): kotlin.Boolean {
+      return _builder.hasPeerCrashed()
+    }
 
     /**
      * `.fishjam.ServerMessage.ComponentCrashed component_crashed = 5;`
@@ -142,24 +133,23 @@ public object ServerMessageKt {
     public var componentCrashed: fishjam.ServerNotifications.ServerMessage.ComponentCrashed
       @JvmName("getComponentCrashed")
       get() = _builder.getComponentCrashed()
-
       @JvmName("setComponentCrashed")
       set(value) {
         _builder.setComponentCrashed(value)
       }
-
     /**
      * `.fishjam.ServerMessage.ComponentCrashed component_crashed = 5;`
      */
     public fun clearComponentCrashed() {
       _builder.clearComponentCrashed()
     }
-
     /**
      * `.fishjam.ServerMessage.ComponentCrashed component_crashed = 5;`
      * @return Whether the componentCrashed field is set.
      */
-    public fun hasComponentCrashed(): kotlin.Boolean = _builder.hasComponentCrashed()
+    public fun hasComponentCrashed(): kotlin.Boolean {
+      return _builder.hasComponentCrashed()
+    }
 
     /**
      * `.fishjam.ServerMessage.Authenticated authenticated = 6;`
@@ -167,24 +157,23 @@ public object ServerMessageKt {
     public var authenticated: fishjam.ServerNotifications.ServerMessage.Authenticated
       @JvmName("getAuthenticated")
       get() = _builder.getAuthenticated()
-
       @JvmName("setAuthenticated")
       set(value) {
         _builder.setAuthenticated(value)
       }
-
     /**
      * `.fishjam.ServerMessage.Authenticated authenticated = 6;`
      */
     public fun clearAuthenticated() {
       _builder.clearAuthenticated()
     }
-
     /**
      * `.fishjam.ServerMessage.Authenticated authenticated = 6;`
      * @return Whether the authenticated field is set.
      */
-    public fun hasAuthenticated(): kotlin.Boolean = _builder.hasAuthenticated()
+    public fun hasAuthenticated(): kotlin.Boolean {
+      return _builder.hasAuthenticated()
+    }
 
     /**
      * `.fishjam.ServerMessage.AuthRequest auth_request = 7;`
@@ -192,24 +181,23 @@ public object ServerMessageKt {
     public var authRequest: fishjam.ServerNotifications.ServerMessage.AuthRequest
       @JvmName("getAuthRequest")
       get() = _builder.getAuthRequest()
-
       @JvmName("setAuthRequest")
       set(value) {
         _builder.setAuthRequest(value)
       }
-
     /**
      * `.fishjam.ServerMessage.AuthRequest auth_request = 7;`
      */
     public fun clearAuthRequest() {
       _builder.clearAuthRequest()
     }
-
     /**
      * `.fishjam.ServerMessage.AuthRequest auth_request = 7;`
      * @return Whether the authRequest field is set.
      */
-    public fun hasAuthRequest(): kotlin.Boolean = _builder.hasAuthRequest()
+    public fun hasAuthRequest(): kotlin.Boolean {
+      return _builder.hasAuthRequest()
+    }
 
     /**
      * `.fishjam.ServerMessage.SubscribeRequest subscribe_request = 8;`
@@ -217,24 +205,23 @@ public object ServerMessageKt {
     public var subscribeRequest: fishjam.ServerNotifications.ServerMessage.SubscribeRequest
       @JvmName("getSubscribeRequest")
       get() = _builder.getSubscribeRequest()
-
       @JvmName("setSubscribeRequest")
       set(value) {
         _builder.setSubscribeRequest(value)
       }
-
     /**
      * `.fishjam.ServerMessage.SubscribeRequest subscribe_request = 8;`
      */
     public fun clearSubscribeRequest() {
       _builder.clearSubscribeRequest()
     }
-
     /**
      * `.fishjam.ServerMessage.SubscribeRequest subscribe_request = 8;`
      * @return Whether the subscribeRequest field is set.
      */
-    public fun hasSubscribeRequest(): kotlin.Boolean = _builder.hasSubscribeRequest()
+    public fun hasSubscribeRequest(): kotlin.Boolean {
+      return _builder.hasSubscribeRequest()
+    }
 
     /**
      * `.fishjam.ServerMessage.SubscribeResponse subscribe_response = 9;`
@@ -242,24 +229,23 @@ public object ServerMessageKt {
     public var subscribeResponse: fishjam.ServerNotifications.ServerMessage.SubscribeResponse
       @JvmName("getSubscribeResponse")
       get() = _builder.getSubscribeResponse()
-
       @JvmName("setSubscribeResponse")
       set(value) {
         _builder.setSubscribeResponse(value)
       }
-
     /**
      * `.fishjam.ServerMessage.SubscribeResponse subscribe_response = 9;`
      */
     public fun clearSubscribeResponse() {
       _builder.clearSubscribeResponse()
     }
-
     /**
      * `.fishjam.ServerMessage.SubscribeResponse subscribe_response = 9;`
      * @return Whether the subscribeResponse field is set.
      */
-    public fun hasSubscribeResponse(): kotlin.Boolean = _builder.hasSubscribeResponse()
+    public fun hasSubscribeResponse(): kotlin.Boolean {
+      return _builder.hasSubscribeResponse()
+    }
 
     /**
      * `.fishjam.ServerMessage.RoomCreated room_created = 10;`
@@ -267,24 +253,23 @@ public object ServerMessageKt {
     public var roomCreated: fishjam.ServerNotifications.ServerMessage.RoomCreated
       @JvmName("getRoomCreated")
       get() = _builder.getRoomCreated()
-
       @JvmName("setRoomCreated")
       set(value) {
         _builder.setRoomCreated(value)
       }
-
     /**
      * `.fishjam.ServerMessage.RoomCreated room_created = 10;`
      */
     public fun clearRoomCreated() {
       _builder.clearRoomCreated()
     }
-
     /**
      * `.fishjam.ServerMessage.RoomCreated room_created = 10;`
      * @return Whether the roomCreated field is set.
      */
-    public fun hasRoomCreated(): kotlin.Boolean = _builder.hasRoomCreated()
+    public fun hasRoomCreated(): kotlin.Boolean {
+      return _builder.hasRoomCreated()
+    }
 
     /**
      * `.fishjam.ServerMessage.RoomDeleted room_deleted = 11;`
@@ -292,24 +277,23 @@ public object ServerMessageKt {
     public var roomDeleted: fishjam.ServerNotifications.ServerMessage.RoomDeleted
       @JvmName("getRoomDeleted")
       get() = _builder.getRoomDeleted()
-
       @JvmName("setRoomDeleted")
       set(value) {
         _builder.setRoomDeleted(value)
       }
-
     /**
      * `.fishjam.ServerMessage.RoomDeleted room_deleted = 11;`
      */
     public fun clearRoomDeleted() {
       _builder.clearRoomDeleted()
     }
-
     /**
      * `.fishjam.ServerMessage.RoomDeleted room_deleted = 11;`
      * @return Whether the roomDeleted field is set.
      */
-    public fun hasRoomDeleted(): kotlin.Boolean = _builder.hasRoomDeleted()
+    public fun hasRoomDeleted(): kotlin.Boolean {
+      return _builder.hasRoomDeleted()
+    }
 
     /**
      * `.fishjam.ServerMessage.MetricsReport metrics_report = 12;`
@@ -317,24 +301,23 @@ public object ServerMessageKt {
     public var metricsReport: fishjam.ServerNotifications.ServerMessage.MetricsReport
       @JvmName("getMetricsReport")
       get() = _builder.getMetricsReport()
-
       @JvmName("setMetricsReport")
       set(value) {
         _builder.setMetricsReport(value)
       }
-
     /**
      * `.fishjam.ServerMessage.MetricsReport metrics_report = 12;`
      */
     public fun clearMetricsReport() {
       _builder.clearMetricsReport()
     }
-
     /**
      * `.fishjam.ServerMessage.MetricsReport metrics_report = 12;`
      * @return Whether the metricsReport field is set.
      */
-    public fun hasMetricsReport(): kotlin.Boolean = _builder.hasMetricsReport()
+    public fun hasMetricsReport(): kotlin.Boolean {
+      return _builder.hasMetricsReport()
+    }
 
     /**
      * `.fishjam.ServerMessage.HlsPlayable hls_playable = 13;`
@@ -342,24 +325,23 @@ public object ServerMessageKt {
     public var hlsPlayable: fishjam.ServerNotifications.ServerMessage.HlsPlayable
       @JvmName("getHlsPlayable")
       get() = _builder.getHlsPlayable()
-
       @JvmName("setHlsPlayable")
       set(value) {
         _builder.setHlsPlayable(value)
       }
-
     /**
      * `.fishjam.ServerMessage.HlsPlayable hls_playable = 13;`
      */
     public fun clearHlsPlayable() {
       _builder.clearHlsPlayable()
     }
-
     /**
      * `.fishjam.ServerMessage.HlsPlayable hls_playable = 13;`
      * @return Whether the hlsPlayable field is set.
      */
-    public fun hasHlsPlayable(): kotlin.Boolean = _builder.hasHlsPlayable()
+    public fun hasHlsPlayable(): kotlin.Boolean {
+      return _builder.hasHlsPlayable()
+    }
 
     /**
      * `.fishjam.ServerMessage.HlsUploaded hls_uploaded = 14;`
@@ -367,24 +349,23 @@ public object ServerMessageKt {
     public var hlsUploaded: fishjam.ServerNotifications.ServerMessage.HlsUploaded
       @JvmName("getHlsUploaded")
       get() = _builder.getHlsUploaded()
-
       @JvmName("setHlsUploaded")
       set(value) {
         _builder.setHlsUploaded(value)
       }
-
     /**
      * `.fishjam.ServerMessage.HlsUploaded hls_uploaded = 14;`
      */
     public fun clearHlsUploaded() {
       _builder.clearHlsUploaded()
     }
-
     /**
      * `.fishjam.ServerMessage.HlsUploaded hls_uploaded = 14;`
      * @return Whether the hlsUploaded field is set.
      */
-    public fun hasHlsUploaded(): kotlin.Boolean = _builder.hasHlsUploaded()
+    public fun hasHlsUploaded(): kotlin.Boolean {
+      return _builder.hasHlsUploaded()
+    }
 
     /**
      * `.fishjam.ServerMessage.HlsUploadCrashed hls_upload_crashed = 15;`
@@ -392,24 +373,23 @@ public object ServerMessageKt {
     public var hlsUploadCrashed: fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed
       @JvmName("getHlsUploadCrashed")
       get() = _builder.getHlsUploadCrashed()
-
       @JvmName("setHlsUploadCrashed")
       set(value) {
         _builder.setHlsUploadCrashed(value)
       }
-
     /**
      * `.fishjam.ServerMessage.HlsUploadCrashed hls_upload_crashed = 15;`
      */
     public fun clearHlsUploadCrashed() {
       _builder.clearHlsUploadCrashed()
     }
-
     /**
      * `.fishjam.ServerMessage.HlsUploadCrashed hls_upload_crashed = 15;`
      * @return Whether the hlsUploadCrashed field is set.
      */
-    public fun hasHlsUploadCrashed(): kotlin.Boolean = _builder.hasHlsUploadCrashed()
+    public fun hasHlsUploadCrashed(): kotlin.Boolean {
+      return _builder.hasHlsUploadCrashed()
+    }
 
     /**
      * `.fishjam.ServerMessage.PeerMetadataUpdated peer_metadata_updated = 16;`
@@ -417,24 +397,23 @@ public object ServerMessageKt {
     public var peerMetadataUpdated: fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated
       @JvmName("getPeerMetadataUpdated")
       get() = _builder.getPeerMetadataUpdated()
-
       @JvmName("setPeerMetadataUpdated")
       set(value) {
         _builder.setPeerMetadataUpdated(value)
       }
-
     /**
      * `.fishjam.ServerMessage.PeerMetadataUpdated peer_metadata_updated = 16;`
      */
     public fun clearPeerMetadataUpdated() {
       _builder.clearPeerMetadataUpdated()
     }
-
     /**
      * `.fishjam.ServerMessage.PeerMetadataUpdated peer_metadata_updated = 16;`
      * @return Whether the peerMetadataUpdated field is set.
      */
-    public fun hasPeerMetadataUpdated(): kotlin.Boolean = _builder.hasPeerMetadataUpdated()
+    public fun hasPeerMetadataUpdated(): kotlin.Boolean {
+      return _builder.hasPeerMetadataUpdated()
+    }
 
     /**
      * `.fishjam.ServerMessage.TrackAdded track_added = 17;`
@@ -442,24 +421,23 @@ public object ServerMessageKt {
     public var trackAdded: fishjam.ServerNotifications.ServerMessage.TrackAdded
       @JvmName("getTrackAdded")
       get() = _builder.getTrackAdded()
-
       @JvmName("setTrackAdded")
       set(value) {
         _builder.setTrackAdded(value)
       }
-
     /**
      * `.fishjam.ServerMessage.TrackAdded track_added = 17;`
      */
     public fun clearTrackAdded() {
       _builder.clearTrackAdded()
     }
-
     /**
      * `.fishjam.ServerMessage.TrackAdded track_added = 17;`
      * @return Whether the trackAdded field is set.
      */
-    public fun hasTrackAdded(): kotlin.Boolean = _builder.hasTrackAdded()
+    public fun hasTrackAdded(): kotlin.Boolean {
+      return _builder.hasTrackAdded()
+    }
 
     /**
      * `.fishjam.ServerMessage.TrackRemoved track_removed = 18;`
@@ -467,24 +445,23 @@ public object ServerMessageKt {
     public var trackRemoved: fishjam.ServerNotifications.ServerMessage.TrackRemoved
       @JvmName("getTrackRemoved")
       get() = _builder.getTrackRemoved()
-
       @JvmName("setTrackRemoved")
       set(value) {
         _builder.setTrackRemoved(value)
       }
-
     /**
      * `.fishjam.ServerMessage.TrackRemoved track_removed = 18;`
      */
     public fun clearTrackRemoved() {
       _builder.clearTrackRemoved()
     }
-
     /**
      * `.fishjam.ServerMessage.TrackRemoved track_removed = 18;`
      * @return Whether the trackRemoved field is set.
      */
-    public fun hasTrackRemoved(): kotlin.Boolean = _builder.hasTrackRemoved()
+    public fun hasTrackRemoved(): kotlin.Boolean {
+      return _builder.hasTrackRemoved()
+    }
 
     /**
      * `.fishjam.ServerMessage.TrackMetadataUpdated track_metadata_updated = 19;`
@@ -492,24 +469,23 @@ public object ServerMessageKt {
     public var trackMetadataUpdated: fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated
       @JvmName("getTrackMetadataUpdated")
       get() = _builder.getTrackMetadataUpdated()
-
       @JvmName("setTrackMetadataUpdated")
       set(value) {
         _builder.setTrackMetadataUpdated(value)
       }
-
     /**
      * `.fishjam.ServerMessage.TrackMetadataUpdated track_metadata_updated = 19;`
      */
     public fun clearTrackMetadataUpdated() {
       _builder.clearTrackMetadataUpdated()
     }
-
     /**
      * `.fishjam.ServerMessage.TrackMetadataUpdated track_metadata_updated = 19;`
      * @return Whether the trackMetadataUpdated field is set.
      */
-    public fun hasTrackMetadataUpdated(): kotlin.Boolean = _builder.hasTrackMetadataUpdated()
+    public fun hasTrackMetadataUpdated(): kotlin.Boolean {
+      return _builder.hasTrackMetadataUpdated()
+    }
 
     /**
      * `.fishjam.ServerMessage.PeerAdded peer_added = 20;`
@@ -517,24 +493,23 @@ public object ServerMessageKt {
     public var peerAdded: fishjam.ServerNotifications.ServerMessage.PeerAdded
       @JvmName("getPeerAdded")
       get() = _builder.getPeerAdded()
-
       @JvmName("setPeerAdded")
       set(value) {
         _builder.setPeerAdded(value)
       }
-
     /**
      * `.fishjam.ServerMessage.PeerAdded peer_added = 20;`
      */
     public fun clearPeerAdded() {
       _builder.clearPeerAdded()
     }
-
     /**
      * `.fishjam.ServerMessage.PeerAdded peer_added = 20;`
      * @return Whether the peerAdded field is set.
      */
-    public fun hasPeerAdded(): kotlin.Boolean = _builder.hasPeerAdded()
+    public fun hasPeerAdded(): kotlin.Boolean {
+      return _builder.hasPeerAdded()
+    }
 
     /**
      * `.fishjam.ServerMessage.PeerDeleted peer_deleted = 21;`
@@ -542,25 +517,23 @@ public object ServerMessageKt {
     public var peerDeleted: fishjam.ServerNotifications.ServerMessage.PeerDeleted
       @JvmName("getPeerDeleted")
       get() = _builder.getPeerDeleted()
-
       @JvmName("setPeerDeleted")
       set(value) {
         _builder.setPeerDeleted(value)
       }
-
     /**
      * `.fishjam.ServerMessage.PeerDeleted peer_deleted = 21;`
      */
     public fun clearPeerDeleted() {
       _builder.clearPeerDeleted()
     }
-
     /**
      * `.fishjam.ServerMessage.PeerDeleted peer_deleted = 21;`
      * @return Whether the peerDeleted field is set.
      */
-    public fun hasPeerDeleted(): kotlin.Boolean = _builder.hasPeerDeleted()
-
+    public fun hasPeerDeleted(): kotlin.Boolean {
+      return _builder.hasPeerDeleted()
+    }
     public val contentCase: fishjam.ServerNotifications.ServerMessage.ContentCase
       @JvmName("getContentCase")
       get() = _builder.getContentCase()
@@ -569,19 +542,9 @@ public object ServerMessageKt {
       _builder.clearContent()
     }
   }
-
   @kotlin.jvm.JvmName("-initializeroomCrashed")
-  public inline fun roomCrashed(
-    block: fishjam.ServerMessageKt.RoomCrashedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.RoomCrashed =
-    fishjam.ServerMessageKt.RoomCrashedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.RoomCrashed
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun roomCrashed(block: fishjam.ServerMessageKt.RoomCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.RoomCrashed =
+    fishjam.ServerMessageKt.RoomCrashedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.RoomCrashed.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a room crashes
@@ -611,12 +574,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -625,18 +586,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializepeerAdded")
-  public inline fun peerAdded(
-    block: fishjam.ServerMessageKt.PeerAddedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.PeerAdded =
-    fishjam.ServerMessageKt.PeerAddedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.PeerAdded
-          .newBuilder()
-      ).apply { block() }
-      ._build()
-
+  public inline fun peerAdded(block: fishjam.ServerMessageKt.PeerAddedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerAdded =
+    fishjam.ServerMessageKt.PeerAddedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.PeerAdded.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a peer is added
@@ -666,12 +618,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -685,12 +635,10 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
@@ -699,19 +647,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializepeerDeleted")
-  public inline fun peerDeleted(
-    block: fishjam.ServerMessageKt.PeerDeletedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.PeerDeleted =
-    fishjam.ServerMessageKt.PeerDeletedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.PeerDeleted
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun peerDeleted(block: fishjam.ServerMessageKt.PeerDeletedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerDeleted =
+    fishjam.ServerMessageKt.PeerDeletedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.PeerDeleted.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a peer is removed
@@ -741,12 +679,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -760,12 +696,10 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
@@ -774,19 +708,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializepeerConnected")
-  public inline fun peerConnected(
-    block: fishjam.ServerMessageKt.PeerConnectedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.PeerConnected =
-    fishjam.ServerMessageKt.PeerConnectedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.PeerConnected
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun peerConnected(block: fishjam.ServerMessageKt.PeerConnectedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerConnected =
+    fishjam.ServerMessageKt.PeerConnectedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.PeerConnected.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a peer connects
@@ -816,12 +740,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -835,12 +757,10 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
@@ -849,19 +769,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializepeerDisconnected")
-  public inline fun peerDisconnected(
-    block: fishjam.ServerMessageKt.PeerDisconnectedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.PeerDisconnected =
-    fishjam.ServerMessageKt.PeerDisconnectedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.PeerDisconnected
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun peerDisconnected(block: fishjam.ServerMessageKt.PeerDisconnectedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerDisconnected =
+    fishjam.ServerMessageKt.PeerDisconnectedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.PeerDisconnected.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a peer disconnects from FJ
@@ -891,12 +801,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -910,12 +818,10 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
@@ -924,19 +830,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializepeerCrashed")
-  public inline fun peerCrashed(
-    block: fishjam.ServerMessageKt.PeerCrashedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.PeerCrashed =
-    fishjam.ServerMessageKt.PeerCrashedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.PeerCrashed
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun peerCrashed(block: fishjam.ServerMessageKt.PeerCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerCrashed =
+    fishjam.ServerMessageKt.PeerCrashedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.PeerCrashed.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a peer crashes
@@ -966,12 +862,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -985,12 +879,10 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
@@ -1004,12 +896,10 @@ public object ServerMessageKt {
       public var reason: kotlin.String
         @JvmName("getReason")
         get() = _builder.getReason()
-
         @JvmName("setReason")
         set(value) {
           _builder.setReason(value)
         }
-
       /**
        * `string reason = 3;`
        */
@@ -1018,19 +908,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializecomponentCrashed")
-  public inline fun componentCrashed(
-    block: fishjam.ServerMessageKt.ComponentCrashedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.ComponentCrashed =
-    fishjam.ServerMessageKt.ComponentCrashedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.ComponentCrashed
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun componentCrashed(block: fishjam.ServerMessageKt.ComponentCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.ComponentCrashed =
+    fishjam.ServerMessageKt.ComponentCrashedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.ComponentCrashed.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a component crashes
@@ -1060,12 +940,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1079,12 +957,10 @@ public object ServerMessageKt {
       public var componentId: kotlin.String
         @JvmName("getComponentId")
         get() = _builder.getComponentId()
-
         @JvmName("setComponentId")
         set(value) {
           _builder.setComponentId(value)
         }
-
       /**
        * `string component_id = 2;`
        */
@@ -1093,19 +969,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializeauthenticated")
-  public inline fun authenticated(
-    block: fishjam.ServerMessageKt.AuthenticatedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.Authenticated =
-    fishjam.ServerMessageKt.AuthenticatedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.Authenticated
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun authenticated(block: fishjam.ServerMessageKt.AuthenticatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.Authenticated =
+    fishjam.ServerMessageKt.AuthenticatedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.Authenticated.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Response sent by FJ, confirming successfull authentication
@@ -1130,19 +996,9 @@ public object ServerMessageKt {
       internal fun _build(): fishjam.ServerNotifications.ServerMessage.Authenticated = _builder.build()
     }
   }
-
   @kotlin.jvm.JvmName("-initializeauthRequest")
-  public inline fun authRequest(
-    block: fishjam.ServerMessageKt.AuthRequestKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.AuthRequest =
-    fishjam.ServerMessageKt.AuthRequestKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.AuthRequest
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun authRequest(block: fishjam.ServerMessageKt.AuthRequestKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.AuthRequest =
+    fishjam.ServerMessageKt.AuthRequestKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.AuthRequest.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Request sent by client, to authenticate to FJ server
@@ -1172,12 +1028,10 @@ public object ServerMessageKt {
       public var token: kotlin.String
         @JvmName("getToken")
         get() = _builder.getToken()
-
         @JvmName("setToken")
         set(value) {
           _builder.setToken(value)
         }
-
       /**
        * `string token = 1;`
        */
@@ -1186,19 +1040,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializesubscribeRequest")
-  public inline fun subscribeRequest(
-    block: fishjam.ServerMessageKt.SubscribeRequestKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.SubscribeRequest =
-    fishjam.ServerMessageKt.SubscribeRequestKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.SubscribeRequest
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun subscribeRequest(block: fishjam.ServerMessageKt.SubscribeRequestKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.SubscribeRequest =
+    fishjam.ServerMessageKt.SubscribeRequestKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.SubscribeRequest.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Request sent by client to subsribe for certain message type
@@ -1228,7 +1072,6 @@ public object ServerMessageKt {
       public var eventType: fishjam.ServerNotifications.ServerMessage.EventType
         @JvmName("getEventType")
         get() = _builder.getEventType()
-
         @JvmName("setEventType")
         set(value) {
           _builder.setEventType(value)
@@ -1236,12 +1079,10 @@ public object ServerMessageKt {
       public var eventTypeValue: kotlin.Int
         @JvmName("getEventTypeValue")
         get() = _builder.getEventTypeValue()
-
         @JvmName("setEventTypeValue")
         set(value) {
           _builder.setEventTypeValue(value)
         }
-
       /**
        * `.fishjam.ServerMessage.EventType event_type = 1;`
        */
@@ -1250,19 +1091,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializesubscribeResponse")
-  public inline fun subscribeResponse(
-    block: fishjam.ServerMessageKt.SubscribeResponseKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.SubscribeResponse =
-    fishjam.ServerMessageKt.SubscribeResponseKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.SubscribeResponse
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun subscribeResponse(block: fishjam.ServerMessageKt.SubscribeResponseKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.SubscribeResponse =
+    fishjam.ServerMessageKt.SubscribeResponseKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.SubscribeResponse.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Response sent by FJ, confirming subscription for message type
@@ -1292,7 +1123,6 @@ public object ServerMessageKt {
       public var eventType: fishjam.ServerNotifications.ServerMessage.EventType
         @JvmName("getEventType")
         get() = _builder.getEventType()
-
         @JvmName("setEventType")
         set(value) {
           _builder.setEventType(value)
@@ -1300,12 +1130,10 @@ public object ServerMessageKt {
       public var eventTypeValue: kotlin.Int
         @JvmName("getEventTypeValue")
         get() = _builder.getEventTypeValue()
-
         @JvmName("setEventTypeValue")
         set(value) {
           _builder.setEventTypeValue(value)
         }
-
       /**
        * `.fishjam.ServerMessage.EventType event_type = 1;`
        */
@@ -1314,19 +1142,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializeroomCreated")
-  public inline fun roomCreated(
-    block: fishjam.ServerMessageKt.RoomCreatedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.RoomCreated =
-    fishjam.ServerMessageKt.RoomCreatedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.RoomCreated
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun roomCreated(block: fishjam.ServerMessageKt.RoomCreatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.RoomCreated =
+    fishjam.ServerMessageKt.RoomCreatedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.RoomCreated.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a room is created
@@ -1356,12 +1174,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1370,19 +1186,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializeroomDeleted")
-  public inline fun roomDeleted(
-    block: fishjam.ServerMessageKt.RoomDeletedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.RoomDeleted =
-    fishjam.ServerMessageKt.RoomDeletedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.RoomDeleted
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun roomDeleted(block: fishjam.ServerMessageKt.RoomDeletedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.RoomDeleted =
+    fishjam.ServerMessageKt.RoomDeletedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.RoomDeleted.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a room is deleted
@@ -1412,12 +1218,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1426,19 +1230,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializemetricsReport")
-  public inline fun metricsReport(
-    block: fishjam.ServerMessageKt.MetricsReportKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.MetricsReport =
-    fishjam.ServerMessageKt.MetricsReportKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.MetricsReport
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun metricsReport(block: fishjam.ServerMessageKt.MetricsReportKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.MetricsReport =
+    fishjam.ServerMessageKt.MetricsReportKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.MetricsReport.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Message containing WebRTC metrics from FJ
@@ -1468,12 +1262,10 @@ public object ServerMessageKt {
       public var metrics: kotlin.String
         @JvmName("getMetrics")
         get() = _builder.getMetrics()
-
         @JvmName("setMetrics")
         set(value) {
           _builder.setMetrics(value)
         }
-
       /**
        * `string metrics = 1;`
        */
@@ -1482,19 +1274,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializehlsPlayable")
-  public inline fun hlsPlayable(
-    block: fishjam.ServerMessageKt.HlsPlayableKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.HlsPlayable =
-    fishjam.ServerMessageKt.HlsPlayableKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.HlsPlayable
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun hlsPlayable(block: fishjam.ServerMessageKt.HlsPlayableKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.HlsPlayable =
+    fishjam.ServerMessageKt.HlsPlayableKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.HlsPlayable.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when the HLS stream becomes available in a room
@@ -1524,12 +1306,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1543,12 +1323,10 @@ public object ServerMessageKt {
       public var componentId: kotlin.String
         @JvmName("getComponentId")
         get() = _builder.getComponentId()
-
         @JvmName("setComponentId")
         set(value) {
           _builder.setComponentId(value)
         }
-
       /**
        * `string component_id = 2;`
        */
@@ -1557,19 +1335,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializehlsUploaded")
-  public inline fun hlsUploaded(
-    block: fishjam.ServerMessageKt.HlsUploadedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.HlsUploaded =
-    fishjam.ServerMessageKt.HlsUploadedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.HlsUploaded
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun hlsUploaded(block: fishjam.ServerMessageKt.HlsUploadedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.HlsUploaded =
+    fishjam.ServerMessageKt.HlsUploadedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.HlsUploaded.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when the HLS recording is successfully uploded to AWS S3
@@ -1599,12 +1367,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1613,19 +1379,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializehlsUploadCrashed")
-  public inline fun hlsUploadCrashed(
-    block: fishjam.ServerMessageKt.HlsUploadCrashedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed =
-    fishjam.ServerMessageKt.HlsUploadCrashedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun hlsUploadCrashed(block: fishjam.ServerMessageKt.HlsUploadCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed =
+    fishjam.ServerMessageKt.HlsUploadCrashedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when the upload of HLS recording to AWS S3 fails
@@ -1655,12 +1411,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1669,19 +1423,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializepeerMetadataUpdated")
-  public inline fun peerMetadataUpdated(
-    block: fishjam.ServerMessageKt.PeerMetadataUpdatedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated =
-    fishjam.ServerMessageKt.PeerMetadataUpdatedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun peerMetadataUpdated(block: fishjam.ServerMessageKt.PeerMetadataUpdatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated =
+    fishjam.ServerMessageKt.PeerMetadataUpdatedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when peer updates its metadata
@@ -1711,12 +1455,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1730,12 +1472,10 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
@@ -1749,12 +1489,10 @@ public object ServerMessageKt {
       public var metadata: kotlin.String
         @JvmName("getMetadata")
         get() = _builder.getMetadata()
-
         @JvmName("setMetadata")
         set(value) {
           _builder.setMetadata(value)
         }
-
       /**
        * `string metadata = 3;`
        */
@@ -1763,16 +1501,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializetrack")
   public inline fun track(block: fishjam.ServerMessageKt.TrackKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.Track =
-    fishjam.ServerMessageKt.TrackKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.Track
-          .newBuilder()
-      ).apply { block() }
-      ._build()
-
+    fishjam.ServerMessageKt.TrackKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.Track.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Describes a media track
@@ -1802,12 +1533,10 @@ public object ServerMessageKt {
       public var id: kotlin.String
         @JvmName("getId")
         get() = _builder.getId()
-
         @JvmName("setId")
         set(value) {
           _builder.setId(value)
         }
-
       /**
        * `string id = 1;`
        */
@@ -1821,7 +1550,6 @@ public object ServerMessageKt {
       public var type: fishjam.ServerNotifications.ServerMessage.TrackType
         @JvmName("getType")
         get() = _builder.getType()
-
         @JvmName("setType")
         set(value) {
           _builder.setType(value)
@@ -1829,12 +1557,10 @@ public object ServerMessageKt {
       public var typeValue: kotlin.Int
         @JvmName("getTypeValue")
         get() = _builder.getTypeValue()
-
         @JvmName("setTypeValue")
         set(value) {
           _builder.setTypeValue(value)
         }
-
       /**
        * `.fishjam.ServerMessage.TrackType type = 2;`
        */
@@ -1848,12 +1574,10 @@ public object ServerMessageKt {
       public var metadata: kotlin.String
         @JvmName("getMetadata")
         get() = _builder.getMetadata()
-
         @JvmName("setMetadata")
         set(value) {
           _builder.setMetadata(value)
         }
-
       /**
        * `string metadata = 3;`
        */
@@ -1862,19 +1586,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializetrackAdded")
-  public inline fun trackAdded(
-    block: fishjam.ServerMessageKt.TrackAddedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.TrackAdded =
-    fishjam.ServerMessageKt.TrackAddedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.TrackAdded
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun trackAdded(block: fishjam.ServerMessageKt.TrackAddedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.TrackAdded =
+    fishjam.ServerMessageKt.TrackAddedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.TrackAdded.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when peer or component adds new track
@@ -1904,12 +1618,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -1923,24 +1635,23 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
       public fun clearPeerId() {
         _builder.clearPeerId()
       }
-
       /**
        * `string peer_id = 2;`
        * @return Whether the peerId field is set.
        */
-      public fun hasPeerId(): kotlin.Boolean = _builder.hasPeerId()
+      public fun hasPeerId(): kotlin.Boolean {
+        return _builder.hasPeerId()
+      }
 
       /**
        * `string component_id = 3;`
@@ -1948,24 +1659,23 @@ public object ServerMessageKt {
       public var componentId: kotlin.String
         @JvmName("getComponentId")
         get() = _builder.getComponentId()
-
         @JvmName("setComponentId")
         set(value) {
           _builder.setComponentId(value)
         }
-
       /**
        * `string component_id = 3;`
        */
       public fun clearComponentId() {
         _builder.clearComponentId()
       }
-
       /**
        * `string component_id = 3;`
        * @return Whether the componentId field is set.
        */
-      public fun hasComponentId(): kotlin.Boolean = _builder.hasComponentId()
+      public fun hasComponentId(): kotlin.Boolean {
+        return _builder.hasComponentId()
+      }
 
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
@@ -1973,25 +1683,23 @@ public object ServerMessageKt {
       public var track: fishjam.ServerNotifications.ServerMessage.Track
         @JvmName("getTrack")
         get() = _builder.getTrack()
-
         @JvmName("setTrack")
         set(value) {
           _builder.setTrack(value)
         }
-
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
        */
       public fun clearTrack() {
         _builder.clearTrack()
       }
-
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
        * @return Whether the track field is set.
        */
-      public fun hasTrack(): kotlin.Boolean = _builder.hasTrack()
-
+      public fun hasTrack(): kotlin.Boolean {
+        return _builder.hasTrack()
+      }
       public val TrackAddedKt.Dsl.trackOrNull: fishjam.ServerNotifications.ServerMessage.Track?
         get() = _builder.trackOrNull
       public val endpointInfoCase: fishjam.ServerNotifications.ServerMessage.TrackAdded.EndpointInfoCase
@@ -2003,19 +1711,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializetrackRemoved")
-  public inline fun trackRemoved(
-    block: fishjam.ServerMessageKt.TrackRemovedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.TrackRemoved =
-    fishjam.ServerMessageKt.TrackRemovedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.TrackRemoved
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun trackRemoved(block: fishjam.ServerMessageKt.TrackRemovedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.TrackRemoved =
+    fishjam.ServerMessageKt.TrackRemovedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.TrackRemoved.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when a track is removed
@@ -2045,12 +1743,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -2064,24 +1760,23 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
       public fun clearPeerId() {
         _builder.clearPeerId()
       }
-
       /**
        * `string peer_id = 2;`
        * @return Whether the peerId field is set.
        */
-      public fun hasPeerId(): kotlin.Boolean = _builder.hasPeerId()
+      public fun hasPeerId(): kotlin.Boolean {
+        return _builder.hasPeerId()
+      }
 
       /**
        * `string component_id = 3;`
@@ -2089,24 +1784,23 @@ public object ServerMessageKt {
       public var componentId: kotlin.String
         @JvmName("getComponentId")
         get() = _builder.getComponentId()
-
         @JvmName("setComponentId")
         set(value) {
           _builder.setComponentId(value)
         }
-
       /**
        * `string component_id = 3;`
        */
       public fun clearComponentId() {
         _builder.clearComponentId()
       }
-
       /**
        * `string component_id = 3;`
        * @return Whether the componentId field is set.
        */
-      public fun hasComponentId(): kotlin.Boolean = _builder.hasComponentId()
+      public fun hasComponentId(): kotlin.Boolean {
+        return _builder.hasComponentId()
+      }
 
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
@@ -2114,25 +1808,23 @@ public object ServerMessageKt {
       public var track: fishjam.ServerNotifications.ServerMessage.Track
         @JvmName("getTrack")
         get() = _builder.getTrack()
-
         @JvmName("setTrack")
         set(value) {
           _builder.setTrack(value)
         }
-
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
        */
       public fun clearTrack() {
         _builder.clearTrack()
       }
-
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
        * @return Whether the track field is set.
        */
-      public fun hasTrack(): kotlin.Boolean = _builder.hasTrack()
-
+      public fun hasTrack(): kotlin.Boolean {
+        return _builder.hasTrack()
+      }
       public val TrackRemovedKt.Dsl.trackOrNull: fishjam.ServerNotifications.ServerMessage.Track?
         get() = _builder.trackOrNull
       public val endpointInfoCase: fishjam.ServerNotifications.ServerMessage.TrackRemoved.EndpointInfoCase
@@ -2144,19 +1836,9 @@ public object ServerMessageKt {
       }
     }
   }
-
   @kotlin.jvm.JvmName("-initializetrackMetadataUpdated")
-  public inline fun trackMetadataUpdated(
-    block: fishjam.ServerMessageKt.TrackMetadataUpdatedKt.Dsl.() -> kotlin.Unit
-  ): fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated =
-    fishjam.ServerMessageKt.TrackMetadataUpdatedKt.Dsl
-      ._create(
-        fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated
-          .newBuilder()
-      ).apply {
-        block()
-      }._build()
-
+  public inline fun trackMetadataUpdated(block: fishjam.ServerMessageKt.TrackMetadataUpdatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated =
+    fishjam.ServerMessageKt.TrackMetadataUpdatedKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Notification sent when metadata of a multimedia track is updated
@@ -2186,12 +1868,10 @@ public object ServerMessageKt {
       public var roomId: kotlin.String
         @JvmName("getRoomId")
         get() = _builder.getRoomId()
-
         @JvmName("setRoomId")
         set(value) {
           _builder.setRoomId(value)
         }
-
       /**
        * `string room_id = 1;`
        */
@@ -2205,24 +1885,23 @@ public object ServerMessageKt {
       public var peerId: kotlin.String
         @JvmName("getPeerId")
         get() = _builder.getPeerId()
-
         @JvmName("setPeerId")
         set(value) {
           _builder.setPeerId(value)
         }
-
       /**
        * `string peer_id = 2;`
        */
       public fun clearPeerId() {
         _builder.clearPeerId()
       }
-
       /**
        * `string peer_id = 2;`
        * @return Whether the peerId field is set.
        */
-      public fun hasPeerId(): kotlin.Boolean = _builder.hasPeerId()
+      public fun hasPeerId(): kotlin.Boolean {
+        return _builder.hasPeerId()
+      }
 
       /**
        * `string component_id = 3;`
@@ -2230,24 +1909,23 @@ public object ServerMessageKt {
       public var componentId: kotlin.String
         @JvmName("getComponentId")
         get() = _builder.getComponentId()
-
         @JvmName("setComponentId")
         set(value) {
           _builder.setComponentId(value)
         }
-
       /**
        * `string component_id = 3;`
        */
       public fun clearComponentId() {
         _builder.clearComponentId()
       }
-
       /**
        * `string component_id = 3;`
        * @return Whether the componentId field is set.
        */
-      public fun hasComponentId(): kotlin.Boolean = _builder.hasComponentId()
+      public fun hasComponentId(): kotlin.Boolean {
+        return _builder.hasComponentId()
+      }
 
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
@@ -2255,25 +1933,23 @@ public object ServerMessageKt {
       public var track: fishjam.ServerNotifications.ServerMessage.Track
         @JvmName("getTrack")
         get() = _builder.getTrack()
-
         @JvmName("setTrack")
         set(value) {
           _builder.setTrack(value)
         }
-
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
        */
       public fun clearTrack() {
         _builder.clearTrack()
       }
-
       /**
        * `.fishjam.ServerMessage.Track track = 4;`
        * @return Whether the track field is set.
        */
-      public fun hasTrack(): kotlin.Boolean = _builder.hasTrack()
-
+      public fun hasTrack(): kotlin.Boolean {
+        return _builder.hasTrack()
+      }
       public val TrackMetadataUpdatedKt.Dsl.trackOrNull: fishjam.ServerNotifications.ServerMessage.Track?
         get() = _builder.trackOrNull
       public val endpointInfoCase: fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated.EndpointInfoCase
@@ -2286,219 +1962,103 @@ public object ServerMessageKt {
     }
   }
 }
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.ServerNotifications.ServerMessage.copy(block: `fishjam`.ServerMessageKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage =
+  `fishjam`.ServerMessageKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.copy(
-  block: `fishjam`.ServerMessageKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage =
-  `fishjam`.ServerMessageKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.RoomCrashed.copy(block: `fishjam`.ServerMessageKt.RoomCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.RoomCrashed =
+  `fishjam`.ServerMessageKt.RoomCrashedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.RoomCrashed.copy(
-  block: `fishjam`.ServerMessageKt.RoomCrashedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.RoomCrashed =
-  `fishjam`.ServerMessageKt.RoomCrashedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.PeerAdded.copy(block: `fishjam`.ServerMessageKt.PeerAddedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerAdded =
+  `fishjam`.ServerMessageKt.PeerAddedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.PeerAdded.copy(
-  block: `fishjam`.ServerMessageKt.PeerAddedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.PeerAdded =
-  `fishjam`.ServerMessageKt.PeerAddedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.PeerDeleted.copy(block: `fishjam`.ServerMessageKt.PeerDeletedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerDeleted =
+  `fishjam`.ServerMessageKt.PeerDeletedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.PeerDeleted.copy(
-  block: `fishjam`.ServerMessageKt.PeerDeletedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.PeerDeleted =
-  `fishjam`.ServerMessageKt.PeerDeletedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.PeerConnected.copy(block: `fishjam`.ServerMessageKt.PeerConnectedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerConnected =
+  `fishjam`.ServerMessageKt.PeerConnectedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.PeerConnected.copy(
-  block: `fishjam`.ServerMessageKt.PeerConnectedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.PeerConnected =
-  `fishjam`.ServerMessageKt.PeerConnectedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.PeerDisconnected.copy(block: `fishjam`.ServerMessageKt.PeerDisconnectedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerDisconnected =
+  `fishjam`.ServerMessageKt.PeerDisconnectedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.PeerDisconnected.copy(
-  block: `fishjam`.ServerMessageKt.PeerDisconnectedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.PeerDisconnected =
-  `fishjam`.ServerMessageKt.PeerDisconnectedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.PeerCrashed.copy(block: `fishjam`.ServerMessageKt.PeerCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerCrashed =
+  `fishjam`.ServerMessageKt.PeerCrashedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.PeerCrashed.copy(
-  block: `fishjam`.ServerMessageKt.PeerCrashedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.PeerCrashed =
-  `fishjam`.ServerMessageKt.PeerCrashedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.ComponentCrashed.copy(block: `fishjam`.ServerMessageKt.ComponentCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.ComponentCrashed =
+  `fishjam`.ServerMessageKt.ComponentCrashedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.ComponentCrashed.copy(
-  block: `fishjam`.ServerMessageKt.ComponentCrashedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.ComponentCrashed =
-  `fishjam`.ServerMessageKt.ComponentCrashedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.Authenticated.copy(block: `fishjam`.ServerMessageKt.AuthenticatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.Authenticated =
+  `fishjam`.ServerMessageKt.AuthenticatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.Authenticated.copy(
-  block: `fishjam`.ServerMessageKt.AuthenticatedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.Authenticated =
-  `fishjam`.ServerMessageKt.AuthenticatedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.AuthRequest.copy(block: `fishjam`.ServerMessageKt.AuthRequestKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.AuthRequest =
+  `fishjam`.ServerMessageKt.AuthRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.AuthRequest.copy(
-  block: `fishjam`.ServerMessageKt.AuthRequestKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.AuthRequest =
-  `fishjam`.ServerMessageKt.AuthRequestKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.SubscribeRequest.copy(block: `fishjam`.ServerMessageKt.SubscribeRequestKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.SubscribeRequest =
+  `fishjam`.ServerMessageKt.SubscribeRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.SubscribeRequest.copy(
-  block: `fishjam`.ServerMessageKt.SubscribeRequestKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.SubscribeRequest =
-  `fishjam`.ServerMessageKt.SubscribeRequestKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.SubscribeResponse.copy(block: `fishjam`.ServerMessageKt.SubscribeResponseKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.SubscribeResponse =
+  `fishjam`.ServerMessageKt.SubscribeResponseKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.SubscribeResponse.copy(
-  block: `fishjam`.ServerMessageKt.SubscribeResponseKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.SubscribeResponse =
-  `fishjam`.ServerMessageKt.SubscribeResponseKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.RoomCreated.copy(block: `fishjam`.ServerMessageKt.RoomCreatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.RoomCreated =
+  `fishjam`.ServerMessageKt.RoomCreatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.RoomCreated.copy(
-  block: `fishjam`.ServerMessageKt.RoomCreatedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.RoomCreated =
-  `fishjam`.ServerMessageKt.RoomCreatedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.RoomDeleted.copy(block: `fishjam`.ServerMessageKt.RoomDeletedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.RoomDeleted =
+  `fishjam`.ServerMessageKt.RoomDeletedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.RoomDeleted.copy(
-  block: `fishjam`.ServerMessageKt.RoomDeletedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.RoomDeleted =
-  `fishjam`.ServerMessageKt.RoomDeletedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.MetricsReport.copy(block: `fishjam`.ServerMessageKt.MetricsReportKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.MetricsReport =
+  `fishjam`.ServerMessageKt.MetricsReportKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.MetricsReport.copy(
-  block: `fishjam`.ServerMessageKt.MetricsReportKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.MetricsReport =
-  `fishjam`.ServerMessageKt.MetricsReportKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.HlsPlayable.copy(block: `fishjam`.ServerMessageKt.HlsPlayableKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.HlsPlayable =
+  `fishjam`.ServerMessageKt.HlsPlayableKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.HlsPlayable.copy(
-  block: `fishjam`.ServerMessageKt.HlsPlayableKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.HlsPlayable =
-  `fishjam`.ServerMessageKt.HlsPlayableKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.HlsUploaded.copy(block: `fishjam`.ServerMessageKt.HlsUploadedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.HlsUploaded =
+  `fishjam`.ServerMessageKt.HlsUploadedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.HlsUploaded.copy(
-  block: `fishjam`.ServerMessageKt.HlsUploadedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.HlsUploaded =
-  `fishjam`.ServerMessageKt.HlsUploadedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed.copy(block: `fishjam`.ServerMessageKt.HlsUploadCrashedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed =
+  `fishjam`.ServerMessageKt.HlsUploadCrashedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed.copy(
-  block: `fishjam`.ServerMessageKt.HlsUploadCrashedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.HlsUploadCrashed =
-  `fishjam`.ServerMessageKt.HlsUploadCrashedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated.copy(block: `fishjam`.ServerMessageKt.PeerMetadataUpdatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated =
+  `fishjam`.ServerMessageKt.PeerMetadataUpdatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated.copy(
-  block: `fishjam`.ServerMessageKt.PeerMetadataUpdatedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.PeerMetadataUpdated =
-  `fishjam`.ServerMessageKt.PeerMetadataUpdatedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.Track.copy(block: `fishjam`.ServerMessageKt.TrackKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.Track =
+  `fishjam`.ServerMessageKt.TrackKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.Track.copy(
-  block: `fishjam`.ServerMessageKt.TrackKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.Track =
-  `fishjam`.ServerMessageKt.TrackKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
-
-@kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.TrackAdded.copy(
-  block: `fishjam`.ServerMessageKt.TrackAddedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.TrackAdded =
-  `fishjam`.ServerMessageKt.TrackAddedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.TrackAdded.copy(block: `fishjam`.ServerMessageKt.TrackAddedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.TrackAdded =
+  `fishjam`.ServerMessageKt.TrackAddedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 public val fishjam.ServerNotifications.ServerMessage.TrackAddedOrBuilder.trackOrNull: fishjam.ServerNotifications.ServerMessage.Track?
   get() = if (hasTrack()) getTrack() else null
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.TrackRemoved.copy(
-  block: `fishjam`.ServerMessageKt.TrackRemovedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.TrackRemoved =
-  `fishjam`.ServerMessageKt.TrackRemovedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.TrackRemoved.copy(block: `fishjam`.ServerMessageKt.TrackRemovedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.TrackRemoved =
+  `fishjam`.ServerMessageKt.TrackRemovedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 public val fishjam.ServerNotifications.ServerMessage.TrackRemovedOrBuilder.trackOrNull: fishjam.ServerNotifications.ServerMessage.Track?
   get() = if (hasTrack()) getTrack() else null
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated.copy(
-  block: `fishjam`.ServerMessageKt.TrackMetadataUpdatedKt.Dsl.() -> kotlin.Unit
-): fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated =
-  `fishjam`.ServerMessageKt.TrackMetadataUpdatedKt.Dsl
-    ._create(this.toBuilder())
-    .apply { block() }
-    ._build()
+public inline fun fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated.copy(block: `fishjam`.ServerMessageKt.TrackMetadataUpdatedKt.Dsl.() -> kotlin.Unit): fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdated =
+  `fishjam`.ServerMessageKt.TrackMetadataUpdatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 public val fishjam.ServerNotifications.ServerMessage.TrackMetadataUpdatedOrBuilder.trackOrNull: fishjam.ServerNotifications.ServerMessage.Track?
   get() = if (hasTrack()) getTrack() else null
@@ -2565,3 +2125,4 @@ public val fishjam.ServerNotifications.ServerMessageOrBuilder.peerAddedOrNull: f
 
 public val fishjam.ServerNotifications.ServerMessageOrBuilder.peerDeletedOrNull: fishjam.ServerNotifications.ServerMessage.PeerDeleted?
   get() = if (hasPeerDeleted()) getPeerDeleted() else null
+
