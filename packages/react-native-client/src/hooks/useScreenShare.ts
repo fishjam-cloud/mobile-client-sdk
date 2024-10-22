@@ -102,7 +102,7 @@ export function useScreenShare() {
         ...screenShareOptions,
         screenShareMetadata: {
           displayName: 'presenting',
-          type: 'screensharing' as const,
+          type: 'screenShareVideo' as const,
           active: !isScreenShareOn,
         },
       };
