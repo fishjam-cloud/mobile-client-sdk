@@ -1,24 +1,28 @@
 PROTOC_VERSION := 26.1
 SWIFT_PROTOBUF_VERSION := 1.25.2
+
 PROJECT_ROOT := $(shell git rev-parse --show-toplevel)
-PROTOC_ZIP := protoc-$(PROTOC_VERSION)-osx-universal_binary.zip
-PROTOC_URL := https://github.com/protocolbuffers/protobuf/releases/download/v$(PROTOC_VERSION)/$(PROTOC_ZIP)
-PROTOS_PATH := $(PROJECT_ROOT)/protos
+
+PROTOC_URL := https://github.com/protocolbuffers/protobuf/releases/download/v$(PROTOC_VERSION)/protoc-$(PROTOC_VERSION)-osx-universal_binary.zip
 PROTOC_BASE_PATH := $(PROJECT_ROOT)/scripts/.protoc/$(PROTOC_VERSION)
-SWIFT_PROTOBUF_BASE_PATH := $(PROJECT_ROOT)/scripts/.swift-protobuf/$(SWIFT_PROTOBUF_VERSION)
 PROTOC := $(PROTOC_BASE_PATH)/bin/protoc
+
+SWIFT_PROTOBUF_BASE_PATH := $(PROJECT_ROOT)/scripts/.swift-protobuf/$(SWIFT_PROTOBUF_VERSION)
 PROTOC_GEN_SWIFT := $(SWIFT_PROTOBUF_BASE_PATH)/bin/protoc-gen-swift
 
+PROTOS_PATH := $(PROJECT_ROOT)/protos
 PROTO_FILES := $(shell find $(PROTOS_PATH)/fishjam -name "*.proto")
 
 ANDROID_OUT := $(PROJECT_ROOT)/packages/android-client/FishjamClient/src/main/java/com/protos
 IOS_OUT := $(PROJECT_ROOT)/packages/ios-client/Sources/FishjamClient/protos
 
+# Compile in parallel
 MAKEFLAGS += -j2
 
-all: compile_android compile_ios lint_all
+all: compile_android compile_ios
 .PHONY: all
 
+# Download protoc locally if needed
 $(PROTOC):
 	@if [ ! -f $(PROTOC) ]; then \
 		echo "Downloading protoc $(PROTOC_VERSION)..."; \
@@ -31,6 +35,7 @@ $(PROTOC):
 		echo "protoc $(PROTOC_VERSION) already installed."; \
 	fi
 
+# Download protoc_gen_swift locally if needed
 $(PROTOC_GEN_SWIFT):
 	@if [ ! -f $(PROTOC_GEN_SWIFT) ]; then \
 		echo "Building swift-protobuf $(SWIFT_PROTOBUF_VERSION)..."; \
@@ -46,7 +51,6 @@ $(PROTOC_GEN_SWIFT):
 		echo "swift-protobuf $(SWIFT_PROTOBUF_VERSION) already installed."; \
 	fi
 
-# Synchronize submodules
 sync:
 	@echo "Synchronising submodules..."
 	@git submodule sync --recursive > /dev/null
