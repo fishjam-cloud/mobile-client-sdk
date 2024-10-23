@@ -84,7 +84,7 @@
     "debug",
     "android/build.gradle",
     "android/src/**",
-    "ios/*.swift",
+    "ios/**/*.swift",
     "ios/RNFishjamClient.podspec",
     "plugin/build/**",
     "plugin/broadcastExtensionFiles/**",
