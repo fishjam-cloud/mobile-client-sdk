@@ -25,6 +25,6 @@ Pod::Spec.new do |s|
 
   s.source_files = '**/*.{h,m,swift}'
 
-  s.dependency 'FishjamCloudClient', '0.4.0'
+  s.dependency 'FishjamCloudClient', '0.4.1'
 
 end
