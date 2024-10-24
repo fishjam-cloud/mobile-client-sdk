@@ -1,6 +1,6 @@
 {
   "name": "fishjam-mobile-sdk",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "private": true,
   "packageManager": "yarn@4.5.0",
@@ -20,10 +20,10 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
     "patch-package": "8.0.0",
     "prettier": "^3.3.3",
-    "typedoc": "^0.26.6",
+    "typedoc": "^0.26.10",
     "typedoc-material-theme": "^1.1.0"
   },
   "scripts": {
@@ -31,8 +31,9 @@
     "build": "yarn workspaces foreach -At run build",
     "prepare": "yarn workspace @fishjam-cloud/react-native-client run prepare",
     "tsc": "yarn workspaces foreach -A -p run tsc",
-    "lint": "yarn workspaces foreach -A -p run lint",
-    "lint:check": "yarn workspaces foreach -A -p run lint:check",
-    "docs": "typedoc"
+    "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
+    "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
+    "docs": "typedoc",
+    "gen:proto": "make -f ./scripts/compile_protos.mk"
   }
 }

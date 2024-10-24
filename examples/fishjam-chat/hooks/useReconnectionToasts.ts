@@ -10,13 +10,13 @@ export function useReconnectionToasts() {
   const { reconnectionStatus } = useReconnection();
 
   useEffect(() => {
-    if (prevStatus.current == reconnectionStatus) return;
+    if (prevStatus.current === reconnectionStatus) return;
     prevStatus.current = reconnectionStatus;
-    if (reconnectionStatus == 'error') {
+    if (reconnectionStatus === 'error') {
       Toast.show({
         text1: 'Failed to reconnect',
       });
-    } else if (reconnectionStatus == 'reconnecting') {
+    } else if (reconnectionStatus === 'reconnecting') {
       Toast.show({
         text1: 'Connection is broken, reconnecting...',
       });

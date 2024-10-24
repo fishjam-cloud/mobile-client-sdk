@@ -10,49 +10,18 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { URL } from 'react-native-url-polyfill';
 
 import { Button, TextInput, DismissKeyboard } from '../components';
 import {
   AppRootStackParamList,
   TabParamList,
 } from '../navigators/AppNavigator';
+import { joinRoomWithRoomManager } from '../utils/roomManager';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithRoomManager'>,
   NativeStackScreenProps<AppRootStackParamList>
 >;
-
-async function getFishjamServer(
-  roomManagerUrl: string,
-  roomName: string,
-  peerName: string,
-) {
-  const url = new URL(roomManagerUrl);
-  url.searchParams.set('roomName', roomName);
-  url.searchParams.set('peerName', peerName);
-
-  const response = await fetch(url.toString());
-
-  if (!response.ok) {
-    const responseText = await response.text();
-    console.warn(
-      'get_fishjam_failed',
-      `statusCode=${response.status}`,
-      `message=${responseText}`,
-    );
-    throw new Error(responseText);
-  }
-  const tokenData = (await response.json()) as {
-    url: string;
-    peerToken: string;
-  };
-
-  return {
-    fishjamUrl: tokenData.url,
-    token: tokenData.peerToken,
-  };
-}
 
 export default function ConnectScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
@@ -68,7 +37,7 @@ export default function ConnectScreen({ navigation }: Props) {
     try {
       setConnectionError(null);
       setLoading(true);
-      const { fishjamUrl, token } = await getFishjamServer(
+      const { fishjamUrl, token } = await joinRoomWithRoomManager(
         roomManagerUrl,
         roomName,
         userName,
@@ -126,8 +95,6 @@ export default function ConnectScreen({ navigation }: Props) {
   );
 }
 
-const windowWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -147,6 +114,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   logo: {
-    width: windowWidth - 40,
+    width: Dimensions.get('window').width - 40,
   },
 });
