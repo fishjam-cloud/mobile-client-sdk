@@ -1,5 +1,6 @@
 import { GenericMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
+import { PeerTrackMetadata } from '../hooks/usePeers';
 
 export type ConnectionConfig = {
   /**
@@ -29,7 +30,7 @@ export async function joinRoom<
 >(
   url: string,
   peerToken: string,
-  peerMetadata?: PeerMetadata,
+  peerMetadata?: PeerTrackMetadata<PeerMetadata>,
   config?: ConnectionConfig,
 ) {
   await RNFishjamClientModule.joinRoom(
