@@ -11,12 +11,7 @@ import {
   Text,
 } from 'react-native';
 
-import {
-  Button,
-  TextInput,
-  QRCodeScanner,
-  DismissKeyboard,
-} from '../components';
+import { Button, TextInput, DismissKeyboard } from '../components';
 import {
   TabParamList,
   AppRootStackParamList,
@@ -33,7 +28,7 @@ const ConnectScreen = ({ navigation }: Props) => {
   const [connectionError, setConnectionError] = useState<string | null>(null);
 
   const [peerToken, onChangePeerToken] = useState(
-    process.env.EXPO_PUBLIC_FISHJAM_TOKEN ?? '',
+    process.env.EXPO_PUBLIC_FISHJAM_PEER_TOKEN ?? '',
   );
   const [fishjamUrl, onChangeFishjamUrl] = useState(
     process.env.EXPO_PUBLIC_FISHJAM_URL ?? '',
@@ -82,7 +77,6 @@ const ConnectScreen = ({ navigation }: Props) => {
             onPress={onTapConnectButton}
             accessibilityLabel={CONNECT_BUTTON}
           />
-          <QRCodeScanner onCodeScanned={onChangePeerToken} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </DismissKeyboard>
