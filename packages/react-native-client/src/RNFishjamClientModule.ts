@@ -2,7 +2,7 @@ import { EventEmitter, requireNativeModule } from 'expo-modules-core';
 import { NativeModule } from 'react-native';
 
 import type { RTCStats } from './debug/stats/types';
-import type { SimulcastConfig } from './types';
+import type { GenericMetadata, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
@@ -39,9 +39,10 @@ type RNFishjamClient = {
   toggleAppScreenShare: (
     screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
-  getPeers: <PeerMetadataType extends Metadata>() => Promise<
-    Peer<PeerMetadataType>[]
-  >;
+  getPeers: <
+    PeerMetadataType extends Metadata,
+    ServerMetadata extends Metadata = GenericMetadata,
+  >() => Promise<Peer<PeerMetadataType, ServerMetadata>[]>;
   updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
