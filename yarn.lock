@@ -2659,8 +2659,8 @@ __metadata:
     expo-status-bar: "npm:~1.12.1"
     react: "npm:^18.2.0"
     react-native: "npm:^0.75.2"
-    react-native-gesture-handler: "npm:~2.20.0"
-    react-native-reanimated: "npm:^3.15.5"
+    react-native-gesture-handler: "npm:~2.20.1"
+    react-native-reanimated: "npm:^3.16.1"
     react-native-safe-area-context: "npm:4.11.1"
     react-native-screens: "npm:^3.34.0"
     react-native-toast-message: "npm:^2.2.1"
@@ -2688,8 +2688,8 @@ __metadata:
   linkType: soft
 
 "@gorhom/bottom-sheet@npm:^5":
-  version: 5.0.2
-  resolution: "@gorhom/bottom-sheet@npm:5.0.2"
+  version: 5.0.4
+  resolution: "@gorhom/bottom-sheet@npm:5.0.4"
   dependencies:
     "@gorhom/portal": "npm:1.0.14"
     invariant: "npm:^2.2.4"
@@ -2705,7 +2705,7 @@ __metadata:
       optional: true
     "@types/react-native":
       optional: true
-  checksum: 10c0/232c65215d5bbdbc22e82a5d4935594dd32438efa981238fcd41153033c409ead8c492d8d0c8338f0d9a249ae3788434c790a7e8396bb6e4be49509d8da6db2b
+  checksum: 10c0/c1f8934b19f0da6182b8da9884a27680293fa544fea186d8c8e978fd680c72c1766715aad9ac3a990d7f9226fbf41f71e9e587eaa47a61e850f24462eba0416d
   languageName: node
   linkType: hard
 
@@ -15270,9 +15270,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:~2.20.0":
-  version: 2.20.0
-  resolution: "react-native-gesture-handler@npm:2.20.0"
+"react-native-gesture-handler@npm:~2.20.1":
+  version: 2.20.1
+  resolution: "react-native-gesture-handler@npm:2.20.1"
   dependencies:
     "@egjs/hammerjs": "npm:^2.0.17"
     hoist-non-react-statics: "npm:^3.3.0"
@@ -15281,13 +15281,13 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/d5780728c4d7a0966416d11f5079e5ba3ec28103fa9bc9e53a5676472bd01bc291c6b5357e5ea3c6c34743c5bf73abdadf625bdb2d8d3bb8b4b56ce699e37483
+  checksum: 10c0/17101b34af9b3a35c4a58b4c8c4aea99b560bf499b134e906381b1e3c0fbd7e91c6232b2acbb7b233a6e2827892b1716795b7ff2c52b84e6b7f935133e0cfb35
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:^3.15.5":
-  version: 3.15.5
-  resolution: "react-native-reanimated@npm:3.15.5"
+"react-native-reanimated@npm:^3.16.1":
+  version: 3.16.1
+  resolution: "react-native-reanimated@npm:3.16.1"
   dependencies:
     "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
     "@babel/plugin-transform-class-properties": "npm:^7.0.0-0"
@@ -15304,7 +15304,7 @@ __metadata:
     "@babel/core": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 10c0/20eebe3e252afbc5bcb3496e974227c3da04e498b8133d74e421be1c9588c37bf8156f5f28fe42a230f1b1e4ac672372a5b032e409abbab9a9e6aab1920643b1
+  checksum: 10c0/18202fce7e96d7cd0dbab2f8938ddf89efa6687e5f17c43ba6548de5563efb270b7b8d7507598be706d5d53224bb12fcfcd70150d15ca5d9fd46cb2c54751d59
   languageName: node
   linkType: hard
 
