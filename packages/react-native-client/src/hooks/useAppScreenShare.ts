@@ -43,7 +43,7 @@ function useIosAppScreenShare(): AppScreenShareData {
         ...screenShareOptions,
         screenShareMetadata: {
           displayName: 'presenting',
-          type: 'screensharing' as const,
+          type: 'screenShareVideo' as const,
           active: !isAppScreenShareOn,
         },
       };

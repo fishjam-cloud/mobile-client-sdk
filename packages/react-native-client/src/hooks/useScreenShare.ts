@@ -85,7 +85,7 @@ export function useScreenShare() {
   );
 
   const handleScreenSharePermission = useCallback(async () => {
-    if (Platform.OS == 'android') {
+    if (Platform.OS === 'android') {
       return await RNFishjamClientModule.handleScreenSharePermission();
     }
     return 'denied';
@@ -94,16 +94,15 @@ export function useScreenShare() {
   const toggleScreenShare = useCallback(
     async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
       if (Platform.OS === 'android' && !isScreenShareOn) {
-        (await handleScreenSharePermission()) == 'granted' &&
-          (await RNFishjamClientModule.startForegroundService({
-            enableScreenSharing: true,
-          }));
+        if ((await handleScreenSharePermission()) !== 'granted') {
+          return;
+        }
       }
       const options = {
         ...screenShareOptions,
         screenShareMetadata: {
           displayName: 'presenting',
-          type: 'screensharing' as const,
+          type: 'screenShareVideo' as const,
           active: !isScreenShareOn,
         },
       };

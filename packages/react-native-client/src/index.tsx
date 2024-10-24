@@ -59,10 +59,7 @@ export { VideoRendererView } from './components/VideoRendererView';
 export type { PeerStatus } from './hooks/usePeerStatus';
 export { usePeerStatus } from './hooks/usePeerStatus';
 
-export type {
-  ForegroundServiceNotificationConfig,
-  ForegroundServicePermissionsConfig,
-} from './hooks/useForegroundService';
+export type { ForegroundServiceConfig } from './hooks/useForegroundService';
 export { useForegroundService } from './hooks/useForegroundService';
 
 export type {

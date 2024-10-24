@@ -7,6 +7,8 @@ import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
+import com.fishjamcloud.client.media.CaptureDevice
+import com.fishjamcloud.client.media.CaptureDeviceChangedListener
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
@@ -27,6 +29,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import io.fishjam.reactnative.extensions.toLocalCamera
 import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
 import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
@@ -40,7 +43,8 @@ import org.webrtc.Logging
 
 class RNFishjamClient(
   val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
-) : FishjamClientListener {
+) : FishjamClientListener,
+  CaptureDeviceChangedListener {
   private val SCREENSHARE_REQUEST = 1
 
   var isMicrophoneOn = false
@@ -71,11 +75,12 @@ class RNFishjamClient(
   var peerStatus = PeerStatus.idle
     private set(value) {
       field = value
-      val event = EmitableEvents.PeerStatusChanged
-      emitEvent(event, mapOf(event.name to value))
+      emitEvent(EmitableEvent.peerStatusChanged(value))
     }
 
-  private var foregroundServiceManager: ForegroundServiceManager? = null
+  private val foregroundServiceManager by lazy {
+    ForegroundServiceManager(appContext ?: throw CodedException("appContext not found"))
+  }
 
   companion object {
     val trackUpdateListenersManager = TracksUpdateListenersManager()
@@ -254,7 +259,7 @@ class RNFishjamClient(
       com.fishjamcloud.client.ConnectConfig(
         url,
         peerToken,
-        localUserMetadata,
+        peerMetadata,
         ReconnectConfig(
           config.reconnectConfig.maxAttempts,
           config.reconnectConfig.initialDelayMs,
@@ -280,15 +285,16 @@ class RNFishjamClient(
 
   suspend fun startCamera(config: CameraConfig) {
     if (isCameraInitialized) {
-      emitWarning("Camera already started. You may only call startCamera once before leaveRoom is called.")
+      emitEvent(EmitableEvent.warning("Camera already started. You may only call startCamera once before leaveRoom is called."))
       return
     }
     if (!PermissionUtils.requestCameraPermission(appContext)) {
-      emitWarning("Camera permission not granted.")
+      emitEvent(EmitableEvent.warning("Camera permission not granted."))
       return
     }
 
     val cameraTrack = createCameraTrack(config)
+    cameraTrack.captureDeviceChangedListener = this
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
     isCameraInitialized = true
@@ -310,8 +316,7 @@ class RNFishjamClient(
   ) {
     cameraTrack.setEnabled(isEnabled)
     isCameraOn = isEnabled
-    val event = EmitableEvents.IsCameraOn
-    emitEvent(event, mapOf(event.name to isEnabled))
+    emitEvent(EmitableEvent.currentCameraChanged(cameraTrack.getCaptureDevice()?.toLocalCamera(), isEnabled))
     localCameraTracksChangedListenersManager.notifyListeners()
   }
 
@@ -337,7 +342,7 @@ class RNFishjamClient(
 
   private suspend fun startMicrophone() {
     if (!PermissionUtils.requestMicrophonePermission(appContext)) {
-      emitWarning("Microphone permission not granted.")
+      emitEvent(EmitableEvent.warning("Microphone permission not granted."))
       return
     }
 
@@ -352,8 +357,7 @@ class RNFishjamClient(
   ) {
     microphoneTrack.setEnabled(isEnabled)
     isMicrophoneOn = isEnabled
-    val event = EmitableEvents.IsMicrophoneOn
-    emitEvent(event, mapOf(event.name to isEnabled))
+    emitEvent(EmitableEvent.isMicrophoneOn(isEnabled))
   }
 
   suspend fun toggleMicrophone(): Boolean {
@@ -362,6 +366,15 @@ class RNFishjamClient(
     } else {
       getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
     }
+
+    updateLocalAudioTrackMetadata(
+      mapOf(
+        "active" to isMicrophoneOn,
+        "paused" to !isMicrophoneOn, // TODO: FCE-711,
+        "type" to "microphone"
+      )
+    )
+
     return isMicrophoneOn
   }
 
@@ -380,22 +393,13 @@ class RNFishjamClient(
     }
   }
 
-  fun configureForegroundService(config: ForegroundServiceNotificationConfig) {
-    if (foregroundServiceManager == null) {
-      foregroundServiceManager = ForegroundServiceManager(appContext!!, config)
-    }
-  }
-
-  suspend fun startForegroundService(config: ForegroundServicePermissionsConfig) {
-    if (foregroundServiceManager == null) {
-      throw CodedException("Foreground service not configured.")
-    }
-
-    foregroundServiceManager?.startForegroundService(config)
+  suspend fun startForegroundService(config: ForegroundServiceConfig) {
+    foregroundServiceManager.updateServiceWithConfig(config)
+    foregroundServiceManager.start()
   }
 
   fun stopForegroundService() {
-    foregroundServiceManager?.stopForegroundService()
+    foregroundServiceManager.stop()
   }
 
   suspend fun toggleScreenShare(screenShareOptions: ScreenShareOptions) {
@@ -408,6 +412,7 @@ class RNFishjamClient(
         screenShareOptions.maxBandwidthMap,
         screenShareOptions.maxBandwidthInt
       )
+
     if (!isScreenShareOn) {
       ensureConnected()
       startScreenShare()
@@ -475,18 +480,11 @@ class RNFishjamClient(
   fun getCaptureDevices(): List<Map<String, Any>> {
     val devices = LocalVideoTrack.getCaptureDevices(appContext?.reactContext!!)
     return devices.map { device ->
-      mapOf<String, Any>(
-        "id" to device.deviceName,
-        "name" to device.deviceName,
-        "facingDirection" to
-          when (true) {
-            device.isFrontFacing -> "front"
-            device.isBackFacing -> "back"
-            else -> "unspecified"
-          }
-      )
+      device.toLocalCamera()
     }
   }
+
+  fun getCurrentCaptureDevice(): Map<String, Any>? = getLocalVideoTrack()?.getCaptureDevice()?.toLocalCamera()
 
   fun updatePeerMetadata(metadata: Metadata) {
     ensureConnected()
@@ -508,7 +506,7 @@ class RNFishjamClient(
     }
   }
 
-  fun updateLocalAudioTrackMetadata(metadata: Metadata) {
+  private fun updateLocalAudioTrackMetadata(metadata: Metadata) {
     ensureAudioTrack()
     getLocalAudioTrack()?.let {
       updateTrackMetadata(it.id(), metadata)
@@ -606,13 +604,15 @@ class RNFishjamClient(
     fishjamClient.setTargetTrackEncoding(trackId, encoding.toTrackEncoding())
   }
 
-  fun toggleVideoTrackEncoding(encoding: String): Map<String, Any> {
+  fun toggleVideoTrackEncoding(encoding: String): Map<String, Any?> {
     ensureVideoTrack()
     val trackId = getLocalVideoTrack()?.id() ?: return emptyMap()
     videoSimulcastConfig = toggleTrackEncoding(encoding, trackId, videoSimulcastConfig)
-    val eventName = EmitableEvents.SimulcastConfigUpdate
-    emitEvent(eventName, getSimulcastConfigAsRNMap(videoSimulcastConfig))
-    return getSimulcastConfigAsRNMap(videoSimulcastConfig)
+
+    val event = EmitableEvent.simulcastConfigUpdate(videoSimulcastConfig)
+    emitEvent(event)
+
+    return event.data
   }
 
   fun setVideoTrackEncodingBandwidth(
@@ -712,6 +712,10 @@ class RNFishjamClient(
     if (mediaProjectionIntent == null) {
       throw MissingScreenSharePermission()
     }
+
+    foregroundServiceManager.updateService { screenSharingEnabled = true }
+    foregroundServiceManager.start()
+
     fishjamClient.createScreenShareTrack(
       mediaProjectionIntent!!,
       videoParameters,
@@ -743,13 +747,14 @@ class RNFishjamClient(
 
   private fun setScreenShareTrackState(isEnabled: Boolean) {
     isScreenShareOn = isEnabled
-    val event = EmitableEvents.IsScreenShareOn
-    emitEvent(event, mapOf(event.name to isEnabled))
+    emitEvent(EmitableEvent.isScreenShareOn(isEnabled))
   }
 
   private fun stopScreenShare() {
     ensureScreenShareTrack()
     coroutineScope.launch {
+      foregroundServiceManager.updateService { screenSharingEnabled = false }
+      foregroundServiceManager.start()
       val screenShareTrack =
         fishjamClient.getLocalEndpoint().tracks.values.first { track ->
           track is LocalScreenShareTrack
@@ -762,58 +767,21 @@ class RNFishjamClient(
     }
   }
 
-  private fun emitEvent(
-    event: EmitableEvents,
-    data: Map<String, Any?> = mapOf()
-  ) {
+  private fun emitEvent(event: EmitableEvent) {
     CoroutineScope(Dispatchers.Main).launch {
-      sendEvent(event.name, data)
+      sendEvent(event.name, event.data)
     }
   }
 
-  fun emitWarning(warning: String) {
-    emitEvent(EmitableEvents.Warning, mapOf("message" to warning))
-  }
-
   private fun emitEndpoints() {
-    val event = EmitableEvents.PeersUpdate
-    emitEvent(event, mapOf(event.name to getPeers()))
+    emitEvent(EmitableEvent.peersUpdate(getPeers()))
   }
-
-  private fun audioDeviceAsRNMap(audioDevice: AudioDevice): Map<String, String?> =
-    mapOf(
-      "name" to audioDevice.name,
-      "type" to AudioDeviceKind.fromAudioDevice(audioDevice)?.typeName
-    )
 
   private fun emitAudioDeviceEvent(
     audioDevices: List<AudioDevice>,
     selectedDevice: AudioDevice?
   ) {
-    val event = EmitableEvents.AudioDeviceUpdate
-    emitEvent(
-      event,
-      mapOf(
-        event.name to
-          mapOf(
-            "selectedDevice" to (
-              if (selectedDevice != null) {
-                audioDeviceAsRNMap(
-                  selectedDevice
-                )
-              } else {
-                null
-              }
-            ),
-            "availableDevices" to
-              audioDevices.map { audioDevice ->
-                audioDeviceAsRNMap(
-                  audioDevice
-                )
-              }
-          )
-      )
-    )
+    emitEvent(EmitableEvent.audioDeviceUpdate(audioDevices, selectedDevice))
   }
 
   private fun getSimulcastConfigAsRNMap(simulcastConfig: SimulcastConfig): Map<String, Any> =
@@ -885,8 +853,7 @@ class RNFishjamClient(
   override fun onPeerUpdated(peer: Peer) {}
 
   override fun onBandwidthEstimationChanged(estimation: Long) {
-    val event = EmitableEvents.BandwidthEstimation
-    emitEvent(event, mapOf(event.name to estimation.toFloat()))
+    emitEvent(EmitableEvent.bandwidthEstimation(estimation))
   }
 
   override fun onDisconnected() {
@@ -912,14 +879,18 @@ class RNFishjamClient(
   }
 
   override fun onReconnected() {
-    emitEvent(EmitableEvents.Reconnected)
+    emitEvent(EmitableEvent.reconnected)
   }
 
   override fun onReconnectionStarted() {
-    emitEvent(EmitableEvents.ReconnectionStarted)
+    emitEvent(EmitableEvent.reconnectionStarted)
   }
 
   override fun onReconnectionRetriesLimitReached() {
-    emitEvent(EmitableEvents.ReconnectionRetriesLimitReached)
+    emitEvent(EmitableEvent.reconnectionRetriesLimitReached)
+  }
+
+  override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
+    emitEvent(EmitableEvent.currentCameraChanged(captureDevice?.toLocalCamera(), isCameraOn))
   }
 }

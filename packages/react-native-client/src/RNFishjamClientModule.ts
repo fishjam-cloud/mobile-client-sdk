@@ -8,10 +8,7 @@ import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
-import {
-  ForegroundServiceNotificationConfig,
-  ForegroundServicePermissionsConfigInternal,
-} from './hooks/useForegroundService';
+import { ForegroundServiceConfig } from './hooks/useForegroundService';
 
 type Metadata = { [key: string]: any };
 
@@ -21,6 +18,7 @@ type RNFishjamClient = {
   isScreenShareOn: boolean;
   isAppScreenShareOn: boolean; // only available on ios
   cameras: ReadonlyArray<Camera>;
+  currentCamera: Camera | null;
   peerStatus: PeerStatus;
   joinRoom: (
     url: string,
@@ -50,9 +48,6 @@ type RNFishjamClient = {
   updateVideoTrackMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
-  updateAudioTrackMetadata: <MetadataType extends Metadata>(
-    metadata: MetadataType,
-  ) => Promise<void>;
   updateScreenShareTrackMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
@@ -78,12 +73,7 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  configureForegroundService: (
-    config: ForegroundServiceNotificationConfig,
-  ) => void;
-  startForegroundService: (
-    config: ForegroundServicePermissionsConfigInternal,
-  ) => Promise<void>;
+  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
   stopForegroundService: () => void;
 };
 

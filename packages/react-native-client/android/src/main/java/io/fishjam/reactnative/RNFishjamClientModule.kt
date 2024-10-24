@@ -81,7 +81,7 @@ class ConnectConfig : Record {
   val reconnectConfig: ReconnectConfig = ReconnectConfig()
 }
 
-class ForegroundServiceNotificationConfig : Record {
+class ForegroundServiceConfig : Record {
   @Field
   val channelId: String? = null
 
@@ -93,17 +93,12 @@ class ForegroundServiceNotificationConfig : Record {
 
   @Field
   val notificationTitle: String? = null
-}
-
-class ForegroundServicePermissionsConfig : Record {
-  @Field
-  val enableCamera: Boolean = false
 
   @Field
-  val enableMicrophone: Boolean = false
+  val enableCamera: Boolean? = null
 
   @Field
-  val enableScreenSharing: Boolean = false
+  val enableMicrophone: Boolean? = null
 }
 
 class RNFishjamClientModule : Module() {
@@ -118,7 +113,7 @@ class RNFishjamClientModule : Module() {
 
       Name("RNFishjamClient")
 
-      Events(EmitableEvents.allEvents)
+      Events(EmitableEvent.allEvents)
 
       OnCreate {
         rnFishjamClient.onModuleCreate(appContext)
@@ -146,6 +141,10 @@ class RNFishjamClientModule : Module() {
 
       Property("cameras") {
         return@Property rnFishjamClient.getCaptureDevices()
+      }
+
+      Property("currentCamera") {
+        return@Property rnFishjamClient.getCurrentCaptureDevice()
       }
 
       Property("isScreenShareOn") {
@@ -234,12 +233,6 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("updateAudioTrackMetadata") Coroutine { metadata: Map<String, Any> ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.updateLocalAudioTrackMetadata(metadata)
-        }
-      }
-
       AsyncFunction("updateScreenShareTrackMetadata") Coroutine { metadata: Map<String, Any> ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata)
@@ -308,11 +301,7 @@ class RNFishjamClientModule : Module() {
 
       AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
 
-      Function("configureForegroundService") { config: ForegroundServiceNotificationConfig ->
-        return@Function rnFishjamClient.configureForegroundService(config)
-      }
-
-      AsyncFunction("startForegroundService") Coroutine { config: ForegroundServicePermissionsConfig ->
+      AsyncFunction("startForegroundService") Coroutine { config: ForegroundServiceConfig ->
         rnFishjamClient.startForegroundService(config)
       }
 
