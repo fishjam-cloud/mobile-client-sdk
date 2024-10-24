@@ -57,6 +57,13 @@ internal class PeerConnectionManager(
 
   private var streamIds: List<String> = listOf(UUID.randomUUID().toString())
 
+  // ex-webrtc backend crashes if it's sent a candidate before sdp offer
+  // we can get local candidates from peer connection any time on a different thread
+  // so we queue them here and send them after sending sdp offer
+  private var sentSdpOffer = false
+  private var queuedLocalCandidates = mutableListOf<IceCandidate>()
+  private var qlcMutext = Mutex()
+
   private fun getSendEncodingsFromConfig(simulcastConfig: SimulcastConfig): List<RtpParameters.Encoding> {
     val sendEncodings = Constants.simulcastEncodings()
     simulcastConfig.activeEncodings.forEach {
@@ -284,7 +291,8 @@ internal class PeerConnectionManager(
       }
 
     val config = PeerConnection.RTCConfiguration(iceServers)
-    config.iceTransportsType = PeerConnection.IceTransportsType.RELAY
+    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
+    config.iceTransportsType = PeerConnection.IceTransportsType.ALL
     this.config = config
   }
 
@@ -372,19 +380,18 @@ internal class PeerConnectionManager(
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
     }
+    qlcMutext.withLock {
+      sentSdpOffer = false
+      this.queuedLocalCandidates = mutableListOf()
+    }
     prepareIceServers(integratedTurnServers)
 
-    var needsRestart = true
     if (peerConnection == null) {
       setupPeerConnection(localTracks)
-      needsRestart = false
     }
+
     peerConnectionMutex.withLock {
       val pc = peerConnection!!
-
-      if (needsRestart) {
-        pc.restartIce()
-      }
 
       addNecessaryTransceivers(tracksTypes)
 
@@ -475,9 +482,31 @@ internal class PeerConnectionManager(
     Timber.d("Change ice gathering state to $state")
   }
 
+  suspend fun onSentSdpOffer() {
+    qlcMutext.withLock {
+      sentSdpOffer = true
+      queuedLocalCandidates.forEach { candidate ->
+        listeners.forEach { listener ->
+          listener.onLocalIceCandidate(
+            candidate
+          )
+        }
+      }
+      queuedLocalCandidates = mutableListOf()
+    }
+  }
+
   override fun onIceCandidate(candidate: IceCandidate?) {
-    if (candidate != null) {
-      listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }
+    coroutineScope.launch {
+      qlcMutext.withLock {
+        if (candidate != null) {
+          if (sentSdpOffer) {
+            listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }
+          } else {
+            queuedLocalCandidates.add(candidate)
+          }
+        }
+      }
     }
   }
 
