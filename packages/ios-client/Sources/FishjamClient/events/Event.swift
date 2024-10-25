@@ -225,8 +225,8 @@ struct SdpOfferEvent: SendableEvent {
 struct LocalCandidateEvent: SendableEvent {
     let candidate: String
     let sdpMLineIndex: Int32
-    let sdpMid: Int32
-    let usernameFragment: String
+    let sdpMid: Int32?
+    let usernameFragment: String?
 
     func serialize() -> Payload {
         return .init([
@@ -319,7 +319,6 @@ struct ConnectedEvent: ReceivableEvent, Codable {
 struct EndpointAddedEvent: ReceivableEvent, Codable {
     struct Data: Codable {
         let id: String
-        let type: EndpointType
         let metadata: Metadata?
         let tracks: [String: TrackData]?
     }
@@ -411,7 +410,7 @@ struct RemoteCandidateEvent: ReceivableEvent, Codable {
     struct Data: Codable {
         let candidate: String
         let sdpMLineIndex: Int32
-        let sdpMid: Int32
+        let sdpMid: Int32?
         let usernameFragment: String?
     }
 

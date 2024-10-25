@@ -64,7 +64,7 @@ data class LocalCandidate(
   val type: String,
   val data: Payload
 ) : SendableEvent() {
-  constructor(candidate: String, sdpMLineIndex: Int, sdpMid: Int, usernameFragment: String) :
+  constructor(candidate: String, sdpMLineIndex: Int, sdpMid: Int?, usernameFragment: String?) :
     this(
       "custom",
       mapOf(
@@ -378,8 +378,8 @@ data class RemoteCandidate(
   data class Data(
     val candidate: String,
     val sdpMLineIndex: Int,
-    val sdpMid: Int,
-    val usernameFragment: String
+    val sdpMid: Int?,
+    val usernameFragment: String?
   )
 }
 

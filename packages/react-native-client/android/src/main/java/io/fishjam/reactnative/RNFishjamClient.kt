@@ -426,7 +426,6 @@ class RNFishjamClient(
       mapOf(
         "id" to endpoint.id,
         "isLocal" to (endpoint.id == fishjamClient.getLocalEndpoint().id),
-        "type" to endpoint.type,
         "metadata" to endpoint.metadata,
         "tracks" to
           endpoint.tracks.values.mapNotNull { track ->

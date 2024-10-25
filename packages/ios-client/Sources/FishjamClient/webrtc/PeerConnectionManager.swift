@@ -202,7 +202,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
     private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
-        config?.iceTransportPolicy = .relay
+        let isExWebrtc = turnServers.count == 0
 
         let servers: [RTCIceServer] = turnServers.map { server in
             let url = [
@@ -220,7 +220,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         iceServers = servers
         config = RTCConfiguration()
         config?.iceServers = servers
-        config?.iceTransportPolicy = .all
+        config?.iceTransportPolicy = isExWebrtc ? .all : .relay
     }
 
     public func close() {
@@ -236,9 +236,10 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     // Default ICE server when no turn servers are specified
     private static func defaultIceServer() -> RTCIceServer {
-        let iceUrl = "stun:stun.l.google.com:19302"
+        let iceUrl1 = "stun:stun.l.google.com:19302"
+        let iceUrl2 = "stun:stun.l.google.com:5349"
 
-        return RTCIceServer(urlStrings: [iceUrl])
+        return RTCIceServer(urlStrings: [iceUrl1, iceUrl2])
     }
 
     /// On each `OfferData` we receive an information about an amount of audio/video

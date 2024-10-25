@@ -270,29 +270,41 @@ internal class PeerConnectionManager(
       return
     }
 
-    this.iceServers =
-      integratedTurnServers.map {
-        val url =
-          listOf(
-            "turn",
-            ":",
-            it.serverAddr,
-            ":",
-            it.serverPort.toString(),
-            "?transport=",
-            it.transport
-          ).joinToString("")
+    val isExWebrtc = integratedTurnServers.isEmpty()
 
-        PeerConnection.IceServer
-          .builder(url)
-          .setUsername(it.username)
-          .setPassword(it.password)
-          .createIceServer()
-      }
+    if (isExWebrtc) {
+      val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
+      this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
+    } else {
+      this.iceServers =
+        integratedTurnServers.map {
+          val url =
+            listOf(
+              "turn",
+              ":",
+              it.serverAddr,
+              ":",
+              it.serverPort.toString(),
+              "?transport=",
+              it.transport
+            ).joinToString("")
+
+          PeerConnection.IceServer
+            .builder(url)
+            .setUsername(it.username)
+            .setPassword(it.password)
+            .createIceServer()
+        }
+    }
 
     val config = PeerConnection.RTCConfiguration(iceServers)
     config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
-    config.iceTransportsType = PeerConnection.IceTransportsType.ALL
+    config.iceTransportsType =
+      if (isExWebrtc) {
+        PeerConnection.IceTransportsType.ALL
+      } else {
+        PeerConnection.IceTransportsType.RELAY
+      }
     this.config = config
   }
 

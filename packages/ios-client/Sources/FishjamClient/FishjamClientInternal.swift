@@ -21,7 +21,7 @@ class FishjamClientInternal {
 
     private var _loggerPrefix = "FishjamClientInternal"
 
-    private(set) var localEndpoint: Endpoint = Endpoint(id: "", type: .EXWEBRTC)
+    private(set) var localEndpoint: Endpoint = Endpoint(id: "")
     private var prevTracks: [Track] = []
     private var remoteEndpointsMap: [String: Endpoint] = [:]
 
@@ -99,7 +99,7 @@ class FishjamClientInternal {
             }
         }
         peerConnectionManager.close()
-        localEndpoint = Endpoint(id: "", type: .EXWEBRTC)
+        localEndpoint = Endpoint(id: "")
         remoteEndpointsMap = [:]
         peerConnectionManager.removeListener(self)
         rtcEngineCommunication.removeListener(self)
@@ -556,7 +556,7 @@ extension FishjamClientInternal: RTCEngineListener {
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         for eventEndpoint in otherEndpoints {
             var endpoint = Endpoint(
-                id: eventEndpoint.id, type: EndpointType(fromString: eventEndpoint.type),
+                id: eventEndpoint.id,
                 metadata: eventEndpoint.metadata ?? Metadata())
             for (trackId, track) in eventEndpoint.tracks {
                 let track = Track(
@@ -586,11 +586,11 @@ extension FishjamClientInternal: RTCEngineListener {
         }
     }
 
-    func onEndpointAdded(endpointId: String, type: EndpointType, metadata: Metadata?) {
+    func onEndpointAdded(endpointId: String, metadata: Metadata?) {
         if endpointId == localEndpoint.id {
             return
         }
-        let endpoint = Endpoint(id: endpointId, type: type, metadata: metadata ?? Metadata())
+        let endpoint = Endpoint(id: endpointId, metadata: metadata ?? Metadata())
 
         remoteEndpointsMap[endpoint.id] = endpoint
 

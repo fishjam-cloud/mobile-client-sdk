@@ -4,7 +4,6 @@ import com.fishjamcloud.client.media.Track
 
 data class Endpoint(
   val id: String,
-  val type: EndpointType,
   val metadata: Metadata? = mapOf(),
   val tracks: Map<String, Track> = mapOf()
 ) {
