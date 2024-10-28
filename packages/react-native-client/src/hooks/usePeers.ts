@@ -14,6 +14,11 @@ export type TrackType = 'Audio' | 'Video';
  */
 export type VadStatus = 'silence' | 'speech';
 
+export type PeerTrackMetadata<PeerMetadata, ServerMetadata> = {
+  peer: PeerMetadata;
+  server: ServerMetadata;
+};
+
 type TrackBase = {
   id: string;
   type: TrackType;
@@ -43,7 +48,10 @@ export type Track = VideoTrack | AudioTrack;
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
 
-export type Peer<PeerMetadata extends GenericMetadata = GenericMetadata> = {
+export type Peer<
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+  ServerMetadata extends GenericMetadata = GenericMetadata,
+> = {
   /**
    *  id used to identify a peer
    */
@@ -53,9 +61,9 @@ export type Peer<PeerMetadata extends GenericMetadata = GenericMetadata> = {
    */
   isLocal: boolean;
   /**
-   * a map indexed by strings, containing peer metadata from the server
+   * a type containing peer and server metadata
    */
-  metadata: PeerMetadata;
+  metadata: PeerTrackMetadata<PeerMetadata, ServerMetadata>;
   /**
    * a list of peer's video and audio tracks
    */
@@ -64,7 +72,10 @@ export type Peer<PeerMetadata extends GenericMetadata = GenericMetadata> = {
 
 function addIsActiveToTracks<
   PeerMetadata extends GenericMetadata = GenericMetadata,
->(peers: ReadonlyArray<Peer<PeerMetadata>>): Peer<PeerMetadata>[] {
+  ServerMetadata extends GenericMetadata = GenericMetadata,
+>(
+  peers: ReadonlyArray<Peer<PeerMetadata, ServerMetadata>>,
+): Peer<PeerMetadata, ServerMetadata>[] {
   return peers.map((peer) => ({
     ...peer,
     tracks: peer.tracks.map((track) => ({
@@ -82,19 +93,26 @@ function addIsActiveToTracks<
  */
 export function usePeers<
   PeerMetadata extends GenericMetadata = GenericMetadata,
+  ServerMetadata extends GenericMetadata = GenericMetadata,
 >() {
-  const [peers, setPeers] = useState<Peer<PeerMetadata>[]>([]);
+  const [peers, setPeers] = useState<Peer<PeerMetadata, ServerMetadata>[]>([]);
 
-  const updateActivePeers = useCallback((peers: Peer<PeerMetadata>[]) => {
-    setPeers(addIsActiveToTracks<PeerMetadata>(peers));
-  }, []);
+  const updateActivePeers = useCallback(
+    (peers: Peer<PeerMetadata, ServerMetadata>[]) => {
+      setPeers(addIsActiveToTracks(peers));
+    },
+    [],
+  );
 
   useFishjamEvent(ReceivableEvents.PeersUpdate, updateActivePeers);
 
   useEffect(() => {
     async function updatePeers() {
-      const peers = await RNFishjamClientModule.getPeers<PeerMetadata>();
-      setPeers(addIsActiveToTracks<PeerMetadata>(peers));
+      const peers = await RNFishjamClientModule.getPeers<
+        PeerMetadata,
+        ServerMetadata
+      >();
+      setPeers(addIsActiveToTracks(peers));
     }
 
     updatePeers();
