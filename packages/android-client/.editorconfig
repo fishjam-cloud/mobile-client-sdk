@@ -7,5 +7,5 @@ ktlint_standard_property-naming = disabled
 ij_kotlin_allow_trailing_comma = false
 ij_kotlin_allow_trailing_comma_on_call_site = false
 
-[FishjamClient/src/main/java/com/protos/**]
+[FishjamClient/src/main/java/fishjam/**]
 ktlint_standard = disabled
