@@ -86,13 +86,14 @@ class EmitableEvent {
         let output = currentRoute.outputs[0]
         let deviceType = output.portType
 
-        let deviceTypeString = switch deviceType {
-        case .bluetoothA2DP, .bluetoothLE, .bluetoothHFP: "bluetooth"
-        case .builtInSpeaker: "speaker"
-        case .builtInReceiver: "earpiece"
-        case .headphones: "headphones"
-        default: deviceType.rawValue
-        }
+        let deviceTypeString =
+            switch deviceType {
+            case .bluetoothA2DP, .bluetoothLE, .bluetoothHFP: "bluetooth"
+            case .builtInSpeaker: "speaker"
+            case .builtInReceiver: "earpiece"
+            case .headphones: "headphones"
+            default: deviceType.rawValue
+            }
 
         return .init(
             event: .AudioDeviceUpdate,
