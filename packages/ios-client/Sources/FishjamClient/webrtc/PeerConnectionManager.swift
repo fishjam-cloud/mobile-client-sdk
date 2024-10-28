@@ -19,10 +19,12 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var connection: RTCPeerConnection?
     private var peerConnectionStats: [String: RTCStats] = [:]
 
+    private var isExWebrtc = false
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
 
     private var midToTrackId: [String: String] = [:]
+    
 
     private static let mediaConstraints = RTCMediaConstraints(
         mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
@@ -202,7 +204,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
     private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
-        let isExWebrtc = turnServers.count == 0
+        isExWebrtc = turnServers.count == 0
 
         let servers: [RTCIceServer] = turnServers.map { server in
             let url = [
@@ -231,6 +233,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             iceServers = []
             config = nil
             midToTrackId = [:]
+            isExWebrtc = false
         }
     }
 
@@ -388,12 +391,19 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     ) {
         setTurnServers(integratedTurnServers)
 
+        var needsRestart = true
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
+            needsRestart = false
         }
 
         guard let pc = connection else {
             return
+        }
+        
+        
+        if needsRestart && !isExWebrtc {
+            pc.restartIce()
         }
 
         addNecessaryTransceivers(tracksTypes)

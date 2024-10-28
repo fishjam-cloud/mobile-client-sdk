@@ -46,6 +46,7 @@ internal class PeerConnectionManager(
   private val peerConnectionMutex = Mutex()
   private val peerConnectionStats = mutableMapOf<String, RTCStats>()
 
+  private var isExWebrtc = false
   private var iceServers: List<PeerConnection.IceServer>? = null
   private var config: PeerConnection.RTCConfiguration? = null
   private var queuedRemoteCandidates: MutableList<IceCandidate>? = null
@@ -270,7 +271,7 @@ internal class PeerConnectionManager(
       return
     }
 
-    val isExWebrtc = integratedTurnServers.isEmpty()
+    isExWebrtc = integratedTurnServers.isEmpty()
 
     if (isExWebrtc) {
       val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
@@ -398,12 +399,18 @@ internal class PeerConnectionManager(
     }
     prepareIceServers(integratedTurnServers)
 
+    var needsRestart = true
     if (peerConnection == null) {
       setupPeerConnection(localTracks)
+      needsRestart = false
     }
 
     peerConnectionMutex.withLock {
       val pc = peerConnection!!
+
+      if (needsRestart && !isExWebrtc) {
+        pc.restartIce()
+      }
 
       addNecessaryTransceivers(tracksTypes)
 
@@ -469,6 +476,7 @@ internal class PeerConnectionManager(
       peerConnection = null
       peerConnectionStats.clear()
 
+      isExWebrtc = false
       iceServers = null
       config = null
       queuedRemoteCandidates = null
