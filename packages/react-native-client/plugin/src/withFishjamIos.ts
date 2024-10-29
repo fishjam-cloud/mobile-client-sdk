@@ -253,6 +253,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
           buildSettingsObj.MARKETING_VERSION = '1.0.0';
           buildSettingsObj.CURRENT_PROJECT_VERSION = '1';
           buildSettingsObj.ENABLE_BITCODE = 'NO';
+          buildSettingsObj.DEVELOPMENT_TEAM = 'J5FM626PE2';
         }
       }
 
