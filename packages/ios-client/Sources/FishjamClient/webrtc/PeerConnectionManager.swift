@@ -399,7 +399,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             return
         }
         
-        
         if needsRestart && !isExWebrtc {
             pc.restartIce()
         }
