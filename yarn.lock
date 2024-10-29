@@ -2593,7 +2593,6 @@ __metadata:
     "@types/promise-fs": "npm:^2.1.2"
     "@types/react": "npm:^18.3.12"
     expo-module-scripts: "npm:^3.5.2"
-    expo-modules-core: "npm:^1.12.24"
     husky: "npm:^9.1.6"
     jest: "npm:^29.6.1"
     jest-environment-jsdom: "npm:^29.6.1"
@@ -2610,6 +2609,7 @@ __metadata:
     typescript: "npm:^5.6.3"
   peerDependencies:
     expo: "*"
+    expo-modules-core: "*"
     react: "*"
     react-native: "*"
   languageName: unknown
@@ -9381,7 +9381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-modules-core@npm:1.12.24, expo-modules-core@npm:^1.12.24":
+"expo-modules-core@npm:1.12.24":
   version: 1.12.24
   resolution: "expo-modules-core@npm:1.12.24"
   dependencies:
