@@ -46,7 +46,6 @@ internal class PeerConnectionManager(
   private val peerConnectionMutex = Mutex()
   private val peerConnectionStats = mutableMapOf<String, RTCStats>()
 
-  private var isExWebrtc = false
   private var iceServers: List<PeerConnection.IceServer>? = null
   private var config: PeerConnection.RTCConfiguration? = null
   private var queuedRemoteCandidates: MutableList<IceCandidate>? = null
@@ -271,7 +270,7 @@ internal class PeerConnectionManager(
       return
     }
 
-    isExWebrtc = integratedTurnServers.isEmpty()
+    val isExWebrtc = integratedTurnServers.isEmpty()
 
     if (isExWebrtc) {
       val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
@@ -279,16 +278,7 @@ internal class PeerConnectionManager(
     } else {
       this.iceServers =
         integratedTurnServers.map {
-          val url =
-            listOf(
-              "turn",
-              ":",
-              it.serverAddr,
-              ":",
-              it.serverPort.toString(),
-              "?transport=",
-              it.transport
-            ).joinToString("")
+          val url = "turn:${it.serverAddr}:${it.serverPort}?transport=${it.transport}"
 
           PeerConnection.IceServer
             .builder(url)
@@ -390,6 +380,8 @@ internal class PeerConnectionManager(
     tracksTypes: Map<String, Int>,
     localTracks: List<Track>
   ): SdpOffer {
+    val isExWebrtc = integratedTurnServers.isEmpty()
+
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
     }
@@ -476,7 +468,6 @@ internal class PeerConnectionManager(
       peerConnection = null
       peerConnectionStats.clear()
 
-      isExWebrtc = false
       iceServers = null
       config = null
       queuedRemoteCandidates = null
