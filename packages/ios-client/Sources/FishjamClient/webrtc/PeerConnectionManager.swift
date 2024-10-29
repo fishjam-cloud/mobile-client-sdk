@@ -19,7 +19,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var connection: RTCPeerConnection?
     private var peerConnectionStats: [String: RTCStats] = [:]
 
-    private var isExWebrtc = false
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
 
@@ -204,13 +203,10 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
     private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
-        isExWebrtc = turnServers.count == 0
+        let isExWebrtc = turnServers.isEmpty
 
         let servers: [RTCIceServer] = turnServers.map { server in
-            let url = [
-                "turn", ":", server.serverAddr, ":", String(server.serverPort), "?transport=",
-                server.transport,
-            ].joined()
+            let url = "turn:\(server.serverAddr):\(server.serverPort)?transport=\(server.transport)"
 
             return RTCIceServer(
                 urlStrings: [url],
@@ -233,16 +229,17 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             iceServers = []
             config = nil
             midToTrackId = [:]
-            isExWebrtc = false
         }
     }
 
     // Default ICE server when no turn servers are specified
     private static func defaultIceServer() -> RTCIceServer {
-        let iceUrl1 = "stun:stun.l.google.com:19302"
-        let iceUrl2 = "stun:stun.l.google.com:5349"
-
-        return RTCIceServer(urlStrings: [iceUrl1, iceUrl2])
+        let iceUrls = [
+            "stun:stun.l.google.com:19302",
+            "stun:stun.l.google.com:5349",
+        ]
+        
+        return RTCIceServer(urlStrings: iceUrls)
     }
 
     /// On each `OfferData` we receive an information about an amount of audio/video
@@ -389,6 +386,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         localTracks: [Track],
         onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ error: Error?) -> Void
     ) {
+        let isExWebrtc = integratedTurnServers.isEmpty
         setTurnServers(integratedTurnServers)
 
         var needsRestart = true
