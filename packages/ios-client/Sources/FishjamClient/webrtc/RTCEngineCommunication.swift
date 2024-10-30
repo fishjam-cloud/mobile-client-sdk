@@ -40,8 +40,10 @@ internal class RTCEngineCommunication {
         sendEvent(event: RenegotiateTracksEvent())
     }
 
-    func localCandidate(sdp: String, sdpMLineIndex: Int32) {
-        sendEvent(event: LocalCandidateEvent(candidate: sdp, sdpMLineIndex: sdpMLineIndex))
+    func localCandidate(sdp: String, sdpMLineIndex: Int32, sdpMid: Int32, usernameFragment: String) {
+        sendEvent(
+            event: LocalCandidateEvent(
+                candidate: sdp, sdpMLineIndex: sdpMLineIndex, sdpMid: sdpMid, usernameFragment: usernameFragment))
     }
 
     func sdpOffer(sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String]) {
@@ -75,7 +77,7 @@ internal class RTCEngineCommunication {
             let endpointAdded = event as! EndpointAddedEvent
             for listener in listeners {
                 listener.onEndpointAdded(
-                    endpointId: endpointAdded.data.id, type: endpointAdded.data.type,
+                    endpointId: endpointAdded.data.id,
                     metadata: endpointAdded.data.metadata)
             }
         case .EndpointRemoved:
@@ -101,9 +103,11 @@ internal class RTCEngineCommunication {
         case .Candidate:
             let candidate = event as! RemoteCandidateEvent
             for listener in listeners {
+                let sdpMid = candidate.data.sdpMid.map(String.init)
+
                 listener.onRemoteCandidate(
                     candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
-                    sdpMid: candidate.data.sdpMid)
+                    sdpMid: sdpMid)
             }
         case .TracksAdded:
             let tracksAdded = event as! TracksAddedEvent

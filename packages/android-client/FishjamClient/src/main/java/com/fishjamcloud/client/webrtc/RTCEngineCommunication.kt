@@ -25,7 +25,6 @@ import com.fishjamcloud.client.events.UpdateTrackMetadata
 import com.fishjamcloud.client.events.VadNotification
 import com.fishjamcloud.client.events.gson
 import com.fishjamcloud.client.events.serializeToMap
-import com.fishjamcloud.client.models.EndpointType
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.SerializedMediaEvent
 import com.fishjamcloud.client.models.TrackEncoding
@@ -77,12 +76,16 @@ internal class RTCEngineCommunication {
 
   fun localCandidate(
     sdp: String,
-    sdpMLineIndex: Int
+    sdpMLineIndex: Int,
+    sdpMid: Int?,
+    usernameFragment: String?
   ) {
     sendEvent(
       LocalCandidate(
         sdp,
-        sdpMLineIndex
+        sdpMLineIndex,
+        sdpMid,
+        usernameFragment
       )
     )
   }
@@ -146,7 +149,6 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointAdded(
             event.data.id,
-            EndpointType.fromString(event.data.type),
             event.data.metadata
           )
         }
