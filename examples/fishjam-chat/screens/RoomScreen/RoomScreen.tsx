@@ -4,12 +4,12 @@ import {
   useCamera,
   useForegroundService,
   useMicrophone,
-  usePeers,
+  usePeers2,
   useScreenShare,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
@@ -18,7 +18,6 @@ import {
   SoundOutputDevicesBottomSheet,
   VideosGrid,
 } from '../../components';
-import { parsePeersToTracks } from '../../components/VideosGrid';
 import { usePreventBackButton } from '../../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { roomScreenLabels } from '../../types/ComponentLabels';
@@ -44,16 +43,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  const { peers } = usePeers<PeerMetadata>();
-
-  const videoTracks = useMemo(
-    () => parsePeersToTracks(peers, 'Video'),
-    [peers],
-  );
-  const audioTracks = useMemo(
-    () => parsePeersToTracks(peers, 'Audio'),
-    [peers],
-  );
+  const { localPeer, remotePeers } = usePeers2<PeerMetadata>();
 
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
@@ -99,8 +89,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {videoTracks.length > 0 ? (
-        <VideosGrid videoTracks={videoTracks} audioTracks={audioTracks} />
+      {localPeer || remotePeers.length > 0 ? (
+        <VideosGrid localPeer={localPeer} remotePeers={remotePeers} />
       ) : (
         <NoCameraView
           username={userName || 'username'}

@@ -23,6 +23,7 @@ type TrackBase = {
   id: string;
   type: TrackType;
   isActive: boolean;
+  metadata?: TrackMetadata;
 };
 
 export type AudioTrack = TrackBase & {
@@ -47,6 +48,18 @@ export type Track = VideoTrack | AudioTrack;
  * - low_bandwidth - there is no longer enough bandwidth to maintain previously selected encoding
  */
 export type EncodingReason = 'other' | 'encoding_inactive' | 'low_bandwidth';
+
+export type DistinguishedTracks = {
+  cameraTrack?: VideoTrack;
+  microphoneTrack?: AudioTrack;
+  screenShareVideoTrack?: VideoTrack;
+  screenShareAudioTrack?: AudioTrack;
+};
+
+export type PeerWithTracks<
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+  ServerMetadata extends GenericMetadata = GenericMetadata,
+> = Peer<PeerMetadata, ServerMetadata> & DistinguishedTracks;
 
 export type Peer<
   PeerMetadata extends GenericMetadata = GenericMetadata,
@@ -119,4 +132,50 @@ export function usePeers<
   }, []);
 
   return { peers };
+}
+
+function getPeerWithDistinguishedTracks<
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+  ServerMetadata extends GenericMetadata = GenericMetadata,
+>(
+  peer: Peer<PeerMetadata, ServerMetadata>,
+): PeerWithTracks<PeerMetadata, ServerMetadata> {
+  const { tracks: peerTracks } = peer;
+
+  const cameraTrack = peerTracks.find(
+    ({ metadata }) => metadata?.type === 'camera',
+  ) as VideoTrack;
+  const microphoneTrack = peerTracks.find(
+    ({ metadata }) => metadata?.type === 'microphone',
+  ) as AudioTrack;
+  const screenShareVideoTrack = peerTracks.find(
+    ({ metadata }) => metadata?.type === 'screenShareVideo',
+  ) as VideoTrack;
+  const screenShareAudioTrack = peerTracks.find(
+    ({ metadata }) => metadata?.type === 'screenShareAudio',
+  ) as AudioTrack;
+
+  return {
+    ...peer,
+    cameraTrack,
+    microphoneTrack,
+    screenShareVideoTrack,
+    screenShareAudioTrack,
+  };
+}
+
+export function usePeers2<
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+  ServerMetadata extends GenericMetadata = GenericMetadata,
+>() {
+  const { peers } = usePeers<PeerMetadata, ServerMetadata>();
+
+  const localPeerData = peers.find((peer) => peer.isLocal);
+  const localPeer = localPeerData
+    ? getPeerWithDistinguishedTracks(localPeerData)
+    : null;
+  const remotePeersData = peers.filter((peer) => !peer.isLocal);
+  const remotePeers = remotePeersData.map(getPeerWithDistinguishedTracks);
+
+  return { localPeer, remotePeers };
 }

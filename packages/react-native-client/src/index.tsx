@@ -10,7 +10,7 @@ export type {
   VideoTrack,
 } from './hooks/usePeers';
 
-export { usePeers } from './hooks/usePeers';
+export { usePeers2 } from './hooks/usePeers';
 
 export type {
   AudioOutputDevice,
