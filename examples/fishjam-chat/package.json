@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
-    "@gorhom/bottom-sheet": "^5",
+    "@gorhom/bottom-sheet": "^5.0.5",
     "@react-native-async-storage/async-storage": "2.0.0",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
