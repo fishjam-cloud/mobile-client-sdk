@@ -23,7 +23,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var config: RTCConfiguration?
 
     private var midToTrackId: [String: String] = [:]
-    
 
     private static let mediaConstraints = RTCMediaConstraints(
         mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
@@ -238,7 +237,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             "stun:stun.l.google.com:19302",
             "stun:stun.l.google.com:5349",
         ]
-        
+
         return RTCIceServer(urlStrings: iceUrls)
     }
 
@@ -398,7 +397,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         guard let pc = connection else {
             return
         }
-        
+
         if needsRestart && !isExWebrtc {
             pc.restartIce()
         }
