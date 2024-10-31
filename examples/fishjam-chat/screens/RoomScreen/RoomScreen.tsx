@@ -4,7 +4,7 @@ import {
   useCamera,
   useForegroundService,
   useMicrophone,
-  usePeers2,
+  usePeers,
   useScreenShare,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -43,7 +43,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  const { localPeer, remotePeers } = usePeers2<PeerMetadata>();
+  const { localPeer, remotePeers } = usePeers<PeerMetadata>();
 
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 

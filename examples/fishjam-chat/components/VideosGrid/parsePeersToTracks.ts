@@ -1,35 +1,11 @@
-import {
-  AudioTrack,
-  PeerWithTracks,
-  VideoTrack,
-} from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
+import { PeerWithTracks } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
 import { GridTrack } from './GridTrackItem';
 import { PeerMetadata } from '../../types/metadata';
 
-const createGridTrackFromPeer = <
-  T extends PeerWithTracks<PeerMetadata>,
-  VideoTrackKey extends keyof T,
-  AudioTrackKey extends keyof T,
->(
-  peer: T,
-  videoTrack?: T[VideoTrackKey] & VideoTrack,
-  audioTrack?: T[AudioTrackKey] & AudioTrack,
-): GridTrack => {
-  return {
-    ...videoTrack,
-    peerId: peer.id,
-    isLocal: peer.isLocal,
-    userName: peer.metadata.peer.displayName,
-    isVadActive: audioTrack?.vadStatus === 'speech',
-  };
-};
-
-const createGridTrackFromPeer = (
+const createGridTracksFromPeer = (
   peer: PeerWithTracks<PeerMetadata>,
 ): GridTrack[] => {
   const tracks: GridTrack[] = [];
-
-  createGridTrackFromPeer(peer, peer.cameraTrack, peer.microphoneTrack);
 
   if (peer.cameraTrack && peer.cameraTrack.isActive) {
     tracks.push({
@@ -59,7 +35,7 @@ export const parsePeersToTracks = (
   remotePeers: PeerWithTracks<PeerMetadata>[],
 ): GridTrack[] => {
   return [
-    ...(localPeer ? createGridTrackFromPeer(localPeer) : []),
-    ...remotePeers.flatMap(createGridTrackFromPeer),
+    ...(localPeer ? createGridTracksFromPeer(localPeer) : []),
+    ...remotePeers.flatMap(createGridTracksFromPeer),
   ];
 };
