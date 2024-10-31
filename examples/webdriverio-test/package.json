@@ -21,7 +21,7 @@
     "appium-xcuitest-driver": "^7.28.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.6.3",
-    "webdriverio": "^9.2.1"
+    "webdriverio": "^9.2.6"
   },
   "dependencies": {
     "dotenv": "^16.3.1"

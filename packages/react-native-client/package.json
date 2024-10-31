@@ -46,7 +46,7 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
-    "@types/lodash": "^4.17.12",
+    "@types/lodash": "^4.17.13",
     "@types/phoenix": "^1.6.5",
     "@types/promise-fs": "^2.1.2",
     "@types/react": "^18.3.12",
