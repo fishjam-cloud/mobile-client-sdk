@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
+import { Brand, GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+
+export type PeerId = Brand<string, 'PeerId'>;
+export type TrackId = Brand<string, 'TrackId'>;
 
 export type TrackType = 'Audio' | 'Video';
 
@@ -20,7 +23,7 @@ export type PeerTrackMetadata<PeerMetadata, ServerMetadata> = {
 };
 
 type TrackBase = {
-  id: string;
+  id: TrackId;
   type: TrackType;
   isActive: boolean;
 };
@@ -55,7 +58,7 @@ export type Peer<
   /**
    *  id used to identify a peer
    */
-  id: string;
+  id: PeerId;
   /**
    * whether the peer is local or remote
    */
