@@ -2586,14 +2586,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fishjam-cloud/react-native-client@workspace:packages/react-native-client"
   dependencies:
-    "@testing-library/react": "npm:^15.0.7"
+    "@testing-library/dom": "npm:^10.4.0"
+    "@testing-library/react": "npm:^16.0.1"
     "@types/lodash": "npm:^4.17.12"
     "@types/phoenix": "npm:^1.6.5"
     "@types/promise-fs": "npm:^2.1.2"
     "@types/react": "npm:^18.3.12"
-    expo: "npm:^51.0.32"
     expo-module-scripts: "npm:^3.5.2"
-    expo-modules-core: "npm:^1.12.24"
     husky: "npm:^9.1.6"
     jest: "npm:^29.6.1"
     jest-environment-jsdom: "npm:^29.6.1"
@@ -2603,15 +2602,14 @@ __metadata:
     pod-install: "npm:^0.2.0"
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
-    react: "npm:^18.2.0"
     react-dom: "npm:^18.3.1"
-    react-native: "npm:^0.75.2"
     ts-proto: "npm:^2.2.5"
     typedoc: "npm:^0.26.10"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
     typescript: "npm:^5.6.3"
   peerDependencies:
     expo: "*"
+    expo-modules-core: "*"
     react: "*"
     react-native: "*"
   languageName: unknown
@@ -4249,7 +4247,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^10.0.0":
+"@testing-library/dom@npm:^10.4.0":
   version: 10.4.0
   resolution: "@testing-library/dom@npm:10.4.0"
   dependencies:
@@ -4287,21 +4285,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^15.0.7":
-  version: 15.0.7
-  resolution: "@testing-library/react@npm:15.0.7"
+"@testing-library/react@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "@testing-library/react@npm:16.0.1"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
-    "@testing-library/dom": "npm:^10.0.0"
-    "@types/react-dom": "npm:^18.0.0"
   peerDependencies:
+    "@testing-library/dom": ^10.0.0
     "@types/react": ^18.0.0
+    "@types/react-dom": ^18.0.0
     react: ^18.0.0
     react-dom: ^18.0.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/ac8ee8968e81949ecb35f7ee34741c2c043f73dd7fee2247d56f6de6a30de4742af94f25264356863974e54387485b46c9448ecf3f6ca41cf4339011c369f2d4
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/67d05dec5ad5a2e6f92b6a3234af785435c7bb62bdbf12f3bfc89c9bca0c871a189e88c4ba023ed4cea504704c87c6ac7e86e24a3962df6c521ae89b62f48ff7
   languageName: node
   linkType: hard
 
@@ -4755,7 +4755,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:>=16.9.0, @types/react-dom@npm:^18.0.0":
+"@types/react-dom@npm:>=16.9.0":
   version: 18.3.0
   resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
@@ -9381,7 +9381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-modules-core@npm:1.12.24, expo-modules-core@npm:^1.12.24":
+"expo-modules-core@npm:1.12.24":
   version: 1.12.24
   resolution: "expo-modules-core@npm:1.12.24"
   dependencies:
