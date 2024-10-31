@@ -1,5 +1,6 @@
 import { TrackEncoding } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
+import type { TrackId } from '../hooks/usePeers';
 
 /**
  * sets track encoding that server should send to the client library.
@@ -12,7 +13,7 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
  * @category Debugging
  */
 export async function setTargetTrackEncoding(
-  trackId: string,
+  trackId: TrackId,
   encoding: TrackEncoding,
 ) {
   await RNFishjamClientModule.setTargetTrackEncoding(trackId, encoding);

@@ -13,6 +13,7 @@ import { BrandColors } from '../utils/Colors';
 import Typo from './Typo';
 import { PeerMetadata } from '../types/metadata';
 import VADIcon from './VADIcon';
+import { PeerId } from '@fishjam-cloud/react-native-client';
 
 type Props = {
   videoTracks: GridTrack[];
@@ -20,7 +21,7 @@ type Props = {
 };
 
 type GridTrack = Track & {
-  peerId: string;
+  peerId: PeerId;
   isLocal: boolean;
   userName: string | undefined;
 };
