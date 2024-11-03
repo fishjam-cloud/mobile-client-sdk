@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "eas-build-pre-install": "cd ../.. && yarn && yarn build",
+    "eas-build-on-success": "sh ./scripts/edit_gymfile.sh",
     "prebuild": "expo prebuild",
     "start": "expo start",
     "android": "expo run:android",
