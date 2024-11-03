@@ -64,7 +64,7 @@ function PreviewScreen({
 
   useEffect(() => {
     prepareCamera({
-      simulcastEnabled: true,
+      simulcastEnabled: false,
       quality: 'HD169',
       cameraEnabled: true,
     });
@@ -79,7 +79,10 @@ function PreviewScreen({
       route.params.fishjamUrl,
       route.params.peerToken,
       {
-        displayName: route.params.userName,
+        peer: {
+          displayName: route.params.userName,
+        },
+        server: {},
       },
     );
 

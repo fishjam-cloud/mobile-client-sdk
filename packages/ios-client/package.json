@@ -2,6 +2,6 @@
   "name": "@fishjam-cloud/ios-client",
   "scripts": {
     "lint": "sh ./scripts/lint.sh",
-    "lint:check": "sh ./scripts/lint.sh"
+    "lint:check": "sh ./scripts/lint_check.sh"
   }
 }

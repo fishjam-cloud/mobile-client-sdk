@@ -39,7 +39,7 @@ export function parsePeersToTracks(
           ...track,
           peerId: peer.id,
           isLocal: peer.isLocal,
-          userName: peer.metadata?.displayName,
+          userName: peer.metadata.peer.displayName,
         }))
         .filter((track) => track.type === trackType && track.isActive),
     );

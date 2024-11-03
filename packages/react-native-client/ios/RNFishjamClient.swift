@@ -486,7 +486,6 @@ class RNFishjamClient: FishjamClientListener {
             [
                 "id": endpoint.id,
                 "isLocal": endpoint.id == RNFishjamClient.fishjamClient!.getLocalEndpoint().id,
-                "type": endpoint.type,
                 "metadata": endpoint.metadata.toDict(),
                 "tracks": endpoint.tracks.values.compactMap { track -> [String: Any?]? in
                     switch track {
