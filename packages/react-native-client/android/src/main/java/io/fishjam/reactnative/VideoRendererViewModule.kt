@@ -24,7 +24,7 @@ class VideoRendererViewModule : Module() {
         }
 
         Prop("skipRenderOutsideVisibleArea") { view, skipRenderOutsideVisibleArea: Boolean ->
-          view.checkVisibilityDelayMillis = if (skipRenderOutsideVisibleArea) null else 1000
+          view.checkVisibilityDelayMillis = if (skipRenderOutsideVisibleArea) 1000 else null
         }
       }
     }

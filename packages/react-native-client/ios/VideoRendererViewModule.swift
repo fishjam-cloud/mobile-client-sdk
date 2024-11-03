@@ -14,7 +14,7 @@ public class VideoRendererViewModule: Module {
             }
 
             Prop("skipRenderOutsideVisibleArea") { (view, skipRenderOutsideVisibleArea) in
-                view.checkVisibilityTimeInterval = skipRenderOutsideVisibleArea ? nil : 1
+                view.checkVisibilityTimeInterval = skipRenderOutsideVisibleArea ? 1 : nil
             }
         }
     }
