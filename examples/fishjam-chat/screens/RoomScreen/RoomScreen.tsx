@@ -14,7 +14,6 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
   InCallButton,
-  NoCameraView,
   SoundOutputDevicesBottomSheet,
   VideosGrid,
 } from '../../components';
@@ -31,8 +30,8 @@ const {
   SWITCH_CAMERA_BUTTON,
   SHARE_SCREEN_BUTTON,
   TOGGLE_MICROPHONE_BUTTON,
-  NO_CAMERA_VIEW,
 } = roomScreenLabels;
+const defaultUserName = 'username';
 
 const RoomScreen = ({ navigation, route }: Props) => {
   const { userName } = route?.params ?? {};
@@ -89,14 +88,11 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {localPeer?.cameraTrack?.isActive || remotePeers.length > 0 ? (
-        <VideosGrid localPeer={localPeer} remotePeers={remotePeers} />
-      ) : (
-        <NoCameraView
-          username={userName || 'username'}
-          accessibilityLabel={NO_CAMERA_VIEW}
-        />
-      )}
+      <VideosGrid
+        localPeer={localPeer}
+        remotePeers={remotePeers}
+        username={userName ?? defaultUserName}
+      />
 
       <View style={styles.callView}>
         <InCallButton
