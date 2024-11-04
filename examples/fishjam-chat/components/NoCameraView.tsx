@@ -6,13 +6,13 @@ import type AccessibilityLabel from '../types/AccessibilityLabel';
 import { BrandColors } from '../utils/Colors';
 
 type NoCameraViewProps = {
-  username?: string;
+  username: string;
   isSmallTile?: boolean;
 } & AccessibilityLabel;
 
 export default function NoCameraView({
-  username = '',
-  isSmallTile = false,
+  username,
+  isSmallTile,
   accessibilityLabel,
 }: NoCameraViewProps) {
   return (
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   noCameraBackground: {
     backgroundColor: BrandColors.seaBlue20,
     flex: 1,
-    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
