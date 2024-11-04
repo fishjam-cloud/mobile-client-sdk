@@ -2,12 +2,16 @@ import { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { BrandColors } from '../../utils/Colors';
-import { VideoRendererView, Track } from '@fishjam-cloud/react-native-client';
+import {
+  VideoRendererView,
+  Track,
+  PeerId,
+} from '@fishjam-cloud/react-native-client';
 import Typo from '../Typo';
 import VADIcon from '../VADIcon';
 
 export type GridTrack = Track & {
-  peerId: string;
+  peerId: PeerId;
   isLocal: boolean;
   userName: string | undefined;
   isVadActive: boolean;
