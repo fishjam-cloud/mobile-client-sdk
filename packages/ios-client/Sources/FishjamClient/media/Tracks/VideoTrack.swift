@@ -31,4 +31,8 @@ open class VideoTrack: Track {
     func removeRenderer(_ renderer: RTCVideoRenderer) {
         videoTrack.remove(renderer)
     }
+
+    func shouldReceive(_ shouldReceive: Bool) {
+        videoTrack.shouldReceive = shouldReceive
+    }
 }

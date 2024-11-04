@@ -43,6 +43,7 @@ export const GridTrackItem = ({
       <VideoRendererView
         trackId={track.id}
         videoLayout="FIT"
+        skipRenderOutsideVisibleArea={false}
         style={styles.flexOne}
       />
       {track.isVadActive && (
