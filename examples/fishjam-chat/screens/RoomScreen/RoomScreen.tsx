@@ -89,7 +89,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {localPeer || remotePeers.length > 0 ? (
+      {localPeer?.cameraTrack?.isActive || remotePeers.length > 0 ? (
         <VideosGrid localPeer={localPeer} remotePeers={remotePeers} />
       ) : (
         <NoCameraView

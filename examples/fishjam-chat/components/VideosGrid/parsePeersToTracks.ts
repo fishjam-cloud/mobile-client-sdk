@@ -7,7 +7,7 @@ const createGridTracksFromPeer = (
 ): GridTrack[] => {
   const tracks: GridTrack[] = [];
 
-  if (peer.cameraTrack && peer.cameraTrack.isActive) {
+  if (peer.cameraTrack) {
     tracks.push({
       ...peer.cameraTrack,
       peerId: peer.id,
@@ -17,7 +17,7 @@ const createGridTracksFromPeer = (
     });
   }
 
-  if (peer.screenShareVideoTrack && peer.screenShareVideoTrack.isActive) {
+  if (peer.screenShareVideoTrack) {
     tracks.push({
       ...peer.screenShareVideoTrack,
       peerId: peer.id,
