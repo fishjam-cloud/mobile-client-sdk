@@ -2,7 +2,9 @@ import { initializeWarningListener } from './utils/errorListener';
 
 export type {
   Peer,
+  PeerId,
   Track,
+  TrackId,
   TrackType,
   VadStatus,
   EncodingReason,
