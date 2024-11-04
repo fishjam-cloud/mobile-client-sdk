@@ -9,16 +9,14 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
   InCallButton,
-  NoCameraView,
   SoundOutputDevicesBottomSheet,
   VideosGrid,
 } from '../../components';
-import { parsePeersToTracks } from '../../components/VideosGrid';
 import { usePreventBackButton } from '../../hooks/usePreventBackButton';
 import type { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { roomScreenLabels } from '../../types/ComponentLabels';
@@ -32,8 +30,8 @@ const {
   SWITCH_CAMERA_BUTTON,
   SHARE_SCREEN_BUTTON,
   TOGGLE_MICROPHONE_BUTTON,
-  NO_CAMERA_VIEW,
 } = roomScreenLabels;
+const defaultUserName = 'username';
 
 const RoomScreen = ({ navigation, route }: Props) => {
   const { userName } = route?.params ?? {};
@@ -44,16 +42,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
-  const { peers } = usePeers<PeerMetadata>();
-
-  const videoTracks = useMemo(
-    () => parsePeersToTracks(peers, 'Video'),
-    [peers],
-  );
-  const audioTracks = useMemo(
-    () => parsePeersToTracks(peers, 'Audio'),
-    [peers],
-  );
+  const { localPeer, remotePeers } = usePeers<PeerMetadata>();
 
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
@@ -99,14 +88,11 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {videoTracks.length > 0 ? (
-        <VideosGrid videoTracks={videoTracks} audioTracks={audioTracks} />
-      ) : (
-        <NoCameraView
-          username={userName || 'username'}
-          accessibilityLabel={NO_CAMERA_VIEW}
-        />
-      )}
+      <VideosGrid
+        localPeer={localPeer}
+        remotePeers={remotePeers}
+        username={userName ?? defaultUserName}
+      />
 
       <View style={styles.callView}>
         <InCallButton

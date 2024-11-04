@@ -44,7 +44,7 @@ export type TrackBandwidthLimit = BandwidthLimit | SimulcastBandwidthLimit;
 
 export type TrackMetadata = {
   active: boolean;
-  type: 'audio' | 'camera' | 'screenShareVideo';
+  type: 'microphone' | 'camera' | 'screenShareVideo' | 'screenShareAudio';
 };
 
 export type GenericMetadata = Record<string, unknown>;

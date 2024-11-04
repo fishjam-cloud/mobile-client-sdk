@@ -10,6 +10,8 @@ export type {
   EncodingReason,
   AudioTrack,
   VideoTrack,
+  UsePeersResult,
+  PeerWithTracks,
 } from './hooks/usePeers';
 
 export { usePeers } from './hooks/usePeers';
