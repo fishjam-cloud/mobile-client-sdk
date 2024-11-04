@@ -113,9 +113,6 @@ function getPeerWithDistinguishedTracks<
 
   for (const track of peerTracks) {
     const trackType = track.metadata?.type;
-    if (!trackType) {
-      continue;
-    }
 
     switch (trackType) {
       case 'camera':
