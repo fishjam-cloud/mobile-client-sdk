@@ -75,6 +75,7 @@ export { useReconnection } from './hooks/useReconnection';
 export { usePeerStatus } from './hooks/usePeerStatus';
 export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
+export { useFishjamConnect } from './hooks/useFishjamConnect';
 // #endregion
 
 initializeWarningListener();
