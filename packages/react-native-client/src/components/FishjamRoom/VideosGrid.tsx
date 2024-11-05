@@ -27,6 +27,8 @@ export const VideosGrid = () => {
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 40,
   },
 });

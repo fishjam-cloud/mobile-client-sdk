@@ -11,7 +11,7 @@ export type GridTrack = {
 };
 
 export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
-  const containerStyle = useMemo(
+  const videoContainer = useMemo(
     () => [
       styles.video,
       {
@@ -22,39 +22,41 @@ export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
   );
 
   return (
-    <View style={containerStyle}>
-      {peer.track ? (
-        <VideoRendererView
-          trackId={peer.track.id}
-          videoLayout="FIT"
-          style={styles.flexOne}
-        />
-      ) : (
-        <View style={styles.container}>
-          <Text>No video</Text>
-        </View>
-      )}
-      {peer.isVadActive && (
-        <View style={styles.vadIcon}>
-          <Text>{'speaking'}</Text>
-        </View>
-      )}
+    <View style={styles.container}>
+      <View style={videoContainer}>
+        {peer.track ? (
+          <VideoRendererView
+            trackId={peer.track.id}
+            videoLayout="FIT"
+            style={styles.videoContent}
+          />
+        ) : (
+          <View style={styles.videoContent}>
+            <Text>No video</Text>
+          </View>
+        )}
+        {peer.isVadActive && (
+          <View style={styles.vadIcon}>
+            <Text>{'speaking'}</Text>
+          </View>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  flexOne: {
-    flex: 1,
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  videoContent: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   video: {
     flex: 1,
-    margin: 10,
     aspectRatio: 1,
     borderRadius: 8,
     overflow: 'hidden',

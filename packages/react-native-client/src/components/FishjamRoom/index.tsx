@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { joinRoom, leaveRoom } from '../../common/client';
 import { useCamera } from '../../hooks/useCamera';
 import { VideosGrid } from './VideosGrid';
+import { SafeAreaView } from 'react-native';
 
 export type FishjamRoomProps = {
   fishjamUrl: string;
@@ -9,9 +10,7 @@ export type FishjamRoomProps = {
 };
 
 export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
-  const { isCameraOn, prepareCamera } = useCamera();
-
-  console.log({ isCameraOn });
+  const { prepareCamera } = useCamera();
 
   useEffect(() => {
     const join = async () => {
@@ -20,12 +19,10 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
         quality: 'HD169',
         cameraEnabled: true,
       });
-      console.log('camera ready');
       await joinRoom(fishjamUrl, peerToken, {
         peer: {},
         server: {},
       });
-      console.log('result');
     };
     join();
     return () => {
@@ -33,5 +30,9 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
     };
   }, [fishjamUrl, peerToken, prepareCamera]);
 
-  return <VideosGrid />;
+  return (
+    <SafeAreaView>
+      <VideosGrid />
+    </SafeAreaView>
+  );
 };
