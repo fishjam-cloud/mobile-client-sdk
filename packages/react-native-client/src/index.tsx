@@ -15,7 +15,12 @@ export type { ConnectionConfig } from './common/client';
 // #region methods
 export { updatePeerMetadata } from './common/metadata';
 export { setTargetTrackEncoding } from './common/webRTC';
-export { joinRoom, leaveRoom } from './common/client';
+export {
+  /** @deprecated */
+  joinRoom,
+  /** @deprecated */
+  leaveRoom,
+} from './common/client';
 // #endregion
 
 // #region components

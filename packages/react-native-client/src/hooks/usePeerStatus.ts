@@ -17,6 +17,7 @@ export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
  * @returns Current peer status.
  * @category Connection
  * @group Hooks
+ * @deprecated
  */
 export const usePeerStatus = () => {
   const [peerStatus, setPeerStatus] = useState(

@@ -40,11 +40,30 @@ function useConnectionStatus() {
   return { peerStatus, reconnectionStatus };
 }
 
+/**
+ * Connect/leave room. And get connection status.
+ * @group Hooks
+ * @category Connection
+ */
 export function useFishjamConnect() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
   const connectionStatus: ConnectionStatus =
     reconnectionStatus === 'idle' ? peerStatus : reconnectionStatus;
 
-  return { joinRoom, leaveRoom, connectionStatus };
+  return {
+    /**
+     * join room and start streaming camera and microphone
+     * @param url fishjam Url
+     * @param peerToken token received from server (or Room Manager)
+     * @param peerMetadata string indexed record with metadata, that will be available to all other peers
+     * @param config additional connection configuration
+     */
+    joinRoom,
+    /**
+     * Leave room and stop streaming
+     */
+    leaveRoom,
+    connectionStatus,
+  };
 }
