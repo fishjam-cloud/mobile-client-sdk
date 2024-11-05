@@ -7,6 +7,8 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
 type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
 
+export type ConnectionStatus = ReconnectionStatus | PeerStatus;
+
 function useConnectionStatus() {
   const [peerStatus, setPeerStatus] = useState(
     RNFishjamClientModule.peerStatus,
@@ -40,5 +42,9 @@ function useConnectionStatus() {
 
 export function useFishjamConnect() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
-  return { joinRoom, leaveRoom, peerStatus, reconnectionStatus };
+
+  const connectionStatus: ConnectionStatus =
+    reconnectionStatus === 'idle' ? peerStatus : reconnectionStatus;
+
+  return { joinRoom, leaveRoom, connectionStatus };
 }

@@ -62,6 +62,7 @@ export type {
 export type { ReconnectionStatus } from './hooks/useReconnection';
 export type { PeerStatus } from './hooks/usePeerStatus';
 export type { ForegroundServiceConfig } from './hooks/useForegroundService';
+export type { ConnectionStatus } from './hooks/useFishjamConnect';
 // #endregion
 
 // #region hooks
