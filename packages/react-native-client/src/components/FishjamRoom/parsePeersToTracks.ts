@@ -1,4 +1,4 @@
-import { PeerWithTracks } from '../..';
+import { PeerWithTracks } from '../../hooks/usePeers';
 import { GridTrack } from './GridTrackItem';
 
 const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
@@ -6,7 +6,7 @@ const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
 
   if (peer.cameraTrack && peer.cameraTrack.isActive) {
     tracks.push({
-      ...peer.cameraTrack,
+      track: peer.cameraTrack,
       peerId: peer.id,
       isLocal: peer.isLocal,
       isVadActive: peer.microphoneTrack?.vadStatus === 'speech',
@@ -15,10 +15,21 @@ const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
 
   if (peer.screenShareVideoTrack && peer.screenShareVideoTrack.isActive) {
     tracks.push({
-      ...peer.screenShareVideoTrack,
+      track: peer.screenShareVideoTrack,
       peerId: peer.id,
       isLocal: peer.isLocal,
       isVadActive: peer.screenShareAudioTrack?.vadStatus === 'speech',
+    });
+  }
+
+  if (tracks.length === 0) {
+    tracks.push({
+      track: null,
+      peerId: peer.id,
+      isLocal: peer.isLocal,
+      isVadActive:
+        peer.microphoneTrack?.vadStatus === 'speech' ||
+        peer.screenShareAudioTrack?.vadStatus === 'speech',
     });
   }
 

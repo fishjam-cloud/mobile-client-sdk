@@ -1,32 +1,40 @@
 import { useMemo } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { VideoRendererView, Track } from '../../';
+import { VideoRendererView } from '../VideoRendererView';
+import { Track } from '../../hooks/usePeers';
 
-export type GridTrack = Track & {
+export type GridTrack = {
+  track: Track | null;
   peerId: string;
   isLocal: boolean;
   isVadActive: boolean;
 };
 
-export const GridTrackItem = ({ track }: { track: GridTrack }) => {
+export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
   const containerStyle = useMemo(
     () => [
       styles.video,
       {
-        backgroundColor: track.isLocal ? '#606619' : '#7089DB',
+        backgroundColor: peer.isLocal ? '#606619' : '#7089DB',
       },
     ],
-    [track.isLocal],
+    [peer.isLocal],
   );
 
   return (
     <View style={containerStyle}>
-      <VideoRendererView
-        trackId={track.id}
-        videoLayout="FIT"
-        style={styles.flexOne}
-      />
-      {track.isVadActive && (
+      {peer.track ? (
+        <VideoRendererView
+          trackId={peer.track.id}
+          videoLayout="FIT"
+          style={styles.flexOne}
+        />
+      ) : (
+        <View style={styles.container}>
+          <Text>No video</Text>
+        </View>
+      )}
+      {peer.isVadActive && (
         <View style={styles.vadIcon}>
           <Text>{'speaking'}</Text>
         </View>
@@ -42,6 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   video: {
     flex: 1,

@@ -14,6 +14,7 @@ import PreviewScreen from '../screens/PreviewScreen/PreviewScreen';
 import RoomScreen from '../screens/RoomScreen/RoomScreen';
 import { appNavigationLabels } from '../types/ComponentLabels';
 import { AdditionalColors, BrandColors } from '../utils/Colors';
+import { ConnectWithFishjamRoom } from '../screens/ConnectWithFishjamRoom';
 
 export type AppRootStackParamList = {
   Home: undefined;
@@ -32,6 +33,7 @@ export type TabParamList = {
   ConnectWithToken: undefined;
   ConnectWithRoomManager: undefined;
   ConnectWithVideoRoom: undefined;
+  ConnectWithFishajamRoom: undefined;
 };
 
 const tabBarIcon =
@@ -81,6 +83,17 @@ function TabNavigator() {
         component={ConnectWithTokenScreen}
         options={{
           tabBarLabel: 'Use Token',
+          tabBarActiveTintColor: BrandColors.darkBlue100,
+          tabBarInactiveTintColor: AdditionalColors.grey60,
+          tabBarIcon: tabBarIcon('ticket'),
+          tabBarAccessibilityLabel: TOKEN_TAB,
+        }}
+      />
+      <Tab.Screen
+        name="ConnectWithFishajamRoom"
+        component={ConnectWithFishjamRoom}
+        options={{
+          tabBarLabel: 'Fishjam Room',
           tabBarActiveTintColor: BrandColors.darkBlue100,
           tabBarInactiveTintColor: AdditionalColors.grey60,
           tabBarIcon: tabBarIcon('ticket'),

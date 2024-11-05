@@ -9,28 +9,29 @@ export type FishjamRoomProps = {
 };
 
 export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
-  const { prepareCamera } = useCamera();
+  const { isCameraOn, prepareCamera } = useCamera();
 
-  useEffect(() => {
-    prepareCamera({
-      simulcastEnabled: false,
-      quality: 'HD169',
-      cameraEnabled: true,
-    });
-  }, [prepareCamera]);
+  console.log({ isCameraOn });
 
   useEffect(() => {
     const join = async () => {
+      await prepareCamera({
+        simulcastEnabled: false,
+        quality: 'HD169',
+        cameraEnabled: true,
+      });
+      console.log('camera ready');
       await joinRoom(fishjamUrl, peerToken, {
         peer: {},
         server: {},
       });
+      console.log('result');
     };
     join();
     return () => {
       leaveRoom();
     };
-  }, [fishjamUrl, peerToken]);
+  }, [fishjamUrl, peerToken, prepareCamera]);
 
   return <VideosGrid />;
 };
