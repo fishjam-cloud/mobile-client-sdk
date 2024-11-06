@@ -73,7 +73,7 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
     if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {
       newConfig.modResults[APP_GROUP_KEY] = [];
     }
-    const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as any[];
+    const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as unknown[];
     const entitlement = `group.${newConfig?.ios?.bundleIdentifier || ''}`;
     if (modResultsArray.indexOf(entitlement) !== -1) {
       return newConfig;

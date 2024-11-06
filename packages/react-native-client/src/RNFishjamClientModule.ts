@@ -10,7 +10,7 @@ import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
 
-type Metadata = { [key: string]: any };
+type Metadata = { [key: string]: unknown };
 
 type RNFishjamClient = {
   isMicrophoneOn: boolean;
