@@ -19,7 +19,6 @@ class RNFishjamClient: FishjamClientListener {
     var connectPromise: Promise? = nil
 
     var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
-    var localUserMetadata: Metadata = .init()
 
     var screenShareSimulcastConfig: SimulcastConfig = SimulcastConfig()
     var screenShareMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
@@ -207,7 +206,6 @@ class RNFishjamClient: FishjamClientListener {
     ) {
         peerStatus = .connecting
         connectPromise = promise
-        localUserMetadata = ["server": [:], "peer": peerMetadata].toMetadata()
 
         let reconnectConfig = FishjamCloudClient.ReconnectConfig(
             maxAttempts: config.reconnectConfig.maxAttempts, initialDelayMs: config.reconnectConfig.initialDelayMs,
