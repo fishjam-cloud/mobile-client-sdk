@@ -1,10 +1,6 @@
 import { FishjamRoom } from '@fishjam-cloud/react-native-client';
 import { useEffect, useState } from 'react';
 
-const ROOM_MANAGER_URL = 'https://room.fishjam.work/api/rooms';
-const ROOM_NAME = 'mobile-test';
-const PEER_NAME = 'radon-1';
-
 type RoomData = {
   url: string;
   peerToken: string;
@@ -15,23 +11,12 @@ export const ConnectWithFishjamRoom = () => {
 
   useEffect(() => {
     const fetchRoomData = async () => {
-      const url = new URL(ROOM_MANAGER_URL);
-      url.searchParams.set('roomName', ROOM_NAME);
-      url.searchParams.set('peerName', PEER_NAME);
+      const response = await fetch('');
 
-      const response = await fetch(url.toString());
-
-      if (!response.ok) {
-        const responseText = await response.text();
-        console.error(
-          'get_fishjam_failed',
-          `statusCode=${response.status}`,
-          `message=${responseText}`,
-        );
-        return;
+      if (response.ok) {
+        const roomData = (await response.json()) as RoomData;
+        setRoomData(roomData);
       }
-      const roomData = (await response.json()) as RoomData;
-      setRoomData(roomData);
     };
     fetchRoomData();
   }, []);
