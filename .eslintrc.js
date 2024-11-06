@@ -12,6 +12,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
-    "eqeqeq": "error"
+    eqeqeq: "error",
+    "no-shadow": "error",
   },
 };
