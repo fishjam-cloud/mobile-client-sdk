@@ -15,6 +15,10 @@ export type VideoRendererProps = {
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
+  /**
+   * Whether the video should be rendered if it's off screen or hidden.
+   */
+  skipRenderOutsideVisibleArea?: boolean;
   style?: ViewStyle;
 };
 
