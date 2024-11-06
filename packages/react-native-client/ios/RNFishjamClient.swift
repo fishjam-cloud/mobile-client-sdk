@@ -480,7 +480,7 @@ class RNFishjamClient: FishjamClientListener {
         return [localEndpoint] + remoteEndpoints
     }
 
-    func getPeers() throws -> [[String: Any?]] {
+    func getPeers() -> [[String: Any?]] {
         let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
         return endpoints.compactMap { endpoint in
             [
@@ -759,7 +759,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emitEndpoints() {
-        emit(event: .peersUpdate(peersData: (try? getPeers()) ?? []))
+        emit(event: .peersUpdate(peersData: getPeers()))
     }
 
     func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {

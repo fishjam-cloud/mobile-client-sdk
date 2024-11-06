@@ -20,6 +20,12 @@ type RNFishjamClient = {
   cameras: ReadonlyArray<Camera>;
   currentCamera: Camera | null;
   peerStatus: PeerStatus;
+
+  getPeers: <
+    PeerMetadataType extends Metadata,
+    ServerMetadata extends Metadata = GenericMetadata,
+  >() => Peer<PeerMetadataType, ServerMetadata>[];
+
   joinRoom: (
     url: string,
     peerToken: string,
@@ -39,10 +45,6 @@ type RNFishjamClient = {
   toggleAppScreenShare: (
     screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
-  getPeers: <
-    PeerMetadataType extends Metadata,
-    ServerMetadata extends Metadata = GenericMetadata,
-  >() => Promise<Peer<PeerMetadataType, ServerMetadata>[]>;
   updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;
