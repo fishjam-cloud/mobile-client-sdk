@@ -29,14 +29,14 @@ function replaceCloudClientForMainApp(podfileContent: string) {
 }
 
 export const withCustomConfigIos: ConfigPlugin = (config) => {
-  config = withPodfile(config, (config) => {
-    let podfile = config.modResults.contents;
+  config = withPodfile(config, (configuration) => {
+    let podfile = configuration.modResults.contents;
 
     podfile = replaceCloudClientForExtension(podfile);
     podfile = replaceCloudClientForMainApp(podfile);
 
-    config.modResults.contents = podfile;
-    return config;
+    configuration.modResults.contents = podfile;
+    return configuration;
   });
 
   return config;

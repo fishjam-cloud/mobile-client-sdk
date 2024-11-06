@@ -31,7 +31,7 @@ const getIosDeviceCapabilities = (
 
 const getCapabilityIfDeviceAvailable = (
   deviceName: string | undefined,
-  capabilityGetter: (deviceName: string) => Capabilities.RemoteCapability,
+  capabilityGetter: (device: string) => Capabilities.RemoteCapability,
 ): Capabilities.RemoteCapability | undefined => {
   return deviceName ? capabilityGetter(deviceName) : undefined;
 };

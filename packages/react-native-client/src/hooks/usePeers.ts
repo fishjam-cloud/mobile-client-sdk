@@ -193,8 +193,8 @@ export function usePeers<
   );
 
   const updateActivePeers = useCallback(
-    (peers: Peer<PeerMetadata, ServerMetadata>[]) => {
-      setPeers(addIsActiveToTracks(peers));
+    (peersWithoutActive: Peer<PeerMetadata, ServerMetadata>[]) => {
+      setPeers(addIsActiveToTracks(peersWithoutActive));
     },
     [],
   );
@@ -203,11 +203,11 @@ export function usePeers<
 
   useEffect(() => {
     async function updatePeers() {
-      const peers = await RNFishjamClientModule.getPeers<
+      const peersFromNative = await RNFishjamClientModule.getPeers<
         PeerMetadata,
         ServerMetadata
       >();
-      updateActivePeers(peers);
+      updateActivePeers(peersFromNative);
     }
 
     updatePeers();

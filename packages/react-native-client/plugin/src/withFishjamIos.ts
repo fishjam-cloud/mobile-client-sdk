@@ -89,12 +89,12 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
  * In other to dynamically retreive extension's bundleId and group name we need to store it in Info.plist.
  */
 const withInfoPlistConstants: ConfigPlugin = (config) => {
-  return withInfoPlist(config, (config) => {
-    const bundleIdentifier = config.ios?.bundleIdentifier || '';
-    config.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
-    config.modResults['ScreenShareExtensionBundleId'] =
+  return withInfoPlist(config, (configuration) => {
+    const bundleIdentifier = configuration.ios?.bundleIdentifier || '';
+    configuration.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
+    configuration.modResults['ScreenShareExtensionBundleId'] =
       `${bundleIdentifier}.${SBE_TARGET_NAME}`;
-    return config;
+    return configuration;
   });
 };
 
@@ -273,10 +273,10 @@ const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
     withInfoPlistConstants(config);
     withFishjamSBE(config, props);
   }
-  withPodfileProperties(config, (config) => {
-    config.modResults['ios.deploymentTarget'] =
+  withPodfileProperties(config, (configuration) => {
+    configuration.modResults['ios.deploymentTarget'] =
       props?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
-    return config;
+    return configuration;
   });
   return config;
 };
