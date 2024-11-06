@@ -283,14 +283,14 @@ class RNFishjamClient(
     }
   }
 
-  suspend fun startCamera(config: CameraConfig) {
+  suspend fun startCamera(config: CameraConfig): Boolean {
     if (isCameraInitialized) {
       emitEvent(EmitableEvent.warning("Camera already started. You may only call startCamera once before leaveRoom is called."))
-      return
+      return true
     }
     if (!PermissionUtils.requestCameraPermission(appContext)) {
       emitEvent(EmitableEvent.warning("Camera permission not granted."))
-      return
+      return false
     }
 
     val cameraTrack = createCameraTrack(config)
@@ -298,6 +298,7 @@ class RNFishjamClient(
     setCameraTrackState(cameraTrack, config.cameraEnabled)
     emitEndpoints()
     isCameraInitialized = true
+    return true
   }
 
   private suspend fun createCameraTrack(config: CameraConfig): LocalVideoTrack {
