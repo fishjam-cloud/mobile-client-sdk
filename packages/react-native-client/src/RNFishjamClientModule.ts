@@ -27,7 +27,7 @@ type RNFishjamClient = {
     config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
-  startCamera: (config: CameraConfigInternal) => Promise<void>;
+  startCamera: (config: CameraConfigInternal) => Promise<boolean>;
   toggleMicrophone: () => Promise<boolean>;
   toggleCamera: () => Promise<boolean>;
   flipCamera: () => Promise<void>;

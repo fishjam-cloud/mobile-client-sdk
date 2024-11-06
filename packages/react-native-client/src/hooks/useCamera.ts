@@ -188,7 +188,7 @@ export function useCamera() {
         ...config,
         cameraId: camera?.id,
       });
-      await RNFishjamClientModule.startCamera(updatedConfig);
+      return RNFishjamClientModule.startCamera(updatedConfig);
     },
     [],
   );
