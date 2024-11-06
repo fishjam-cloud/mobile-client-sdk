@@ -1,5 +1,7 @@
 import { FishjamRoom } from '@fishjam-cloud/react-native-client';
 import { useEffect, useState } from 'react';
+import { joinRoomWithRoomManager } from '../utils/roomManager';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 type RoomData = {
   url: string;
@@ -11,21 +13,34 @@ export const ConnectWithFishjamRoom = () => {
 
   useEffect(() => {
     const fetchRoomData = async () => {
-      const response = await fetch('');
-
-      if (response.ok) {
-        const roomData = (await response.json()) as RoomData;
-        setRoomData(roomData);
+      try {
+        const { fishjamUrl, token } = await joinRoomWithRoomManager(
+          'https://room.fishjam.work/api/rooms',
+          'test-room',
+          'test-user',
+        );
+        setRoomData({
+          url: fishjamUrl,
+          peerToken: token,
+        });
+      } catch (_) {
+        setRoomData(null);
       }
     };
     fetchRoomData();
   }, []);
 
   if (!roomData) {
-    return null;
+    return <ActivityIndicator size="large" style={styles.indicator} />;
   }
 
   return (
     <FishjamRoom fishjamUrl={roomData.url} peerToken={roomData.peerToken} />
   );
 };
+
+const styles = StyleSheet.create({
+  indicator: {
+    flex: 1,
+  },
+});
