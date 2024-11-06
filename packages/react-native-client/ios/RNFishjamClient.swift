@@ -241,31 +241,34 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func startCamera(config: CameraConfig) async throws -> Bool {
-        #if targetEnvironment(simulator)
-            return false
-        #else
+#if targetEnvironment(simulator)
+        emit(
+            event: .warning(
+                message: "Camera is not supported on simulator."))
+        return false
+#else
         try ensureCreated()
-
+        
         guard !isCameraInitialized else {
             emit(
                 event: .warning(
                     message: "Camera already started. You may only call startCamera once before leaveRoom is called."))
-
+            
             return true
         }
-
+        
         guard await PermissionUtils.requestCameraPermission() else {
             emit(event: .warning(message: "Camera permission not granted."))
             return false
         }
-
+        
         let cameraTrack = try createCameraTrack(config: config)
         cameraTrack.captureDeviceChangedListener = self
         setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
         emitEndpoints()
         isCameraInitialized = true
         return true
-        #endif
+#endif
     }
 
     private func createCameraTrack(config: CameraConfig) throws -> LocalCameraTrack {
