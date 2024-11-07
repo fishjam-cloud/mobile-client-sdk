@@ -867,7 +867,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketClosedError(code, reason))
       connectPromise = null
-      peerStatus = PeerStatus.error
+      peerStatus = PeerStatus.idle
     }
   }
 
@@ -875,6 +875,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketError(t.message ?: t.toString()))
       connectPromise = null
+      peerStatus = PeerStatus.error
     }
   }
 
