@@ -2716,7 +2716,7 @@ __metadata:
     "@react-native-async-storage/async-storage": "npm:2.0.0"
     "@react-navigation/bottom-tabs": "npm:^6.6.1"
     "@react-navigation/native": "npm:^6.1.18"
-    "@react-navigation/native-stack": "npm:^6.11.0"
+    "@react-navigation/native-stack": "npm:^7.0.0"
     "@types/react": "npm:^18.3.12"
     expo: "npm:^51.0.32"
     expo-build-properties: "npm:~0.12.5"
@@ -4184,19 +4184,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/native-stack@npm:^6.11.0":
-  version: 6.11.0
-  resolution: "@react-navigation/native-stack@npm:6.11.0"
+"@react-navigation/elements@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@react-navigation/elements@npm:2.0.0"
   dependencies:
-    "@react-navigation/elements": "npm:^1.3.31"
-    warn-once: "npm:^0.1.0"
+    color: "npm:^4.2.3"
   peerDependencies:
-    "@react-navigation/native": ^6.0.0
-    react: "*"
+    "@react-native-masked-view/masked-view": ">= 0.2.0"
+    "@react-navigation/native": ^7.0.0
+    react: ">= 18.2.0"
     react-native: "*"
-    react-native-safe-area-context: ">= 3.0.0"
-    react-native-screens: ">= 3.0.0"
-  checksum: 10c0/fd4072cae0a72f2f3521de2b80c13b61e7d3bca5214e0d92eead162e7a669e417ffdeab9d937f6acf7d2074bb409cc33782a1ce23db6e1f00cb4001b30893938
+    react-native-safe-area-context: ">= 4.0.0"
+  peerDependenciesMeta:
+    "@react-native-masked-view/masked-view":
+      optional: true
+  checksum: 10c0/b47dd3554b1ee9f56edfa0b1f57867d706ddc28fad0cd8a7d3efd16b1d86e3ad85c1661515c7829523aa12c55955bcb32c59ca3cf36d2b2c7e34877fb33b785e
+  languageName: node
+  linkType: hard
+
+"@react-navigation/native-stack@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@react-navigation/native-stack@npm:7.0.0"
+  dependencies:
+    "@react-navigation/elements": "npm:^2.0.0"
+    warn-once: "npm:^0.1.1"
+  peerDependencies:
+    "@react-navigation/native": ^7.0.0
+    react: ">= 18.2.0"
+    react-native: "*"
+    react-native-safe-area-context: ">= 4.0.0"
+    react-native-screens: ">= 4.0.0"
+  checksum: 10c0/2331fd180f375d3e1ac4bcb18a129457c0fb5b7f0432808b12f7a60f7e13be88a658d7c45bae983775131999cc61b0ccf0e22ee363561e4d2949e6acd800d1f6
   languageName: node
   linkType: hard
 
@@ -18274,7 +18292,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"warn-once@npm:^0.1.0":
+"warn-once@npm:^0.1.0, warn-once@npm:^0.1.1":
   version: 0.1.1
   resolution: "warn-once@npm:0.1.1"
   checksum: 10c0/f531e7b2382124f51e6d8f97b8c865246db8ab6ff4e53257a2d274e0f02b97d7201eb35db481843dc155815e154ad7afb53b01c4d4db15fb5aa073562496aff7
