@@ -240,27 +240,36 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func startCamera(config: CameraConfig) async throws {
-        try ensureCreated()
-
-        guard !isCameraInitialized else {
+    func startCamera(config: CameraConfig) async throws -> Bool {
+        #if targetEnvironment(simulator)
             emit(
                 event: .warning(
-                    message: "Camera already started. You may only call startCamera once before leaveRoom is called."))
+                    message: "Camera is not supported on simulator."))
+            return false
+        #else
+            try ensureCreated()
 
-            return
-        }
+            guard !isCameraInitialized else {
+                emit(
+                    event: .warning(
+                        message:
+                            "Camera already started. You may only call startCamera once before leaveRoom is called."))
 
-        guard await PermissionUtils.requestCameraPermission() else {
-            emit(event: .warning(message: "Camera permission not granted."))
-            return
-        }
+                return true
+            }
 
-        let cameraTrack = try createCameraTrack(config: config)
-        cameraTrack.captureDeviceChangedListener = self
-        setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
-        emitEndpoints()
-        isCameraInitialized = true
+            guard await PermissionUtils.requestCameraPermission() else {
+                emit(event: .warning(message: "Camera permission not granted."))
+                return false
+            }
+
+            let cameraTrack = try createCameraTrack(config: config)
+            cameraTrack.captureDeviceChangedListener = self
+            setCameraTrackState(cameraTrack, enabled: config.cameraEnabled)
+            emitEndpoints()
+            isCameraInitialized = true
+            return true
+        #endif
     }
 
     private func createCameraTrack(config: CameraConfig) throws -> LocalCameraTrack {
@@ -480,7 +489,7 @@ class RNFishjamClient: FishjamClientListener {
         return [localEndpoint] + remoteEndpoints
     }
 
-    func getPeers() throws -> [[String: Any?]] {
+    func getPeers() -> [[String: Any?]] {
         let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
         return endpoints.compactMap { endpoint in
             [
@@ -759,7 +768,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emitEndpoints() {
-        emit(event: .peersUpdate(peersData: (try? getPeers()) ?? []))
+        emit(event: .peersUpdate(peersData: getPeers()))
     }
 
     func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {

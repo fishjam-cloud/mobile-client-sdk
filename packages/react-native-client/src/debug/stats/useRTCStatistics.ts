@@ -15,16 +15,16 @@ export function useRTCStatistics(refreshInterval: number) {
   // Calculates diff between pervious and current stats,
   // providing end users with a per second metric.
   const processIncomingStats = useCallback(
-    (statistics: ReadonlyArray<RTCStats>, stats: Readonly<RTCStats>) => {
-      Object.keys(stats).forEach((obj) => {
+    (stats: ReadonlyArray<RTCStats>, stat: Readonly<RTCStats>) => {
+      Object.keys(stat).forEach((obj) => {
         if (obj.includes('Inbound')) {
-          const rtcStats = stats[obj] as RTCInboundStats;
+          const rtcStats = stat[obj] as RTCInboundStats;
 
           if (
-            statistics.length > 0 &&
-            Object.keys(statistics[statistics.length - 1]).includes(obj)
+            stats.length > 0 &&
+            Object.keys(stats[stats.length - 1]).includes(obj)
           ) {
-            const prevRtcStats = statistics[statistics.length - 1][
+            const prevRtcStats = stats[stats.length - 1][
               obj
             ] as RTCInboundStats;
 
@@ -45,18 +45,16 @@ export function useRTCStatistics(refreshInterval: number) {
             rtcStats['framesReceived/s'] = 0;
             rtcStats['framesDropped/s'] = 0;
           }
-          return stats;
+          return stat;
         }
         // Outbound
-        const rtcStats = stats[obj] as RTCOutboundStats;
+        const rtcStats = stat[obj] as RTCOutboundStats;
 
         if (
-          statistics.length > 0 &&
-          Object.keys(statistics[statistics.length - 1]).includes(obj)
+          stats.length > 0 &&
+          Object.keys(stats[stats.length - 1]).includes(obj)
         ) {
-          const prevRtcStats = statistics[statistics.length - 1][
-            obj
-          ] as RTCOutboundStats;
+          const prevRtcStats = stats[stats.length - 1][obj] as RTCOutboundStats;
 
           rtcStats['bytesSent/s'] =
             rtcStats['bytesSent'] - prevRtcStats['bytesSent'];
@@ -69,9 +67,9 @@ export function useRTCStatistics(refreshInterval: number) {
           rtcStats['packetsSent/s'] = 0;
           rtcStats['framesEncoded/s'] = 0;
         }
-        return stats;
+        return stat;
       });
-      return stats;
+      return stat;
     },
     [],
   );

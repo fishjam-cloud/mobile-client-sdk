@@ -155,6 +155,10 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.peerStatus
       }
 
+      Function("getPeers") {
+        return@Function rnFishjamClient.getPeers()
+      }
+
       AsyncFunction(
         "joinRoom"
       ) { url: String, peerToken: String, peerMetadata: Map<String, Any>, config: ConnectConfig, promise: Promise ->
@@ -170,8 +174,8 @@ class RNFishjamClientModule : Module() {
       }
 
       AsyncFunction("startCamera") Coroutine { config: CameraConfig ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.startCamera(config)
+        return@Coroutine withContext(Dispatchers.Main) {
+          return@withContext rnFishjamClient.startCamera(config)
         }
       }
 
@@ -212,12 +216,6 @@ class RNFishjamClientModule : Module() {
       AsyncFunction("toggleScreenShare") Coroutine { screenShareOptions: ScreenShareOptions ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.toggleScreenShare(screenShareOptions)
-        }
-      }
-
-      AsyncFunction("getPeers") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.getPeers()
         }
       }
 

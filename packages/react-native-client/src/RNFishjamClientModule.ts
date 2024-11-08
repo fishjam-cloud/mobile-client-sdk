@@ -10,7 +10,7 @@ import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
 
-type Metadata = { [key: string]: any };
+type Metadata = { [key: string]: unknown };
 
 type RNFishjamClient = {
   isMicrophoneOn: boolean;
@@ -20,6 +20,12 @@ type RNFishjamClient = {
   cameras: ReadonlyArray<Camera>;
   currentCamera: Camera | null;
   peerStatus: PeerStatus;
+
+  getPeers: <
+    PeerMetadataType extends Metadata,
+    ServerMetadata extends Metadata = GenericMetadata,
+  >() => Peer<PeerMetadataType, ServerMetadata>[];
+
   joinRoom: (
     url: string,
     peerToken: string,
@@ -27,7 +33,7 @@ type RNFishjamClient = {
     config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
-  startCamera: (config: CameraConfigInternal) => Promise<void>;
+  startCamera: (config: CameraConfigInternal) => Promise<boolean>;
   toggleMicrophone: () => Promise<boolean>;
   toggleCamera: () => Promise<boolean>;
   flipCamera: () => Promise<void>;
@@ -39,10 +45,6 @@ type RNFishjamClient = {
   toggleAppScreenShare: (
     screenShareOptions: Partial<ScreenShareOptionsInternal>,
   ) => Promise<void>;
-  getPeers: <
-    PeerMetadataType extends Metadata,
-    ServerMetadata extends Metadata = GenericMetadata,
-  >() => Promise<Peer<PeerMetadataType, ServerMetadata>[]>;
   updatePeerMetadata: <MetadataType extends Metadata>(
     metadata: MetadataType,
   ) => Promise<void>;

@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Brand, GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
+import { useFishjamEventState } from './useFishjamEventState';
 
 export type PeerId = Brand<string, 'PeerId'>;
 export type TrackId = Brand<string, 'TrackId'>;
@@ -179,7 +180,11 @@ export function usePeers<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
 >(): UsePeersResult<PeerMetadata, ServerMetadata> {
-  const [peers, setPeers] = useState<Peer<PeerMetadata, ServerMetadata>[]>([]);
+  const peers = useFishjamEventState<Peer<PeerMetadata, ServerMetadata>[]>(
+    ReceivableEvents.PeersUpdate,
+    RNFishjamClientModule.getPeers<PeerMetadata, ServerMetadata>(),
+    (peersWithoutActive) => addIsActiveToTracks(peersWithoutActive),
+  );
 
   const localPeer = useMemo(() => {
     const localPeerData = peers.find((peer) => peer.isLocal);
@@ -191,27 +196,6 @@ export function usePeers<
       peers.filter((peer) => !peer.isLocal).map(getPeerWithDistinguishedTracks),
     [peers],
   );
-
-  const updateActivePeers = useCallback(
-    (peers: Peer<PeerMetadata, ServerMetadata>[]) => {
-      setPeers(addIsActiveToTracks(peers));
-    },
-    [],
-  );
-
-  useFishjamEvent(ReceivableEvents.PeersUpdate, updateActivePeers);
-
-  useEffect(() => {
-    async function updatePeers() {
-      const peers = await RNFishjamClientModule.getPeers<
-        PeerMetadata,
-        ServerMetadata
-      >();
-      updateActivePeers(peers);
-    }
-
-    updatePeers();
-  }, [updateActivePeers]);
 
   return { localPeer, remotePeers, peers };
 }

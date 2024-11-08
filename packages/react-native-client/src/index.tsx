@@ -66,6 +66,8 @@ export { usePeerStatus } from './hooks/usePeerStatus';
 export type { ForegroundServiceConfig } from './hooks/useForegroundService';
 export { useForegroundService } from './hooks/useForegroundService';
 
+export { FishjamRoom } from './components/FishjamRoom';
+
 export type {
   TrackBandwidthLimit,
   TrackEncoding,
