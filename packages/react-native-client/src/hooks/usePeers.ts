@@ -182,11 +182,8 @@ export function usePeers<
 >(): UsePeersResult<PeerMetadata, ServerMetadata> {
   const peers = useFishjamEventState<Peer<PeerMetadata, ServerMetadata>[]>(
     ReceivableEvents.PeersUpdate,
-    RNFishjamClientModule.getPeers<
-        PeerMetadata,
-        ServerMetadata
-      >(),
-    (peers) => addIsActiveToTracks(peers)
+    RNFishjamClientModule.getPeers<PeerMetadata, ServerMetadata>(),
+    (peers) => addIsActiveToTracks(peers),
   );
 
   const localPeer = useMemo(() => {
