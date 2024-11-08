@@ -9,9 +9,10 @@ module.exports = {
     "prettier",
   ],
   rules: {
-    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
-    "eqeqeq": "error"
+    eqeqeq: "error",
+    "no-shadow": "error",
   },
 };

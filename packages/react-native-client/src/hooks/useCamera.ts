@@ -125,7 +125,7 @@ function maxBandwidthConfig(maxBandwidth: TrackBandwidthLimit | undefined) {
   return { maxBandwidth };
 }
 
-function simulcastConfig(
+function getSimulcastConfig(
   simulcastEnabled: boolean | undefined,
 ): SimulcastConfig | undefined {
   // iOS has a limit of 3 hardware encoders
@@ -147,7 +147,7 @@ export function updateCameraConfig(
     ...config,
     ...maxBandwidthConfig({ l: 150, m: 500, h: 1500 }),
     videoTrackMetadata: { active: true, type: 'camera' },
-    simulcastConfig: simulcastConfig(config.simulcastEnabled),
+    simulcastConfig: getSimulcastConfig(config.simulcastEnabled),
   };
 }
 
@@ -178,10 +178,10 @@ export function useCamera() {
 
   const prepareCamera = useCallback(
     async (config: Readonly<CameraConfig> = {}) => {
-      const camera = RNFishjamClientModule.cameras.find((camera) =>
+      const camera = RNFishjamClientModule.cameras.find((cam) =>
         config.cameraId
-          ? camera.id === config.cameraId
-          : camera.facingDirection === 'front',
+          ? cam.id === config.cameraId
+          : cam.facingDirection === 'front',
       );
 
       const updatedConfig = updateCameraConfig({
