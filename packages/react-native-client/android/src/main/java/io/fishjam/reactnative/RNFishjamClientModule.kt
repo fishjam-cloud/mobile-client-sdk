@@ -174,8 +174,8 @@ class RNFishjamClientModule : Module() {
       }
 
       AsyncFunction("startCamera") Coroutine { config: CameraConfig ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.startCamera(config)
+        return@Coroutine withContext(Dispatchers.Main) {
+          return@withContext rnFishjamClient.startCamera(config)
         }
       }
 

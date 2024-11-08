@@ -10,7 +10,7 @@ import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
 
-type Metadata = { [key: string]: any };
+type Metadata = { [key: string]: unknown };
 
 type RNFishjamClient = {
   isMicrophoneOn: boolean;
@@ -33,7 +33,7 @@ type RNFishjamClient = {
     config: ConnectionConfig,
   ) => Promise<void>;
   leaveRoom: () => Promise<void>;
-  startCamera: (config: CameraConfigInternal) => Promise<void>;
+  startCamera: (config: CameraConfigInternal) => Promise<boolean>;
   toggleMicrophone: () => Promise<boolean>;
   toggleCamera: () => Promise<boolean>;
   flipCamera: () => Promise<void>;

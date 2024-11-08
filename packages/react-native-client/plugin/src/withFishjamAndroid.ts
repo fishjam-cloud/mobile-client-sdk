@@ -3,8 +3,8 @@ import { getMainApplicationOrThrow } from '@expo/config-plugins/build/android/Ma
 import { FishjamPluginOptions } from './types';
 
 const withFishjamForegroundService: ConfigPlugin = (config) => {
-  return withAndroidManifest(config, async (config) => {
-    const mainApplication = getMainApplicationOrThrow(config.modResults);
+  return withAndroidManifest(config, async (configuration) => {
+    const mainApplication = getMainApplicationOrThrow(configuration.modResults);
     mainApplication.service = mainApplication.service || [];
 
     const newService = {
@@ -25,7 +25,7 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
       mainApplication.service.push(newService);
     }
 
-    return config;
+    return configuration;
   });
 };
 
