@@ -42,7 +42,9 @@ internal class ReconnectionManager(
       return
     }
 
-    if (reconnectionStatus == ReconnectionStatus.reconnecting) { return }
+    if (reconnectionStatus == ReconnectionStatus.reconnecting) {
+      return
+    }
     reconnectionStatus = ReconnectionStatus.reconnecting
 
     listeners.forEach { it.onReconnectionStarted() }
@@ -55,7 +57,9 @@ internal class ReconnectionManager(
   }
 
   fun onReconnected() {
-    if (reconnectionStatus != ReconnectionStatus.reconnecting) { return }
+    if (reconnectionStatus != ReconnectionStatus.reconnecting) {
+      return
+    }
     reset()
     listeners.forEach { it.onReconnected() }
   }
