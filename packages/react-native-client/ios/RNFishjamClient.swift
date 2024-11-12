@@ -836,7 +836,7 @@ class RNFishjamClient: FishjamClientListener {
                 "E_MEMBRANE_CONNECT", "Failed to connect: socket close, code: \(code), reason: \(reason)")
         }
         connectPromise = nil
-        peerStatus = .error
+        peerStatus = .idle
     }
 
     func onSocketError() {
@@ -844,6 +844,7 @@ class RNFishjamClient: FishjamClientListener {
             connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
         }
         connectPromise = nil
+        peerStatus = .error
     }
 
     func onSocketOpen() {}
