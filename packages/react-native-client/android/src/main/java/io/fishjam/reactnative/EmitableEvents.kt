@@ -1,5 +1,6 @@
 package io.fishjam.reactnative
 
+import com.fishjamcloud.client.ReconnectionStatus
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.twilio.audioswitch.AudioDevice
 import io.fishjam.reactnative.extensions.LocalCamera
@@ -26,6 +27,7 @@ class EmitableEvent private constructor(
     ReconnectionRetriesLimitReached,
     ReconnectionStarted,
     Reconnected,
+    ReconnectionStatusChanged,
     Warning,
     PeerStatusChanged,
     CurrentCameraChanged
@@ -51,6 +53,9 @@ class EmitableEvent private constructor(
     fun warning(message: String) = EmitableEvent(EventName.Warning, message)
 
     fun peerStatusChanged(peerStatus: PeerStatus) = EmitableEvent(EventName.PeerStatusChanged, peerStatus.name)
+
+    fun reconnectionStatusChanged(reconnectionStatus: ReconnectionStatus) =
+      EmitableEvent(EventName.ReconnectionStatusChanged, reconnectionStatus.name)
 
     fun currentCameraChanged(
       localCamera: LocalCamera?,

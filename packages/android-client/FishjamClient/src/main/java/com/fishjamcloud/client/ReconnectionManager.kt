@@ -19,11 +19,11 @@ interface ReconnectionManagerListener {
   }
 }
 
+@Suppress("ktlint:standard:enum-entry-name-case")
 enum class ReconnectionStatus {
-  IDLE,
-  RECONNECTING,
-  ERROR,
-  WAITING
+  idle,
+  reconnecting,
+  error
 }
 
 internal class ReconnectionManager(
@@ -32,41 +32,37 @@ internal class ReconnectionManager(
 ) {
   private val listeners = mutableListOf<ReconnectionManagerListener>()
   private var reconnectAttempts = 0
-  private var reconnectionStatus = ReconnectionStatus.IDLE
+  private var reconnectionStatus = ReconnectionStatus.idle
 
   // attempts to reconnect if suitable
   fun onDisconnected() {
     if (reconnectAttempts >= reconnectConfig.maxAttempts) {
-      reconnectionStatus = ReconnectionStatus.ERROR
+      reconnectionStatus = ReconnectionStatus.error
       listeners.forEach { it.onReconnectionRetriesLimitReached() }
       return
     }
 
-    if (reconnectionStatus == ReconnectionStatus.WAITING) {
-      return
-    }
+    if (reconnectionStatus == ReconnectionStatus.reconnecting) return
+    reconnectionStatus = ReconnectionStatus.reconnecting
 
-    if (reconnectionStatus != ReconnectionStatus.RECONNECTING) {
-      reconnectionStatus = ReconnectionStatus.RECONNECTING
-      listeners.forEach { it.onReconnectionStarted() }
-    }
+    listeners.forEach { it.onReconnectionStarted() }
     val delay = reconnectConfig.initialDelayMs + reconnectAttempts * reconnectConfig.delayMs
     reconnectAttempts += 1
+
     Timer().schedule(delay) {
-      reconnectionStatus = ReconnectionStatus.RECONNECTING
       connect()
     }
   }
 
   fun onReconnected() {
-    if (reconnectionStatus != ReconnectionStatus.RECONNECTING) return
+    if (reconnectionStatus != ReconnectionStatus.reconnecting) return
     reset()
     listeners.forEach { it.onReconnected() }
   }
 
   fun reset() {
     reconnectAttempts = 0
-    reconnectionStatus = ReconnectionStatus.IDLE
+    reconnectionStatus = ReconnectionStatus.idle
   }
 
   fun addListener(listener: ReconnectionManagerListener) {

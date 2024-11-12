@@ -155,6 +155,10 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.peerStatus
       }
 
+      Property("reconnectionStatus") {
+        return@Property rnFishjamClient.reconnectionStatus
+      }
+
       Function("getPeers") {
         return@Function rnFishjamClient.getPeers()
       }

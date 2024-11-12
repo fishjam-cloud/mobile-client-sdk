@@ -13,6 +13,7 @@ export const ReceivableEvents = {
   ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
   ReconnectionStarted: 'ReconnectionStarted',
   Reconnected: 'Reconnected',
+  ReconnectionStatusChanged: 'ReconnectionStatusChanged',
   Warning: 'Warning',
   PeerStatusChanged: 'PeerStatusChanged',
   CurrentCameraChanged: 'CurrentCameraChanged',

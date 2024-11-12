@@ -20,6 +20,7 @@ class EmitableEvent {
         case ReconnectionRetriesLimitReached
         case ReconnectionStarted
         case Reconnected
+        case ReconnectionStatusChanged
         case Warning
         case PeerStatusChanged
         case CurrentCameraChanged
@@ -58,6 +59,9 @@ class EmitableEvent {
     static func warning(message: String) -> EmitableEvent { .init(event: .Warning, eventContent: message) }
     static func peerStatusChanged(peerStatus: PeerStatus) -> EmitableEvent {
         .init(event: .PeerStatusChanged, eventContent: peerStatus.rawValue)
+    }
+    static func reconnectionStatusChanged(reconnectionStatus: ReconnectionStatus) -> EmitableEvent {
+        .init(event: .ReconnectionStatusChanged, eventContent: reconnectionStatus.rawValue)
     }
 
     static func currentCameraChanged(localCamera: LocalCamera?, isCameraOn: Bool) -> EmitableEvent {

@@ -7,6 +7,7 @@ import android.media.projection.MediaProjectionManager
 import androidx.appcompat.app.AppCompatActivity
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
+import com.fishjamcloud.client.ReconnectionStatus
 import com.fishjamcloud.client.media.CaptureDevice
 import com.fishjamcloud.client.media.CaptureDeviceChangedListener
 import com.fishjamcloud.client.media.LocalAudioTrack
@@ -76,6 +77,12 @@ class RNFishjamClient(
     private set(value) {
       field = value
       emitEvent(EmitableEvent.peerStatusChanged(value))
+    }
+
+  var reconnectionStatus = ReconnectionStatus.idle
+    private set(value) {
+      field = value
+      emitEvent(EmitableEvent.reconnectionStatusChanged(value))
     }
 
   private val foregroundServiceManager by lazy {
@@ -881,14 +888,17 @@ class RNFishjamClient(
 
   override fun onReconnected() {
     emitEvent(EmitableEvent.reconnected)
+    reconnectionStatus = ReconnectionStatus.reconnecting
   }
 
   override fun onReconnectionStarted() {
     emitEvent(EmitableEvent.reconnectionStarted)
+    reconnectionStatus = ReconnectionStatus.idle
   }
 
   override fun onReconnectionRetriesLimitReached() {
     emitEvent(EmitableEvent.reconnectionRetriesLimitReached)
+    reconnectionStatus = ReconnectionStatus.error
   }
 
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
