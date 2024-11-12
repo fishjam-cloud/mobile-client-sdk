@@ -4,9 +4,7 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
 export function useFishjamEventState<EventType, StateType = EventType>(
   eventName: keyof typeof ReceivableEvents,
   defaultValue: StateType,
-  transform?: StateType extends EventType
-    ? undefined
-    : (eventValue: EventType) => StateType,
+  transform?: (eventValue: EventType) => StateType,
 ) {
   const [value, setValue] = useState<StateType>(defaultValue);
 

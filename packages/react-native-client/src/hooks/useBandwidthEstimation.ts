@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
+import { useFishjamEventState } from './useFishjamEventState';
 
 /**
  * This hook provides current bandwidth estimation
@@ -10,9 +9,9 @@ import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
  * @group Hooks
  */
 export function useBandwidthEstimation() {
-  const [estimation, setEstimation] = useState<number | null>(null);
-
-  useFishjamEvent(ReceivableEvents.BandwidthEstimation, setEstimation);
-
+  const estimation = useFishjamEventState<number | null>(
+    ReceivableEvents.BandwidthEstimation,
+    null,
+  );
   return { estimation };
 }

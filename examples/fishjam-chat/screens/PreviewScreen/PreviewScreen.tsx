@@ -55,7 +55,7 @@ function PreviewScreen({
   const toggleSwitchCamera = () => {
     const camera =
       cameras.find(
-        (camera) => camera.facingDirection !== currentCamera?.facingDirection,
+        (cam) => cam.facingDirection !== currentCamera?.facingDirection,
       ) || null;
     if (camera) {
       switchCamera(camera.id);
@@ -79,10 +79,7 @@ function PreviewScreen({
       route.params.fishjamUrl,
       route.params.peerToken,
       {
-        peer: {
-          displayName: route.params.userName,
-        },
-        server: {},
+        displayName: route.params.userName,
       },
     );
 

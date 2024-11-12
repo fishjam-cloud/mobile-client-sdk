@@ -84,4 +84,6 @@ export { useForegroundService } from './hooks/useForegroundService';
 export { useFishjamConnect } from './hooks/useFishjamConnect';
 // #endregion
 
+export { FishjamRoom } from './components/FishjamRoom';
+
 initializeWarningListener();
