@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
 import RNFishjamClientModule from '../RNFishjamClientModule';
+import { useFishjamEventState } from './useFishjamEventState';
 
 /**
  * Represents the possible statuses of a peer connection to a room (websocket state).
@@ -19,15 +19,10 @@ export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
  * @group Hooks
  */
 export const usePeerStatus = () => {
-  const [peerStatus, setPeerStatus] = useState(
+  const peerStatus = useFishjamEventState<PeerStatus>(
+    ReceivableEvents.PeerStatusChanged,
     RNFishjamClientModule.peerStatus,
   );
-
-  const onPeerStatusChanged = useCallback((status?: PeerStatus) => {
-    status && setPeerStatus(status);
-  }, []);
-
-  useFishjamEvent(ReceivableEvents.PeerStatusChanged, onPeerStatusChanged);
 
   return { peerStatus };
 };
