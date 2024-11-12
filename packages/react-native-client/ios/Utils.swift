@@ -21,23 +21,3 @@ let log = OSLog(subsystem: "com.fishjamcloud.react-native-client", category: "Er
         }
     }
 #endif
-
-extension [String: Any] {
-    public func toMetadata() -> Metadata {
-        var res: Metadata = .init()
-        self.forEach { entry in
-            res[entry.key] = entry.value
-        }
-        return res
-    }
-}
-
-extension AnyJson {
-    public func toDict() -> [String: Any] {
-        var res: [String: Any] = [:]
-        self.keys.forEach { key in
-            res[key] = self[key]
-        }
-        return res
-    }
-}
