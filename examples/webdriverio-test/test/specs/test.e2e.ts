@@ -126,6 +126,7 @@ const tests: Test[] = [
   {
     name: 'check if no camera view',
     run: async () => {
+      await driver.pause(500);
       await getElement(driver, '~' + NO_CAMERA_VIEW);
     },
     skip: false,
@@ -204,6 +205,7 @@ const tests: Test[] = [
   {
     name: 'check if only 1 video cell',
     run: async () => {
+      await driver.pause(500);
       await getElement(driver, '~' + VIDEO_CELL + 0);
       await getElement(driver, '~' + VIDEO_CELL + 1, true);
     },
