@@ -10,12 +10,9 @@ export const ReceivableEvents = {
   AudioDeviceUpdate: 'AudioDeviceUpdate',
   SendMediaEvent: 'SendMediaEvent',
   BandwidthEstimation: 'BandwidthEstimation',
-  ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
-  ReconnectionStarted: 'ReconnectionStarted',
-  Reconnected: 'Reconnected',
-  ReconnectionStatusChanged: 'ReconnectionStatusChanged',
   Warning: 'Warning',
   PeerStatusChanged: 'PeerStatusChanged',
+  ReconnectionStatusChanged: 'ReconnectionStatusChanged',
   CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 

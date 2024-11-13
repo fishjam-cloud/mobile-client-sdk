@@ -73,13 +73,13 @@ class RNFishjamClient(
 
   var appContext: AppContext? = null
 
-  var peerStatus = PeerStatus.idle
+  var peerStatus = PeerStatus.Idle
     private set(value) {
       field = value
       emitEvent(EmitableEvent.peerStatusChanged(value))
     }
 
-  var reconnectionStatus = ReconnectionStatus.idle
+  var reconnectionStatus = ReconnectionStatus.Idle
     private set(value) {
       field = value
       emitEvent(EmitableEvent.reconnectionStatusChanged(value))
@@ -248,7 +248,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(ConnectionError(reason))
       connectPromise = null
-      peerStatus = PeerStatus.error
+      peerStatus = PeerStatus.Error
     }
   }
 
@@ -259,7 +259,7 @@ class RNFishjamClient(
     config: ConnectConfig,
     promise: Promise
   ) {
-    peerStatus = PeerStatus.connecting
+    peerStatus = PeerStatus.Connecting
     connectPromise = promise
     localUserMetadata = mapOf("server" to emptyMap(), "peer" to peerMetadata)
     fishjamClient.connect(
@@ -809,7 +809,7 @@ class RNFishjamClient(
       connectPromise?.resolve(null)
       connectPromise = null
       emitEndpoints()
-      peerStatus = PeerStatus.connected
+      peerStatus = PeerStatus.Connected
     }
   }
 
@@ -864,7 +864,7 @@ class RNFishjamClient(
   }
 
   override fun onDisconnected() {
-    peerStatus = PeerStatus.idle
+    peerStatus = PeerStatus.Idle
   }
 
   override fun onSocketClose(
@@ -874,7 +874,7 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketClosedError(code, reason))
       connectPromise = null
-      peerStatus = PeerStatus.idle
+      peerStatus = PeerStatus.Idle
     }
   }
 
@@ -882,23 +882,20 @@ class RNFishjamClient(
     CoroutineScope(Dispatchers.Main).launch {
       connectPromise?.reject(SocketError(t.message ?: t.toString()))
       connectPromise = null
-      peerStatus = PeerStatus.error
+      peerStatus = PeerStatus.Error
     }
   }
 
   override fun onReconnected() {
-    emitEvent(EmitableEvent.reconnected)
-    reconnectionStatus = ReconnectionStatus.reconnecting
+    reconnectionStatus = ReconnectionStatus.Reconnecting
   }
 
   override fun onReconnectionStarted() {
-    emitEvent(EmitableEvent.reconnectionStarted)
-    reconnectionStatus = ReconnectionStatus.idle
+    reconnectionStatus = ReconnectionStatus.Idle
   }
 
   override fun onReconnectionRetriesLimitReached() {
-    emitEvent(EmitableEvent.reconnectionRetriesLimitReached)
-    reconnectionStatus = ReconnectionStatus.error
+    reconnectionStatus = ReconnectionStatus.Error
   }
 
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {

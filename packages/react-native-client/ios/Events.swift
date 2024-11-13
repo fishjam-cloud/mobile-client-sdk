@@ -17,12 +17,9 @@ class EmitableEvent {
         case PeersUpdate
         case AudioDeviceUpdate
         case BandwidthEstimation
-        case ReconnectionRetriesLimitReached
-        case ReconnectionStarted
-        case Reconnected
-        case ReconnectionStatusChanged
         case Warning
         case PeerStatusChanged
+        case ReconnectionStatusChanged
         case CurrentCameraChanged
 
         var name: String {
@@ -41,10 +38,6 @@ class EmitableEvent {
         self.event = event
         self.eventContent = eventContent
     }
-
-    static var reconnectionRetriesLimitReached: EmitableEvent { .init(event: .ReconnectionRetriesLimitReached) }
-    static var reconnectionStarted: EmitableEvent { .init(event: .ReconnectionStarted) }
-    static var reconnected: EmitableEvent { .init(event: .Reconnected) }
 
     static func isMicrophoneOn(enabled: Bool) -> EmitableEvent { .init(event: .IsMicrophoneOn, eventContent: enabled) }
     static func isScreenShareOn(enabled: Bool) -> EmitableEvent {

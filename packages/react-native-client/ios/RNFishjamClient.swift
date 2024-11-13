@@ -897,17 +897,14 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onReconnectionStarted() {
-        emit(event: .reconnectionStarted)
         reconnectionStatus = .reconnecting
     }
 
     func onReconnected() {
-        emit(event: .reconnected)
         reconnectionStatus = .idle
     }
 
     func onReconnectionRetriesLimitReached() {
-        emit(event: .reconnectionRetriesLimitReached)
         reconnectionStatus = .error
     }
 
