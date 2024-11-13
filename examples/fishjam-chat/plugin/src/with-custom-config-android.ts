@@ -1,5 +1,6 @@
 import {
   ConfigPlugin,
+  withGradleProperties,
   withProjectBuildGradle,
   withSettingsGradle,
 } from '@expo/config-plugins';
@@ -38,9 +39,31 @@ classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
   });
 };
 
+const withCustomGradleProperties: ConfigPlugin = (config) => {
+  return withGradleProperties(config, (configuration) => {
+    configuration.modResults.push({
+      type: 'property',
+      key: 'org.gradle.caching',
+      value: 'true',
+    });
+    configuration.modResults.push({
+      type: 'property',
+      key: 'org.gradle.parallel',
+      value: 'true',
+    });
+    configuration.modResults.push({
+      type: 'property',
+      key: 'org.gradle.jvmargs',
+      value: '-Xmx4g',
+    });
+    return configuration;
+  });
+};
+
 export const withCustomConfigAndroid: ConfigPlugin = (config) => {
   config = withCustomSettingsGradle(config);
   config = withCustomProjectBuildGradle(config);
+  config = withCustomGradleProperties(config);
 
   return config;
 };

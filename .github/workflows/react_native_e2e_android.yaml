@@ -95,6 +95,11 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           yarn build
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+          cache-read-only: false
       - name: Install appium
         run: npm i --location=global appium
 
