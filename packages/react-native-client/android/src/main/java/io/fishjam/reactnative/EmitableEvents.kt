@@ -5,7 +5,9 @@ import com.fishjamcloud.client.models.SimulcastConfig
 import com.twilio.audioswitch.AudioDevice
 import io.fishjam.reactnative.extensions.LocalCamera
 
-enum class PeerStatus(val status: String) {
+enum class PeerStatus(
+  val status: String
+) {
   Connecting("connecting"),
   Connected("connected"),
   Idle("idle"),

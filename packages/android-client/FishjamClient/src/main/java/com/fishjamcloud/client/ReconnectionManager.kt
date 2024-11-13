@@ -19,7 +19,9 @@ interface ReconnectionManagerListener {
   }
 }
 
-enum class ReconnectionStatus(val status: String) {
+enum class ReconnectionStatus(
+  val status: String
+) {
   Idle("idle"),
   Reconnecting("reconnecting"),
   Error("error")
