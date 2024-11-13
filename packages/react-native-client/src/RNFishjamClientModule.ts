@@ -1,5 +1,6 @@
 import { requireNativeModule } from 'expo-modules-core';
 
+import type { NativeModule } from 'expo-modules-core/types';
 import type { RTCStats } from './debug/stats/types';
 import type { GenericMetadata, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
@@ -8,7 +9,6 @@ import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
-import { NativeModule } from 'expo-modules-core/types';
 
 type Metadata = { [key: string]: unknown };
 
