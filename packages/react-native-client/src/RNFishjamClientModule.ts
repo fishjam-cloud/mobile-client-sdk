@@ -1,5 +1,4 @@
-import { EventEmitter, requireNativeModule } from 'expo-modules-core';
-import { NativeModule } from 'react-native';
+import { requireNativeModule } from 'expo-modules-core';
 
 import type { RTCStats } from './debug/stats/types';
 import type { GenericMetadata, SimulcastConfig } from './types';
@@ -9,6 +8,7 @@ import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
+import { NativeModule } from 'expo-modules-core/types';
 
 type Metadata = { [key: string]: unknown };
 
@@ -99,8 +99,7 @@ export const ReceivableEvents = {
 
 const nativeModule = requireNativeModule('RNFishjamClient');
 
-export const nativeModuleEventEmitter = new EventEmitter<
-  Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
->();
-
-export default nativeModule as RNFishjamClient & NativeModule;
+export default nativeModule as RNFishjamClient &
+  NativeModule<
+    Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
+  >;

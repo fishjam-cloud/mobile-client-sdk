@@ -1,14 +1,11 @@
-import {
-  nativeModuleEventEmitter,
-  ReceivableEvents,
-} from '../RNFishjamClientModule';
+import nativeModule, { ReceivableEvents } from '../RNFishjamClientModule';
 
 export const initializeWarningListener = () => {
   if (!__DEV__) {
     return;
   }
   try {
-    nativeModuleEventEmitter.addListener(ReceivableEvents.Warning, (event) => {
+    nativeModule.addListener(ReceivableEvents.Warning, (event) => {
       console.warn(event[ReceivableEvents.Warning]);
     });
   } catch (error) {
