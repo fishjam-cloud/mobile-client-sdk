@@ -97,9 +97,8 @@ export const ReceivableEvents = {
   CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 
-const nativeModule = requireNativeModule('RNFishjamClient');
-
-export default nativeModule as RNFishjamClient &
+export default requireNativeModule('RNFishjamClient') as RNFishjamClient &
   NativeModule<
+    // TODO: Make event arguments typesafe instead of generic.
     Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
   >;
