@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
-import RNFishjamClientModule from '../RNFishjamClientModule';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 import { SimulcastConfig } from '../types';
-import { ReceivableEvents } from './useFishjamEvent';
 import { ScreenShareOptions } from './useScreenShare';
 import { Platform } from 'react-native';
 import { useFishjamEventState } from './useFishjamEventState';

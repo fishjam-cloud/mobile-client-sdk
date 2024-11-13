@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 
-import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents } from './useFishjamEvent';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
 
 /**

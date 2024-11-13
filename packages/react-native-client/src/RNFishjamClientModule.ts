@@ -80,7 +80,27 @@ type RNFishjamClient = {
   stopForegroundService: () => void;
 };
 
+export const ReceivableEvents = {
+  IsMicrophoneOn: 'IsMicrophoneOn',
+  IsScreenShareOn: 'IsScreenShareOn',
+  IsAppScreenShareOn: 'IsAppScreenShareOn', // only for iOS
+  SimulcastConfigUpdate: 'SimulcastConfigUpdate',
+  PeersUpdate: 'PeersUpdate',
+  AudioDeviceUpdate: 'AudioDeviceUpdate',
+  SendMediaEvent: 'SendMediaEvent',
+  BandwidthEstimation: 'BandwidthEstimation',
+  ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
+  ReconnectionStarted: 'ReconnectionStarted',
+  Reconnected: 'Reconnected',
+  Warning: 'Warning',
+  PeerStatusChanged: 'PeerStatusChanged',
+  CurrentCameraChanged: 'CurrentCameraChanged',
+} as const;
+
 const nativeModule = requireNativeModule('RNFishjamClient');
-export const nativeModuleEventEmitter = new EventEmitter(nativeModule);
+
+export const nativeModuleEventEmitter = new EventEmitter<
+  Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
+>();
 
 export default nativeModule as RNFishjamClient & NativeModule;

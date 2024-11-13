@@ -1,4 +1,4 @@
-import { ReceivableEvents } from './useFishjamEvent';
+import { ReceivableEvents } from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
 
 /**

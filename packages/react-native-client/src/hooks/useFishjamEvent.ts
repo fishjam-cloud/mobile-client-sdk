@@ -1,33 +1,20 @@
 import { useEffect } from 'react';
-import { nativeModuleEventEmitter } from '../RNFishjamClientModule';
-
-export const ReceivableEvents = {
-  IsMicrophoneOn: 'IsMicrophoneOn',
-  IsScreenShareOn: 'IsScreenShareOn',
-  IsAppScreenShareOn: 'IsAppScreenShareOn', // only for iOS
-  SimulcastConfigUpdate: 'SimulcastConfigUpdate',
-  PeersUpdate: 'PeersUpdate',
-  AudioDeviceUpdate: 'AudioDeviceUpdate',
-  SendMediaEvent: 'SendMediaEvent',
-  BandwidthEstimation: 'BandwidthEstimation',
-  ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
-  ReconnectionStarted: 'ReconnectionStarted',
-  Reconnected: 'Reconnected',
-  Warning: 'Warning',
-  PeerStatusChanged: 'PeerStatusChanged',
-  CurrentCameraChanged: 'CurrentCameraChanged',
-} as const;
+import {
+  nativeModuleEventEmitter,
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 
 export function useFishjamEvent<T>(
   eventName: keyof typeof ReceivableEvents,
   callback: (event: T) => void,
 ) {
   useEffect(() => {
-    const eventListener = nativeModuleEventEmitter.addListener<
-      Record<keyof typeof ReceivableEvents, T>
-    >(eventName, (event) => {
-      callback(event[eventName]);
-    });
+    const eventListener = nativeModuleEventEmitter.addListener(
+      eventName,
+      (event) => {
+        callback(event[eventName]);
+      },
+    );
     return () => eventListener.remove();
   }, [callback, eventName]);
 }
