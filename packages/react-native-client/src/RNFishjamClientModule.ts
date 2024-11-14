@@ -9,6 +9,7 @@ import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
+import { ReconnectionStatus } from './hooks/useReconnection';
 
 type Metadata = { [key: string]: unknown };
 
@@ -20,6 +21,7 @@ type RNFishjamClient = {
   cameras: ReadonlyArray<Camera>;
   currentCamera: Camera | null;
   peerStatus: PeerStatus;
+  reconnectionStatus: ReconnectionStatus;
 
   getPeers: <
     PeerMetadataType extends Metadata,
