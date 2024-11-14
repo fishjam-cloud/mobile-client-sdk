@@ -68,7 +68,22 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "3cb3251a-603a-4c13-ab69-6fac3249072d"
+        "projectId": "3cb3251a-603a-4c13-ab69-6fac3249072d",
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "FishjamScreenBroadcastExtension",
+                  "bundleIdentifier": "io.fishjam.example.fishjamchat.FishjamScreenBroadcastExtension",
+                  "entitlements": {
+                    "com.apple.security.application-groups": ["group.io.fishjam.example.fishjamchat"]
+                  }
+                }
+              ]
+            }
+          }
+        }
       }
     },
     "owner": "fishjam-cloud"
