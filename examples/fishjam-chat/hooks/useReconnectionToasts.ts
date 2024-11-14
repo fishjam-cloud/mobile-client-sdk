@@ -17,7 +17,7 @@ export function useReconnectionToasts() {
         text1: 'Connection is broken, reconnecting...',
       });
     } else if (prevStatus.current === 'reconnecting') {
-      if (connectionStatus === 'idle') {
+      if (connectionStatus === 'connected') {
         Toast.show({
           text1: 'Connected successfully',
         });
