@@ -1,8 +1,8 @@
 import { joinRoom, leaveRoom } from '../common/client';
 
-import { useCallback, useState } from 'react';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
 import RNFishjamClientModule from '../RNFishjamClientModule';
+import { useFishjamEventState } from './useFishjamEventState';
 
 type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
@@ -10,31 +10,14 @@ type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
 export type ConnectionStatus = ReconnectionStatus | PeerStatus;
 
 function useConnectionStatus() {
-  const [peerStatus, setPeerStatus] = useState(
+  const peerStatus = useFishjamEventState<PeerStatus>(
+    ReceivableEvents.PeerStatusChanged,
     RNFishjamClientModule.peerStatus,
   );
 
-  const [reconnectionStatus, setReconnectionStatus] =
-    useState<ReconnectionStatus>('idle');
-
-  const onPeerStatusChanged = useCallback((status?: PeerStatus) => {
-    status && setPeerStatus(status);
-  }, []);
-
-  useFishjamEvent(ReceivableEvents.PeerStatusChanged, onPeerStatusChanged);
-
-  const setStatusIdle = useCallback(() => setReconnectionStatus('idle'), []);
-  const setStatusReconnecting = useCallback(
-    () => setReconnectionStatus('reconnecting'),
-    [],
-  );
-  const setStatusError = useCallback(() => setReconnectionStatus('error'), []);
-
-  useFishjamEvent(ReceivableEvents.Reconnected, setStatusIdle);
-  useFishjamEvent(ReceivableEvents.ReconnectionStarted, setStatusReconnecting);
-  useFishjamEvent(
-    ReceivableEvents.ReconnectionRetriesLimitReached,
-    setStatusError,
+  const reconnectionStatus = useFishjamEventState<ReconnectionStatus>(
+    ReceivableEvents.ReconnectionStatusChanged,
+    RNFishjamClientModule.reconnectionStatus,
   );
 
   return { peerStatus, reconnectionStatus };
