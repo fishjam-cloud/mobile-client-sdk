@@ -20,7 +20,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-/// Defines any type of message passed between FJ and server client
+/// Defines any type of message passed between FJ and server peer
 struct Fishjam_ServerMessage {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -317,7 +317,7 @@ struct Fishjam_ServerMessage {
   #endif
   }
 
-  /// Defines message groups for which client can subscribe
+  /// Defines message groups for which peer can subscribe
   enum EventType: SwiftProtobuf.Enum {
     typealias RawValue = Int
     case unspecified // = 0
@@ -497,7 +497,7 @@ struct Fishjam_ServerMessage {
     init() {}
   }
 
-  /// Request sent by client, to authenticate to FJ server
+  /// Request sent by peer, to authenticate to FJ server
   struct AuthRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -510,7 +510,7 @@ struct Fishjam_ServerMessage {
     init() {}
   }
 
-  /// Request sent by client to subsribe for certain message type
+  /// Request sent by peer to subsribe for certain message type
   struct SubscribeRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for

@@ -60,6 +60,22 @@ struct Fishjam_PeerMessage {
     set {content = .rtcStatsReport(newValue)}
   }
 
+  var peerMediaEvent: Fishjam_MediaEvents_Peer_MediaEvent {
+    get {
+      if case .peerMediaEvent(let v)? = content {return v}
+      return Fishjam_MediaEvents_Peer_MediaEvent()
+    }
+    set {content = .peerMediaEvent(newValue)}
+  }
+
+  var serverMediaEvent: Fishjam_MediaEvents_Server_MediaEvent {
+    get {
+      if case .serverMediaEvent(let v)? = content {return v}
+      return Fishjam_MediaEvents_Server_MediaEvent()
+    }
+    set {content = .serverMediaEvent(newValue)}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   enum OneOf_Content: Equatable {
@@ -67,6 +83,8 @@ struct Fishjam_PeerMessage {
     case authRequest(Fishjam_PeerMessage.AuthRequest)
     case mediaEvent(Fishjam_PeerMessage.MediaEvent)
     case rtcStatsReport(Fishjam_PeerMessage.RTCStatsReport)
+    case peerMediaEvent(Fishjam_MediaEvents_Peer_MediaEvent)
+    case serverMediaEvent(Fishjam_MediaEvents_Server_MediaEvent)
 
   #if !swift(>=4.1)
     static func ==(lhs: Fishjam_PeerMessage.OneOf_Content, rhs: Fishjam_PeerMessage.OneOf_Content) -> Bool {
@@ -88,6 +106,14 @@ struct Fishjam_PeerMessage {
       }()
       case (.rtcStatsReport, .rtcStatsReport): return {
         guard case .rtcStatsReport(let l) = lhs, case .rtcStatsReport(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.peerMediaEvent, .peerMediaEvent): return {
+        guard case .peerMediaEvent(let l) = lhs, case .peerMediaEvent(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.serverMediaEvent, .serverMediaEvent): return {
+        guard case .serverMediaEvent(let l) = lhs, case .serverMediaEvent(let r) = rhs else { preconditionFailure() }
         return l == r
       }()
       default: return false
@@ -115,18 +141,7 @@ struct Fishjam_PeerMessage {
 
     var token: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
-
-    init() {}
-  }
-
-  /// Any type of WebRTC messages passed betweend FJ and peer
-  struct MediaEvent {
-    // SwiftProtobuf.Message conformance is added in an extension below. See the
-    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-    // methods supported on all messages.
-
-    var data: String = String()
+    var sdkVersion: String = String()
 
     var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -147,6 +162,19 @@ struct Fishjam_PeerMessage {
     init() {}
   }
 
+  /// Any type of WebRTC messages passed betweend FJ and peer
+  struct MediaEvent {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    var data: String = String()
+
+    var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    init() {}
+  }
+
   init() {}
 }
 
@@ -155,8 +183,8 @@ extension Fishjam_PeerMessage: @unchecked Sendable {}
 extension Fishjam_PeerMessage.OneOf_Content: @unchecked Sendable {}
 extension Fishjam_PeerMessage.Authenticated: @unchecked Sendable {}
 extension Fishjam_PeerMessage.AuthRequest: @unchecked Sendable {}
-extension Fishjam_PeerMessage.MediaEvent: @unchecked Sendable {}
 extension Fishjam_PeerMessage.RTCStatsReport: @unchecked Sendable {}
+extension Fishjam_PeerMessage.MediaEvent: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -170,6 +198,8 @@ extension Fishjam_PeerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     2: .standard(proto: "auth_request"),
     3: .standard(proto: "media_event"),
     4: .standard(proto: "rtc_stats_report"),
+    5: .standard(proto: "peer_media_event"),
+    6: .standard(proto: "server_media_event"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -230,6 +260,32 @@ extension Fishjam_PeerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
           self.content = .rtcStatsReport(v)
         }
       }()
+      case 5: try {
+        var v: Fishjam_MediaEvents_Peer_MediaEvent?
+        var hadOneofValue = false
+        if let current = self.content {
+          hadOneofValue = true
+          if case .peerMediaEvent(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.content = .peerMediaEvent(v)
+        }
+      }()
+      case 6: try {
+        var v: Fishjam_MediaEvents_Server_MediaEvent?
+        var hadOneofValue = false
+        if let current = self.content {
+          hadOneofValue = true
+          if case .serverMediaEvent(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.content = .serverMediaEvent(v)
+        }
+      }()
       default: break
       }
     }
@@ -256,6 +312,14 @@ extension Fishjam_PeerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     case .rtcStatsReport?: try {
       guard case .rtcStatsReport(let v)? = self.content else { preconditionFailure() }
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    }()
+    case .peerMediaEvent?: try {
+      guard case .peerMediaEvent(let v)? = self.content else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    }()
+    case .serverMediaEvent?: try {
+      guard case .serverMediaEvent(let v)? = self.content else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
     }()
     case nil: break
     }
@@ -292,6 +356,7 @@ extension Fishjam_PeerMessage.AuthRequest: SwiftProtobuf.Message, SwiftProtobuf.
   static let protoMessageName: String = Fishjam_PeerMessage.protoMessageName + ".AuthRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "token"),
+    2: .standard(proto: "sdk_version"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -301,6 +366,7 @@ extension Fishjam_PeerMessage.AuthRequest: SwiftProtobuf.Message, SwiftProtobuf.
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.token) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.sdkVersion) }()
       default: break
       }
     }
@@ -310,43 +376,15 @@ extension Fishjam_PeerMessage.AuthRequest: SwiftProtobuf.Message, SwiftProtobuf.
     if !self.token.isEmpty {
       try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
     }
+    if !self.sdkVersion.isEmpty {
+      try visitor.visitSingularStringField(value: self.sdkVersion, fieldNumber: 2)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Fishjam_PeerMessage.AuthRequest, rhs: Fishjam_PeerMessage.AuthRequest) -> Bool {
     if lhs.token != rhs.token {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Fishjam_PeerMessage.MediaEvent: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_PeerMessage.protoMessageName + ".MediaEvent"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "data"),
-  ]
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.data) }()
-      default: break
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.data.isEmpty {
-      try visitor.visitSingularStringField(value: self.data, fieldNumber: 1)
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Fishjam_PeerMessage.MediaEvent, rhs: Fishjam_PeerMessage.MediaEvent) -> Bool {
-    if lhs.data != rhs.data {return false}
+    if lhs.sdkVersion != rhs.sdkVersion {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -378,6 +416,38 @@ extension Fishjam_PeerMessage.RTCStatsReport: SwiftProtobuf.Message, SwiftProtob
   }
 
   static func ==(lhs: Fishjam_PeerMessage.RTCStatsReport, rhs: Fishjam_PeerMessage.RTCStatsReport) -> Bool {
+    if lhs.data != rhs.data {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Fishjam_PeerMessage.MediaEvent: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = Fishjam_PeerMessage.protoMessageName + ".MediaEvent"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "data"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.data) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.data.isEmpty {
+      try visitor.visitSingularStringField(value: self.data, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Fishjam_PeerMessage.MediaEvent, rhs: Fishjam_PeerMessage.MediaEvent) -> Bool {
     if lhs.data != rhs.data {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

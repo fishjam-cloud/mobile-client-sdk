@@ -62,46 +62,36 @@ internal class RTCEngineCommunication {
         }
     }
 
-    func onEvent(serializedEvent: SerializedMediaEvent) {
-        guard let event = Events.deserialize(payload: serializedEvent) else {
-            sdkLogger.error("Failed to decode event \(serializedEvent)")
-            return
-        }
-        switch event.type {
-        case .Connected:
-            let connected = event as! ConnectedEvent
+    func onEvent(eventContent: Fishjam_MediaEvents_Server_MediaEvent.OneOf_Content) {
+      
+        switch eventContent {
+        case .connected(let connected):
             for listener in listeners {
-                listener.onConnected(endpointId: connected.data.id, otherEndpoints: connected.data.otherEndpoints)
+                listener.onConnected(endpointId: connected.endpointID, otherEndpoints: connected.endpoints)
             }
-        case .EndpointAdded:
-            let endpointAdded = event as! EndpointAddedEvent
+        case .endpointAdded(let endpointAdded):
             for listener in listeners {
                 listener.onEndpointAdded(
-                    endpointId: endpointAdded.data.id,
-                    metadata: endpointAdded.data.metadata)
+                    endpointId: endpointAdded.endpointID,
+                    metadata: endpointAdded.metadata)
             }
-        case .EndpointRemoved:
-            let endpointRemoved = event as! EndpointRemovedEvent
+        case .endpointRemoved(let endpointRemoved):
             for listener in listeners {
 
-                listener.onEndpointRemoved(endpointId: endpointRemoved.data.id)
+                listener.onEndpointRemoved(endpointId: endpointRemoved.endpointID)
             }
-        case .EndpointUpdated:
-            let endpointUpdated = event as! EndpointUpdatedEvent
+        case .endpointUpdated(let endpointUpdated):
             for listener in listeners {
-
                 listener.onEndpointUpdated(
-                    endpointId: endpointUpdated.data.endpointId, metadata: endpointUpdated.data.metadata ?? AnyJson())
+                    endpointId: endpointUpdated.endpointID, metadata: endpointUpdated.metadata)
             }
-        case .OfferData:
-            let offerData = event as! OfferDataEvent
+        case .offerData(let offerData):
             for listener in listeners {
                 listener.onOfferData(
                     integratedTurnServers: offerData.data.integratedTurnServers, tracksTypes: offerData.data.tracksTypes
                 )
             }
-        case .Candidate:
-            let candidate = event as! RemoteCandidateEvent
+        case .candidate(let candidate):
             for listener in listeners {
                 let sdpMid = candidate.data.sdpMid.map(String.init)
 
@@ -109,54 +99,35 @@ internal class RTCEngineCommunication {
                     candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
                     sdpMid: sdpMid)
             }
-        case .TracksAdded:
-            let tracksAdded = event as! TracksAddedEvent
+        case .tracksAdded(let tracksAdded):
             for listener in listeners {
 
                 listener.onTracksAdded(
                     endpointId: tracksAdded.data.endpointId, tracks: tracksAdded.data.tracks)
             }
-        case .TracksRemoved:
-            let tracksRemoved = event as! TracksRemovedEvent
+        case .tracksRemoved(let tracksRemoved):
             for listener in listeners {
 
                 listener.onTracksRemoved(
                     endpointId: tracksRemoved.data.endpointId, trackIds: tracksRemoved.data.trackIds)
             }
-        case .TrackUpdated:
-            let tracksUpdated = event as! TracksUpdatedEvent
+        case .trackUpdated(let tracksUpdated):
             for listener in listeners {
 
                 listener.onTrackUpdated(
                     endpointId: tracksUpdated.data.endpointId, trackId: tracksUpdated.data.trackId,
                     metadata: tracksUpdated.data.metadata ?? AnyJson())
             }
-        case .SdpAnswer:
-            let sdpAnswer = event as! SdpAnswerEvent
+        case .sdpAnswer(let sdpAnswer):
             for listener in listeners {
 
                 listener.onSdpAnswer(
                     type: sdpAnswer.data.type, sdp: sdpAnswer.data.sdp, midToTrackId: sdpAnswer.data.midToTrackId)
             }
-        case .EncodingSwitched:
-            let encodingSwitched = event as! EncodingSwitchedEvent
-            for listener in listeners {
-
-                listener.onTrackEncodingChanged(
-                    endpointId: encodingSwitched.data.endpointId, trackId: encodingSwitched.data.trackId,
-                    encoding: encodingSwitched.data.encoding, encodingReason: encodingSwitched.data.reason)
-            }
-        case .VadNotification:
-            let vadNotification = event as! VadNotificationEvent
+        case .vadNotification(let vadNotification):
             for listener in listeners {
 
                 listener.onVadNotification(trackId: vadNotification.data.trackId, status: vadNotification.data.status)
-            }
-        case .BandwidthEstimation:
-            let bandwidthEstimation = event as! BandwidthEstimationEvent
-            for listener in listeners {
-
-                listener.onBandwidthEstimation(estimation: Int(bandwidthEstimation.data.estimation))
             }
         default:
             sdkLogger.error("Failed to handle ReceivableEvent of type \(event.type)")
