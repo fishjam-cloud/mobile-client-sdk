@@ -90,6 +90,10 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.peerStatus.rawValue
         }
 
+        Property("reconnectionStatus") {
+            return rnFishjamClient.reconnectionStatus.rawValue
+        }
+
         Property("isMicrophoneOn") {
             return rnFishjamClient.isMicrophoneOn
         }
