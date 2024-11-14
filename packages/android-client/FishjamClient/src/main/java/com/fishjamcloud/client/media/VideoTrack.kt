@@ -18,10 +18,16 @@ open class VideoTrack(
     id
   ) {
   fun addRenderer(renderer: VideoSink) {
-    this.videoTrack.addSink(renderer)
+    videoTrack.addSink(renderer)
   }
 
   fun removeRenderer(renderer: VideoSink) {
-    this.videoTrack.removeSink(renderer)
+    videoTrack.removeSink(renderer)
+  }
+
+  fun shouldReceive(shouldReceive: Boolean) {
+    if (!videoTrack.isDisposed) {
+      videoTrack.setShouldReceive(shouldReceive)
+    }
   }
 }

@@ -57,6 +57,13 @@ internal class PeerConnectionManager(
 
   private var streamIds: List<String> = listOf(UUID.randomUUID().toString())
 
+  // ex-webrtc backend crashes if it's sent a candidate before sdp offer
+  // we can get local candidates from peer connection any time on a different thread
+  // so we queue them here and send them after sending sdp offer
+  private var sentSdpOffer = false
+  private var queuedLocalCandidates = mutableListOf<IceCandidate>()
+  private var qlcMutext = Mutex()
+
   private fun getSendEncodingsFromConfig(simulcastConfig: SimulcastConfig): List<RtpParameters.Encoding> {
     val sendEncodings = Constants.simulcastEncodings()
     simulcastConfig.activeEncodings.forEach {
@@ -263,28 +270,32 @@ internal class PeerConnectionManager(
       return
     }
 
-    this.iceServers =
-      integratedTurnServers.map {
-        val url =
-          listOf(
-            "turn",
-            ":",
-            it.serverAddr,
-            ":",
-            it.serverPort.toString(),
-            "?transport=",
-            it.transport
-          ).joinToString("")
+    val isExWebrtc = integratedTurnServers.isEmpty()
 
-        PeerConnection.IceServer
-          .builder(url)
-          .setUsername(it.username)
-          .setPassword(it.password)
-          .createIceServer()
-      }
+    if (isExWebrtc) {
+      val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
+      this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
+    } else {
+      this.iceServers =
+        integratedTurnServers.map {
+          val url = "turn:${it.serverAddr}:${it.serverPort}?transport=${it.transport}"
+
+          PeerConnection.IceServer
+            .builder(url)
+            .setUsername(it.username)
+            .setPassword(it.password)
+            .createIceServer()
+        }
+    }
 
     val config = PeerConnection.RTCConfiguration(iceServers)
-    config.iceTransportsType = PeerConnection.IceTransportsType.RELAY
+    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
+    config.iceTransportsType =
+      if (isExWebrtc) {
+        PeerConnection.IceTransportsType.ALL
+      } else {
+        PeerConnection.IceTransportsType.RELAY
+      }
     this.config = config
   }
 
@@ -369,8 +380,14 @@ internal class PeerConnectionManager(
     tracksTypes: Map<String, Int>,
     localTracks: List<Track>
   ): SdpOffer {
+    val isExWebrtc = integratedTurnServers.isEmpty()
+
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
+    }
+    qlcMutext.withLock {
+      sentSdpOffer = false
+      this.queuedLocalCandidates = mutableListOf()
     }
     prepareIceServers(integratedTurnServers)
 
@@ -379,10 +396,11 @@ internal class PeerConnectionManager(
       setupPeerConnection(localTracks)
       needsRestart = false
     }
+
     peerConnectionMutex.withLock {
       val pc = peerConnection!!
 
-      if (needsRestart) {
+      if (needsRestart && !isExWebrtc) {
         pc.restartIce()
       }
 
@@ -475,9 +493,31 @@ internal class PeerConnectionManager(
     Timber.d("Change ice gathering state to $state")
   }
 
+  suspend fun onSentSdpOffer() {
+    qlcMutext.withLock {
+      sentSdpOffer = true
+      queuedLocalCandidates.forEach { candidate ->
+        listeners.forEach { listener ->
+          listener.onLocalIceCandidate(
+            candidate
+          )
+        }
+      }
+      queuedLocalCandidates = mutableListOf()
+    }
+  }
+
   override fun onIceCandidate(candidate: IceCandidate?) {
-    if (candidate != null) {
-      listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }
+    coroutineScope.launch {
+      qlcMutext.withLock {
+        if (candidate != null) {
+          if (sentSdpOffer) {
+            listeners.forEach { listener -> listener.onLocalIceCandidate(candidate) }
+          } else {
+            queuedLocalCandidates.add(candidate)
+          }
+        }
+      }
     }
   }
 

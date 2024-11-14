@@ -152,7 +152,15 @@ class RNFishjamClientModule : Module() {
       }
 
       Property("peerStatus") {
-        return@Property rnFishjamClient.peerStatus
+        return@Property rnFishjamClient.peerStatus.status
+      }
+
+      Property("reconnectionStatus") {
+        return@Property rnFishjamClient.reconnectionStatus.status
+      }
+
+      Function("getPeers") {
+        return@Function rnFishjamClient.getPeers()
       }
 
       AsyncFunction(
@@ -170,8 +178,8 @@ class RNFishjamClientModule : Module() {
       }
 
       AsyncFunction("startCamera") Coroutine { config: CameraConfig ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.startCamera(config)
+        return@Coroutine withContext(Dispatchers.Main) {
+          return@withContext rnFishjamClient.startCamera(config)
         }
       }
 
@@ -212,12 +220,6 @@ class RNFishjamClientModule : Module() {
       AsyncFunction("toggleScreenShare") Coroutine { screenShareOptions: ScreenShareOptions ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.toggleScreenShare(screenShareOptions)
-        }
-      }
-
-      AsyncFunction("getPeers") Coroutine { ->
-        withContext(Dispatchers.Main) {
-          rnFishjamClient.getPeers()
         }
       }
 
@@ -294,7 +296,7 @@ class RNFishjamClientModule : Module() {
       }
 
       AsyncFunction("changeWebRTCLoggingSeverity") Coroutine { severity: String ->
-        CoroutineScope(Dispatchers.Main).launch {
+        withContext(Dispatchers.Main) {
           rnFishjamClient.changeWebRTCLoggingSeverity(severity)
         }
       }

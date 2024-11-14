@@ -2,15 +2,14 @@ import ExpoModulesCore
 import FishjamCloudClient
 
 class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
-    var videoView: VideoView? = nil
-    private var localVideoTrack: LocalCameraTrack? = nil
+    var videoView: VideoView!
+    private var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
         videoView = VideoView()
-        videoView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        videoView?.clipsToBounds = true
-        addSubview(videoView!)
+        videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        videoView.clipsToBounds = true
     }
 
     private func trySetLocalCameraTrack() {
@@ -29,16 +28,18 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
                     track is LocalCameraTrack
                 })?.value as? LocalCameraTrack
             self.localVideoTrack?.start()
-            self.videoView?.track = self.localVideoTrack
+            self.videoView.track = self.localVideoTrack
         }
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         if newSuperview == nil {
+            videoView.removeFromSuperview()
             RNFishjamClient.localCameraTracksChangedListenersManager.remove(self)
             localVideoTrack?.stop()
         } else {
+            addSubview(videoView)
             RNFishjamClient.localCameraTracksChangedListenersManager.add(self)
             trySetLocalCameraTrack()
         }
@@ -48,26 +49,25 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
         didSet {
             switch videoLayout {
             case "FIT":
-                self.videoView?.layout = .fit
+                videoView.layout = .fit
             case "FILL":
-                self.videoView?.layout = .fill
+                videoView.layout = .fill
             default:
-                self.videoView?.layout = .fill
+                videoView.layout = .fill
             }
         }
     }
 
     var mirrorVideo: Bool = false {
         didSet {
-            self.videoView?.mirror = mirrorVideo
+            videoView.mirror = mirrorVideo
         }
     }
 
     var captureDeviceId: String? = nil {
         didSet {
-            if let captureDeviceId = captureDeviceId {
-                localVideoTrack?.switchCamera(deviceId: captureDeviceId)
-            }
+            guard let captureDeviceId else { return }
+            localVideoTrack?.switchCamera(deviceId: captureDeviceId)
         }
     }
 

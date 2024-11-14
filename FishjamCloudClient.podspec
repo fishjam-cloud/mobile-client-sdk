@@ -5,7 +5,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FishjamCloudClient'
-  s.version          = '0.4.0'
+  s.version          = '0.5.0'
   s.summary          = 'Fishjam SDK fully compatible with `Membrane RTC Engine` for iOS.'
 
   s.homepage         = 'https://github.com/fishjam-cloud/mobile-client-sdk'
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
 
-  s.dependency 'WebRTC-SDK', '=125.6422.03'
+  s.dependency 'WebRTC-SDK', '=125.6422.05'
   s.dependency 'SwiftProtobuf', '~> 1.18.0'
   s.dependency 'Starscream', '~> 4.0.0'
   s.dependency 'PromisesSwift'

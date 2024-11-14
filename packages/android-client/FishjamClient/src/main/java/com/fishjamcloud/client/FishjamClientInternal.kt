@@ -13,7 +13,6 @@ import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.models.AuthError
 import com.fishjamcloud.client.models.EncodingReason
 import com.fishjamcloud.client.models.Endpoint
-import com.fishjamcloud.client.models.EndpointType
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
 import com.fishjamcloud.client.models.RTCStats
@@ -60,7 +59,7 @@ internal class FishjamClientInternal(
   private val commandsQueue: CommandsQueue = CommandsQueue()
   private var webSocket: WebSocket? = null
 
-  private var localEndpoint: Endpoint = Endpoint(id = "", type = EndpointType.WEBRTC)
+  private var localEndpoint: Endpoint = Endpoint(id = "")
   private var prevTracks = mutableListOf<Track>()
   private var remoteEndpoints: MutableMap<String, Endpoint> = mutableMapOf()
 
@@ -203,14 +202,15 @@ internal class FishjamClientInternal(
     webSocket = null
     remoteEndpoints = mutableMapOf()
     prevTracks = localEndpoint.tracks.values.toMutableList()
-    localEndpoint = Endpoint(id = "", type = EndpointType.WEBRTC)
+    localEndpoint = Endpoint(id = "")
   }
 
   private fun join() {
     coroutineScope.launch {
       commandsQueue.addCommand(
         Command(CommandName.JOIN, ClientState.JOINED) {
-          localEndpoint = localEndpoint.copy(metadata = connectConfig?.peerMetadata)
+          // TODO: Remove after FCE-834
+          localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
           rtcEngineCommunication.connect(connectConfig?.peerMetadata ?: emptyMap())
         }
       )
@@ -224,7 +224,7 @@ internal class FishjamClientInternal(
     localEndpoint = localEndpoint.copy(id = endpointID)
 
     otherEndpoints.forEach {
-      var endpoint = Endpoint(it.id, EndpointType.fromString(it.type), it.metadata)
+      var endpoint = Endpoint(it.id, it.metadata)
 
       for ((trackId, trackData) in it.tracks) {
         val track = Track(null, it.id, trackId, trackData.metadata ?: mapOf())
@@ -258,7 +258,7 @@ internal class FishjamClientInternal(
       rtcEngineCommunication.disconnect()
       localEndpoint.tracks.values.forEach { (it as? LocalTrack)?.stop() }
       peerConnectionManager.close()
-      localEndpoint = Endpoint(id = "", type = EndpointType.WEBRTC)
+      localEndpoint = Endpoint(id = "")
       remoteEndpoints = mutableMapOf()
       peerConnectionManager.removeListener(this@FishjamClientInternal)
       rtcEngineCommunication.removeListener(this@FishjamClientInternal)
@@ -465,8 +465,9 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
+      // TODO: Remove after FCE-834
       rtcEngineCommunication.updatePeerMetadata(peerMetadata)
-      localEndpoint = localEndpoint.copy(metadata = peerMetadata)
+      localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
     }
   }
 
@@ -552,14 +553,13 @@ internal class FishjamClientInternal(
 
   override fun onEndpointAdded(
     endpointId: String,
-    type: EndpointType,
     metadata: Metadata?
   ) {
     if (endpointId == this.localEndpoint.id) {
       return
     }
 
-    val endpoint = Endpoint(endpointId, type, metadata)
+    val endpoint = Endpoint(endpointId, metadata)
 
     remoteEndpoints[endpoint.id] = endpoint
 
@@ -639,6 +639,7 @@ internal class FishjamClientInternal(
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
           offer.midToTrackIdMapping
         )
+        peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {
         Timber.e(e, "Failed to create an sdp offer")
       }
@@ -648,12 +649,12 @@ internal class FishjamClientInternal(
   override fun onRemoteCandidate(
     candidate: String,
     sdpMLineIndex: Int,
-    sdpMid: String?
+    sdpMid: Int?
   ) {
     coroutineScope.launch {
       val iceCandidate =
         IceCandidate(
-          sdpMid ?: "",
+          sdpMid?.toString() ?: "",
           sdpMLineIndex,
           candidate
         )
@@ -816,7 +817,9 @@ internal class FishjamClientInternal(
 
   override fun onLocalIceCandidate(candidate: IceCandidate) {
     coroutineScope.launch {
-      rtcEngineCommunication.localCandidate(candidate.sdp, candidate.sdpMLineIndex)
+      val splitSdp = candidate.sdp.split(" ")
+      val ufrag = splitSdp[splitSdp.indexOf("ufrag") + 1]
+      rtcEngineCommunication.localCandidate(candidate.sdp, candidate.sdpMLineIndex, candidate.sdpMid.toInt(), ufrag)
     }
   }
 }

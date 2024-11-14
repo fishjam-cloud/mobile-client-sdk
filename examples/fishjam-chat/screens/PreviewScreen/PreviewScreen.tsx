@@ -55,7 +55,7 @@ function PreviewScreen({
   const toggleSwitchCamera = () => {
     const camera =
       cameras.find(
-        (camera) => camera.facingDirection !== currentCamera?.facingDirection,
+        (cam) => cam.facingDirection !== currentCamera?.facingDirection,
       ) || null;
     if (camera) {
       switchCamera(camera.id);
@@ -64,7 +64,7 @@ function PreviewScreen({
 
   useEffect(() => {
     prepareCamera({
-      simulcastEnabled: true,
+      simulcastEnabled: false,
       quality: 'HD169',
       cameraEnabled: true,
     });

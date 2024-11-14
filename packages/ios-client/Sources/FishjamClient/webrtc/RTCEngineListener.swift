@@ -1,7 +1,7 @@
 internal protocol RTCEngineListener: AnyObject {
     func onSendMediaEvent(event: SerializedMediaEvent)
     func onConnected(endpointId: String, otherEndpoints: [EventEndpoint])
-    func onEndpointAdded(endpointId: String, type: EndpointType, metadata: Metadata?)
+    func onEndpointAdded(endpointId: String, metadata: Metadata?)
     func onEndpointRemoved(endpointId: String)
     func onEndpointUpdated(endpointId: String, metadata: Metadata?)
     func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int])

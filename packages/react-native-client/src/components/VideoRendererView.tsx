@@ -3,17 +3,22 @@ import * as React from 'react';
 import { ViewStyle } from 'react-native';
 
 import { VideoLayout } from '../types';
+import type { TrackId } from '../hooks/usePeers';
 
 export type VideoRendererProps = {
   /**
    * id of the video track which you want to render.
    */
-  trackId: string;
+  trackId: TrackId;
   /**
    * Video layout inside of the component
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
+  /**
+   * Whether the video should be rendered if it's off screen or hidden.
+   */
+  skipRenderOutsideVisibleArea?: boolean;
   style?: ViewStyle;
 };
 

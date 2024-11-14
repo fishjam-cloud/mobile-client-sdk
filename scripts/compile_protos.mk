@@ -13,7 +13,7 @@ PROTOC_GEN_SWIFT := $(SWIFT_PROTOBUF_BASE_PATH)/bin/protoc-gen-swift
 PROTOS_PATH := $(PROJECT_ROOT)/protos
 PROTO_FILES := $(shell find $(PROTOS_PATH)/fishjam -name "*.proto")
 
-ANDROID_OUT := $(PROJECT_ROOT)/packages/android-client/FishjamClient/src/main/java/com/protos
+ANDROID_OUT := $(PROJECT_ROOT)/packages/android-client/FishjamClient/src/main/java
 IOS_OUT := $(PROJECT_ROOT)/packages/ios-client/Sources/FishjamClient/protos
 
 # Compile in parallel

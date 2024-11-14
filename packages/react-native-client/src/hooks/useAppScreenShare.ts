@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { SimulcastConfig } from '../types';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
 import { ScreenShareOptions } from './useScreenShare';
 import { Platform } from 'react-native';
+import { useFishjamEventState } from './useFishjamEventState';
 
 const defaultSimulcastConfig = () => ({
   enabled: false,
@@ -27,15 +28,15 @@ type AppScreenShareData = {
  * @group Hooks
  */
 function useIosAppScreenShare(): AppScreenShareData {
-  const [isAppScreenShareOn, setIsAppScreenShareOn] = useState(
+  const isAppScreenShareOn = useFishjamEventState<boolean>(
+    ReceivableEvents.IsAppScreenShareOn,
     RNFishjamClientModule.isAppScreenShareOn,
   );
 
-  const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
+  const simulcastConfig = useFishjamEventState<SimulcastConfig>(
+    ReceivableEvents.SimulcastConfigUpdate,
     screenShareSimulcastConfig,
   );
-
-  useFishjamEvent(ReceivableEvents.IsAppScreenShareOn, setIsAppScreenShareOn);
 
   const toggleAppScreenShare = useCallback(
     async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
@@ -49,7 +50,6 @@ function useIosAppScreenShare(): AppScreenShareData {
       };
       await RNFishjamClientModule.toggleAppScreenShare(options);
       screenShareSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
-      setSimulcastConfig(screenShareSimulcastConfig);
     },
     [isAppScreenShareOn],
   );

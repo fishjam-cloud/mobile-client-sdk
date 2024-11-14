@@ -2,12 +2,16 @@ import { initializeWarningListener } from './utils/errorListener';
 
 export type {
   Peer,
+  PeerId,
   Track,
+  TrackId,
   TrackType,
   VadStatus,
   EncodingReason,
   AudioTrack,
   VideoTrack,
+  UsePeersResult,
+  PeerWithTracks,
 } from './hooks/usePeers';
 
 export { usePeers } from './hooks/usePeers';
@@ -61,6 +65,8 @@ export { usePeerStatus } from './hooks/usePeerStatus';
 
 export type { ForegroundServiceConfig } from './hooks/useForegroundService';
 export { useForegroundService } from './hooks/useForegroundService';
+
+export { FishjamRoom } from './components/FishjamRoom';
 
 export type {
   TrackBandwidthLimit,

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import {
   BandwidthLimit,
@@ -9,7 +9,8 @@ import {
 } from '../types';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 import { Platform } from 'react-native';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from './useFishjamEvent';
+import { useFishjamEventState } from './useFishjamEventState';
 
 export type ScreenShareQuality = 'VGA' | 'HD5' | 'HD15' | 'FHD15' | 'FHD30';
 
@@ -48,21 +49,19 @@ let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
  * @group Hooks
  */
 export function useScreenShare() {
-  const [isScreenShareOn, setIsScreenShareOn] = useState(
+  const isScreenShareOn = useFishjamEventState<boolean>(
+    ReceivableEvents.IsScreenShareOn,
     RNFishjamClientModule.isScreenShareOn,
   );
 
-  const [simulcastConfig, setSimulcastConfig] = useState<SimulcastConfig>(
+  const simulcastConfig = useFishjamEventState<SimulcastConfig>(
+    ReceivableEvents.SimulcastConfigUpdate,
     screenShareSimulcastConfig,
   );
 
-  useFishjamEvent(ReceivableEvents.IsScreenShareOn, setIsScreenShareOn);
-
   const toggleScreenShareTrackEncoding = useCallback(
     async (encoding: TrackEncoding) => {
-      screenShareSimulcastConfig =
-        await RNFishjamClientModule.toggleScreenShareTrackEncoding(encoding);
-      setSimulcastConfig(screenShareSimulcastConfig);
+      await RNFishjamClientModule.toggleScreenShareTrackEncoding(encoding);
     },
     [],
   );
@@ -108,7 +107,6 @@ export function useScreenShare() {
       };
       await RNFishjamClientModule.toggleScreenShare(options);
       screenShareSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
-      setSimulcastConfig(screenShareSimulcastConfig);
     },
     [isScreenShareOn, handleScreenSharePermission],
   );

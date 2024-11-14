@@ -90,6 +90,10 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.peerStatus.rawValue
         }
 
+        Property("reconnectionStatus") {
+            return rnFishjamClient.reconnectionStatus.rawValue
+        }
+
         Property("isMicrophoneOn") {
             return rnFishjamClient.isMicrophoneOn
         }
@@ -112,6 +116,10 @@ public class RNFishjamClientModule: Module {
 
         Property("isAppScreenShareOn") {
             return rnFishjamClient.isAppScreenShareOn
+        }
+
+        Function("getPeers") {
+            return rnFishjamClient.getPeers()
         }
 
         AsyncFunction("joinRoom") {
@@ -154,10 +162,6 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("toggleAppScreenShare") { (screenShareOptions: ScreenShareOptions) in
             try rnFishjamClient.toggleAppScreenShare(screenShareOptions: screenShareOptions)
-        }
-
-        AsyncFunction("getPeers") {
-            try rnFishjamClient.getPeers()
         }
 
         AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in

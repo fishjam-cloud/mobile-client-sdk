@@ -1,10 +1,9 @@
 import Foundation
 
-enum ReconnectionStatus {
-    case IDLE
-    case RECONNECTING
-    case WAITING
-    case ERROR
+public enum ReconnectionStatus: String {
+    case idle
+    case reconnecting
+    case error
 }
 
 public struct ReconnectConfig {
@@ -28,7 +27,7 @@ public protocol ReconnectionManagerListener {
 class ReconnectionManager {
     private let reconnectConfig: ReconnectConfig
     private var reconnectAttempts = 0
-    var reconnectionStatus = ReconnectionStatus.IDLE
+    private var reconnectionStatus: ReconnectionStatus = .idle
     private let connect: () -> Void
     private var listener: ReconnectionManagerListener
 
@@ -39,43 +38,32 @@ class ReconnectionManager {
     }
 
     func onDisconnected() {
-        if reconnectAttempts >= reconnectConfig.maxAttempts {
-            reconnectionStatus = .ERROR
+        guard reconnectAttempts < reconnectConfig.maxAttempts else {
+            reconnectionStatus = .error
             listener.onReconnectionRetriesLimitReached()
             return
         }
 
-        if reconnectionStatus == .WAITING {
-            return
-        }
+        guard reconnectionStatus != .reconnecting else { return }
+        reconnectionStatus = .reconnecting
+        listener.onReconnectionStarted()
 
-        if reconnectionStatus != .RECONNECTING {
-            reconnectionStatus = .RECONNECTING
-            listener.onReconnectionStarted()
-        }
-        let delay = (reconnectConfig.initialDelayMs + reconnectAttempts * reconnectConfig.delayMs)
+        let delay = reconnectConfig.initialDelayMs + reconnectAttempts * reconnectConfig.delayMs
         reconnectAttempts += 1
 
-        reconnectionStatus = .WAITING
-
-        DispatchQueue.main.asyncAfter(
-            deadline: .now() + DispatchTimeInterval.milliseconds(delay),
-            execute: {
-                self.reconnectionStatus = .RECONNECTING
-                self.connect()
-            })
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) { [weak self] in
+            self?.connect()
+        }
     }
 
     func onReconnected() {
-        if reconnectionStatus != .RECONNECTING {
-            return
-        }
+        guard reconnectionStatus == .reconnecting else { return }
         reset()
         listener.onReconnected()
     }
 
     func reset() {
         reconnectAttempts = 0
-        reconnectionStatus = .IDLE
+        reconnectionStatus = .idle
     }
 }
