@@ -22,7 +22,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
 
-    private var midToTrackId: [String: String] = [:]
+    private var midToTrackId: [Fishjam_MediaEvents_MidToTrackId] = []
 
     private static let mediaConstraints = RTCMediaConstraints(
         mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
@@ -200,26 +200,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         peerConnection.enforceSendOnlyDirection()
     }
 
-    /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
-    private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
-        let isExWebrtc = turnServers.isEmpty
-
-        let servers: [RTCIceServer] = turnServers.map { server in
-            let url = "turn:\(server.serverAddr):\(server.serverPort)?transport=\(server.transport)"
-
-            return RTCIceServer(
-                urlStrings: [url],
-                username: server.username,
-                credential: server.password
-            )
-        }
-
-        iceServers = servers
-        config = RTCConfiguration()
-        config?.iceServers = servers
-        config?.iceTransportPolicy = isExWebrtc ? .all : .relay
-    }
-
     public func close() {
         if let pc = connection {
             pc.close()
@@ -227,7 +207,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             peerConnectionStats = [:]
             iceServers = []
             config = nil
-            midToTrackId = [:]
+            midToTrackId = []
         }
     }
 
@@ -246,16 +226,13 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     /// will be used for receiving the media. So each time when we don't have an appropriate amount of audio/video
     /// transceiers just create the missing ones and set their directions to `recvOnly` which is the only direction
     /// acceptable by the `Membrane RTC Engine`.
-    private func addNecessaryTransceivers(_ tracksTypes: [String: Int]) {
+    private func addNecessaryTransceivers(_ tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes) {
         guard let pc = connection else {
             return
         }
 
-        let necessaryAudio = tracksTypes["audio"] ?? 0
-        let necessaryVideo = tracksTypes["video"] ?? 0
-
-        var lackingAudio: Int = necessaryAudio
-        var lackingVideo: Int = necessaryVideo
+        var lackingAudio = tracksTypes.audio
+        var lackingVideo = tracksTypes.video
 
         pc.transceivers.filter {
             $0.direction == .recvOnly
@@ -380,26 +357,16 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     public func getSdpOffer(
-        integratedTurnServers: [OfferDataEvent.TurnServer],
-        tracksTypes: [String: Int],
+        tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
         onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ error: Error?) -> Void
     ) {
-        let isExWebrtc = integratedTurnServers.isEmpty
-        setTurnServers(integratedTurnServers)
-
-        var needsRestart = true
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
-            needsRestart = false
         }
 
         guard let pc = connection else {
             return
-        }
-
-        if needsRestart && !isExWebrtc {
-            pc.restartIce()
         }
 
         addNecessaryTransceivers(tracksTypes)
@@ -457,7 +424,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return newSdpAnswer
     }
 
-    public func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
+    public func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId]) {
         guard let pc = connection else {
             return
         }
@@ -516,7 +483,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func peerConnection(
         _: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver
     ) {
-        guard let trackId = midToTrackId[transceiver.mid]
+        guard let trackId = midToTrackId.first(where: { midToTrack in
+            return midToTrack.mid == transceiver.mid
+        })?.trackID
         else {
             sdkLogger.error(
                 "\(pcLogPrefix) started receiving on a transceiver with an unknown 'mid' parameter"

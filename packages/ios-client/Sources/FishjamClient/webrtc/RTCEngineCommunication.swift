@@ -62,9 +62,10 @@ internal class RTCEngineCommunication {
         }
     }
 
-    func onEvent(eventContent: Fishjam_MediaEvents_Server_MediaEvent.OneOf_Content) {
+    func onEvent(event: Fishjam_MediaEvents_Server_MediaEvent) {
+        guard let content = event.content else { return }
       
-        switch eventContent {
+        switch content {
         case .connected(let connected):
             for listener in listeners {
                 listener.onConnected(endpointId: connected.endpointID, endpoints: connected.endpoints)

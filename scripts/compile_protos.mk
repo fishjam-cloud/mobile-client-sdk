@@ -53,9 +53,9 @@ $(PROTOC_GEN_SWIFT):
 
 sync:
 	@echo "Synchronising submodules..."
-	@git submodule sync --recursive > /dev/null
-	@git submodule update --recursive --remote --init > /dev/null
-	@echo "DONE"
+	# @git submodule sync --recursive > /dev/null
+	# @git submodule update --recursive --remote --init > /dev/null
+	# @echo "DONE"
 
 compile_android: $(PROTOC) sync
 	@echo "Compiling proto files for Android"

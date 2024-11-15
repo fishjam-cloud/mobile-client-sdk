@@ -7,7 +7,7 @@ internal protocol RTCEngineListener: AnyObject {
     func onOfferData(tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes)
     func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId])
     func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?)
-    func onTracksAdded(endpointId: String, tracks: [String: TrackData])
+    func onTracksAdded(endpointId: String, tracks: [Fishjam_MediaEvents_Server_MediaEvent.Track])
     func onTracksRemoved(endpointId: String, trackIds: [String])
     func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata)
     func onTrackEncodingChanged(endpointId: String, trackId: String, encoding: String, encodingReason: String)
