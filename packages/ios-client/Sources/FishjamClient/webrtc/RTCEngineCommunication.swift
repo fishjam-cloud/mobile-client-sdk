@@ -17,48 +17,79 @@ internal class RTCEngineCommunication {
     }
 
     func connect(metadata: Metadata) {
-        sendEvent(event: ConnectEvent(metadata: metadata))
+        var connect = Fishjam_MediaEvents_Peer_MediaEvent.Connect()
+        var parsedMeta = Fishjam_MediaEvents_Metadata()
+        parsedMeta.json = String(data: try! JSONEncoder().encode(metadata), encoding: .utf8)!
+        connect.metadata = parsedMeta
+        sendEvent(event: .connect(connect))
     }
 
     func disconnect() {
-        sendEvent(event: DisconnectEvent())
+        sendEvent(event: .disconnect(.init()))
     }
 
     func updateEndpointMetadata(metadata: Metadata) {
-        sendEvent(event: UpdateEndpointMetadata(metadata: metadata))
+        var updateEndpointMetadata = Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata()
+        var parsedMeta = Fishjam_MediaEvents_Metadata()
+        parsedMeta.json = String(data: try! JSONEncoder().encode(metadata), encoding: .utf8)!
+        updateEndpointMetadata.metadata = parsedMeta
+        sendEvent(event: .updateEndpointMetadata(updateEndpointMetadata))
     }
 
     func updateTrackMetadata(trackId: String, trackMetadata: Metadata) {
-        sendEvent(event: UpdateTrackMetadata(trackId: trackId, trackMetadata: trackMetadata))
+        var updateTrackMetadata = Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata()
+        var parsedMeta = Fishjam_MediaEvents_Metadata()
+        parsedMeta.json = String(data: try! JSONEncoder().encode(trackMetadata), encoding: .utf8)!
+        updateTrackMetadata.metadata = parsedMeta
+        sendEvent(event: .updateTrackMetadata(updateTrackMetadata))
     }
 
     func setTargetTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        sendEvent(event: SelectEncodingEvent(trackId: trackId, encoding: encoding.description))
+//        sendEvent(event: SelectEncodingEvent(trackId: trackId, encoding: encoding.description))
     }
 
     func renegotiateTracks() {
-        sendEvent(event: RenegotiateTracksEvent())
+        sendEvent(event: .renegotiateTracks(.init()))
     }
 
     func localCandidate(sdp: String, sdpMLineIndex: Int32, sdpMid: Int32, usernameFragment: String) {
-        sendEvent(
-            event: LocalCandidateEvent(
-                candidate: sdp, sdpMLineIndex: sdpMLineIndex, sdpMid: sdpMid, usernameFragment: usernameFragment))
+        var candidate = Fishjam_MediaEvents_Candidate()
+        candidate.candidate = sdp
+        candidate.sdpMLineIndex = sdpMLineIndex
+        candidate.sdpMid = String(sdpMid)
+        candidate.usernameFragment = usernameFragment
+        
+        sendEvent(event: .candidate(candidate))
     }
 
     func sdpOffer(sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String]) {
-        sendEvent(
-            event: SdpOfferEvent(sdp: sdp, trackIdToTrackMetadata: trackIdToTrackMetadata, midToTrackId: midToTrackId))
-    }
-
-    private func sendEvent(event: SendableEvent) {
-        guard let data = try? JSONEncoder().encode(event.serialize()),
-            let dataPayload = String(data: data, encoding: .utf8)
-        else {
-            return
+        var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
+        sdpOffer.sdpOffer = sdp
+        sdpOffer.trackIDToMetadata = trackIdToTrackMetadata.keys.map { key in
+            var eventData = Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata.init()
+            var parsedMeta = Fishjam_MediaEvents_Metadata()
+            
+            parsedMeta.json = String(data: try! JSONEncoder().encode(trackIdToTrackMetadata[key]), encoding: .utf8)!
+            eventData.metadata = parsedMeta
+            eventData.trackID = key
+            
+            return eventData
         }
+        sdpOffer.midToTrackID = midToTrackId.keys.map { key in
+            var eventData = Fishjam_MediaEvents_MidToTrackId.init()
+            
+            eventData.trackID = midToTrackId[key] ?? ""
+            eventData.mid = key
+            
+            return eventData
+        }
+        
+        sendEvent(event: .sdpOffer(sdpOffer))
+    }
+    
+    private func sendEvent(event: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) {
         for listener in listeners {
-            listener.onSendMediaEvent(event: dataPayload)
+            listener.onSendMediaEvent(event: event)
         }
     }
 

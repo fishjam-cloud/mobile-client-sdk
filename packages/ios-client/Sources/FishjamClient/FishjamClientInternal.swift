@@ -353,6 +353,7 @@ class FishjamClientInternal {
         let authRequest = Fishjam_PeerMessage.with({
             $0.authRequest = Fishjam_PeerMessage.AuthRequest.with({
                 $0.token = self.config?.token ?? ""
+                $0.sdkVersion = "mobile-0.6.0"
             })
         })
         
@@ -543,15 +544,33 @@ extension FishjamClientInternal: PeerConnectionListener {
 
 extension FishjamClientInternal: RTCEngineListener {
     
-    func onSendMediaEvent(event: SerializedMediaEvent) {
+    func onSendMediaEvent(event: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) {
         if !isAuthenticated {
             sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
         let mediaEvent =
         Fishjam_PeerMessage.with({
-            $0.mediaEvent = Fishjam_PeerMessage.MediaEvent.with({
-                $0.data = event
+            
+            $0.peerMediaEvent = Fishjam_MediaEvents_Peer_MediaEvent.with({
+                switch (event) {
+                case .connect(let connect):
+                    $0.connect = connect
+                case .disconnect(let disconnect):
+                    $0.disconnect = disconnect
+                case .updateEndpointMetadata(let updateEndpointMetadata):
+                    $0.updateEndpointMetadata = updateEndpointMetadata
+                case .updateTrackMetadata(let updateTrackMetadata):
+                    $0.updateTrackMetadata = updateTrackMetadata
+                case .renegotiateTracks(let renegotiateTracks):
+                    $0.renegotiateTracks = renegotiateTracks
+                case .candidate(let candidate):
+                    $0.candidate = candidate
+                case .sdpOffer(let sdpOffer):
+                    $0.sdpOffer = sdpOffer
+                case .trackBitrate(let trackBitrate):
+                    $0.trackBitrate = trackBitrate
+                }
             })
         })
         
@@ -564,6 +583,9 @@ extension FishjamClientInternal: RTCEngineListener {
     func onConnected(endpointId: String, endpoints: [Fishjam_MediaEvents_Server_MediaEvent.Endpoint]) {
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         for eventEndpoint in endpoints {
+            guard eventEndpoint.endpointID != endpointId else {
+                return
+            }
             var endpoint = Endpoint(
                 id: eventEndpoint.endpointID,
                 metadata: eventEndpoint.metadata.json.toAnyJson() ?? Metadata())
@@ -578,6 +600,24 @@ extension FishjamClientInternal: RTCEngineListener {
                 listener.onTrackAdded(track: track)
             }
             remoteEndpointsMap[eventEndpoint.endpointID] = endpoint
+        }
+        
+        listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)
+        commandsQueue.finishCommand()
+        reconnectionManager?.onReconnected()
+        guard !localEndpoint.tracks.isEmpty else { return }
+        let promise = commandsQueue.addCommand(
+            Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
+                if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+                    self.rtcEngineCommunication.renegotiateTracks()
+                } else {
+                    self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
+                }
+            })
+        do {
+            try awaitPromise(promise)
+        } catch {
+            sdkLogger.error("\(_loggerPrefix) Error during awaiting for for createVideoTrack")
         }
     }
     
