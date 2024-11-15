@@ -542,251 +542,282 @@ extension FishjamClientInternal: PeerConnectionListener {
 }
 
 extension FishjamClientInternal: RTCEngineListener {
+
+    func onEndpointRemoved(endpointId: String) {
+        <#code#>
+    }
+    
+    func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
+        <#code#>
+    }
+    
+    func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String : Int]) {
+        <#code#>
+    }
+    
+    func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId]) {
+        <#code#>
+    }
+    
+    func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?) {
+        <#code#>
+    }
+    
+    func onTracksAdded(endpointId: String, tracks: [String : TrackData]) {
+        <#code#>
+    }
+    
+    func onTracksRemoved(endpointId: String, trackIds: [String]) {
+        <#code#>
+    }
+    
+    func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
+        <#code#>
+    }
+    
+    func onTrackEncodingChanged(endpointId: String, trackId: String, encoding: String, encodingReason: String) {
+        <#code#>
+    }
+    
+    func onVadNotification(trackId: String, status: Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status) {
+        <#code#>
+    }
+    
+    func onBandwidthEstimation(estimation: Int) {
+        <#code#>
+    }
+    
     func onSendMediaEvent(event: SerializedMediaEvent) {
         if !isAuthenticated {
             sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
         let mediaEvent =
-            Fishjam_PeerMessage.with({
-                $0.mediaEvent = Fishjam_PeerMessage.MediaEvent.with({
-                    $0.data = event
-                })
+        Fishjam_PeerMessage.with({
+            $0.mediaEvent = Fishjam_PeerMessage.MediaEvent.with({
+                $0.data = event
             })
-
+        })
+        
         guard let serialzedData = try? mediaEvent.serializedData() else {
             return
         }
         sendEvent(peerMessage: serialzedData)
     }
-
-    func onConnected(endpointId: String, otherEndpoints: [EventEndpoint]) {
+    
+    func onConnected(endpointId: String, endpoints: [Fishjam_MediaEvents_Server_MediaEvent.Endpoint]) {
         localEndpoint = localEndpoint.copyWith(id: endpointId)
-        for eventEndpoint in otherEndpoints {
+        for eventEndpoint in endpoints {
             var endpoint = Endpoint(
-                id: eventEndpoint.id,
-                metadata: eventEndpoint.metadata ?? Metadata())
-            for (trackId, track) in eventEndpoint.tracks {
+                id: eventEndpoint.endpointID,
+                metadata: eventEndpoint.metadata.json.toAnyJson() ?? Metadata())
+            for track in eventEndpoint.tracks {
                 let track = Track(
-                    mediaTrack: nil, endpointId: eventEndpoint.id, rtcEngineId: trackId, metadata: track.metadata)
+                    mediaTrack: nil,
+                    endpointId: eventEndpoint.endpointID,
+                    rtcEngineId: track.trackID,
+                    metadata: track.metadata.json.toAnyJson() ?? Metadata()
+                )
                 endpoint = endpoint.addOrReplaceTrack(track)
                 listener.onTrackAdded(track: track)
             }
-            remoteEndpointsMap[eventEndpoint.id] = endpoint
+            remoteEndpointsMap[eventEndpoint.endpointID] = endpoint
         }
-
-        listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)
-        commandsQueue.finishCommand()
-        reconnectionManager?.onReconnected()
-        guard !localEndpoint.tracks.isEmpty else { return }
-        let promise = commandsQueue.addCommand(
-            Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
-                if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
-                    self.rtcEngineCommunication.renegotiateTracks()
+        
+        func onEndpointAdded(endpointId: String, metadata: Metadata?) {
+            if endpointId == localEndpoint.id {
+                return
+            }
+            let endpoint = Endpoint(id: endpointId, metadata: metadata ?? Metadata())
+            
+            remoteEndpointsMap[endpoint.id] = endpoint
+            
+            listener.onPeerJoined(endpoint: endpoint)
+        }
+        
+        func onEndpointRemoved(endpointId: String) {
+            if endpointId == localEndpoint.id {
+                listener.onDisconnected()
+                return
+            }
+            guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
+                sdkLogger.error("Failed to process EndpointLeft event: Endpoint not found: \(endpointId)")
+                return
+            }
+            
+            endpoint.tracks.forEach { (_, track) in
+                listener.onTrackRemoved(track: track)
+            }
+            
+            listener.onPeerLeft(endpoint: endpoint)
+        }
+        
+        func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
+            guard let endpoint = remoteEndpointsMap[endpointId] else {
+                sdkLogger.error("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
+                return
+            }
+            
+            remoteEndpointsMap[endpoint.id] = endpoint.copyWith(metadata: metadata)
+            
+            listener.onPeerUpdated(endpoint: endpoint)
+        }
+        
+        func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int]) {
+            let localTracks = localEndpoint.tracks.map { $1 }
+            peerConnectionManager.getSdpOffer(
+                integratedTurnServers: integratedTurnServers, tracksTypes: tracksTypes, localTracks: localTracks
+            ) { sdp, midToTrackId, error in
+                if let err = error {
+                    sdkLogger.error("Failed to create sdp offer: \(err)")
+                    return
+                }
+                
+                if let sdp = sdp, let midToTrackId = midToTrackId {
+                    self.rtcEngineCommunication.sdpOffer(
+                        sdp: sdp,
+                        trackIdToTrackMetadata: self.localEndpoint.tracks.reduce(into: [String: Metadata]()) {
+                            (result, trackEntry) in
+                            let (_, trackData) = trackEntry
+                            result[trackData.webrtcId] = trackData.metadata
+                        },
+                        midToTrackId: midToTrackId
+                    )
+                }
+            }
+        }
+        
+        func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String]) {
+            peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
+            
+            localEndpoint.tracks.values.forEach { track in
+                if track is LocalAudioTrack {
+                    if let rtcEngineId = track.mediaTrack?.trackId {
+                        track.rtcEngineId = rtcEngineId
+                    }
+                    return
+                }
+                
+                var config: SimulcastConfig? = nil
+                if let track = track as? LocalCameraTrack {
+                    config = track.videoParameters.simulcastConfig
+                }
+                
+                if let track = track as? LocalBroadcastScreenShareTrack {
+                    config = track.videoParameters.simulcastConfig
+                }
+                
+                TrackEncoding.allCases.forEach { encoding in
+                    if config?.activeEncodings.contains(encoding) == false {
+                        peerConnectionManager.setTrackEncoding(trackId: track.webrtcId, encoding: encoding, enabled: false)
+                    }
+                    
+                }
+            }
+            commandsQueue.finishCommand(commandNames: [CommandName.ADD_TRACK, CommandName.REMOVE_TRACK])
+        }
+        
+        func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?) {
+            let iceCandidate = RTCIceCandidate(sdp: candidate, sdpMLineIndex: sdpMLineIndex, sdpMid: sdpMid)
+            peerConnectionManager.onRemoteCandidate(candidate: iceCandidate)
+        }
+        
+        func onTracksAdded(endpointId: String, tracks: [String : TrackData]) {
+           if localEndpoint.id == endpointId { return }
+            
+            guard let endpoint = remoteEndpointsMap[endpointId] else {
+                sdkLogger.error("Failed to process TracksAdded event: Endpoint not found: \(endpointId)")
+                return
+            }
+            
+            var updatedTracks: [String: Track] = endpoint.tracks
+            
+            for (trackId, trackData) in tracks {
+                var track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId })
+                if track != nil {
+                    track!.metadata = trackData.metadata
                 } else {
-                    self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
+                    track = Track(
+                        mediaTrack: nil, endpointId: endpointId, rtcEngineId: trackId, metadata: trackData.metadata)
+                    listener.onTrackAdded(track: track!)
                 }
-            })
-        do {
-            try awaitPromise(promise)
-        } catch {
-            sdkLogger.error("\(_loggerPrefix) Error during awaiting for for createVideoTrack")
+                updatedTracks[track!.id] = track
+            }
+            
+            let updatedEndpoint = endpoint.copyWith(tracks: updatedTracks)
+            
+            remoteEndpointsMap[updatedEndpoint.id] = updatedEndpoint
         }
-    }
-
-    func onEndpointAdded(endpointId: String, metadata: Metadata?) {
-        if endpointId == localEndpoint.id {
-            return
-        }
-        let endpoint = Endpoint(id: endpointId, metadata: metadata ?? Metadata())
-
-        remoteEndpointsMap[endpoint.id] = endpoint
-
-        listener.onPeerJoined(endpoint: endpoint)
-    }
-
-    func onEndpointRemoved(endpointId: String) {
-        if endpointId == localEndpoint.id {
-            listener.onDisconnected()
-            return
-        }
-        guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
-            sdkLogger.error("Failed to process EndpointLeft event: Endpoint not found: \(endpointId)")
-            return
-        }
-
-        endpoint.tracks.forEach { (_, track) in
-            listener.onTrackRemoved(track: track)
-        }
-
-        listener.onPeerLeft(endpoint: endpoint)
-    }
-
-    func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
-        guard let endpoint = remoteEndpointsMap[endpointId] else {
-            sdkLogger.error("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
-            return
-        }
-
-        remoteEndpointsMap[endpoint.id] = endpoint.copyWith(metadata: metadata)
-
-        listener.onPeerUpdated(endpoint: endpoint)
-    }
-
-    func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int]) {
-        let localTracks = localEndpoint.tracks.map { $1 }
-        peerConnectionManager.getSdpOffer(
-            integratedTurnServers: integratedTurnServers, tracksTypes: tracksTypes, localTracks: localTracks
-        ) { sdp, midToTrackId, error in
-            if let err = error {
-                sdkLogger.error("Failed to create sdp offer: \(err)")
+        
+        func onTracksRemoved(endpointId: String, trackIds: [String]) {
+            if localEndpoint.id == endpointId { return }
+            
+            guard var endpoint = remoteEndpointsMap[endpointId] else {
+                sdkLogger.error("Failed to process onTracksRemoved event: Endpoint not found: \(endpointId)")
                 return
             }
-
-            if let sdp = sdp, let midToTrackId = midToTrackId {
-                self.rtcEngineCommunication.sdpOffer(
-                    sdp: sdp,
-                    trackIdToTrackMetadata: self.localEndpoint.tracks.reduce(into: [String: Metadata]()) {
-                        (result, trackEntry) in
-                        let (_, trackData) = trackEntry
-                        result[trackData.webrtcId] = trackData.metadata
-                    },
-                    midToTrackId: midToTrackId
-                )
-            }
-        }
-    }
-
-    func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String]) {
-        peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
-
-        localEndpoint.tracks.values.forEach { track in
-            if track is LocalAudioTrack {
-                if let rtcEngineId = track.mediaTrack?.trackId {
-                    track.rtcEngineId = rtcEngineId
+            
+            trackIds.forEach { trackId in
+                guard let track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId }) else {
+                    return
                 }
+                
+                endpoint = endpoint.removeTrack(track)
+            }
+            
+            remoteEndpointsMap[endpointId] = endpoint
+            listener.onPeerUpdated(endpoint: endpoint)
+        }
+        
+        func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
+            guard let track = getTrack(trackId: trackId) else {
+                sdkLogger.error("Failed to process TrackUpdated event: Track context not found: \(trackId)")
                 return
             }
-
-            var config: SimulcastConfig? = nil
-            if let track = track as? LocalCameraTrack {
-                config = track.videoParameters.simulcastConfig
-            }
-
-            if let track = track as? LocalBroadcastScreenShareTrack {
-                config = track.videoParameters.simulcastConfig
-            }
-
-            TrackEncoding.allCases.forEach { encoding in
-                if config?.activeEncodings.contains(encoding) == false {
-                    peerConnectionManager.setTrackEncoding(trackId: track.webrtcId, encoding: encoding, enabled: false)
-                }
-
-            }
-        }
-        commandsQueue.finishCommand(commandNames: [CommandName.ADD_TRACK, CommandName.REMOVE_TRACK])
-    }
-
-    func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?) {
-        let iceCandidate = RTCIceCandidate(sdp: candidate, sdpMLineIndex: sdpMLineIndex, sdpMid: sdpMid)
-        peerConnectionManager.onRemoteCandidate(candidate: iceCandidate)
-    }
-
-    func onTracksAdded(endpointId: String, tracks: [String: TrackData]) {
-        if localEndpoint.id == endpointId { return }
-
-        guard let endpoint = remoteEndpointsMap[endpointId] else {
-            sdkLogger.error("Failed to process TracksAdded event: Endpoint not found: \(endpointId)")
-            return
-        }
-
-        var updatedTracks: [String: Track] = endpoint.tracks
-
-        for (trackId, trackData) in tracks {
-            var track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId })
-            if track != nil {
-                track!.metadata = trackData.metadata
-            } else {
-                track = Track(
-                    mediaTrack: nil, endpointId: endpointId, rtcEngineId: trackId, metadata: trackData.metadata)
-                listener.onTrackAdded(track: track!)
-            }
-            updatedTracks[track!.id] = track
-        }
-
-        let updatedEndpoint = endpoint.copyWith(tracks: updatedTracks)
-
-        remoteEndpointsMap[updatedEndpoint.id] = updatedEndpoint
-    }
-
-    func onTracksRemoved(endpointId: String, trackIds: [String]) {
-        if localEndpoint.id == endpointId { return }
-
-        guard var endpoint = remoteEndpointsMap[endpointId] else {
-            sdkLogger.error("Failed to process onTracksRemoved event: Endpoint not found: \(endpointId)")
-            return
-        }
-
-        trackIds.forEach { trackId in
-            guard let track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId }) else {
-                return
-            }
-
-            endpoint = endpoint.removeTrack(track)
-        }
-
-        remoteEndpointsMap[endpointId] = endpoint
-        listener.onPeerUpdated(endpoint: endpoint)
-    }
-
-    func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
-        guard let track = getTrack(trackId: trackId) else {
-            sdkLogger.error("Failed to process TrackUpdated event: Track context not found: \(trackId)")
-            return
-        }
-
-        track.metadata = metadata
-
-        listener.onTrackUpdated(track: track)
-    }
-
-    func onTrackEncodingChanged(endpointId: String, trackId: String, encoding: String, encodingReason: String) {
-        guard let encodingReasonEnum = EncodingReason(rawValue: encodingReason) else {
-            sdkLogger.error("Invalid encoding reason in onTrackEncodingChanged: \(encodingReason)")
-            return
-        }
-
-        guard let track = getTrack(trackId: trackId) as? RemoteVideoTrack else {
-            sdkLogger.error("Invalid trackId in onTrackEncodingChanged: \(trackId)")
-            return
-        }
-
-        guard let encodingEnum = try? TrackEncoding(encoding) else {
-            sdkLogger.error("Invalid encoding in onTrackEncodingChanged: \(encoding)")
-            return
-        }
-
-        track.setEncoding(encoding: encodingEnum, encodingReason: encodingReasonEnum)
-    }
-
-    func onVadNotification(trackId: String, status: String) {
-        guard let track = getTrackWithRtcEngineId(trackId: trackId) as? RemoteAudioTrack else {
-            sdkLogger.error("Invalid trackId in onVadNotification: \(trackId)")
-            return
-        }
-
-        guard let vadStatus = VadStatus(rawValue: status) else {
-            sdkLogger.error("Invalid vad status in onVadNotification: \(status)")
-            return
-        }
-        if track.vadStatus != vadStatus {
-            track.vadStatus = vadStatus
+            
+            track.metadata = metadata
+            
             listener.onTrackUpdated(track: track)
         }
-
-    }
-
-    func onBandwidthEstimation(estimation: Int) {
-        listener.onBandwidthEstimationChanged(estimation: estimation)
+        
+        func onTrackEncodingChanged(endpointId: String, trackId: String, encoding: String, encodingReason: String) {
+            guard let encodingReasonEnum = EncodingReason(rawValue: encodingReason) else {
+                sdkLogger.error("Invalid encoding reason in onTrackEncodingChanged: \(encodingReason)")
+                return
+            }
+            
+            guard let track = getTrack(trackId: trackId) as? RemoteVideoTrack else {
+                sdkLogger.error("Invalid trackId in onTrackEncodingChanged: \(trackId)")
+                return
+            }
+            
+            guard let encodingEnum = try? TrackEncoding(encoding) else {
+                sdkLogger.error("Invalid encoding in onTrackEncodingChanged: \(encoding)")
+                return
+            }
+            
+            track.setEncoding(encoding: encodingEnum, encodingReason: encodingReasonEnum)
+        }
+        
+        func onVadNotification(trackId: String, status: Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status) {
+            guard let track = getTrackWithRtcEngineId(trackId: trackId) as? RemoteAudioTrack else {
+                sdkLogger.error("Invalid trackId in onVadNotification: \(trackId)")
+                return
+            }
+            
+            guard let vadStatus = VadStatus(rawValue: status) else {
+                sdkLogger.error("Invalid vad status in onVadNotification: \(status)")
+                return
+            }
+            if track.vadStatus != vadStatus {
+                track.vadStatus = vadStatus
+                listener.onTrackUpdated(track: track)
+            }
+            
+        }
+        
+        func onBandwidthEstimation(estimation: Int) {
+            listener.onBandwidthEstimationChanged(estimation: estimation)
+        }
     }
 }

@@ -67,13 +67,13 @@ internal class RTCEngineCommunication {
         switch eventContent {
         case .connected(let connected):
             for listener in listeners {
-                listener.onConnected(endpointId: connected.endpointID, otherEndpoints: connected.endpoints)
+                listener.onConnected(endpointId: connected.endpointID, endpoints: connected.endpoints)
             }
         case .endpointAdded(let endpointAdded):
             for listener in listeners {
                 listener.onEndpointAdded(
                     endpointId: endpointAdded.endpointID,
-                    metadata: endpointAdded.metadata)
+                    metadata: endpointAdded.metadata.json.toAnyJson() ?? Metadata())
             }
         case .endpointRemoved(let endpointRemoved):
             for listener in listeners {
@@ -83,51 +83,63 @@ internal class RTCEngineCommunication {
         case .endpointUpdated(let endpointUpdated):
             for listener in listeners {
                 listener.onEndpointUpdated(
-                    endpointId: endpointUpdated.endpointID, metadata: endpointUpdated.metadata)
+                    endpointId: endpointUpdated.endpointID, metadata: endpointUpdated.metadata.json.toAnyJson() ?? Metadata())
             }
         case .offerData(let offerData):
             for listener in listeners {
                 listener.onOfferData(
-                    integratedTurnServers: offerData.data.integratedTurnServers, tracksTypes: offerData.data.tracksTypes
+                    integratedTurnServers: offerData.data.integratedTurnServers,
+                    tracksTypes: offerData.data.tracksTypes
                 )
             }
         case .candidate(let candidate):
             for listener in listeners {
-                let sdpMid = candidate.data.sdpMid.map(String.init)
-
                 listener.onRemoteCandidate(
-                    candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
-                    sdpMid: sdpMid)
+                    candidate: candidate.candidate,
+                    sdpMLineIndex: candidate.sdpMLineIndex,
+                    sdpMid: candidate.sdpMid
+                )
             }
         case .tracksAdded(let tracksAdded):
             for listener in listeners {
 
                 listener.onTracksAdded(
-                    endpointId: tracksAdded.data.endpointId, tracks: tracksAdded.data.tracks)
+                    endpointId: tracksAdded.endpointID,
+                    tracks: tracksAdded.tracks
+                )
             }
         case .tracksRemoved(let tracksRemoved):
             for listener in listeners {
 
                 listener.onTracksRemoved(
-                    endpointId: tracksRemoved.data.endpointId, trackIds: tracksRemoved.data.trackIds)
+                    endpointId: tracksRemoved.endpointID,
+                    trackIds: tracksRemoved.trackIds
+                )
             }
         case .trackUpdated(let tracksUpdated):
             for listener in listeners {
 
                 listener.onTrackUpdated(
-                    endpointId: tracksUpdated.data.endpointId, trackId: tracksUpdated.data.trackId,
-                    metadata: tracksUpdated.data.metadata ?? AnyJson())
+                    endpointId: tracksUpdated.endpointID,
+                    trackId: tracksUpdated.trackID,
+                    metadata: tracksUpdated.metadata.json.toAnyJson() ?? Metadata()
+                )
             }
         case .sdpAnswer(let sdpAnswer):
             for listener in listeners {
 
                 listener.onSdpAnswer(
-                    type: sdpAnswer.data.type, sdp: sdpAnswer.data.sdp, midToTrackId: sdpAnswer.data.midToTrackId)
+                    sdp: sdpAnswer.sdpAnswer,
+                    midToTrackId: sdpAnswer.midToTrackID
+                )
             }
         case .vadNotification(let vadNotification):
             for listener in listeners {
 
-                listener.onVadNotification(trackId: vadNotification.data.trackId, status: vadNotification.data.status)
+                listener.onVadNotification(
+                    trackId: vadNotification.trackID,
+                    status: vadNotification.status
+                )
             }
         default:
             sdkLogger.error("Failed to handle ReceivableEvent of type \(event.type)")
