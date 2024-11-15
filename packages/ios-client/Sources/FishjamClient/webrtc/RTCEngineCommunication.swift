@@ -88,8 +88,7 @@ internal class RTCEngineCommunication {
         case .offerData(let offerData):
             for listener in listeners {
                 listener.onOfferData(
-                    integratedTurnServers: offerData.data.integratedTurnServers,
-                    tracksTypes: offerData.data.tracksTypes
+                    tracksTypes: offerData.tracksTypes
                 )
             }
         case .candidate(let candidate):
@@ -141,9 +140,9 @@ internal class RTCEngineCommunication {
                     status: vadNotification.status
                 )
             }
-        default:
-            sdkLogger.error("Failed to handle ReceivableEvent of type \(event.type)")
-            return
+        case .error(let error):
+            sdkLogger.error("Failed to handle event. Message: \(error.message)")
+
         }
     }
 }

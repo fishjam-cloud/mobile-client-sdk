@@ -4,7 +4,7 @@ internal protocol RTCEngineListener: AnyObject {
     func onEndpointAdded(endpointId: String, metadata: Metadata?)
     func onEndpointRemoved(endpointId: String)
     func onEndpointUpdated(endpointId: String, metadata: Metadata?)
-    func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int])
+    func onOfferData(tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes)
     func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId])
     func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?)
     func onTracksAdded(endpointId: String, tracks: [String: TrackData])

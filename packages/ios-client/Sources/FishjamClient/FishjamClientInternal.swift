@@ -542,50 +542,6 @@ extension FishjamClientInternal: PeerConnectionListener {
 }
 
 extension FishjamClientInternal: RTCEngineListener {
-
-    func onEndpointRemoved(endpointId: String) {
-        <#code#>
-    }
-    
-    func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
-        <#code#>
-    }
-    
-    func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String : Int]) {
-        <#code#>
-    }
-    
-    func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId]) {
-        <#code#>
-    }
-    
-    func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?) {
-        <#code#>
-    }
-    
-    func onTracksAdded(endpointId: String, tracks: [String : TrackData]) {
-        <#code#>
-    }
-    
-    func onTracksRemoved(endpointId: String, trackIds: [String]) {
-        <#code#>
-    }
-    
-    func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
-        <#code#>
-    }
-    
-    func onTrackEncodingChanged(endpointId: String, trackId: String, encoding: String, encodingReason: String) {
-        <#code#>
-    }
-    
-    func onVadNotification(trackId: String, status: Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status) {
-        <#code#>
-    }
-    
-    func onBandwidthEstimation(estimation: Int) {
-        <#code#>
-    }
     
     func onSendMediaEvent(event: SerializedMediaEvent) {
         if !isAuthenticated {
@@ -663,7 +619,7 @@ extension FishjamClientInternal: RTCEngineListener {
             listener.onPeerUpdated(endpoint: endpoint)
         }
         
-        func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int]) {
+        func onOfferData(tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes) {
             let localTracks = localEndpoint.tracks.map { $1 }
             peerConnectionManager.getSdpOffer(
                 integratedTurnServers: integratedTurnServers, tracksTypes: tracksTypes, localTracks: localTracks
@@ -805,12 +761,8 @@ extension FishjamClientInternal: RTCEngineListener {
                 return
             }
             
-            guard let vadStatus = VadStatus(rawValue: status) else {
-                sdkLogger.error("Invalid vad status in onVadNotification: \(status)")
-                return
-            }
-            if track.vadStatus != vadStatus {
-                track.vadStatus = vadStatus
+            if track.vadStatus != status {
+                track.vadStatus = status
                 listener.onTrackUpdated(track: track)
             }
             
