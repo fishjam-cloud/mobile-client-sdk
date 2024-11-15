@@ -69,7 +69,7 @@ compile_ios: $(PROTOC) $(PROTOC_GEN_SWIFT) sync
 	@echo "Compiling proto files for iOS"
 	@for proto in $(PROTO_FILES); do \
 		echo "Compiling iOS: $$proto"; \
-		$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --plugin=$(PROTOC_GEN_SWIFT) --swift_out=$(IOS_OUT) $$proto; \
+		$(PROTOC) -I=$(PROTOS_PATH) -I=$(PROTOC_BASE_PATH)/include --plugin=$(PROTOC_GEN_SWIFT) --swift_out=$(IOS_OUT) --swift_opt=Visibility=public $$proto; \
 	done
 	@echo "DONE for iOS"
 	

@@ -21,14 +21,14 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 }
 
 /// Defines any type of message sent from Peer to Membrane RTC Engine
-struct Fishjam_MediaEvents_Peer_MediaEvent {
+public struct Fishjam_MediaEvents_Peer_MediaEvent {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var content: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content? = nil
+  public var content: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content? = nil
 
-  var connect: Fishjam_MediaEvents_Peer_MediaEvent.Connect {
+  public var connect: Fishjam_MediaEvents_Peer_MediaEvent.Connect {
     get {
       if case .connect(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.Connect()
@@ -36,7 +36,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .connect(newValue)}
   }
 
-  var disconnect: Fishjam_MediaEvents_Peer_MediaEvent.Disconnect {
+  public var disconnect: Fishjam_MediaEvents_Peer_MediaEvent.Disconnect {
     get {
       if case .disconnect(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.Disconnect()
@@ -44,7 +44,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .disconnect(newValue)}
   }
 
-  var updateEndpointMetadata: Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata {
+  public var updateEndpointMetadata: Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata {
     get {
       if case .updateEndpointMetadata(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata()
@@ -52,7 +52,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .updateEndpointMetadata(newValue)}
   }
 
-  var updateTrackMetadata: Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata {
+  public var updateTrackMetadata: Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata {
     get {
       if case .updateTrackMetadata(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata()
@@ -60,7 +60,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .updateTrackMetadata(newValue)}
   }
 
-  var renegotiateTracks: Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks {
+  public var renegotiateTracks: Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks {
     get {
       if case .renegotiateTracks(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks()
@@ -68,7 +68,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .renegotiateTracks(newValue)}
   }
 
-  var candidate: Fishjam_MediaEvents_Candidate {
+  public var candidate: Fishjam_MediaEvents_Candidate {
     get {
       if case .candidate(let v)? = content {return v}
       return Fishjam_MediaEvents_Candidate()
@@ -76,7 +76,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .candidate(newValue)}
   }
 
-  var sdpOffer: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer {
+  public var sdpOffer: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer {
     get {
       if case .sdpOffer(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
@@ -84,7 +84,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .sdpOffer(newValue)}
   }
 
-  var trackBitrate: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate {
+  public var trackBitrate: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate {
     get {
       if case .trackBitrate(let v)? = content {return v}
       return Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate()
@@ -92,9 +92,9 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .trackBitrate(newValue)}
   }
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  enum OneOf_Content: Equatable {
+  public enum OneOf_Content: Equatable {
     case connect(Fishjam_MediaEvents_Peer_MediaEvent.Connect)
     case disconnect(Fishjam_MediaEvents_Peer_MediaEvent.Disconnect)
     case updateEndpointMetadata(Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata)
@@ -105,7 +105,7 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     case trackBitrate(Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate)
 
   #if !swift(>=4.1)
-    static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content, rhs: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) -> Bool {
+    public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content, rhs: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) -> Bool {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -149,51 +149,51 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
   }
 
   /// SCHEMAS
-  struct VariantBitrate {
+  public struct VariantBitrate {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var variant: Fishjam_MediaEvents_Variant = .unspecified
+    public var variant: Fishjam_MediaEvents_Variant = .unspecified
 
-    var bitrate: Int32 = 0
+    public var bitrate: Int32 = 0
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  struct TrackIdToMetadata {
+  public struct TrackIdToMetadata {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var trackID: String = String()
+    public var trackID: String = String()
 
-    var metadata: Fishjam_MediaEvents_Metadata {
+    public var metadata: Fishjam_MediaEvents_Metadata {
       get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
       set {_metadata = newValue}
     }
     /// Returns true if `metadata` has been explicitly set.
-    var hasMetadata: Bool {return self._metadata != nil}
+    public var hasMetadata: Bool {return self._metadata != nil}
     /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    mutating func clearMetadata() {self._metadata = nil}
+    public mutating func clearMetadata() {self._metadata = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
 
     fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
-  struct TrackIdToBitrates {
+  public struct TrackIdToBitrates {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var tracks: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates.OneOf_Tracks? = nil
+    public var tracks: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates.OneOf_Tracks? = nil
 
-    var trackBitrate: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate {
+    public var trackBitrate: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate {
       get {
         if case .trackBitrate(let v)? = tracks {return v}
         return Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate()
@@ -201,13 +201,13 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
       set {tracks = .trackBitrate(newValue)}
     }
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    enum OneOf_Tracks: Equatable {
+    public enum OneOf_Tracks: Equatable {
       case trackBitrate(Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate)
 
     #if !swift(>=4.1)
-      static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates.OneOf_Tracks, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates.OneOf_Tracks) -> Bool {
+      public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates.OneOf_Tracks, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates.OneOf_Tracks) -> Bool {
         // The use of inline closures is to circumvent an issue where the compiler
         // allocates stack space for every case branch when no optimizations are
         // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -221,136 +221,136 @@ struct Fishjam_MediaEvents_Peer_MediaEvent {
     #endif
     }
 
-    init() {}
+    public init() {}
   }
 
   /// Sent when a peer wants to join WebRTC Endpoint.
-  struct Connect {
+  public struct Connect {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var metadata: Fishjam_MediaEvents_Metadata {
+    public var metadata: Fishjam_MediaEvents_Metadata {
       get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
       set {_metadata = newValue}
     }
     /// Returns true if `metadata` has been explicitly set.
-    var hasMetadata: Bool {return self._metadata != nil}
+    public var hasMetadata: Bool {return self._metadata != nil}
     /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    mutating func clearMetadata() {self._metadata = nil}
+    public mutating func clearMetadata() {self._metadata = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
 
     fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
   /// Sent when a peer disconnects from WebRTC Endpoint.
-  struct Disconnect {
+  public struct Disconnect {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Sent when a peer wants to update its metadata
-  struct UpdateEndpointMetadata {
+  public struct UpdateEndpointMetadata {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var metadata: Fishjam_MediaEvents_Metadata {
+    public var metadata: Fishjam_MediaEvents_Metadata {
       get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
       set {_metadata = newValue}
     }
     /// Returns true if `metadata` has been explicitly set.
-    var hasMetadata: Bool {return self._metadata != nil}
+    public var hasMetadata: Bool {return self._metadata != nil}
     /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    mutating func clearMetadata() {self._metadata = nil}
+    public mutating func clearMetadata() {self._metadata = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
 
     fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
   /// Sent when a peer wants to update its track's metadata
-  struct UpdateTrackMetadata {
+  public struct UpdateTrackMetadata {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var trackID: String = String()
+    public var trackID: String = String()
 
-    var metadata: Fishjam_MediaEvents_Metadata {
+    public var metadata: Fishjam_MediaEvents_Metadata {
       get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
       set {_metadata = newValue}
     }
     /// Returns true if `metadata` has been explicitly set.
-    var hasMetadata: Bool {return self._metadata != nil}
+    public var hasMetadata: Bool {return self._metadata != nil}
     /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    mutating func clearMetadata() {self._metadata = nil}
+    public mutating func clearMetadata() {self._metadata = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
 
     fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
   /// Sent when peer wants to renegatiate connection due to adding a track or removing a track
-  struct RenegotiateTracks {
+  public struct RenegotiateTracks {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Sent as a response to `offerData` media event during renegotiation
   /// Maps contain only information about current peer's `sendonly` tracks.
   /// The "mid" is an identifier used to associate an RTP packet with an MLine from the SDP offer/answer.
-  struct SdpOffer {
+  public struct SdpOffer {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var sdpOffer: String = String()
+    public var sdpOffer: String = String()
 
-    var trackIDToMetadata: [Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata] = []
+    public var trackIDToMetadata: [Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata] = []
 
-    var trackIDToBitrates: [Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates] = []
+    public var trackIDToBitrates: [Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates] = []
 
-    var midToTrackID: [Fishjam_MediaEvents_MidToTrackId] = []
+    public var midToTrackID: [Fishjam_MediaEvents_MidToTrackId] = []
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Sent when Peer wants to update its track's bitrate
-  struct TrackBitrate {
+  public struct TrackBitrate {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var trackID: String = String()
+    public var trackID: String = String()
 
-    var bitrate: Int32 = 0
+    public var bitrate: Int32 = 0
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  init() {}
+  public init() {}
 }
 
 #if swift(>=5.5) && canImport(_Concurrency)
@@ -374,8 +374,8 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate: @unchecked Sendable 
 fileprivate let _protobuf_package = "fishjam.media_events.peer"
 
 extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".MediaEvent"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".MediaEvent"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "connect"),
     2: .same(proto: "disconnect"),
     3: .standard(proto: "update_endpoint_metadata"),
@@ -386,7 +386,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
     8: .standard(proto: "track_bitrate"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -501,7 +501,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -544,7 +544,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent, rhs: Fishjam_MediaEvents_Peer_MediaEvent) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent, rhs: Fishjam_MediaEvents_Peer_MediaEvent) -> Bool {
     if lhs.content != rhs.content {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -552,13 +552,13 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".VariantBitrate"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".VariantBitrate"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "variant"),
     2: .same(proto: "bitrate"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -571,7 +571,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate: SwiftProtobuf.Mess
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.variant != .unspecified {
       try visitor.visitSingularEnumField(value: self.variant, fieldNumber: 1)
     }
@@ -581,7 +581,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate: SwiftProtobuf.Mess
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate, rhs: Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate, rhs: Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate) -> Bool {
     if lhs.variant != rhs.variant {return false}
     if lhs.bitrate != rhs.bitrate {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -590,13 +590,13 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate: SwiftProtobuf.Mess
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".TrackIdToMetadata"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".TrackIdToMetadata"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "track_id"),
     2: .same(proto: "metadata"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -609,7 +609,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata: SwiftProtobuf.M
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -623,7 +623,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata: SwiftProtobuf.M
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata) -> Bool {
     if lhs.trackID != rhs.trackID {return false}
     if lhs._metadata != rhs._metadata {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -632,12 +632,12 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata: SwiftProtobuf.M
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".TrackIdToBitrates"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".TrackIdToBitrates"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "track_bitrate"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -661,7 +661,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates: SwiftProtobuf.M
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -672,7 +672,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates: SwiftProtobuf.M
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates) -> Bool {
     if lhs.tracks != rhs.tracks {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -680,12 +680,12 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates: SwiftProtobuf.M
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.Connect: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".Connect"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".Connect"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "metadata"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -697,7 +697,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.Connect: SwiftProtobuf.Message, Sw
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -708,7 +708,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.Connect: SwiftProtobuf.Message, Sw
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.Connect, rhs: Fishjam_MediaEvents_Peer_MediaEvent.Connect) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.Connect, rhs: Fishjam_MediaEvents_Peer_MediaEvent.Connect) -> Bool {
     if lhs._metadata != rhs._metadata {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -716,31 +716,31 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.Connect: SwiftProtobuf.Message, Sw
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.Disconnect: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".Disconnect"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".Disconnect"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let _ = try decoder.nextFieldNumber() {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.Disconnect, rhs: Fishjam_MediaEvents_Peer_MediaEvent.Disconnect) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.Disconnect, rhs: Fishjam_MediaEvents_Peer_MediaEvent.Disconnect) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".UpdateEndpointMetadata"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".UpdateEndpointMetadata"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "metadata"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -752,7 +752,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata: SwiftProto
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -763,7 +763,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata: SwiftProto
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata, rhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata, rhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata) -> Bool {
     if lhs._metadata != rhs._metadata {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -771,13 +771,13 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata: SwiftProto
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".UpdateTrackMetadata"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".UpdateTrackMetadata"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "track_id"),
     2: .same(proto: "metadata"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -790,7 +790,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata: SwiftProtobuf
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -804,7 +804,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata: SwiftProtobuf
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata, rhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata, rhs: Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata) -> Bool {
     if lhs.trackID != rhs.trackID {return false}
     if lhs._metadata != rhs._metadata {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -813,34 +813,34 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata: SwiftProtobuf
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".RenegotiateTracks"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".RenegotiateTracks"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let _ = try decoder.nextFieldNumber() {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks, rhs: Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks, rhs: Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".SdpOffer"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".SdpOffer"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "sdp_offer"),
     2: .standard(proto: "track_id_to_metadata"),
     3: .standard(proto: "track_id_to_bitrates"),
     4: .standard(proto: "mid_to_track_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -855,7 +855,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, S
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.sdpOffer.isEmpty {
       try visitor.visitSingularStringField(value: self.sdpOffer, fieldNumber: 1)
     }
@@ -871,7 +871,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, S
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer, rhs: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer, rhs: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer) -> Bool {
     if lhs.sdpOffer != rhs.sdpOffer {return false}
     if lhs.trackIDToMetadata != rhs.trackIDToMetadata {return false}
     if lhs.trackIDToBitrates != rhs.trackIDToBitrates {return false}
@@ -882,13 +882,13 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, S
 }
 
 extension Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".TrackBitrate"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".TrackBitrate"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "track_id"),
     2: .same(proto: "bitrate"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -901,7 +901,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate: SwiftProtobuf.Messag
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.trackID.isEmpty {
       try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 1)
     }
@@ -911,7 +911,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate: SwiftProtobuf.Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate) -> Bool {
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate, rhs: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate) -> Bool {
     if lhs.trackID != rhs.trackID {return false}
     if lhs.bitrate != rhs.bitrate {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
