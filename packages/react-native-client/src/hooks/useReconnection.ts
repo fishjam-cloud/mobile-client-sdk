@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
-import { useFishjamEvent } from './useFishjamEvent';
-import { ReceivableEvents } from '../RNFishjamClientModule';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
+import { useFishjamEventState } from './useFishjamEventState';
 
 export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
@@ -11,21 +12,9 @@ export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
  * @category Connection
  */
 export function useReconnection() {
-  const [reconnectionStatus, setReconnectionStatus] =
-    useState<ReconnectionStatus>('idle');
-
-  const setStatusIdle = useCallback(() => setReconnectionStatus('idle'), []);
-  const setStatusReconnecting = useCallback(
-    () => setReconnectionStatus('reconnecting'),
-    [],
-  );
-  const setStatusError = useCallback(() => setReconnectionStatus('error'), []);
-
-  useFishjamEvent(ReceivableEvents.Reconnected, setStatusIdle);
-  useFishjamEvent(ReceivableEvents.ReconnectionStarted, setStatusReconnecting);
-  useFishjamEvent(
-    ReceivableEvents.ReconnectionRetriesLimitReached,
-    setStatusError,
+  const reconnectionStatus = useFishjamEventState<ReconnectionStatus>(
+    ReceivableEvents.ReconnectionStatusChanged,
+    RNFishjamClientModule.reconnectionStatus,
   );
 
   return { reconnectionStatus };

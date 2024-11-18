@@ -36,6 +36,12 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
+    private(set) var reconnectionStatus: ReconnectionStatus = .idle {
+        didSet {
+            emit(event: .reconnectionStatusChanged(reconnectionStatus: reconnectionStatus))
+        }
+    }
+
     let sendEvent: (_ eventName: String, _ data: [String: Any?]) -> Void
 
     static var tracksUpdateListenersManager = TracksUpdateListenersManager()
@@ -891,15 +897,15 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onReconnectionStarted() {
-        emit(event: .reconnectionStarted)
+        reconnectionStatus = .reconnecting
     }
 
     func onReconnected() {
-        emit(event: .reconnected)
+        reconnectionStatus = .idle
     }
 
     func onReconnectionRetriesLimitReached() {
-        emit(event: .reconnectionRetriesLimitReached)
+        reconnectionStatus = .error
     }
 
 }

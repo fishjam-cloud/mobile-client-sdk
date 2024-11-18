@@ -1,15 +1,17 @@
 package io.fishjam.reactnative
 
+import com.fishjamcloud.client.ReconnectionStatus
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.twilio.audioswitch.AudioDevice
 import io.fishjam.reactnative.extensions.LocalCamera
 
-@Suppress("ktlint:standard:enum-entry-name-case")
-enum class PeerStatus {
-  connecting,
-  connected,
-  error,
-  idle
+enum class PeerStatus(
+  val status: String
+) {
+  Connecting("connecting"),
+  Connected("connected"),
+  Idle("idle"),
+  Error("error")
 }
 
 class EmitableEvent private constructor(
@@ -23,11 +25,9 @@ class EmitableEvent private constructor(
     PeersUpdate,
     AudioDeviceUpdate,
     BandwidthEstimation,
-    ReconnectionRetriesLimitReached,
-    ReconnectionStarted,
-    Reconnected,
     Warning,
     PeerStatusChanged,
+    ReconnectionStatusChanged,
     CurrentCameraChanged
   }
 
@@ -38,10 +38,6 @@ class EmitableEvent private constructor(
     get() = mapOf(event.name to eventContent)
 
   companion object {
-    val reconnectionRetriesLimitReached = EmitableEvent(EventName.ReconnectionRetriesLimitReached)
-    val reconnectionStarted = EmitableEvent(EventName.ReconnectionStarted)
-    val reconnected = EmitableEvent(EventName.Reconnected)
-
     fun isMicrophoneOn(enabled: Boolean) = EmitableEvent(EventName.IsMicrophoneOn, enabled)
 
     fun isScreenShareOn(enabled: Boolean) = EmitableEvent(EventName.IsScreenShareOn, enabled)
@@ -50,7 +46,10 @@ class EmitableEvent private constructor(
 
     fun warning(message: String) = EmitableEvent(EventName.Warning, message)
 
-    fun peerStatusChanged(peerStatus: PeerStatus) = EmitableEvent(EventName.PeerStatusChanged, peerStatus.name)
+    fun peerStatusChanged(peerStatus: PeerStatus) = EmitableEvent(EventName.PeerStatusChanged, peerStatus.status)
+
+    fun reconnectionStatusChanged(reconnectionStatus: ReconnectionStatus) =
+      EmitableEvent(EventName.ReconnectionStatusChanged, reconnectionStatus.status)
 
     fun currentCameraChanged(
       localCamera: LocalCamera?,

@@ -19,11 +19,12 @@ interface ReconnectionManagerListener {
   }
 }
 
-enum class ReconnectionStatus {
-  IDLE,
-  RECONNECTING,
-  ERROR,
-  WAITING
+enum class ReconnectionStatus(
+  val status: String
+) {
+  Idle("idle"),
+  Reconnecting("reconnecting"),
+  Error("error")
 }
 
 internal class ReconnectionManager(
@@ -32,41 +33,41 @@ internal class ReconnectionManager(
 ) {
   private val listeners = mutableListOf<ReconnectionManagerListener>()
   private var reconnectAttempts = 0
-  private var reconnectionStatus = ReconnectionStatus.IDLE
+  private var reconnectionStatus = ReconnectionStatus.Idle
 
   // attempts to reconnect if suitable
   fun onDisconnected() {
     if (reconnectAttempts >= reconnectConfig.maxAttempts) {
-      reconnectionStatus = ReconnectionStatus.ERROR
+      reconnectionStatus = ReconnectionStatus.Error
       listeners.forEach { it.onReconnectionRetriesLimitReached() }
       return
     }
 
-    if (reconnectionStatus == ReconnectionStatus.WAITING) {
+    if (reconnectionStatus == ReconnectionStatus.Reconnecting) {
       return
     }
+    reconnectionStatus = ReconnectionStatus.Reconnecting
 
-    if (reconnectionStatus != ReconnectionStatus.RECONNECTING) {
-      reconnectionStatus = ReconnectionStatus.RECONNECTING
-      listeners.forEach { it.onReconnectionStarted() }
-    }
+    listeners.forEach { it.onReconnectionStarted() }
     val delay = reconnectConfig.initialDelayMs + reconnectAttempts * reconnectConfig.delayMs
     reconnectAttempts += 1
+
     Timer().schedule(delay) {
-      reconnectionStatus = ReconnectionStatus.RECONNECTING
       connect()
     }
   }
 
   fun onReconnected() {
-    if (reconnectionStatus != ReconnectionStatus.RECONNECTING) return
+    if (reconnectionStatus != ReconnectionStatus.Reconnecting) {
+      return
+    }
     reset()
     listeners.forEach { it.onReconnected() }
   }
 
   fun reset() {
     reconnectAttempts = 0
-    reconnectionStatus = ReconnectionStatus.IDLE
+    reconnectionStatus = ReconnectionStatus.Idle
   }
 
   fun addListener(listener: ReconnectionManagerListener) {
