@@ -64,9 +64,9 @@
     "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "expo": ">=52",
+    "expo": "*",
     "react": "*",
-    "react-native": ">=0.76"
+    "react-native": "*"
   },
   "jest": {
     "preset": "jest-expo",
