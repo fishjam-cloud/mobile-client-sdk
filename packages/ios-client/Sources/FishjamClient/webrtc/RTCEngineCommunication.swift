@@ -62,9 +62,13 @@ internal class RTCEngineCommunication {
         sendEvent(event: .candidate(candidate))
     }
 
-    func sdpOffer(sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String]) {
+    func sdpOffer(sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String], trackIdToBitrates: [String: Int32]) {
         var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
-        sdpOffer.sdpOffer = sdp
+        
+        
+        let encodedOffer = String(data: (try? JSONEncoder().encode(["sdp": sdp, "type": "offer"])) ?? .init(), encoding: .utf8) ?? ""
+        
+        sdpOffer.sdpOffer = encodedOffer
         sdpOffer.trackIDToMetadata = trackIdToTrackMetadata.keys.map { key in
             var eventData = Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToMetadata.init()
             var parsedMeta = Fishjam_MediaEvents_Metadata()
@@ -76,12 +80,23 @@ internal class RTCEngineCommunication {
             return eventData
         }
         sdpOffer.midToTrackID = midToTrackId.keys.map { key in
-            var eventData = Fishjam_MediaEvents_MidToTrackId.init()
+            var eventData = Fishjam_MediaEvents_MidToTrackId()
             
             eventData.trackID = midToTrackId[key] ?? ""
             eventData.mid = key
             
             return eventData
+        }
+        sdpOffer.trackIDToBitrates = trackIdToBitrates.keys.map { key in
+            var eventData = Fishjam_MediaEvents_Peer_MediaEvent.TrackIdToBitrates()
+            var trackBitrate = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrate()
+            trackBitrate.trackID = key
+            trackBitrate.bitrate = trackIdToBitrates[key] ?? 500
+            
+            eventData.tracks = .trackBitrate(trackBitrate)
+            
+            return eventData
+            
         }
         
         sendEvent(event: .sdpOffer(sdpOffer))

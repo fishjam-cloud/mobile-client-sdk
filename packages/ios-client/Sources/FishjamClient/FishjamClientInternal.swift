@@ -672,13 +672,13 @@ extension FishjamClientInternal: RTCEngineListener {
         peerConnectionManager.getSdpOffer(
             tracksTypes: tracksTypes,
             localTracks: localTracks
-        ) { sdp, midToTrackId, error in
+        ) { sdp, midToTrackId, trackIdToBitrates, error in
             if let err = error {
                 sdkLogger.error("Failed to create sdp offer: \(err)")
                 return
             }
             
-            if let sdp = sdp, let midToTrackId = midToTrackId {
+            if let sdp = sdp, let midToTrackId = midToTrackId, let trackIdToBitrates = trackIdToBitrates {
                 self.rtcEngineCommunication.sdpOffer(
                     sdp: sdp,
                     trackIdToTrackMetadata: self.localEndpoint.tracks.reduce(into: [String: Metadata]()) {
@@ -686,7 +686,8 @@ extension FishjamClientInternal: RTCEngineListener {
                         let (_, trackData) = trackEntry
                         result[trackData.webrtcId] = trackData.metadata
                     },
-                    midToTrackId: midToTrackId
+                    midToTrackId: midToTrackId, 
+                    trackIdToBitrates: trackIdToBitrates
                 )
             }
         }

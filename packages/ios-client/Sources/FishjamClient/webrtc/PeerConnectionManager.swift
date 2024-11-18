@@ -284,6 +284,22 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         return mapping
     }
+    
+    private func getTrackIdToBitrates(localTracks: [Track]) -> [String: Int32] {
+        guard let pc = connection else {
+            return [:]
+        }
+
+        var mapping: [String: Int32] = [:]
+        pc.transceivers.forEach { transceiver in
+            guard let trackId: String = transceiver.sender.track?.trackId else {
+                return
+            }
+            mapping[trackId] = 500 // TODO: How this should be handled?
+        }
+
+        return mapping
+    }
 
     public func setTrackEncoding(trackId: String, encoding: TrackEncoding, enabled: Bool) {
         guard let pc = connection else {
@@ -359,7 +375,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func getSdpOffer(
         tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
-        onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ error: Error?) -> Void
+        onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?) -> Void
     ) {
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
@@ -376,7 +392,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             completionHandler: { offer, error in
                 guard let offer = offer else {
                     if let err = error {
-                        onCompletion(nil, nil, err)
+                        onCompletion(nil, nil, nil, err)
                     }
                     return
                 }
@@ -385,10 +401,14 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
                     offer,
                     completionHandler: { error in
                         guard let err = error else {
-                            onCompletion(offer.sdp, self.getMidToTrackId(localTracks: localTracks), nil)
+                            onCompletion(
+                                offer.sdp,
+                                self.getMidToTrackId(localTracks: localTracks),
+                                self.getTrackIdToBitrates(localTracks: localTracks),
+                                nil)
                             return
                         }
-                        onCompletion(nil, nil, err)
+                        onCompletion(nil, nil, nil, err)
                     })
             })
     }
