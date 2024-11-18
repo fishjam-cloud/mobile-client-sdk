@@ -79,7 +79,7 @@ export default function ConnectScreen({ navigation }: Props) {
     try {
       setConnectionError(null);
       setLoading(true);
-      const roomManagerUrl = 'http://192.168.83.173:8080/api/rooms';
+      const roomManagerUrl = 'http://192.168.83.118:8080/api/rooms';
 
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 

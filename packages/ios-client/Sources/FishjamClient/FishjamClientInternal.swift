@@ -549,6 +549,11 @@ extension FishjamClientInternal: RTCEngineListener {
             sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
+        
+        print("********* EVENT START *********")
+        print(Mirror(reflecting: event).children.first)
+        print("*********  EVENT END  *********")
+        
         let mediaEvent =
         Fishjam_PeerMessage.with({
             
@@ -573,6 +578,8 @@ extension FishjamClientInternal: RTCEngineListener {
                 }
             })
         })
+        
+        
         
         guard let serialzedData = try? mediaEvent.serializedData() else {
             return
