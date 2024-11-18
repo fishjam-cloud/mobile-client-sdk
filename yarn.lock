@@ -3006,9 +3006,9 @@ __metadata:
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
     typescript: "npm:^5.6.3"
   peerDependencies:
-    expo: ">=52"
+    expo: "*"
     react: "*"
-    react-native: ">=0.76"
+    react-native: "*"
   languageName: unknown
   linkType: soft
 
