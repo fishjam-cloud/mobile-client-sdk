@@ -1,18 +1,16 @@
 package com.fishjamcloud.client.webrtc
 
-import com.fishjamcloud.client.events.Endpoint
-import com.fishjamcloud.client.events.OfferData
-import com.fishjamcloud.client.events.TrackData
+import fishjam.media_events.Shared
+import fishjam.media_events.server.Server
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.models.SerializedMediaEvent
 
 internal interface RTCEngineListener {
   fun onConnected(
     endpointID: String,
-    otherEndpoints: List<Endpoint>
+    otherEndpoints: List<Server.MediaEvent.Endpoint>
   )
 
-  fun onSendMediaEvent(event: SerializedMediaEvent)
+  fun onSendMediaEvent(event: fishjam.media_events.peer.Peer.MediaEvent)
 
   fun onEndpointAdded(
     endpointId: String,
@@ -27,25 +25,23 @@ internal interface RTCEngineListener {
   )
 
   fun onOfferData(
-    integratedTurnServers: List<OfferData.TurnServer>,
-    tracksTypes: Map<String, Int>
+    tracksTypes: Server.MediaEvent.OfferData.TrackTypes
   )
 
   fun onSdpAnswer(
-    type: String,
     sdp: String,
-    midToTrackId: Map<String, String>
+    midToTrackId: List<Shared.MidToTrackId>
   )
 
   fun onRemoteCandidate(
     candidate: String,
     sdpMLineIndex: Int,
-    sdpMid: Int?
+    sdpMid: String
   )
 
   fun onTracksAdded(
     endpointId: String,
-    tracks: Map<String, TrackData>
+    tracks: List<Server.MediaEvent.Track>
   )
 
   fun onTracksRemoved(
@@ -68,7 +64,7 @@ internal interface RTCEngineListener {
 
   fun onVadNotification(
     trackId: String,
-    status: String
+    status: Server.MediaEvent.VadNotification.Status
   )
 
   fun onBandwidthEstimation(estimation: Long)

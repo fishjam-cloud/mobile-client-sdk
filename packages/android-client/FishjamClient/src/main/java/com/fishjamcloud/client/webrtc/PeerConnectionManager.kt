@@ -18,6 +18,8 @@ import com.fishjamcloud.client.utils.createOffer
 import com.fishjamcloud.client.utils.getEncodings
 import com.fishjamcloud.client.utils.setLocalDescription
 import com.fishjamcloud.client.utils.setRemoteDescription
+import fishjam.media_events.Shared
+import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -50,7 +52,7 @@ internal class PeerConnectionManager(
   private var config: PeerConnection.RTCConfiguration? = null
   private var queuedRemoteCandidates: MutableList<IceCandidate>? = null
   private val qrcMutex = Mutex()
-  private var midToTrackId: Map<String, String> = HashMap<String, String>()
+  private var midToTrackId: List<Shared.MidToTrackId> = emptyList()
 
   private val coroutineScope: CoroutineScope =
     ClosableCoroutineScope(SupervisorJob())
@@ -299,11 +301,11 @@ internal class PeerConnectionManager(
     this.config = config
   }
 
-  private fun addNecessaryTransceivers(tracksTypes: Map<String, Int>) {
+  private fun addNecessaryTransceivers(tracksTypes: Server.MediaEvent.OfferData.TrackTypes) {
     val pc = peerConnection ?: return
 
-    val necessaryAudio = tracksTypes["audio"] ?: 0
-    val necessaryVideo = tracksTypes["video"] ?: 0
+    val necessaryAudio = tracksTypes.audio
+    val necessaryVideo = tracksTypes.video
 
     var lackingAudio = necessaryAudio
     var lackingVideo = necessaryVideo
@@ -335,7 +337,7 @@ internal class PeerConnectionManager(
 
   suspend fun onSdpAnswer(
     sdp: String,
-    midToTrackId: Map<String, String>
+    midToTrackId: List<Shared.MidToTrackId>
   ) {
     peerConnectionMutex.withLock {
       val pc = peerConnection ?: return
@@ -376,11 +378,9 @@ internal class PeerConnectionManager(
   )
 
   suspend fun getSdpOffer(
-    integratedTurnServers: List<OfferData.TurnServer>,
-    tracksTypes: Map<String, Int>,
+    tracksTypes: Server.MediaEvent.OfferData.TrackTypes,
     localTracks: List<Track>
   ): SdpOffer {
-    val isExWebrtc = integratedTurnServers.isEmpty()
 
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
@@ -389,7 +389,8 @@ internal class PeerConnectionManager(
       sentSdpOffer = false
       this.queuedLocalCandidates = mutableListOf()
     }
-    prepareIceServers(integratedTurnServers)
+
+    prepareIceServers(emptyList()) // TODO: Change?
 
     var needsRestart = true
     if (peerConnection == null) {
@@ -400,7 +401,7 @@ internal class PeerConnectionManager(
     peerConnectionMutex.withLock {
       val pc = peerConnection!!
 
-      if (needsRestart && !isExWebrtc) {
+      if (needsRestart) {
         pc.restartIce()
       }
 
@@ -471,7 +472,7 @@ internal class PeerConnectionManager(
       iceServers = null
       config = null
       queuedRemoteCandidates = null
-      midToTrackId = HashMap<String, String>()
+      midToTrackId = emptyList()
 
       streamIds = listOf(UUID.randomUUID().toString())
     }
@@ -549,7 +550,9 @@ internal class PeerConnectionManager(
 
         val mid = transceiver.mid
 
-        trackId = midToTrackId[mid] ?: run {
+
+
+        trackId = midToTrackId.find { it.mid == mid }?.trackId ?: run {
           Timber.e("onAddTrack: Track with mid=$mid not found")
           return@launch
         }

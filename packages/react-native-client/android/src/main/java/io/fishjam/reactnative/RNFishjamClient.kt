@@ -452,7 +452,7 @@ class RNFishjamClient(
                   "id" to track.id(),
                   "type" to "Audio",
                   "metadata" to track.metadata,
-                  "vadStatus" to track.vadStatus.value
+                  "vadStatus" to "Silence" // TODO:FIX
                 )
 
               is LocalVideoTrack ->
