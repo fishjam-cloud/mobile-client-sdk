@@ -26,3 +26,7 @@ jobs:
       - name: 🚀 Build app
         run: eas build --non-interactive --platform=all
         working-directory: examples/fishjam-chat
+
+      - name: ✅ Submit iOS app to TestFlight
+        run: eas submit --non-interactive --platform=ios --latest
+        working-directory: examples/fishjam-chat
