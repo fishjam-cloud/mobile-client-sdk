@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "eas-build-pre-install": "cd ../.. && yarn && yarn build",
+    "eas-build-pre-install": "yarn workspace fishjam-mobile-sdk install && yarn workspace fishjam-mobile-sdk build",
     "prebuild": "expo prebuild",
     "start": "expo start",
     "android": "expo run:android",
