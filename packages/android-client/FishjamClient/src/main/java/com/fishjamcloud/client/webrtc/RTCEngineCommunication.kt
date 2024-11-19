@@ -1,5 +1,6 @@
 package com.fishjamcloud.client.webrtc
 
+import android.util.Log
 import com.fishjamcloud.client.events.Connect
 import com.fishjamcloud.client.events.Disconnect
 import com.fishjamcloud.client.events.LocalCandidate
@@ -136,12 +137,13 @@ internal class RTCEngineCommunication {
   fun sdpOffer(
     sdp: String,
     trackIdToTrackMetadata: Map<String, Metadata?>,
-    midToTrackId: Map<String, String>
+    midToTrackId: Map<String, String>,
+    trackIdToBitrates: Map<String, Int>
   ) {
     val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
       .setSdpOffer(
         fishjam.media_events.peer.Peer.MediaEvent.SdpOffer.newBuilder()
-          .setSdpOffer(gson.toJson(mapOf("type" to "offer", "sdp" to sdp)))
+          .setSdpOffer(gson.toJson(mapOf( "sdp" to sdp, "type" to "offer")))
           .addAllTrackIdToMetadata(
             trackIdToTrackMetadata.map { (trackId, metadata) ->
               fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.newBuilder()
@@ -163,6 +165,18 @@ internal class RTCEngineCommunication {
               Shared.MidToTrackId.newBuilder()
                 .setMid(mid)
                 .setTrackId(trackId)
+                .build()
+            }
+          )
+          .addAllTrackIdToBitrates(
+            trackIdToBitrates.map { (trackId, bitrate) ->
+              fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.newBuilder()
+                .setTrackBitrate(
+                  fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.newBuilder()
+                    .setTrackId(trackId)
+                    .setBitrate(bitrate)
+                    .build()
+                )
                 .build()
             }
           )
@@ -189,6 +203,9 @@ internal class RTCEngineCommunication {
   }
 
   fun onEvent(event: fishjam.media_events.server.Server.MediaEvent) {
+    Log.i("IncomingEvent", event.toString())
+
+
     when {
       event.hasConnected() ->
         listeners.forEach { listener ->

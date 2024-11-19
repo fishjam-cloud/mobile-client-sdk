@@ -627,8 +627,9 @@ internal class FishjamClientInternal(
         rtcEngineCommunication.sdpOffer(
           offer.description,
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
-          offer.midToTrackIdMapping
-        )
+          offer.midToTrackIdMapping,
+          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 500 }.toMap(),
+          )
         peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {
         Timber.e(e, "Failed to create an sdp offer")
