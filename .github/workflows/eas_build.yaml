@@ -1,6 +1,6 @@
 on:
-  label:
-    types: [created]
+  pull_request:
+    types: [labeled]
 jobs:
   build:
     runs-on: macOS-latest
