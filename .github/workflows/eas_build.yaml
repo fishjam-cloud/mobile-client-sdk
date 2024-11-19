@@ -3,6 +3,7 @@ on:
     types: [labeled]
 jobs:
   build:
+    if: ${{ github.event.label.name == 'eas build' }}
     runs-on: macOS-latest
     steps:
       - name: 🏗 Setup repo
