@@ -591,7 +591,7 @@ extension FishjamClientInternal: RTCEngineListener {
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         for eventEndpoint in endpoints {
             guard eventEndpoint.endpointID != endpointId else {
-                return
+                continue
             }
             var endpoint = Endpoint(
                 id: eventEndpoint.endpointID,
