@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 
 import { Brand, GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
-import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents } from './useFishjamEvent';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
 
 export type PeerId = Brand<string, 'PeerId'>;

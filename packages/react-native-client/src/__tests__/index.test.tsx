@@ -3,24 +3,14 @@ import { useRTCStatistics } from '../debug';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
 jest.mock('expo-modules-core', () => ({
-  EventEmitter: jest.fn(),
   requireNativeModule: jest.fn().mockReturnValue({}),
   requireNativeViewManager: jest.fn(),
-}));
-
-jest.mock('react-native', () => ({
-  NativeEventEmitter: jest.fn().mockImplementation(() => ({
-    addListener: jest.fn(),
-  })),
 }));
 
 jest.mock('../RNFishjamClientModule', () => ({
   getStatistics: jest.fn(),
   addListener: jest.fn(),
   removeEventListener: jest.fn(),
-  nativeModuleEventEmitter: {
-    addListener: jest.fn(),
-  },
 }));
 
 function mockedStats(numCalled: number) {

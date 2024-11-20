@@ -1,6 +1,6 @@
-import { EventEmitter, requireNativeModule } from 'expo-modules-core';
-import { NativeModule } from 'react-native';
+import { requireNativeModule } from 'expo-modules-core';
 
+import type { NativeModule } from 'expo-modules-core/types';
 import type { RTCStats } from './debug/stats/types';
 import type { GenericMetadata, SimulcastConfig } from './types';
 import type { CameraConfigInternal, Camera } from './hooks/useCamera';
@@ -82,7 +82,26 @@ type RNFishjamClient = {
   stopForegroundService: () => void;
 };
 
-const nativeModule = requireNativeModule('RNFishjamClient');
-export const nativeModuleEventEmitter = new EventEmitter(nativeModule);
+export const ReceivableEvents = {
+  IsMicrophoneOn: 'IsMicrophoneOn',
+  IsScreenShareOn: 'IsScreenShareOn',
+  IsAppScreenShareOn: 'IsAppScreenShareOn', // only for iOS
+  SimulcastConfigUpdate: 'SimulcastConfigUpdate',
+  PeersUpdate: 'PeersUpdate',
+  AudioDeviceUpdate: 'AudioDeviceUpdate',
+  SendMediaEvent: 'SendMediaEvent',
+  BandwidthEstimation: 'BandwidthEstimation',
+  ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
+  ReconnectionStarted: 'ReconnectionStarted',
+  Reconnected: 'Reconnected',
+  Warning: 'Warning',
+  PeerStatusChanged: 'PeerStatusChanged',
+  ReconnectionStatusChanged: 'ReconnectionStatusChanged',
+  CurrentCameraChanged: 'CurrentCameraChanged',
+} as const;
 
-export default nativeModule as RNFishjamClient & NativeModule;
+export default requireNativeModule('RNFishjamClient') as RNFishjamClient &
+  NativeModule<
+    // TODO: Make event arguments typesafe instead of generic.
+    Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
+  >;
