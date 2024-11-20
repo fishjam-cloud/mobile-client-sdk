@@ -28,7 +28,7 @@ function useConnectionStatus() {
  * @group Hooks
  * @category Connection
  */
-export function useFishjamConnect() {
+export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
   const connectionStatus: ConnectionStatus =

@@ -67,7 +67,7 @@ export type {
 export type { ReconnectionStatus } from './hooks/useReconnection';
 export type { PeerStatus } from './hooks/usePeerStatus';
 export type { ForegroundServiceConfig } from './hooks/useForegroundService';
-export type { ConnectionStatus } from './hooks/useFishjamConnect';
+export type { ConnectionStatus } from './hooks/useConnection';
 // #endregion
 
 // #region hooks
@@ -81,7 +81,7 @@ export { useReconnection } from './hooks/useReconnection';
 export { usePeerStatus } from './hooks/usePeerStatus';
 export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
-export { useFishjamConnect } from './hooks/useFishjamConnect';
+export { useConnection } from './hooks/useConnection';
 // #endregion
 
 export { FishjamRoom } from './components/FishjamRoom';

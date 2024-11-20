@@ -1,7 +1,7 @@
 import {
   useCamera,
   useMicrophone,
-  useFishjamConnect,
+  useConnection,
   VideoPreviewView,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -50,7 +50,7 @@ function PreviewScreen({
     currentCamera,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
-  const { joinRoom, leaveRoom } = useFishjamConnect();
+  const { joinRoom, leaveRoom } = useConnection();
 
   const toggleSwitchCamera = () => {
     const camera =
