@@ -5,6 +5,7 @@ import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
+import { Platform } from 'react-native';
 
 export type PeerId = Brand<string, 'PeerId'>;
 export type TrackId = Brand<string, 'TrackId'>;
@@ -111,10 +112,15 @@ function getPeerWithDistinguishedTracks<
   peer: Peer<PeerMetadata, ServerMetadata>,
 ): PeerWithTracks<PeerMetadata, ServerMetadata> {
   const { tracks: peerTracks } = peer;
+
   const distinguishedTracks: DistinguishedTracks = {};
 
   for (const track of peerTracks) {
     const trackType = track.metadata?.type;
+
+    if (Platform.OS === 'android') {
+      console.log({ trackMeta: track.metadata, track });
+    }
 
     switch (trackType) {
       case 'camera':

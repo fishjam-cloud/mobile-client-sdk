@@ -15,6 +15,15 @@ internal val gson = GsonBuilder().setObjectToNumberStrategy(ToNumberPolicy.LONG_
 // convert a data class to a map
 internal fun <T> T.serializeToMap(): Map<String, Any?> = convert()
 
+internal fun String.serializeToMap(): Map<String, Any?> {
+  return try {
+    gson.fromJson(this, Map::class.java) as? Map<String, Any?> ?: emptyMap()
+  } catch (e: JsonParseException) {
+    Timber.e(e, "Failed to parse JSON string to map")
+    emptyMap()
+  }
+}
+
 // convert a map to a data class
 internal inline fun <reified T> Map<String, Any?>.toDataClass(): T = convert()
 

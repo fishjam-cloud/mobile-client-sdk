@@ -226,6 +226,7 @@ internal class FishjamClientInternal(
     localEndpoint = localEndpoint.copy(id = endpointID)
 
     otherEndpoints.forEach {
+
       var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
 
       for (trackData in it.tracksList) {
