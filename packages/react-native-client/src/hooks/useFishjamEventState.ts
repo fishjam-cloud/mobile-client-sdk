@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { ReceivableEvents, useFishjamEvent } from './useFishjamEvent';
+import { useFishjamEvent } from './useFishjamEvent';
+import { ReceivableEvents } from '../RNFishjamClientModule';
 
 export function useFishjamEventState<EventType, StateType = EventType>(
   eventName: keyof typeof ReceivableEvents,

@@ -9,8 +9,9 @@ import {
   TrackBandwidthLimit,
   TrackEncoding,
 } from '../types';
-import RNFishjamClientModule from '../RNFishjamClientModule';
-import { ReceivableEvents } from './useFishjamEvent';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
 
 export type CameraId = Brand<string, 'CameraId'>;
