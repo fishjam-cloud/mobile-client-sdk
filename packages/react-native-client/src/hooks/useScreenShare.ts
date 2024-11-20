@@ -7,9 +7,10 @@ import {
   TrackEncoding,
   TrackMetadata,
 } from '../types';
-import RNFishjamClientModule from '../RNFishjamClientModule';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 import { Platform } from 'react-native';
-import { ReceivableEvents } from './useFishjamEvent';
 import { useFishjamEventState } from './useFishjamEventState';
 
 export type ScreenShareQuality = 'VGA' | 'HD5' | 'HD15' | 'FHD15' | 'FHD30';

@@ -1,5 +1,6 @@
-import { ReceivableEvents } from './useFishjamEvent';
-import RNFishjamClientModule from '../RNFishjamClientModule';
+import RNFishjamClientModule, {
+  ReceivableEvents,
+} from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
 
 export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
