@@ -110,6 +110,10 @@ internal class RTCEngineCommunication {
 
     func onEvent(event: Fishjam_MediaEvents_Server_MediaEvent) {
         guard let content = event.content else { return }
+        
+        print("********* EVENT RECEIVED *********")
+        print(Mirror(reflecting: event).children.first)
+        print("*********  EVENT RECEIVED END  *********")
       
         switch content {
         case .connected(let connected):
@@ -175,7 +179,7 @@ internal class RTCEngineCommunication {
             for listener in listeners {
 
                 listener.onSdpAnswer(
-                    sdp: sdpAnswer.sdpAnswer,
+                    sdpAnswer: sdpAnswer.sdpAnswer,
                     midToTrackId: sdpAnswer.midToTrackID
                 )
             }

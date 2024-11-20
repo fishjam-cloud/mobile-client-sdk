@@ -450,6 +450,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         }
 
         self.midToTrackId = midToTrackId
+        
         let description = RTCSessionDescription(type: .answer, sdp: sdp)
 
         pc.setRemoteDescription(

@@ -29,7 +29,7 @@ internal interface RTCEngineListener {
   )
 
   fun onSdpAnswer(
-    sdp: String,
+    sdpAnswer: String,
     midToTrackId: List<Shared.MidToTrackId>
   )
 

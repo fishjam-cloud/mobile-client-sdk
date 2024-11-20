@@ -2,6 +2,8 @@ package com.fishjamcloud.client
 
 import android.content.Intent
 import android.util.Log
+import com.fishjamcloud.client.events.SdpAnswer2
+import com.fishjamcloud.client.events.gson
 import com.fishjamcloud.client.events.serializeToMap
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
@@ -224,10 +226,10 @@ internal class FishjamClientInternal(
     localEndpoint = localEndpoint.copy(id = endpointID)
 
     otherEndpoints.forEach {
-      var endpoint = Endpoint(it.endpointId, it.metadata.serializeToMap())
+      var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
 
       for (trackData in it.tracksList) {
-        val track = Track(null, it.endpointId, trackData.trackId, trackData.metadata.serializeToMap())
+        val track = Track(null, it.endpointId, trackData.trackId, trackData.metadata.json.serializeToMap())
         endpoint = endpoint.addOrReplaceTrack(track)
 
         this.listener.onTrackAdded(track)
@@ -307,8 +309,10 @@ internal class FishjamClientInternal(
     return videoTrack
   }
 
-  override fun onSdpAnswer(sdp: String, midToTrackId: List<Shared.MidToTrackId>) {
+  override fun onSdpAnswer(sdpAnswer: String, midToTrackId: List<Shared.MidToTrackId>) {
     coroutineScope.launch {
+      val sdp = gson.fromJson(sdpAnswer, SdpAnswer2::class.java).sdp
+
       peerConnectionManager.onSdpAnswer(sdp, midToTrackId)
 
       // temporary workaround, the backend doesn't add ~ in sdp answer
@@ -671,12 +675,12 @@ internal class FishjamClientInternal(
     for (trackData in tracks) {
       var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackData.trackId }
       if (track != null) {
-        track.metadata = trackData.metadata.serializeToMap()
+        track.metadata = trackData.metadata.json.serializeToMap()
       } else {
-        track = Track(null, endpointId, trackData.trackId, trackData.metadata.serializeToMap())
+        track = Track(null, endpointId, trackData.trackId, trackData.metadata.json.serializeToMap())
         this.listener.onTrackAdded(track)
       }
-      updatedTracks[track.id()] = track
+      updatedTracks[trackData.trackId] = track
     }
 
     val updatedEndpoint = endpoint.copy(tracks = updatedTracks)

@@ -60,6 +60,11 @@ data class SdpOffer(
     )
 }
 
+data class SdpAnswer2(
+  val sdp: String,
+  val type: String
+)
+
 data class LocalCandidate(
   val type: String,
   val data: Payload

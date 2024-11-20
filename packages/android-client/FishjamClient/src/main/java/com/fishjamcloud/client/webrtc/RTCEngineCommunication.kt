@@ -231,7 +231,7 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointAdded(
             event.endpointAdded.endpointId,
-            event.endpointAdded.metadata.serializeToMap()
+            event.endpointAdded.metadata.json.serializeToMap()
           )
         }
 
@@ -239,7 +239,7 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointUpdated(
             event.endpointUpdated.endpointId,
-            event.endpointUpdated.metadata.serializeToMap()
+            event.endpointUpdated.metadata.json.serializeToMap()
           )
         }
 
@@ -265,7 +265,7 @@ internal class RTCEngineCommunication {
           listener.onTrackUpdated(
             event.trackUpdated.endpointId,
             event.trackUpdated.trackId,
-            event.trackUpdated.metadata.serializeToMap()
+            event.trackUpdated.metadata.json.serializeToMap()
           )
         }
 

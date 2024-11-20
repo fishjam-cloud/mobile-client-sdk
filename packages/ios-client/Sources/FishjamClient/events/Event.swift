@@ -32,6 +32,11 @@ internal struct ReceivableEventBase: Decodable {
     let type: ReceivableEventType
 }
 
+struct SdpAnswer: Decodable {
+    let sdp: String
+    let type: String
+}
+
 public enum Events {
     internal static func decodeEvent<T: Decodable>(from data: Data) -> T? {
         do {

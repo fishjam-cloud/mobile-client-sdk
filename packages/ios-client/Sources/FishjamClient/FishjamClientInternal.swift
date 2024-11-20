@@ -693,7 +693,15 @@ extension FishjamClientInternal: RTCEngineListener {
         }
     }
     
-    func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId]) {
+    func onSdpAnswer(sdpAnswer: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId]) {
+        guard
+            let sdpData = sdpAnswer.data(using: .utf8),
+            let sdp = (try? JSONDecoder().decode(SdpAnswer.self, from: sdpData))?.sdp else {
+            sdkLogger.error("Invalid string encoding")
+            // TODO: Notify somehow client?
+            return
+        }
+        
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
         
         localEndpoint.tracks.values.forEach { track in
