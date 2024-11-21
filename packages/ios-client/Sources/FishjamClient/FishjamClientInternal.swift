@@ -588,23 +588,24 @@ extension FishjamClientInternal: RTCEngineListener {
     func onConnected(endpointId: String, endpoints: [Fishjam_MediaEvents_Server_MediaEvent.Endpoint]) {
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         for eventEndpoint in endpoints {
-            guard eventEndpoint.endpointID != endpointId else {
-                continue
+            if (eventEndpoint.endpointID == endpointId) {
+                localEndpoint = localEndpoint.copyWith(metadata: eventEndpoint.metadata.json.toAnyJson())
+            } else {
+                var endpoint = Endpoint(
+                    id: eventEndpoint.endpointID,
+                    metadata: eventEndpoint.metadata.json.toAnyJson() ?? Metadata())
+                for track in eventEndpoint.tracks {
+                    let track = Track(
+                        mediaTrack: nil,
+                        endpointId: eventEndpoint.endpointID,
+                        rtcEngineId: track.trackID,
+                        metadata: track.metadata.json.toAnyJson() ?? Metadata()
+                    )
+                    endpoint = endpoint.addOrReplaceTrack(track)
+                    listener.onTrackAdded(track: track)
+                }
+                remoteEndpointsMap[eventEndpoint.endpointID] = endpoint
             }
-            var endpoint = Endpoint(
-                id: eventEndpoint.endpointID,
-                metadata: eventEndpoint.metadata.json.toAnyJson() ?? Metadata())
-            for track in eventEndpoint.tracks {
-                let track = Track(
-                    mediaTrack: nil,
-                    endpointId: eventEndpoint.endpointID,
-                    rtcEngineId: track.trackID,
-                    metadata: track.metadata.json.toAnyJson() ?? Metadata()
-                )
-                endpoint = endpoint.addOrReplaceTrack(track)
-                listener.onTrackAdded(track: track)
-            }
-            remoteEndpointsMap[eventEndpoint.endpointID] = endpoint
         }
 
         listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)

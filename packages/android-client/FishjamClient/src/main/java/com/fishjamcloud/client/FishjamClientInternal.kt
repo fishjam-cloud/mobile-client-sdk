@@ -229,18 +229,18 @@ internal class FishjamClientInternal(
 
     otherEndpoints.forEach lit@{
       if (it.endpointId == endpointID) {
-        return@lit
+        this.localEndpoint = this.localEndpoint.copy(metadata = it.metadata.json.serializeToMap())
+      } else {
+        var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
+
+        for (trackData in it.tracksList) {
+          val track =
+            Track(null, it.endpointId, trackData.trackId, trackData.metadata.json.serializeToMap())
+          endpoint = endpoint.addOrReplaceTrack(track)
+          this.listener.onTrackAdded(track)
+        }
+        this.remoteEndpoints[it.endpointId] = endpoint
       }
-
-      var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
-
-      for (trackData in it.tracksList) {
-        val track = Track(null, it.endpointId, trackData.trackId, trackData.metadata.json.serializeToMap())
-        endpoint = endpoint.addOrReplaceTrack(track)
-
-        this.listener.onTrackAdded(track)
-      }
-      this.remoteEndpoints[it.endpointId] = (endpoint)
     }
     listener.onJoined(endpointID, remoteEndpoints)
     commandsQueue.finishCommand()
