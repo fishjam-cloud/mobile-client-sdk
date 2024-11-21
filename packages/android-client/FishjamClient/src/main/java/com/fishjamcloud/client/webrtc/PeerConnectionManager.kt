@@ -1,6 +1,5 @@
 package com.fishjamcloud.client.webrtc
 
-import com.fishjamcloud.client.events.OfferData
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.Track
@@ -266,41 +265,6 @@ internal class PeerConnectionManager(
     }
   }
 
-  private fun prepareIceServers(integratedTurnServers: List<OfferData.TurnServer>) {
-    if (config != null || iceServers != null) {
-      Timber.e("prepareIceServers: Config or ice servers are already initialized, skipping the preparation")
-      return
-    }
-
-    val isExWebrtc = integratedTurnServers.isEmpty()
-
-    if (isExWebrtc) {
-      val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
-      this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
-    } else {
-      this.iceServers =
-        integratedTurnServers.map {
-          val url = "turn:${it.serverAddr}:${it.serverPort}?transport=${it.transport}"
-
-          PeerConnection.IceServer
-            .builder(url)
-            .setUsername(it.username)
-            .setPassword(it.password)
-            .createIceServer()
-        }
-    }
-
-    val config = PeerConnection.RTCConfiguration(iceServers)
-    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
-    config.iceTransportsType =
-      if (isExWebrtc) {
-        PeerConnection.IceTransportsType.ALL
-      } else {
-        PeerConnection.IceTransportsType.RELAY
-      }
-    this.config = config
-  }
-
   private fun addNecessaryTransceivers(tracksTypes: Server.MediaEvent.OfferData.TrackTypes) {
     val pc = peerConnection ?: return
 
@@ -390,7 +354,12 @@ internal class PeerConnectionManager(
       this.queuedLocalCandidates = mutableListOf()
     }
 
-    prepareIceServers(emptyList()) // TODO: Change?
+    val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
+    this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
+    val config = PeerConnection.RTCConfiguration(iceServers)
+    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
+    config.iceTransportsType =  PeerConnection.IceTransportsType.ALL
+    this.config = config
 
     var needsRestart = true
     if (peerConnection == null) {

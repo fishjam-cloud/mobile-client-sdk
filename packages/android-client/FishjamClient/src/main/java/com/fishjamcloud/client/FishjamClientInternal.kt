@@ -2,7 +2,7 @@ package com.fishjamcloud.client
 
 import android.content.Intent
 import android.util.Log
-import com.fishjamcloud.client.events.SdpAnswer2
+import com.fishjamcloud.client.events.SdpAnswer
 import com.fishjamcloud.client.events.gson
 import com.fishjamcloud.client.events.serializeToMap
 import com.fishjamcloud.client.media.LocalAudioTrack
@@ -315,7 +315,7 @@ internal class FishjamClientInternal(
 
   override fun onSdpAnswer(sdpAnswer: String, midToTrackId: List<Shared.MidToTrackId>) {
     coroutineScope.launch {
-      val sdp = gson.fromJson(sdpAnswer, SdpAnswer2::class.java).sdp
+      val sdp = gson.fromJson(sdpAnswer, SdpAnswer::class.java).sdp
 
       peerConnectionManager.onSdpAnswer(sdp, midToTrackId)
 

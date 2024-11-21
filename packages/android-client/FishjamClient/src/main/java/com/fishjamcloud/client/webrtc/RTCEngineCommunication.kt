@@ -1,22 +1,10 @@
 package com.fishjamcloud.client.webrtc
 
 import android.util.Log
-import com.fishjamcloud.client.events.Connect
-import com.fishjamcloud.client.events.Disconnect
-import com.fishjamcloud.client.events.LocalCandidate
-import com.fishjamcloud.client.events.ReceivableEvent
-import com.fishjamcloud.client.events.RenegotiateTracks
-import com.fishjamcloud.client.events.SdpOffer
-import com.fishjamcloud.client.events.SelectEncoding
-import com.fishjamcloud.client.events.SendableEvent
-import com.fishjamcloud.client.events.UpdateEndpointMetadata
-import com.fishjamcloud.client.events.UpdateTrackMetadata
 import com.fishjamcloud.client.events.gson
 import com.fishjamcloud.client.events.serializeToMap
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.models.SerializedMediaEvent
 import com.fishjamcloud.client.models.TrackEncoding
-import com.google.gson.reflect.TypeToken
 import fishjam.media_events.Shared
 import timber.log.Timber
 
