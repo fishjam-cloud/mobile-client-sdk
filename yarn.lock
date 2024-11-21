@@ -3080,7 +3080,7 @@ __metadata:
     react-native-gesture-handler: "npm:~2.20.2"
     react-native-reanimated: "npm:^3.16.1"
     react-native-safe-area-context: "npm:4.14.0"
-    react-native-screens: "npm:~4.1.0"
+    react-native-screens: "npm:~4.2.0"
     react-native-toast-message: "npm:^2.2.1"
     react-native-url-polyfill: "npm:^2.0.0"
     typescript: "npm:^5.6.3"
@@ -15288,16 +15288,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-screens@npm:~4.1.0":
-  version: 4.1.0
-  resolution: "react-native-screens@npm:4.1.0"
+"react-native-screens@npm:~4.2.0":
+  version: 4.2.0
+  resolution: "react-native-screens@npm:4.2.0"
   dependencies:
     react-freeze: "npm:^1.0.0"
     warn-once: "npm:^0.1.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/e88ac6534efc46c7ca11cb38f42df7e7a46bac97901670e85e13cba29a181f0a7529c9ac77040ce1355a8cebed160469aa6b42f6cbe58a8f0753be7d38d17f5f
+  checksum: 10c0/41864e59f435fd59450096d84ea92a5a010f117fdd234a0c8fb5330e07c56383beb0b4b3e3d98bdd4513922a2824a4c488775811e13fe86d5819cf056f7f9803
   languageName: node
   linkType: hard
 
