@@ -17,6 +17,7 @@ import {
   AppRootStackParamList,
 } from '../navigators/AppNavigator';
 import { connectScreenLabels } from '../types/ComponentLabels';
+import { FishjamLogo } from '../assets';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithToken'>,
@@ -57,7 +58,7 @@ const ConnectScreen = ({ navigation }: Props) => {
           )}
           <Image
             style={styles.logo}
-            source={require('../assets/fishjam-logo.png')}
+            source={FishjamLogo}
             resizeMode="contain"
           />
           <TextInput
