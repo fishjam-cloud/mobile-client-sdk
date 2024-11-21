@@ -225,7 +225,10 @@ internal class FishjamClientInternal(
   override fun onConnected(endpointID: String, otherEndpoints: List<Server.MediaEvent.Endpoint>) {
     localEndpoint = localEndpoint.copy(id = endpointID)
 
-    otherEndpoints.forEach {
+    otherEndpoints.forEach lit@ {
+      if (it.endpointId == endpointID) {
+        return@lit
+      }
 
       var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
 
@@ -585,6 +588,10 @@ internal class FishjamClientInternal(
   }
 
   override fun onEndpointUpdated(endpointId: String, endpointMetadata: Metadata?) {
+    if (endpointId == this.localEndpoint.id) {
+      return
+    }
+
     val endpoint =
       remoteEndpoints.remove(endpointId) ?: run {
         Timber.e("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
@@ -767,6 +774,8 @@ internal class FishjamClientInternal(
     rtcEngineTrackId: String,
     webrtcTrack: MediaStreamTrack
   ) {
+
+
     var track =
       getTrackWithRtcEngineId(rtcEngineTrackId) ?: run {
         Timber.e("onAddTrack: Track context with trackId=$rtcEngineTrackId not found")
@@ -774,6 +783,10 @@ internal class FishjamClientInternal(
       }
 
     val trackId = track.id()
+
+    if (track.endpointId == this.localEndpoint.id) {
+      return
+    }
 
     track =
       when (webrtcTrack) {

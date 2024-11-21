@@ -4,10 +4,14 @@ import { ReceivableEvents } from '../RNFishjamClientModule';
 
 export function useFishjamEventState<EventType, StateType = EventType>(
   eventName: keyof typeof ReceivableEvents,
-  defaultValue: StateType,
+  defaultValue: EventType,
   transform?: (eventValue: EventType) => StateType,
 ) {
-  const [value, setValue] = useState<StateType>(defaultValue);
+  const [value, setValue] = useState<StateType>(
+    transform
+      ? transform(defaultValue)
+      : (defaultValue as unknown as StateType),
+  );
 
   const onEvent = useCallback(
     (newValue: EventType) => {
