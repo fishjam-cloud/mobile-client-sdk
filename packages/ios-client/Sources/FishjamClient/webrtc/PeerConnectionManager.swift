@@ -199,6 +199,26 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         peerConnection.enforceSendOnlyDirection()
     }
+    
+    /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
+    private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
+        let isExWebrtc = turnServers.isEmpty
+
+        let servers: [RTCIceServer] = turnServers.map { server in
+            let url = "turn:\(server.serverAddr):\(server.serverPort)?transport=\(server.transport)"
+
+            return RTCIceServer(
+                urlStrings: [url],
+                username: server.username,
+                credential: server.password
+            )
+        }
+
+        iceServers = servers
+        config = RTCConfiguration()
+        config?.iceServers = servers
+        config?.iceTransportPolicy = isExWebrtc ? .all : .relay
+    }
 
     public func close() {
         if let pc = connection {
@@ -377,6 +397,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         localTracks: [Track],
         onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?) -> Void
     ) {
+        
+        setTurnServers([]) // TODO: Fix
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
         }

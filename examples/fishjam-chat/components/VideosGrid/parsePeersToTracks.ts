@@ -1,16 +1,11 @@
 import { PeerWithTracks } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
 import { GridTrack } from './GridTrackItem';
 import { PeerMetadata } from '../../types/metadata';
-import { Platform } from 'react-native';
 
 const createGridTracksFromPeer = (
   peer: PeerWithTracks<PeerMetadata>,
 ): GridTrack[] => {
   const tracks: GridTrack[] = [];
-
-  // if (Platform.OS == 'android') {
-  //   console.log({ peer });
-  // }
 
   if (peer.cameraTrack && peer.cameraTrack.isActive) {
     tracks.push({

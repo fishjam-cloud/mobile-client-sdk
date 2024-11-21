@@ -5,7 +5,6 @@ import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
 import { useFishjamEventState } from './useFishjamEventState';
-import { Platform } from 'react-native';
 
 export type PeerId = Brand<string, 'PeerId'>;
 export type TrackId = Brand<string, 'TrackId'>;
@@ -95,14 +94,21 @@ function addIsActiveToTracks<
 >(
   peers: ReadonlyArray<Peer<PeerMetadata, ServerMetadata>>,
 ): Peer<PeerMetadata, ServerMetadata>[] {
-  return peers.map((peer) => ({
-    ...peer,
-    tracks: peer.tracks.map((track) => ({
-      ...track,
-      isActive:
-        (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
-    })),
-  }));
+  console.log({ peers });
+  return peers.map((peer) => {
+    console.log({ peer });
+    return {
+      ...peer,
+      tracks: peer.tracks.map((track) => {
+        console.log({ track });
+        return {
+          ...track,
+          isActive:
+            (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
+        };
+      }),
+    };
+  });
 }
 
 function getPeerWithDistinguishedTracks<
@@ -117,10 +123,6 @@ function getPeerWithDistinguishedTracks<
 
   for (const track of peerTracks) {
     const trackType = track.metadata?.type;
-
-    if (Platform.OS === 'android') {
-      console.log({ trackMeta: track.metadata, track });
-    }
 
     switch (trackType) {
       case 'camera':

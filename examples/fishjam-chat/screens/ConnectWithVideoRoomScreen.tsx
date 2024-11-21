@@ -79,7 +79,7 @@ export default function ConnectScreen({ navigation }: Props) {
     try {
       setConnectionError(null);
       setLoading(true);
-      const roomManagerUrl = 'http://192.168.83.126:8080/api/rooms';
+      const roomManagerUrl = 'http://192.168.82.240:8080/api/rooms';
 
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
@@ -88,8 +88,6 @@ export default function ConnectScreen({ navigation }: Props) {
         roomName,
         userName,
       );
-
-      console.log({ fishjamUrl, token });
 
       navigation.navigate('Preview', {
         userName,

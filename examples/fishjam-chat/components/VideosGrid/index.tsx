@@ -26,9 +26,7 @@ export default function VideosGrid({
 }) {
   const videoTracks = parsePeersToTracks(localPeer, remotePeers);
 
-  if (Platform.OS == 'android') {
-    console.log({ videoTracks, remotePeersCount: remotePeers.length });
-  }
+  console.log(Platform.OS, { videoTracks });
 
   const keyExtractor = useCallback((item: GridTrack) => item.id, []);
   const renderItem = useCallback(
