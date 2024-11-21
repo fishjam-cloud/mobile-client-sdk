@@ -516,7 +516,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Audio",
                             "metadata": track.metadata.toDict(),
-                            "vadStatus": track.vadStatus.rawValue, // TODO:FIX
+                            "vadStatus": track.vadStatus.rawValue,  // TODO:FIX
                         ]
 
                     case let track as LocalCameraTrack:

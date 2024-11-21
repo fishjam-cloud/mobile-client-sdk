@@ -1,7 +1,6 @@
 package com.fishjamcloud.client.media
 
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.models.VadStatus
 import fishjam.media_events.server.Server
 import org.webrtc.AudioTrack
 import java.util.UUID

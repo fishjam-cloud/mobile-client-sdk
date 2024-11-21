@@ -15,8 +15,8 @@ public struct AnyJson: Codable {
     }
 
     // MARK: Decoding
-    
-    public init (from string: String) throws {
+
+    public init(from string: String) throws {
         let data = Data(string.utf8)
         let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
         self.store = json
@@ -241,7 +241,7 @@ extension String {
     func toAnyJson() throws -> AnyJson {
         return try AnyJson(from: self)
     }
-    
+
     func toAnyJson() -> AnyJson? {
         return try? AnyJson(from: self)
     }

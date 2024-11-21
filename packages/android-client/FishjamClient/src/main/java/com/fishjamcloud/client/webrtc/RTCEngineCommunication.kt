@@ -20,35 +20,37 @@ internal class RTCEngineCommunication {
   }
 
   fun connect(endpointMetadata: Metadata) {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setConnect(
-        fishjam.media_events.peer.Peer.MediaEvent.Connect.newBuilder()
-          .setMetadata(
-            Shared.Metadata.newBuilder()
-              .setJson(gson.toJson(endpointMetadata).toString())
-              .build()
-          )
-          .build()
-      )
-      .build()
-
-
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setConnect(
+          fishjam.media_events.peer.Peer.MediaEvent.Connect
+            .newBuilder()
+            .setMetadata(
+              Shared.Metadata
+                .newBuilder()
+                .setJson(gson.toJson(endpointMetadata).toString())
+                .build()
+            ).build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
 
   fun updatePeerMetadata(endpointMetadata: Metadata) {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setUpdateEndpointMetadata(
-        fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata.newBuilder()
-          .setMetadata(
-            Shared.Metadata.newBuilder()
-              .setJson(gson.toJson(endpointMetadata))
-              .build()
-          )
-          .build()
-      )
-      .build()
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setUpdateEndpointMetadata(
+          fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata
+            .newBuilder()
+            .setMetadata(
+              Shared.Metadata
+                .newBuilder()
+                .setJson(gson.toJson(endpointMetadata))
+                .build()
+            ).build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
@@ -57,18 +59,20 @@ internal class RTCEngineCommunication {
     trackId: String,
     trackMetadata: Metadata
   ) {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setUpdateTrackMetadata(
-        fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata.newBuilder()
-          .setTrackId(trackId)
-          .setMetadata(
-            Shared.Metadata.newBuilder()
-              .setJson(gson.toJson(trackMetadata))
-              .build()
-          )
-          .build()
-      )
-      .build()
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setUpdateTrackMetadata(
+          fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata
+            .newBuilder()
+            .setTrackId(trackId)
+            .setMetadata(
+              Shared.Metadata
+                .newBuilder()
+                .setJson(gson.toJson(trackMetadata))
+                .build()
+            ).build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
@@ -90,12 +94,14 @@ internal class RTCEngineCommunication {
   }
 
   fun renegotiateTracks() {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setRenegotiateTracks(
-        fishjam.media_events.peer.Peer.MediaEvent.RenegotiateTracks.newBuilder()
-          .build()
-      )
-      .build()
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setRenegotiateTracks(
+          fishjam.media_events.peer.Peer.MediaEvent.RenegotiateTracks
+            .newBuilder()
+            .build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
@@ -106,18 +112,19 @@ internal class RTCEngineCommunication {
     sdpMid: Int?,
     usernameFragment: String?
   ) {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setCandidate(
-        Shared.Candidate.newBuilder()
-          .setCandidate(sdp)
-          .setSdpMLineIndex(sdpMLineIndex)
-          .apply {
-            sdpMid?.let { setSdpMid(it.toString()) }
-            usernameFragment?.let { setUsernameFragment(it) }
-          }
-          .build()
-      )
-      .build()
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setCandidate(
+          Shared.Candidate
+            .newBuilder()
+            .setCandidate(sdp)
+            .setSdpMLineIndex(sdpMLineIndex)
+            .apply {
+              sdpMid?.let { setSdpMid(it.toString()) }
+              usernameFragment?.let { setUsernameFragment(it) }
+            }.build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
@@ -128,60 +135,64 @@ internal class RTCEngineCommunication {
     midToTrackId: Map<String, String>,
     trackIdToBitrates: Map<String, Int>
   ) {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setSdpOffer(
-        fishjam.media_events.peer.Peer.MediaEvent.SdpOffer.newBuilder()
-          .setSdpOffer(gson.toJson(mapOf( "sdp" to sdp, "type" to "offer")))
-          .addAllTrackIdToMetadata(
-            trackIdToTrackMetadata.map { (trackId, metadata) ->
-              fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.newBuilder()
-                .setTrackId(trackId)
-                .apply {
-                  metadata?.let {
-                    setMetadata(
-                      Shared.Metadata.newBuilder()
-                        .setJson(gson.toJson(it))
-                        .build()
-                    )
-                  }
-                }
-                .build()
-            }
-          )
-          .addAllMidToTrackId(
-            midToTrackId.map { (mid, trackId) ->
-              Shared.MidToTrackId.newBuilder()
-                .setMid(mid)
-                .setTrackId(trackId)
-                .build()
-            }
-          )
-          .addAllTrackIdToBitrates(
-            trackIdToBitrates.map { (trackId, bitrate) ->
-              fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.newBuilder()
-                .setTrackBitrate(
-                  fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.newBuilder()
-                    .setTrackId(trackId)
-                    .setBitrate(bitrate)
-                    .build()
-                )
-                .build()
-            }
-          )
-          .build()
-      )
-      .build()
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setSdpOffer(
+          fishjam.media_events.peer.Peer.MediaEvent.SdpOffer
+            .newBuilder()
+            .setSdpOffer(gson.toJson(mapOf("sdp" to sdp, "type" to "offer")))
+            .addAllTrackIdToMetadata(
+              trackIdToTrackMetadata.map { (trackId, metadata) ->
+                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata
+                  .newBuilder()
+                  .setTrackId(trackId)
+                  .apply {
+                    metadata?.let {
+                      setMetadata(
+                        Shared.Metadata
+                          .newBuilder()
+                          .setJson(gson.toJson(it))
+                          .build()
+                      )
+                    }
+                  }.build()
+              }
+            ).addAllMidToTrackId(
+              midToTrackId.map { (mid, trackId) ->
+                Shared.MidToTrackId
+                  .newBuilder()
+                  .setMid(mid)
+                  .setTrackId(trackId)
+                  .build()
+              }
+            ).addAllTrackIdToBitrates(
+              trackIdToBitrates.map { (trackId, bitrate) ->
+                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates
+                  .newBuilder()
+                  .setTrackBitrate(
+                    fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate
+                      .newBuilder()
+                      .setTrackId(trackId)
+                      .setBitrate(bitrate)
+                      .build()
+                  ).build()
+              }
+            ).build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
 
   fun disconnect() {
-    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-      .setDisconnect(
-        fishjam.media_events.peer.Peer.MediaEvent.Disconnect.newBuilder()
-          .build()
-      )
-      .build()
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setDisconnect(
+          fishjam.media_events.peer.Peer.MediaEvent.Disconnect
+            .newBuilder()
+            .build()
+        ).build()
 
     sendEvent(mediaEvent)
   }
@@ -192,7 +203,6 @@ internal class RTCEngineCommunication {
 
   fun onEvent(event: fishjam.media_events.server.Server.MediaEvent) {
     Log.i("IncomingEvent", event.toString())
-
 
     when {
       event.hasConnected() ->
@@ -219,7 +229,8 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointAdded(
             event.endpointAdded.endpointId,
-            event.endpointAdded.metadata.json.serializeToMap()
+            event.endpointAdded.metadata.json
+              .serializeToMap()
           )
         }
 
@@ -227,7 +238,8 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointUpdated(
             event.endpointUpdated.endpointId,
-            event.endpointUpdated.metadata.json.serializeToMap()
+            event.endpointUpdated.metadata.json
+              .serializeToMap()
           )
         }
 
@@ -253,7 +265,8 @@ internal class RTCEngineCommunication {
           listener.onTrackUpdated(
             event.trackUpdated.endpointId,
             event.trackUpdated.trackId,
-            event.trackUpdated.metadata.json.serializeToMap()
+            event.trackUpdated.metadata.json
+              .serializeToMap()
           )
         }
 

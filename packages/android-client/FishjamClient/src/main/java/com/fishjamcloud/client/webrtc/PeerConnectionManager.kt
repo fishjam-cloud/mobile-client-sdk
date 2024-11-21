@@ -345,7 +345,6 @@ internal class PeerConnectionManager(
     tracksTypes: Server.MediaEvent.OfferData.TrackTypes,
     localTracks: List<Track>
   ): SdpOffer {
-
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
     }
@@ -358,7 +357,7 @@ internal class PeerConnectionManager(
     this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
     val config = PeerConnection.RTCConfiguration(iceServers)
     config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
-    config.iceTransportsType =  PeerConnection.IceTransportsType.ALL
+    config.iceTransportsType = PeerConnection.IceTransportsType.ALL
     this.config = config
 
     var needsRestart = true
@@ -518,8 +517,6 @@ internal class PeerConnectionManager(
           } ?: return@launch
 
         val mid = transceiver.mid
-
-
 
         trackId = midToTrackId.find { it.mid == mid }?.trackId ?: run {
           Timber.e("onAddTrack: Track with mid=$mid not found")

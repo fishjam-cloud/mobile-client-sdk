@@ -1,8 +1,8 @@
 package com.fishjamcloud.client.webrtc
 
+import com.fishjamcloud.client.models.Metadata
 import fishjam.media_events.Shared
 import fishjam.media_events.server.Server
-import com.fishjamcloud.client.models.Metadata
 
 internal interface RTCEngineListener {
   fun onConnected(
@@ -24,9 +24,7 @@ internal interface RTCEngineListener {
     endpointMetadata: Metadata? = mapOf()
   )
 
-  fun onOfferData(
-    tracksTypes: Server.MediaEvent.OfferData.TrackTypes
-  )
+  fun onOfferData(tracksTypes: Server.MediaEvent.OfferData.TrackTypes)
 
   fun onSdpAnswer(
     sdpAnswer: String,

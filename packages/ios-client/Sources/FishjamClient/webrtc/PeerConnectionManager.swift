@@ -284,7 +284,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         return mapping
     }
-    
+
     private func getTrackIdToBitrates(localTracks: [Track]) -> [String: Int32] {
         guard let pc = connection else {
             return [:]
@@ -295,7 +295,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             guard let trackId: String = transceiver.sender.track?.trackId else {
                 return
             }
-            mapping[trackId] = 500 // TODO: How this should be handled?
+            mapping[trackId] = 500  // TODO: How this should be handled?
         }
 
         return mapping
@@ -375,14 +375,15 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func getSdpOffer(
         tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
-        onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?) -> Void
+        onCompletion: @escaping (
+            _ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?
+        ) -> Void
     ) {
-        
-        
+
         config = RTCConfiguration()
         config?.iceServers = []
         config?.iceTransportPolicy = .all
-        
+
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
         }
@@ -456,7 +457,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         }
 
         self.midToTrackId = midToTrackId
-        
+
         let description = RTCSessionDescription(type: .answer, sdp: sdp)
 
         pc.setRemoteDescription(
@@ -510,9 +511,10 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func peerConnection(
         _: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver
     ) {
-        guard let trackId = midToTrackId.first(where: { midToTrack in
-            return midToTrack.mid == transceiver.mid
-        })?.trackID
+        guard
+            let trackId = midToTrackId.first(where: { midToTrack in
+                return midToTrack.mid == transceiver.mid
+            })?.trackID
         else {
             sdkLogger.error(
                 "\(pcLogPrefix) started receiving on a transceiver with an unknown 'mid' parameter"
