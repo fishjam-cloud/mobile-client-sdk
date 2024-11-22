@@ -8,7 +8,7 @@ internal val gson = GsonBuilder().create()
 
 internal fun String.serializeToMap(): Map<String, Any?> =
   try {
-    gson.fromJson(this, Map::class.java) as? Map<String, Any?> ?: emptyMap()
+    gson.fromJson(this, Map::class.java) as Map<String, Any?>
   } catch (e: JsonParseException) {
     Timber.e(e, "Failed to parse JSON string to map")
     emptyMap()

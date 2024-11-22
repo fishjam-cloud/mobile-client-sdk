@@ -81,16 +81,7 @@ internal class RTCEngineCommunication {
     trackId: String,
     encoding: TrackEncoding
   ) {
-//    val mediaEvent = fishjam.media_events.peer.Peer.MediaEvent.newBuilder()
-//      .sett(
-//        fishjam.media_events.peer.Peer.MediaEvent.SelectEncoding.newBuilder()
-//          .setTrackId(trackId)
-//          .setRid(encoding.rid)
-//          .build()
-//      )
-//      .build()
-//
-//    sendEvent(mediaEvent)
+    //TODO: This will be useful after simulcast is enabled
   }
 
   fun renegotiateTracks() {

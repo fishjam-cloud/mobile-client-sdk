@@ -45,7 +45,7 @@ internal class RTCEngineCommunication {
     }
 
     func setTargetTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        //        sendEvent(event: SelectEncodingEvent(trackId: trackId, encoding: encoding.description))
+        //TODO: This will be useful after simulcast is enabled
     }
 
     func renegotiateTracks() {

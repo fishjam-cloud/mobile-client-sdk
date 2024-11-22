@@ -506,6 +506,9 @@ extension FishjamClientInternal: PeerConnectionListener {
             sdkLogger.error("Invalid rtcEngineId in onAddTrack: \(trackId)")
             return
         }
+        
+        guard track.endpointId != localEndpoint.id else { return }
+        
         let trackId = track.id
         let endpointId = track.endpointId
         let rtcEngineId = track.rtcEngineId
@@ -549,10 +552,6 @@ extension FishjamClientInternal: RTCEngineListener {
             sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
-
-        print("********* EVENT START *********")
-        print(Mirror(reflecting: event).children.first)
-        print("*********  EVENT END  *********")
 
         let mediaEvent =
             Fishjam_PeerMessage.with({
@@ -628,9 +627,8 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onEndpointAdded(endpointId: String, metadata: Metadata?) {
-        if endpointId == localEndpoint.id {
-            return
-        }
+        guard endpointId != localEndpoint.id else { return }
+        
         let endpoint = Endpoint(id: endpointId, metadata: metadata ?? Metadata())
 
         remoteEndpointsMap[endpoint.id] = endpoint
@@ -639,10 +637,11 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onEndpointRemoved(endpointId: String) {
-        if endpointId == localEndpoint.id {
+        guard endpointId != localEndpoint.id else {
             listener.onDisconnected()
             return
         }
+        
         guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
             sdkLogger.error("Failed to process EndpointLeft event: Endpoint not found: \(endpointId)")
             return
@@ -656,13 +655,18 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
+        guard endpointId != localEndpoint.id else {
+            localEndpoint = localEndpoint.copyWith(metadata: metadata)
+            listener.onPeerUpdated(endpoint: localEndpoint)
+            return
+        }
+        
         guard let endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
             return
         }
 
         remoteEndpointsMap[endpoint.id] = endpoint.copyWith(metadata: metadata)
-
         listener.onPeerUpdated(endpoint: endpoint)
     }
 
@@ -737,7 +741,7 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onTracksAdded(endpointId: String, tracks: [Fishjam_MediaEvents_Server_MediaEvent.Track]) {
-        if localEndpoint.id == endpointId { return }
+        guard localEndpoint.id != endpointId else { return }
 
         guard let endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process TracksAdded event: Endpoint not found: \(endpointId)")
@@ -768,7 +772,7 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onTracksRemoved(endpointId: String, trackIds: [String]) {
-        if localEndpoint.id == endpointId { return }
+        guard localEndpoint.id != endpointId else { return }
 
         guard var endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process onTracksRemoved event: Endpoint not found: \(endpointId)")

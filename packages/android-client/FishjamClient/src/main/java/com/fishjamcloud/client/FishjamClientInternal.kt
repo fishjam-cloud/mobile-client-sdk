@@ -227,9 +227,9 @@ internal class FishjamClientInternal(
   ) {
     localEndpoint = localEndpoint.copy(id = endpointID)
 
-    otherEndpoints.forEach lit@{
+    otherEndpoints.forEach {
       if (it.endpointId == endpointID) {
-        this.localEndpoint = this.localEndpoint.copy(metadata = it.metadata.json.serializeToMap())
+        this.localEndpoint = this.localEndpoint.copy( metadata = it.metadata.json.serializeToMap())
       } else {
         var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
 
@@ -541,8 +541,6 @@ internal class FishjamClientInternal(
   fun createVideoViewRenderer(): VideoTextureViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
 
   private fun sendEvent(peerMessage: PeerNotifications.PeerMessage) {
-    Log.i("RTCMessage", peerMessage.toString())
-
     webSocket?.send(peerMessage.toByteArray().toByteString())
   }
 
@@ -551,8 +549,6 @@ internal class FishjamClientInternal(
   }
 
   override fun onSendMediaEvent(event: fishjam.media_events.peer.Peer.MediaEvent) {
-    Log.i("MediaEvent", event.toString())
-
     val mediaEvent =
       PeerNotifications.PeerMessage
         .newBuilder()
@@ -565,9 +561,7 @@ internal class FishjamClientInternal(
     endpointId: String,
     metadata: Metadata?
   ) {
-    if (endpointId == this.localEndpoint.id) {
-      return
-    }
+    if (endpointId == this.localEndpoint.id) { return }
 
     val endpoint = Endpoint(endpointId, metadata)
 
@@ -599,6 +593,8 @@ internal class FishjamClientInternal(
     endpointMetadata: Metadata?
   ) {
     if (endpointId == this.localEndpoint.id) {
+      localEndpoint = this.localEndpoint.copy(metadata = endpointMetadata)
+      listener.onPeerUpdated(localEndpoint)
       return
     }
 
@@ -678,7 +674,7 @@ internal class FishjamClientInternal(
     endpointId: String,
     tracks: List<Server.MediaEvent.Track>
   ) {
-    if (localEndpoint.id == endpointId) return
+    if (localEndpoint.id == endpointId) { return }
 
     val endpoint =
       remoteEndpoints.remove(endpointId) ?: run {
@@ -792,11 +788,11 @@ internal class FishjamClientInternal(
         return
       }
 
-    val trackId = track.id()
-
     if (track.endpointId == this.localEndpoint.id) {
       return
     }
+
+    val trackId = track.id()
 
     track =
       when (webrtcTrack) {
