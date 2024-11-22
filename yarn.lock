@@ -3065,8 +3065,8 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.26.0"
     "@fishjam-cloud/react-native-client": "npm:*"
-    "@gorhom/bottom-sheet": "npm:^5.0.5"
-    "@react-native-async-storage/async-storage": "npm:2.0.0"
+    "@gorhom/bottom-sheet": "npm:^5.0.6"
+    "@react-native-async-storage/async-storage": "npm:2.1.0"
     "@react-navigation/bottom-tabs": "npm:^6.6.1"
     "@react-navigation/native": "npm:^6.1.18"
     "@react-navigation/native-stack": "npm:^6.11.0"
@@ -3078,9 +3078,9 @@ __metadata:
     react: "npm:18.3.1"
     react-native: "npm:0.76.2"
     react-native-gesture-handler: "npm:~2.20.2"
-    react-native-reanimated: "npm:^3.16.1"
+    react-native-reanimated: "npm:^3.16.2"
     react-native-safe-area-context: "npm:4.14.0"
-    react-native-screens: "npm:~4.1.0"
+    react-native-screens: "npm:~4.2.0"
     react-native-toast-message: "npm:^2.2.1"
     react-native-url-polyfill: "npm:^2.0.0"
     typescript: "npm:^5.6.3"
@@ -3105,9 +3105,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@gorhom/bottom-sheet@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "@gorhom/bottom-sheet@npm:5.0.5"
+"@gorhom/bottom-sheet@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "@gorhom/bottom-sheet@npm:5.0.6"
   dependencies:
     "@gorhom/portal": "npm:1.0.14"
     invariant: "npm:^2.2.4"
@@ -3117,13 +3117,13 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-gesture-handler: ">=2.16.1"
-    react-native-reanimated: ">=3.10.1"
+    react-native-reanimated: ">=3.16.0"
   peerDependenciesMeta:
     "@types/react":
       optional: true
     "@types/react-native":
       optional: true
-  checksum: 10c0/34a391349ad80ee3b034873608acfd33417a486aa28e42682c62ff0460717410134584cbebc6c28e6efc015b8202728a486dd12b0f04169a8d7d19b01c75332c
+  checksum: 10c0/99eb540c13d13d3da844cdf598fa6b7db962088b3570d25ef3a77788a1388adf6e9b3f2f90f3bca8503041348e33a052ad0e8bb602796735368c6ca2810959a4
   languageName: node
   linkType: hard
 
@@ -3900,14 +3900,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-async-storage/async-storage@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@react-native-async-storage/async-storage@npm:2.0.0"
+"@react-native-async-storage/async-storage@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@react-native-async-storage/async-storage@npm:2.1.0"
   dependencies:
     merge-options: "npm:^3.0.4"
   peerDependencies:
     react-native: ^0.0.0-0 || >=0.65 <1.0
-  checksum: 10c0/e09c93aecd2e0509c8d58fa2435d2aaadc7025910102a8d7ed21b4b6ee74ec680f0b2d9eb1e5f0f5b524b48f4dc868cd12a71452686f88664c3deb35ea83f370
+  checksum: 10c0/76a81a55059e93e256f6e9cf3f33a49d24ba83ce2f88e52343107953a66168c533bb387111a88708247c926297ee93c681c4936bcb66993dba78ea7fb28c9fdf
   languageName: node
   linkType: hard
 
@@ -15255,9 +15255,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:^3.16.1":
-  version: 3.16.1
-  resolution: "react-native-reanimated@npm:3.16.1"
+"react-native-reanimated@npm:^3.16.2":
+  version: 3.16.2
+  resolution: "react-native-reanimated@npm:3.16.2"
   dependencies:
     "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
     "@babel/plugin-transform-class-properties": "npm:^7.0.0-0"
@@ -15274,7 +15274,7 @@ __metadata:
     "@babel/core": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 10c0/18202fce7e96d7cd0dbab2f8938ddf89efa6687e5f17c43ba6548de5563efb270b7b8d7507598be706d5d53224bb12fcfcd70150d15ca5d9fd46cb2c54751d59
+  checksum: 10c0/640790d87683812e964a342016bdfda956d698bfdd289ef6cc0b214b0f62ac34da788f8795a29fe51bcc49b0002bd32fa2074ab79b63640cafb48d99473d36ca
   languageName: node
   linkType: hard
 
@@ -15288,16 +15288,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-screens@npm:~4.1.0":
-  version: 4.1.0
-  resolution: "react-native-screens@npm:4.1.0"
+"react-native-screens@npm:~4.2.0":
+  version: 4.2.0
+  resolution: "react-native-screens@npm:4.2.0"
   dependencies:
     react-freeze: "npm:^1.0.0"
     warn-once: "npm:^0.1.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/e88ac6534efc46c7ca11cb38f42df7e7a46bac97901670e85e13cba29a181f0a7529c9ac77040ce1355a8cebed160469aa6b42f6cbe58a8f0753be7d38d17f5f
+  checksum: 10c0/41864e59f435fd59450096d84ea92a5a010f117fdd234a0c8fb5330e07c56383beb0b4b3e3d98bdd4513922a2824a4c488775811e13fe86d5819cf056f7f9803
   languageName: node
   linkType: hard
 
