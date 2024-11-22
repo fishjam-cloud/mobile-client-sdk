@@ -21,7 +21,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "patch-package": "8.0.0",
+    "patch-package": "^8.0.0",
     "prettier": "^3.3.3",
     "typedoc": "^0.26.11",
     "typedoc-material-theme": "^1.1.0"
@@ -34,6 +34,10 @@
     "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",
-    "gen:proto": "make -f ./scripts/compile_protos.mk"
+    "gen:proto": "make -f ./scripts/compile_protos.mk",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "postinstall-postinstall": "^2.1.0"
   }
 }
