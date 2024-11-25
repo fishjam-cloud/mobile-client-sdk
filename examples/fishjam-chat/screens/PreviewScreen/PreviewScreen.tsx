@@ -1,9 +1,8 @@
 import {
   useCamera,
   useMicrophone,
-  joinRoom,
+  useConnection,
   VideoPreviewView,
-  leaveRoom,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -51,6 +50,7 @@ function PreviewScreen({
     currentCamera,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
+  const { joinRoom, leaveRoom } = useConnection();
 
   const toggleSwitchCamera = () => {
     const camera =
@@ -72,7 +72,7 @@ function PreviewScreen({
     unsubscribeBeforeRemove = navigation.addListener('beforeRemove', () => {
       leaveRoom();
     });
-  }, [prepareCamera, navigation]);
+  }, [prepareCamera, navigation, leaveRoom]);
 
   const onJoinPressed = async () => {
     await joinRoom<PeerMetadata>(
