@@ -124,6 +124,30 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
     set {content = .vadNotification(newValue)}
   }
 
+  public var trackVariantSwitched: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched {
+    get {
+      if case .trackVariantSwitched(let v)? = content {return v}
+      return Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched()
+    }
+    set {content = .trackVariantSwitched(newValue)}
+  }
+
+  public var trackVariantDisabled: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled {
+    get {
+      if case .trackVariantDisabled(let v)? = content {return v}
+      return Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled()
+    }
+    set {content = .trackVariantDisabled(newValue)}
+  }
+
+  public var trackVariantEnabled: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled {
+    get {
+      if case .trackVariantEnabled(let v)? = content {return v}
+      return Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled()
+    }
+    set {content = .trackVariantEnabled(newValue)}
+  }
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public enum OneOf_Content: Equatable {
@@ -139,6 +163,9 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
     case candidate(Fishjam_MediaEvents_Candidate)
     case sdpAnswer(Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer)
     case vadNotification(Fishjam_MediaEvents_Server_MediaEvent.VadNotification)
+    case trackVariantSwitched(Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched)
+    case trackVariantDisabled(Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled)
+    case trackVariantEnabled(Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled)
 
   #if !swift(>=4.1)
     public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.OneOf_Content, rhs: Fishjam_MediaEvents_Server_MediaEvent.OneOf_Content) -> Bool {
@@ -194,6 +221,18 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
         guard case .vadNotification(let l) = lhs, case .vadNotification(let r) = rhs else { preconditionFailure() }
         return l == r
       }()
+      case (.trackVariantSwitched, .trackVariantSwitched): return {
+        guard case .trackVariantSwitched(let l) = lhs, case .trackVariantSwitched(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.trackVariantDisabled, .trackVariantDisabled): return {
+        guard case .trackVariantDisabled(let l) = lhs, case .trackVariantDisabled(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.trackVariantEnabled, .trackVariantEnabled): return {
+        guard case .trackVariantEnabled(let l) = lhs, case .trackVariantEnabled(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
       default: return false
       }
     }
@@ -206,22 +245,38 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var trackID: String = String()
+    public var metadataJson: String = String()
 
-    public var metadata: Fishjam_MediaEvents_Metadata {
-      get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
-      set {_metadata = newValue}
+    public var simulcastConfig: Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig {
+      get {return _simulcastConfig ?? Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig()}
+      set {_simulcastConfig = newValue}
     }
-    /// Returns true if `metadata` has been explicitly set.
-    public var hasMetadata: Bool {return self._metadata != nil}
-    /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    public mutating func clearMetadata() {self._metadata = nil}
+    /// Returns true if `simulcastConfig` has been explicitly set.
+    public var hasSimulcastConfig: Bool {return self._simulcastConfig != nil}
+    /// Clears the value of `simulcastConfig`. Subsequent reads from it will return its default value.
+    public mutating func clearSimulcastConfig() {self._simulcastConfig = nil}
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
+    public struct SimulcastConfig {
+      // SwiftProtobuf.Message conformance is added in an extension below. See the
+      // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+      // methods supported on all messages.
+
+      public var enabled: Bool = false
+
+      public var enabledVariants: [Fishjam_MediaEvents_Variant] = []
+
+      public var disabledVariants: [Fishjam_MediaEvents_Variant] = []
+
+      public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+      public init() {}
+    }
+
     public init() {}
 
-    fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
+    fileprivate var _simulcastConfig: Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig? = nil
   }
 
   public struct Endpoint {
@@ -229,26 +284,31 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var endpointID: String = String()
-
     public var endpointType: String = String()
 
-    public var metadata: Fishjam_MediaEvents_Metadata {
-      get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
-      set {_metadata = newValue}
-    }
-    /// Returns true if `metadata` has been explicitly set.
-    public var hasMetadata: Bool {return self._metadata != nil}
-    /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    public mutating func clearMetadata() {self._metadata = nil}
+    public var metadataJson: String = String()
 
-    public var tracks: [Fishjam_MediaEvents_Server_MediaEvent.Track] = []
+    public var trackIDToTrack: Dictionary<String,Fishjam_MediaEvents_Server_MediaEvent.Track> = [:]
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
     public init() {}
+  }
 
-    fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
+  public struct IceServer {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    public var credential: String = String()
+
+    public var urls: [String] = []
+
+    public var username: String = String()
+
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    public init() {}
   }
 
   /// Sent when metadata of one of the endpoints was updated
@@ -259,20 +319,11 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
 
     public var endpointID: String = String()
 
-    public var metadata: Fishjam_MediaEvents_Metadata {
-      get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
-      set {_metadata = newValue}
-    }
-    /// Returns true if `metadata` has been explicitly set.
-    public var hasMetadata: Bool {return self._metadata != nil}
-    /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    public mutating func clearMetadata() {self._metadata = nil}
+    public var metadataJson: String = String()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
     public init() {}
-
-    fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
   /// Sent when metadata of one of the tracks was updated
@@ -285,20 +336,11 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
 
     public var trackID: String = String()
 
-    public var metadata: Fishjam_MediaEvents_Metadata {
-      get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
-      set {_metadata = newValue}
-    }
-    /// Returns true if `metadata` has been explicitly set.
-    public var hasMetadata: Bool {return self._metadata != nil}
-    /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    public mutating func clearMetadata() {self._metadata = nil}
+    public var metadataJson: String = String()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
     public init() {}
-
-    fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
   ///  Sent to informs that one of the peers has added one or more tracks.
@@ -309,7 +351,7 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
 
     public var endpointID: String = String()
 
-    public var tracks: [Fishjam_MediaEvents_Server_MediaEvent.Track] = []
+    public var trackIDToTrack: Dictionary<String,Fishjam_MediaEvents_Server_MediaEvent.Track> = [:]
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -339,20 +381,11 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
 
     public var endpointID: String = String()
 
-    public var metadata: Fishjam_MediaEvents_Metadata {
-      get {return _metadata ?? Fishjam_MediaEvents_Metadata()}
-      set {_metadata = newValue}
-    }
-    /// Returns true if `metadata` has been explicitly set.
-    public var hasMetadata: Bool {return self._metadata != nil}
-    /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
-    public mutating func clearMetadata() {self._metadata = nil}
+    public var metadataJson: String = String()
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
     public init() {}
-
-    fileprivate var _metadata: Fishjam_MediaEvents_Metadata? = nil
   }
 
   /// Sent to the peer after connecting to the WebRTC Endpoint.
@@ -363,7 +396,9 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
 
     public var endpointID: String = String()
 
-    public var endpoints: [Fishjam_MediaEvents_Server_MediaEvent.Endpoint] = []
+    public var endpointIDToEndpoint: Dictionary<String,Fishjam_MediaEvents_Server_MediaEvent.Endpoint> = [:]
+
+    public var iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer] = []
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -440,7 +475,7 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
 
     public var sdpAnswer: String = String()
 
-    public var midToTrackID: [Fishjam_MediaEvents_MidToTrackId] = []
+    public var midToTrackID: Dictionary<String,String> = [:]
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -495,6 +530,57 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
     public init() {}
   }
 
+  /// Informs that track's variant has been changed
+  public struct TrackVariantSwitched {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    public var endpointID: String = String()
+
+    public var trackID: String = String()
+
+    public var variant: Fishjam_MediaEvents_Variant = .unspecified
+
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    public init() {}
+  }
+
+  /// Sent when track's variant has been disabled
+  public struct TrackVariantDisabled {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    public var endpointID: String = String()
+
+    public var trackID: String = String()
+
+    public var variant: Fishjam_MediaEvents_Variant = .unspecified
+
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    public init() {}
+  }
+
+  /// Sent when track's variant has been enabled
+  public struct TrackVariantEnabled {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    public var endpointID: String = String()
+
+    public var trackID: String = String()
+
+    public var variant: Fishjam_MediaEvents_Variant = .unspecified
+
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    public init() {}
+  }
+
   public init() {}
 }
 
@@ -515,7 +601,9 @@ extension Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status: CaseIter
 extension Fishjam_MediaEvents_Server_MediaEvent: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.OneOf_Content: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.Track: @unchecked Sendable {}
+extension Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.Endpoint: @unchecked Sendable {}
+extension Fishjam_MediaEvents_Server_MediaEvent.IceServer: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.EndpointUpdated: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.TrackUpdated: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.TracksAdded: @unchecked Sendable {}
@@ -529,6 +617,9 @@ extension Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes: @unchecked
 extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.VadNotification: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status: @unchecked Sendable {}
+extension Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched: @unchecked Sendable {}
+extension Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled: @unchecked Sendable {}
+extension Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -550,6 +641,9 @@ extension Fishjam_MediaEvents_Server_MediaEvent: SwiftProtobuf.Message, SwiftPro
     10: .same(proto: "candidate"),
     11: .standard(proto: "sdp_answer"),
     12: .standard(proto: "vad_notification"),
+    13: .standard(proto: "track_variant_switched"),
+    14: .standard(proto: "track_variant_disabled"),
+    15: .standard(proto: "track_variant_enabled"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -714,6 +808,45 @@ extension Fishjam_MediaEvents_Server_MediaEvent: SwiftProtobuf.Message, SwiftPro
           self.content = .vadNotification(v)
         }
       }()
+      case 13: try {
+        var v: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched?
+        var hadOneofValue = false
+        if let current = self.content {
+          hadOneofValue = true
+          if case .trackVariantSwitched(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.content = .trackVariantSwitched(v)
+        }
+      }()
+      case 14: try {
+        var v: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled?
+        var hadOneofValue = false
+        if let current = self.content {
+          hadOneofValue = true
+          if case .trackVariantDisabled(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.content = .trackVariantDisabled(v)
+        }
+      }()
+      case 15: try {
+        var v: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled?
+        var hadOneofValue = false
+        if let current = self.content {
+          hadOneofValue = true
+          if case .trackVariantEnabled(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.content = .trackVariantEnabled(v)
+        }
+      }()
       default: break
       }
     }
@@ -773,6 +906,18 @@ extension Fishjam_MediaEvents_Server_MediaEvent: SwiftProtobuf.Message, SwiftPro
       guard case .vadNotification(let v)? = self.content else { preconditionFailure() }
       try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
     }()
+    case .trackVariantSwitched?: try {
+      guard case .trackVariantSwitched(let v)? = self.content else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 13)
+    }()
+    case .trackVariantDisabled?: try {
+      guard case .trackVariantDisabled(let v)? = self.content else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+    }()
+    case .trackVariantEnabled?: try {
+      guard case .trackVariantEnabled(let v)? = self.content else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+    }()
     case nil: break
     }
     try unknownFields.traverse(visitor: &visitor)
@@ -788,8 +933,8 @@ extension Fishjam_MediaEvents_Server_MediaEvent: SwiftProtobuf.Message, SwiftPro
 extension Fishjam_MediaEvents_Server_MediaEvent.Track: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".Track"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "track_id"),
-    2: .same(proto: "metadata"),
+    1: .standard(proto: "metadata_json"),
+    2: .standard(proto: "simulcast_config"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -798,8 +943,8 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Track: SwiftProtobuf.Message, Sw
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.trackID) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._metadata) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.metadataJson) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._simulcastConfig) }()
       default: break
       }
     }
@@ -810,18 +955,62 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Track: SwiftProtobuf.Message, Sw
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
     // https://github.com/apple/swift-protobuf/issues/1182
-    if !self.trackID.isEmpty {
-      try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 1)
+    if !self.metadataJson.isEmpty {
+      try visitor.visitSingularStringField(value: self.metadataJson, fieldNumber: 1)
     }
-    try { if let v = self._metadata {
+    try { if let v = self._simulcastConfig {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.Track, rhs: Fishjam_MediaEvents_Server_MediaEvent.Track) -> Bool {
-    if lhs.trackID != rhs.trackID {return false}
-    if lhs._metadata != rhs._metadata {return false}
+    if lhs.metadataJson != rhs.metadataJson {return false}
+    if lhs._simulcastConfig != rhs._simulcastConfig {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.Track.protoMessageName + ".SimulcastConfig"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "enabled"),
+    2: .standard(proto: "enabled_variants"),
+    3: .standard(proto: "disabled_variants"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.enabled) }()
+      case 2: try { try decoder.decodeRepeatedEnumField(value: &self.enabledVariants) }()
+      case 3: try { try decoder.decodeRepeatedEnumField(value: &self.disabledVariants) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.enabled != false {
+      try visitor.visitSingularBoolField(value: self.enabled, fieldNumber: 1)
+    }
+    if !self.enabledVariants.isEmpty {
+      try visitor.visitPackedEnumField(value: self.enabledVariants, fieldNumber: 2)
+    }
+    if !self.disabledVariants.isEmpty {
+      try visitor.visitPackedEnumField(value: self.disabledVariants, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig, rhs: Fishjam_MediaEvents_Server_MediaEvent.Track.SimulcastConfig) -> Bool {
+    if lhs.enabled != rhs.enabled {return false}
+    if lhs.enabledVariants != rhs.enabledVariants {return false}
+    if lhs.disabledVariants != rhs.disabledVariants {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -830,10 +1019,9 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Track: SwiftProtobuf.Message, Sw
 extension Fishjam_MediaEvents_Server_MediaEvent.Endpoint: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".Endpoint"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "endpoint_id"),
     2: .standard(proto: "endpoint_type"),
-    3: .same(proto: "metadata"),
-    4: .same(proto: "tracks"),
+    3: .standard(proto: "metadata_json"),
+    4: .standard(proto: "track_id_to_track"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -842,40 +1030,75 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Endpoint: SwiftProtobuf.Message,
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.endpointType) }()
-      case 3: try { try decoder.decodeSingularMessageField(value: &self._metadata) }()
-      case 4: try { try decoder.decodeRepeatedMessageField(value: &self.tracks) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.metadataJson) }()
+      case 4: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Server_MediaEvent.Track>.self, value: &self.trackIDToTrack) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
-    if !self.endpointID.isEmpty {
-      try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
-    }
     if !self.endpointType.isEmpty {
       try visitor.visitSingularStringField(value: self.endpointType, fieldNumber: 2)
     }
-    try { if let v = self._metadata {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    } }()
-    if !self.tracks.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.tracks, fieldNumber: 4)
+    if !self.metadataJson.isEmpty {
+      try visitor.visitSingularStringField(value: self.metadataJson, fieldNumber: 3)
+    }
+    if !self.trackIDToTrack.isEmpty {
+      try visitor.visitMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Server_MediaEvent.Track>.self, value: self.trackIDToTrack, fieldNumber: 4)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.Endpoint, rhs: Fishjam_MediaEvents_Server_MediaEvent.Endpoint) -> Bool {
-    if lhs.endpointID != rhs.endpointID {return false}
     if lhs.endpointType != rhs.endpointType {return false}
-    if lhs._metadata != rhs._metadata {return false}
-    if lhs.tracks != rhs.tracks {return false}
+    if lhs.metadataJson != rhs.metadataJson {return false}
+    if lhs.trackIDToTrack != rhs.trackIDToTrack {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Fishjam_MediaEvents_Server_MediaEvent.IceServer: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".IceServer"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "credential"),
+    2: .same(proto: "urls"),
+    3: .same(proto: "username"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.credential) }()
+      case 2: try { try decoder.decodeRepeatedStringField(value: &self.urls) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.username) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.credential.isEmpty {
+      try visitor.visitSingularStringField(value: self.credential, fieldNumber: 1)
+    }
+    if !self.urls.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.urls, fieldNumber: 2)
+    }
+    if !self.username.isEmpty {
+      try visitor.visitSingularStringField(value: self.username, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.IceServer, rhs: Fishjam_MediaEvents_Server_MediaEvent.IceServer) -> Bool {
+    if lhs.credential != rhs.credential {return false}
+    if lhs.urls != rhs.urls {return false}
+    if lhs.username != rhs.username {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -885,7 +1108,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.EndpointUpdated: SwiftProtobuf.M
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".EndpointUpdated"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "endpoint_id"),
-    2: .same(proto: "metadata"),
+    2: .standard(proto: "metadata_json"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -895,29 +1118,25 @@ extension Fishjam_MediaEvents_Server_MediaEvent.EndpointUpdated: SwiftProtobuf.M
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._metadata) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.metadataJson) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.endpointID.isEmpty {
       try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
     }
-    try { if let v = self._metadata {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    } }()
+    if !self.metadataJson.isEmpty {
+      try visitor.visitSingularStringField(value: self.metadataJson, fieldNumber: 2)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.EndpointUpdated, rhs: Fishjam_MediaEvents_Server_MediaEvent.EndpointUpdated) -> Bool {
     if lhs.endpointID != rhs.endpointID {return false}
-    if lhs._metadata != rhs._metadata {return false}
+    if lhs.metadataJson != rhs.metadataJson {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -928,7 +1147,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.TrackUpdated: SwiftProtobuf.Mess
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "endpoint_id"),
     2: .standard(proto: "track_id"),
-    3: .same(proto: "metadata"),
+    3: .standard(proto: "metadata_json"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -939,33 +1158,29 @@ extension Fishjam_MediaEvents_Server_MediaEvent.TrackUpdated: SwiftProtobuf.Mess
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.trackID) }()
-      case 3: try { try decoder.decodeSingularMessageField(value: &self._metadata) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.metadataJson) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.endpointID.isEmpty {
       try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
     }
     if !self.trackID.isEmpty {
       try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 2)
     }
-    try { if let v = self._metadata {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    } }()
+    if !self.metadataJson.isEmpty {
+      try visitor.visitSingularStringField(value: self.metadataJson, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.TrackUpdated, rhs: Fishjam_MediaEvents_Server_MediaEvent.TrackUpdated) -> Bool {
     if lhs.endpointID != rhs.endpointID {return false}
     if lhs.trackID != rhs.trackID {return false}
-    if lhs._metadata != rhs._metadata {return false}
+    if lhs.metadataJson != rhs.metadataJson {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -975,7 +1190,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.TracksAdded: SwiftProtobuf.Messa
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".TracksAdded"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "endpoint_id"),
-    2: .same(proto: "tracks"),
+    2: .standard(proto: "track_id_to_track"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -985,7 +1200,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.TracksAdded: SwiftProtobuf.Messa
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
-      case 2: try { try decoder.decodeRepeatedMessageField(value: &self.tracks) }()
+      case 2: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Server_MediaEvent.Track>.self, value: &self.trackIDToTrack) }()
       default: break
       }
     }
@@ -995,15 +1210,15 @@ extension Fishjam_MediaEvents_Server_MediaEvent.TracksAdded: SwiftProtobuf.Messa
     if !self.endpointID.isEmpty {
       try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
     }
-    if !self.tracks.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.tracks, fieldNumber: 2)
+    if !self.trackIDToTrack.isEmpty {
+      try visitor.visitMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Server_MediaEvent.Track>.self, value: self.trackIDToTrack, fieldNumber: 2)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.TracksAdded, rhs: Fishjam_MediaEvents_Server_MediaEvent.TracksAdded) -> Bool {
     if lhs.endpointID != rhs.endpointID {return false}
-    if lhs.tracks != rhs.tracks {return false}
+    if lhs.trackIDToTrack != rhs.trackIDToTrack {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -1051,7 +1266,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.EndpointAdded: SwiftProtobuf.Mes
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".EndpointAdded"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "endpoint_id"),
-    2: .same(proto: "metadata"),
+    2: .standard(proto: "metadata_json"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -1061,29 +1276,25 @@ extension Fishjam_MediaEvents_Server_MediaEvent.EndpointAdded: SwiftProtobuf.Mes
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._metadata) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.metadataJson) }()
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.endpointID.isEmpty {
       try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
     }
-    try { if let v = self._metadata {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    } }()
+    if !self.metadataJson.isEmpty {
+      try visitor.visitSingularStringField(value: self.metadataJson, fieldNumber: 2)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.EndpointAdded, rhs: Fishjam_MediaEvents_Server_MediaEvent.EndpointAdded) -> Bool {
     if lhs.endpointID != rhs.endpointID {return false}
-    if lhs._metadata != rhs._metadata {return false}
+    if lhs.metadataJson != rhs.metadataJson {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -1093,7 +1304,8 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Connected: SwiftProtobuf.Message
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".Connected"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "endpoint_id"),
-    2: .same(proto: "endpoints"),
+    2: .standard(proto: "endpoint_id_to_endpoint"),
+    3: .standard(proto: "ice_servers"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -1103,7 +1315,8 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Connected: SwiftProtobuf.Message
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
-      case 2: try { try decoder.decodeRepeatedMessageField(value: &self.endpoints) }()
+      case 2: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Server_MediaEvent.Endpoint>.self, value: &self.endpointIDToEndpoint) }()
+      case 3: try { try decoder.decodeRepeatedMessageField(value: &self.iceServers) }()
       default: break
       }
     }
@@ -1113,15 +1326,19 @@ extension Fishjam_MediaEvents_Server_MediaEvent.Connected: SwiftProtobuf.Message
     if !self.endpointID.isEmpty {
       try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
     }
-    if !self.endpoints.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.endpoints, fieldNumber: 2)
+    if !self.endpointIDToEndpoint.isEmpty {
+      try visitor.visitMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Server_MediaEvent.Endpoint>.self, value: self.endpointIDToEndpoint, fieldNumber: 2)
+    }
+    if !self.iceServers.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.iceServers, fieldNumber: 3)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.Connected, rhs: Fishjam_MediaEvents_Server_MediaEvent.Connected) -> Bool {
     if lhs.endpointID != rhs.endpointID {return false}
-    if lhs.endpoints != rhs.endpoints {return false}
+    if lhs.endpointIDToEndpoint != rhs.endpointIDToEndpoint {return false}
+    if lhs.iceServers != rhs.iceServers {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -1279,7 +1496,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: SwiftProtobuf.Message
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.sdpAnswer) }()
-      case 2: try { try decoder.decodeRepeatedMessageField(value: &self.midToTrackID) }()
+      case 2: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: &self.midToTrackID) }()
       default: break
       }
     }
@@ -1290,7 +1507,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: SwiftProtobuf.Message
       try visitor.visitSingularStringField(value: self.sdpAnswer, fieldNumber: 1)
     }
     if !self.midToTrackID.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.midToTrackID, fieldNumber: 2)
+      try visitor.visitMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: self.midToTrackID, fieldNumber: 2)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -1347,4 +1564,136 @@ extension Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status: SwiftPro
     1: .same(proto: "STATUS_SILENCE"),
     2: .same(proto: "STATUS_SPEECH"),
   ]
+}
+
+extension Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".TrackVariantSwitched"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "endpoint_id"),
+    2: .standard(proto: "track_id"),
+    3: .same(proto: "variant"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.trackID) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.variant) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.endpointID.isEmpty {
+      try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
+    }
+    if !self.trackID.isEmpty {
+      try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 2)
+    }
+    if self.variant != .unspecified {
+      try visitor.visitSingularEnumField(value: self.variant, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched, rhs: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantSwitched) -> Bool {
+    if lhs.endpointID != rhs.endpointID {return false}
+    if lhs.trackID != rhs.trackID {return false}
+    if lhs.variant != rhs.variant {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".TrackVariantDisabled"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "endpoint_id"),
+    2: .standard(proto: "track_id"),
+    3: .same(proto: "variant"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.trackID) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.variant) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.endpointID.isEmpty {
+      try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
+    }
+    if !self.trackID.isEmpty {
+      try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 2)
+    }
+    if self.variant != .unspecified {
+      try visitor.visitSingularEnumField(value: self.variant, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled, rhs: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantDisabled) -> Bool {
+    if lhs.endpointID != rhs.endpointID {return false}
+    if lhs.trackID != rhs.trackID {return false}
+    if lhs.variant != rhs.variant {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".TrackVariantEnabled"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "endpoint_id"),
+    2: .standard(proto: "track_id"),
+    3: .same(proto: "variant"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.endpointID) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.trackID) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.variant) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.endpointID.isEmpty {
+      try visitor.visitSingularStringField(value: self.endpointID, fieldNumber: 1)
+    }
+    if !self.trackID.isEmpty {
+      try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 2)
+    }
+    if self.variant != .unspecified {
+      try visitor.visitSingularEnumField(value: self.variant, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled, rhs: Fishjam_MediaEvents_Server_MediaEvent.TrackVariantEnabled) -> Bool {
+    if lhs.endpointID != rhs.endpointID {return false}
+    if lhs.trackID != rhs.trackID {return false}
+    if lhs.variant != rhs.variant {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
 }

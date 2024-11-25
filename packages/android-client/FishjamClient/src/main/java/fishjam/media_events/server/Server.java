@@ -208,6 +208,51 @@ public final class Server {
      */
     fishjam.media_events.server.Server.MediaEvent.VadNotificationOrBuilder getVadNotificationOrBuilder();
 
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+     * @return Whether the trackVariantSwitched field is set.
+     */
+    boolean hasTrackVariantSwitched();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+     * @return The trackVariantSwitched.
+     */
+    fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched getTrackVariantSwitched();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+     */
+    fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder getTrackVariantSwitchedOrBuilder();
+
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+     * @return Whether the trackVariantDisabled field is set.
+     */
+    boolean hasTrackVariantDisabled();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+     * @return The trackVariantDisabled.
+     */
+    fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled getTrackVariantDisabled();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+     */
+    fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder getTrackVariantDisabledOrBuilder();
+
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+     * @return Whether the trackVariantEnabled field is set.
+     */
+    boolean hasTrackVariantEnabled();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+     * @return The trackVariantEnabled.
+     */
+    fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled getTrackVariantEnabled();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+     */
+    fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder getTrackVariantEnabledOrBuilder();
+
     fishjam.media_events.server.Server.MediaEvent.ContentCase getContentCase();
   }
   /**
@@ -256,31 +301,31 @@ public final class Server {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>string track_id = 1;</code>
-       * @return The trackId.
+       * <code>string metadata_json = 1;</code>
+       * @return The metadataJson.
        */
-      java.lang.String getTrackId();
+      java.lang.String getMetadataJson();
       /**
-       * <code>string track_id = 1;</code>
-       * @return The bytes for trackId.
+       * <code>string metadata_json = 1;</code>
+       * @return The bytes for metadataJson.
        */
       com.google.protobuf.ByteString
-          getTrackIdBytes();
+          getMetadataJsonBytes();
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
+       * @return Whether the simulcastConfig field is set.
        */
-      boolean hasMetadata();
+      boolean hasSimulcastConfig();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
+       * @return The simulcastConfig.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
+      fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig getSimulcastConfig();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+       * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
        */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder getSimulcastConfigOrBuilder();
     }
     /**
      * <pre>
@@ -308,7 +353,7 @@ public final class Server {
         super(builder);
       }
       private Track() {
-        trackId_ = "";
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -324,70 +369,1082 @@ public final class Server {
                 fishjam.media_events.server.Server.MediaEvent.Track.class, fishjam.media_events.server.Server.MediaEvent.Track.Builder.class);
       }
 
-      private int bitField0_;
-      public static final int TRACK_ID_FIELD_NUMBER = 1;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object trackId_ = "";
+      public interface SimulcastConfigOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:fishjam.media_events.server.MediaEvent.Track.SimulcastConfig)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>bool enabled = 1;</code>
+         * @return The enabled.
+         */
+        boolean getEnabled();
+
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @return A list containing the enabledVariants.
+         */
+        java.util.List<fishjam.media_events.Shared.Variant> getEnabledVariantsList();
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @return The count of enabledVariants.
+         */
+        int getEnabledVariantsCount();
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @param index The index of the element to return.
+         * @return The enabledVariants at the given index.
+         */
+        fishjam.media_events.Shared.Variant getEnabledVariants(int index);
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @return A list containing the enum numeric values on the wire for enabledVariants.
+         */
+        java.util.List<java.lang.Integer>
+        getEnabledVariantsValueList();
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @param index The index of the value to return.
+         * @return The enum numeric value on the wire of enabledVariants at the given index.
+         */
+        int getEnabledVariantsValue(int index);
+
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @return A list containing the disabledVariants.
+         */
+        java.util.List<fishjam.media_events.Shared.Variant> getDisabledVariantsList();
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @return The count of disabledVariants.
+         */
+        int getDisabledVariantsCount();
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @param index The index of the element to return.
+         * @return The disabledVariants at the given index.
+         */
+        fishjam.media_events.Shared.Variant getDisabledVariants(int index);
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @return A list containing the enum numeric values on the wire for disabledVariants.
+         */
+        java.util.List<java.lang.Integer>
+        getDisabledVariantsValueList();
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @param index The index of the value to return.
+         * @return The enum numeric value on the wire of disabledVariants at the given index.
+         */
+        int getDisabledVariantsValue(int index);
+      }
       /**
-       * <code>string track_id = 1;</code>
-       * @return The trackId.
+       * Protobuf type {@code fishjam.media_events.server.MediaEvent.Track.SimulcastConfig}
+       */
+      public static final class SimulcastConfig extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:fishjam.media_events.server.MediaEvent.Track.SimulcastConfig)
+          SimulcastConfigOrBuilder {
+      private static final long serialVersionUID = 0L;
+        static {
+          com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+            com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+            /* major= */ 4,
+            /* minor= */ 26,
+            /* patch= */ 1,
+            /* suffix= */ "",
+            SimulcastConfig.class.getName());
+        }
+        // Use SimulcastConfig.newBuilder() to construct.
+        private SimulcastConfig(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private SimulcastConfig() {
+          enabledVariants_ = java.util.Collections.emptyList();
+          disabledVariants_ = java.util.Collections.emptyList();
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.class, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder.class);
+        }
+
+        public static final int ENABLED_FIELD_NUMBER = 1;
+        private boolean enabled_ = false;
+        /**
+         * <code>bool enabled = 1;</code>
+         * @return The enabled.
+         */
+        @java.lang.Override
+        public boolean getEnabled() {
+          return enabled_;
+        }
+
+        public static final int ENABLED_VARIANTS_FIELD_NUMBER = 2;
+        @SuppressWarnings("serial")
+        private java.util.List<java.lang.Integer> enabledVariants_;
+        private static final com.google.protobuf.Internal.ListAdapter.Converter<
+            java.lang.Integer, fishjam.media_events.Shared.Variant> enabledVariants_converter_ =
+                new com.google.protobuf.Internal.ListAdapter.Converter<
+                    java.lang.Integer, fishjam.media_events.Shared.Variant>() {
+                  public fishjam.media_events.Shared.Variant convert(java.lang.Integer from) {
+                    fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(from);
+                    return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+                  }
+                };
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @return A list containing the enabledVariants.
+         */
+        @java.lang.Override
+        public java.util.List<fishjam.media_events.Shared.Variant> getEnabledVariantsList() {
+          return new com.google.protobuf.Internal.ListAdapter<
+              java.lang.Integer, fishjam.media_events.Shared.Variant>(enabledVariants_, enabledVariants_converter_);
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @return The count of enabledVariants.
+         */
+        @java.lang.Override
+        public int getEnabledVariantsCount() {
+          return enabledVariants_.size();
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @param index The index of the element to return.
+         * @return The enabledVariants at the given index.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getEnabledVariants(int index) {
+          return enabledVariants_converter_.convert(enabledVariants_.get(index));
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @return A list containing the enum numeric values on the wire for enabledVariants.
+         */
+        @java.lang.Override
+        public java.util.List<java.lang.Integer>
+        getEnabledVariantsValueList() {
+          return enabledVariants_;
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+         * @param index The index of the value to return.
+         * @return The enum numeric value on the wire of enabledVariants at the given index.
+         */
+        @java.lang.Override
+        public int getEnabledVariantsValue(int index) {
+          return enabledVariants_.get(index);
+        }
+        private int enabledVariantsMemoizedSerializedSize;
+
+        public static final int DISABLED_VARIANTS_FIELD_NUMBER = 3;
+        @SuppressWarnings("serial")
+        private java.util.List<java.lang.Integer> disabledVariants_;
+        private static final com.google.protobuf.Internal.ListAdapter.Converter<
+            java.lang.Integer, fishjam.media_events.Shared.Variant> disabledVariants_converter_ =
+                new com.google.protobuf.Internal.ListAdapter.Converter<
+                    java.lang.Integer, fishjam.media_events.Shared.Variant>() {
+                  public fishjam.media_events.Shared.Variant convert(java.lang.Integer from) {
+                    fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(from);
+                    return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+                  }
+                };
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @return A list containing the disabledVariants.
+         */
+        @java.lang.Override
+        public java.util.List<fishjam.media_events.Shared.Variant> getDisabledVariantsList() {
+          return new com.google.protobuf.Internal.ListAdapter<
+              java.lang.Integer, fishjam.media_events.Shared.Variant>(disabledVariants_, disabledVariants_converter_);
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @return The count of disabledVariants.
+         */
+        @java.lang.Override
+        public int getDisabledVariantsCount() {
+          return disabledVariants_.size();
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @param index The index of the element to return.
+         * @return The disabledVariants at the given index.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getDisabledVariants(int index) {
+          return disabledVariants_converter_.convert(disabledVariants_.get(index));
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @return A list containing the enum numeric values on the wire for disabledVariants.
+         */
+        @java.lang.Override
+        public java.util.List<java.lang.Integer>
+        getDisabledVariantsValueList() {
+          return disabledVariants_;
+        }
+        /**
+         * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+         * @param index The index of the value to return.
+         * @return The enum numeric value on the wire of disabledVariants at the given index.
+         */
+        @java.lang.Override
+        public int getDisabledVariantsValue(int index) {
+          return disabledVariants_.get(index);
+        }
+        private int disabledVariantsMemoizedSerializedSize;
+
+        private byte memoizedIsInitialized = -1;
+        @java.lang.Override
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        @java.lang.Override
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          getSerializedSize();
+          if (enabled_ != false) {
+            output.writeBool(1, enabled_);
+          }
+          if (getEnabledVariantsList().size() > 0) {
+            output.writeUInt32NoTag(18);
+            output.writeUInt32NoTag(enabledVariantsMemoizedSerializedSize);
+          }
+          for (int i = 0; i < enabledVariants_.size(); i++) {
+            output.writeEnumNoTag(enabledVariants_.get(i));
+          }
+          if (getDisabledVariantsList().size() > 0) {
+            output.writeUInt32NoTag(26);
+            output.writeUInt32NoTag(disabledVariantsMemoizedSerializedSize);
+          }
+          for (int i = 0; i < disabledVariants_.size(); i++) {
+            output.writeEnumNoTag(disabledVariants_.get(i));
+          }
+          getUnknownFields().writeTo(output);
+        }
+
+        @java.lang.Override
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (enabled_ != false) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeBoolSize(1, enabled_);
+          }
+          {
+            int dataSize = 0;
+            for (int i = 0; i < enabledVariants_.size(); i++) {
+              dataSize += com.google.protobuf.CodedOutputStream
+                .computeEnumSizeNoTag(enabledVariants_.get(i));
+            }
+            size += dataSize;
+            if (!getEnabledVariantsList().isEmpty()) {  size += 1;
+              size += com.google.protobuf.CodedOutputStream
+                .computeUInt32SizeNoTag(dataSize);
+            }enabledVariantsMemoizedSerializedSize = dataSize;
+          }
+          {
+            int dataSize = 0;
+            for (int i = 0; i < disabledVariants_.size(); i++) {
+              dataSize += com.google.protobuf.CodedOutputStream
+                .computeEnumSizeNoTag(disabledVariants_.get(i));
+            }
+            size += dataSize;
+            if (!getDisabledVariantsList().isEmpty()) {  size += 1;
+              size += com.google.protobuf.CodedOutputStream
+                .computeUInt32SizeNoTag(dataSize);
+            }disabledVariantsMemoizedSerializedSize = dataSize;
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        @java.lang.Override
+        public boolean equals(final java.lang.Object obj) {
+          if (obj == this) {
+           return true;
+          }
+          if (!(obj instanceof fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig)) {
+            return super.equals(obj);
+          }
+          fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig other = (fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig) obj;
+
+          if (getEnabled()
+              != other.getEnabled()) return false;
+          if (!enabledVariants_.equals(other.enabledVariants_)) return false;
+          if (!disabledVariants_.equals(other.disabledVariants_)) return false;
+          if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+          return true;
+        }
+
+        @java.lang.Override
+        public int hashCode() {
+          if (memoizedHashCode != 0) {
+            return memoizedHashCode;
+          }
+          int hash = 41;
+          hash = (19 * hash) + getDescriptor().hashCode();
+          hash = (37 * hash) + ENABLED_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+              getEnabled());
+          if (getEnabledVariantsCount() > 0) {
+            hash = (37 * hash) + ENABLED_VARIANTS_FIELD_NUMBER;
+            hash = (53 * hash) + enabledVariants_.hashCode();
+          }
+          if (getDisabledVariantsCount() > 0) {
+            hash = (37 * hash) + DISABLED_VARIANTS_FIELD_NUMBER;
+            hash = (53 * hash) + disabledVariants_.hashCode();
+          }
+          hash = (29 * hash) + getUnknownFields().hashCode();
+          memoizedHashCode = hash;
+          return hash;
+        }
+
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        @java.lang.Override
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        @java.lang.Override
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code fishjam.media_events.server.MediaEvent.Track.SimulcastConfig}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:fishjam.media_events.server.MediaEvent.Track.SimulcastConfig)
+            fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_descriptor;
+          }
+
+          @java.lang.Override
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.class, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder.class);
+          }
+
+          // Construct using fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.newBuilder()
+          private Builder() {
+
+          }
+
+          private Builder(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            super(parent);
+
+          }
+          @java.lang.Override
+          public Builder clear() {
+            super.clear();
+            bitField0_ = 0;
+            enabled_ = false;
+            enabledVariants_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            disabledVariants_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000004);
+            return this;
+          }
+
+          @java.lang.Override
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_descriptor;
+          }
+
+          @java.lang.Override
+          public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig getDefaultInstanceForType() {
+            return fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance();
+          }
+
+          @java.lang.Override
+          public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig build() {
+            fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          @java.lang.Override
+          public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig buildPartial() {
+            fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig result = new fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig(this);
+            buildPartialRepeatedFields(result);
+            if (bitField0_ != 0) { buildPartial0(result); }
+            onBuilt();
+            return result;
+          }
+
+          private void buildPartialRepeatedFields(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig result) {
+            if (((bitField0_ & 0x00000002) != 0)) {
+              enabledVariants_ = java.util.Collections.unmodifiableList(enabledVariants_);
+              bitField0_ = (bitField0_ & ~0x00000002);
+            }
+            result.enabledVariants_ = enabledVariants_;
+            if (((bitField0_ & 0x00000004) != 0)) {
+              disabledVariants_ = java.util.Collections.unmodifiableList(disabledVariants_);
+              bitField0_ = (bitField0_ & ~0x00000004);
+            }
+            result.disabledVariants_ = disabledVariants_;
+          }
+
+          private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig result) {
+            int from_bitField0_ = bitField0_;
+            if (((from_bitField0_ & 0x00000001) != 0)) {
+              result.enabled_ = enabled_;
+            }
+          }
+
+          @java.lang.Override
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig) {
+              return mergeFrom((fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig other) {
+            if (other == fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance()) return this;
+            if (other.getEnabled() != false) {
+              setEnabled(other.getEnabled());
+            }
+            if (!other.enabledVariants_.isEmpty()) {
+              if (enabledVariants_.isEmpty()) {
+                enabledVariants_ = other.enabledVariants_;
+                bitField0_ = (bitField0_ & ~0x00000002);
+              } else {
+                ensureEnabledVariantsIsMutable();
+                enabledVariants_.addAll(other.enabledVariants_);
+              }
+              onChanged();
+            }
+            if (!other.disabledVariants_.isEmpty()) {
+              if (disabledVariants_.isEmpty()) {
+                disabledVariants_ = other.disabledVariants_;
+                bitField0_ = (bitField0_ & ~0x00000004);
+              } else {
+                ensureDisabledVariantsIsMutable();
+                disabledVariants_.addAll(other.disabledVariants_);
+              }
+              onChanged();
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            onChanged();
+            return this;
+          }
+
+          @java.lang.Override
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          @java.lang.Override
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            if (extensionRegistry == null) {
+              throw new java.lang.NullPointerException();
+            }
+            try {
+              boolean done = false;
+              while (!done) {
+                int tag = input.readTag();
+                switch (tag) {
+                  case 0:
+                    done = true;
+                    break;
+                  case 8: {
+                    enabled_ = input.readBool();
+                    bitField0_ |= 0x00000001;
+                    break;
+                  } // case 8
+                  case 16: {
+                    int tmpRaw = input.readEnum();
+                    ensureEnabledVariantsIsMutable();
+                    enabledVariants_.add(tmpRaw);
+                    break;
+                  } // case 16
+                  case 18: {
+                    int length = input.readRawVarint32();
+                    int oldLimit = input.pushLimit(length);
+                    while(input.getBytesUntilLimit() > 0) {
+                      int tmpRaw = input.readEnum();
+                      ensureEnabledVariantsIsMutable();
+                      enabledVariants_.add(tmpRaw);
+                    }
+                    input.popLimit(oldLimit);
+                    break;
+                  } // case 18
+                  case 24: {
+                    int tmpRaw = input.readEnum();
+                    ensureDisabledVariantsIsMutable();
+                    disabledVariants_.add(tmpRaw);
+                    break;
+                  } // case 24
+                  case 26: {
+                    int length = input.readRawVarint32();
+                    int oldLimit = input.pushLimit(length);
+                    while(input.getBytesUntilLimit() > 0) {
+                      int tmpRaw = input.readEnum();
+                      ensureDisabledVariantsIsMutable();
+                      disabledVariants_.add(tmpRaw);
+                    }
+                    input.popLimit(oldLimit);
+                    break;
+                  } // case 26
+                  default: {
+                    if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                      done = true; // was an endgroup tag
+                    }
+                    break;
+                  } // default:
+                } // switch (tag)
+              } // while (!done)
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.unwrapIOException();
+            } finally {
+              onChanged();
+            } // finally
+            return this;
+          }
+          private int bitField0_;
+
+          private boolean enabled_ ;
+          /**
+           * <code>bool enabled = 1;</code>
+           * @return The enabled.
+           */
+          @java.lang.Override
+          public boolean getEnabled() {
+            return enabled_;
+          }
+          /**
+           * <code>bool enabled = 1;</code>
+           * @param value The enabled to set.
+           * @return This builder for chaining.
+           */
+          public Builder setEnabled(boolean value) {
+
+            enabled_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>bool enabled = 1;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearEnabled() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            enabled_ = false;
+            onChanged();
+            return this;
+          }
+
+          private java.util.List<java.lang.Integer> enabledVariants_ =
+            java.util.Collections.emptyList();
+          private void ensureEnabledVariantsIsMutable() {
+            if (!((bitField0_ & 0x00000002) != 0)) {
+              enabledVariants_ = new java.util.ArrayList<java.lang.Integer>(enabledVariants_);
+              bitField0_ |= 0x00000002;
+            }
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @return A list containing the enabledVariants.
+           */
+          public java.util.List<fishjam.media_events.Shared.Variant> getEnabledVariantsList() {
+            return new com.google.protobuf.Internal.ListAdapter<
+                java.lang.Integer, fishjam.media_events.Shared.Variant>(enabledVariants_, enabledVariants_converter_);
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @return The count of enabledVariants.
+           */
+          public int getEnabledVariantsCount() {
+            return enabledVariants_.size();
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param index The index of the element to return.
+           * @return The enabledVariants at the given index.
+           */
+          public fishjam.media_events.Shared.Variant getEnabledVariants(int index) {
+            return enabledVariants_converter_.convert(enabledVariants_.get(index));
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param index The index to set the value at.
+           * @param value The enabledVariants to set.
+           * @return This builder for chaining.
+           */
+          public Builder setEnabledVariants(
+              int index, fishjam.media_events.Shared.Variant value) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureEnabledVariantsIsMutable();
+            enabledVariants_.set(index, value.getNumber());
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param value The enabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addEnabledVariants(fishjam.media_events.Shared.Variant value) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureEnabledVariantsIsMutable();
+            enabledVariants_.add(value.getNumber());
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param values The enabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addAllEnabledVariants(
+              java.lang.Iterable<? extends fishjam.media_events.Shared.Variant> values) {
+            ensureEnabledVariantsIsMutable();
+            for (fishjam.media_events.Shared.Variant value : values) {
+              enabledVariants_.add(value.getNumber());
+            }
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearEnabledVariants() {
+            enabledVariants_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @return A list containing the enum numeric values on the wire for enabledVariants.
+           */
+          public java.util.List<java.lang.Integer>
+          getEnabledVariantsValueList() {
+            return java.util.Collections.unmodifiableList(enabledVariants_);
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param index The index of the value to return.
+           * @return The enum numeric value on the wire of enabledVariants at the given index.
+           */
+          public int getEnabledVariantsValue(int index) {
+            return enabledVariants_.get(index);
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param index The index to set the value at.
+           * @param value The enum numeric value on the wire for enabledVariants to set.
+           * @return This builder for chaining.
+           */
+          public Builder setEnabledVariantsValue(
+              int index, int value) {
+            ensureEnabledVariantsIsMutable();
+            enabledVariants_.set(index, value);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param value The enum numeric value on the wire for enabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addEnabledVariantsValue(int value) {
+            ensureEnabledVariantsIsMutable();
+            enabledVariants_.add(value);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant enabled_variants = 2;</code>
+           * @param values The enum numeric values on the wire for enabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addAllEnabledVariantsValue(
+              java.lang.Iterable<java.lang.Integer> values) {
+            ensureEnabledVariantsIsMutable();
+            for (int value : values) {
+              enabledVariants_.add(value);
+            }
+            onChanged();
+            return this;
+          }
+
+          private java.util.List<java.lang.Integer> disabledVariants_ =
+            java.util.Collections.emptyList();
+          private void ensureDisabledVariantsIsMutable() {
+            if (!((bitField0_ & 0x00000004) != 0)) {
+              disabledVariants_ = new java.util.ArrayList<java.lang.Integer>(disabledVariants_);
+              bitField0_ |= 0x00000004;
+            }
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @return A list containing the disabledVariants.
+           */
+          public java.util.List<fishjam.media_events.Shared.Variant> getDisabledVariantsList() {
+            return new com.google.protobuf.Internal.ListAdapter<
+                java.lang.Integer, fishjam.media_events.Shared.Variant>(disabledVariants_, disabledVariants_converter_);
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @return The count of disabledVariants.
+           */
+          public int getDisabledVariantsCount() {
+            return disabledVariants_.size();
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param index The index of the element to return.
+           * @return The disabledVariants at the given index.
+           */
+          public fishjam.media_events.Shared.Variant getDisabledVariants(int index) {
+            return disabledVariants_converter_.convert(disabledVariants_.get(index));
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param index The index to set the value at.
+           * @param value The disabledVariants to set.
+           * @return This builder for chaining.
+           */
+          public Builder setDisabledVariants(
+              int index, fishjam.media_events.Shared.Variant value) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureDisabledVariantsIsMutable();
+            disabledVariants_.set(index, value.getNumber());
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param value The disabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addDisabledVariants(fishjam.media_events.Shared.Variant value) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureDisabledVariantsIsMutable();
+            disabledVariants_.add(value.getNumber());
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param values The disabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addAllDisabledVariants(
+              java.lang.Iterable<? extends fishjam.media_events.Shared.Variant> values) {
+            ensureDisabledVariantsIsMutable();
+            for (fishjam.media_events.Shared.Variant value : values) {
+              disabledVariants_.add(value.getNumber());
+            }
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearDisabledVariants() {
+            disabledVariants_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000004);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @return A list containing the enum numeric values on the wire for disabledVariants.
+           */
+          public java.util.List<java.lang.Integer>
+          getDisabledVariantsValueList() {
+            return java.util.Collections.unmodifiableList(disabledVariants_);
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param index The index of the value to return.
+           * @return The enum numeric value on the wire of disabledVariants at the given index.
+           */
+          public int getDisabledVariantsValue(int index) {
+            return disabledVariants_.get(index);
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param index The index to set the value at.
+           * @param value The enum numeric value on the wire for disabledVariants to set.
+           * @return This builder for chaining.
+           */
+          public Builder setDisabledVariantsValue(
+              int index, int value) {
+            ensureDisabledVariantsIsMutable();
+            disabledVariants_.set(index, value);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param value The enum numeric value on the wire for disabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addDisabledVariantsValue(int value) {
+            ensureDisabledVariantsIsMutable();
+            disabledVariants_.add(value);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>repeated .fishjam.media_events.Variant disabled_variants = 3;</code>
+           * @param values The enum numeric values on the wire for disabledVariants to add.
+           * @return This builder for chaining.
+           */
+          public Builder addAllDisabledVariantsValue(
+              java.lang.Iterable<java.lang.Integer> values) {
+            ensureDisabledVariantsIsMutable();
+            for (int value : values) {
+              disabledVariants_.add(value);
+            }
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.Track.SimulcastConfig)
+        }
+
+        // @@protoc_insertion_point(class_scope:fishjam.media_events.server.MediaEvent.Track.SimulcastConfig)
+        private static final fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig();
+        }
+
+        public static fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        private static final com.google.protobuf.Parser<SimulcastConfig>
+            PARSER = new com.google.protobuf.AbstractParser<SimulcastConfig>() {
+          @java.lang.Override
+          public SimulcastConfig parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            Builder builder = newBuilder();
+            try {
+              builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+              throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                  .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
+          }
+        };
+
+        public static com.google.protobuf.Parser<SimulcastConfig> parser() {
+          return PARSER;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<SimulcastConfig> getParserForType() {
+          return PARSER;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
+      private int bitField0_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
+      /**
+       * <code>string metadata_json = 1;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public java.lang.String getTrackId() {
-        java.lang.Object ref = trackId_;
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
         if (ref instanceof java.lang.String) {
           return (java.lang.String) ref;
         } else {
           com.google.protobuf.ByteString bs = 
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          trackId_ = s;
+          metadataJson_ = s;
           return s;
         }
       }
       /**
-       * <code>string track_id = 1;</code>
-       * @return The bytes for trackId.
+       * <code>string metadata_json = 1;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
       public com.google.protobuf.ByteString
-          getTrackIdBytes() {
-        java.lang.Object ref = trackId_;
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
         if (ref instanceof java.lang.String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          trackId_ = b;
+          metadataJson_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
 
-      public static final int METADATA_FIELD_NUMBER = 2;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int SIMULCAST_CONFIG_FIELD_NUMBER = 2;
+      private fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig simulcastConfig_;
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
+       * @return Whether the simulcastConfig field is set.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
+      public boolean hasSimulcastConfig() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
+       * @return The simulcastConfig.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig getSimulcastConfig() {
+        return simulcastConfig_ == null ? fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance() : simulcastConfig_;
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+       * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder getSimulcastConfigOrBuilder() {
+        return simulcastConfig_ == null ? fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance() : simulcastConfig_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -404,11 +1461,11 @@ public final class Server {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 1, trackId_);
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, metadataJson_);
         }
         if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(2, getMetadata());
+          output.writeMessage(2, getSimulcastConfig());
         }
         getUnknownFields().writeTo(output);
       }
@@ -419,12 +1476,12 @@ public final class Server {
         if (size != -1) return size;
 
         size = 0;
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, trackId_);
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, metadataJson_);
         }
         if (((bitField0_ & 0x00000001) != 0)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, getMetadata());
+            .computeMessageSize(2, getSimulcastConfig());
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -441,12 +1498,12 @@ public final class Server {
         }
         fishjam.media_events.server.Server.MediaEvent.Track other = (fishjam.media_events.server.Server.MediaEvent.Track) obj;
 
-        if (!getTrackId()
-            .equals(other.getTrackId())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
+        if (hasSimulcastConfig() != other.hasSimulcastConfig()) return false;
+        if (hasSimulcastConfig()) {
+          if (!getSimulcastConfig()
+              .equals(other.getSimulcastConfig())) return false;
         }
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
@@ -459,11 +1516,11 @@ public final class Server {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getTrackId().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
+        if (hasSimulcastConfig()) {
+          hash = (37 * hash) + SIMULCAST_CONFIG_FIELD_NUMBER;
+          hash = (53 * hash) + getSimulcastConfig().hashCode();
         }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
@@ -599,18 +1656,18 @@ public final class Server {
         private void maybeForceBuilderInitialization() {
           if (com.google.protobuf.GeneratedMessage
                   .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
+            getSimulcastConfigFieldBuilder();
           }
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
-          trackId_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
+          metadataJson_ = "";
+          simulcastConfig_ = null;
+          if (simulcastConfigBuilder_ != null) {
+            simulcastConfigBuilder_.dispose();
+            simulcastConfigBuilder_ = null;
           }
           return this;
         }
@@ -646,13 +1703,13 @@ public final class Server {
         private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.Track result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.trackId_ = trackId_;
+            result.metadataJson_ = metadataJson_;
           }
           int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
+            result.simulcastConfig_ = simulcastConfigBuilder_ == null
+                ? simulcastConfig_
+                : simulcastConfigBuilder_.build();
             to_bitField0_ |= 0x00000001;
           }
           result.bitField0_ |= to_bitField0_;
@@ -670,13 +1727,13 @@ public final class Server {
 
         public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.Track other) {
           if (other == fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance()) return this;
-          if (!other.getTrackId().isEmpty()) {
-            trackId_ = other.trackId_;
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (other.hasSimulcastConfig()) {
+            mergeSimulcastConfig(other.getSimulcastConfig());
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -705,13 +1762,13 @@ public final class Server {
                   done = true;
                   break;
                 case 10: {
-                  trackId_ = input.readStringRequireUtf8();
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000001;
                   break;
                 } // case 10
                 case 18: {
                   input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
+                      getSimulcastConfigFieldBuilder().getBuilder(),
                       extensionRegistry);
                   bitField0_ |= 0x00000002;
                   break;
@@ -733,197 +1790,197 @@ public final class Server {
         }
         private int bitField0_;
 
-        private java.lang.Object trackId_ = "";
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>string track_id = 1;</code>
-         * @return The trackId.
+         * <code>string metadata_json = 1;</code>
+         * @return The metadataJson.
          */
-        public java.lang.String getTrackId() {
-          java.lang.Object ref = trackId_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
           if (!(ref instanceof java.lang.String)) {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
             java.lang.String s = bs.toStringUtf8();
-            trackId_ = s;
+            metadataJson_ = s;
             return s;
           } else {
             return (java.lang.String) ref;
           }
         }
         /**
-         * <code>string track_id = 1;</code>
-         * @return The bytes for trackId.
+         * <code>string metadata_json = 1;</code>
+         * @return The bytes for metadataJson.
          */
         public com.google.protobuf.ByteString
-            getTrackIdBytes() {
-          java.lang.Object ref = trackId_;
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
           if (ref instanceof String) {
             com.google.protobuf.ByteString b = 
                 com.google.protobuf.ByteString.copyFromUtf8(
                     (java.lang.String) ref);
-            trackId_ = b;
+            metadataJson_ = b;
             return b;
           } else {
             return (com.google.protobuf.ByteString) ref;
           }
         }
         /**
-         * <code>string track_id = 1;</code>
-         * @param value The trackId to set.
+         * <code>string metadata_json = 1;</code>
+         * @param value The metadataJson to set.
          * @return This builder for chaining.
          */
-        public Builder setTrackId(
+        public Builder setMetadataJson(
             java.lang.String value) {
           if (value == null) { throw new NullPointerException(); }
-          trackId_ = value;
+          metadataJson_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
         /**
-         * <code>string track_id = 1;</code>
+         * <code>string metadata_json = 1;</code>
          * @return This builder for chaining.
          */
-        public Builder clearTrackId() {
-          trackId_ = getDefaultInstance().getTrackId();
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
         /**
-         * <code>string track_id = 1;</code>
-         * @param value The bytes for trackId to set.
+         * <code>string metadata_json = 1;</code>
+         * @param value The bytes for metadataJson to set.
          * @return This builder for chaining.
          */
-        public Builder setTrackIdBytes(
+        public Builder setMetadataJsonBytes(
             com.google.protobuf.ByteString value) {
           if (value == null) { throw new NullPointerException(); }
           checkByteStringIsUtf8(value);
-          trackId_ = value;
+          metadataJson_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
 
-        private fishjam.media_events.Shared.Metadata metadata_;
+        private fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig simulcastConfig_;
         private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+            fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder> simulcastConfigBuilder_;
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return Whether the metadata field is set.
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
+         * @return Whether the simulcastConfig field is set.
          */
-        public boolean hasMetadata() {
+        public boolean hasSimulcastConfig() {
           return ((bitField0_ & 0x00000002) != 0);
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return The metadata.
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
+         * @return The simulcastConfig.
          */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig getSimulcastConfig() {
+          if (simulcastConfigBuilder_ == null) {
+            return simulcastConfig_ == null ? fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance() : simulcastConfig_;
           } else {
-            return metadataBuilder_.getMessage();
+            return simulcastConfigBuilder_.getMessage();
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
+        public Builder setSimulcastConfig(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig value) {
+          if (simulcastConfigBuilder_ == null) {
             if (value == null) {
               throw new NullPointerException();
             }
-            metadata_ = value;
+            simulcastConfig_ = value;
           } else {
-            metadataBuilder_.setMessage(value);
+            simulcastConfigBuilder_.setMessage(value);
           }
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
+        public Builder setSimulcastConfig(
+            fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder builderForValue) {
+          if (simulcastConfigBuilder_ == null) {
+            simulcastConfig_ = builderForValue.build();
           } else {
-            metadataBuilder_.setMessage(builderForValue.build());
+            simulcastConfigBuilder_.setMessage(builderForValue.build());
           }
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
+        public Builder mergeSimulcastConfig(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig value) {
+          if (simulcastConfigBuilder_ == null) {
             if (((bitField0_ & 0x00000002) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
+              simulcastConfig_ != null &&
+              simulcastConfig_ != fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance()) {
+              getSimulcastConfigBuilder().mergeFrom(value);
             } else {
-              metadata_ = value;
+              simulcastConfig_ = value;
             }
           } else {
-            metadataBuilder_.mergeFrom(value);
+            simulcastConfigBuilder_.mergeFrom(value);
           }
-          if (metadata_ != null) {
+          if (simulcastConfig_ != null) {
             bitField0_ |= 0x00000002;
             onChanged();
           }
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
-        public Builder clearMetadata() {
+        public Builder clearSimulcastConfig() {
           bitField0_ = (bitField0_ & ~0x00000002);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
+          simulcastConfig_ = null;
+          if (simulcastConfigBuilder_ != null) {
+            simulcastConfigBuilder_.dispose();
+            simulcastConfigBuilder_ = null;
           }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder getSimulcastConfigBuilder() {
           bitField0_ |= 0x00000002;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
+          return getSimulcastConfigFieldBuilder().getBuilder();
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
+        public fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder getSimulcastConfigOrBuilder() {
+          if (simulcastConfigBuilder_ != null) {
+            return simulcastConfigBuilder_.getMessageOrBuilder();
           } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+            return simulcastConfig_ == null ?
+                fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.getDefaultInstance() : simulcastConfig_;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;</code>
          */
         private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
+            fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder> 
+            getSimulcastConfigFieldBuilder() {
+          if (simulcastConfigBuilder_ == null) {
+            simulcastConfigBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder, fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfigOrBuilder>(
+                    getSimulcastConfig(),
                     getParentForChildren(),
                     isClean());
-            metadata_ = null;
+            simulcastConfig_ = null;
           }
-          return metadataBuilder_;
+          return simulcastConfigBuilder_;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.Track)
@@ -982,18 +2039,6 @@ public final class Server {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>string endpoint_id = 1;</code>
-       * @return The endpointId.
-       */
-      java.lang.String getEndpointId();
-      /**
-       * <code>string endpoint_id = 1;</code>
-       * @return The bytes for endpointId.
-       */
-      com.google.protobuf.ByteString
-          getEndpointIdBytes();
-
-      /**
        * <code>string endpoint_type = 2;</code>
        * @return The endpointType.
        */
@@ -1006,43 +2051,50 @@ public final class Server {
           getEndpointTypeBytes();
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 3;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 3;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
 
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
-      java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> 
-          getTracksList();
+      int getTrackIdToTrackCount();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
-      fishjam.media_events.server.Server.MediaEvent.Track getTracks(int index);
+      boolean containsTrackIdToTrack(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * Use {@link #getTrackIdToTrackMap()} instead.
        */
-      int getTracksCount();
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+      getTrackIdToTrack();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
-      java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-          getTracksOrBuilderList();
+      java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+      getTrackIdToTrackMap();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
-      fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder getTracksOrBuilder(
-          int index);
+      /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track defaultValue);
+      /**
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
+       */
+      fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrThrow(
+          java.lang.String key);
     }
     /**
      * Protobuf type {@code fishjam.media_events.server.MediaEvent.Endpoint}
@@ -1066,9 +2118,8 @@ public final class Server {
         super(builder);
       }
       private Endpoint() {
-        endpointId_ = "";
         endpointType_ = "";
-        tracks_ = java.util.Collections.emptyList();
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -1076,52 +2127,24 @@ public final class Server {
         return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Endpoint_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      @java.lang.Override
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 4:
+            return internalGetTrackIdToTrack();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Endpoint_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 fishjam.media_events.server.Server.MediaEvent.Endpoint.class, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder.class);
-      }
-
-      private int bitField0_;
-      public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object endpointId_ = "";
-      /**
-       * <code>string endpoint_id = 1;</code>
-       * @return The endpointId.
-       */
-      @java.lang.Override
-      public java.lang.String getEndpointId() {
-        java.lang.Object ref = endpointId_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          endpointId_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string endpoint_id = 1;</code>
-       * @return The bytes for endpointId.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getEndpointIdBytes() {
-        java.lang.Object ref = endpointId_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          endpointId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
       }
 
       public static final int ENDPOINT_TYPE_FIELD_NUMBER = 2;
@@ -1163,71 +2186,122 @@ public final class Server {
         }
       }
 
-      public static final int METADATA_FIELD_NUMBER = 3;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 3;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 3;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 3;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
-      public static final int TRACKS_FIELD_NUMBER = 4;
+      public static final int TRACK_ID_TO_TRACK_FIELD_NUMBER = 4;
+      private static final class TrackIdToTrackDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>newDefaultInstance(
+                    fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Endpoint_TrackIdToTrackEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                    fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance());
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> tracks_;
-      /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> getTracksList() {
-        return tracks_;
+      private com.google.protobuf.MapField<
+          java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> trackIdToTrack_;
+      private com.google.protobuf.MapField<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+      internalGetTrackIdToTrack() {
+        if (trackIdToTrack_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              TrackIdToTrackDefaultEntryHolder.defaultEntry);
+        }
+        return trackIdToTrack_;
+      }
+      public int getTrackIdToTrackCount() {
+        return internalGetTrackIdToTrack().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
       @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-          getTracksOrBuilderList() {
-        return tracks_;
+      public boolean containsTrackIdToTrack(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetTrackIdToTrack().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * Use {@link #getTrackIdToTrackMap()} instead.
        */
       @java.lang.Override
-      public int getTracksCount() {
-        return tracks_.size();
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrack() {
+        return getTrackIdToTrackMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.server.Server.MediaEvent.Track getTracks(int index) {
-        return tracks_.get(index);
+      public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrackMap() {
+        return internalGetTrackIdToTrack().getMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder getTracksOrBuilder(
-          int index) {
-        return tracks_.get(index);
+      public /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> map =
+            internalGetTrackIdToTrack().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> map =
+            internalGetTrackIdToTrack().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
       }
 
       private byte memoizedIsInitialized = -1;
@@ -1244,18 +2318,18 @@ public final class Server {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
-        }
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointType_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 2, endpointType_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(3, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 3, metadataJson_);
         }
-        for (int i = 0; i < tracks_.size(); i++) {
-          output.writeMessage(4, tracks_.get(i));
-        }
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetTrackIdToTrack(),
+            TrackIdToTrackDefaultEntryHolder.defaultEntry,
+            4);
         getUnknownFields().writeTo(output);
       }
 
@@ -1265,19 +2339,21 @@ public final class Server {
         if (size != -1) return size;
 
         size = 0;
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
-        }
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointType_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(2, endpointType_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(3, metadataJson_);
         }
-        for (int i = 0; i < tracks_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> entry
+             : internalGetTrackIdToTrack().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+          trackIdToTrack__ = TrackIdToTrackDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(4, tracks_.get(i));
+              .computeMessageSize(4, trackIdToTrack__);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -1294,17 +2370,12 @@ public final class Server {
         }
         fishjam.media_events.server.Server.MediaEvent.Endpoint other = (fishjam.media_events.server.Server.MediaEvent.Endpoint) obj;
 
-        if (!getEndpointId()
-            .equals(other.getEndpointId())) return false;
         if (!getEndpointType()
             .equals(other.getEndpointType())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
-        if (!getTracksList()
-            .equals(other.getTracksList())) return false;
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
+        if (!internalGetTrackIdToTrack().equals(
+            other.internalGetTrackIdToTrack())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -1316,17 +2387,13 @@ public final class Server {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getEndpointId().hashCode();
         hash = (37 * hash) + ENDPOINT_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getEndpointType().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
-        if (getTracksCount() > 0) {
-          hash = (37 * hash) + TRACKS_FIELD_NUMBER;
-          hash = (53 * hash) + getTracksList().hashCode();
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
+        if (!internalGetTrackIdToTrack().getMap().isEmpty()) {
+          hash = (37 * hash) + TRACK_ID_TO_TRACK_FIELD_NUMBER;
+          hash = (53 * hash) + internalGetTrackIdToTrack().hashCode();
         }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
@@ -1437,6 +2504,28 @@ public final class Server {
           return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Endpoint_descriptor;
         }
 
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 4:
+              return internalGetTrackIdToTrack();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMutableMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 4:
+              return internalGetMutableTrackIdToTrack();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
@@ -1447,39 +2536,21 @@ public final class Server {
 
         // Construct using fishjam.media_events.server.Server.MediaEvent.Endpoint.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-            getTracksFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
-          endpointId_ = "";
           endpointType_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
-          if (tracksBuilder_ == null) {
-            tracks_ = java.util.Collections.emptyList();
-          } else {
-            tracks_ = null;
-            tracksBuilder_.clear();
-          }
-          bitField0_ = (bitField0_ & ~0x00000008);
+          metadataJson_ = "";
+          internalGetMutableTrackIdToTrack().clear();
           return this;
         }
 
@@ -1506,40 +2577,22 @@ public final class Server {
         @java.lang.Override
         public fishjam.media_events.server.Server.MediaEvent.Endpoint buildPartial() {
           fishjam.media_events.server.Server.MediaEvent.Endpoint result = new fishjam.media_events.server.Server.MediaEvent.Endpoint(this);
-          buildPartialRepeatedFields(result);
           if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
         }
 
-        private void buildPartialRepeatedFields(fishjam.media_events.server.Server.MediaEvent.Endpoint result) {
-          if (tracksBuilder_ == null) {
-            if (((bitField0_ & 0x00000008) != 0)) {
-              tracks_ = java.util.Collections.unmodifiableList(tracks_);
-              bitField0_ = (bitField0_ & ~0x00000008);
-            }
-            result.tracks_ = tracks_;
-          } else {
-            result.tracks_ = tracksBuilder_.build();
-          }
-        }
-
         private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.Endpoint result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.endpointId_ = endpointId_;
-          }
-          if (((from_bitField0_ & 0x00000002) != 0)) {
             result.endpointType_ = endpointType_;
           }
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000004) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.trackIdToTrack_ = internalGetTrackIdToTrack().build(TrackIdToTrackDefaultEntryHolder.defaultEntry);
+          }
         }
 
         @java.lang.Override
@@ -1554,45 +2607,19 @@ public final class Server {
 
         public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.Endpoint other) {
           if (other == fishjam.media_events.server.Server.MediaEvent.Endpoint.getDefaultInstance()) return this;
-          if (!other.getEndpointId().isEmpty()) {
-            endpointId_ = other.endpointId_;
+          if (!other.getEndpointType().isEmpty()) {
+            endpointType_ = other.endpointType_;
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (!other.getEndpointType().isEmpty()) {
-            endpointType_ = other.endpointType_;
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
             bitField0_ |= 0x00000002;
             onChanged();
           }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
-          }
-          if (tracksBuilder_ == null) {
-            if (!other.tracks_.isEmpty()) {
-              if (tracks_.isEmpty()) {
-                tracks_ = other.tracks_;
-                bitField0_ = (bitField0_ & ~0x00000008);
-              } else {
-                ensureTracksIsMutable();
-                tracks_.addAll(other.tracks_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.tracks_.isEmpty()) {
-              if (tracksBuilder_.isEmpty()) {
-                tracksBuilder_.dispose();
-                tracksBuilder_ = null;
-                tracks_ = other.tracks_;
-                bitField0_ = (bitField0_ & ~0x00000008);
-                tracksBuilder_ = 
-                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getTracksFieldBuilder() : null;
-              } else {
-                tracksBuilder_.addAllMessages(other.tracks_);
-              }
-            }
-          }
+          internalGetMutableTrackIdToTrack().mergeFrom(
+              other.internalGetTrackIdToTrack());
+          bitField0_ |= 0x00000004;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -1619,34 +2646,23 @@ public final class Server {
                 case 0:
                   done = true;
                   break;
-                case 10: {
-                  endpointId_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000001;
-                  break;
-                } // case 10
                 case 18: {
                   endpointType_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000002;
+                  bitField0_ |= 0x00000001;
                   break;
                 } // case 18
                 case 26: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
-                  bitField0_ |= 0x00000004;
+                  metadataJson_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 26
                 case 34: {
-                  fishjam.media_events.server.Server.MediaEvent.Track m =
-                      input.readMessage(
-                          fishjam.media_events.server.Server.MediaEvent.Track.parser(),
-                          extensionRegistry);
-                  if (tracksBuilder_ == null) {
-                    ensureTracksIsMutable();
-                    tracks_.add(m);
-                  } else {
-                    tracksBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+                  trackIdToTrack__ = input.readMessage(
+                      TrackIdToTrackDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableTrackIdToTrack().ensureBuilderMap().put(
+                      trackIdToTrack__.getKey(), trackIdToTrack__.getValue());
+                  bitField0_ |= 0x00000004;
                   break;
                 } // case 34
                 default: {
@@ -1665,78 +2681,6 @@ public final class Server {
           return this;
         }
         private int bitField0_;
-
-        private java.lang.Object endpointId_ = "";
-        /**
-         * <code>string endpoint_id = 1;</code>
-         * @return The endpointId.
-         */
-        public java.lang.String getEndpointId() {
-          java.lang.Object ref = endpointId_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            endpointId_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string endpoint_id = 1;</code>
-         * @return The bytes for endpointId.
-         */
-        public com.google.protobuf.ByteString
-            getEndpointIdBytes() {
-          java.lang.Object ref = endpointId_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            endpointId_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string endpoint_id = 1;</code>
-         * @param value The endpointId to set.
-         * @return This builder for chaining.
-         */
-        public Builder setEndpointId(
-            java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
-          endpointId_ = value;
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string endpoint_id = 1;</code>
-         * @return This builder for chaining.
-         */
-        public Builder clearEndpointId() {
-          endpointId_ = getDefaultInstance().getEndpointId();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string endpoint_id = 1;</code>
-         * @param value The bytes for endpointId to set.
-         * @return This builder for chaining.
-         */
-        public Builder setEndpointIdBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
-          endpointId_ = value;
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
 
         private java.lang.Object endpointType_ = "";
         /**
@@ -1781,7 +2725,7 @@ public final class Server {
             java.lang.String value) {
           if (value == null) { throw new NullPointerException(); }
           endpointType_ = value;
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -1791,7 +2735,7 @@ public final class Server {
          */
         public Builder clearEndpointType() {
           endpointType_ = getDefaultInstance().getEndpointType();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
@@ -1805,370 +2749,236 @@ public final class Server {
           if (value == null) { throw new NullPointerException(); }
           checkByteStringIsUtf8(value);
           endpointType_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object metadataJson_ = "";
+        /**
+         * <code>string metadata_json = 3;</code>
+         * @return The metadataJson.
+         */
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string metadata_json = 3;</code>
+         * @return The bytes for metadataJson.
+         */
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string metadata_json = 3;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string metadata_json = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string metadata_json = 3;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         * @return Whether the metadata field is set.
-         */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000004) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          } else {
-            return metadataBuilder_.getMessage();
+        private static final class TrackIdToTrackConverter implements com.google.protobuf.MapFieldBuilder.Converter<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track> {
+          @java.lang.Override
+          public fishjam.media_events.server.Server.MediaEvent.Track build(fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder val) {
+            if (val instanceof fishjam.media_events.server.Server.MediaEvent.Track) { return (fishjam.media_events.server.Server.MediaEvent.Track) val; }
+            return ((fishjam.media_events.server.Server.MediaEvent.Track.Builder) val).build();
           }
+
+          @java.lang.Override
+          public com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> defaultEntry() {
+            return TrackIdToTrackDefaultEntryHolder.defaultEntry;
+          }
+        };
+        private static final TrackIdToTrackConverter trackIdToTrackConverter = new TrackIdToTrackConverter();
+
+        private com.google.protobuf.MapFieldBuilder<
+            java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder> trackIdToTrack_;
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder>
+            internalGetTrackIdToTrack() {
+          if (trackIdToTrack_ == null) {
+            return new com.google.protobuf.MapFieldBuilder<>(trackIdToTrackConverter);
+          }
+          return trackIdToTrack_;
         }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
-          } else {
-            metadataBuilder_.setMessage(value);
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder>
+            internalGetMutableTrackIdToTrack() {
+          if (trackIdToTrack_ == null) {
+            trackIdToTrack_ = new com.google.protobuf.MapFieldBuilder<>(trackIdToTrackConverter);
           }
           bitField0_ |= 0x00000004;
           onChanged();
-          return this;
+          return trackIdToTrack_;
+        }
+        public int getTrackIdToTrackCount() {
+          return internalGetTrackIdToTrack().ensureBuilderMap().size();
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000004;
-          onChanged();
-          return this;
+        @java.lang.Override
+        public boolean containsTrackIdToTrack(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetTrackIdToTrack().ensureBuilderMap().containsKey(key);
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * Use {@link #getTrackIdToTrackMap()} instead.
          */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000004) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000004;
-            onChanged();
-          }
-          return this;
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrack() {
+          return getTrackIdToTrackMap();
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
          */
-        public Builder clearMetadata() {
+        @java.lang.Override
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrackMap() {
+          return internalGetTrackIdToTrack().getImmutableMap();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
+         */
+        @java.lang.Override
+        public /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrDefault(
+            java.lang.String key,
+            /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> map = internalGetMutableTrackIdToTrack().ensureBuilderMap();
+          return map.containsKey(key) ? trackIdToTrackConverter.build(map.get(key)) : defaultValue;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
+         */
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> map = internalGetMutableTrackIdToTrack().ensureBuilderMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
+          }
+          return trackIdToTrackConverter.build(map.get(key));
+        }
+        public Builder clearTrackIdToTrack() {
           bitField0_ = (bitField0_ & ~0x00000004);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
-          onChanged();
+          internalGetMutableTrackIdToTrack().clear();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder removeTrackIdToTrack(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableTrackIdToTrack().ensureBuilderMap()
+              .remove(key);
+          return this;
+        }
+        /**
+         * Use alternate mutation accessors instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+            getMutableTrackIdToTrack() {
           bitField0_ |= 0x00000004;
-          onChanged();
-          return getMetadataFieldBuilder().getBuilder();
+          return internalGetMutableTrackIdToTrack().ensureMessageMap();
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
          */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
+        public Builder putTrackIdToTrack(
+            java.lang.String key,
+            fishjam.media_events.server.Server.MediaEvent.Track value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableTrackIdToTrack().ensureBuilderMap()
+              .put(key, value);
+          bitField0_ |= 0x00000004;
+          return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
          */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
-        }
-
-        private java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> tracks_ =
-          java.util.Collections.emptyList();
-        private void ensureTracksIsMutable() {
-          if (!((bitField0_ & 0x00000008) != 0)) {
-            tracks_ = new java.util.ArrayList<fishjam.media_events.server.Server.MediaEvent.Track>(tracks_);
-            bitField0_ |= 0x00000008;
-           }
-        }
-
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> tracksBuilder_;
-
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> getTracksList() {
-          if (tracksBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(tracks_);
-          } else {
-            return tracksBuilder_.getMessageList();
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public int getTracksCount() {
-          if (tracksBuilder_ == null) {
-            return tracks_.size();
-          } else {
-            return tracksBuilder_.getCount();
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track getTracks(int index) {
-          if (tracksBuilder_ == null) {
-            return tracks_.get(index);
-          } else {
-            return tracksBuilder_.getMessage(index);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder setTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track value) {
-          if (tracksBuilder_ == null) {
-            if (value == null) {
+        public Builder putAllTrackIdToTrack(
+            java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> values) {
+          for (java.util.Map.Entry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> e : values.entrySet()) {
+            if (e.getKey() == null || e.getValue() == null) {
               throw new NullPointerException();
             }
-            ensureTracksIsMutable();
-            tracks_.set(index, value);
-            onChanged();
-          } else {
-            tracksBuilder_.setMessage(index, value);
           }
+          internalGetMutableTrackIdToTrack().ensureBuilderMap()
+              .putAll(values);
+          bitField0_ |= 0x00000004;
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 4;</code>
          */
-        public Builder setTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track.Builder builderForValue) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            tracksBuilder_.setMessage(index, builderForValue.build());
+        public fishjam.media_events.server.Server.MediaEvent.Track.Builder putTrackIdToTrackBuilderIfAbsent(
+            java.lang.String key) {
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> builderMap = internalGetMutableTrackIdToTrack().ensureBuilderMap();
+          fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder entry = builderMap.get(key);
+          if (entry == null) {
+            entry = fishjam.media_events.server.Server.MediaEvent.Track.newBuilder();
+            builderMap.put(key, entry);
           }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder addTracks(fishjam.media_events.server.Server.MediaEvent.Track value) {
-          if (tracksBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTracksIsMutable();
-            tracks_.add(value);
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(value);
+          if (entry instanceof fishjam.media_events.server.Server.MediaEvent.Track) {
+            entry = ((fishjam.media_events.server.Server.MediaEvent.Track) entry).toBuilder();
+            builderMap.put(key, entry);
           }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder addTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track value) {
-          if (tracksBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTracksIsMutable();
-            tracks_.add(index, value);
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(index, value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder addTracks(
-            fishjam.media_events.server.Server.MediaEvent.Track.Builder builderForValue) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.add(builderForValue.build());
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder addTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track.Builder builderForValue) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder addAllTracks(
-            java.lang.Iterable<? extends fishjam.media_events.server.Server.MediaEvent.Track> values) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, tracks_);
-            onChanged();
-          } else {
-            tracksBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder clearTracks() {
-          if (tracksBuilder_ == null) {
-            tracks_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000008);
-            onChanged();
-          } else {
-            tracksBuilder_.clear();
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public Builder removeTracks(int index) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.remove(index);
-            onChanged();
-          } else {
-            tracksBuilder_.remove(index);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track.Builder getTracksBuilder(
-            int index) {
-          return getTracksFieldBuilder().getBuilder(index);
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder getTracksOrBuilder(
-            int index) {
-          if (tracksBuilder_ == null) {
-            return tracks_.get(index);  } else {
-            return tracksBuilder_.getMessageOrBuilder(index);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-             getTracksOrBuilderList() {
-          if (tracksBuilder_ != null) {
-            return tracksBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(tracks_);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track.Builder addTracksBuilder() {
-          return getTracksFieldBuilder().addBuilder(
-              fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track.Builder addTracksBuilder(
-            int index) {
-          return getTracksFieldBuilder().addBuilder(
-              index, fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;</code>
-         */
-        public java.util.List<fishjam.media_events.server.Server.MediaEvent.Track.Builder> 
-             getTracksBuilderList() {
-          return getTracksFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-            getTracksFieldBuilder() {
-          if (tracksBuilder_ == null) {
-            tracksBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder>(
-                    tracks_,
-                    ((bitField0_ & 0x00000008) != 0),
-                    getParentForChildren(),
-                    isClean());
-            tracks_ = null;
-          }
-          return tracksBuilder_;
+          return (fishjam.media_events.server.Server.MediaEvent.Track.Builder) entry;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.Endpoint)
@@ -2222,6 +3032,878 @@ public final class Server {
 
     }
 
+    public interface IceServerOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.server.MediaEvent.IceServer)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string credential = 1;</code>
+       * @return The credential.
+       */
+      java.lang.String getCredential();
+      /**
+       * <code>string credential = 1;</code>
+       * @return The bytes for credential.
+       */
+      com.google.protobuf.ByteString
+          getCredentialBytes();
+
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @return A list containing the urls.
+       */
+      java.util.List<java.lang.String>
+          getUrlsList();
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @return The count of urls.
+       */
+      int getUrlsCount();
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @param index The index of the element to return.
+       * @return The urls at the given index.
+       */
+      java.lang.String getUrls(int index);
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the urls at the given index.
+       */
+      com.google.protobuf.ByteString
+          getUrlsBytes(int index);
+
+      /**
+       * <code>string username = 3;</code>
+       * @return The username.
+       */
+      java.lang.String getUsername();
+      /**
+       * <code>string username = 3;</code>
+       * @return The bytes for username.
+       */
+      com.google.protobuf.ByteString
+          getUsernameBytes();
+    }
+    /**
+     * Protobuf type {@code fishjam.media_events.server.MediaEvent.IceServer}
+     */
+    public static final class IceServer extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.server.MediaEvent.IceServer)
+        IceServerOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          IceServer.class.getName());
+      }
+      // Use IceServer.newBuilder() to construct.
+      private IceServer(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private IceServer() {
+        credential_ = "";
+        urls_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+        username_ = "";
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_IceServer_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_IceServer_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.media_events.server.Server.MediaEvent.IceServer.class, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder.class);
+      }
+
+      public static final int CREDENTIAL_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object credential_ = "";
+      /**
+       * <code>string credential = 1;</code>
+       * @return The credential.
+       */
+      @java.lang.Override
+      public java.lang.String getCredential() {
+        java.lang.Object ref = credential_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          credential_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string credential = 1;</code>
+       * @return The bytes for credential.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getCredentialBytes() {
+        java.lang.Object ref = credential_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          credential_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int URLS_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private com.google.protobuf.LazyStringArrayList urls_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @return A list containing the urls.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getUrlsList() {
+        return urls_;
+      }
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @return The count of urls.
+       */
+      public int getUrlsCount() {
+        return urls_.size();
+      }
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @param index The index of the element to return.
+       * @return The urls at the given index.
+       */
+      public java.lang.String getUrls(int index) {
+        return urls_.get(index);
+      }
+      /**
+       * <code>repeated string urls = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the urls at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getUrlsBytes(int index) {
+        return urls_.getByteString(index);
+      }
+
+      public static final int USERNAME_FIELD_NUMBER = 3;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object username_ = "";
+      /**
+       * <code>string username = 3;</code>
+       * @return The username.
+       */
+      @java.lang.Override
+      public java.lang.String getUsername() {
+        java.lang.Object ref = username_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          username_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string username = 3;</code>
+       * @return The bytes for username.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getUsernameBytes() {
+        java.lang.Object ref = username_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          username_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(credential_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, credential_);
+        }
+        for (int i = 0; i < urls_.size(); i++) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, urls_.getRaw(i));
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(username_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 3, username_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(credential_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, credential_);
+        }
+        {
+          int dataSize = 0;
+          for (int i = 0; i < urls_.size(); i++) {
+            dataSize += computeStringSizeNoTag(urls_.getRaw(i));
+          }
+          size += dataSize;
+          size += 1 * getUrlsList().size();
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(username_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(3, username_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.media_events.server.Server.MediaEvent.IceServer)) {
+          return super.equals(obj);
+        }
+        fishjam.media_events.server.Server.MediaEvent.IceServer other = (fishjam.media_events.server.Server.MediaEvent.IceServer) obj;
+
+        if (!getCredential()
+            .equals(other.getCredential())) return false;
+        if (!getUrlsList()
+            .equals(other.getUrlsList())) return false;
+        if (!getUsername()
+            .equals(other.getUsername())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + CREDENTIAL_FIELD_NUMBER;
+        hash = (53 * hash) + getCredential().hashCode();
+        if (getUrlsCount() > 0) {
+          hash = (37 * hash) + URLS_FIELD_NUMBER;
+          hash = (53 * hash) + getUrlsList().hashCode();
+        }
+        hash = (37 * hash) + USERNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getUsername().hashCode();
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.media_events.server.Server.MediaEvent.IceServer prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code fishjam.media_events.server.MediaEvent.IceServer}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.server.MediaEvent.IceServer)
+          fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_IceServer_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_IceServer_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.server.Server.MediaEvent.IceServer.class, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder.class);
+        }
+
+        // Construct using fishjam.media_events.server.Server.MediaEvent.IceServer.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          credential_ = "";
+          urls_ =
+              com.google.protobuf.LazyStringArrayList.emptyList();
+          username_ = "";
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_IceServer_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.IceServer getDefaultInstanceForType() {
+          return fishjam.media_events.server.Server.MediaEvent.IceServer.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.IceServer build() {
+          fishjam.media_events.server.Server.MediaEvent.IceServer result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.IceServer buildPartial() {
+          fishjam.media_events.server.Server.MediaEvent.IceServer result = new fishjam.media_events.server.Server.MediaEvent.IceServer(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.IceServer result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.credential_ = credential_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            urls_.makeImmutable();
+            result.urls_ = urls_;
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.username_ = username_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.media_events.server.Server.MediaEvent.IceServer) {
+            return mergeFrom((fishjam.media_events.server.Server.MediaEvent.IceServer)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.IceServer other) {
+          if (other == fishjam.media_events.server.Server.MediaEvent.IceServer.getDefaultInstance()) return this;
+          if (!other.getCredential().isEmpty()) {
+            credential_ = other.credential_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (!other.urls_.isEmpty()) {
+            if (urls_.isEmpty()) {
+              urls_ = other.urls_;
+              bitField0_ |= 0x00000002;
+            } else {
+              ensureUrlsIsMutable();
+              urls_.addAll(other.urls_);
+            }
+            onChanged();
+          }
+          if (!other.getUsername().isEmpty()) {
+            username_ = other.username_;
+            bitField0_ |= 0x00000004;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  credential_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                case 18: {
+                  java.lang.String s = input.readStringRequireUtf8();
+                  ensureUrlsIsMutable();
+                  urls_.add(s);
+                  break;
+                } // case 18
+                case 26: {
+                  username_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000004;
+                  break;
+                } // case 26
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object credential_ = "";
+        /**
+         * <code>string credential = 1;</code>
+         * @return The credential.
+         */
+        public java.lang.String getCredential() {
+          java.lang.Object ref = credential_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            credential_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string credential = 1;</code>
+         * @return The bytes for credential.
+         */
+        public com.google.protobuf.ByteString
+            getCredentialBytes() {
+          java.lang.Object ref = credential_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            credential_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string credential = 1;</code>
+         * @param value The credential to set.
+         * @return This builder for chaining.
+         */
+        public Builder setCredential(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          credential_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string credential = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearCredential() {
+          credential_ = getDefaultInstance().getCredential();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string credential = 1;</code>
+         * @param value The bytes for credential to set.
+         * @return This builder for chaining.
+         */
+        public Builder setCredentialBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          credential_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private com.google.protobuf.LazyStringArrayList urls_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+        private void ensureUrlsIsMutable() {
+          if (!urls_.isModifiable()) {
+            urls_ = new com.google.protobuf.LazyStringArrayList(urls_);
+          }
+          bitField0_ |= 0x00000002;
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @return A list containing the urls.
+         */
+        public com.google.protobuf.ProtocolStringList
+            getUrlsList() {
+          urls_.makeImmutable();
+          return urls_;
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @return The count of urls.
+         */
+        public int getUrlsCount() {
+          return urls_.size();
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @param index The index of the element to return.
+         * @return The urls at the given index.
+         */
+        public java.lang.String getUrls(int index) {
+          return urls_.get(index);
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @param index The index of the value to return.
+         * @return The bytes of the urls at the given index.
+         */
+        public com.google.protobuf.ByteString
+            getUrlsBytes(int index) {
+          return urls_.getByteString(index);
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @param index The index to set the value at.
+         * @param value The urls to set.
+         * @return This builder for chaining.
+         */
+        public Builder setUrls(
+            int index, java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          ensureUrlsIsMutable();
+          urls_.set(index, value);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @param value The urls to add.
+         * @return This builder for chaining.
+         */
+        public Builder addUrls(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          ensureUrlsIsMutable();
+          urls_.add(value);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @param values The urls to add.
+         * @return This builder for chaining.
+         */
+        public Builder addAllUrls(
+            java.lang.Iterable<java.lang.String> values) {
+          ensureUrlsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, urls_);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearUrls() {
+          urls_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated string urls = 2;</code>
+         * @param value The bytes of the urls to add.
+         * @return This builder for chaining.
+         */
+        public Builder addUrlsBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          ensureUrlsIsMutable();
+          urls_.add(value);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object username_ = "";
+        /**
+         * <code>string username = 3;</code>
+         * @return The username.
+         */
+        public java.lang.String getUsername() {
+          java.lang.Object ref = username_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            username_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string username = 3;</code>
+         * @return The bytes for username.
+         */
+        public com.google.protobuf.ByteString
+            getUsernameBytes() {
+          java.lang.Object ref = username_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            username_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string username = 3;</code>
+         * @param value The username to set.
+         * @return This builder for chaining.
+         */
+        public Builder setUsername(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          username_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string username = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearUsername() {
+          username_ = getDefaultInstance().getUsername();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string username = 3;</code>
+         * @param value The bytes for username to set.
+         * @return This builder for chaining.
+         */
+        public Builder setUsernameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          username_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.IceServer)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.server.MediaEvent.IceServer)
+      private static final fishjam.media_events.server.Server.MediaEvent.IceServer DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.media_events.server.Server.MediaEvent.IceServer();
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.IceServer getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<IceServer>
+          PARSER = new com.google.protobuf.AbstractParser<IceServer>() {
+        @java.lang.Override
+        public IceServer parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<IceServer> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<IceServer> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.IceServer getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     public interface EndpointUpdatedOrBuilder extends
         // @@protoc_insertion_point(interface_extends:fishjam.media_events.server.MediaEvent.EndpointUpdated)
         com.google.protobuf.MessageOrBuilder {
@@ -2239,19 +3921,16 @@ public final class Server {
           getEndpointIdBytes();
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 2;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 2;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
     }
     /**
      * <pre>
@@ -2280,6 +3959,7 @@ public final class Server {
       }
       private EndpointUpdated() {
         endpointId_ = "";
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -2295,7 +3975,6 @@ public final class Server {
                 fishjam.media_events.server.Server.MediaEvent.EndpointUpdated.class, fishjam.media_events.server.Server.MediaEvent.EndpointUpdated.Builder.class);
       }
 
-      private int bitField0_;
       public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
       @SuppressWarnings("serial")
       private volatile java.lang.Object endpointId_ = "";
@@ -2335,30 +4014,43 @@ public final class Server {
         }
       }
 
-      public static final int METADATA_FIELD_NUMBER = 2;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 2;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 2;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
@@ -2378,8 +4070,8 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(2, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, metadataJson_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -2393,9 +4085,8 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, metadataJson_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -2414,11 +4105,8 @@ public final class Server {
 
         if (!getEndpointId()
             .equals(other.getEndpointId())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -2432,10 +4120,8 @@ public final class Server {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
         hash = (53 * hash) + getEndpointId().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -2559,30 +4245,20 @@ public final class Server {
 
         // Construct using fishjam.media_events.server.Server.MediaEvent.EndpointUpdated.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
           endpointId_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
+          metadataJson_ = "";
           return this;
         }
 
@@ -2619,14 +4295,9 @@ public final class Server {
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.endpointId_ = endpointId_;
           }
-          int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
         }
 
         @java.lang.Override
@@ -2646,8 +4317,10 @@ public final class Server {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
+            bitField0_ |= 0x00000002;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -2681,9 +4354,7 @@ public final class Server {
                   break;
                 } // case 10
                 case 18: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000002;
                   break;
                 } // case 18
@@ -2776,125 +4447,76 @@ public final class Server {
           return this;
         }
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return Whether the metadata field is set.
+         * <code>string metadata_json = 2;</code>
+         * @return The metadataJson.
          */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000002) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
           } else {
-            return metadataBuilder_.getMessage();
+            return (java.lang.String) ref;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @return The bytes for metadataJson.
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
           } else {
-            metadataBuilder_.setMessage(value);
+            return (com.google.protobuf.ByteString) ref;
           }
+        }
+        /**
+         * <code>string metadata_json = 2;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @return This builder for chaining.
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000002;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000002;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder clearMetadata() {
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000002);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.EndpointUpdated)
@@ -2977,19 +4599,16 @@ public final class Server {
           getTrackIdBytes();
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 3;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 3;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
     }
     /**
      * <pre>
@@ -3019,6 +4638,7 @@ public final class Server {
       private TrackUpdated() {
         endpointId_ = "";
         trackId_ = "";
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -3034,7 +4654,6 @@ public final class Server {
                 fishjam.media_events.server.Server.MediaEvent.TrackUpdated.class, fishjam.media_events.server.Server.MediaEvent.TrackUpdated.Builder.class);
       }
 
-      private int bitField0_;
       public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
       @SuppressWarnings("serial")
       private volatile java.lang.Object endpointId_ = "";
@@ -3113,30 +4732,43 @@ public final class Server {
         }
       }
 
-      public static final int METADATA_FIELD_NUMBER = 3;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 3;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 3;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 3;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
@@ -3159,8 +4791,8 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 2, trackId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(3, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 3, metadataJson_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -3177,9 +4809,8 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(2, trackId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(3, metadataJson_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -3200,11 +4831,8 @@ public final class Server {
             .equals(other.getEndpointId())) return false;
         if (!getTrackId()
             .equals(other.getTrackId())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -3220,10 +4848,8 @@ public final class Server {
         hash = (53 * hash) + getEndpointId().hashCode();
         hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
         hash = (53 * hash) + getTrackId().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -3347,19 +4973,13 @@ public final class Server {
 
         // Construct using fishjam.media_events.server.Server.MediaEvent.TrackUpdated.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
@@ -3367,11 +4987,7 @@ public final class Server {
           bitField0_ = 0;
           endpointId_ = "";
           trackId_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
+          metadataJson_ = "";
           return this;
         }
 
@@ -3411,14 +5027,9 @@ public final class Server {
           if (((from_bitField0_ & 0x00000002) != 0)) {
             result.trackId_ = trackId_;
           }
-          int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000004) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
         }
 
         @java.lang.Override
@@ -3443,8 +5054,10 @@ public final class Server {
             bitField0_ |= 0x00000002;
             onChanged();
           }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
+            bitField0_ |= 0x00000004;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -3483,9 +5096,7 @@ public final class Server {
                   break;
                 } // case 18
                 case 26: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000004;
                   break;
                 } // case 26
@@ -3650,125 +5261,76 @@ public final class Server {
           return this;
         }
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         * @return Whether the metadata field is set.
+         * <code>string metadata_json = 3;</code>
+         * @return The metadataJson.
          */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000004) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
           } else {
-            return metadataBuilder_.getMessage();
+            return (java.lang.String) ref;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>string metadata_json = 3;</code>
+         * @return The bytes for metadataJson.
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
           } else {
-            metadataBuilder_.setMessage(value);
+            return (com.google.protobuf.ByteString) ref;
           }
+        }
+        /**
+         * <code>string metadata_json = 3;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
           bitField0_ |= 0x00000004;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>string metadata_json = 3;</code>
+         * @return This builder for chaining.
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000004;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000004) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000004;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         */
-        public Builder clearMetadata() {
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000004);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
+         * <code>string metadata_json = 3;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000004;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 3;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.TrackUpdated)
@@ -3839,28 +5401,38 @@ public final class Server {
           getEndpointIdBytes();
 
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
-      java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> 
-          getTracksList();
+      int getTrackIdToTrackCount();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
-      fishjam.media_events.server.Server.MediaEvent.Track getTracks(int index);
+      boolean containsTrackIdToTrack(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * Use {@link #getTrackIdToTrackMap()} instead.
        */
-      int getTracksCount();
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+      getTrackIdToTrack();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
-      java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-          getTracksOrBuilderList();
+      java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+      getTrackIdToTrackMap();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
-      fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder getTracksOrBuilder(
-          int index);
+      /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track defaultValue);
+      /**
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+       */
+      fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrThrow(
+          java.lang.String key);
     }
     /**
      * <pre>
@@ -3889,7 +5461,6 @@ public final class Server {
       }
       private TracksAdded() {
         endpointId_ = "";
-        tracks_ = java.util.Collections.emptyList();
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -3897,6 +5468,18 @@ public final class Server {
         return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      @java.lang.Override
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetTrackIdToTrack();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -3944,45 +5527,83 @@ public final class Server {
         }
       }
 
-      public static final int TRACKS_FIELD_NUMBER = 2;
+      public static final int TRACK_ID_TO_TRACK_FIELD_NUMBER = 2;
+      private static final class TrackIdToTrackDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>newDefaultInstance(
+                    fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_TrackIdToTrackEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                    fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance());
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> tracks_;
-      /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> getTracksList() {
-        return tracks_;
+      private com.google.protobuf.MapField<
+          java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> trackIdToTrack_;
+      private com.google.protobuf.MapField<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+      internalGetTrackIdToTrack() {
+        if (trackIdToTrack_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              TrackIdToTrackDefaultEntryHolder.defaultEntry);
+        }
+        return trackIdToTrack_;
+      }
+      public int getTrackIdToTrackCount() {
+        return internalGetTrackIdToTrack().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
       @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-          getTracksOrBuilderList() {
-        return tracks_;
+      public boolean containsTrackIdToTrack(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetTrackIdToTrack().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * Use {@link #getTrackIdToTrackMap()} instead.
        */
       @java.lang.Override
-      public int getTracksCount() {
-        return tracks_.size();
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrack() {
+        return getTrackIdToTrackMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.server.Server.MediaEvent.Track getTracks(int index) {
-        return tracks_.get(index);
+      public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrackMap() {
+        return internalGetTrackIdToTrack().getMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder getTracksOrBuilder(
-          int index) {
-        return tracks_.get(index);
+      public /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> map =
+            internalGetTrackIdToTrack().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> map =
+            internalGetTrackIdToTrack().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
       }
 
       private byte memoizedIsInitialized = -1;
@@ -4002,9 +5623,12 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
         }
-        for (int i = 0; i < tracks_.size(); i++) {
-          output.writeMessage(2, tracks_.get(i));
-        }
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetTrackIdToTrack(),
+            TrackIdToTrackDefaultEntryHolder.defaultEntry,
+            2);
         getUnknownFields().writeTo(output);
       }
 
@@ -4017,9 +5641,15 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
         }
-        for (int i = 0; i < tracks_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> entry
+             : internalGetTrackIdToTrack().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+          trackIdToTrack__ = TrackIdToTrackDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, tracks_.get(i));
+              .computeMessageSize(2, trackIdToTrack__);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -4038,8 +5668,8 @@ public final class Server {
 
         if (!getEndpointId()
             .equals(other.getEndpointId())) return false;
-        if (!getTracksList()
-            .equals(other.getTracksList())) return false;
+        if (!internalGetTrackIdToTrack().equals(
+            other.internalGetTrackIdToTrack())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -4053,9 +5683,9 @@ public final class Server {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
         hash = (53 * hash) + getEndpointId().hashCode();
-        if (getTracksCount() > 0) {
-          hash = (37 * hash) + TRACKS_FIELD_NUMBER;
-          hash = (53 * hash) + getTracksList().hashCode();
+        if (!internalGetTrackIdToTrack().getMap().isEmpty()) {
+          hash = (37 * hash) + TRACK_ID_TO_TRACK_FIELD_NUMBER;
+          hash = (53 * hash) + internalGetTrackIdToTrack().hashCode();
         }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
@@ -4170,6 +5800,28 @@ public final class Server {
           return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_descriptor;
         }
 
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetTrackIdToTrack();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMutableMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetMutableTrackIdToTrack();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
@@ -4193,13 +5845,7 @@ public final class Server {
           super.clear();
           bitField0_ = 0;
           endpointId_ = "";
-          if (tracksBuilder_ == null) {
-            tracks_ = java.util.Collections.emptyList();
-          } else {
-            tracks_ = null;
-            tracksBuilder_.clear();
-          }
-          bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableTrackIdToTrack().clear();
           return this;
         }
 
@@ -4226,28 +5872,18 @@ public final class Server {
         @java.lang.Override
         public fishjam.media_events.server.Server.MediaEvent.TracksAdded buildPartial() {
           fishjam.media_events.server.Server.MediaEvent.TracksAdded result = new fishjam.media_events.server.Server.MediaEvent.TracksAdded(this);
-          buildPartialRepeatedFields(result);
           if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
-        }
-
-        private void buildPartialRepeatedFields(fishjam.media_events.server.Server.MediaEvent.TracksAdded result) {
-          if (tracksBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0)) {
-              tracks_ = java.util.Collections.unmodifiableList(tracks_);
-              bitField0_ = (bitField0_ & ~0x00000002);
-            }
-            result.tracks_ = tracks_;
-          } else {
-            result.tracks_ = tracksBuilder_.build();
-          }
         }
 
         private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.TracksAdded result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.endpointId_ = endpointId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.trackIdToTrack_ = internalGetTrackIdToTrack().build(TrackIdToTrackDefaultEntryHolder.defaultEntry);
           }
         }
 
@@ -4268,32 +5904,9 @@ public final class Server {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (tracksBuilder_ == null) {
-            if (!other.tracks_.isEmpty()) {
-              if (tracks_.isEmpty()) {
-                tracks_ = other.tracks_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-              } else {
-                ensureTracksIsMutable();
-                tracks_.addAll(other.tracks_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.tracks_.isEmpty()) {
-              if (tracksBuilder_.isEmpty()) {
-                tracksBuilder_.dispose();
-                tracksBuilder_ = null;
-                tracks_ = other.tracks_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-                tracksBuilder_ = 
-                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getTracksFieldBuilder() : null;
-              } else {
-                tracksBuilder_.addAllMessages(other.tracks_);
-              }
-            }
-          }
+          internalGetMutableTrackIdToTrack().mergeFrom(
+              other.internalGetTrackIdToTrack());
+          bitField0_ |= 0x00000002;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -4326,16 +5939,12 @@ public final class Server {
                   break;
                 } // case 10
                 case 18: {
-                  fishjam.media_events.server.Server.MediaEvent.Track m =
-                      input.readMessage(
-                          fishjam.media_events.server.Server.MediaEvent.Track.parser(),
-                          extensionRegistry);
-                  if (tracksBuilder_ == null) {
-                    ensureTracksIsMutable();
-                    tracks_.add(m);
-                  } else {
-                    tracksBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+                  trackIdToTrack__ = input.readMessage(
+                      TrackIdToTrackDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableTrackIdToTrack().ensureBuilderMap().put(
+                      trackIdToTrack__.getKey(), trackIdToTrack__.getValue());
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
                 default: {
@@ -4427,244 +6036,159 @@ public final class Server {
           return this;
         }
 
-        private java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> tracks_ =
-          java.util.Collections.emptyList();
-        private void ensureTracksIsMutable() {
-          if (!((bitField0_ & 0x00000002) != 0)) {
-            tracks_ = new java.util.ArrayList<fishjam.media_events.server.Server.MediaEvent.Track>(tracks_);
-            bitField0_ |= 0x00000002;
-           }
-        }
+        private static final class TrackIdToTrackConverter implements com.google.protobuf.MapFieldBuilder.Converter<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track> {
+          @java.lang.Override
+          public fishjam.media_events.server.Server.MediaEvent.Track build(fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder val) {
+            if (val instanceof fishjam.media_events.server.Server.MediaEvent.Track) { return (fishjam.media_events.server.Server.MediaEvent.Track) val; }
+            return ((fishjam.media_events.server.Server.MediaEvent.Track.Builder) val).build();
+          }
 
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> tracksBuilder_;
+          @java.lang.Override
+          public com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> defaultEntry() {
+            return TrackIdToTrackDefaultEntryHolder.defaultEntry;
+          }
+        };
+        private static final TrackIdToTrackConverter trackIdToTrackConverter = new TrackIdToTrackConverter();
 
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public java.util.List<fishjam.media_events.server.Server.MediaEvent.Track> getTracksList() {
-          if (tracksBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(tracks_);
-          } else {
-            return tracksBuilder_.getMessageList();
+        private com.google.protobuf.MapFieldBuilder<
+            java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder> trackIdToTrack_;
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder>
+            internalGetTrackIdToTrack() {
+          if (trackIdToTrack_ == null) {
+            return new com.google.protobuf.MapFieldBuilder<>(trackIdToTrackConverter);
           }
+          return trackIdToTrack_;
+        }
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder, fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder>
+            internalGetMutableTrackIdToTrack() {
+          if (trackIdToTrack_ == null) {
+            trackIdToTrack_ = new com.google.protobuf.MapFieldBuilder<>(trackIdToTrackConverter);
+          }
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return trackIdToTrack_;
+        }
+        public int getTrackIdToTrackCount() {
+          return internalGetTrackIdToTrack().ensureBuilderMap().size();
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
          */
-        public int getTracksCount() {
-          if (tracksBuilder_ == null) {
-            return tracks_.size();
-          } else {
-            return tracksBuilder_.getCount();
-          }
+        @java.lang.Override
+        public boolean containsTrackIdToTrack(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetTrackIdToTrack().ensureBuilderMap().containsKey(key);
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+         * Use {@link #getTrackIdToTrackMap()} instead.
          */
-        public fishjam.media_events.server.Server.MediaEvent.Track getTracks(int index) {
-          if (tracksBuilder_ == null) {
-            return tracks_.get(index);
-          } else {
-            return tracksBuilder_.getMessage(index);
-          }
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrack() {
+          return getTrackIdToTrackMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
          */
-        public Builder setTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track value) {
-          if (tracksBuilder_ == null) {
-            if (value == null) {
+        @java.lang.Override
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> getTrackIdToTrackMap() {
+          return internalGetTrackIdToTrack().getImmutableMap();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+         */
+        @java.lang.Override
+        public /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrDefault(
+            java.lang.String key,
+            /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Track defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> map = internalGetMutableTrackIdToTrack().ensureBuilderMap();
+          return map.containsKey(key) ? trackIdToTrackConverter.build(map.get(key)) : defaultValue;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+         */
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.Track getTrackIdToTrackOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> map = internalGetMutableTrackIdToTrack().ensureBuilderMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
+          }
+          return trackIdToTrackConverter.build(map.get(key));
+        }
+        public Builder clearTrackIdToTrack() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableTrackIdToTrack().clear();
+          return this;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+         */
+        public Builder removeTrackIdToTrack(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableTrackIdToTrack().ensureBuilderMap()
+              .remove(key);
+          return this;
+        }
+        /**
+         * Use alternate mutation accessors instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track>
+            getMutableTrackIdToTrack() {
+          bitField0_ |= 0x00000002;
+          return internalGetMutableTrackIdToTrack().ensureMessageMap();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+         */
+        public Builder putTrackIdToTrack(
+            java.lang.String key,
+            fishjam.media_events.server.Server.MediaEvent.Track value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableTrackIdToTrack().ensureBuilderMap()
+              .put(key, value);
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
+         */
+        public Builder putAllTrackIdToTrack(
+            java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> values) {
+          for (java.util.Map.Entry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Track> e : values.entrySet()) {
+            if (e.getKey() == null || e.getValue() == null) {
               throw new NullPointerException();
             }
-            ensureTracksIsMutable();
-            tracks_.set(index, value);
-            onChanged();
-          } else {
-            tracksBuilder_.setMessage(index, value);
           }
+          internalGetMutableTrackIdToTrack().ensureBuilderMap()
+              .putAll(values);
+          bitField0_ |= 0x00000002;
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Track&gt; track_id_to_track = 2;</code>
          */
-        public Builder setTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track.Builder builderForValue) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            tracksBuilder_.setMessage(index, builderForValue.build());
+        public fishjam.media_events.server.Server.MediaEvent.Track.Builder putTrackIdToTrackBuilderIfAbsent(
+            java.lang.String key) {
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> builderMap = internalGetMutableTrackIdToTrack().ensureBuilderMap();
+          fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder entry = builderMap.get(key);
+          if (entry == null) {
+            entry = fishjam.media_events.server.Server.MediaEvent.Track.newBuilder();
+            builderMap.put(key, entry);
           }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder addTracks(fishjam.media_events.server.Server.MediaEvent.Track value) {
-          if (tracksBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTracksIsMutable();
-            tracks_.add(value);
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(value);
+          if (entry instanceof fishjam.media_events.server.Server.MediaEvent.Track) {
+            entry = ((fishjam.media_events.server.Server.MediaEvent.Track) entry).toBuilder();
+            builderMap.put(key, entry);
           }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder addTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track value) {
-          if (tracksBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTracksIsMutable();
-            tracks_.add(index, value);
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(index, value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder addTracks(
-            fishjam.media_events.server.Server.MediaEvent.Track.Builder builderForValue) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.add(builderForValue.build());
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder addTracks(
-            int index, fishjam.media_events.server.Server.MediaEvent.Track.Builder builderForValue) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            tracksBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder addAllTracks(
-            java.lang.Iterable<? extends fishjam.media_events.server.Server.MediaEvent.Track> values) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, tracks_);
-            onChanged();
-          } else {
-            tracksBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder clearTracks() {
-          if (tracksBuilder_ == null) {
-            tracks_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
-            onChanged();
-          } else {
-            tracksBuilder_.clear();
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public Builder removeTracks(int index) {
-          if (tracksBuilder_ == null) {
-            ensureTracksIsMutable();
-            tracks_.remove(index);
-            onChanged();
-          } else {
-            tracksBuilder_.remove(index);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track.Builder getTracksBuilder(
-            int index) {
-          return getTracksFieldBuilder().getBuilder(index);
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder getTracksOrBuilder(
-            int index) {
-          if (tracksBuilder_ == null) {
-            return tracks_.get(index);  } else {
-            return tracksBuilder_.getMessageOrBuilder(index);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-             getTracksOrBuilderList() {
-          if (tracksBuilder_ != null) {
-            return tracksBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(tracks_);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track.Builder addTracksBuilder() {
-          return getTracksFieldBuilder().addBuilder(
-              fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public fishjam.media_events.server.Server.MediaEvent.Track.Builder addTracksBuilder(
-            int index) {
-          return getTracksFieldBuilder().addBuilder(
-              index, fishjam.media_events.server.Server.MediaEvent.Track.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;</code>
-         */
-        public java.util.List<fishjam.media_events.server.Server.MediaEvent.Track.Builder> 
-             getTracksBuilderList() {
-          return getTracksFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder> 
-            getTracksFieldBuilder() {
-          if (tracksBuilder_ == null) {
-            tracksBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.server.Server.MediaEvent.Track, fishjam.media_events.server.Server.MediaEvent.Track.Builder, fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder>(
-                    tracks_,
-                    ((bitField0_ & 0x00000002) != 0),
-                    getParentForChildren(),
-                    isClean());
-            tracks_ = null;
-          }
-          return tracksBuilder_;
+          return (fishjam.media_events.server.Server.MediaEvent.Track.Builder) entry;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.TracksAdded)
@@ -5467,19 +6991,16 @@ public final class Server {
           getEndpointIdBytes();
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 2;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 2;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
     }
     /**
      * <pre>
@@ -5508,6 +7029,7 @@ public final class Server {
       }
       private EndpointAdded() {
         endpointId_ = "";
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -5523,7 +7045,6 @@ public final class Server {
                 fishjam.media_events.server.Server.MediaEvent.EndpointAdded.class, fishjam.media_events.server.Server.MediaEvent.EndpointAdded.Builder.class);
       }
 
-      private int bitField0_;
       public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
       @SuppressWarnings("serial")
       private volatile java.lang.Object endpointId_ = "";
@@ -5563,30 +7084,43 @@ public final class Server {
         }
       }
 
-      public static final int METADATA_FIELD_NUMBER = 2;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 2;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 2;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
@@ -5606,8 +7140,8 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(2, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, metadataJson_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -5621,9 +7155,8 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, metadataJson_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -5642,11 +7175,8 @@ public final class Server {
 
         if (!getEndpointId()
             .equals(other.getEndpointId())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -5660,10 +7190,8 @@ public final class Server {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
         hash = (53 * hash) + getEndpointId().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -5787,30 +7315,20 @@ public final class Server {
 
         // Construct using fishjam.media_events.server.Server.MediaEvent.EndpointAdded.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
           endpointId_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
+          metadataJson_ = "";
           return this;
         }
 
@@ -5847,14 +7365,9 @@ public final class Server {
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.endpointId_ = endpointId_;
           }
-          int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
         }
 
         @java.lang.Override
@@ -5874,8 +7387,10 @@ public final class Server {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
+            bitField0_ |= 0x00000002;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -5909,9 +7424,7 @@ public final class Server {
                   break;
                 } // case 10
                 case 18: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000002;
                   break;
                 } // case 18
@@ -6004,125 +7517,76 @@ public final class Server {
           return this;
         }
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return Whether the metadata field is set.
+         * <code>string metadata_json = 2;</code>
+         * @return The metadataJson.
          */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000002) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
           } else {
-            return metadataBuilder_.getMessage();
+            return (java.lang.String) ref;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @return The bytes for metadataJson.
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
           } else {
-            metadataBuilder_.setMessage(value);
+            return (com.google.protobuf.ByteString) ref;
           }
+        }
+        /**
+         * <code>string metadata_json = 2;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @return This builder for chaining.
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000002;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000002;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder clearMetadata() {
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000002);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.EndpointAdded)
@@ -6193,27 +7657,61 @@ public final class Server {
           getEndpointIdBytes();
 
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
-      java.util.List<fishjam.media_events.server.Server.MediaEvent.Endpoint> 
-          getEndpointsList();
+      int getEndpointIdToEndpointCount();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
-      fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpoints(int index);
+      boolean containsEndpointIdToEndpoint(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * Use {@link #getEndpointIdToEndpointMap()} instead.
        */
-      int getEndpointsCount();
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>
+      getEndpointIdToEndpoint();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
-      java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> 
-          getEndpointsOrBuilderList();
+      java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>
+      getEndpointIdToEndpointMap();
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
-      fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder getEndpointsOrBuilder(
+      /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpointIdToEndpointOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Endpoint defaultValue);
+      /**
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+       */
+      fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpointIdToEndpointOrThrow(
+          java.lang.String key);
+
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      java.util.List<fishjam.media_events.server.Server.MediaEvent.IceServer> 
+          getIceServersList();
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      fishjam.media_events.server.Server.MediaEvent.IceServer getIceServers(int index);
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      int getIceServersCount();
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder> 
+          getIceServersOrBuilderList();
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder getIceServersOrBuilder(
           int index);
     }
     /**
@@ -6243,7 +7741,7 @@ public final class Server {
       }
       private Connected() {
         endpointId_ = "";
-        endpoints_ = java.util.Collections.emptyList();
+        iceServers_ = java.util.Collections.emptyList();
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -6251,6 +7749,18 @@ public final class Server {
         return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Connected_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      @java.lang.Override
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetEndpointIdToEndpoint();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -6298,45 +7808,124 @@ public final class Server {
         }
       }
 
-      public static final int ENDPOINTS_FIELD_NUMBER = 2;
+      public static final int ENDPOINT_ID_TO_ENDPOINT_FIELD_NUMBER = 2;
+      private static final class EndpointIdToEndpointDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>newDefaultInstance(
+                    fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Connected_EndpointIdToEndpointEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                    fishjam.media_events.server.Server.MediaEvent.Endpoint.getDefaultInstance());
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.server.Server.MediaEvent.Endpoint> endpoints_;
-      /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.server.Server.MediaEvent.Endpoint> getEndpointsList() {
-        return endpoints_;
+      private com.google.protobuf.MapField<
+          java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> endpointIdToEndpoint_;
+      private com.google.protobuf.MapField<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>
+      internalGetEndpointIdToEndpoint() {
+        if (endpointIdToEndpoint_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              EndpointIdToEndpointDefaultEntryHolder.defaultEntry);
+        }
+        return endpointIdToEndpoint_;
+      }
+      public int getEndpointIdToEndpointCount() {
+        return internalGetEndpointIdToEndpoint().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
       @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> 
-          getEndpointsOrBuilderList() {
-        return endpoints_;
+      public boolean containsEndpointIdToEndpoint(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetEndpointIdToEndpoint().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * Use {@link #getEndpointIdToEndpointMap()} instead.
        */
       @java.lang.Override
-      public int getEndpointsCount() {
-        return endpoints_.size();
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> getEndpointIdToEndpoint() {
+        return getEndpointIdToEndpointMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpoints(int index) {
-        return endpoints_.get(index);
+      public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> getEndpointIdToEndpointMap() {
+        return internalGetEndpointIdToEndpoint().getMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder getEndpointsOrBuilder(
+      public /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpointIdToEndpointOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Endpoint defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> map =
+            internalGetEndpointIdToEndpoint().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpointIdToEndpointOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> map =
+            internalGetEndpointIdToEndpoint().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public static final int ICE_SERVERS_FIELD_NUMBER = 3;
+      @SuppressWarnings("serial")
+      private java.util.List<fishjam.media_events.server.Server.MediaEvent.IceServer> iceServers_;
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      @java.lang.Override
+      public java.util.List<fishjam.media_events.server.Server.MediaEvent.IceServer> getIceServersList() {
+        return iceServers_;
+      }
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      @java.lang.Override
+      public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder> 
+          getIceServersOrBuilderList() {
+        return iceServers_;
+      }
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      @java.lang.Override
+      public int getIceServersCount() {
+        return iceServers_.size();
+      }
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.IceServer getIceServers(int index) {
+        return iceServers_.get(index);
+      }
+      /**
+       * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder getIceServersOrBuilder(
           int index) {
-        return endpoints_.get(index);
+        return iceServers_.get(index);
       }
 
       private byte memoizedIsInitialized = -1;
@@ -6356,8 +7945,14 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
         }
-        for (int i = 0; i < endpoints_.size(); i++) {
-          output.writeMessage(2, endpoints_.get(i));
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetEndpointIdToEndpoint(),
+            EndpointIdToEndpointDefaultEntryHolder.defaultEntry,
+            2);
+        for (int i = 0; i < iceServers_.size(); i++) {
+          output.writeMessage(3, iceServers_.get(i));
         }
         getUnknownFields().writeTo(output);
       }
@@ -6371,9 +7966,19 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
         }
-        for (int i = 0; i < endpoints_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> entry
+             : internalGetEndpointIdToEndpoint().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>
+          endpointIdToEndpoint__ = EndpointIdToEndpointDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, endpoints_.get(i));
+              .computeMessageSize(2, endpointIdToEndpoint__);
+        }
+        for (int i = 0; i < iceServers_.size(); i++) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(3, iceServers_.get(i));
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -6392,8 +7997,10 @@ public final class Server {
 
         if (!getEndpointId()
             .equals(other.getEndpointId())) return false;
-        if (!getEndpointsList()
-            .equals(other.getEndpointsList())) return false;
+        if (!internalGetEndpointIdToEndpoint().equals(
+            other.internalGetEndpointIdToEndpoint())) return false;
+        if (!getIceServersList()
+            .equals(other.getIceServersList())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -6407,9 +8014,13 @@ public final class Server {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
         hash = (53 * hash) + getEndpointId().hashCode();
-        if (getEndpointsCount() > 0) {
-          hash = (37 * hash) + ENDPOINTS_FIELD_NUMBER;
-          hash = (53 * hash) + getEndpointsList().hashCode();
+        if (!internalGetEndpointIdToEndpoint().getMap().isEmpty()) {
+          hash = (37 * hash) + ENDPOINT_ID_TO_ENDPOINT_FIELD_NUMBER;
+          hash = (53 * hash) + internalGetEndpointIdToEndpoint().hashCode();
+        }
+        if (getIceServersCount() > 0) {
+          hash = (37 * hash) + ICE_SERVERS_FIELD_NUMBER;
+          hash = (53 * hash) + getIceServersList().hashCode();
         }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
@@ -6524,6 +8135,28 @@ public final class Server {
           return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_Connected_descriptor;
         }
 
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetEndpointIdToEndpoint();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMutableMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetMutableEndpointIdToEndpoint();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
@@ -6547,13 +8180,14 @@ public final class Server {
           super.clear();
           bitField0_ = 0;
           endpointId_ = "";
-          if (endpointsBuilder_ == null) {
-            endpoints_ = java.util.Collections.emptyList();
+          internalGetMutableEndpointIdToEndpoint().clear();
+          if (iceServersBuilder_ == null) {
+            iceServers_ = java.util.Collections.emptyList();
           } else {
-            endpoints_ = null;
-            endpointsBuilder_.clear();
+            iceServers_ = null;
+            iceServersBuilder_.clear();
           }
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           return this;
         }
 
@@ -6587,14 +8221,14 @@ public final class Server {
         }
 
         private void buildPartialRepeatedFields(fishjam.media_events.server.Server.MediaEvent.Connected result) {
-          if (endpointsBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0)) {
-              endpoints_ = java.util.Collections.unmodifiableList(endpoints_);
-              bitField0_ = (bitField0_ & ~0x00000002);
+          if (iceServersBuilder_ == null) {
+            if (((bitField0_ & 0x00000004) != 0)) {
+              iceServers_ = java.util.Collections.unmodifiableList(iceServers_);
+              bitField0_ = (bitField0_ & ~0x00000004);
             }
-            result.endpoints_ = endpoints_;
+            result.iceServers_ = iceServers_;
           } else {
-            result.endpoints_ = endpointsBuilder_.build();
+            result.iceServers_ = iceServersBuilder_.build();
           }
         }
 
@@ -6602,6 +8236,9 @@ public final class Server {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.endpointId_ = endpointId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.endpointIdToEndpoint_ = internalGetEndpointIdToEndpoint().build(EndpointIdToEndpointDefaultEntryHolder.defaultEntry);
           }
         }
 
@@ -6622,29 +8259,32 @@ public final class Server {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (endpointsBuilder_ == null) {
-            if (!other.endpoints_.isEmpty()) {
-              if (endpoints_.isEmpty()) {
-                endpoints_ = other.endpoints_;
-                bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableEndpointIdToEndpoint().mergeFrom(
+              other.internalGetEndpointIdToEndpoint());
+          bitField0_ |= 0x00000002;
+          if (iceServersBuilder_ == null) {
+            if (!other.iceServers_.isEmpty()) {
+              if (iceServers_.isEmpty()) {
+                iceServers_ = other.iceServers_;
+                bitField0_ = (bitField0_ & ~0x00000004);
               } else {
-                ensureEndpointsIsMutable();
-                endpoints_.addAll(other.endpoints_);
+                ensureIceServersIsMutable();
+                iceServers_.addAll(other.iceServers_);
               }
               onChanged();
             }
           } else {
-            if (!other.endpoints_.isEmpty()) {
-              if (endpointsBuilder_.isEmpty()) {
-                endpointsBuilder_.dispose();
-                endpointsBuilder_ = null;
-                endpoints_ = other.endpoints_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-                endpointsBuilder_ = 
+            if (!other.iceServers_.isEmpty()) {
+              if (iceServersBuilder_.isEmpty()) {
+                iceServersBuilder_.dispose();
+                iceServersBuilder_ = null;
+                iceServers_ = other.iceServers_;
+                bitField0_ = (bitField0_ & ~0x00000004);
+                iceServersBuilder_ = 
                   com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getEndpointsFieldBuilder() : null;
+                     getIceServersFieldBuilder() : null;
               } else {
-                endpointsBuilder_.addAllMessages(other.endpoints_);
+                iceServersBuilder_.addAllMessages(other.iceServers_);
               }
             }
           }
@@ -6680,18 +8320,27 @@ public final class Server {
                   break;
                 } // case 10
                 case 18: {
-                  fishjam.media_events.server.Server.MediaEvent.Endpoint m =
-                      input.readMessage(
-                          fishjam.media_events.server.Server.MediaEvent.Endpoint.parser(),
-                          extensionRegistry);
-                  if (endpointsBuilder_ == null) {
-                    ensureEndpointsIsMutable();
-                    endpoints_.add(m);
-                  } else {
-                    endpointsBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>
+                  endpointIdToEndpoint__ = input.readMessage(
+                      EndpointIdToEndpointDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableEndpointIdToEndpoint().ensureBuilderMap().put(
+                      endpointIdToEndpoint__.getKey(), endpointIdToEndpoint__.getValue());
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
+                case 26: {
+                  fishjam.media_events.server.Server.MediaEvent.IceServer m =
+                      input.readMessage(
+                          fishjam.media_events.server.Server.MediaEvent.IceServer.parser(),
+                          extensionRegistry);
+                  if (iceServersBuilder_ == null) {
+                    ensureIceServersIsMutable();
+                    iceServers_.add(m);
+                  } else {
+                    iceServersBuilder_.addMessage(m);
+                  }
+                  break;
+                } // case 26
                 default: {
                   if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                     done = true; // was an endgroup tag
@@ -6781,244 +8430,399 @@ public final class Server {
           return this;
         }
 
-        private java.util.List<fishjam.media_events.server.Server.MediaEvent.Endpoint> endpoints_ =
+        private static final class EndpointIdToEndpointConverter implements com.google.protobuf.MapFieldBuilder.Converter<java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder, fishjam.media_events.server.Server.MediaEvent.Endpoint> {
+          @java.lang.Override
+          public fishjam.media_events.server.Server.MediaEvent.Endpoint build(fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder val) {
+            if (val instanceof fishjam.media_events.server.Server.MediaEvent.Endpoint) { return (fishjam.media_events.server.Server.MediaEvent.Endpoint) val; }
+            return ((fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder) val).build();
+          }
+
+          @java.lang.Override
+          public com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> defaultEntry() {
+            return EndpointIdToEndpointDefaultEntryHolder.defaultEntry;
+          }
+        };
+        private static final EndpointIdToEndpointConverter endpointIdToEndpointConverter = new EndpointIdToEndpointConverter();
+
+        private com.google.protobuf.MapFieldBuilder<
+            java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder, fishjam.media_events.server.Server.MediaEvent.Endpoint, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder> endpointIdToEndpoint_;
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder, fishjam.media_events.server.Server.MediaEvent.Endpoint, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder>
+            internalGetEndpointIdToEndpoint() {
+          if (endpointIdToEndpoint_ == null) {
+            return new com.google.protobuf.MapFieldBuilder<>(endpointIdToEndpointConverter);
+          }
+          return endpointIdToEndpoint_;
+        }
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder, fishjam.media_events.server.Server.MediaEvent.Endpoint, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder>
+            internalGetMutableEndpointIdToEndpoint() {
+          if (endpointIdToEndpoint_ == null) {
+            endpointIdToEndpoint_ = new com.google.protobuf.MapFieldBuilder<>(endpointIdToEndpointConverter);
+          }
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return endpointIdToEndpoint_;
+        }
+        public int getEndpointIdToEndpointCount() {
+          return internalGetEndpointIdToEndpoint().ensureBuilderMap().size();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        @java.lang.Override
+        public boolean containsEndpointIdToEndpoint(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetEndpointIdToEndpoint().ensureBuilderMap().containsKey(key);
+        }
+        /**
+         * Use {@link #getEndpointIdToEndpointMap()} instead.
+         */
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> getEndpointIdToEndpoint() {
+          return getEndpointIdToEndpointMap();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        @java.lang.Override
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> getEndpointIdToEndpointMap() {
+          return internalGetEndpointIdToEndpoint().getImmutableMap();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        @java.lang.Override
+        public /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpointIdToEndpointOrDefault(
+            java.lang.String key,
+            /* nullable */
+fishjam.media_events.server.Server.MediaEvent.Endpoint defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> map = internalGetMutableEndpointIdToEndpoint().ensureBuilderMap();
+          return map.containsKey(key) ? endpointIdToEndpointConverter.build(map.get(key)) : defaultValue;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpointIdToEndpointOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> map = internalGetMutableEndpointIdToEndpoint().ensureBuilderMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
+          }
+          return endpointIdToEndpointConverter.build(map.get(key));
+        }
+        public Builder clearEndpointIdToEndpoint() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableEndpointIdToEndpoint().clear();
+          return this;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        public Builder removeEndpointIdToEndpoint(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableEndpointIdToEndpoint().ensureBuilderMap()
+              .remove(key);
+          return this;
+        }
+        /**
+         * Use alternate mutation accessors instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>
+            getMutableEndpointIdToEndpoint() {
+          bitField0_ |= 0x00000002;
+          return internalGetMutableEndpointIdToEndpoint().ensureMessageMap();
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        public Builder putEndpointIdToEndpoint(
+            java.lang.String key,
+            fishjam.media_events.server.Server.MediaEvent.Endpoint value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableEndpointIdToEndpoint().ensureBuilderMap()
+              .put(key, value);
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        public Builder putAllEndpointIdToEndpoint(
+            java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> values) {
+          for (java.util.Map.Entry<java.lang.String, fishjam.media_events.server.Server.MediaEvent.Endpoint> e : values.entrySet()) {
+            if (e.getKey() == null || e.getValue() == null) {
+              throw new NullPointerException();
+            }
+          }
+          internalGetMutableEndpointIdToEndpoint().ensureBuilderMap()
+              .putAll(values);
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>map&lt;string, .fishjam.media_events.server.MediaEvent.Endpoint&gt; endpoint_id_to_endpoint = 2;</code>
+         */
+        public fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder putEndpointIdToEndpointBuilderIfAbsent(
+            java.lang.String key) {
+          java.util.Map<java.lang.String, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> builderMap = internalGetMutableEndpointIdToEndpoint().ensureBuilderMap();
+          fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder entry = builderMap.get(key);
+          if (entry == null) {
+            entry = fishjam.media_events.server.Server.MediaEvent.Endpoint.newBuilder();
+            builderMap.put(key, entry);
+          }
+          if (entry instanceof fishjam.media_events.server.Server.MediaEvent.Endpoint) {
+            entry = ((fishjam.media_events.server.Server.MediaEvent.Endpoint) entry).toBuilder();
+            builderMap.put(key, entry);
+          }
+          return (fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder) entry;
+        }
+
+        private java.util.List<fishjam.media_events.server.Server.MediaEvent.IceServer> iceServers_ =
           java.util.Collections.emptyList();
-        private void ensureEndpointsIsMutable() {
-          if (!((bitField0_ & 0x00000002) != 0)) {
-            endpoints_ = new java.util.ArrayList<fishjam.media_events.server.Server.MediaEvent.Endpoint>(endpoints_);
-            bitField0_ |= 0x00000002;
+        private void ensureIceServersIsMutable() {
+          if (!((bitField0_ & 0x00000004) != 0)) {
+            iceServers_ = new java.util.ArrayList<fishjam.media_events.server.Server.MediaEvent.IceServer>(iceServers_);
+            bitField0_ |= 0x00000004;
            }
         }
 
         private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.server.Server.MediaEvent.Endpoint, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> endpointsBuilder_;
+            fishjam.media_events.server.Server.MediaEvent.IceServer, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder, fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder> iceServersBuilder_;
 
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public java.util.List<fishjam.media_events.server.Server.MediaEvent.Endpoint> getEndpointsList() {
-          if (endpointsBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(endpoints_);
+        public java.util.List<fishjam.media_events.server.Server.MediaEvent.IceServer> getIceServersList() {
+          if (iceServersBuilder_ == null) {
+            return java.util.Collections.unmodifiableList(iceServers_);
           } else {
-            return endpointsBuilder_.getMessageList();
+            return iceServersBuilder_.getMessageList();
           }
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public int getEndpointsCount() {
-          if (endpointsBuilder_ == null) {
-            return endpoints_.size();
+        public int getIceServersCount() {
+          if (iceServersBuilder_ == null) {
+            return iceServers_.size();
           } else {
-            return endpointsBuilder_.getCount();
+            return iceServersBuilder_.getCount();
           }
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public fishjam.media_events.server.Server.MediaEvent.Endpoint getEndpoints(int index) {
-          if (endpointsBuilder_ == null) {
-            return endpoints_.get(index);
+        public fishjam.media_events.server.Server.MediaEvent.IceServer getIceServers(int index) {
+          if (iceServersBuilder_ == null) {
+            return iceServers_.get(index);
           } else {
-            return endpointsBuilder_.getMessage(index);
+            return iceServersBuilder_.getMessage(index);
           }
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder setEndpoints(
-            int index, fishjam.media_events.server.Server.MediaEvent.Endpoint value) {
-          if (endpointsBuilder_ == null) {
+        public Builder setIceServers(
+            int index, fishjam.media_events.server.Server.MediaEvent.IceServer value) {
+          if (iceServersBuilder_ == null) {
             if (value == null) {
               throw new NullPointerException();
             }
-            ensureEndpointsIsMutable();
-            endpoints_.set(index, value);
+            ensureIceServersIsMutable();
+            iceServers_.set(index, value);
             onChanged();
           } else {
-            endpointsBuilder_.setMessage(index, value);
+            iceServersBuilder_.setMessage(index, value);
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder setEndpoints(
-            int index, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder builderForValue) {
-          if (endpointsBuilder_ == null) {
-            ensureEndpointsIsMutable();
-            endpoints_.set(index, builderForValue.build());
+        public Builder setIceServers(
+            int index, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder builderForValue) {
+          if (iceServersBuilder_ == null) {
+            ensureIceServersIsMutable();
+            iceServers_.set(index, builderForValue.build());
             onChanged();
           } else {
-            endpointsBuilder_.setMessage(index, builderForValue.build());
+            iceServersBuilder_.setMessage(index, builderForValue.build());
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder addEndpoints(fishjam.media_events.server.Server.MediaEvent.Endpoint value) {
-          if (endpointsBuilder_ == null) {
+        public Builder addIceServers(fishjam.media_events.server.Server.MediaEvent.IceServer value) {
+          if (iceServersBuilder_ == null) {
             if (value == null) {
               throw new NullPointerException();
             }
-            ensureEndpointsIsMutable();
-            endpoints_.add(value);
+            ensureIceServersIsMutable();
+            iceServers_.add(value);
             onChanged();
           } else {
-            endpointsBuilder_.addMessage(value);
+            iceServersBuilder_.addMessage(value);
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder addEndpoints(
-            int index, fishjam.media_events.server.Server.MediaEvent.Endpoint value) {
-          if (endpointsBuilder_ == null) {
+        public Builder addIceServers(
+            int index, fishjam.media_events.server.Server.MediaEvent.IceServer value) {
+          if (iceServersBuilder_ == null) {
             if (value == null) {
               throw new NullPointerException();
             }
-            ensureEndpointsIsMutable();
-            endpoints_.add(index, value);
+            ensureIceServersIsMutable();
+            iceServers_.add(index, value);
             onChanged();
           } else {
-            endpointsBuilder_.addMessage(index, value);
+            iceServersBuilder_.addMessage(index, value);
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder addEndpoints(
-            fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder builderForValue) {
-          if (endpointsBuilder_ == null) {
-            ensureEndpointsIsMutable();
-            endpoints_.add(builderForValue.build());
+        public Builder addIceServers(
+            fishjam.media_events.server.Server.MediaEvent.IceServer.Builder builderForValue) {
+          if (iceServersBuilder_ == null) {
+            ensureIceServersIsMutable();
+            iceServers_.add(builderForValue.build());
             onChanged();
           } else {
-            endpointsBuilder_.addMessage(builderForValue.build());
+            iceServersBuilder_.addMessage(builderForValue.build());
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder addEndpoints(
-            int index, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder builderForValue) {
-          if (endpointsBuilder_ == null) {
-            ensureEndpointsIsMutable();
-            endpoints_.add(index, builderForValue.build());
+        public Builder addIceServers(
+            int index, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder builderForValue) {
+          if (iceServersBuilder_ == null) {
+            ensureIceServersIsMutable();
+            iceServers_.add(index, builderForValue.build());
             onChanged();
           } else {
-            endpointsBuilder_.addMessage(index, builderForValue.build());
+            iceServersBuilder_.addMessage(index, builderForValue.build());
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder addAllEndpoints(
-            java.lang.Iterable<? extends fishjam.media_events.server.Server.MediaEvent.Endpoint> values) {
-          if (endpointsBuilder_ == null) {
-            ensureEndpointsIsMutable();
+        public Builder addAllIceServers(
+            java.lang.Iterable<? extends fishjam.media_events.server.Server.MediaEvent.IceServer> values) {
+          if (iceServersBuilder_ == null) {
+            ensureIceServersIsMutable();
             com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, endpoints_);
+                values, iceServers_);
             onChanged();
           } else {
-            endpointsBuilder_.addAllMessages(values);
+            iceServersBuilder_.addAllMessages(values);
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder clearEndpoints() {
-          if (endpointsBuilder_ == null) {
-            endpoints_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
+        public Builder clearIceServers() {
+          if (iceServersBuilder_ == null) {
+            iceServers_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000004);
             onChanged();
           } else {
-            endpointsBuilder_.clear();
+            iceServersBuilder_.clear();
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public Builder removeEndpoints(int index) {
-          if (endpointsBuilder_ == null) {
-            ensureEndpointsIsMutable();
-            endpoints_.remove(index);
+        public Builder removeIceServers(int index) {
+          if (iceServersBuilder_ == null) {
+            ensureIceServersIsMutable();
+            iceServers_.remove(index);
             onChanged();
           } else {
-            endpointsBuilder_.remove(index);
+            iceServersBuilder_.remove(index);
           }
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder getEndpointsBuilder(
+        public fishjam.media_events.server.Server.MediaEvent.IceServer.Builder getIceServersBuilder(
             int index) {
-          return getEndpointsFieldBuilder().getBuilder(index);
+          return getIceServersFieldBuilder().getBuilder(index);
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder getEndpointsOrBuilder(
+        public fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder getIceServersOrBuilder(
             int index) {
-          if (endpointsBuilder_ == null) {
-            return endpoints_.get(index);  } else {
-            return endpointsBuilder_.getMessageOrBuilder(index);
+          if (iceServersBuilder_ == null) {
+            return iceServers_.get(index);  } else {
+            return iceServersBuilder_.getMessageOrBuilder(index);
           }
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> 
-             getEndpointsOrBuilderList() {
-          if (endpointsBuilder_ != null) {
-            return endpointsBuilder_.getMessageOrBuilderList();
+        public java.util.List<? extends fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder> 
+             getIceServersOrBuilderList() {
+          if (iceServersBuilder_ != null) {
+            return iceServersBuilder_.getMessageOrBuilderList();
           } else {
-            return java.util.Collections.unmodifiableList(endpoints_);
+            return java.util.Collections.unmodifiableList(iceServers_);
           }
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder addEndpointsBuilder() {
-          return getEndpointsFieldBuilder().addBuilder(
-              fishjam.media_events.server.Server.MediaEvent.Endpoint.getDefaultInstance());
+        public fishjam.media_events.server.Server.MediaEvent.IceServer.Builder addIceServersBuilder() {
+          return getIceServersFieldBuilder().addBuilder(
+              fishjam.media_events.server.Server.MediaEvent.IceServer.getDefaultInstance());
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder addEndpointsBuilder(
+        public fishjam.media_events.server.Server.MediaEvent.IceServer.Builder addIceServersBuilder(
             int index) {
-          return getEndpointsFieldBuilder().addBuilder(
-              index, fishjam.media_events.server.Server.MediaEvent.Endpoint.getDefaultInstance());
+          return getIceServersFieldBuilder().addBuilder(
+              index, fishjam.media_events.server.Server.MediaEvent.IceServer.getDefaultInstance());
         }
         /**
-         * <code>repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;</code>
+         * <code>repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;</code>
          */
-        public java.util.List<fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder> 
-             getEndpointsBuilderList() {
-          return getEndpointsFieldBuilder().getBuilderList();
+        public java.util.List<fishjam.media_events.server.Server.MediaEvent.IceServer.Builder> 
+             getIceServersBuilderList() {
+          return getIceServersFieldBuilder().getBuilderList();
         }
         private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.server.Server.MediaEvent.Endpoint, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder> 
-            getEndpointsFieldBuilder() {
-          if (endpointsBuilder_ == null) {
-            endpointsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.server.Server.MediaEvent.Endpoint, fishjam.media_events.server.Server.MediaEvent.Endpoint.Builder, fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder>(
-                    endpoints_,
-                    ((bitField0_ & 0x00000002) != 0),
+            fishjam.media_events.server.Server.MediaEvent.IceServer, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder, fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder> 
+            getIceServersFieldBuilder() {
+          if (iceServersBuilder_ == null) {
+            iceServersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+                fishjam.media_events.server.Server.MediaEvent.IceServer, fishjam.media_events.server.Server.MediaEvent.IceServer.Builder, fishjam.media_events.server.Server.MediaEvent.IceServerOrBuilder>(
+                    iceServers_,
+                    ((bitField0_ & 0x00000004) != 0),
                     getParentForChildren(),
                     isClean());
-            endpoints_ = null;
+            iceServers_ = null;
           }
-          return endpointsBuilder_;
+          return iceServersBuilder_;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.Connected)
@@ -9209,28 +11013,38 @@ public final class Server {
           getSdpAnswerBytes();
 
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-       */
-      java.util.List<fishjam.media_events.Shared.MidToTrackId> 
-          getMidToTrackIdList();
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-       */
-      fishjam.media_events.Shared.MidToTrackId getMidToTrackId(int index);
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
        */
       int getMidToTrackIdCount();
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
        */
-      java.util.List<? extends fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-          getMidToTrackIdOrBuilderList();
+      boolean containsMidToTrackId(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+       * Use {@link #getMidToTrackIdMap()} instead.
        */
-      fishjam.media_events.Shared.MidToTrackIdOrBuilder getMidToTrackIdOrBuilder(
-          int index);
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, java.lang.String>
+      getMidToTrackId();
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
+       */
+      java.util.Map<java.lang.String, java.lang.String>
+      getMidToTrackIdMap();
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
+       */
+      /* nullable */
+java.lang.String getMidToTrackIdOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue);
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
+       */
+      java.lang.String getMidToTrackIdOrThrow(
+          java.lang.String key);
     }
     /**
      * <pre>
@@ -9259,7 +11073,6 @@ public final class Server {
       }
       private SdpAnswer() {
         sdpAnswer_ = "";
-        midToTrackId_ = java.util.Collections.emptyList();
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -9267,6 +11080,18 @@ public final class Server {
         return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      @java.lang.Override
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetMidToTrackId();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -9315,44 +11140,82 @@ public final class Server {
       }
 
       public static final int MID_TO_TRACK_ID_FIELD_NUMBER = 2;
+      private static final class MidToTrackIdDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, java.lang.String> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, java.lang.String>newDefaultInstance(
+                    fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "");
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.Shared.MidToTrackId> midToTrackId_;
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.Shared.MidToTrackId> getMidToTrackIdList() {
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> midToTrackId_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMidToTrackId() {
+        if (midToTrackId_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              MidToTrackIdDefaultEntryHolder.defaultEntry);
+        }
         return midToTrackId_;
       }
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-       */
-      @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-          getMidToTrackIdOrBuilderList() {
-        return midToTrackId_;
-      }
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-       */
-      @java.lang.Override
       public int getMidToTrackIdCount() {
-        return midToTrackId_.size();
+        return internalGetMidToTrackId().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.MidToTrackId getMidToTrackId(int index) {
-        return midToTrackId_.get(index);
+      public boolean containsMidToTrackId(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetMidToTrackId().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+       * Use {@link #getMidToTrackIdMap()} instead.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.MidToTrackIdOrBuilder getMidToTrackIdOrBuilder(
-          int index) {
-        return midToTrackId_.get(index);
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getMidToTrackId() {
+        return getMidToTrackIdMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
+       */
+      @java.lang.Override
+      public java.util.Map<java.lang.String, java.lang.String> getMidToTrackIdMap() {
+        return internalGetMidToTrackId().getMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
+       */
+      @java.lang.Override
+      public /* nullable */
+java.lang.String getMidToTrackIdOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetMidToTrackId().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
+       */
+      @java.lang.Override
+      public java.lang.String getMidToTrackIdOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetMidToTrackId().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
       }
 
       private byte memoizedIsInitialized = -1;
@@ -9372,9 +11235,12 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdpAnswer_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, sdpAnswer_);
         }
-        for (int i = 0; i < midToTrackId_.size(); i++) {
-          output.writeMessage(2, midToTrackId_.get(i));
-        }
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetMidToTrackId(),
+            MidToTrackIdDefaultEntryHolder.defaultEntry,
+            2);
         getUnknownFields().writeTo(output);
       }
 
@@ -9387,9 +11253,15 @@ public final class Server {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdpAnswer_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, sdpAnswer_);
         }
-        for (int i = 0; i < midToTrackId_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+             : internalGetMidToTrackId().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+          midToTrackId__ = MidToTrackIdDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, midToTrackId_.get(i));
+              .computeMessageSize(2, midToTrackId__);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -9408,8 +11280,8 @@ public final class Server {
 
         if (!getSdpAnswer()
             .equals(other.getSdpAnswer())) return false;
-        if (!getMidToTrackIdList()
-            .equals(other.getMidToTrackIdList())) return false;
+        if (!internalGetMidToTrackId().equals(
+            other.internalGetMidToTrackId())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -9423,9 +11295,9 @@ public final class Server {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + SDP_ANSWER_FIELD_NUMBER;
         hash = (53 * hash) + getSdpAnswer().hashCode();
-        if (getMidToTrackIdCount() > 0) {
+        if (!internalGetMidToTrackId().getMap().isEmpty()) {
           hash = (37 * hash) + MID_TO_TRACK_ID_FIELD_NUMBER;
-          hash = (53 * hash) + getMidToTrackIdList().hashCode();
+          hash = (53 * hash) + internalGetMidToTrackId().hashCode();
         }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
@@ -9540,6 +11412,28 @@ public final class Server {
           return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor;
         }
 
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetMidToTrackId();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMutableMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetMutableMidToTrackId();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
@@ -9563,13 +11457,7 @@ public final class Server {
           super.clear();
           bitField0_ = 0;
           sdpAnswer_ = "";
-          if (midToTrackIdBuilder_ == null) {
-            midToTrackId_ = java.util.Collections.emptyList();
-          } else {
-            midToTrackId_ = null;
-            midToTrackIdBuilder_.clear();
-          }
-          bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableMidToTrackId().clear();
           return this;
         }
 
@@ -9596,28 +11484,19 @@ public final class Server {
         @java.lang.Override
         public fishjam.media_events.server.Server.MediaEvent.SdpAnswer buildPartial() {
           fishjam.media_events.server.Server.MediaEvent.SdpAnswer result = new fishjam.media_events.server.Server.MediaEvent.SdpAnswer(this);
-          buildPartialRepeatedFields(result);
           if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
-        }
-
-        private void buildPartialRepeatedFields(fishjam.media_events.server.Server.MediaEvent.SdpAnswer result) {
-          if (midToTrackIdBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0)) {
-              midToTrackId_ = java.util.Collections.unmodifiableList(midToTrackId_);
-              bitField0_ = (bitField0_ & ~0x00000002);
-            }
-            result.midToTrackId_ = midToTrackId_;
-          } else {
-            result.midToTrackId_ = midToTrackIdBuilder_.build();
-          }
         }
 
         private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.SdpAnswer result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.sdpAnswer_ = sdpAnswer_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.midToTrackId_ = internalGetMidToTrackId();
+            result.midToTrackId_.makeImmutable();
           }
         }
 
@@ -9638,32 +11517,9 @@ public final class Server {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (midToTrackIdBuilder_ == null) {
-            if (!other.midToTrackId_.isEmpty()) {
-              if (midToTrackId_.isEmpty()) {
-                midToTrackId_ = other.midToTrackId_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-              } else {
-                ensureMidToTrackIdIsMutable();
-                midToTrackId_.addAll(other.midToTrackId_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.midToTrackId_.isEmpty()) {
-              if (midToTrackIdBuilder_.isEmpty()) {
-                midToTrackIdBuilder_.dispose();
-                midToTrackIdBuilder_ = null;
-                midToTrackId_ = other.midToTrackId_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-                midToTrackIdBuilder_ = 
-                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getMidToTrackIdFieldBuilder() : null;
-              } else {
-                midToTrackIdBuilder_.addAllMessages(other.midToTrackId_);
-              }
-            }
-          }
+          internalGetMutableMidToTrackId().mergeFrom(
+              other.internalGetMidToTrackId());
+          bitField0_ |= 0x00000002;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -9696,16 +11552,12 @@ public final class Server {
                   break;
                 } // case 10
                 case 18: {
-                  fishjam.media_events.Shared.MidToTrackId m =
-                      input.readMessage(
-                          fishjam.media_events.Shared.MidToTrackId.parser(),
-                          extensionRegistry);
-                  if (midToTrackIdBuilder_ == null) {
-                    ensureMidToTrackIdIsMutable();
-                    midToTrackId_.add(m);
-                  } else {
-                    midToTrackIdBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+                  midToTrackId__ = input.readMessage(
+                      MidToTrackIdDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableMidToTrackId().getMutableMap().put(
+                      midToTrackId__.getKey(), midToTrackId__.getValue());
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
                 default: {
@@ -9797,244 +11649,131 @@ public final class Server {
           return this;
         }
 
-        private java.util.List<fishjam.media_events.Shared.MidToTrackId> midToTrackId_ =
-          java.util.Collections.emptyList();
-        private void ensureMidToTrackIdIsMutable() {
-          if (!((bitField0_ & 0x00000002) != 0)) {
-            midToTrackId_ = new java.util.ArrayList<fishjam.media_events.Shared.MidToTrackId>(midToTrackId_);
-            bitField0_ |= 0x00000002;
-           }
-        }
-
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.Shared.MidToTrackId, fishjam.media_events.Shared.MidToTrackId.Builder, fishjam.media_events.Shared.MidToTrackIdOrBuilder> midToTrackIdBuilder_;
-
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public java.util.List<fishjam.media_events.Shared.MidToTrackId> getMidToTrackIdList() {
-          if (midToTrackIdBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(midToTrackId_);
-          } else {
-            return midToTrackIdBuilder_.getMessageList();
+        private com.google.protobuf.MapField<
+            java.lang.String, java.lang.String> midToTrackId_;
+        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+            internalGetMidToTrackId() {
+          if (midToTrackId_ == null) {
+            return com.google.protobuf.MapField.emptyMapField(
+                MidToTrackIdDefaultEntryHolder.defaultEntry);
           }
+          return midToTrackId_;
         }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
+        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+            internalGetMutableMidToTrackId() {
+          if (midToTrackId_ == null) {
+            midToTrackId_ = com.google.protobuf.MapField.newMapField(
+                MidToTrackIdDefaultEntryHolder.defaultEntry);
+          }
+          if (!midToTrackId_.isMutable()) {
+            midToTrackId_ = midToTrackId_.copy();
+          }
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return midToTrackId_;
+        }
         public int getMidToTrackIdCount() {
-          if (midToTrackIdBuilder_ == null) {
-            return midToTrackId_.size();
-          } else {
-            return midToTrackIdBuilder_.getCount();
-          }
+          return internalGetMidToTrackId().getMap().size();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public fishjam.media_events.Shared.MidToTrackId getMidToTrackId(int index) {
-          if (midToTrackIdBuilder_ == null) {
-            return midToTrackId_.get(index);
-          } else {
-            return midToTrackIdBuilder_.getMessage(index);
-          }
+        @java.lang.Override
+        public boolean containsMidToTrackId(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetMidToTrackId().getMap().containsKey(key);
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * Use {@link #getMidToTrackIdMap()} instead.
          */
-        public Builder setMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId value) {
-          if (midToTrackIdBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.set(index, value);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.setMessage(index, value);
-          }
-          return this;
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, java.lang.String> getMidToTrackId() {
+          return getMidToTrackIdMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public Builder setMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId.Builder builderForValue) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.setMessage(index, builderForValue.build());
-          }
-          return this;
+        @java.lang.Override
+        public java.util.Map<java.lang.String, java.lang.String> getMidToTrackIdMap() {
+          return internalGetMidToTrackId().getMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public Builder addMidToTrackId(fishjam.media_events.Shared.MidToTrackId value) {
-          if (midToTrackIdBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(value);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(value);
-          }
-          return this;
+        @java.lang.Override
+        public /* nullable */
+java.lang.String getMidToTrackIdOrDefault(
+            java.lang.String key,
+            /* nullable */
+java.lang.String defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, java.lang.String> map =
+              internalGetMidToTrackId().getMap();
+          return map.containsKey(key) ? map.get(key) : defaultValue;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public Builder addMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId value) {
-          if (midToTrackIdBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(index, value);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(index, value);
+        @java.lang.Override
+        public java.lang.String getMidToTrackIdOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, java.lang.String> map =
+              internalGetMidToTrackId().getMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
           }
-          return this;
+          return map.get(key);
         }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public Builder addMidToTrackId(
-            fishjam.media_events.Shared.MidToTrackId.Builder builderForValue) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(builderForValue.build());
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public Builder addMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId.Builder builderForValue) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public Builder addAllMidToTrackId(
-            java.lang.Iterable<? extends fishjam.media_events.Shared.MidToTrackId> values) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, midToTrackId_);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
         public Builder clearMidToTrackId() {
-          if (midToTrackIdBuilder_ == null) {
-            midToTrackId_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.clear();
-          }
+          bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableMidToTrackId().getMutableMap()
+              .clear();
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public Builder removeMidToTrackId(int index) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.remove(index);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.remove(index);
-          }
+        public Builder removeMidToTrackId(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableMidToTrackId().getMutableMap()
+              .remove(key);
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * Use alternate mutation accessors instead.
          */
-        public fishjam.media_events.Shared.MidToTrackId.Builder getMidToTrackIdBuilder(
-            int index) {
-          return getMidToTrackIdFieldBuilder().getBuilder(index);
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, java.lang.String>
+            getMutableMidToTrackId() {
+          bitField0_ |= 0x00000002;
+          return internalGetMutableMidToTrackId().getMutableMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public fishjam.media_events.Shared.MidToTrackIdOrBuilder getMidToTrackIdOrBuilder(
-            int index) {
-          if (midToTrackIdBuilder_ == null) {
-            return midToTrackId_.get(index);  } else {
-            return midToTrackIdBuilder_.getMessageOrBuilder(index);
-          }
+        public Builder putMidToTrackId(
+            java.lang.String key,
+            java.lang.String value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableMidToTrackId().getMutableMap()
+              .put(key, value);
+          bitField0_ |= 0x00000002;
+          return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
          */
-        public java.util.List<? extends fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-             getMidToTrackIdOrBuilderList() {
-          if (midToTrackIdBuilder_ != null) {
-            return midToTrackIdBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(midToTrackId_);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public fishjam.media_events.Shared.MidToTrackId.Builder addMidToTrackIdBuilder() {
-          return getMidToTrackIdFieldBuilder().addBuilder(
-              fishjam.media_events.Shared.MidToTrackId.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public fishjam.media_events.Shared.MidToTrackId.Builder addMidToTrackIdBuilder(
-            int index) {
-          return getMidToTrackIdFieldBuilder().addBuilder(
-              index, fishjam.media_events.Shared.MidToTrackId.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;</code>
-         */
-        public java.util.List<fishjam.media_events.Shared.MidToTrackId.Builder> 
-             getMidToTrackIdBuilderList() {
-          return getMidToTrackIdFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.Shared.MidToTrackId, fishjam.media_events.Shared.MidToTrackId.Builder, fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-            getMidToTrackIdFieldBuilder() {
-          if (midToTrackIdBuilder_ == null) {
-            midToTrackIdBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.Shared.MidToTrackId, fishjam.media_events.Shared.MidToTrackId.Builder, fishjam.media_events.Shared.MidToTrackIdOrBuilder>(
-                    midToTrackId_,
-                    ((bitField0_ & 0x00000002) != 0),
-                    getParentForChildren(),
-                    isClean());
-            midToTrackId_ = null;
-          }
-          return midToTrackIdBuilder_;
+        public Builder putAllMidToTrackId(
+            java.util.Map<java.lang.String, java.lang.String> values) {
+          internalGetMutableMidToTrackId().getMutableMap()
+              .putAll(values);
+          bitField0_ |= 0x00000002;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.SdpAnswer)
@@ -10841,6 +12580,2319 @@ public final class Server {
 
     }
 
+    public interface TrackVariantSwitchedOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.server.MediaEvent.TrackVariantSwitched)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The endpointId.
+       */
+      java.lang.String getEndpointId();
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The bytes for endpointId.
+       */
+      com.google.protobuf.ByteString
+          getEndpointIdBytes();
+
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The trackId.
+       */
+      java.lang.String getTrackId();
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The bytes for trackId.
+       */
+      com.google.protobuf.ByteString
+          getTrackIdBytes();
+
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      int getVariantValue();
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The variant.
+       */
+      fishjam.media_events.Shared.Variant getVariant();
+    }
+    /**
+     * <pre>
+     * Informs that track's variant has been changed
+     * </pre>
+     *
+     * Protobuf type {@code fishjam.media_events.server.MediaEvent.TrackVariantSwitched}
+     */
+    public static final class TrackVariantSwitched extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.server.MediaEvent.TrackVariantSwitched)
+        TrackVariantSwitchedOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          TrackVariantSwitched.class.getName());
+      }
+      // Use TrackVariantSwitched.newBuilder() to construct.
+      private TrackVariantSwitched(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private TrackVariantSwitched() {
+        endpointId_ = "";
+        trackId_ = "";
+        variant_ = 0;
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.class, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder.class);
+      }
+
+      public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object endpointId_ = "";
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The endpointId.
+       */
+      @java.lang.Override
+      public java.lang.String getEndpointId() {
+        java.lang.Object ref = endpointId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          endpointId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The bytes for endpointId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getEndpointIdBytes() {
+        java.lang.Object ref = endpointId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int TRACK_ID_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object trackId_ = "";
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The trackId.
+       */
+      @java.lang.Override
+      public java.lang.String getTrackId() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          trackId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The bytes for trackId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTrackIdBytes() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          trackId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VARIANT_FIELD_NUMBER = 3;
+      private int variant_ = 0;
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      @java.lang.Override public int getVariantValue() {
+        return variant_;
+      }
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The variant.
+       */
+      @java.lang.Override public fishjam.media_events.Shared.Variant getVariant() {
+        fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+        return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          output.writeEnum(3, variant_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(3, variant_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched)) {
+          return super.equals(obj);
+        }
+        fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched other = (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) obj;
+
+        if (!getEndpointId()
+            .equals(other.getEndpointId())) return false;
+        if (!getTrackId()
+            .equals(other.getTrackId())) return false;
+        if (variant_ != other.variant_) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getEndpointId().hashCode();
+        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getTrackId().hashCode();
+        hash = (37 * hash) + VARIANT_FIELD_NUMBER;
+        hash = (53 * hash) + variant_;
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Informs that track's variant has been changed
+       * </pre>
+       *
+       * Protobuf type {@code fishjam.media_events.server.MediaEvent.TrackVariantSwitched}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.server.MediaEvent.TrackVariantSwitched)
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.class, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder.class);
+        }
+
+        // Construct using fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          endpointId_ = "";
+          trackId_ = "";
+          variant_ = 0;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched getDefaultInstanceForType() {
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched build() {
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched buildPartial() {
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched result = new fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.endpointId_ = endpointId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.trackId_ = trackId_;
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.variant_ = variant_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) {
+            return mergeFrom((fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched other) {
+          if (other == fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance()) return this;
+          if (!other.getEndpointId().isEmpty()) {
+            endpointId_ = other.endpointId_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (!other.getTrackId().isEmpty()) {
+            trackId_ = other.trackId_;
+            bitField0_ |= 0x00000002;
+            onChanged();
+          }
+          if (other.variant_ != 0) {
+            setVariantValue(other.getVariantValue());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  endpointId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                case 18: {
+                  trackId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 18
+                case 24: {
+                  variant_ = input.readEnum();
+                  bitField0_ |= 0x00000004;
+                  break;
+                } // case 24
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object endpointId_ = "";
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return The endpointId.
+         */
+        public java.lang.String getEndpointId() {
+          java.lang.Object ref = endpointId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            endpointId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return The bytes for endpointId.
+         */
+        public com.google.protobuf.ByteString
+            getEndpointIdBytes() {
+          java.lang.Object ref = endpointId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            endpointId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @param value The endpointId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEndpointId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          endpointId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearEndpointId() {
+          endpointId_ = getDefaultInstance().getEndpointId();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @param value The bytes for endpointId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEndpointIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          endpointId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object trackId_ = "";
+        /**
+         * <code>string track_id = 2;</code>
+         * @return The trackId.
+         */
+        public java.lang.String getTrackId() {
+          java.lang.Object ref = trackId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            trackId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @return The bytes for trackId.
+         */
+        public com.google.protobuf.ByteString
+            getTrackIdBytes() {
+          java.lang.Object ref = trackId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            trackId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @param value The trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          trackId_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearTrackId() {
+          trackId_ = getDefaultInstance().getTrackId();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @param value The bytes for trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          trackId_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+
+        private int variant_ = 0;
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return The enum numeric value on the wire for variant.
+         */
+        @java.lang.Override public int getVariantValue() {
+          return variant_;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @param value The enum numeric value on the wire for variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariantValue(int value) {
+          variant_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return The variant.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getVariant() {
+          fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+          return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @param value The variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariant(fishjam.media_events.Shared.Variant value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000004;
+          variant_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearVariant() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          variant_ = 0;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.TrackVariantSwitched)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.server.MediaEvent.TrackVariantSwitched)
+      private static final fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched();
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<TrackVariantSwitched>
+          PARSER = new com.google.protobuf.AbstractParser<TrackVariantSwitched>() {
+        @java.lang.Override
+        public TrackVariantSwitched parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<TrackVariantSwitched> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<TrackVariantSwitched> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface TrackVariantDisabledOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.server.MediaEvent.TrackVariantDisabled)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The endpointId.
+       */
+      java.lang.String getEndpointId();
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The bytes for endpointId.
+       */
+      com.google.protobuf.ByteString
+          getEndpointIdBytes();
+
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The trackId.
+       */
+      java.lang.String getTrackId();
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The bytes for trackId.
+       */
+      com.google.protobuf.ByteString
+          getTrackIdBytes();
+
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      int getVariantValue();
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The variant.
+       */
+      fishjam.media_events.Shared.Variant getVariant();
+    }
+    /**
+     * <pre>
+     * Sent when track's variant has been disabled
+     * </pre>
+     *
+     * Protobuf type {@code fishjam.media_events.server.MediaEvent.TrackVariantDisabled}
+     */
+    public static final class TrackVariantDisabled extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.server.MediaEvent.TrackVariantDisabled)
+        TrackVariantDisabledOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          TrackVariantDisabled.class.getName());
+      }
+      // Use TrackVariantDisabled.newBuilder() to construct.
+      private TrackVariantDisabled(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private TrackVariantDisabled() {
+        endpointId_ = "";
+        trackId_ = "";
+        variant_ = 0;
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.class, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder.class);
+      }
+
+      public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object endpointId_ = "";
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The endpointId.
+       */
+      @java.lang.Override
+      public java.lang.String getEndpointId() {
+        java.lang.Object ref = endpointId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          endpointId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The bytes for endpointId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getEndpointIdBytes() {
+        java.lang.Object ref = endpointId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int TRACK_ID_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object trackId_ = "";
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The trackId.
+       */
+      @java.lang.Override
+      public java.lang.String getTrackId() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          trackId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The bytes for trackId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTrackIdBytes() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          trackId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VARIANT_FIELD_NUMBER = 3;
+      private int variant_ = 0;
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      @java.lang.Override public int getVariantValue() {
+        return variant_;
+      }
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The variant.
+       */
+      @java.lang.Override public fishjam.media_events.Shared.Variant getVariant() {
+        fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+        return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          output.writeEnum(3, variant_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(3, variant_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled)) {
+          return super.equals(obj);
+        }
+        fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled other = (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) obj;
+
+        if (!getEndpointId()
+            .equals(other.getEndpointId())) return false;
+        if (!getTrackId()
+            .equals(other.getTrackId())) return false;
+        if (variant_ != other.variant_) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getEndpointId().hashCode();
+        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getTrackId().hashCode();
+        hash = (37 * hash) + VARIANT_FIELD_NUMBER;
+        hash = (53 * hash) + variant_;
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Sent when track's variant has been disabled
+       * </pre>
+       *
+       * Protobuf type {@code fishjam.media_events.server.MediaEvent.TrackVariantDisabled}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.server.MediaEvent.TrackVariantDisabled)
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.class, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder.class);
+        }
+
+        // Construct using fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          endpointId_ = "";
+          trackId_ = "";
+          variant_ = 0;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled getDefaultInstanceForType() {
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled build() {
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled buildPartial() {
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled result = new fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.endpointId_ = endpointId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.trackId_ = trackId_;
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.variant_ = variant_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) {
+            return mergeFrom((fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled other) {
+          if (other == fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance()) return this;
+          if (!other.getEndpointId().isEmpty()) {
+            endpointId_ = other.endpointId_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (!other.getTrackId().isEmpty()) {
+            trackId_ = other.trackId_;
+            bitField0_ |= 0x00000002;
+            onChanged();
+          }
+          if (other.variant_ != 0) {
+            setVariantValue(other.getVariantValue());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  endpointId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                case 18: {
+                  trackId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 18
+                case 24: {
+                  variant_ = input.readEnum();
+                  bitField0_ |= 0x00000004;
+                  break;
+                } // case 24
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object endpointId_ = "";
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return The endpointId.
+         */
+        public java.lang.String getEndpointId() {
+          java.lang.Object ref = endpointId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            endpointId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return The bytes for endpointId.
+         */
+        public com.google.protobuf.ByteString
+            getEndpointIdBytes() {
+          java.lang.Object ref = endpointId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            endpointId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @param value The endpointId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEndpointId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          endpointId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearEndpointId() {
+          endpointId_ = getDefaultInstance().getEndpointId();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @param value The bytes for endpointId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEndpointIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          endpointId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object trackId_ = "";
+        /**
+         * <code>string track_id = 2;</code>
+         * @return The trackId.
+         */
+        public java.lang.String getTrackId() {
+          java.lang.Object ref = trackId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            trackId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @return The bytes for trackId.
+         */
+        public com.google.protobuf.ByteString
+            getTrackIdBytes() {
+          java.lang.Object ref = trackId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            trackId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @param value The trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          trackId_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearTrackId() {
+          trackId_ = getDefaultInstance().getTrackId();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @param value The bytes for trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          trackId_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+
+        private int variant_ = 0;
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return The enum numeric value on the wire for variant.
+         */
+        @java.lang.Override public int getVariantValue() {
+          return variant_;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @param value The enum numeric value on the wire for variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariantValue(int value) {
+          variant_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return The variant.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getVariant() {
+          fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+          return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @param value The variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariant(fishjam.media_events.Shared.Variant value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000004;
+          variant_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearVariant() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          variant_ = 0;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.TrackVariantDisabled)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.server.MediaEvent.TrackVariantDisabled)
+      private static final fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled();
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<TrackVariantDisabled>
+          PARSER = new com.google.protobuf.AbstractParser<TrackVariantDisabled>() {
+        @java.lang.Override
+        public TrackVariantDisabled parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<TrackVariantDisabled> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<TrackVariantDisabled> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface TrackVariantEnabledOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.server.MediaEvent.TrackVariantEnabled)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The endpointId.
+       */
+      java.lang.String getEndpointId();
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The bytes for endpointId.
+       */
+      com.google.protobuf.ByteString
+          getEndpointIdBytes();
+
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The trackId.
+       */
+      java.lang.String getTrackId();
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The bytes for trackId.
+       */
+      com.google.protobuf.ByteString
+          getTrackIdBytes();
+
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      int getVariantValue();
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The variant.
+       */
+      fishjam.media_events.Shared.Variant getVariant();
+    }
+    /**
+     * <pre>
+     * Sent when track's variant has been enabled
+     * </pre>
+     *
+     * Protobuf type {@code fishjam.media_events.server.MediaEvent.TrackVariantEnabled}
+     */
+    public static final class TrackVariantEnabled extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.server.MediaEvent.TrackVariantEnabled)
+        TrackVariantEnabledOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          TrackVariantEnabled.class.getName());
+      }
+      // Use TrackVariantEnabled.newBuilder() to construct.
+      private TrackVariantEnabled(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private TrackVariantEnabled() {
+        endpointId_ = "";
+        trackId_ = "";
+        variant_ = 0;
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.class, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder.class);
+      }
+
+      public static final int ENDPOINT_ID_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object endpointId_ = "";
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The endpointId.
+       */
+      @java.lang.Override
+      public java.lang.String getEndpointId() {
+        java.lang.Object ref = endpointId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          endpointId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string endpoint_id = 1;</code>
+       * @return The bytes for endpointId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getEndpointIdBytes() {
+        java.lang.Object ref = endpointId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endpointId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int TRACK_ID_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object trackId_ = "";
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The trackId.
+       */
+      @java.lang.Override
+      public java.lang.String getTrackId() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          trackId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string track_id = 2;</code>
+       * @return The bytes for trackId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTrackIdBytes() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          trackId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VARIANT_FIELD_NUMBER = 3;
+      private int variant_ = 0;
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      @java.lang.Override public int getVariantValue() {
+        return variant_;
+      }
+      /**
+       * <code>.fishjam.media_events.Variant variant = 3;</code>
+       * @return The variant.
+       */
+      @java.lang.Override public fishjam.media_events.Shared.Variant getVariant() {
+        fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+        return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, endpointId_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          output.writeEnum(3, variant_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(endpointId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, endpointId_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(3, variant_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled)) {
+          return super.equals(obj);
+        }
+        fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled other = (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) obj;
+
+        if (!getEndpointId()
+            .equals(other.getEndpointId())) return false;
+        if (!getTrackId()
+            .equals(other.getTrackId())) return false;
+        if (variant_ != other.variant_) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ENDPOINT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getEndpointId().hashCode();
+        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getTrackId().hashCode();
+        hash = (37 * hash) + VARIANT_FIELD_NUMBER;
+        hash = (53 * hash) + variant_;
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Sent when track's variant has been enabled
+       * </pre>
+       *
+       * Protobuf type {@code fishjam.media_events.server.MediaEvent.TrackVariantEnabled}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.server.MediaEvent.TrackVariantEnabled)
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.class, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder.class);
+        }
+
+        // Construct using fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          endpointId_ = "";
+          trackId_ = "";
+          variant_ = 0;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.media_events.server.Server.internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled getDefaultInstanceForType() {
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled build() {
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled buildPartial() {
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled result = new fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.endpointId_ = endpointId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.trackId_ = trackId_;
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.variant_ = variant_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) {
+            return mergeFrom((fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled other) {
+          if (other == fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance()) return this;
+          if (!other.getEndpointId().isEmpty()) {
+            endpointId_ = other.endpointId_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (!other.getTrackId().isEmpty()) {
+            trackId_ = other.trackId_;
+            bitField0_ |= 0x00000002;
+            onChanged();
+          }
+          if (other.variant_ != 0) {
+            setVariantValue(other.getVariantValue());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  endpointId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                case 18: {
+                  trackId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 18
+                case 24: {
+                  variant_ = input.readEnum();
+                  bitField0_ |= 0x00000004;
+                  break;
+                } // case 24
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object endpointId_ = "";
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return The endpointId.
+         */
+        public java.lang.String getEndpointId() {
+          java.lang.Object ref = endpointId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            endpointId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return The bytes for endpointId.
+         */
+        public com.google.protobuf.ByteString
+            getEndpointIdBytes() {
+          java.lang.Object ref = endpointId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            endpointId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @param value The endpointId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEndpointId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          endpointId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearEndpointId() {
+          endpointId_ = getDefaultInstance().getEndpointId();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string endpoint_id = 1;</code>
+         * @param value The bytes for endpointId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setEndpointIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          endpointId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object trackId_ = "";
+        /**
+         * <code>string track_id = 2;</code>
+         * @return The trackId.
+         */
+        public java.lang.String getTrackId() {
+          java.lang.Object ref = trackId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            trackId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @return The bytes for trackId.
+         */
+        public com.google.protobuf.ByteString
+            getTrackIdBytes() {
+          java.lang.Object ref = trackId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            trackId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @param value The trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          trackId_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearTrackId() {
+          trackId_ = getDefaultInstance().getTrackId();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 2;</code>
+         * @param value The bytes for trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          trackId_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+
+        private int variant_ = 0;
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return The enum numeric value on the wire for variant.
+         */
+        @java.lang.Override public int getVariantValue() {
+          return variant_;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @param value The enum numeric value on the wire for variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariantValue(int value) {
+          variant_ = value;
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return The variant.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getVariant() {
+          fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+          return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @param value The variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariant(fishjam.media_events.Shared.Variant value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000004;
+          variant_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearVariant() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          variant_ = 0;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent.TrackVariantEnabled)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.server.MediaEvent.TrackVariantEnabled)
+      private static final fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled();
+      }
+
+      public static fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<TrackVariantEnabled>
+          PARSER = new com.google.protobuf.AbstractParser<TrackVariantEnabled>() {
+        @java.lang.Override
+        public TrackVariantEnabled parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<TrackVariantEnabled> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<TrackVariantEnabled> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int contentCase_ = 0;
     @SuppressWarnings("serial")
     private java.lang.Object content_;
@@ -10859,6 +14911,9 @@ public final class Server {
       CANDIDATE(10),
       SDP_ANSWER(11),
       VAD_NOTIFICATION(12),
+      TRACK_VARIANT_SWITCHED(13),
+      TRACK_VARIANT_DISABLED(14),
+      TRACK_VARIANT_ENABLED(15),
       CONTENT_NOT_SET(0);
       private final int value;
       private ContentCase(int value) {
@@ -10888,6 +14943,9 @@ public final class Server {
           case 10: return CANDIDATE;
           case 11: return SDP_ANSWER;
           case 12: return VAD_NOTIFICATION;
+          case 13: return TRACK_VARIANT_SWITCHED;
+          case 14: return TRACK_VARIANT_DISABLED;
+          case 15: return TRACK_VARIANT_ENABLED;
           case 0: return CONTENT_NOT_SET;
           default: return null;
         }
@@ -11275,6 +15333,99 @@ public final class Server {
       return fishjam.media_events.server.Server.MediaEvent.VadNotification.getDefaultInstance();
     }
 
+    public static final int TRACK_VARIANT_SWITCHED_FIELD_NUMBER = 13;
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+     * @return Whether the trackVariantSwitched field is set.
+     */
+    @java.lang.Override
+    public boolean hasTrackVariantSwitched() {
+      return contentCase_ == 13;
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+     * @return The trackVariantSwitched.
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched getTrackVariantSwitched() {
+      if (contentCase_ == 13) {
+         return (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder getTrackVariantSwitchedOrBuilder() {
+      if (contentCase_ == 13) {
+         return (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+    }
+
+    public static final int TRACK_VARIANT_DISABLED_FIELD_NUMBER = 14;
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+     * @return Whether the trackVariantDisabled field is set.
+     */
+    @java.lang.Override
+    public boolean hasTrackVariantDisabled() {
+      return contentCase_ == 14;
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+     * @return The trackVariantDisabled.
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled getTrackVariantDisabled() {
+      if (contentCase_ == 14) {
+         return (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder getTrackVariantDisabledOrBuilder() {
+      if (contentCase_ == 14) {
+         return (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+    }
+
+    public static final int TRACK_VARIANT_ENABLED_FIELD_NUMBER = 15;
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+     * @return Whether the trackVariantEnabled field is set.
+     */
+    @java.lang.Override
+    public boolean hasTrackVariantEnabled() {
+      return contentCase_ == 15;
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+     * @return The trackVariantEnabled.
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled getTrackVariantEnabled() {
+      if (contentCase_ == 15) {
+         return (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder getTrackVariantEnabledOrBuilder() {
+      if (contentCase_ == 15) {
+         return (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -11324,6 +15475,15 @@ public final class Server {
       }
       if (contentCase_ == 12) {
         output.writeMessage(12, (fishjam.media_events.server.Server.MediaEvent.VadNotification) content_);
+      }
+      if (contentCase_ == 13) {
+        output.writeMessage(13, (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_);
+      }
+      if (contentCase_ == 14) {
+        output.writeMessage(14, (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_);
+      }
+      if (contentCase_ == 15) {
+        output.writeMessage(15, (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -11381,6 +15541,18 @@ public final class Server {
       if (contentCase_ == 12) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, (fishjam.media_events.server.Server.MediaEvent.VadNotification) content_);
+      }
+      if (contentCase_ == 13) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_);
+      }
+      if (contentCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_);
+      }
+      if (contentCase_ == 15) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -11447,6 +15619,18 @@ public final class Server {
           if (!getVadNotification()
               .equals(other.getVadNotification())) return false;
           break;
+        case 13:
+          if (!getTrackVariantSwitched()
+              .equals(other.getTrackVariantSwitched())) return false;
+          break;
+        case 14:
+          if (!getTrackVariantDisabled()
+              .equals(other.getTrackVariantDisabled())) return false;
+          break;
+        case 15:
+          if (!getTrackVariantEnabled()
+              .equals(other.getTrackVariantEnabled())) return false;
+          break;
         case 0:
         default:
       }
@@ -11509,6 +15693,18 @@ public final class Server {
         case 12:
           hash = (37 * hash) + VAD_NOTIFICATION_FIELD_NUMBER;
           hash = (53 * hash) + getVadNotification().hashCode();
+          break;
+        case 13:
+          hash = (37 * hash) + TRACK_VARIANT_SWITCHED_FIELD_NUMBER;
+          hash = (53 * hash) + getTrackVariantSwitched().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + TRACK_VARIANT_DISABLED_FIELD_NUMBER;
+          hash = (53 * hash) + getTrackVariantDisabled().hashCode();
+          break;
+        case 15:
+          hash = (37 * hash) + TRACK_VARIANT_ENABLED_FIELD_NUMBER;
+          hash = (53 * hash) + getTrackVariantEnabled().hashCode();
           break;
         case 0:
         default:
@@ -11684,6 +15880,15 @@ public final class Server {
         if (vadNotificationBuilder_ != null) {
           vadNotificationBuilder_.clear();
         }
+        if (trackVariantSwitchedBuilder_ != null) {
+          trackVariantSwitchedBuilder_.clear();
+        }
+        if (trackVariantDisabledBuilder_ != null) {
+          trackVariantDisabledBuilder_.clear();
+        }
+        if (trackVariantEnabledBuilder_ != null) {
+          trackVariantEnabledBuilder_.clear();
+        }
         contentCase_ = 0;
         content_ = null;
         return this;
@@ -11773,6 +15978,18 @@ public final class Server {
             vadNotificationBuilder_ != null) {
           result.content_ = vadNotificationBuilder_.build();
         }
+        if (contentCase_ == 13 &&
+            trackVariantSwitchedBuilder_ != null) {
+          result.content_ = trackVariantSwitchedBuilder_.build();
+        }
+        if (contentCase_ == 14 &&
+            trackVariantDisabledBuilder_ != null) {
+          result.content_ = trackVariantDisabledBuilder_.build();
+        }
+        if (contentCase_ == 15 &&
+            trackVariantEnabledBuilder_ != null) {
+          result.content_ = trackVariantEnabledBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -11834,6 +16051,18 @@ public final class Server {
           }
           case VAD_NOTIFICATION: {
             mergeVadNotification(other.getVadNotification());
+            break;
+          }
+          case TRACK_VARIANT_SWITCHED: {
+            mergeTrackVariantSwitched(other.getTrackVariantSwitched());
+            break;
+          }
+          case TRACK_VARIANT_DISABLED: {
+            mergeTrackVariantDisabled(other.getTrackVariantDisabled());
+            break;
+          }
+          case TRACK_VARIANT_ENABLED: {
+            mergeTrackVariantEnabled(other.getTrackVariantEnabled());
             break;
           }
           case CONTENT_NOT_SET: {
@@ -11950,6 +16179,27 @@ public final class Server {
                 contentCase_ = 12;
                 break;
               } // case 98
+              case 106: {
+                input.readMessage(
+                    getTrackVariantSwitchedFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 13;
+                break;
+              } // case 106
+              case 114: {
+                input.readMessage(
+                    getTrackVariantDisabledFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 14;
+                break;
+              } // case 114
+              case 122: {
+                input.readMessage(
+                    getTrackVariantEnabledFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 15;
+                break;
+              } // case 122
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -13686,6 +17936,432 @@ public final class Server {
         return vadNotificationBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder> trackVariantSwitchedBuilder_;
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       * @return Whether the trackVariantSwitched field is set.
+       */
+      @java.lang.Override
+      public boolean hasTrackVariantSwitched() {
+        return contentCase_ == 13;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       * @return The trackVariantSwitched.
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched getTrackVariantSwitched() {
+        if (trackVariantSwitchedBuilder_ == null) {
+          if (contentCase_ == 13) {
+            return (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+        } else {
+          if (contentCase_ == 13) {
+            return trackVariantSwitchedBuilder_.getMessage();
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      public Builder setTrackVariantSwitched(fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched value) {
+        if (trackVariantSwitchedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          trackVariantSwitchedBuilder_.setMessage(value);
+        }
+        contentCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      public Builder setTrackVariantSwitched(
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder builderForValue) {
+        if (trackVariantSwitchedBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          trackVariantSwitchedBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      public Builder mergeTrackVariantSwitched(fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched value) {
+        if (trackVariantSwitchedBuilder_ == null) {
+          if (contentCase_ == 13 &&
+              content_ != fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance()) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.newBuilder((fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 13) {
+            trackVariantSwitchedBuilder_.mergeFrom(value);
+          } else {
+            trackVariantSwitchedBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      public Builder clearTrackVariantSwitched() {
+        if (trackVariantSwitchedBuilder_ == null) {
+          if (contentCase_ == 13) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 13) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          trackVariantSwitchedBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder getTrackVariantSwitchedBuilder() {
+        return getTrackVariantSwitchedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder getTrackVariantSwitchedOrBuilder() {
+        if ((contentCase_ == 13) && (trackVariantSwitchedBuilder_ != null)) {
+          return trackVariantSwitchedBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 13) {
+            return (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder> 
+          getTrackVariantSwitchedFieldBuilder() {
+        if (trackVariantSwitchedBuilder_ == null) {
+          if (!(contentCase_ == 13)) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.getDefaultInstance();
+          }
+          trackVariantSwitchedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitchedOrBuilder>(
+                  (fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 13;
+        onChanged();
+        return trackVariantSwitchedBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder> trackVariantDisabledBuilder_;
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       * @return Whether the trackVariantDisabled field is set.
+       */
+      @java.lang.Override
+      public boolean hasTrackVariantDisabled() {
+        return contentCase_ == 14;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       * @return The trackVariantDisabled.
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled getTrackVariantDisabled() {
+        if (trackVariantDisabledBuilder_ == null) {
+          if (contentCase_ == 14) {
+            return (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+        } else {
+          if (contentCase_ == 14) {
+            return trackVariantDisabledBuilder_.getMessage();
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      public Builder setTrackVariantDisabled(fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled value) {
+        if (trackVariantDisabledBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          trackVariantDisabledBuilder_.setMessage(value);
+        }
+        contentCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      public Builder setTrackVariantDisabled(
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder builderForValue) {
+        if (trackVariantDisabledBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          trackVariantDisabledBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      public Builder mergeTrackVariantDisabled(fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled value) {
+        if (trackVariantDisabledBuilder_ == null) {
+          if (contentCase_ == 14 &&
+              content_ != fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance()) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.newBuilder((fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 14) {
+            trackVariantDisabledBuilder_.mergeFrom(value);
+          } else {
+            trackVariantDisabledBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      public Builder clearTrackVariantDisabled() {
+        if (trackVariantDisabledBuilder_ == null) {
+          if (contentCase_ == 14) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 14) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          trackVariantDisabledBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder getTrackVariantDisabledBuilder() {
+        return getTrackVariantDisabledFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder getTrackVariantDisabledOrBuilder() {
+        if ((contentCase_ == 14) && (trackVariantDisabledBuilder_ != null)) {
+          return trackVariantDisabledBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 14) {
+            return (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder> 
+          getTrackVariantDisabledFieldBuilder() {
+        if (trackVariantDisabledBuilder_ == null) {
+          if (!(contentCase_ == 14)) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.getDefaultInstance();
+          }
+          trackVariantDisabledBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabledOrBuilder>(
+                  (fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 14;
+        onChanged();
+        return trackVariantDisabledBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder> trackVariantEnabledBuilder_;
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       * @return Whether the trackVariantEnabled field is set.
+       */
+      @java.lang.Override
+      public boolean hasTrackVariantEnabled() {
+        return contentCase_ == 15;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       * @return The trackVariantEnabled.
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled getTrackVariantEnabled() {
+        if (trackVariantEnabledBuilder_ == null) {
+          if (contentCase_ == 15) {
+            return (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+        } else {
+          if (contentCase_ == 15) {
+            return trackVariantEnabledBuilder_.getMessage();
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      public Builder setTrackVariantEnabled(fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled value) {
+        if (trackVariantEnabledBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          trackVariantEnabledBuilder_.setMessage(value);
+        }
+        contentCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      public Builder setTrackVariantEnabled(
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder builderForValue) {
+        if (trackVariantEnabledBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          trackVariantEnabledBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      public Builder mergeTrackVariantEnabled(fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled value) {
+        if (trackVariantEnabledBuilder_ == null) {
+          if (contentCase_ == 15 &&
+              content_ != fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance()) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.newBuilder((fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 15) {
+            trackVariantEnabledBuilder_.mergeFrom(value);
+          } else {
+            trackVariantEnabledBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      public Builder clearTrackVariantEnabled() {
+        if (trackVariantEnabledBuilder_ == null) {
+          if (contentCase_ == 15) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 15) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          trackVariantEnabledBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder getTrackVariantEnabledBuilder() {
+        return getTrackVariantEnabledFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder getTrackVariantEnabledOrBuilder() {
+        if ((contentCase_ == 15) && (trackVariantEnabledBuilder_ != null)) {
+          return trackVariantEnabledBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 15) {
+            return (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder> 
+          getTrackVariantEnabledFieldBuilder() {
+        if (trackVariantEnabledBuilder_ == null) {
+          if (!(contentCase_ == 15)) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.getDefaultInstance();
+          }
+          trackVariantEnabledBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder, fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabledOrBuilder>(
+                  (fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 15;
+        onChanged();
+        return trackVariantEnabledBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:fishjam.media_events.server.MediaEvent)
     }
 
@@ -13748,10 +18424,25 @@ public final class Server {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_server_MediaEvent_Track_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_media_events_server_MediaEvent_Endpoint_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_server_MediaEvent_Endpoint_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_Endpoint_TrackIdToTrackEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_Endpoint_TrackIdToTrackEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_IceServer_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_IceServer_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_media_events_server_MediaEvent_EndpointUpdated_descriptor;
   private static final 
@@ -13768,6 +18459,11 @@ public final class Server {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_TrackIdToTrackEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_TrackIdToTrackEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_media_events_server_MediaEvent_TracksRemoved_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -13782,6 +18478,11 @@ public final class Server {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_server_MediaEvent_Connected_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_Connected_EndpointIdToEndpointEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_Connected_EndpointIdToEndpointEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_media_events_server_MediaEvent_EndpointRemoved_descriptor;
   private static final 
@@ -13808,10 +18509,30 @@ public final class Server {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_media_events_server_MediaEvent_VadNotification_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_server_MediaEvent_VadNotification_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -13823,7 +18544,7 @@ public final class Server {
     java.lang.String[] descriptorData = {
       "\n(fishjam/media_events/server/server.pro" +
       "to\022\033fishjam.media_events.server\032!fishjam" +
-      "/media_events/shared.proto\"\246\021\n\nMediaEven" +
+      "/media_events/shared.proto\"\341\033\n\nMediaEven" +
       "t\022S\n\020endpoint_updated\030\001 \001(\01327.fishjam.me" +
       "dia_events.server.MediaEvent.EndpointUpd" +
       "atedH\000\022M\n\rtrack_updated\030\002 \001(\01324.fishjam." +
@@ -13846,40 +18567,73 @@ public final class Server {
       "answer\030\013 \001(\01321.fishjam.media_events.serv" +
       "er.MediaEvent.SdpAnswerH\000\022S\n\020vad_notific" +
       "ation\030\014 \001(\01327.fishjam.media_events.serve" +
-      "r.MediaEvent.VadNotificationH\000\032K\n\005Track\022" +
-      "\020\n\010track_id\030\001 \001(\t\0220\n\010metadata\030\002 \001(\0132\036.fi" +
-      "shjam.media_events.Metadata\032\247\001\n\010Endpoint" +
-      "\022\023\n\013endpoint_id\030\001 \001(\t\022\025\n\rendpoint_type\030\002" +
-      " \001(\t\0220\n\010metadata\030\003 \001(\0132\036.fishjam.media_e" +
-      "vents.Metadata\022=\n\006tracks\030\004 \003(\0132-.fishjam" +
-      ".media_events.server.MediaEvent.Track\032X\n" +
-      "\017EndpointUpdated\022\023\n\013endpoint_id\030\001 \001(\t\0220\n" +
-      "\010metadata\030\002 \001(\0132\036.fishjam.media_events.M" +
-      "etadata\032g\n\014TrackUpdated\022\023\n\013endpoint_id\030\001" +
-      " \001(\t\022\020\n\010track_id\030\002 \001(\t\0220\n\010metadata\030\003 \001(\013" +
-      "2\036.fishjam.media_events.Metadata\032a\n\013Trac" +
-      "ksAdded\022\023\n\013endpoint_id\030\001 \001(\t\022=\n\006tracks\030\002" +
-      " \003(\0132-.fishjam.media_events.server.Media" +
-      "Event.Track\0327\n\rTracksRemoved\022\023\n\013endpoint" +
-      "_id\030\001 \001(\t\022\021\n\ttrack_ids\030\002 \003(\t\032V\n\rEndpoint" +
-      "Added\022\023\n\013endpoint_id\030\001 \001(\t\0220\n\010metadata\030\002" +
-      " \001(\0132\036.fishjam.media_events.Metadata\032e\n\t" +
-      "Connected\022\023\n\013endpoint_id\030\001 \001(\t\022C\n\tendpoi" +
-      "nts\030\002 \003(\01320.fishjam.media_events.server." +
-      "MediaEvent.Endpoint\032&\n\017EndpointRemoved\022\023" +
+      "r.MediaEvent.VadNotificationH\000\022^\n\026track_" +
+      "variant_switched\030\r \001(\0132<.fishjam.media_e" +
+      "vents.server.MediaEvent.TrackVariantSwit" +
+      "chedH\000\022^\n\026track_variant_disabled\030\016 \001(\0132<" +
+      ".fishjam.media_events.server.MediaEvent." +
+      "TrackVariantDisabledH\000\022\\\n\025track_variant_" +
+      "enabled\030\017 \001(\0132;.fishjam.media_events.ser" +
+      "ver.MediaEvent.TrackVariantEnabledH\000\032\217\002\n" +
+      "\005Track\022\025\n\rmetadata_json\030\001 \001(\t\022W\n\020simulca" +
+      "st_config\030\002 \001(\0132=.fishjam.media_events.s" +
+      "erver.MediaEvent.Track.SimulcastConfig\032\225" +
+      "\001\n\017SimulcastConfig\022\017\n\007enabled\030\001 \001(\010\0227\n\020e" +
+      "nabled_variants\030\002 \003(\0162\035.fishjam.media_ev" +
+      "ents.Variant\0228\n\021disabled_variants\030\003 \003(\0162" +
+      "\035.fishjam.media_events.Variant\032\377\001\n\010Endpo" +
+      "int\022\025\n\rendpoint_type\030\002 \001(\t\022\025\n\rmetadata_j" +
+      "son\030\003 \001(\t\022_\n\021track_id_to_track\030\004 \003(\0132D.f" +
+      "ishjam.media_events.server.MediaEvent.En" +
+      "dpoint.TrackIdToTrackEntry\032d\n\023TrackIdToT" +
+      "rackEntry\022\013\n\003key\030\001 \001(\t\022<\n\005value\030\002 \001(\0132-." +
+      "fishjam.media_events.server.MediaEvent.T" +
+      "rack:\0028\001\032?\n\tIceServer\022\022\n\ncredential\030\001 \001(" +
+      "\t\022\014\n\004urls\030\002 \003(\t\022\020\n\010username\030\003 \001(\t\032=\n\017End" +
+      "pointUpdated\022\023\n\013endpoint_id\030\001 \001(\t\022\025\n\rmet" +
+      "adata_json\030\002 \001(\t\032L\n\014TrackUpdated\022\023\n\013endp" +
+      "oint_id\030\001 \001(\t\022\020\n\010track_id\030\002 \001(\t\022\025\n\rmetad" +
+      "ata_json\030\003 \001(\t\032\354\001\n\013TracksAdded\022\023\n\013endpoi" +
+      "nt_id\030\001 \001(\t\022b\n\021track_id_to_track\030\002 \003(\0132G" +
+      ".fishjam.media_events.server.MediaEvent." +
+      "TracksAdded.TrackIdToTrackEntry\032d\n\023Track" +
+      "IdToTrackEntry\022\013\n\003key\030\001 \001(\t\022<\n\005value\030\002 \001" +
+      "(\0132-.fishjam.media_events.server.MediaEv" +
+      "ent.Track:\0028\001\0327\n\rTracksRemoved\022\023\n\013endpoi" +
+      "nt_id\030\001 \001(\t\022\021\n\ttrack_ids\030\002 \003(\t\032;\n\rEndpoi" +
+      "ntAdded\022\023\n\013endpoint_id\030\001 \001(\t\022\025\n\rmetadata" +
+      "_json\030\002 \001(\t\032\305\002\n\tConnected\022\023\n\013endpoint_id" +
+      "\030\001 \001(\t\022l\n\027endpoint_id_to_endpoint\030\002 \003(\0132" +
+      "K.fishjam.media_events.server.MediaEvent" +
+      ".Connected.EndpointIdToEndpointEntry\022F\n\013" +
+      "ice_servers\030\003 \003(\01321.fishjam.media_events" +
+      ".server.MediaEvent.IceServer\032m\n\031Endpoint" +
+      "IdToEndpointEntry\022\013\n\003key\030\001 \001(\t\022?\n\005value\030" +
+      "\002 \001(\01320.fishjam.media_events.server.Medi" +
+      "aEvent.Endpoint:\0028\001\032&\n\017EndpointRemoved\022\023" +
       "\n\013endpoint_id\030\001 \001(\t\032\030\n\005Error\022\017\n\007message\030" +
       "\001 \001(\t\032\213\001\n\tOfferData\022R\n\014tracks_types\030\001 \001(" +
       "\0132<.fishjam.media_events.server.MediaEve" +
       "nt.OfferData.TrackTypes\032*\n\nTrackTypes\022\r\n" +
-      "\005audio\030\001 \001(\005\022\r\n\005video\030\002 \001(\005\032\\\n\tSdpAnswer" +
-      "\022\022\n\nsdp_answer\030\001 \001(\t\022;\n\017mid_to_track_id\030" +
-      "\002 \003(\0132\".fishjam.media_events.MidToTrackI" +
-      "d\032\274\001\n\017VadNotification\022\020\n\010track_id\030\001 \001(\t\022" +
-      "N\n\006status\030\002 \001(\0162>.fishjam.media_events.s" +
-      "erver.MediaEvent.VadNotification.Status\"" +
-      "G\n\006Status\022\026\n\022STATUS_UNSPECIFIED\020\000\022\022\n\016STA" +
-      "TUS_SILENCE\020\001\022\021\n\rSTATUS_SPEECH\020\002B\t\n\007cont" +
-      "entb\006proto3"
+      "\005audio\030\001 \001(\005\022\r\n\005video\030\002 \001(\005\032\262\001\n\tSdpAnswe" +
+      "r\022\022\n\nsdp_answer\030\001 \001(\t\022\\\n\017mid_to_track_id" +
+      "\030\002 \003(\0132C.fishjam.media_events.server.Med" +
+      "iaEvent.SdpAnswer.MidToTrackIdEntry\0323\n\021M" +
+      "idToTrackIdEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t:\0028\001\032\274\001\n\017VadNotification\022\020\n\010track_id" +
+      "\030\001 \001(\t\022N\n\006status\030\002 \001(\0162>.fishjam.media_e" +
+      "vents.server.MediaEvent.VadNotification." +
+      "Status\"G\n\006Status\022\026\n\022STATUS_UNSPECIFIED\020\000" +
+      "\022\022\n\016STATUS_SILENCE\020\001\022\021\n\rSTATUS_SPEECH\020\002\032" +
+      "m\n\024TrackVariantSwitched\022\023\n\013endpoint_id\030\001" +
+      " \001(\t\022\020\n\010track_id\030\002 \001(\t\022.\n\007variant\030\003 \001(\0162" +
+      "\035.fishjam.media_events.Variant\032m\n\024TrackV" +
+      "ariantDisabled\022\023\n\013endpoint_id\030\001 \001(\t\022\020\n\010t" +
+      "rack_id\030\002 \001(\t\022.\n\007variant\030\003 \001(\0162\035.fishjam" +
+      ".media_events.Variant\032l\n\023TrackVariantEna" +
+      "bled\022\023\n\013endpoint_id\030\001 \001(\t\022\020\n\010track_id\030\002 " +
+      "\001(\t\022.\n\007variant\030\003 \001(\0162\035.fishjam.media_eve" +
+      "nts.VariantB\t\n\007contentb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -13891,69 +18645,99 @@ public final class Server {
     internal_static_fishjam_media_events_server_MediaEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_descriptor,
-        new java.lang.String[] { "EndpointUpdated", "TrackUpdated", "TracksAdded", "TracksRemoved", "EndpointAdded", "EndpointRemoved", "Connected", "Error", "OfferData", "Candidate", "SdpAnswer", "VadNotification", "Content", });
+        new java.lang.String[] { "EndpointUpdated", "TrackUpdated", "TracksAdded", "TracksRemoved", "EndpointAdded", "EndpointRemoved", "Connected", "Error", "OfferData", "Candidate", "SdpAnswer", "VadNotification", "TrackVariantSwitched", "TrackVariantDisabled", "TrackVariantEnabled", "Content", });
     internal_static_fishjam_media_events_server_MediaEvent_Track_descriptor =
       internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(0);
     internal_static_fishjam_media_events_server_MediaEvent_Track_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_Track_descriptor,
-        new java.lang.String[] { "TrackId", "Metadata", });
+        new java.lang.String[] { "MetadataJson", "SimulcastConfig", });
+    internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_Track_descriptor.getNestedTypes().get(0);
+    internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_Track_SimulcastConfig_descriptor,
+        new java.lang.String[] { "Enabled", "EnabledVariants", "DisabledVariants", });
     internal_static_fishjam_media_events_server_MediaEvent_Endpoint_descriptor =
       internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(1);
     internal_static_fishjam_media_events_server_MediaEvent_Endpoint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_Endpoint_descriptor,
-        new java.lang.String[] { "EndpointId", "EndpointType", "Metadata", "Tracks", });
-    internal_static_fishjam_media_events_server_MediaEvent_EndpointUpdated_descriptor =
+        new java.lang.String[] { "EndpointType", "MetadataJson", "TrackIdToTrack", });
+    internal_static_fishjam_media_events_server_MediaEvent_Endpoint_TrackIdToTrackEntry_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_Endpoint_descriptor.getNestedTypes().get(0);
+    internal_static_fishjam_media_events_server_MediaEvent_Endpoint_TrackIdToTrackEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_Endpoint_TrackIdToTrackEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_fishjam_media_events_server_MediaEvent_IceServer_descriptor =
       internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(2);
+    internal_static_fishjam_media_events_server_MediaEvent_IceServer_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_IceServer_descriptor,
+        new java.lang.String[] { "Credential", "Urls", "Username", });
+    internal_static_fishjam_media_events_server_MediaEvent_EndpointUpdated_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(3);
     internal_static_fishjam_media_events_server_MediaEvent_EndpointUpdated_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_EndpointUpdated_descriptor,
-        new java.lang.String[] { "EndpointId", "Metadata", });
+        new java.lang.String[] { "EndpointId", "MetadataJson", });
     internal_static_fishjam_media_events_server_MediaEvent_TrackUpdated_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(3);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(4);
     internal_static_fishjam_media_events_server_MediaEvent_TrackUpdated_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_TrackUpdated_descriptor,
-        new java.lang.String[] { "EndpointId", "TrackId", "Metadata", });
+        new java.lang.String[] { "EndpointId", "TrackId", "MetadataJson", });
     internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(4);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(5);
     internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_descriptor,
-        new java.lang.String[] { "EndpointId", "Tracks", });
+        new java.lang.String[] { "EndpointId", "TrackIdToTrack", });
+    internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_TrackIdToTrackEntry_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_descriptor.getNestedTypes().get(0);
+    internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_TrackIdToTrackEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_TracksAdded_TrackIdToTrackEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_fishjam_media_events_server_MediaEvent_TracksRemoved_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(5);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(6);
     internal_static_fishjam_media_events_server_MediaEvent_TracksRemoved_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_TracksRemoved_descriptor,
         new java.lang.String[] { "EndpointId", "TrackIds", });
     internal_static_fishjam_media_events_server_MediaEvent_EndpointAdded_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(6);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(7);
     internal_static_fishjam_media_events_server_MediaEvent_EndpointAdded_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_EndpointAdded_descriptor,
-        new java.lang.String[] { "EndpointId", "Metadata", });
+        new java.lang.String[] { "EndpointId", "MetadataJson", });
     internal_static_fishjam_media_events_server_MediaEvent_Connected_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(7);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(8);
     internal_static_fishjam_media_events_server_MediaEvent_Connected_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_Connected_descriptor,
-        new java.lang.String[] { "EndpointId", "Endpoints", });
+        new java.lang.String[] { "EndpointId", "EndpointIdToEndpoint", "IceServers", });
+    internal_static_fishjam_media_events_server_MediaEvent_Connected_EndpointIdToEndpointEntry_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_Connected_descriptor.getNestedTypes().get(0);
+    internal_static_fishjam_media_events_server_MediaEvent_Connected_EndpointIdToEndpointEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_Connected_EndpointIdToEndpointEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_fishjam_media_events_server_MediaEvent_EndpointRemoved_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(8);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(9);
     internal_static_fishjam_media_events_server_MediaEvent_EndpointRemoved_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_EndpointRemoved_descriptor,
         new java.lang.String[] { "EndpointId", });
     internal_static_fishjam_media_events_server_MediaEvent_Error_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(9);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(10);
     internal_static_fishjam_media_events_server_MediaEvent_Error_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_Error_descriptor,
         new java.lang.String[] { "Message", });
     internal_static_fishjam_media_events_server_MediaEvent_OfferData_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(10);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(11);
     internal_static_fishjam_media_events_server_MediaEvent_OfferData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_OfferData_descriptor,
@@ -13965,17 +18749,41 @@ public final class Server {
         internal_static_fishjam_media_events_server_MediaEvent_OfferData_TrackTypes_descriptor,
         new java.lang.String[] { "Audio", "Video", });
     internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(11);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(12);
     internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor,
         new java.lang.String[] { "SdpAnswer", "MidToTrackId", });
+    internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor.getNestedTypes().get(0);
+    internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_fishjam_media_events_server_MediaEvent_VadNotification_descriptor =
-      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(12);
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(13);
     internal_static_fishjam_media_events_server_MediaEvent_VadNotification_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_VadNotification_descriptor,
         new java.lang.String[] { "TrackId", "Status", });
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(14);
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_TrackVariantSwitched_descriptor,
+        new java.lang.String[] { "EndpointId", "TrackId", "Variant", });
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(15);
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_TrackVariantDisabled_descriptor,
+        new java.lang.String[] { "EndpointId", "TrackId", "Variant", });
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_descriptor =
+      internal_static_fishjam_media_events_server_MediaEvent_descriptor.getNestedTypes().get(16);
+    internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_server_MediaEvent_TrackVariantEnabled_descriptor,
+        new java.lang.String[] { "EndpointId", "TrackId", "Variant", });
     descriptor.resolveAllFeaturesImmutable();
     fishjam.media_events.Shared.getDescriptor();
   }

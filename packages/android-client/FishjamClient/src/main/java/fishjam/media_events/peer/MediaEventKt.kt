@@ -200,27 +200,75 @@ public object MediaEventKt {
     }
 
     /**
-     * `.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;`
+     * `.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;`
      */
-    public var trackBitrate: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate
-      @JvmName("getTrackBitrate")
-      get() = _builder.getTrackBitrate()
-      @JvmName("setTrackBitrate")
+    public var trackBitrates: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
+      @JvmName("getTrackBitrates")
+      get() = _builder.getTrackBitrates()
+      @JvmName("setTrackBitrates")
       set(value) {
-        _builder.setTrackBitrate(value)
+        _builder.setTrackBitrates(value)
       }
     /**
-     * `.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;`
+     * `.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;`
      */
-    public fun clearTrackBitrate() {
-      _builder.clearTrackBitrate()
+    public fun clearTrackBitrates() {
+      _builder.clearTrackBitrates()
     }
     /**
-     * `.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;`
-     * @return Whether the trackBitrate field is set.
+     * `.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;`
+     * @return Whether the trackBitrates field is set.
      */
-    public fun hasTrackBitrate(): kotlin.Boolean {
-      return _builder.hasTrackBitrate()
+    public fun hasTrackBitrates(): kotlin.Boolean {
+      return _builder.hasTrackBitrates()
+    }
+
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;`
+     */
+    public var enableTrackVariant: fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant
+      @JvmName("getEnableTrackVariant")
+      get() = _builder.getEnableTrackVariant()
+      @JvmName("setEnableTrackVariant")
+      set(value) {
+        _builder.setEnableTrackVariant(value)
+      }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;`
+     */
+    public fun clearEnableTrackVariant() {
+      _builder.clearEnableTrackVariant()
+    }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;`
+     * @return Whether the enableTrackVariant field is set.
+     */
+    public fun hasEnableTrackVariant(): kotlin.Boolean {
+      return _builder.hasEnableTrackVariant()
+    }
+
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;`
+     */
+    public var disableTrackVariant: fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant
+      @JvmName("getDisableTrackVariant")
+      get() = _builder.getDisableTrackVariant()
+      @JvmName("setDisableTrackVariant")
+      set(value) {
+        _builder.setDisableTrackVariant(value)
+      }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;`
+     */
+    public fun clearDisableTrackVariant() {
+      _builder.clearDisableTrackVariant()
+    }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;`
+     * @return Whether the disableTrackVariant field is set.
+     */
+    public fun hasDisableTrackVariant(): kotlin.Boolean {
+      return _builder.hasDisableTrackVariant()
     }
     public val contentCase: fishjam.media_events.peer.Peer.MediaEvent.ContentCase
       @JvmName("getContentCase")
@@ -234,10 +282,6 @@ public object MediaEventKt {
   public inline fun variantBitrate(block: fishjam.media_events.peer.MediaEventKt.VariantBitrateKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate =
     fishjam.media_events.peer.MediaEventKt.VariantBitrateKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.newBuilder()).apply { block() }._build()
   /**
-   * ```
-   * SCHEMAS
-   * ```
-   *
    * Protobuf type `fishjam.media_events.peer.MediaEvent.VariantBitrate`
    */
   public object VariantBitrateKt {
@@ -298,126 +342,6 @@ public object MediaEventKt {
       }
     }
   }
-  @kotlin.jvm.JvmName("-initializetrackIdToMetadata")
-  public inline fun trackIdToMetadata(block: fishjam.media_events.peer.MediaEventKt.TrackIdToMetadataKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata =
-    fishjam.media_events.peer.MediaEventKt.TrackIdToMetadataKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.newBuilder()).apply { block() }._build()
-  /**
-   * Protobuf type `fishjam.media_events.peer.MediaEvent.TrackIdToMetadata`
-   */
-  public object TrackIdToMetadataKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-    @com.google.protobuf.kotlin.ProtoDslMarker
-    public class Dsl private constructor(
-      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder
-    ) {
-      public companion object {
-        @kotlin.jvm.JvmSynthetic
-        @kotlin.PublishedApi
-        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder): Dsl = Dsl(builder)
-      }
-
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.PublishedApi
-      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata = _builder.build()
-
-      /**
-       * `string track_id = 1;`
-       */
-      public var trackId: kotlin.String
-        @JvmName("getTrackId")
-        get() = _builder.getTrackId()
-        @JvmName("setTrackId")
-        set(value) {
-          _builder.setTrackId(value)
-        }
-      /**
-       * `string track_id = 1;`
-       */
-      public fun clearTrackId() {
-        _builder.clearTrackId()
-      }
-
-      /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
-        set(value) {
-          _builder.setMetadata(value)
-        }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
-      }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val TrackIdToMetadataKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
-    }
-  }
-  @kotlin.jvm.JvmName("-initializetrackIdToBitrates")
-  public inline fun trackIdToBitrates(block: fishjam.media_events.peer.MediaEventKt.TrackIdToBitratesKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates =
-    fishjam.media_events.peer.MediaEventKt.TrackIdToBitratesKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.newBuilder()).apply { block() }._build()
-  /**
-   * Protobuf type `fishjam.media_events.peer.MediaEvent.TrackIdToBitrates`
-   */
-  public object TrackIdToBitratesKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-    @com.google.protobuf.kotlin.ProtoDslMarker
-    public class Dsl private constructor(
-      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder
-    ) {
-      public companion object {
-        @kotlin.jvm.JvmSynthetic
-        @kotlin.PublishedApi
-        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder): Dsl = Dsl(builder)
-      }
-
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.PublishedApi
-      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates = _builder.build()
-
-      /**
-       * `.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;`
-       */
-      public var trackBitrate: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate
-        @JvmName("getTrackBitrate")
-        get() = _builder.getTrackBitrate()
-        @JvmName("setTrackBitrate")
-        set(value) {
-          _builder.setTrackBitrate(value)
-        }
-      /**
-       * `.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;`
-       */
-      public fun clearTrackBitrate() {
-        _builder.clearTrackBitrate()
-      }
-      /**
-       * `.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;`
-       * @return Whether the trackBitrate field is set.
-       */
-      public fun hasTrackBitrate(): kotlin.Boolean {
-        return _builder.hasTrackBitrate()
-      }
-      public val tracksCase: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.TracksCase
-        @JvmName("getTracksCase")
-        get() = _builder.getTracksCase()
-
-      public fun clearTracks() {
-        _builder.clearTracks()
-      }
-    }
-  }
   @kotlin.jvm.JvmName("-initializeconnect")
   public inline fun connect(block: fishjam.media_events.peer.MediaEventKt.ConnectKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.Connect =
     fishjam.media_events.peer.MediaEventKt.ConnectKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.Connect.newBuilder()).apply { block() }._build()
@@ -445,30 +369,21 @@ public object MediaEventKt {
       internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.Connect = _builder.build()
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 1;`
+       * `string metadata_json = 1;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 1;`
+       * `string metadata_json = 1;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 1;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val ConnectKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
     }
   }
   @kotlin.jvm.JvmName("-initializedisconnect")
@@ -525,30 +440,21 @@ public object MediaEventKt {
       internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata = _builder.build()
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 1;`
+       * `string metadata_json = 1;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 1;`
+       * `string metadata_json = 1;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 1;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val UpdateEndpointMetadataKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
     }
   }
   @kotlin.jvm.JvmName("-initializeupdateTrackMetadata")
@@ -595,30 +501,21 @@ public object MediaEventKt {
       }
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `string metadata_json = 2;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `string metadata_json = 2;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val UpdateTrackMetadataKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
     }
   }
   @kotlin.jvm.JvmName("-initializerenegotiateTracks")
@@ -698,72 +595,61 @@ public object MediaEventKt {
        * generics.
        */
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-      public class TrackIdToMetadataProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      public class TrackIdToMetadataJsonProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
+       * `map<string, string> track_id_to_metadata_json = 2;`
        */
-       public val trackIdToMetadata: com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>
+       public val trackIdToMetadataJson: com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, TrackIdToMetadataJsonProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getTrackIdToMetadataList()
+        @JvmName("getTrackIdToMetadataJsonMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getTrackIdToMetadataJsonMap()
         )
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
-       * @param value The trackIdToMetadata to add.
+       * `map<string, string> track_id_to_metadata_json = 2;`
        */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addTrackIdToMetadata")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>.add(value: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata) {
-        _builder.addTrackIdToMetadata(value)
-      }
+      @JvmName("putTrackIdToMetadataJson")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, TrackIdToMetadataJsonProxy>
+        .put(key: kotlin.String, value: kotlin.String) {
+           _builder.putTrackIdToMetadataJson(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
-       * @param value The trackIdToMetadata to add.
+       * `map<string, string> track_id_to_metadata_json = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignTrackIdToMetadata")
+      @JvmName("setTrackIdToMetadataJson")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>.plusAssign(value: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata) {
-        add(value)
-      }
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, TrackIdToMetadataJsonProxy>
+        .set(key: kotlin.String, value: kotlin.String) {
+           put(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
-       * @param values The trackIdToMetadata to add.
+       * `map<string, string> track_id_to_metadata_json = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllTrackIdToMetadata")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata>) {
-        _builder.addAllTrackIdToMetadata(values)
-      }
+      @JvmName("removeTrackIdToMetadataJson")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, TrackIdToMetadataJsonProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeTrackIdToMetadataJson(key)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
-       * @param values The trackIdToMetadata to add.
+       * `map<string, string> track_id_to_metadata_json = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllTrackIdToMetadata")
-      @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata>) {
-        addAll(values)
-      }
+      @JvmName("putAllTrackIdToMetadataJson")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, TrackIdToMetadataJsonProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, kotlin.String>) {
+           _builder.putAllTrackIdToMetadataJson(map)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
-       * @param index The index to set the value at.
-       * @param value The trackIdToMetadata to set.
+       * `map<string, string> track_id_to_metadata_json = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setTrackIdToMetadata")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>.set(index: kotlin.Int, value: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata) {
-        _builder.setTrackIdToMetadata(index, value)
-      }
-      /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;`
-       */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearTrackIdToMetadata")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, TrackIdToMetadataProxy>.clear() {
-        _builder.clearTrackIdToMetadata()
-      }
-
+      @JvmName("clearTrackIdToMetadataJson")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, TrackIdToMetadataJsonProxy>
+        .clear() {
+           _builder.clearTrackIdToMetadataJson()
+         }
 
       /**
        * An uninstantiable, behaviorless type to represent the field in
@@ -772,70 +658,83 @@ public object MediaEventKt {
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       public class TrackIdToBitratesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
+       * ```
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * ```
+       *
+       * `map<string, .fishjam.media_events.peer.MediaEvent.TrackBitrates> track_id_to_bitrates = 3;`
        */
-       public val trackIdToBitrates: com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>
+       public val trackIdToBitrates: com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, TrackIdToBitratesProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getTrackIdToBitratesList()
+        @JvmName("getTrackIdToBitratesMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getTrackIdToBitratesMap()
         )
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
-       * @param value The trackIdToBitrates to add.
+       * ```
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * ```
+       *
+       * `map<string, .fishjam.media_events.peer.MediaEvent.TrackBitrates> track_id_to_bitrates = 3;`
        */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addTrackIdToBitrates")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>.add(value: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates) {
-        _builder.addTrackIdToBitrates(value)
-      }
+      @JvmName("putTrackIdToBitrates")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, TrackIdToBitratesProxy>
+        .put(key: kotlin.String, value: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) {
+           _builder.putTrackIdToBitrates(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
-       * @param value The trackIdToBitrates to add.
+       * ```
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * ```
+       *
+       * `map<string, .fishjam.media_events.peer.MediaEvent.TrackBitrates> track_id_to_bitrates = 3;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignTrackIdToBitrates")
+      @JvmName("setTrackIdToBitrates")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>.plusAssign(value: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates) {
-        add(value)
-      }
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, TrackIdToBitratesProxy>
+        .set(key: kotlin.String, value: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) {
+           put(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
-       * @param values The trackIdToBitrates to add.
+       * ```
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * ```
+       *
+       * `map<string, .fishjam.media_events.peer.MediaEvent.TrackBitrates> track_id_to_bitrates = 3;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllTrackIdToBitrates")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates>) {
-        _builder.addAllTrackIdToBitrates(values)
-      }
+      @JvmName("removeTrackIdToBitrates")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, TrackIdToBitratesProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeTrackIdToBitrates(key)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
-       * @param values The trackIdToBitrates to add.
+       * ```
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * ```
+       *
+       * `map<string, .fishjam.media_events.peer.MediaEvent.TrackBitrates> track_id_to_bitrates = 3;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllTrackIdToBitrates")
-      @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates>) {
-        addAll(values)
-      }
+      @JvmName("putAllTrackIdToBitrates")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, TrackIdToBitratesProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>) {
+           _builder.putAllTrackIdToBitrates(map)
+         }
       /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
-       * @param index The index to set the value at.
-       * @param value The trackIdToBitrates to set.
+       * ```
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * ```
+       *
+       * `map<string, .fishjam.media_events.peer.MediaEvent.TrackBitrates> track_id_to_bitrates = 3;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setTrackIdToBitrates")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>.set(index: kotlin.Int, value: fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates) {
-        _builder.setTrackIdToBitrates(index, value)
-      }
-      /**
-       * `repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;`
-       */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearTrackIdToBitrates")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, TrackIdToBitratesProxy>.clear() {
-        _builder.clearTrackIdToBitrates()
-      }
-
+      @JvmName("clearTrackIdToBitrates")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, TrackIdToBitratesProxy>
+        .clear() {
+           _builder.clearTrackIdToBitrates()
+         }
 
       /**
        * An uninstantiable, behaviorless type to represent the field in
@@ -844,97 +743,86 @@ public object MediaEventKt {
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       public class MidToTrackIdProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
+       * `map<string, string> mid_to_track_id = 4;`
        */
-       public val midToTrackId: com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>
+       public val midToTrackId: com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getMidToTrackIdList()
+        @JvmName("getMidToTrackIdMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getMidToTrackIdMap()
         )
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
-       * @param value The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 4;`
        */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addMidToTrackId")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.add(value: fishjam.media_events.Shared.MidToTrackId) {
-        _builder.addMidToTrackId(value)
-      }
+      @JvmName("putMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .put(key: kotlin.String, value: kotlin.String) {
+           _builder.putMidToTrackId(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
-       * @param value The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 4;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignMidToTrackId")
+      @JvmName("setMidToTrackId")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.plusAssign(value: fishjam.media_events.Shared.MidToTrackId) {
-        add(value)
-      }
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .set(key: kotlin.String, value: kotlin.String) {
+           put(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
-       * @param values The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 4;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllMidToTrackId")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.Shared.MidToTrackId>) {
-        _builder.addAllMidToTrackId(values)
-      }
+      @JvmName("removeMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeMidToTrackId(key)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
-       * @param values The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 4;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllMidToTrackId")
-      @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.Shared.MidToTrackId>) {
-        addAll(values)
-      }
+      @JvmName("putAllMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, kotlin.String>) {
+           _builder.putAllMidToTrackId(map)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
-       * @param index The index to set the value at.
-       * @param value The midToTrackId to set.
+       * `map<string, string> mid_to_track_id = 4;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setMidToTrackId")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.set(index: kotlin.Int, value: fishjam.media_events.Shared.MidToTrackId) {
-        _builder.setMidToTrackId(index, value)
-      }
-      /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;`
-       */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearMidToTrackId")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.clear() {
-        _builder.clearMidToTrackId()
-      }
-
+      @JvmName("clearMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .clear() {
+           _builder.clearMidToTrackId()
+         }
     }
   }
-  @kotlin.jvm.JvmName("-initializetrackBitrate")
-  public inline fun trackBitrate(block: fishjam.media_events.peer.MediaEventKt.TrackBitrateKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate =
-    fishjam.media_events.peer.MediaEventKt.TrackBitrateKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.newBuilder()).apply { block() }._build()
+  @kotlin.jvm.JvmName("-initializetrackBitrates")
+  public inline fun trackBitrates(block: fishjam.media_events.peer.MediaEventKt.TrackBitratesKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates =
+    fishjam.media_events.peer.MediaEventKt.TrackBitratesKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()).apply { block() }._build()
   /**
    * ```
    * Sent when Peer wants to update its track's bitrate
    * ```
    *
-   * Protobuf type `fishjam.media_events.peer.MediaEvent.TrackBitrate`
+   * Protobuf type `fishjam.media_events.peer.MediaEvent.TrackBitrates`
    */
-  public object TrackBitrateKt {
+  public object TrackBitratesKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     @com.google.protobuf.kotlin.ProtoDslMarker
     public class Dsl private constructor(
-      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder
+      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder
     ) {
       public companion object {
         @kotlin.jvm.JvmSynthetic
         @kotlin.PublishedApi
-        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder): Dsl = Dsl(builder)
+        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder): Dsl = Dsl(builder)
       }
 
       @kotlin.jvm.JvmSynthetic
       @kotlin.PublishedApi
-      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate = _builder.build()
+      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates = _builder.build()
 
       /**
        * `string track_id = 1;`
@@ -954,20 +842,239 @@ public object MediaEventKt {
       }
 
       /**
-       * `int32 bitrate = 2;`
+       * An uninstantiable, behaviorless type to represent the field in
+       * generics.
        */
-      public var bitrate: kotlin.Int
-        @JvmName("getBitrate")
-        get() = _builder.getBitrate()
-        @JvmName("setBitrate")
+      @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+      public class VariantBitratesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       */
+       public val variantBitrates: com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>
+        @kotlin.jvm.JvmSynthetic
+        get() = com.google.protobuf.kotlin.DslList(
+          _builder.getVariantBitratesList()
+        )
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       * @param value The variantBitrates to add.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("addVariantBitrates")
+      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>.add(value: fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate) {
+        _builder.addVariantBitrates(value)
+      }
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       * @param value The variantBitrates to add.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("plusAssignVariantBitrates")
+      @Suppress("NOTHING_TO_INLINE")
+      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>.plusAssign(value: fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate) {
+        add(value)
+      }
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       * @param values The variantBitrates to add.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("addAllVariantBitrates")
+      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate>) {
+        _builder.addAllVariantBitrates(values)
+      }
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       * @param values The variantBitrates to add.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("plusAssignAllVariantBitrates")
+      @Suppress("NOTHING_TO_INLINE")
+      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate>) {
+        addAll(values)
+      }
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       * @param index The index to set the value at.
+       * @param value The variantBitrates to set.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("setVariantBitrates")
+      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>.set(index: kotlin.Int, value: fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate) {
+        _builder.setVariantBitrates(index, value)
+      }
+      /**
+       * ```
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * ```
+       *
+       * `repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("clearVariantBitrates")
+      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, VariantBitratesProxy>.clear() {
+        _builder.clearVariantBitrates()
+      }
+
+    }
+  }
+  @kotlin.jvm.JvmName("-initializedisableTrackVariant")
+  public inline fun disableTrackVariant(block: fishjam.media_events.peer.MediaEventKt.DisableTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant =
+    fishjam.media_events.peer.MediaEventKt.DisableTrackVariantKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.newBuilder()).apply { block() }._build()
+  /**
+   * ```
+   * Sent when client disables one of the track variants
+   * ```
+   *
+   * Protobuf type `fishjam.media_events.peer.MediaEvent.DisableTrackVariant`
+   */
+  public object DisableTrackVariantKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant = _builder.build()
+
+      /**
+       * `string track_id = 1;`
+       */
+      public var trackId: kotlin.String
+        @JvmName("getTrackId")
+        get() = _builder.getTrackId()
+        @JvmName("setTrackId")
         set(value) {
-          _builder.setBitrate(value)
+          _builder.setTrackId(value)
         }
       /**
-       * `int32 bitrate = 2;`
+       * `string track_id = 1;`
        */
-      public fun clearBitrate() {
-        _builder.clearBitrate()
+      public fun clearTrackId() {
+        _builder.clearTrackId()
+      }
+
+      /**
+       * `.fishjam.media_events.Variant variant = 2;`
+       */
+      public var variant: fishjam.media_events.Shared.Variant
+        @JvmName("getVariant")
+        get() = _builder.getVariant()
+        @JvmName("setVariant")
+        set(value) {
+          _builder.setVariant(value)
+        }
+      public var variantValue: kotlin.Int
+        @JvmName("getVariantValue")
+        get() = _builder.getVariantValue()
+        @JvmName("setVariantValue")
+        set(value) {
+          _builder.setVariantValue(value)
+        }
+      /**
+       * `.fishjam.media_events.Variant variant = 2;`
+       */
+      public fun clearVariant() {
+        _builder.clearVariant()
+      }
+    }
+  }
+  @kotlin.jvm.JvmName("-initializeenableTrackVariant")
+  public inline fun enableTrackVariant(block: fishjam.media_events.peer.MediaEventKt.EnableTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant =
+    fishjam.media_events.peer.MediaEventKt.EnableTrackVariantKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.newBuilder()).apply { block() }._build()
+  /**
+   * ```
+   * Sent when client enables one of the track variants
+   * ```
+   *
+   * Protobuf type `fishjam.media_events.peer.MediaEvent.EnableTrackVariant`
+   */
+  public object EnableTrackVariantKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant = _builder.build()
+
+      /**
+       * `string track_id = 1;`
+       */
+      public var trackId: kotlin.String
+        @JvmName("getTrackId")
+        get() = _builder.getTrackId()
+        @JvmName("setTrackId")
+        set(value) {
+          _builder.setTrackId(value)
+        }
+      /**
+       * `string track_id = 1;`
+       */
+      public fun clearTrackId() {
+        _builder.clearTrackId()
+      }
+
+      /**
+       * `.fishjam.media_events.Variant variant = 2;`
+       */
+      public var variant: fishjam.media_events.Shared.Variant
+        @JvmName("getVariant")
+        get() = _builder.getVariant()
+        @JvmName("setVariant")
+        set(value) {
+          _builder.setVariant(value)
+        }
+      public var variantValue: kotlin.Int
+        @JvmName("getVariantValue")
+        get() = _builder.getVariantValue()
+        @JvmName("setVariantValue")
+        set(value) {
+          _builder.setVariantValue(value)
+        }
+      /**
+       * `.fishjam.media_events.Variant variant = 2;`
+       */
+      public fun clearVariant() {
+        _builder.clearVariant()
       }
     }
   }
@@ -981,25 +1088,8 @@ public inline fun fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.copy(
   `fishjam.media_events.peer`.MediaEventKt.VariantBitrateKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.copy(block: `fishjam.media_events.peer`.MediaEventKt.TrackIdToMetadataKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata =
-  `fishjam.media_events.peer`.MediaEventKt.TrackIdToMetadataKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-public val fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
-
-@kotlin.jvm.JvmSynthetic
-public inline fun fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.copy(block: `fishjam.media_events.peer`.MediaEventKt.TrackIdToBitratesKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates =
-  `fishjam.media_events.peer`.MediaEventKt.TrackIdToBitratesKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-public val fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder.trackBitrateOrNull: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate?
-  get() = if (hasTrackBitrate()) getTrackBitrate() else null
-
-@kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.Connect.copy(block: `fishjam.media_events.peer`.MediaEventKt.ConnectKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.Connect =
   `fishjam.media_events.peer`.MediaEventKt.ConnectKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-public val fishjam.media_events.peer.Peer.MediaEvent.ConnectOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.Disconnect.copy(block: `fishjam.media_events.peer`.MediaEventKt.DisconnectKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.Disconnect =
@@ -1009,15 +1099,9 @@ public inline fun fishjam.media_events.peer.Peer.MediaEvent.Disconnect.copy(bloc
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata.copy(block: `fishjam.media_events.peer`.MediaEventKt.UpdateEndpointMetadataKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata =
   `fishjam.media_events.peer`.MediaEventKt.UpdateEndpointMetadataKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
-public val fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadataOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
-
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata.copy(block: `fishjam.media_events.peer`.MediaEventKt.UpdateTrackMetadataKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata =
   `fishjam.media_events.peer`.MediaEventKt.UpdateTrackMetadataKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-public val fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadataOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.RenegotiateTracks.copy(block: `fishjam.media_events.peer`.MediaEventKt.RenegotiateTracksKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.RenegotiateTracks =
@@ -1028,8 +1112,16 @@ public inline fun fishjam.media_events.peer.Peer.MediaEvent.SdpOffer.copy(block:
   `fishjam.media_events.peer`.MediaEventKt.SdpOfferKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.copy(block: `fishjam.media_events.peer`.MediaEventKt.TrackBitrateKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate =
-  `fishjam.media_events.peer`.MediaEventKt.TrackBitrateKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+public inline fun fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.copy(block: `fishjam.media_events.peer`.MediaEventKt.TrackBitratesKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates =
+  `fishjam.media_events.peer`.MediaEventKt.TrackBitratesKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.copy(block: `fishjam.media_events.peer`.MediaEventKt.DisableTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant =
+  `fishjam.media_events.peer`.MediaEventKt.DisableTrackVariantKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.copy(block: `fishjam.media_events.peer`.MediaEventKt.EnableTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant =
+  `fishjam.media_events.peer`.MediaEventKt.EnableTrackVariantKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.connectOrNull: fishjam.media_events.peer.Peer.MediaEvent.Connect?
   get() = if (hasConnect()) getConnect() else null
@@ -1052,6 +1144,12 @@ public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.candidateOrNull: f
 public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.sdpOfferOrNull: fishjam.media_events.peer.Peer.MediaEvent.SdpOffer?
   get() = if (hasSdpOffer()) getSdpOffer() else null
 
-public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.trackBitrateOrNull: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate?
-  get() = if (hasTrackBitrate()) getTrackBitrate() else null
+public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.trackBitratesOrNull: fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates?
+  get() = if (hasTrackBitrates()) getTrackBitrates() else null
+
+public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.enableTrackVariantOrNull: fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant?
+  get() = if (hasEnableTrackVariant()) getEnableTrackVariant() else null
+
+public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.disableTrackVariantOrNull: fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant?
+  get() = if (hasDisableTrackVariant()) getDisableTrackVariant() else null
 

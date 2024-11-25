@@ -318,6 +318,78 @@ public object MediaEventKt {
     public fun hasVadNotification(): kotlin.Boolean {
       return _builder.hasVadNotification()
     }
+
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;`
+     */
+    public var trackVariantSwitched: fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched
+      @JvmName("getTrackVariantSwitched")
+      get() = _builder.getTrackVariantSwitched()
+      @JvmName("setTrackVariantSwitched")
+      set(value) {
+        _builder.setTrackVariantSwitched(value)
+      }
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;`
+     */
+    public fun clearTrackVariantSwitched() {
+      _builder.clearTrackVariantSwitched()
+    }
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantSwitched track_variant_switched = 13;`
+     * @return Whether the trackVariantSwitched field is set.
+     */
+    public fun hasTrackVariantSwitched(): kotlin.Boolean {
+      return _builder.hasTrackVariantSwitched()
+    }
+
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;`
+     */
+    public var trackVariantDisabled: fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled
+      @JvmName("getTrackVariantDisabled")
+      get() = _builder.getTrackVariantDisabled()
+      @JvmName("setTrackVariantDisabled")
+      set(value) {
+        _builder.setTrackVariantDisabled(value)
+      }
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;`
+     */
+    public fun clearTrackVariantDisabled() {
+      _builder.clearTrackVariantDisabled()
+    }
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantDisabled track_variant_disabled = 14;`
+     * @return Whether the trackVariantDisabled field is set.
+     */
+    public fun hasTrackVariantDisabled(): kotlin.Boolean {
+      return _builder.hasTrackVariantDisabled()
+    }
+
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;`
+     */
+    public var trackVariantEnabled: fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled
+      @JvmName("getTrackVariantEnabled")
+      get() = _builder.getTrackVariantEnabled()
+      @JvmName("setTrackVariantEnabled")
+      set(value) {
+        _builder.setTrackVariantEnabled(value)
+      }
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;`
+     */
+    public fun clearTrackVariantEnabled() {
+      _builder.clearTrackVariantEnabled()
+    }
+    /**
+     * `.fishjam.media_events.server.MediaEvent.TrackVariantEnabled track_variant_enabled = 15;`
+     * @return Whether the trackVariantEnabled field is set.
+     */
+    public fun hasTrackVariantEnabled(): kotlin.Boolean {
+      return _builder.hasTrackVariantEnabled()
+    }
     public val contentCase: fishjam.media_events.server.Server.MediaEvent.ContentCase
       @JvmName("getContentCase")
       get() = _builder.getContentCase()
@@ -353,47 +425,217 @@ public object MediaEventKt {
       internal fun _build(): fishjam.media_events.server.Server.MediaEvent.Track = _builder.build()
 
       /**
-       * `string track_id = 1;`
+       * `string metadata_json = 1;`
        */
-      public var trackId: kotlin.String
-        @JvmName("getTrackId")
-        get() = _builder.getTrackId()
-        @JvmName("setTrackId")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setTrackId(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `string track_id = 1;`
+       * `string metadata_json = 1;`
        */
-      public fun clearTrackId() {
-        _builder.clearTrackId()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var simulcastConfig: fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig
+        @JvmName("getSimulcastConfig")
+        get() = _builder.getSimulcastConfig()
+        @JvmName("setSimulcastConfig")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setSimulcastConfig(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearSimulcastConfig() {
+        _builder.clearSimulcastConfig()
       }
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       * @return Whether the metadata field is set.
+       * `.fishjam.media_events.server.MediaEvent.Track.SimulcastConfig simulcast_config = 2;`
+       * @return Whether the simulcastConfig field is set.
        */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
+      public fun hasSimulcastConfig(): kotlin.Boolean {
+        return _builder.hasSimulcastConfig()
       }
-      public val TrackKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
+      public val TrackKt.Dsl.simulcastConfigOrNull: fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig?
+        get() = _builder.simulcastConfigOrNull
+    }
+    @kotlin.jvm.JvmName("-initializesimulcastConfig")
+    public inline fun simulcastConfig(block: fishjam.media_events.server.MediaEventKt.TrackKt.SimulcastConfigKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig =
+      fishjam.media_events.server.MediaEventKt.TrackKt.SimulcastConfigKt.Dsl._create(fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.newBuilder()).apply { block() }._build()
+    /**
+     * Protobuf type `fishjam.media_events.server.MediaEvent.Track.SimulcastConfig`
+     */
+    public object SimulcastConfigKt {
+      @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+      @com.google.protobuf.kotlin.ProtoDslMarker
+      public class Dsl private constructor(
+        private val _builder: fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder
+      ) {
+        public companion object {
+          @kotlin.jvm.JvmSynthetic
+          @kotlin.PublishedApi
+          internal fun _create(builder: fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.Builder): Dsl = Dsl(builder)
+        }
+
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _build(): fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig = _builder.build()
+
+        /**
+         * `bool enabled = 1;`
+         */
+        public var enabled: kotlin.Boolean
+          @JvmName("getEnabled")
+          get() = _builder.getEnabled()
+          @JvmName("setEnabled")
+          set(value) {
+            _builder.setEnabled(value)
+          }
+        /**
+         * `bool enabled = 1;`
+         */
+        public fun clearEnabled() {
+          _builder.clearEnabled()
+        }
+
+        /**
+         * An uninstantiable, behaviorless type to represent the field in
+         * generics.
+         */
+        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+        public class EnabledVariantsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        /**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         */
+        public val enabledVariants: com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>
+          @kotlin.jvm.JvmSynthetic
+          get() = com.google.protobuf.kotlin.DslList(
+            _builder.getEnabledVariantsList()
+          )
+        /**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         * @param value The enabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("addEnabledVariants")
+        public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>.add(value: fishjam.media_events.Shared.Variant) {
+          _builder.addEnabledVariants(value)
+        }/**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         * @param value The enabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("plusAssignEnabledVariants")
+        @Suppress("NOTHING_TO_INLINE")
+        public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>.plusAssign(value: fishjam.media_events.Shared.Variant) {
+          add(value)
+        }/**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         * @param values The enabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("addAllEnabledVariants")
+        public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.Shared.Variant>) {
+          _builder.addAllEnabledVariants(values)
+        }/**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         * @param values The enabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("plusAssignAllEnabledVariants")
+        @Suppress("NOTHING_TO_INLINE")
+        public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.Shared.Variant>) {
+          addAll(values)
+        }/**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         * @param index The index to set the value at.
+         * @param value The enabledVariants to set.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("setEnabledVariants")
+        public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>.set(index: kotlin.Int, value: fishjam.media_events.Shared.Variant) {
+          _builder.setEnabledVariants(index, value)
+        }/**
+         * `repeated .fishjam.media_events.Variant enabled_variants = 2;`
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("clearEnabledVariants")
+        public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, EnabledVariantsProxy>.clear() {
+          _builder.clearEnabledVariants()
+        }
+        /**
+         * An uninstantiable, behaviorless type to represent the field in
+         * generics.
+         */
+        @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+        public class DisabledVariantsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+        /**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         */
+        public val disabledVariants: com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>
+          @kotlin.jvm.JvmSynthetic
+          get() = com.google.protobuf.kotlin.DslList(
+            _builder.getDisabledVariantsList()
+          )
+        /**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         * @param value The disabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("addDisabledVariants")
+        public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>.add(value: fishjam.media_events.Shared.Variant) {
+          _builder.addDisabledVariants(value)
+        }/**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         * @param value The disabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("plusAssignDisabledVariants")
+        @Suppress("NOTHING_TO_INLINE")
+        public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>.plusAssign(value: fishjam.media_events.Shared.Variant) {
+          add(value)
+        }/**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         * @param values The disabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("addAllDisabledVariants")
+        public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.Shared.Variant>) {
+          _builder.addAllDisabledVariants(values)
+        }/**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         * @param values The disabledVariants to add.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("plusAssignAllDisabledVariants")
+        @Suppress("NOTHING_TO_INLINE")
+        public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.Shared.Variant>) {
+          addAll(values)
+        }/**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         * @param index The index to set the value at.
+         * @param value The disabledVariants to set.
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("setDisabledVariants")
+        public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>.set(index: kotlin.Int, value: fishjam.media_events.Shared.Variant) {
+          _builder.setDisabledVariants(index, value)
+        }/**
+         * `repeated .fishjam.media_events.Variant disabled_variants = 3;`
+         */
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.jvm.JvmName("clearDisabledVariants")
+        public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.Variant, DisabledVariantsProxy>.clear() {
+          _builder.clearDisabledVariants()
+        }}
     }
   }
   @kotlin.jvm.JvmName("-initializeendpoint")
@@ -419,23 +661,6 @@ public object MediaEventKt {
       internal fun _build(): fishjam.media_events.server.Server.MediaEvent.Endpoint = _builder.build()
 
       /**
-       * `string endpoint_id = 1;`
-       */
-      public var endpointId: kotlin.String
-        @JvmName("getEndpointId")
-        get() = _builder.getEndpointId()
-        @JvmName("setEndpointId")
-        set(value) {
-          _builder.setEndpointId(value)
-        }
-      /**
-       * `string endpoint_id = 1;`
-       */
-      public fun clearEndpointId() {
-        _builder.clearEndpointId()
-      }
-
-      /**
        * `string endpoint_type = 2;`
        */
       public var endpointType: kotlin.String
@@ -453,102 +678,209 @@ public object MediaEventKt {
       }
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 3;`
+       * `string metadata_json = 3;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 3;`
+       * `string metadata_json = 3;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 3;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val EndpointKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
 
       /**
        * An uninstantiable, behaviorless type to represent the field in
        * generics.
        */
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-      public class TracksProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      public class TrackIdToTrackProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 4;`
        */
-       public val tracks: com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>
+       public val trackIdToTrack: com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getTracksList()
+        @JvmName("getTrackIdToTrackMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getTrackIdToTrackMap()
         )
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
-       * @param value The tracks to add.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 4;`
+       */
+      @JvmName("putTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .put(key: kotlin.String, value: fishjam.media_events.server.Server.MediaEvent.Track) {
+           _builder.putTrackIdToTrack(key, value)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 4;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addTracks")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.add(value: fishjam.media_events.server.Server.MediaEvent.Track) {
-        _builder.addTracks(value)
+      @JvmName("setTrackIdToTrack")
+      @Suppress("NOTHING_TO_INLINE")
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .set(key: kotlin.String, value: fishjam.media_events.server.Server.MediaEvent.Track) {
+           put(key, value)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 4;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("removeTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeTrackIdToTrack(key)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 4;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("putAllTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track>) {
+           _builder.putAllTrackIdToTrack(map)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 4;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("clearTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .clear() {
+           _builder.clearTrackIdToTrack()
+         }
+    }
+  }
+  @kotlin.jvm.JvmName("-initializeiceServer")
+  public inline fun iceServer(block: fishjam.media_events.server.MediaEventKt.IceServerKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.IceServer =
+    fishjam.media_events.server.MediaEventKt.IceServerKt.Dsl._create(fishjam.media_events.server.Server.MediaEvent.IceServer.newBuilder()).apply { block() }._build()
+  /**
+   * Protobuf type `fishjam.media_events.server.MediaEvent.IceServer`
+   */
+  public object IceServerKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.server.Server.MediaEvent.IceServer.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.server.Server.MediaEvent.IceServer.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.server.Server.MediaEvent.IceServer = _builder.build()
+
+      /**
+       * `string credential = 1;`
+       */
+      public var credential: kotlin.String
+        @JvmName("getCredential")
+        get() = _builder.getCredential()
+        @JvmName("setCredential")
+        set(value) {
+          _builder.setCredential(value)
+        }
+      /**
+       * `string credential = 1;`
+       */
+      public fun clearCredential() {
+        _builder.clearCredential()
+      }
+
+      /**
+       * An uninstantiable, behaviorless type to represent the field in
+       * generics.
+       */
+      @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+      public class UrlsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      /**
+       * `repeated string urls = 2;`
+       * @return A list containing the urls.
+       */
+      public val urls: com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>
+        @kotlin.jvm.JvmSynthetic
+        get() = com.google.protobuf.kotlin.DslList(
+          _builder.getUrlsList()
+        )
+      /**
+       * `repeated string urls = 2;`
+       * @param value The urls to add.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("addUrls")
+      public fun com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>.add(value: kotlin.String) {
+        _builder.addUrls(value)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
-       * @param value The tracks to add.
+       * `repeated string urls = 2;`
+       * @param value The urls to add.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignTracks")
+      @kotlin.jvm.JvmName("plusAssignUrls")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.plusAssign(value: fishjam.media_events.server.Server.MediaEvent.Track) {
+      public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>.plusAssign(value: kotlin.String) {
         add(value)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
-       * @param values The tracks to add.
+       * `repeated string urls = 2;`
+       * @param values The urls to add.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllTracks")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.Track>) {
-        _builder.addAllTracks(values)
+      @kotlin.jvm.JvmName("addAllUrls")
+      public fun com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
+        _builder.addAllUrls(values)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
-       * @param values The tracks to add.
+       * `repeated string urls = 2;`
+       * @param values The urls to add.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllTracks")
+      @kotlin.jvm.JvmName("plusAssignAllUrls")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.Track>) {
+      public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
         addAll(values)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
+       * `repeated string urls = 2;`
        * @param index The index to set the value at.
-       * @param value The tracks to set.
+       * @param value The urls to set.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setTracks")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.set(index: kotlin.Int, value: fishjam.media_events.server.Server.MediaEvent.Track) {
-        _builder.setTracks(index, value)
+      @kotlin.jvm.JvmName("setUrls")
+      public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>.set(index: kotlin.Int, value: kotlin.String) {
+        _builder.setUrls(index, value)
+      }/**
+       * `repeated string urls = 2;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("clearUrls")
+      public fun com.google.protobuf.kotlin.DslList<kotlin.String, UrlsProxy>.clear() {
+        _builder.clearUrls()
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 4;`
+       * `string username = 3;`
        */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearTracks")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.clear() {
-        _builder.clearTracks()
+      public var username: kotlin.String
+        @JvmName("getUsername")
+        get() = _builder.getUsername()
+        @JvmName("setUsername")
+        set(value) {
+          _builder.setUsername(value)
+        }
+      /**
+       * `string username = 3;`
+       */
+      public fun clearUsername() {
+        _builder.clearUsername()
       }
-
     }
   }
   @kotlin.jvm.JvmName("-initializeendpointUpdated")
@@ -595,30 +927,21 @@ public object MediaEventKt {
       }
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `string metadata_json = 2;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `string metadata_json = 2;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val EndpointUpdatedKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
     }
   }
   @kotlin.jvm.JvmName("-initializetrackUpdated")
@@ -682,30 +1005,21 @@ public object MediaEventKt {
       }
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 3;`
+       * `string metadata_json = 3;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 3;`
+       * `string metadata_json = 3;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 3;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val TrackUpdatedKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
     }
   }
   @kotlin.jvm.JvmName("-initializetracksAdded")
@@ -756,72 +1070,61 @@ public object MediaEventKt {
        * generics.
        */
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-      public class TracksProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      public class TrackIdToTrackProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 2;`
        */
-       public val tracks: com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>
+       public val trackIdToTrack: com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getTracksList()
+        @JvmName("getTrackIdToTrackMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getTrackIdToTrackMap()
         )
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
-       * @param value The tracks to add.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 2;`
        */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addTracks")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.add(value: fishjam.media_events.server.Server.MediaEvent.Track) {
-        _builder.addTracks(value)
-      }
+      @JvmName("putTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .put(key: kotlin.String, value: fishjam.media_events.server.Server.MediaEvent.Track) {
+           _builder.putTrackIdToTrack(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
-       * @param value The tracks to add.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignTracks")
+      @JvmName("setTrackIdToTrack")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.plusAssign(value: fishjam.media_events.server.Server.MediaEvent.Track) {
-        add(value)
-      }
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .set(key: kotlin.String, value: fishjam.media_events.server.Server.MediaEvent.Track) {
+           put(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
-       * @param values The tracks to add.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllTracks")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.Track>) {
-        _builder.addAllTracks(values)
-      }
+      @JvmName("removeTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeTrackIdToTrack(key)
+         }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
-       * @param values The tracks to add.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllTracks")
-      @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.Track>) {
-        addAll(values)
-      }
+      @JvmName("putAllTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track>) {
+           _builder.putAllTrackIdToTrack(map)
+         }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
-       * @param index The index to set the value at.
-       * @param value The tracks to set.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Track> track_id_to_track = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setTracks")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.set(index: kotlin.Int, value: fishjam.media_events.server.Server.MediaEvent.Track) {
-        _builder.setTracks(index, value)
-      }
-      /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Track tracks = 2;`
-       */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearTracks")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Track, TracksProxy>.clear() {
-        _builder.clearTracks()
-      }
-
+      @JvmName("clearTrackIdToTrack")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Track, TrackIdToTrackProxy>
+        .clear() {
+           _builder.clearTrackIdToTrack()
+         }
     }
   }
   @kotlin.jvm.JvmName("-initializetracksRemoved")
@@ -982,30 +1285,21 @@ public object MediaEventKt {
       }
 
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `string metadata_json = 2;`
        */
-      public var metadata: fishjam.media_events.Shared.Metadata
-        @JvmName("getMetadata")
-        get() = _builder.getMetadata()
-        @JvmName("setMetadata")
+      public var metadataJson: kotlin.String
+        @JvmName("getMetadataJson")
+        get() = _builder.getMetadataJson()
+        @JvmName("setMetadataJson")
         set(value) {
-          _builder.setMetadata(value)
+          _builder.setMetadataJson(value)
         }
       /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
+       * `string metadata_json = 2;`
        */
-      public fun clearMetadata() {
-        _builder.clearMetadata()
+      public fun clearMetadataJson() {
+        _builder.clearMetadataJson()
       }
-      /**
-       * `.fishjam.media_events.Metadata metadata = 2;`
-       * @return Whether the metadata field is set.
-       */
-      public fun hasMetadata(): kotlin.Boolean {
-        return _builder.hasMetadata()
-      }
-      public val EndpointAddedKt.Dsl.metadataOrNull: fishjam.media_events.Shared.Metadata?
-        get() = _builder.metadataOrNull
     }
   }
   @kotlin.jvm.JvmName("-initializeconnected")
@@ -1056,70 +1350,131 @@ public object MediaEventKt {
        * generics.
        */
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-      public class EndpointsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      public class EndpointIdToEndpointProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
+       * `map<string, .fishjam.media_events.server.MediaEvent.Endpoint> endpoint_id_to_endpoint = 2;`
        */
-       public val endpoints: com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>
+       public val endpointIdToEndpoint: com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointIdToEndpointProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getEndpointsList()
+        @JvmName("getEndpointIdToEndpointMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getEndpointIdToEndpointMap()
         )
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
-       * @param value The endpoints to add.
+       * `map<string, .fishjam.media_events.server.MediaEvent.Endpoint> endpoint_id_to_endpoint = 2;`
+       */
+      @JvmName("putEndpointIdToEndpoint")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointIdToEndpointProxy>
+        .put(key: kotlin.String, value: fishjam.media_events.server.Server.MediaEvent.Endpoint) {
+           _builder.putEndpointIdToEndpoint(key, value)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Endpoint> endpoint_id_to_endpoint = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addEndpoints")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>.add(value: fishjam.media_events.server.Server.MediaEvent.Endpoint) {
-        _builder.addEndpoints(value)
+      @JvmName("setEndpointIdToEndpoint")
+      @Suppress("NOTHING_TO_INLINE")
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointIdToEndpointProxy>
+        .set(key: kotlin.String, value: fishjam.media_events.server.Server.MediaEvent.Endpoint) {
+           put(key, value)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Endpoint> endpoint_id_to_endpoint = 2;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("removeEndpointIdToEndpoint")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointIdToEndpointProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeEndpointIdToEndpoint(key)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Endpoint> endpoint_id_to_endpoint = 2;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("putAllEndpointIdToEndpoint")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointIdToEndpointProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint>) {
+           _builder.putAllEndpointIdToEndpoint(map)
+         }
+      /**
+       * `map<string, .fishjam.media_events.server.MediaEvent.Endpoint> endpoint_id_to_endpoint = 2;`
+       */
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("clearEndpointIdToEndpoint")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointIdToEndpointProxy>
+        .clear() {
+           _builder.clearEndpointIdToEndpoint()
+         }
+
+      /**
+       * An uninstantiable, behaviorless type to represent the field in
+       * generics.
+       */
+      @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+      public class IceServersProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+      /**
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
+       */
+       public val iceServers: com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>
+        @kotlin.jvm.JvmSynthetic
+        get() = com.google.protobuf.kotlin.DslList(
+          _builder.getIceServersList()
+        )
+      /**
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
+       * @param value The iceServers to add.
+       */
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.jvm.JvmName("addIceServers")
+      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>.add(value: fishjam.media_events.server.Server.MediaEvent.IceServer) {
+        _builder.addIceServers(value)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
-       * @param value The endpoints to add.
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
+       * @param value The iceServers to add.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignEndpoints")
+      @kotlin.jvm.JvmName("plusAssignIceServers")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>.plusAssign(value: fishjam.media_events.server.Server.MediaEvent.Endpoint) {
+      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>.plusAssign(value: fishjam.media_events.server.Server.MediaEvent.IceServer) {
         add(value)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
-       * @param values The endpoints to add.
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
+       * @param values The iceServers to add.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllEndpoints")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.Endpoint>) {
-        _builder.addAllEndpoints(values)
+      @kotlin.jvm.JvmName("addAllIceServers")
+      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.IceServer>) {
+        _builder.addAllIceServers(values)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
-       * @param values The endpoints to add.
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
+       * @param values The iceServers to add.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllEndpoints")
+      @kotlin.jvm.JvmName("plusAssignAllIceServers")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.Endpoint>) {
+      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.server.Server.MediaEvent.IceServer>) {
         addAll(values)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
        * @param index The index to set the value at.
-       * @param value The endpoints to set.
+       * @param value The iceServers to set.
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setEndpoints")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>.set(index: kotlin.Int, value: fishjam.media_events.server.Server.MediaEvent.Endpoint) {
-        _builder.setEndpoints(index, value)
+      @kotlin.jvm.JvmName("setIceServers")
+      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>.set(index: kotlin.Int, value: fishjam.media_events.server.Server.MediaEvent.IceServer) {
+        _builder.setIceServers(index, value)
       }
       /**
-       * `repeated .fishjam.media_events.server.MediaEvent.Endpoint endpoints = 2;`
+       * `repeated .fishjam.media_events.server.MediaEvent.IceServer ice_servers = 3;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearEndpoints")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.Endpoint, EndpointsProxy>.clear() {
-        _builder.clearEndpoints()
+      @kotlin.jvm.JvmName("clearIceServers")
+      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.server.Server.MediaEvent.IceServer, IceServersProxy>.clear() {
+        _builder.clearIceServers()
       }
 
     }
@@ -1372,70 +1727,59 @@ public object MediaEventKt {
       @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       public class MidToTrackIdProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
+       * `map<string, string> mid_to_track_id = 2;`
        */
-       public val midToTrackId: com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>
+       public val midToTrackId: com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
         @kotlin.jvm.JvmSynthetic
-        get() = com.google.protobuf.kotlin.DslList(
-          _builder.getMidToTrackIdList()
+        @JvmName("getMidToTrackIdMap")
+        get() = com.google.protobuf.kotlin.DslMap(
+          _builder.getMidToTrackIdMap()
         )
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
-       * @param value The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 2;`
        */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addMidToTrackId")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.add(value: fishjam.media_events.Shared.MidToTrackId) {
-        _builder.addMidToTrackId(value)
-      }
+      @JvmName("putMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .put(key: kotlin.String, value: kotlin.String) {
+           _builder.putMidToTrackId(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
-       * @param value The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignMidToTrackId")
+      @JvmName("setMidToTrackId")
       @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.plusAssign(value: fishjam.media_events.Shared.MidToTrackId) {
-        add(value)
-      }
+      public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .set(key: kotlin.String, value: kotlin.String) {
+           put(key, value)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
-       * @param values The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("addAllMidToTrackId")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.addAll(values: kotlin.collections.Iterable<fishjam.media_events.Shared.MidToTrackId>) {
-        _builder.addAllMidToTrackId(values)
-      }
+      @JvmName("removeMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .remove(key: kotlin.String) {
+           _builder.removeMidToTrackId(key)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
-       * @param values The midToTrackId to add.
+       * `map<string, string> mid_to_track_id = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("plusAssignAllMidToTrackId")
-      @Suppress("NOTHING_TO_INLINE")
-      public inline operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.plusAssign(values: kotlin.collections.Iterable<fishjam.media_events.Shared.MidToTrackId>) {
-        addAll(values)
-      }
+      @JvmName("putAllMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .putAll(map: kotlin.collections.Map<kotlin.String, kotlin.String>) {
+           _builder.putAllMidToTrackId(map)
+         }
       /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
-       * @param index The index to set the value at.
-       * @param value The midToTrackId to set.
+       * `map<string, string> mid_to_track_id = 2;`
        */
       @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("setMidToTrackId")
-      public operator fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.set(index: kotlin.Int, value: fishjam.media_events.Shared.MidToTrackId) {
-        _builder.setMidToTrackId(index, value)
-      }
-      /**
-       * `repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 2;`
-       */
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.jvm.JvmName("clearMidToTrackId")
-      public fun com.google.protobuf.kotlin.DslList<fishjam.media_events.Shared.MidToTrackId, MidToTrackIdProxy>.clear() {
-        _builder.clearMidToTrackId()
-      }
-
+      @JvmName("clearMidToTrackId")
+      public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, MidToTrackIdProxy>
+        .clear() {
+           _builder.clearMidToTrackId()
+         }
     }
   }
   @kotlin.jvm.JvmName("-initializevadNotification")
@@ -1508,6 +1852,261 @@ public object MediaEventKt {
       }
     }
   }
+  @kotlin.jvm.JvmName("-initializetrackVariantSwitched")
+  public inline fun trackVariantSwitched(block: fishjam.media_events.server.MediaEventKt.TrackVariantSwitchedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched =
+    fishjam.media_events.server.MediaEventKt.TrackVariantSwitchedKt.Dsl._create(fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.newBuilder()).apply { block() }._build()
+  /**
+   * ```
+   * Informs that track's variant has been changed
+   * ```
+   *
+   * Protobuf type `fishjam.media_events.server.MediaEvent.TrackVariantSwitched`
+   */
+  public object TrackVariantSwitchedKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched = _builder.build()
+
+      /**
+       * `string endpoint_id = 1;`
+       */
+      public var endpointId: kotlin.String
+        @JvmName("getEndpointId")
+        get() = _builder.getEndpointId()
+        @JvmName("setEndpointId")
+        set(value) {
+          _builder.setEndpointId(value)
+        }
+      /**
+       * `string endpoint_id = 1;`
+       */
+      public fun clearEndpointId() {
+        _builder.clearEndpointId()
+      }
+
+      /**
+       * `string track_id = 2;`
+       */
+      public var trackId: kotlin.String
+        @JvmName("getTrackId")
+        get() = _builder.getTrackId()
+        @JvmName("setTrackId")
+        set(value) {
+          _builder.setTrackId(value)
+        }
+      /**
+       * `string track_id = 2;`
+       */
+      public fun clearTrackId() {
+        _builder.clearTrackId()
+      }
+
+      /**
+       * `.fishjam.media_events.Variant variant = 3;`
+       */
+      public var variant: fishjam.media_events.Shared.Variant
+        @JvmName("getVariant")
+        get() = _builder.getVariant()
+        @JvmName("setVariant")
+        set(value) {
+          _builder.setVariant(value)
+        }
+      public var variantValue: kotlin.Int
+        @JvmName("getVariantValue")
+        get() = _builder.getVariantValue()
+        @JvmName("setVariantValue")
+        set(value) {
+          _builder.setVariantValue(value)
+        }
+      /**
+       * `.fishjam.media_events.Variant variant = 3;`
+       */
+      public fun clearVariant() {
+        _builder.clearVariant()
+      }
+    }
+  }
+  @kotlin.jvm.JvmName("-initializetrackVariantDisabled")
+  public inline fun trackVariantDisabled(block: fishjam.media_events.server.MediaEventKt.TrackVariantDisabledKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled =
+    fishjam.media_events.server.MediaEventKt.TrackVariantDisabledKt.Dsl._create(fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.newBuilder()).apply { block() }._build()
+  /**
+   * ```
+   * Sent when track's variant has been disabled
+   * ```
+   *
+   * Protobuf type `fishjam.media_events.server.MediaEvent.TrackVariantDisabled`
+   */
+  public object TrackVariantDisabledKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled = _builder.build()
+
+      /**
+       * `string endpoint_id = 1;`
+       */
+      public var endpointId: kotlin.String
+        @JvmName("getEndpointId")
+        get() = _builder.getEndpointId()
+        @JvmName("setEndpointId")
+        set(value) {
+          _builder.setEndpointId(value)
+        }
+      /**
+       * `string endpoint_id = 1;`
+       */
+      public fun clearEndpointId() {
+        _builder.clearEndpointId()
+      }
+
+      /**
+       * `string track_id = 2;`
+       */
+      public var trackId: kotlin.String
+        @JvmName("getTrackId")
+        get() = _builder.getTrackId()
+        @JvmName("setTrackId")
+        set(value) {
+          _builder.setTrackId(value)
+        }
+      /**
+       * `string track_id = 2;`
+       */
+      public fun clearTrackId() {
+        _builder.clearTrackId()
+      }
+
+      /**
+       * `.fishjam.media_events.Variant variant = 3;`
+       */
+      public var variant: fishjam.media_events.Shared.Variant
+        @JvmName("getVariant")
+        get() = _builder.getVariant()
+        @JvmName("setVariant")
+        set(value) {
+          _builder.setVariant(value)
+        }
+      public var variantValue: kotlin.Int
+        @JvmName("getVariantValue")
+        get() = _builder.getVariantValue()
+        @JvmName("setVariantValue")
+        set(value) {
+          _builder.setVariantValue(value)
+        }
+      /**
+       * `.fishjam.media_events.Variant variant = 3;`
+       */
+      public fun clearVariant() {
+        _builder.clearVariant()
+      }
+    }
+  }
+  @kotlin.jvm.JvmName("-initializetrackVariantEnabled")
+  public inline fun trackVariantEnabled(block: fishjam.media_events.server.MediaEventKt.TrackVariantEnabledKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled =
+    fishjam.media_events.server.MediaEventKt.TrackVariantEnabledKt.Dsl._create(fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.newBuilder()).apply { block() }._build()
+  /**
+   * ```
+   * Sent when track's variant has been enabled
+   * ```
+   *
+   * Protobuf type `fishjam.media_events.server.MediaEvent.TrackVariantEnabled`
+   */
+  public object TrackVariantEnabledKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled = _builder.build()
+
+      /**
+       * `string endpoint_id = 1;`
+       */
+      public var endpointId: kotlin.String
+        @JvmName("getEndpointId")
+        get() = _builder.getEndpointId()
+        @JvmName("setEndpointId")
+        set(value) {
+          _builder.setEndpointId(value)
+        }
+      /**
+       * `string endpoint_id = 1;`
+       */
+      public fun clearEndpointId() {
+        _builder.clearEndpointId()
+      }
+
+      /**
+       * `string track_id = 2;`
+       */
+      public var trackId: kotlin.String
+        @JvmName("getTrackId")
+        get() = _builder.getTrackId()
+        @JvmName("setTrackId")
+        set(value) {
+          _builder.setTrackId(value)
+        }
+      /**
+       * `string track_id = 2;`
+       */
+      public fun clearTrackId() {
+        _builder.clearTrackId()
+      }
+
+      /**
+       * `.fishjam.media_events.Variant variant = 3;`
+       */
+      public var variant: fishjam.media_events.Shared.Variant
+        @JvmName("getVariant")
+        get() = _builder.getVariant()
+        @JvmName("setVariant")
+        set(value) {
+          _builder.setVariant(value)
+        }
+      public var variantValue: kotlin.Int
+        @JvmName("getVariantValue")
+        get() = _builder.getVariantValue()
+        @JvmName("setVariantValue")
+        set(value) {
+          _builder.setVariantValue(value)
+        }
+      /**
+       * `.fishjam.media_events.Variant variant = 3;`
+       */
+      public fun clearVariant() {
+        _builder.clearVariant()
+      }
+    }
+  }
 }
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.copy(block: `fishjam.media_events.server`.MediaEventKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent =
@@ -1517,29 +2116,28 @@ public inline fun fishjam.media_events.server.Server.MediaEvent.copy(block: `fis
 public inline fun fishjam.media_events.server.Server.MediaEvent.Track.copy(block: `fishjam.media_events.server`.MediaEventKt.TrackKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.Track =
   `fishjam.media_events.server`.MediaEventKt.TrackKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
-public val fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig.copy(block: `fishjam.media_events.server`.MediaEventKt.TrackKt.SimulcastConfigKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig =
+  `fishjam.media_events.server`.MediaEventKt.TrackKt.SimulcastConfigKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+public val fishjam.media_events.server.Server.MediaEvent.TrackOrBuilder.simulcastConfigOrNull: fishjam.media_events.server.Server.MediaEvent.Track.SimulcastConfig?
+  get() = if (hasSimulcastConfig()) getSimulcastConfig() else null
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.Endpoint.copy(block: `fishjam.media_events.server`.MediaEventKt.EndpointKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.Endpoint =
   `fishjam.media_events.server`.MediaEventKt.EndpointKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
-public val fishjam.media_events.server.Server.MediaEvent.EndpointOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.server.Server.MediaEvent.IceServer.copy(block: `fishjam.media_events.server`.MediaEventKt.IceServerKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.IceServer =
+  `fishjam.media_events.server`.MediaEventKt.IceServerKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.EndpointUpdated.copy(block: `fishjam.media_events.server`.MediaEventKt.EndpointUpdatedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.EndpointUpdated =
   `fishjam.media_events.server`.MediaEventKt.EndpointUpdatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
-public val fishjam.media_events.server.Server.MediaEvent.EndpointUpdatedOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
-
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.TrackUpdated.copy(block: `fishjam.media_events.server`.MediaEventKt.TrackUpdatedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackUpdated =
   `fishjam.media_events.server`.MediaEventKt.TrackUpdatedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-public val fishjam.media_events.server.Server.MediaEvent.TrackUpdatedOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.TracksAdded.copy(block: `fishjam.media_events.server`.MediaEventKt.TracksAddedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TracksAdded =
@@ -1552,9 +2150,6 @@ public inline fun fishjam.media_events.server.Server.MediaEvent.TracksRemoved.co
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.EndpointAdded.copy(block: `fishjam.media_events.server`.MediaEventKt.EndpointAddedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.EndpointAdded =
   `fishjam.media_events.server`.MediaEventKt.EndpointAddedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-public val fishjam.media_events.server.Server.MediaEvent.EndpointAddedOrBuilder.metadataOrNull: fishjam.media_events.Shared.Metadata?
-  get() = if (hasMetadata()) getMetadata() else null
 
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.Connected.copy(block: `fishjam.media_events.server`.MediaEventKt.ConnectedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.Connected =
@@ -1586,6 +2181,18 @@ public inline fun fishjam.media_events.server.Server.MediaEvent.SdpAnswer.copy(b
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.server.Server.MediaEvent.VadNotification.copy(block: `fishjam.media_events.server`.MediaEventKt.VadNotificationKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.VadNotification =
   `fishjam.media_events.server`.MediaEventKt.VadNotificationKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched.copy(block: `fishjam.media_events.server`.MediaEventKt.TrackVariantSwitchedKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched =
+  `fishjam.media_events.server`.MediaEventKt.TrackVariantSwitchedKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled.copy(block: `fishjam.media_events.server`.MediaEventKt.TrackVariantDisabledKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled =
+  `fishjam.media_events.server`.MediaEventKt.TrackVariantDisabledKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled.copy(block: `fishjam.media_events.server`.MediaEventKt.TrackVariantEnabledKt.Dsl.() -> kotlin.Unit): fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled =
+  `fishjam.media_events.server`.MediaEventKt.TrackVariantEnabledKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 public val fishjam.media_events.server.Server.MediaEventOrBuilder.endpointUpdatedOrNull: fishjam.media_events.server.Server.MediaEvent.EndpointUpdated?
   get() = if (hasEndpointUpdated()) getEndpointUpdated() else null
@@ -1622,4 +2229,13 @@ public val fishjam.media_events.server.Server.MediaEventOrBuilder.sdpAnswerOrNul
 
 public val fishjam.media_events.server.Server.MediaEventOrBuilder.vadNotificationOrNull: fishjam.media_events.server.Server.MediaEvent.VadNotification?
   get() = if (hasVadNotification()) getVadNotification() else null
+
+public val fishjam.media_events.server.Server.MediaEventOrBuilder.trackVariantSwitchedOrNull: fishjam.media_events.server.Server.MediaEvent.TrackVariantSwitched?
+  get() = if (hasTrackVariantSwitched()) getTrackVariantSwitched() else null
+
+public val fishjam.media_events.server.Server.MediaEventOrBuilder.trackVariantDisabledOrNull: fishjam.media_events.server.Server.MediaEvent.TrackVariantDisabled?
+  get() = if (hasTrackVariantDisabled()) getTrackVariantDisabled() else null
+
+public val fishjam.media_events.server.Server.MediaEventOrBuilder.trackVariantEnabledOrNull: fishjam.media_events.server.Server.MediaEvent.TrackVariantEnabled?
+  get() = if (hasTrackVariantEnabled()) getTrackVariantEnabled() else null
 

@@ -134,19 +134,49 @@ public final class Peer {
     fishjam.media_events.peer.Peer.MediaEvent.SdpOfferOrBuilder getSdpOfferOrBuilder();
 
     /**
-     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
-     * @return Whether the trackBitrate field is set.
+     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
+     * @return Whether the trackBitrates field is set.
      */
-    boolean hasTrackBitrate();
+    boolean hasTrackBitrates();
     /**
-     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
-     * @return The trackBitrate.
+     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
+     * @return The trackBitrates.
      */
-    fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getTrackBitrate();
+    fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackBitrates();
     /**
-     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
      */
-    fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder getTrackBitrateOrBuilder();
+    fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder getTrackBitratesOrBuilder();
+
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+     * @return Whether the enableTrackVariant field is set.
+     */
+    boolean hasEnableTrackVariant();
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+     * @return The enableTrackVariant.
+     */
+    fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant getEnableTrackVariant();
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+     */
+    fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder getEnableTrackVariantOrBuilder();
+
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+     * @return Whether the disableTrackVariant field is set.
+     */
+    boolean hasDisableTrackVariant();
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+     * @return The disableTrackVariant.
+     */
+    fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant getDisableTrackVariant();
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+     */
+    fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder getDisableTrackVariantOrBuilder();
 
     fishjam.media_events.peer.Peer.MediaEvent.ContentCase getContentCase();
   }
@@ -213,10 +243,6 @@ public final class Peer {
       int getBitrate();
     }
     /**
-     * <pre>
-     * SCHEMAS
-     * </pre>
-     *
      * Protobuf type {@code fishjam.media_events.peer.MediaEvent.VariantBitrate}
      */
     public static final class VariantBitrate extends
@@ -451,10 +477,6 @@ public final class Peer {
         return builder;
       }
       /**
-       * <pre>
-       * SCHEMAS
-       * </pre>
-       *
        * Protobuf type {@code fishjam.media_events.peer.MediaEvent.VariantBitrate}
        */
       public static final class Builder extends
@@ -738,1404 +760,21 @@ public final class Peer {
 
     }
 
-    public interface TrackIdToMetadataOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.TrackIdToMetadata)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>string track_id = 1;</code>
-       * @return The trackId.
-       */
-      java.lang.String getTrackId();
-      /**
-       * <code>string track_id = 1;</code>
-       * @return The bytes for trackId.
-       */
-      com.google.protobuf.ByteString
-          getTrackIdBytes();
-
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
-       */
-      boolean hasMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
-       */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
-    }
-    /**
-     * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackIdToMetadata}
-     */
-    public static final class TrackIdToMetadata extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:fishjam.media_events.peer.MediaEvent.TrackIdToMetadata)
-        TrackIdToMetadataOrBuilder {
-    private static final long serialVersionUID = 0L;
-      static {
-        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-          /* major= */ 4,
-          /* minor= */ 26,
-          /* patch= */ 1,
-          /* suffix= */ "",
-          TrackIdToMetadata.class.getName());
-      }
-      // Use TrackIdToMetadata.newBuilder() to construct.
-      private TrackIdToMetadata(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-      }
-      private TrackIdToMetadata() {
-        trackId_ = "";
-      }
-
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.class, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder.class);
-      }
-
-      private int bitField0_;
-      public static final int TRACK_ID_FIELD_NUMBER = 1;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object trackId_ = "";
-      /**
-       * <code>string track_id = 1;</code>
-       * @return The trackId.
-       */
-      @java.lang.Override
-      public java.lang.String getTrackId() {
-        java.lang.Object ref = trackId_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          trackId_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string track_id = 1;</code>
-       * @return The bytes for trackId.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getTrackIdBytes() {
-        java.lang.Object ref = trackId_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          trackId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int METADATA_FIELD_NUMBER = 2;
-      private fishjam.media_events.Shared.Metadata metadata_;
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
-       */
-      @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-
-      private byte memoizedIsInitialized = -1;
-      @java.lang.Override
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      @java.lang.Override
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 1, trackId_);
-        }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(2, getMetadata());
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      @java.lang.Override
-      public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, trackId_);
-        }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, getMetadata());
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSize = size;
-        return size;
-      }
-
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
-        if (obj == this) {
-         return true;
-        }
-        if (!(obj instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata)) {
-          return super.equals(obj);
-        }
-        fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata other = (fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata) obj;
-
-        if (!getTrackId()
-            .equals(other.getTrackId())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
-        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-        return true;
-      }
-
-      @java.lang.Override
-      public int hashCode() {
-        if (memoizedHashCode != 0) {
-          return memoizedHashCode;
-        }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getTrackId().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
-        hash = (29 * hash) + getUnknownFields().hashCode();
-        memoizedHashCode = hash;
-        return hash;
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          java.nio.ByteBuffer data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          java.nio.ByteBuffer data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseDelimitedWithIOException(PARSER, input);
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      @java.lang.Override
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      @java.lang.Override
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackIdToMetadata}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:fishjam.media_events.peer.MediaEvent.TrackIdToMetadata)
-          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_descriptor;
-        }
-
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.class, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder.class);
-        }
-
-        // Construct using fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
-        }
-        @java.lang.Override
-        public Builder clear() {
-          super.clear();
-          bitField0_ = 0;
-          trackId_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
-          return this;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_descriptor;
-        }
-
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata getDefaultInstanceForType() {
-          return fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.getDefaultInstance();
-        }
-
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata build() {
-          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata buildPartial() {
-          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata result = new fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata(this);
-          if (bitField0_ != 0) { buildPartial0(result); }
-          onBuilt();
-          return result;
-        }
-
-        private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata result) {
-          int from_bitField0_ = bitField0_;
-          if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.trackId_ = trackId_;
-          }
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
-          }
-          result.bitField0_ |= to_bitField0_;
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata) {
-            return mergeFrom((fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata other) {
-          if (other == fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.getDefaultInstance()) return this;
-          if (!other.getTrackId().isEmpty()) {
-            trackId_ = other.trackId_;
-            bitField0_ |= 0x00000001;
-            onChanged();
-          }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          onChanged();
-          return this;
-        }
-
-        @java.lang.Override
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          if (extensionRegistry == null) {
-            throw new java.lang.NullPointerException();
-          }
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                case 10: {
-                  trackId_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000001;
-                  break;
-                } // case 10
-                case 18: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
-                  bitField0_ |= 0x00000002;
-                  break;
-                } // case 18
-                default: {
-                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                    done = true; // was an endgroup tag
-                  }
-                  break;
-                } // default:
-              } // switch (tag)
-            } // while (!done)
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.unwrapIOException();
-          } finally {
-            onChanged();
-          } // finally
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object trackId_ = "";
-        /**
-         * <code>string track_id = 1;</code>
-         * @return The trackId.
-         */
-        public java.lang.String getTrackId() {
-          java.lang.Object ref = trackId_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            trackId_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string track_id = 1;</code>
-         * @return The bytes for trackId.
-         */
-        public com.google.protobuf.ByteString
-            getTrackIdBytes() {
-          java.lang.Object ref = trackId_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            trackId_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string track_id = 1;</code>
-         * @param value The trackId to set.
-         * @return This builder for chaining.
-         */
-        public Builder setTrackId(
-            java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
-          trackId_ = value;
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string track_id = 1;</code>
-         * @return This builder for chaining.
-         */
-        public Builder clearTrackId() {
-          trackId_ = getDefaultInstance().getTrackId();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string track_id = 1;</code>
-         * @param value The bytes for trackId to set.
-         * @return This builder for chaining.
-         */
-        public Builder setTrackIdBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
-          trackId_ = value;
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return Whether the metadata field is set.
-         */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000002) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          } else {
-            return metadataBuilder_.getMessage();
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
-          } else {
-            metadataBuilder_.setMessage(value);
-          }
-          bitField0_ |= 0x00000002;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000002;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000002;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder clearMetadata() {
-          bitField0_ = (bitField0_ & ~0x00000002);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
-          bitField0_ |= 0x00000002;
-          onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
-        }
-
-        // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.TrackIdToMetadata)
-      }
-
-      // @@protoc_insertion_point(class_scope:fishjam.media_events.peer.MediaEvent.TrackIdToMetadata)
-      private static final fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata();
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      private static final com.google.protobuf.Parser<TrackIdToMetadata>
-          PARSER = new com.google.protobuf.AbstractParser<TrackIdToMetadata>() {
-        @java.lang.Override
-        public TrackIdToMetadata parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          Builder builder = newBuilder();
-          try {
-            builder.mergeFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.setUnfinishedMessage(builder.buildPartial());
-          } catch (com.google.protobuf.UninitializedMessageException e) {
-            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-          } catch (java.io.IOException e) {
-            throw new com.google.protobuf.InvalidProtocolBufferException(e)
-                .setUnfinishedMessage(builder.buildPartial());
-          }
-          return builder.buildPartial();
-        }
-      };
-
-      public static com.google.protobuf.Parser<TrackIdToMetadata> parser() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<TrackIdToMetadata> getParserForType() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
-    }
-
-    public interface TrackIdToBitratesOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.TrackIdToBitrates)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-       * @return Whether the trackBitrate field is set.
-       */
-      boolean hasTrackBitrate();
-      /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-       * @return The trackBitrate.
-       */
-      fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getTrackBitrate();
-      /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-       */
-      fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder getTrackBitrateOrBuilder();
-
-      fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.TracksCase getTracksCase();
-    }
-    /**
-     * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackIdToBitrates}
-     */
-    public static final class TrackIdToBitrates extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:fishjam.media_events.peer.MediaEvent.TrackIdToBitrates)
-        TrackIdToBitratesOrBuilder {
-    private static final long serialVersionUID = 0L;
-      static {
-        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-          /* major= */ 4,
-          /* minor= */ 26,
-          /* patch= */ 1,
-          /* suffix= */ "",
-          TrackIdToBitrates.class.getName());
-      }
-      // Use TrackIdToBitrates.newBuilder() to construct.
-      private TrackIdToBitrates(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-      }
-      private TrackIdToBitrates() {
-      }
-
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.class, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder.class);
-      }
-
-      private int tracksCase_ = 0;
-      @SuppressWarnings("serial")
-      private java.lang.Object tracks_;
-      public enum TracksCase
-          implements com.google.protobuf.Internal.EnumLite,
-              com.google.protobuf.AbstractMessage.InternalOneOfEnum {
-        TRACK_BITRATE(1),
-        TRACKS_NOT_SET(0);
-        private final int value;
-        private TracksCase(int value) {
-          this.value = value;
-        }
-        /**
-         * @param value The number of the enum to look for.
-         * @return The enum associated with the given number.
-         * @deprecated Use {@link #forNumber(int)} instead.
-         */
-        @java.lang.Deprecated
-        public static TracksCase valueOf(int value) {
-          return forNumber(value);
-        }
-
-        public static TracksCase forNumber(int value) {
-          switch (value) {
-            case 1: return TRACK_BITRATE;
-            case 0: return TRACKS_NOT_SET;
-            default: return null;
-          }
-        }
-        public int getNumber() {
-          return this.value;
-        }
-      };
-
-      public TracksCase
-      getTracksCase() {
-        return TracksCase.forNumber(
-            tracksCase_);
-      }
-
-      public static final int TRACK_BITRATE_FIELD_NUMBER = 1;
-      /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-       * @return Whether the trackBitrate field is set.
-       */
-      @java.lang.Override
-      public boolean hasTrackBitrate() {
-        return tracksCase_ == 1;
-      }
-      /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-       * @return The trackBitrate.
-       */
-      @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getTrackBitrate() {
-        if (tracksCase_ == 1) {
-           return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_;
-        }
-        return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
-      }
-      /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder getTrackBitrateOrBuilder() {
-        if (tracksCase_ == 1) {
-           return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_;
-        }
-        return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
-      }
-
-      private byte memoizedIsInitialized = -1;
-      @java.lang.Override
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      @java.lang.Override
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        if (tracksCase_ == 1) {
-          output.writeMessage(1, (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_);
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      @java.lang.Override
-      public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (tracksCase_ == 1) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_);
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSize = size;
-        return size;
-      }
-
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
-        if (obj == this) {
-         return true;
-        }
-        if (!(obj instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates)) {
-          return super.equals(obj);
-        }
-        fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates other = (fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates) obj;
-
-        if (!getTracksCase().equals(other.getTracksCase())) return false;
-        switch (tracksCase_) {
-          case 1:
-            if (!getTrackBitrate()
-                .equals(other.getTrackBitrate())) return false;
-            break;
-          case 0:
-          default:
-        }
-        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-        return true;
-      }
-
-      @java.lang.Override
-      public int hashCode() {
-        if (memoizedHashCode != 0) {
-          return memoizedHashCode;
-        }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        switch (tracksCase_) {
-          case 1:
-            hash = (37 * hash) + TRACK_BITRATE_FIELD_NUMBER;
-            hash = (53 * hash) + getTrackBitrate().hashCode();
-            break;
-          case 0:
-          default:
-        }
-        hash = (29 * hash) + getUnknownFields().hashCode();
-        memoizedHashCode = hash;
-        return hash;
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          java.nio.ByteBuffer data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          java.nio.ByteBuffer data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseDelimitedWithIOException(PARSER, input);
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input);
-      }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      @java.lang.Override
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      @java.lang.Override
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackIdToBitrates}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:fishjam.media_events.peer.MediaEvent.TrackIdToBitrates)
-          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_descriptor;
-        }
-
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.class, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder.class);
-        }
-
-        // Construct using fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.newBuilder()
-        private Builder() {
-
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-
-        }
-        @java.lang.Override
-        public Builder clear() {
-          super.clear();
-          bitField0_ = 0;
-          if (trackBitrateBuilder_ != null) {
-            trackBitrateBuilder_.clear();
-          }
-          tracksCase_ = 0;
-          tracks_ = null;
-          return this;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_descriptor;
-        }
-
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates getDefaultInstanceForType() {
-          return fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.getDefaultInstance();
-        }
-
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates build() {
-          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates buildPartial() {
-          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates result = new fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates(this);
-          if (bitField0_ != 0) { buildPartial0(result); }
-          buildPartialOneofs(result);
-          onBuilt();
-          return result;
-        }
-
-        private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates result) {
-          int from_bitField0_ = bitField0_;
-        }
-
-        private void buildPartialOneofs(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates result) {
-          result.tracksCase_ = tracksCase_;
-          result.tracks_ = this.tracks_;
-          if (tracksCase_ == 1 &&
-              trackBitrateBuilder_ != null) {
-            result.tracks_ = trackBitrateBuilder_.build();
-          }
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates) {
-            return mergeFrom((fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates other) {
-          if (other == fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.getDefaultInstance()) return this;
-          switch (other.getTracksCase()) {
-            case TRACK_BITRATE: {
-              mergeTrackBitrate(other.getTrackBitrate());
-              break;
-            }
-            case TRACKS_NOT_SET: {
-              break;
-            }
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          onChanged();
-          return this;
-        }
-
-        @java.lang.Override
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          if (extensionRegistry == null) {
-            throw new java.lang.NullPointerException();
-          }
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                case 10: {
-                  input.readMessage(
-                      getTrackBitrateFieldBuilder().getBuilder(),
-                      extensionRegistry);
-                  tracksCase_ = 1;
-                  break;
-                } // case 10
-                default: {
-                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                    done = true; // was an endgroup tag
-                  }
-                  break;
-                } // default:
-              } // switch (tag)
-            } // while (!done)
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.unwrapIOException();
-          } finally {
-            onChanged();
-          } // finally
-          return this;
-        }
-        private int tracksCase_ = 0;
-        private java.lang.Object tracks_;
-        public TracksCase
-            getTracksCase() {
-          return TracksCase.forNumber(
-              tracksCase_);
-        }
-
-        public Builder clearTracks() {
-          tracksCase_ = 0;
-          tracks_ = null;
-          onChanged();
-          return this;
-        }
-
-        private int bitField0_;
-
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder> trackBitrateBuilder_;
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         * @return Whether the trackBitrate field is set.
-         */
-        @java.lang.Override
-        public boolean hasTrackBitrate() {
-          return tracksCase_ == 1;
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         * @return The trackBitrate.
-         */
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getTrackBitrate() {
-          if (trackBitrateBuilder_ == null) {
-            if (tracksCase_ == 1) {
-              return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_;
-            }
-            return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
-          } else {
-            if (tracksCase_ == 1) {
-              return trackBitrateBuilder_.getMessage();
-            }
-            return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        public Builder setTrackBitrate(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate value) {
-          if (trackBitrateBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            tracks_ = value;
-            onChanged();
-          } else {
-            trackBitrateBuilder_.setMessage(value);
-          }
-          tracksCase_ = 1;
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        public Builder setTrackBitrate(
-            fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder builderForValue) {
-          if (trackBitrateBuilder_ == null) {
-            tracks_ = builderForValue.build();
-            onChanged();
-          } else {
-            trackBitrateBuilder_.setMessage(builderForValue.build());
-          }
-          tracksCase_ = 1;
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        public Builder mergeTrackBitrate(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate value) {
-          if (trackBitrateBuilder_ == null) {
-            if (tracksCase_ == 1 &&
-                tracks_ != fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance()) {
-              tracks_ = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.newBuilder((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_)
-                  .mergeFrom(value).buildPartial();
-            } else {
-              tracks_ = value;
-            }
-            onChanged();
-          } else {
-            if (tracksCase_ == 1) {
-              trackBitrateBuilder_.mergeFrom(value);
-            } else {
-              trackBitrateBuilder_.setMessage(value);
-            }
-          }
-          tracksCase_ = 1;
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        public Builder clearTrackBitrate() {
-          if (trackBitrateBuilder_ == null) {
-            if (tracksCase_ == 1) {
-              tracksCase_ = 0;
-              tracks_ = null;
-              onChanged();
-            }
-          } else {
-            if (tracksCase_ == 1) {
-              tracksCase_ = 0;
-              tracks_ = null;
-            }
-            trackBitrateBuilder_.clear();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder getTrackBitrateBuilder() {
-          return getTrackBitrateFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder getTrackBitrateOrBuilder() {
-          if ((tracksCase_ == 1) && (trackBitrateBuilder_ != null)) {
-            return trackBitrateBuilder_.getMessageOrBuilder();
-          } else {
-            if (tracksCase_ == 1) {
-              return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_;
-            }
-            return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 1;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder> 
-            getTrackBitrateFieldBuilder() {
-          if (trackBitrateBuilder_ == null) {
-            if (!(tracksCase_ == 1)) {
-              tracks_ = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
-            }
-            trackBitrateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder>(
-                    (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) tracks_,
-                    getParentForChildren(),
-                    isClean());
-            tracks_ = null;
-          }
-          tracksCase_ = 1;
-          onChanged();
-          return trackBitrateBuilder_;
-        }
-
-        // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.TrackIdToBitrates)
-      }
-
-      // @@protoc_insertion_point(class_scope:fishjam.media_events.peer.MediaEvent.TrackIdToBitrates)
-      private static final fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates();
-      }
-
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      private static final com.google.protobuf.Parser<TrackIdToBitrates>
-          PARSER = new com.google.protobuf.AbstractParser<TrackIdToBitrates>() {
-        @java.lang.Override
-        public TrackIdToBitrates parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          Builder builder = newBuilder();
-          try {
-            builder.mergeFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.setUnfinishedMessage(builder.buildPartial());
-          } catch (com.google.protobuf.UninitializedMessageException e) {
-            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-          } catch (java.io.IOException e) {
-            throw new com.google.protobuf.InvalidProtocolBufferException(e)
-                .setUnfinishedMessage(builder.buildPartial());
-          }
-          return builder.buildPartial();
-        }
-      };
-
-      public static com.google.protobuf.Parser<TrackIdToBitrates> parser() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<TrackIdToBitrates> getParserForType() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
-    }
-
     public interface ConnectOrBuilder extends
         // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.Connect)
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 1;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 1;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
     }
     /**
      * <pre>
@@ -2163,6 +802,7 @@ public final class Peer {
         super(builder);
       }
       private Connect() {
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -2178,31 +818,43 @@ public final class Peer {
                 fishjam.media_events.peer.Peer.MediaEvent.Connect.class, fishjam.media_events.peer.Peer.MediaEvent.Connect.Builder.class);
       }
 
-      private int bitField0_;
-      public static final int METADATA_FIELD_NUMBER = 1;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 1;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 1;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
@@ -2219,8 +871,8 @@ public final class Peer {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(1, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, metadataJson_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -2231,9 +883,8 @@ public final class Peer {
         if (size != -1) return size;
 
         size = 0;
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, metadataJson_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -2250,11 +901,8 @@ public final class Peer {
         }
         fishjam.media_events.peer.Peer.MediaEvent.Connect other = (fishjam.media_events.peer.Peer.MediaEvent.Connect) obj;
 
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -2266,10 +914,8 @@ public final class Peer {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -2393,29 +1039,19 @@ public final class Peer {
 
         // Construct using fishjam.media_events.peer.Peer.MediaEvent.Connect.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
+          metadataJson_ = "";
           return this;
         }
 
@@ -2449,14 +1085,9 @@ public final class Peer {
 
         private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.Connect result) {
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
         }
 
         @java.lang.Override
@@ -2471,8 +1102,10 @@ public final class Peer {
 
         public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.Connect other) {
           if (other == fishjam.media_events.peer.Peer.MediaEvent.Connect.getDefaultInstance()) return this;
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
+            bitField0_ |= 0x00000001;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -2501,9 +1134,7 @@ public final class Peer {
                   done = true;
                   break;
                 case 10: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000001;
                   break;
                 } // case 10
@@ -2524,125 +1155,76 @@ public final class Peer {
         }
         private int bitField0_;
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         * @return Whether the metadata field is set.
+         * <code>string metadata_json = 1;</code>
+         * @return The metadataJson.
          */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000001) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
           } else {
-            return metadataBuilder_.getMessage();
+            return (java.lang.String) ref;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
+         * <code>string metadata_json = 1;</code>
+         * @return The bytes for metadataJson.
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
           } else {
-            metadataBuilder_.setMessage(value);
+            return (com.google.protobuf.ByteString) ref;
           }
+        }
+        /**
+         * <code>string metadata_json = 1;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
+         * <code>string metadata_json = 1;</code>
+         * @return This builder for chaining.
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000001) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000001;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        public Builder clearMetadata() {
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000001);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
+         * <code>string metadata_json = 1;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.Connect)
@@ -3064,19 +1646,16 @@ public final class Peer {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 1;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 1;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
     }
     /**
      * <pre>
@@ -3104,6 +1683,7 @@ public final class Peer {
         super(builder);
       }
       private UpdateEndpointMetadata() {
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -3119,31 +1699,43 @@ public final class Peer {
                 fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata.class, fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata.Builder.class);
       }
 
-      private int bitField0_;
-      public static final int METADATA_FIELD_NUMBER = 1;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 1;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 1;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
@@ -3160,8 +1752,8 @@ public final class Peer {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(1, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, metadataJson_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -3172,9 +1764,8 @@ public final class Peer {
         if (size != -1) return size;
 
         size = 0;
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, metadataJson_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -3191,11 +1782,8 @@ public final class Peer {
         }
         fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata other = (fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata) obj;
 
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -3207,10 +1795,8 @@ public final class Peer {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -3334,29 +1920,19 @@ public final class Peer {
 
         // Construct using fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
+          metadataJson_ = "";
           return this;
         }
 
@@ -3390,14 +1966,9 @@ public final class Peer {
 
         private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata result) {
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
         }
 
         @java.lang.Override
@@ -3412,8 +1983,10 @@ public final class Peer {
 
         public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata other) {
           if (other == fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata.getDefaultInstance()) return this;
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
+            bitField0_ |= 0x00000001;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -3442,9 +2015,7 @@ public final class Peer {
                   done = true;
                   break;
                 case 10: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000001;
                   break;
                 } // case 10
@@ -3465,125 +2036,76 @@ public final class Peer {
         }
         private int bitField0_;
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         * @return Whether the metadata field is set.
+         * <code>string metadata_json = 1;</code>
+         * @return The metadataJson.
          */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000001) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
           } else {
-            return metadataBuilder_.getMessage();
+            return (java.lang.String) ref;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
+         * <code>string metadata_json = 1;</code>
+         * @return The bytes for metadataJson.
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
           } else {
-            metadataBuilder_.setMessage(value);
+            return (com.google.protobuf.ByteString) ref;
           }
+        }
+        /**
+         * <code>string metadata_json = 1;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
+         * <code>string metadata_json = 1;</code>
+         * @return This builder for chaining.
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000001) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000001;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        public Builder clearMetadata() {
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000001);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
+         * <code>string metadata_json = 1;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 1;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.UpdateEndpointMetadata)
@@ -3654,19 +2176,16 @@ public final class Peer {
           getTrackIdBytes();
 
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 2;</code>
+       * @return The metadataJson.
        */
-      boolean hasMetadata();
+      java.lang.String getMetadataJson();
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 2;</code>
+       * @return The bytes for metadataJson.
        */
-      fishjam.media_events.Shared.Metadata getMetadata();
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder();
+      com.google.protobuf.ByteString
+          getMetadataJsonBytes();
     }
     /**
      * <pre>
@@ -3695,6 +2214,7 @@ public final class Peer {
       }
       private UpdateTrackMetadata() {
         trackId_ = "";
+        metadataJson_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -3710,7 +2230,6 @@ public final class Peer {
                 fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata.class, fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata.Builder.class);
       }
 
-      private int bitField0_;
       public static final int TRACK_ID_FIELD_NUMBER = 1;
       @SuppressWarnings("serial")
       private volatile java.lang.Object trackId_ = "";
@@ -3750,30 +2269,43 @@ public final class Peer {
         }
       }
 
-      public static final int METADATA_FIELD_NUMBER = 2;
-      private fishjam.media_events.Shared.Metadata metadata_;
+      public static final int METADATA_JSON_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object metadataJson_ = "";
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return Whether the metadata field is set.
+       * <code>string metadata_json = 2;</code>
+       * @return The metadataJson.
        */
       @java.lang.Override
-      public boolean hasMetadata() {
-        return ((bitField0_ & 0x00000001) != 0);
+      public java.lang.String getMetadataJson() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          metadataJson_ = s;
+          return s;
+        }
       }
       /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       * @return The metadata.
+       * <code>string metadata_json = 2;</code>
+       * @return The bytes for metadataJson.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.Metadata getMetadata() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-      }
-      /**
-       * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-       */
-      @java.lang.Override
-      public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-        return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+      public com.google.protobuf.ByteString
+          getMetadataJsonBytes() {
+        java.lang.Object ref = metadataJson_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
 
       private byte memoizedIsInitialized = -1;
@@ -3793,8 +2325,8 @@ public final class Peer {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, trackId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          output.writeMessage(2, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, metadataJson_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -3808,9 +2340,8 @@ public final class Peer {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, trackId_);
         }
-        if (((bitField0_ & 0x00000001) != 0)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, getMetadata());
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(metadataJson_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, metadataJson_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -3829,11 +2360,8 @@ public final class Peer {
 
         if (!getTrackId()
             .equals(other.getTrackId())) return false;
-        if (hasMetadata() != other.hasMetadata()) return false;
-        if (hasMetadata()) {
-          if (!getMetadata()
-              .equals(other.getMetadata())) return false;
-        }
+        if (!getMetadataJson()
+            .equals(other.getMetadataJson())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -3847,10 +2375,8 @@ public final class Peer {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
         hash = (53 * hash) + getTrackId().hashCode();
-        if (hasMetadata()) {
-          hash = (37 * hash) + METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getMetadata().hashCode();
-        }
+        hash = (37 * hash) + METADATA_JSON_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataJson().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -3974,30 +2500,20 @@ public final class Peer {
 
         // Construct using fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessage.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage
-                  .alwaysUseFieldBuilders) {
-            getMetadataFieldBuilder();
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
           trackId_ = "";
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
+          metadataJson_ = "";
           return this;
         }
 
@@ -4034,14 +2550,9 @@ public final class Peer {
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.trackId_ = trackId_;
           }
-          int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.metadata_ = metadataBuilder_ == null
-                ? metadata_
-                : metadataBuilder_.build();
-            to_bitField0_ |= 0x00000001;
+            result.metadataJson_ = metadataJson_;
           }
-          result.bitField0_ |= to_bitField0_;
         }
 
         @java.lang.Override
@@ -4061,8 +2572,10 @@ public final class Peer {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (other.hasMetadata()) {
-            mergeMetadata(other.getMetadata());
+          if (!other.getMetadataJson().isEmpty()) {
+            metadataJson_ = other.metadataJson_;
+            bitField0_ |= 0x00000002;
+            onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -4096,9 +2609,7 @@ public final class Peer {
                   break;
                 } // case 10
                 case 18: {
-                  input.readMessage(
-                      getMetadataFieldBuilder().getBuilder(),
-                      extensionRegistry);
+                  metadataJson_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000002;
                   break;
                 } // case 18
@@ -4191,125 +2702,76 @@ public final class Peer {
           return this;
         }
 
-        private fishjam.media_events.Shared.Metadata metadata_;
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> metadataBuilder_;
+        private java.lang.Object metadataJson_ = "";
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return Whether the metadata field is set.
+         * <code>string metadata_json = 2;</code>
+         * @return The metadataJson.
          */
-        public boolean hasMetadata() {
-          return ((bitField0_ & 0x00000002) != 0);
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         * @return The metadata.
-         */
-        public fishjam.media_events.Shared.Metadata getMetadata() {
-          if (metadataBuilder_ == null) {
-            return metadata_ == null ? fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
+        public java.lang.String getMetadataJson() {
+          java.lang.Object ref = metadataJson_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            metadataJson_ = s;
+            return s;
           } else {
-            return metadataBuilder_.getMessage();
+            return (java.lang.String) ref;
           }
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @return The bytes for metadataJson.
          */
-        public Builder setMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            metadata_ = value;
+        public com.google.protobuf.ByteString
+            getMetadataJsonBytes() {
+          java.lang.Object ref = metadataJson_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            metadataJson_ = b;
+            return b;
           } else {
-            metadataBuilder_.setMessage(value);
+            return (com.google.protobuf.ByteString) ref;
           }
+        }
+        /**
+         * <code>string metadata_json = 2;</code>
+         * @param value The metadataJson to set.
+         * @return This builder for chaining.
+         */
+        public Builder setMetadataJson(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @return This builder for chaining.
          */
-        public Builder setMetadata(
-            fishjam.media_events.Shared.Metadata.Builder builderForValue) {
-          if (metadataBuilder_ == null) {
-            metadata_ = builderForValue.build();
-          } else {
-            metadataBuilder_.setMessage(builderForValue.build());
-          }
-          bitField0_ |= 0x00000002;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder mergeMetadata(fishjam.media_events.Shared.Metadata value) {
-          if (metadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0) &&
-              metadata_ != null &&
-              metadata_ != fishjam.media_events.Shared.Metadata.getDefaultInstance()) {
-              getMetadataBuilder().mergeFrom(value);
-            } else {
-              metadata_ = value;
-            }
-          } else {
-            metadataBuilder_.mergeFrom(value);
-          }
-          if (metadata_ != null) {
-            bitField0_ |= 0x00000002;
-            onChanged();
-          }
-          return this;
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public Builder clearMetadata() {
+        public Builder clearMetadataJson() {
+          metadataJson_ = getDefaultInstance().getMetadataJson();
           bitField0_ = (bitField0_ & ~0x00000002);
-          metadata_ = null;
-          if (metadataBuilder_ != null) {
-            metadataBuilder_.dispose();
-            metadataBuilder_ = null;
-          }
           onChanged();
           return this;
         }
         /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
+         * <code>string metadata_json = 2;</code>
+         * @param value The bytes for metadataJson to set.
+         * @return This builder for chaining.
          */
-        public fishjam.media_events.Shared.Metadata.Builder getMetadataBuilder() {
+        public Builder setMetadataJsonBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          metadataJson_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
-          return getMetadataFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        public fishjam.media_events.Shared.MetadataOrBuilder getMetadataOrBuilder() {
-          if (metadataBuilder_ != null) {
-            return metadataBuilder_.getMessageOrBuilder();
-          } else {
-            return metadata_ == null ?
-                fishjam.media_events.Shared.Metadata.getDefaultInstance() : metadata_;
-          }
-        }
-        /**
-         * <code>.fishjam.media_events.Metadata metadata = 2;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilder<
-            fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder> 
-            getMetadataFieldBuilder() {
-          if (metadataBuilder_ == null) {
-            metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-                fishjam.media_events.Shared.Metadata, fishjam.media_events.Shared.Metadata.Builder, fishjam.media_events.Shared.MetadataOrBuilder>(
-                    getMetadata(),
-                    getParentForChildren(),
-                    isClean());
-            metadata_ = null;
-          }
-          return metadataBuilder_;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.UpdateTrackMetadata)
@@ -4743,76 +3205,126 @@ public final class Peer {
           getSdpOfferBytes();
 
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
-      java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata> 
-          getTrackIdToMetadataList();
+      int getTrackIdToMetadataJsonCount();
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
-      fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata getTrackIdToMetadata(int index);
+      boolean containsTrackIdToMetadataJson(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * Use {@link #getTrackIdToMetadataJsonMap()} instead.
        */
-      int getTrackIdToMetadataCount();
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, java.lang.String>
+      getTrackIdToMetadataJson();
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
-      java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder> 
-          getTrackIdToMetadataOrBuilderList();
+      java.util.Map<java.lang.String, java.lang.String>
+      getTrackIdToMetadataJsonMap();
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
-      fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder getTrackIdToMetadataOrBuilder(
-          int index);
+      /* nullable */
+java.lang.String getTrackIdToMetadataJsonOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue);
+      /**
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+       */
+      java.lang.String getTrackIdToMetadataJsonOrThrow(
+          java.lang.String key);
 
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-       */
-      java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates> 
-          getTrackIdToBitratesList();
-      /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-       */
-      fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates getTrackIdToBitrates(int index);
-      /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
        */
       int getTrackIdToBitratesCount();
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
        */
-      java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder> 
-          getTrackIdToBitratesOrBuilderList();
+      boolean containsTrackIdToBitrates(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+       * Use {@link #getTrackIdToBitratesMap()} instead.
        */
-      fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder getTrackIdToBitratesOrBuilder(
-          int index);
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
+      getTrackIdToBitrates();
+      /**
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+       */
+      java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
+      getTrackIdToBitratesMap();
+      /**
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+       */
+      /* nullable */
+fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackIdToBitratesOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates defaultValue);
+      /**
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+       */
+      fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackIdToBitratesOrThrow(
+          java.lang.String key);
 
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-       */
-      java.util.List<fishjam.media_events.Shared.MidToTrackId> 
-          getMidToTrackIdList();
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-       */
-      fishjam.media_events.Shared.MidToTrackId getMidToTrackId(int index);
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
        */
       int getMidToTrackIdCount();
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
        */
-      java.util.List<? extends fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-          getMidToTrackIdOrBuilderList();
+      boolean containsMidToTrackId(
+          java.lang.String key);
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+       * Use {@link #getMidToTrackIdMap()} instead.
        */
-      fishjam.media_events.Shared.MidToTrackIdOrBuilder getMidToTrackIdOrBuilder(
-          int index);
+      @java.lang.Deprecated
+      java.util.Map<java.lang.String, java.lang.String>
+      getMidToTrackId();
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
+       */
+      java.util.Map<java.lang.String, java.lang.String>
+      getMidToTrackIdMap();
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
+       */
+      /* nullable */
+java.lang.String getMidToTrackIdOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue);
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
+       */
+      java.lang.String getMidToTrackIdOrThrow(
+          java.lang.String key);
     }
     /**
      * <pre>
@@ -4843,9 +3355,6 @@ public final class Peer {
       }
       private SdpOffer() {
         sdpOffer_ = "";
-        trackIdToMetadata_ = java.util.Collections.emptyList();
-        trackIdToBitrates_ = java.util.Collections.emptyList();
-        midToTrackId_ = java.util.Collections.emptyList();
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -4853,6 +3362,22 @@ public final class Peer {
         return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      @java.lang.Override
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetTrackIdToMetadataJson();
+          case 3:
+            return internalGetTrackIdToBitrates();
+          case 4:
+            return internalGetMidToTrackId();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -4900,127 +3425,257 @@ public final class Peer {
         }
       }
 
-      public static final int TRACK_ID_TO_METADATA_FIELD_NUMBER = 2;
+      public static final int TRACK_ID_TO_METADATA_JSON_FIELD_NUMBER = 2;
+      private static final class TrackIdToMetadataJsonDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, java.lang.String> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, java.lang.String>newDefaultInstance(
+                    fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToMetadataJsonEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "");
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata> trackIdToMetadata_;
-      /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata> getTrackIdToMetadataList() {
-        return trackIdToMetadata_;
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> trackIdToMetadataJson_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetTrackIdToMetadataJson() {
+        if (trackIdToMetadataJson_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              TrackIdToMetadataJsonDefaultEntryHolder.defaultEntry);
+        }
+        return trackIdToMetadataJson_;
+      }
+      public int getTrackIdToMetadataJsonCount() {
+        return internalGetTrackIdToMetadataJson().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
       @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder> 
-          getTrackIdToMetadataOrBuilderList() {
-        return trackIdToMetadata_;
+      public boolean containsTrackIdToMetadataJson(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetTrackIdToMetadataJson().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * Use {@link #getTrackIdToMetadataJsonMap()} instead.
        */
       @java.lang.Override
-      public int getTrackIdToMetadataCount() {
-        return trackIdToMetadata_.size();
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getTrackIdToMetadataJson() {
+        return getTrackIdToMetadataJsonMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata getTrackIdToMetadata(int index) {
-        return trackIdToMetadata_.get(index);
+      public java.util.Map<java.lang.String, java.lang.String> getTrackIdToMetadataJsonMap() {
+        return internalGetTrackIdToMetadataJson().getMap();
       }
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder getTrackIdToMetadataOrBuilder(
-          int index) {
-        return trackIdToMetadata_.get(index);
+      public /* nullable */
+java.lang.String getTrackIdToMetadataJsonOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetTrackIdToMetadataJson().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+       */
+      @java.lang.Override
+      public java.lang.String getTrackIdToMetadataJsonOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetTrackIdToMetadataJson().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
       }
 
       public static final int TRACK_ID_TO_BITRATES_FIELD_NUMBER = 3;
+      private static final class TrackIdToBitratesDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>newDefaultInstance(
+                    fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToBitratesEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                    fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance());
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates> trackIdToBitrates_;
-      /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates> getTrackIdToBitratesList() {
+      private com.google.protobuf.MapField<
+          java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> trackIdToBitrates_;
+      private com.google.protobuf.MapField<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
+      internalGetTrackIdToBitrates() {
+        if (trackIdToBitrates_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              TrackIdToBitratesDefaultEntryHolder.defaultEntry);
+        }
         return trackIdToBitrates_;
       }
-      /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-       */
-      @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder> 
-          getTrackIdToBitratesOrBuilderList() {
-        return trackIdToBitrates_;
-      }
-      /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-       */
-      @java.lang.Override
       public int getTrackIdToBitratesCount() {
-        return trackIdToBitrates_.size();
+        return internalGetTrackIdToBitrates().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates getTrackIdToBitrates(int index) {
-        return trackIdToBitrates_.get(index);
+      public boolean containsTrackIdToBitrates(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetTrackIdToBitrates().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+       * Use {@link #getTrackIdToBitratesMap()} instead.
        */
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder getTrackIdToBitratesOrBuilder(
-          int index) {
-        return trackIdToBitrates_.get(index);
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> getTrackIdToBitrates() {
+        return getTrackIdToBitratesMap();
+      }
+      /**
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+       */
+      @java.lang.Override
+      public java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> getTrackIdToBitratesMap() {
+        return internalGetTrackIdToBitrates().getMap();
+      }
+      /**
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+       */
+      @java.lang.Override
+      public /* nullable */
+fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackIdToBitratesOrDefault(
+          java.lang.String key,
+          /* nullable */
+fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> map =
+            internalGetTrackIdToBitrates().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+       * </pre>
+       *
+       * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackIdToBitratesOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> map =
+            internalGetTrackIdToBitrates().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
       }
 
       public static final int MID_TO_TRACK_ID_FIELD_NUMBER = 4;
+      private static final class MidToTrackIdDefaultEntryHolder {
+        static final com.google.protobuf.MapEntry<
+            java.lang.String, java.lang.String> defaultEntry =
+                com.google.protobuf.MapEntry
+                .<java.lang.String, java.lang.String>newDefaultInstance(
+                    fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_MidToTrackIdEntry_descriptor, 
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "",
+                    com.google.protobuf.WireFormat.FieldType.STRING,
+                    "");
+      }
       @SuppressWarnings("serial")
-      private java.util.List<fishjam.media_events.Shared.MidToTrackId> midToTrackId_;
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-       */
-      @java.lang.Override
-      public java.util.List<fishjam.media_events.Shared.MidToTrackId> getMidToTrackIdList() {
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> midToTrackId_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMidToTrackId() {
+        if (midToTrackId_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              MidToTrackIdDefaultEntryHolder.defaultEntry);
+        }
         return midToTrackId_;
       }
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-       */
-      @java.lang.Override
-      public java.util.List<? extends fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-          getMidToTrackIdOrBuilderList() {
-        return midToTrackId_;
-      }
-      /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-       */
-      @java.lang.Override
       public int getMidToTrackIdCount() {
-        return midToTrackId_.size();
+        return internalGetMidToTrackId().getMap().size();
       }
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.MidToTrackId getMidToTrackId(int index) {
-        return midToTrackId_.get(index);
+      public boolean containsMidToTrackId(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetMidToTrackId().getMap().containsKey(key);
       }
       /**
-       * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+       * Use {@link #getMidToTrackIdMap()} instead.
        */
       @java.lang.Override
-      public fishjam.media_events.Shared.MidToTrackIdOrBuilder getMidToTrackIdOrBuilder(
-          int index) {
-        return midToTrackId_.get(index);
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getMidToTrackId() {
+        return getMidToTrackIdMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
+       */
+      @java.lang.Override
+      public java.util.Map<java.lang.String, java.lang.String> getMidToTrackIdMap() {
+        return internalGetMidToTrackId().getMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
+       */
+      @java.lang.Override
+      public /* nullable */
+java.lang.String getMidToTrackIdOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetMidToTrackId().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
+       */
+      @java.lang.Override
+      public java.lang.String getMidToTrackIdOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetMidToTrackId().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
       }
 
       private byte memoizedIsInitialized = -1;
@@ -5040,15 +3695,24 @@ public final class Peer {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdpOffer_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, sdpOffer_);
         }
-        for (int i = 0; i < trackIdToMetadata_.size(); i++) {
-          output.writeMessage(2, trackIdToMetadata_.get(i));
-        }
-        for (int i = 0; i < trackIdToBitrates_.size(); i++) {
-          output.writeMessage(3, trackIdToBitrates_.get(i));
-        }
-        for (int i = 0; i < midToTrackId_.size(); i++) {
-          output.writeMessage(4, midToTrackId_.get(i));
-        }
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetTrackIdToMetadataJson(),
+            TrackIdToMetadataJsonDefaultEntryHolder.defaultEntry,
+            2);
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetTrackIdToBitrates(),
+            TrackIdToBitratesDefaultEntryHolder.defaultEntry,
+            3);
+        com.google.protobuf.GeneratedMessage
+          .serializeStringMapTo(
+            output,
+            internalGetMidToTrackId(),
+            MidToTrackIdDefaultEntryHolder.defaultEntry,
+            4);
         getUnknownFields().writeTo(output);
       }
 
@@ -5061,17 +3725,35 @@ public final class Peer {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdpOffer_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, sdpOffer_);
         }
-        for (int i = 0; i < trackIdToMetadata_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+             : internalGetTrackIdToMetadataJson().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+          trackIdToMetadataJson__ = TrackIdToMetadataJsonDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, trackIdToMetadata_.get(i));
+              .computeMessageSize(2, trackIdToMetadataJson__);
         }
-        for (int i = 0; i < trackIdToBitrates_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> entry
+             : internalGetTrackIdToBitrates().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
+          trackIdToBitrates__ = TrackIdToBitratesDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, trackIdToBitrates_.get(i));
+              .computeMessageSize(3, trackIdToBitrates__);
         }
-        for (int i = 0; i < midToTrackId_.size(); i++) {
+        for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+             : internalGetMidToTrackId().getMap().entrySet()) {
+          com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+          midToTrackId__ = MidToTrackIdDefaultEntryHolder.defaultEntry.newBuilderForType()
+              .setKey(entry.getKey())
+              .setValue(entry.getValue())
+              .build();
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(4, midToTrackId_.get(i));
+              .computeMessageSize(4, midToTrackId__);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -5090,12 +3772,12 @@ public final class Peer {
 
         if (!getSdpOffer()
             .equals(other.getSdpOffer())) return false;
-        if (!getTrackIdToMetadataList()
-            .equals(other.getTrackIdToMetadataList())) return false;
-        if (!getTrackIdToBitratesList()
-            .equals(other.getTrackIdToBitratesList())) return false;
-        if (!getMidToTrackIdList()
-            .equals(other.getMidToTrackIdList())) return false;
+        if (!internalGetTrackIdToMetadataJson().equals(
+            other.internalGetTrackIdToMetadataJson())) return false;
+        if (!internalGetTrackIdToBitrates().equals(
+            other.internalGetTrackIdToBitrates())) return false;
+        if (!internalGetMidToTrackId().equals(
+            other.internalGetMidToTrackId())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -5109,17 +3791,17 @@ public final class Peer {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + SDP_OFFER_FIELD_NUMBER;
         hash = (53 * hash) + getSdpOffer().hashCode();
-        if (getTrackIdToMetadataCount() > 0) {
-          hash = (37 * hash) + TRACK_ID_TO_METADATA_FIELD_NUMBER;
-          hash = (53 * hash) + getTrackIdToMetadataList().hashCode();
+        if (!internalGetTrackIdToMetadataJson().getMap().isEmpty()) {
+          hash = (37 * hash) + TRACK_ID_TO_METADATA_JSON_FIELD_NUMBER;
+          hash = (53 * hash) + internalGetTrackIdToMetadataJson().hashCode();
         }
-        if (getTrackIdToBitratesCount() > 0) {
+        if (!internalGetTrackIdToBitrates().getMap().isEmpty()) {
           hash = (37 * hash) + TRACK_ID_TO_BITRATES_FIELD_NUMBER;
-          hash = (53 * hash) + getTrackIdToBitratesList().hashCode();
+          hash = (53 * hash) + internalGetTrackIdToBitrates().hashCode();
         }
-        if (getMidToTrackIdCount() > 0) {
+        if (!internalGetMidToTrackId().getMap().isEmpty()) {
           hash = (37 * hash) + MID_TO_TRACK_ID_FIELD_NUMBER;
-          hash = (53 * hash) + getMidToTrackIdList().hashCode();
+          hash = (53 * hash) + internalGetMidToTrackId().hashCode();
         }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
@@ -5236,6 +3918,36 @@ public final class Peer {
           return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor;
         }
 
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetTrackIdToMetadataJson();
+            case 3:
+              return internalGetTrackIdToBitrates();
+            case 4:
+              return internalGetMidToTrackId();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
+        @SuppressWarnings({"rawtypes"})
+        protected com.google.protobuf.MapFieldReflectionAccessor internalGetMutableMapFieldReflection(
+            int number) {
+          switch (number) {
+            case 2:
+              return internalGetMutableTrackIdToMetadataJson();
+            case 3:
+              return internalGetMutableTrackIdToBitrates();
+            case 4:
+              return internalGetMutableMidToTrackId();
+            default:
+              throw new RuntimeException(
+                  "Invalid map field number: " + number);
+          }
+        }
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
@@ -5259,27 +3971,9 @@ public final class Peer {
           super.clear();
           bitField0_ = 0;
           sdpOffer_ = "";
-          if (trackIdToMetadataBuilder_ == null) {
-            trackIdToMetadata_ = java.util.Collections.emptyList();
-          } else {
-            trackIdToMetadata_ = null;
-            trackIdToMetadataBuilder_.clear();
-          }
-          bitField0_ = (bitField0_ & ~0x00000002);
-          if (trackIdToBitratesBuilder_ == null) {
-            trackIdToBitrates_ = java.util.Collections.emptyList();
-          } else {
-            trackIdToBitrates_ = null;
-            trackIdToBitratesBuilder_.clear();
-          }
-          bitField0_ = (bitField0_ & ~0x00000004);
-          if (midToTrackIdBuilder_ == null) {
-            midToTrackId_ = java.util.Collections.emptyList();
-          } else {
-            midToTrackId_ = null;
-            midToTrackIdBuilder_.clear();
-          }
-          bitField0_ = (bitField0_ & ~0x00000008);
+          internalGetMutableTrackIdToMetadataJson().clear();
+          internalGetMutableTrackIdToBitrates().clear();
+          internalGetMutableMidToTrackId().clear();
           return this;
         }
 
@@ -5306,46 +4000,26 @@ public final class Peer {
         @java.lang.Override
         public fishjam.media_events.peer.Peer.MediaEvent.SdpOffer buildPartial() {
           fishjam.media_events.peer.Peer.MediaEvent.SdpOffer result = new fishjam.media_events.peer.Peer.MediaEvent.SdpOffer(this);
-          buildPartialRepeatedFields(result);
           if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
-        }
-
-        private void buildPartialRepeatedFields(fishjam.media_events.peer.Peer.MediaEvent.SdpOffer result) {
-          if (trackIdToMetadataBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) != 0)) {
-              trackIdToMetadata_ = java.util.Collections.unmodifiableList(trackIdToMetadata_);
-              bitField0_ = (bitField0_ & ~0x00000002);
-            }
-            result.trackIdToMetadata_ = trackIdToMetadata_;
-          } else {
-            result.trackIdToMetadata_ = trackIdToMetadataBuilder_.build();
-          }
-          if (trackIdToBitratesBuilder_ == null) {
-            if (((bitField0_ & 0x00000004) != 0)) {
-              trackIdToBitrates_ = java.util.Collections.unmodifiableList(trackIdToBitrates_);
-              bitField0_ = (bitField0_ & ~0x00000004);
-            }
-            result.trackIdToBitrates_ = trackIdToBitrates_;
-          } else {
-            result.trackIdToBitrates_ = trackIdToBitratesBuilder_.build();
-          }
-          if (midToTrackIdBuilder_ == null) {
-            if (((bitField0_ & 0x00000008) != 0)) {
-              midToTrackId_ = java.util.Collections.unmodifiableList(midToTrackId_);
-              bitField0_ = (bitField0_ & ~0x00000008);
-            }
-            result.midToTrackId_ = midToTrackId_;
-          } else {
-            result.midToTrackId_ = midToTrackIdBuilder_.build();
-          }
         }
 
         private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.SdpOffer result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.sdpOffer_ = sdpOffer_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.trackIdToMetadataJson_ = internalGetTrackIdToMetadataJson();
+            result.trackIdToMetadataJson_.makeImmutable();
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.trackIdToBitrates_ = internalGetTrackIdToBitrates().build(TrackIdToBitratesDefaultEntryHolder.defaultEntry);
+          }
+          if (((from_bitField0_ & 0x00000008) != 0)) {
+            result.midToTrackId_ = internalGetMidToTrackId();
+            result.midToTrackId_.makeImmutable();
           }
         }
 
@@ -5366,84 +4040,15 @@ public final class Peer {
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (trackIdToMetadataBuilder_ == null) {
-            if (!other.trackIdToMetadata_.isEmpty()) {
-              if (trackIdToMetadata_.isEmpty()) {
-                trackIdToMetadata_ = other.trackIdToMetadata_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-              } else {
-                ensureTrackIdToMetadataIsMutable();
-                trackIdToMetadata_.addAll(other.trackIdToMetadata_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.trackIdToMetadata_.isEmpty()) {
-              if (trackIdToMetadataBuilder_.isEmpty()) {
-                trackIdToMetadataBuilder_.dispose();
-                trackIdToMetadataBuilder_ = null;
-                trackIdToMetadata_ = other.trackIdToMetadata_;
-                bitField0_ = (bitField0_ & ~0x00000002);
-                trackIdToMetadataBuilder_ = 
-                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getTrackIdToMetadataFieldBuilder() : null;
-              } else {
-                trackIdToMetadataBuilder_.addAllMessages(other.trackIdToMetadata_);
-              }
-            }
-          }
-          if (trackIdToBitratesBuilder_ == null) {
-            if (!other.trackIdToBitrates_.isEmpty()) {
-              if (trackIdToBitrates_.isEmpty()) {
-                trackIdToBitrates_ = other.trackIdToBitrates_;
-                bitField0_ = (bitField0_ & ~0x00000004);
-              } else {
-                ensureTrackIdToBitratesIsMutable();
-                trackIdToBitrates_.addAll(other.trackIdToBitrates_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.trackIdToBitrates_.isEmpty()) {
-              if (trackIdToBitratesBuilder_.isEmpty()) {
-                trackIdToBitratesBuilder_.dispose();
-                trackIdToBitratesBuilder_ = null;
-                trackIdToBitrates_ = other.trackIdToBitrates_;
-                bitField0_ = (bitField0_ & ~0x00000004);
-                trackIdToBitratesBuilder_ = 
-                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getTrackIdToBitratesFieldBuilder() : null;
-              } else {
-                trackIdToBitratesBuilder_.addAllMessages(other.trackIdToBitrates_);
-              }
-            }
-          }
-          if (midToTrackIdBuilder_ == null) {
-            if (!other.midToTrackId_.isEmpty()) {
-              if (midToTrackId_.isEmpty()) {
-                midToTrackId_ = other.midToTrackId_;
-                bitField0_ = (bitField0_ & ~0x00000008);
-              } else {
-                ensureMidToTrackIdIsMutable();
-                midToTrackId_.addAll(other.midToTrackId_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.midToTrackId_.isEmpty()) {
-              if (midToTrackIdBuilder_.isEmpty()) {
-                midToTrackIdBuilder_.dispose();
-                midToTrackIdBuilder_ = null;
-                midToTrackId_ = other.midToTrackId_;
-                bitField0_ = (bitField0_ & ~0x00000008);
-                midToTrackIdBuilder_ = 
-                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                     getMidToTrackIdFieldBuilder() : null;
-              } else {
-                midToTrackIdBuilder_.addAllMessages(other.midToTrackId_);
-              }
-            }
-          }
+          internalGetMutableTrackIdToMetadataJson().mergeFrom(
+              other.internalGetTrackIdToMetadataJson());
+          bitField0_ |= 0x00000002;
+          internalGetMutableTrackIdToBitrates().mergeFrom(
+              other.internalGetTrackIdToBitrates());
+          bitField0_ |= 0x00000004;
+          internalGetMutableMidToTrackId().mergeFrom(
+              other.internalGetMidToTrackId());
+          bitField0_ |= 0x00000008;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -5476,42 +4081,30 @@ public final class Peer {
                   break;
                 } // case 10
                 case 18: {
-                  fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata m =
-                      input.readMessage(
-                          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.parser(),
-                          extensionRegistry);
-                  if (trackIdToMetadataBuilder_ == null) {
-                    ensureTrackIdToMetadataIsMutable();
-                    trackIdToMetadata_.add(m);
-                  } else {
-                    trackIdToMetadataBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+                  trackIdToMetadataJson__ = input.readMessage(
+                      TrackIdToMetadataJsonDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableTrackIdToMetadataJson().getMutableMap().put(
+                      trackIdToMetadataJson__.getKey(), trackIdToMetadataJson__.getValue());
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
                 case 26: {
-                  fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates m =
-                      input.readMessage(
-                          fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.parser(),
-                          extensionRegistry);
-                  if (trackIdToBitratesBuilder_ == null) {
-                    ensureTrackIdToBitratesIsMutable();
-                    trackIdToBitrates_.add(m);
-                  } else {
-                    trackIdToBitratesBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
+                  trackIdToBitrates__ = input.readMessage(
+                      TrackIdToBitratesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableTrackIdToBitrates().ensureBuilderMap().put(
+                      trackIdToBitrates__.getKey(), trackIdToBitrates__.getValue());
+                  bitField0_ |= 0x00000004;
                   break;
                 } // case 26
                 case 34: {
-                  fishjam.media_events.Shared.MidToTrackId m =
-                      input.readMessage(
-                          fishjam.media_events.Shared.MidToTrackId.parser(),
-                          extensionRegistry);
-                  if (midToTrackIdBuilder_ == null) {
-                    ensureMidToTrackIdIsMutable();
-                    midToTrackId_.add(m);
-                  } else {
-                    midToTrackIdBuilder_.addMessage(m);
-                  }
+                  com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+                  midToTrackId__ = input.readMessage(
+                      MidToTrackIdDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                  internalGetMutableMidToTrackId().getMutableMap().put(
+                      midToTrackId__.getKey(), midToTrackId__.getValue());
+                  bitField0_ |= 0x00000008;
                   break;
                 } // case 34
                 default: {
@@ -5603,724 +4196,445 @@ public final class Peer {
           return this;
         }
 
-        private java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata> trackIdToMetadata_ =
-          java.util.Collections.emptyList();
-        private void ensureTrackIdToMetadataIsMutable() {
-          if (!((bitField0_ & 0x00000002) != 0)) {
-            trackIdToMetadata_ = new java.util.ArrayList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata>(trackIdToMetadata_);
-            bitField0_ |= 0x00000002;
-           }
+        private com.google.protobuf.MapField<
+            java.lang.String, java.lang.String> trackIdToMetadataJson_;
+        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+            internalGetTrackIdToMetadataJson() {
+          if (trackIdToMetadataJson_ == null) {
+            return com.google.protobuf.MapField.emptyMapField(
+                TrackIdToMetadataJsonDefaultEntryHolder.defaultEntry);
+          }
+          return trackIdToMetadataJson_;
+        }
+        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+            internalGetMutableTrackIdToMetadataJson() {
+          if (trackIdToMetadataJson_ == null) {
+            trackIdToMetadataJson_ = com.google.protobuf.MapField.newMapField(
+                TrackIdToMetadataJsonDefaultEntryHolder.defaultEntry);
+          }
+          if (!trackIdToMetadataJson_.isMutable()) {
+            trackIdToMetadataJson_ = trackIdToMetadataJson_.copy();
+          }
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return trackIdToMetadataJson_;
+        }
+        public int getTrackIdToMetadataJsonCount() {
+          return internalGetTrackIdToMetadataJson().getMap().size();
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        @java.lang.Override
+        public boolean containsTrackIdToMetadataJson(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetTrackIdToMetadataJson().getMap().containsKey(key);
+        }
+        /**
+         * Use {@link #getTrackIdToMetadataJsonMap()} instead.
+         */
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, java.lang.String> getTrackIdToMetadataJson() {
+          return getTrackIdToMetadataJsonMap();
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        @java.lang.Override
+        public java.util.Map<java.lang.String, java.lang.String> getTrackIdToMetadataJsonMap() {
+          return internalGetTrackIdToMetadataJson().getMap();
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        @java.lang.Override
+        public /* nullable */
+java.lang.String getTrackIdToMetadataJsonOrDefault(
+            java.lang.String key,
+            /* nullable */
+java.lang.String defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, java.lang.String> map =
+              internalGetTrackIdToMetadataJson().getMap();
+          return map.containsKey(key) ? map.get(key) : defaultValue;
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        @java.lang.Override
+        public java.lang.String getTrackIdToMetadataJsonOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, java.lang.String> map =
+              internalGetTrackIdToMetadataJson().getMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
+          }
+          return map.get(key);
+        }
+        public Builder clearTrackIdToMetadataJson() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          internalGetMutableTrackIdToMetadataJson().getMutableMap()
+              .clear();
+          return this;
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        public Builder removeTrackIdToMetadataJson(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableTrackIdToMetadataJson().getMutableMap()
+              .remove(key);
+          return this;
+        }
+        /**
+         * Use alternate mutation accessors instead.
+         */
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, java.lang.String>
+            getMutableTrackIdToMetadataJson() {
+          bitField0_ |= 0x00000002;
+          return internalGetMutableTrackIdToMetadataJson().getMutableMap();
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        public Builder putTrackIdToMetadataJson(
+            java.lang.String key,
+            java.lang.String value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableTrackIdToMetadataJson().getMutableMap()
+              .put(key, value);
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>map&lt;string, string&gt; track_id_to_metadata_json = 2;</code>
+         */
+        public Builder putAllTrackIdToMetadataJson(
+            java.util.Map<java.lang.String, java.lang.String> values) {
+          internalGetMutableTrackIdToMetadataJson().getMutableMap()
+              .putAll(values);
+          bitField0_ |= 0x00000002;
+          return this;
         }
 
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder> trackIdToMetadataBuilder_;
+        private static final class TrackIdToBitratesConverter implements com.google.protobuf.MapFieldBuilder.Converter<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> {
+          @java.lang.Override
+          public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates build(fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder val) {
+            if (val instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) { return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) val; }
+            return ((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder) val).build();
+          }
 
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata> getTrackIdToMetadataList() {
-          if (trackIdToMetadataBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(trackIdToMetadata_);
-          } else {
-            return trackIdToMetadataBuilder_.getMessageList();
+          @java.lang.Override
+          public com.google.protobuf.MapEntry<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> defaultEntry() {
+            return TrackIdToBitratesDefaultEntryHolder.defaultEntry;
           }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public int getTrackIdToMetadataCount() {
-          if (trackIdToMetadataBuilder_ == null) {
-            return trackIdToMetadata_.size();
-          } else {
-            return trackIdToMetadataBuilder_.getCount();
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata getTrackIdToMetadata(int index) {
-          if (trackIdToMetadataBuilder_ == null) {
-            return trackIdToMetadata_.get(index);
-          } else {
-            return trackIdToMetadataBuilder_.getMessage(index);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder setTrackIdToMetadata(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata value) {
-          if (trackIdToMetadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.set(index, value);
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.setMessage(index, value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder setTrackIdToMetadata(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder builderForValue) {
-          if (trackIdToMetadataBuilder_ == null) {
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.setMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder addTrackIdToMetadata(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata value) {
-          if (trackIdToMetadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.add(value);
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.addMessage(value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder addTrackIdToMetadata(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata value) {
-          if (trackIdToMetadataBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.add(index, value);
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.addMessage(index, value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder addTrackIdToMetadata(
-            fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder builderForValue) {
-          if (trackIdToMetadataBuilder_ == null) {
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.add(builderForValue.build());
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder addTrackIdToMetadata(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder builderForValue) {
-          if (trackIdToMetadataBuilder_ == null) {
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder addAllTrackIdToMetadata(
-            java.lang.Iterable<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata> values) {
-          if (trackIdToMetadataBuilder_ == null) {
-            ensureTrackIdToMetadataIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, trackIdToMetadata_);
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder clearTrackIdToMetadata() {
-          if (trackIdToMetadataBuilder_ == null) {
-            trackIdToMetadata_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.clear();
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public Builder removeTrackIdToMetadata(int index) {
-          if (trackIdToMetadataBuilder_ == null) {
-            ensureTrackIdToMetadataIsMutable();
-            trackIdToMetadata_.remove(index);
-            onChanged();
-          } else {
-            trackIdToMetadataBuilder_.remove(index);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder getTrackIdToMetadataBuilder(
-            int index) {
-          return getTrackIdToMetadataFieldBuilder().getBuilder(index);
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder getTrackIdToMetadataOrBuilder(
-            int index) {
-          if (trackIdToMetadataBuilder_ == null) {
-            return trackIdToMetadata_.get(index);  } else {
-            return trackIdToMetadataBuilder_.getMessageOrBuilder(index);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder> 
-             getTrackIdToMetadataOrBuilderList() {
-          if (trackIdToMetadataBuilder_ != null) {
-            return trackIdToMetadataBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(trackIdToMetadata_);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder addTrackIdToMetadataBuilder() {
-          return getTrackIdToMetadataFieldBuilder().addBuilder(
-              fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder addTrackIdToMetadataBuilder(
-            int index) {
-          return getTrackIdToMetadataFieldBuilder().addBuilder(
-              index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToMetadata track_id_to_metadata = 2;</code>
-         */
-        public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder> 
-             getTrackIdToMetadataBuilderList() {
-          return getTrackIdToMetadataFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder> 
-            getTrackIdToMetadataFieldBuilder() {
-          if (trackIdToMetadataBuilder_ == null) {
-            trackIdToMetadataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadataOrBuilder>(
-                    trackIdToMetadata_,
-                    ((bitField0_ & 0x00000002) != 0),
-                    getParentForChildren(),
-                    isClean());
-            trackIdToMetadata_ = null;
-          }
-          return trackIdToMetadataBuilder_;
-        }
+        };
+        private static final TrackIdToBitratesConverter trackIdToBitratesConverter = new TrackIdToBitratesConverter();
 
-        private java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates> trackIdToBitrates_ =
-          java.util.Collections.emptyList();
-        private void ensureTrackIdToBitratesIsMutable() {
-          if (!((bitField0_ & 0x00000004) != 0)) {
-            trackIdToBitrates_ = new java.util.ArrayList<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates>(trackIdToBitrates_);
-            bitField0_ |= 0x00000004;
-           }
-        }
-
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder> trackIdToBitratesBuilder_;
-
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates> getTrackIdToBitratesList() {
-          if (trackIdToBitratesBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(trackIdToBitrates_);
-          } else {
-            return trackIdToBitratesBuilder_.getMessageList();
+        private com.google.protobuf.MapFieldBuilder<
+            java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder> trackIdToBitrates_;
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder>
+            internalGetTrackIdToBitrates() {
+          if (trackIdToBitrates_ == null) {
+            return new com.google.protobuf.MapFieldBuilder<>(trackIdToBitratesConverter);
           }
+          return trackIdToBitrates_;
         }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
+        private com.google.protobuf.MapFieldBuilder<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder>
+            internalGetMutableTrackIdToBitrates() {
+          if (trackIdToBitrates_ == null) {
+            trackIdToBitrates_ = new com.google.protobuf.MapFieldBuilder<>(trackIdToBitratesConverter);
+          }
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return trackIdToBitrates_;
+        }
         public int getTrackIdToBitratesCount() {
-          if (trackIdToBitratesBuilder_ == null) {
-            return trackIdToBitrates_.size();
-          } else {
-            return trackIdToBitratesBuilder_.getCount();
-          }
+          return internalGetTrackIdToBitrates().ensureBuilderMap().size();
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates getTrackIdToBitrates(int index) {
-          if (trackIdToBitratesBuilder_ == null) {
-            return trackIdToBitrates_.get(index);
-          } else {
-            return trackIdToBitratesBuilder_.getMessage(index);
-          }
+        @java.lang.Override
+        public boolean containsTrackIdToBitrates(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetTrackIdToBitrates().ensureBuilderMap().containsKey(key);
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * Use {@link #getTrackIdToBitratesMap()} instead.
          */
-        public Builder setTrackIdToBitrates(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates value) {
-          if (trackIdToBitratesBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.set(index, value);
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.setMessage(index, value);
-          }
-          return this;
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> getTrackIdToBitrates() {
+          return getTrackIdToBitratesMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public Builder setTrackIdToBitrates(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder builderForValue) {
-          if (trackIdToBitratesBuilder_ == null) {
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.setMessage(index, builderForValue.build());
-          }
-          return this;
+        @java.lang.Override
+        public java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> getTrackIdToBitratesMap() {
+          return internalGetTrackIdToBitrates().getImmutableMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public Builder addTrackIdToBitrates(fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates value) {
-          if (trackIdToBitratesBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.add(value);
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.addMessage(value);
-          }
-          return this;
+        @java.lang.Override
+        public /* nullable */
+fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackIdToBitratesOrDefault(
+            java.lang.String key,
+            /* nullable */
+fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder> map = internalGetMutableTrackIdToBitrates().ensureBuilderMap();
+          return map.containsKey(key) ? trackIdToBitratesConverter.build(map.get(key)) : defaultValue;
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public Builder addTrackIdToBitrates(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates value) {
-          if (trackIdToBitratesBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.add(index, value);
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.addMessage(index, value);
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackIdToBitratesOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder> map = internalGetMutableTrackIdToBitrates().ensureBuilderMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
           }
-          return this;
+          return trackIdToBitratesConverter.build(map.get(key));
         }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public Builder addTrackIdToBitrates(
-            fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder builderForValue) {
-          if (trackIdToBitratesBuilder_ == null) {
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.add(builderForValue.build());
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public Builder addTrackIdToBitrates(
-            int index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder builderForValue) {
-          if (trackIdToBitratesBuilder_ == null) {
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public Builder addAllTrackIdToBitrates(
-            java.lang.Iterable<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates> values) {
-          if (trackIdToBitratesBuilder_ == null) {
-            ensureTrackIdToBitratesIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, trackIdToBitrates_);
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
         public Builder clearTrackIdToBitrates() {
-          if (trackIdToBitratesBuilder_ == null) {
-            trackIdToBitrates_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000004);
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.clear();
-          }
+          bitField0_ = (bitField0_ & ~0x00000004);
+          internalGetMutableTrackIdToBitrates().clear();
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public Builder removeTrackIdToBitrates(int index) {
-          if (trackIdToBitratesBuilder_ == null) {
-            ensureTrackIdToBitratesIsMutable();
-            trackIdToBitrates_.remove(index);
-            onChanged();
-          } else {
-            trackIdToBitratesBuilder_.remove(index);
-          }
+        public Builder removeTrackIdToBitrates(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableTrackIdToBitrates().ensureBuilderMap()
+              .remove(key);
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * Use alternate mutation accessors instead.
          */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder getTrackIdToBitratesBuilder(
-            int index) {
-          return getTrackIdToBitratesFieldBuilder().getBuilder(index);
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
+            getMutableTrackIdToBitrates() {
+          bitField0_ |= 0x00000004;
+          return internalGetMutableTrackIdToBitrates().ensureMessageMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder getTrackIdToBitratesOrBuilder(
-            int index) {
-          if (trackIdToBitratesBuilder_ == null) {
-            return trackIdToBitrates_.get(index);  } else {
-            return trackIdToBitratesBuilder_.getMessageOrBuilder(index);
+        public Builder putTrackIdToBitrates(
+            java.lang.String key,
+            fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableTrackIdToBitrates().ensureBuilderMap()
+              .put(key, value);
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
+         */
+        public Builder putAllTrackIdToBitrates(
+            java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> values) {
+          for (java.util.Map.Entry<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> e : values.entrySet()) {
+            if (e.getKey() == null || e.getValue() == null) {
+              throw new NullPointerException();
+            }
           }
+          internalGetMutableTrackIdToBitrates().ensureBuilderMap()
+              .putAll(values);
+          bitField0_ |= 0x00000004;
+          return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
+         * <pre>
+         * Maps track_id to its bitrate. The track_id in the TrackBitrates message is ignored (we use the map key), so it can be ommited.
+         * </pre>
+         *
+         * <code>map&lt;string, .fishjam.media_events.peer.MediaEvent.TrackBitrates&gt; track_id_to_bitrates = 3;</code>
          */
-        public java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder> 
-             getTrackIdToBitratesOrBuilderList() {
-          if (trackIdToBitratesBuilder_ != null) {
-            return trackIdToBitratesBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(trackIdToBitrates_);
+        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder putTrackIdToBitratesBuilderIfAbsent(
+            java.lang.String key) {
+          java.util.Map<java.lang.String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder> builderMap = internalGetMutableTrackIdToBitrates().ensureBuilderMap();
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder entry = builderMap.get(key);
+          if (entry == null) {
+            entry = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder();
+            builderMap.put(key, entry);
           }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder addTrackIdToBitratesBuilder() {
-          return getTrackIdToBitratesFieldBuilder().addBuilder(
-              fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder addTrackIdToBitratesBuilder(
-            int index) {
-          return getTrackIdToBitratesFieldBuilder().addBuilder(
-              index, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.peer.MediaEvent.TrackIdToBitrates track_id_to_bitrates = 3;</code>
-         */
-        public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder> 
-             getTrackIdToBitratesBuilderList() {
-          return getTrackIdToBitratesFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder> 
-            getTrackIdToBitratesFieldBuilder() {
-          if (trackIdToBitratesBuilder_ == null) {
-            trackIdToBitratesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitratesOrBuilder>(
-                    trackIdToBitrates_,
-                    ((bitField0_ & 0x00000004) != 0),
-                    getParentForChildren(),
-                    isClean());
-            trackIdToBitrates_ = null;
+          if (entry instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) {
+            entry = ((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) entry).toBuilder();
+            builderMap.put(key, entry);
           }
-          return trackIdToBitratesBuilder_;
+          return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder) entry;
         }
 
-        private java.util.List<fishjam.media_events.Shared.MidToTrackId> midToTrackId_ =
-          java.util.Collections.emptyList();
-        private void ensureMidToTrackIdIsMutable() {
-          if (!((bitField0_ & 0x00000008) != 0)) {
-            midToTrackId_ = new java.util.ArrayList<fishjam.media_events.Shared.MidToTrackId>(midToTrackId_);
-            bitField0_ |= 0x00000008;
-           }
-        }
-
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.Shared.MidToTrackId, fishjam.media_events.Shared.MidToTrackId.Builder, fishjam.media_events.Shared.MidToTrackIdOrBuilder> midToTrackIdBuilder_;
-
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public java.util.List<fishjam.media_events.Shared.MidToTrackId> getMidToTrackIdList() {
-          if (midToTrackIdBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(midToTrackId_);
-          } else {
-            return midToTrackIdBuilder_.getMessageList();
+        private com.google.protobuf.MapField<
+            java.lang.String, java.lang.String> midToTrackId_;
+        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+            internalGetMidToTrackId() {
+          if (midToTrackId_ == null) {
+            return com.google.protobuf.MapField.emptyMapField(
+                MidToTrackIdDefaultEntryHolder.defaultEntry);
           }
+          return midToTrackId_;
         }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
+        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+            internalGetMutableMidToTrackId() {
+          if (midToTrackId_ == null) {
+            midToTrackId_ = com.google.protobuf.MapField.newMapField(
+                MidToTrackIdDefaultEntryHolder.defaultEntry);
+          }
+          if (!midToTrackId_.isMutable()) {
+            midToTrackId_ = midToTrackId_.copy();
+          }
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return midToTrackId_;
+        }
         public int getMidToTrackIdCount() {
-          if (midToTrackIdBuilder_ == null) {
-            return midToTrackId_.size();
-          } else {
-            return midToTrackIdBuilder_.getCount();
-          }
+          return internalGetMidToTrackId().getMap().size();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public fishjam.media_events.Shared.MidToTrackId getMidToTrackId(int index) {
-          if (midToTrackIdBuilder_ == null) {
-            return midToTrackId_.get(index);
-          } else {
-            return midToTrackIdBuilder_.getMessage(index);
-          }
+        @java.lang.Override
+        public boolean containsMidToTrackId(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          return internalGetMidToTrackId().getMap().containsKey(key);
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * Use {@link #getMidToTrackIdMap()} instead.
          */
-        public Builder setMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId value) {
-          if (midToTrackIdBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.set(index, value);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.setMessage(index, value);
-          }
-          return this;
+        @java.lang.Override
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, java.lang.String> getMidToTrackId() {
+          return getMidToTrackIdMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public Builder setMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId.Builder builderForValue) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.setMessage(index, builderForValue.build());
-          }
-          return this;
+        @java.lang.Override
+        public java.util.Map<java.lang.String, java.lang.String> getMidToTrackIdMap() {
+          return internalGetMidToTrackId().getMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public Builder addMidToTrackId(fishjam.media_events.Shared.MidToTrackId value) {
-          if (midToTrackIdBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(value);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(value);
-          }
-          return this;
+        @java.lang.Override
+        public /* nullable */
+java.lang.String getMidToTrackIdOrDefault(
+            java.lang.String key,
+            /* nullable */
+java.lang.String defaultValue) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, java.lang.String> map =
+              internalGetMidToTrackId().getMap();
+          return map.containsKey(key) ? map.get(key) : defaultValue;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public Builder addMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId value) {
-          if (midToTrackIdBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(index, value);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(index, value);
+        @java.lang.Override
+        public java.lang.String getMidToTrackIdOrThrow(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          java.util.Map<java.lang.String, java.lang.String> map =
+              internalGetMidToTrackId().getMap();
+          if (!map.containsKey(key)) {
+            throw new java.lang.IllegalArgumentException();
           }
-          return this;
+          return map.get(key);
         }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public Builder addMidToTrackId(
-            fishjam.media_events.Shared.MidToTrackId.Builder builderForValue) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(builderForValue.build());
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public Builder addMidToTrackId(
-            int index, fishjam.media_events.Shared.MidToTrackId.Builder builderForValue) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public Builder addAllMidToTrackId(
-            java.lang.Iterable<? extends fishjam.media_events.Shared.MidToTrackId> values) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, midToTrackId_);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
         public Builder clearMidToTrackId() {
-          if (midToTrackIdBuilder_ == null) {
-            midToTrackId_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000008);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.clear();
-          }
+          bitField0_ = (bitField0_ & ~0x00000008);
+          internalGetMutableMidToTrackId().getMutableMap()
+              .clear();
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public Builder removeMidToTrackId(int index) {
-          if (midToTrackIdBuilder_ == null) {
-            ensureMidToTrackIdIsMutable();
-            midToTrackId_.remove(index);
-            onChanged();
-          } else {
-            midToTrackIdBuilder_.remove(index);
-          }
+        public Builder removeMidToTrackId(
+            java.lang.String key) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          internalGetMutableMidToTrackId().getMutableMap()
+              .remove(key);
           return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * Use alternate mutation accessors instead.
          */
-        public fishjam.media_events.Shared.MidToTrackId.Builder getMidToTrackIdBuilder(
-            int index) {
-          return getMidToTrackIdFieldBuilder().getBuilder(index);
+        @java.lang.Deprecated
+        public java.util.Map<java.lang.String, java.lang.String>
+            getMutableMidToTrackId() {
+          bitField0_ |= 0x00000008;
+          return internalGetMutableMidToTrackId().getMutableMap();
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public fishjam.media_events.Shared.MidToTrackIdOrBuilder getMidToTrackIdOrBuilder(
-            int index) {
-          if (midToTrackIdBuilder_ == null) {
-            return midToTrackId_.get(index);  } else {
-            return midToTrackIdBuilder_.getMessageOrBuilder(index);
-          }
+        public Builder putMidToTrackId(
+            java.lang.String key,
+            java.lang.String value) {
+          if (key == null) { throw new NullPointerException("map key"); }
+          if (value == null) { throw new NullPointerException("map value"); }
+          internalGetMutableMidToTrackId().getMutableMap()
+              .put(key, value);
+          bitField0_ |= 0x00000008;
+          return this;
         }
         /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
+         * <code>map&lt;string, string&gt; mid_to_track_id = 4;</code>
          */
-        public java.util.List<? extends fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-             getMidToTrackIdOrBuilderList() {
-          if (midToTrackIdBuilder_ != null) {
-            return midToTrackIdBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(midToTrackId_);
-          }
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public fishjam.media_events.Shared.MidToTrackId.Builder addMidToTrackIdBuilder() {
-          return getMidToTrackIdFieldBuilder().addBuilder(
-              fishjam.media_events.Shared.MidToTrackId.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public fishjam.media_events.Shared.MidToTrackId.Builder addMidToTrackIdBuilder(
-            int index) {
-          return getMidToTrackIdFieldBuilder().addBuilder(
-              index, fishjam.media_events.Shared.MidToTrackId.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .fishjam.media_events.MidToTrackId mid_to_track_id = 4;</code>
-         */
-        public java.util.List<fishjam.media_events.Shared.MidToTrackId.Builder> 
-             getMidToTrackIdBuilderList() {
-          return getMidToTrackIdFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilder<
-            fishjam.media_events.Shared.MidToTrackId, fishjam.media_events.Shared.MidToTrackId.Builder, fishjam.media_events.Shared.MidToTrackIdOrBuilder> 
-            getMidToTrackIdFieldBuilder() {
-          if (midToTrackIdBuilder_ == null) {
-            midToTrackIdBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                fishjam.media_events.Shared.MidToTrackId, fishjam.media_events.Shared.MidToTrackId.Builder, fishjam.media_events.Shared.MidToTrackIdOrBuilder>(
-                    midToTrackId_,
-                    ((bitField0_ & 0x00000008) != 0),
-                    getParentForChildren(),
-                    isClean());
-            midToTrackId_ = null;
-          }
-          return midToTrackIdBuilder_;
+        public Builder putAllMidToTrackId(
+            java.util.Map<java.lang.String, java.lang.String> values) {
+          internalGetMutableMidToTrackId().getMutableMap()
+              .putAll(values);
+          bitField0_ |= 0x00000008;
+          return this;
         }
 
         // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.SdpOffer)
@@ -6374,8 +4688,8 @@ public final class Peer {
 
     }
 
-    public interface TrackBitrateOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.TrackBitrate)
+    public interface TrackBitratesOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.TrackBitrates)
         com.google.protobuf.MessageOrBuilder {
 
       /**
@@ -6391,22 +4705,60 @@ public final class Peer {
           getTrackIdBytes();
 
       /**
-       * <code>int32 bitrate = 2;</code>
-       * @return The bitrate.
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
        */
-      int getBitrate();
+      java.util.List<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate> 
+          getVariantBitratesList();
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate getVariantBitrates(int index);
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      int getVariantBitratesCount();
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder> 
+          getVariantBitratesOrBuilderList();
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder getVariantBitratesOrBuilder(
+          int index);
     }
     /**
      * <pre>
      * Sent when Peer wants to update its track's bitrate
      * </pre>
      *
-     * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackBitrate}
+     * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackBitrates}
      */
-    public static final class TrackBitrate extends
+    public static final class TrackBitrates extends
         com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:fishjam.media_events.peer.MediaEvent.TrackBitrate)
-        TrackBitrateOrBuilder {
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.peer.MediaEvent.TrackBitrates)
+        TrackBitratesOrBuilder {
     private static final long serialVersionUID = 0L;
       static {
         com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -6415,27 +4767,28 @@ public final class Peer {
           /* minor= */ 26,
           /* patch= */ 1,
           /* suffix= */ "",
-          TrackBitrate.class.getName());
+          TrackBitrates.class.getName());
       }
-      // Use TrackBitrate.newBuilder() to construct.
-      private TrackBitrate(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      // Use TrackBitrates.newBuilder() to construct.
+      private TrackBitrates(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
       }
-      private TrackBitrate() {
+      private TrackBitrates() {
         trackId_ = "";
+        variantBitrates_ = java.util.Collections.emptyList();
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_descriptor;
+        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_fieldAccessorTable
+        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.class, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder.class);
+                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.class, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder.class);
       }
 
       public static final int TRACK_ID_FIELD_NUMBER = 1;
@@ -6477,15 +4830,65 @@ public final class Peer {
         }
       }
 
-      public static final int BITRATE_FIELD_NUMBER = 2;
-      private int bitrate_ = 0;
+      public static final int VARIANT_BITRATES_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private java.util.List<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate> variantBitrates_;
       /**
-       * <code>int32 bitrate = 2;</code>
-       * @return The bitrate.
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
        */
       @java.lang.Override
-      public int getBitrate() {
-        return bitrate_;
+      public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate> getVariantBitratesList() {
+        return variantBitrates_;
+      }
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      @java.lang.Override
+      public java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder> 
+          getVariantBitratesOrBuilderList() {
+        return variantBitrates_;
+      }
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      @java.lang.Override
+      public int getVariantBitratesCount() {
+        return variantBitrates_.size();
+      }
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate getVariantBitrates(int index) {
+        return variantBitrates_.get(index);
+      }
+      /**
+       * <pre>
+       * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+       * </pre>
+       *
+       * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder getVariantBitratesOrBuilder(
+          int index) {
+        return variantBitrates_.get(index);
       }
 
       private byte memoizedIsInitialized = -1;
@@ -6505,8 +4908,8 @@ public final class Peer {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, trackId_);
         }
-        if (bitrate_ != 0) {
-          output.writeInt32(2, bitrate_);
+        for (int i = 0; i < variantBitrates_.size(); i++) {
+          output.writeMessage(2, variantBitrates_.get(i));
         }
         getUnknownFields().writeTo(output);
       }
@@ -6520,9 +4923,9 @@ public final class Peer {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, trackId_);
         }
-        if (bitrate_ != 0) {
+        for (int i = 0; i < variantBitrates_.size(); i++) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(2, bitrate_);
+            .computeMessageSize(2, variantBitrates_.get(i));
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -6534,15 +4937,15 @@ public final class Peer {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate)) {
+        if (!(obj instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates)) {
           return super.equals(obj);
         }
-        fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate other = (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) obj;
+        fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates other = (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) obj;
 
         if (!getTrackId()
             .equals(other.getTrackId())) return false;
-        if (getBitrate()
-            != other.getBitrate()) return false;
+        if (!getVariantBitratesList()
+            .equals(other.getVariantBitratesList())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -6556,51 +4959,53 @@ public final class Peer {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
         hash = (53 * hash) + getTrackId().hashCode();
-        hash = (37 * hash) + BITRATE_FIELD_NUMBER;
-        hash = (53 * hash) + getBitrate();
+        if (getVariantBitratesCount() > 0) {
+          hash = (37 * hash) + VARIANT_BITRATES_FIELD_NUMBER;
+          hash = (53 * hash) + getVariantBitratesList().hashCode();
+        }
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
       }
 
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(byte[] data)
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(java.io.InputStream input)
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessage
             .parseWithIOException(PARSER, input);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -6608,26 +5013,26 @@ public final class Peer {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseDelimitedFrom(java.io.InputStream input)
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessage
             .parseDelimitedWithIOException(PARSER, input);
       }
 
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseDelimitedFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessage
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessage
             .parseWithIOException(PARSER, input);
       }
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate parseFrom(
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -6640,7 +5045,7 @@ public final class Peer {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate prototype) {
+      public static Builder newBuilder(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       @java.lang.Override
@@ -6660,26 +5065,26 @@ public final class Peer {
        * Sent when Peer wants to update its track's bitrate
        * </pre>
        *
-       * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackBitrate}
+       * Protobuf type {@code fishjam.media_events.peer.MediaEvent.TrackBitrates}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:fishjam.media_events.peer.MediaEvent.TrackBitrate)
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder {
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.peer.MediaEvent.TrackBitrates)
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_descriptor;
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_descriptor;
         }
 
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_fieldAccessorTable
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.class, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder.class);
+                  fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.class, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder.class);
         }
 
-        // Construct using fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.newBuilder()
+        // Construct using fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()
         private Builder() {
 
         }
@@ -6694,24 +5099,30 @@ public final class Peer {
           super.clear();
           bitField0_ = 0;
           trackId_ = "";
-          bitrate_ = 0;
+          if (variantBitratesBuilder_ == null) {
+            variantBitrates_ = java.util.Collections.emptyList();
+          } else {
+            variantBitrates_ = null;
+            variantBitratesBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000002);
           return this;
         }
 
         @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_descriptor;
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_descriptor;
         }
 
         @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getDefaultInstanceForType() {
-          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getDefaultInstanceForType() {
+          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
         }
 
         @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate build() {
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate result = buildPartial();
+        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates build() {
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
@@ -6719,42 +5130,965 @@ public final class Peer {
         }
 
         @java.lang.Override
-        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate buildPartial() {
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate result = new fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate(this);
+        public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates buildPartial() {
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates result = new fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates(this);
+          buildPartialRepeatedFields(result);
           if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
         }
 
-        private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate result) {
+        private void buildPartialRepeatedFields(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates result) {
+          if (variantBitratesBuilder_ == null) {
+            if (((bitField0_ & 0x00000002) != 0)) {
+              variantBitrates_ = java.util.Collections.unmodifiableList(variantBitrates_);
+              bitField0_ = (bitField0_ & ~0x00000002);
+            }
+            result.variantBitrates_ = variantBitrates_;
+          } else {
+            result.variantBitrates_ = variantBitratesBuilder_.build();
+          }
+        }
+
+        private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.trackId_ = trackId_;
-          }
-          if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.bitrate_ = bitrate_;
           }
         }
 
         @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) {
-            return mergeFrom((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate)other);
+          if (other instanceof fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) {
+            return mergeFrom((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate other) {
-          if (other == fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance()) return this;
+        public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates other) {
+          if (other == fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance()) return this;
           if (!other.getTrackId().isEmpty()) {
             trackId_ = other.trackId_;
             bitField0_ |= 0x00000001;
             onChanged();
           }
-          if (other.getBitrate() != 0) {
-            setBitrate(other.getBitrate());
+          if (variantBitratesBuilder_ == null) {
+            if (!other.variantBitrates_.isEmpty()) {
+              if (variantBitrates_.isEmpty()) {
+                variantBitrates_ = other.variantBitrates_;
+                bitField0_ = (bitField0_ & ~0x00000002);
+              } else {
+                ensureVariantBitratesIsMutable();
+                variantBitrates_.addAll(other.variantBitrates_);
+              }
+              onChanged();
+            }
+          } else {
+            if (!other.variantBitrates_.isEmpty()) {
+              if (variantBitratesBuilder_.isEmpty()) {
+                variantBitratesBuilder_.dispose();
+                variantBitratesBuilder_ = null;
+                variantBitrates_ = other.variantBitrates_;
+                bitField0_ = (bitField0_ & ~0x00000002);
+                variantBitratesBuilder_ = 
+                  com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                     getVariantBitratesFieldBuilder() : null;
+              } else {
+                variantBitratesBuilder_.addAllMessages(other.variantBitrates_);
+              }
+            }
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  trackId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                case 18: {
+                  fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate m =
+                      input.readMessage(
+                          fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.parser(),
+                          extensionRegistry);
+                  if (variantBitratesBuilder_ == null) {
+                    ensureVariantBitratesIsMutable();
+                    variantBitrates_.add(m);
+                  } else {
+                    variantBitratesBuilder_.addMessage(m);
+                  }
+                  break;
+                } // case 18
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object trackId_ = "";
+        /**
+         * <code>string track_id = 1;</code>
+         * @return The trackId.
+         */
+        public java.lang.String getTrackId() {
+          java.lang.Object ref = trackId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            trackId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @return The bytes for trackId.
+         */
+        public com.google.protobuf.ByteString
+            getTrackIdBytes() {
+          java.lang.Object ref = trackId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            trackId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @param value The trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          trackId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearTrackId() {
+          trackId_ = getDefaultInstance().getTrackId();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @param value The bytes for trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          trackId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private java.util.List<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate> variantBitrates_ =
+          java.util.Collections.emptyList();
+        private void ensureVariantBitratesIsMutable() {
+          if (!((bitField0_ & 0x00000002) != 0)) {
+            variantBitrates_ = new java.util.ArrayList<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate>(variantBitrates_);
+            bitField0_ |= 0x00000002;
+           }
+        }
+
+        private com.google.protobuf.RepeatedFieldBuilder<
+            fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder> variantBitratesBuilder_;
+
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate> getVariantBitratesList() {
+          if (variantBitratesBuilder_ == null) {
+            return java.util.Collections.unmodifiableList(variantBitrates_);
+          } else {
+            return variantBitratesBuilder_.getMessageList();
+          }
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public int getVariantBitratesCount() {
+          if (variantBitratesBuilder_ == null) {
+            return variantBitrates_.size();
+          } else {
+            return variantBitratesBuilder_.getCount();
+          }
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate getVariantBitrates(int index) {
+          if (variantBitratesBuilder_ == null) {
+            return variantBitrates_.get(index);
+          } else {
+            return variantBitratesBuilder_.getMessage(index);
+          }
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder setVariantBitrates(
+            int index, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate value) {
+          if (variantBitratesBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.set(index, value);
+            onChanged();
+          } else {
+            variantBitratesBuilder_.setMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder setVariantBitrates(
+            int index, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder builderForValue) {
+          if (variantBitratesBuilder_ == null) {
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.set(index, builderForValue.build());
+            onChanged();
+          } else {
+            variantBitratesBuilder_.setMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder addVariantBitrates(fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate value) {
+          if (variantBitratesBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.add(value);
+            onChanged();
+          } else {
+            variantBitratesBuilder_.addMessage(value);
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder addVariantBitrates(
+            int index, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate value) {
+          if (variantBitratesBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.add(index, value);
+            onChanged();
+          } else {
+            variantBitratesBuilder_.addMessage(index, value);
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder addVariantBitrates(
+            fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder builderForValue) {
+          if (variantBitratesBuilder_ == null) {
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.add(builderForValue.build());
+            onChanged();
+          } else {
+            variantBitratesBuilder_.addMessage(builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder addVariantBitrates(
+            int index, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder builderForValue) {
+          if (variantBitratesBuilder_ == null) {
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.add(index, builderForValue.build());
+            onChanged();
+          } else {
+            variantBitratesBuilder_.addMessage(index, builderForValue.build());
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder addAllVariantBitrates(
+            java.lang.Iterable<? extends fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate> values) {
+          if (variantBitratesBuilder_ == null) {
+            ensureVariantBitratesIsMutable();
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, variantBitrates_);
+            onChanged();
+          } else {
+            variantBitratesBuilder_.addAllMessages(values);
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder clearVariantBitrates() {
+          if (variantBitratesBuilder_ == null) {
+            variantBitrates_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            onChanged();
+          } else {
+            variantBitratesBuilder_.clear();
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public Builder removeVariantBitrates(int index) {
+          if (variantBitratesBuilder_ == null) {
+            ensureVariantBitratesIsMutable();
+            variantBitrates_.remove(index);
+            onChanged();
+          } else {
+            variantBitratesBuilder_.remove(index);
+          }
+          return this;
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder getVariantBitratesBuilder(
+            int index) {
+          return getVariantBitratesFieldBuilder().getBuilder(index);
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder getVariantBitratesOrBuilder(
+            int index) {
+          if (variantBitratesBuilder_ == null) {
+            return variantBitrates_.get(index);  } else {
+            return variantBitratesBuilder_.getMessageOrBuilder(index);
+          }
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public java.util.List<? extends fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder> 
+             getVariantBitratesOrBuilderList() {
+          if (variantBitratesBuilder_ != null) {
+            return variantBitratesBuilder_.getMessageOrBuilderList();
+          } else {
+            return java.util.Collections.unmodifiableList(variantBitrates_);
+          }
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder addVariantBitratesBuilder() {
+          return getVariantBitratesFieldBuilder().addBuilder(
+              fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.getDefaultInstance());
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder addVariantBitratesBuilder(
+            int index) {
+          return getVariantBitratesFieldBuilder().addBuilder(
+              index, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.getDefaultInstance());
+        }
+        /**
+         * <pre>
+         * Bitrate of each variant. For non-simulcast tracks use VARIANT_UNSPECIFIED.
+         * </pre>
+         *
+         * <code>repeated .fishjam.media_events.peer.MediaEvent.VariantBitrate variant_bitrates = 2;</code>
+         */
+        public java.util.List<fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder> 
+             getVariantBitratesBuilderList() {
+          return getVariantBitratesFieldBuilder().getBuilderList();
+        }
+        private com.google.protobuf.RepeatedFieldBuilder<
+            fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder> 
+            getVariantBitratesFieldBuilder() {
+          if (variantBitratesBuilder_ == null) {
+            variantBitratesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+                fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.VariantBitrateOrBuilder>(
+                    variantBitrates_,
+                    ((bitField0_ & 0x00000002) != 0),
+                    getParentForChildren(),
+                    isClean());
+            variantBitrates_ = null;
+          }
+          return variantBitratesBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.TrackBitrates)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.peer.MediaEvent.TrackBitrates)
+      private static final fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates();
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<TrackBitrates>
+          PARSER = new com.google.protobuf.AbstractParser<TrackBitrates>() {
+        @java.lang.Override
+        public TrackBitrates parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<TrackBitrates> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<TrackBitrates> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface DisableTrackVariantOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.DisableTrackVariant)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The trackId.
+       */
+      java.lang.String getTrackId();
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The bytes for trackId.
+       */
+      com.google.protobuf.ByteString
+          getTrackIdBytes();
+
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      int getVariantValue();
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The variant.
+       */
+      fishjam.media_events.Shared.Variant getVariant();
+    }
+    /**
+     * <pre>
+     * Sent when client disables one of the track variants
+     * </pre>
+     *
+     * Protobuf type {@code fishjam.media_events.peer.MediaEvent.DisableTrackVariant}
+     */
+    public static final class DisableTrackVariant extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.peer.MediaEvent.DisableTrackVariant)
+        DisableTrackVariantOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          DisableTrackVariant.class.getName());
+      }
+      // Use DisableTrackVariant.newBuilder() to construct.
+      private DisableTrackVariant(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private DisableTrackVariant() {
+        trackId_ = "";
+        variant_ = 0;
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.class, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder.class);
+      }
+
+      public static final int TRACK_ID_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object trackId_ = "";
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The trackId.
+       */
+      @java.lang.Override
+      public java.lang.String getTrackId() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          trackId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The bytes for trackId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTrackIdBytes() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          trackId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VARIANT_FIELD_NUMBER = 2;
+      private int variant_ = 0;
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      @java.lang.Override public int getVariantValue() {
+        return variant_;
+      }
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The variant.
+       */
+      @java.lang.Override public fishjam.media_events.Shared.Variant getVariant() {
+        fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+        return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          output.writeEnum(2, variant_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(2, variant_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant)) {
+          return super.equals(obj);
+        }
+        fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant other = (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) obj;
+
+        if (!getTrackId()
+            .equals(other.getTrackId())) return false;
+        if (variant_ != other.variant_) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getTrackId().hashCode();
+        hash = (37 * hash) + VARIANT_FIELD_NUMBER;
+        hash = (53 * hash) + variant_;
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Sent when client disables one of the track variants
+       * </pre>
+       *
+       * Protobuf type {@code fishjam.media_events.peer.MediaEvent.DisableTrackVariant}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.peer.MediaEvent.DisableTrackVariant)
+          fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.class, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder.class);
+        }
+
+        // Construct using fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          trackId_ = "";
+          variant_ = 0;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant getDefaultInstanceForType() {
+          return fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant build() {
+          fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant buildPartial() {
+          fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant result = new fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.trackId_ = trackId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.variant_ = variant_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) {
+            return mergeFrom((fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant other) {
+          if (other == fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance()) return this;
+          if (!other.getTrackId().isEmpty()) {
+            trackId_ = other.trackId_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (other.variant_ != 0) {
+            setVariantValue(other.getVariantValue());
           }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
@@ -6788,7 +6122,7 @@ public final class Peer {
                   break;
                 } // case 10
                 case 16: {
-                  bitrate_ = input.readInt32();
+                  variant_ = input.readEnum();
                   bitField0_ |= 0x00000002;
                   break;
                 } // case 16
@@ -6881,55 +6215,76 @@ public final class Peer {
           return this;
         }
 
-        private int bitrate_ ;
+        private int variant_ = 0;
         /**
-         * <code>int32 bitrate = 2;</code>
-         * @return The bitrate.
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @return The enum numeric value on the wire for variant.
          */
-        @java.lang.Override
-        public int getBitrate() {
-          return bitrate_;
+        @java.lang.Override public int getVariantValue() {
+          return variant_;
         }
         /**
-         * <code>int32 bitrate = 2;</code>
-         * @param value The bitrate to set.
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @param value The enum numeric value on the wire for variant to set.
          * @return This builder for chaining.
          */
-        public Builder setBitrate(int value) {
-
-          bitrate_ = value;
+        public Builder setVariantValue(int value) {
+          variant_ = value;
           bitField0_ |= 0x00000002;
           onChanged();
           return this;
         }
         /**
-         * <code>int32 bitrate = 2;</code>
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @return The variant.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getVariant() {
+          fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+          return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @param value The variant to set.
          * @return This builder for chaining.
          */
-        public Builder clearBitrate() {
+        public Builder setVariant(fishjam.media_events.Shared.Variant value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000002;
+          variant_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearVariant() {
           bitField0_ = (bitField0_ & ~0x00000002);
-          bitrate_ = 0;
+          variant_ = 0;
           onChanged();
           return this;
         }
 
-        // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.TrackBitrate)
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.DisableTrackVariant)
       }
 
-      // @@protoc_insertion_point(class_scope:fishjam.media_events.peer.MediaEvent.TrackBitrate)
-      private static final fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.peer.MediaEvent.DisableTrackVariant)
+      private static final fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate();
+        DEFAULT_INSTANCE = new fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant();
       }
 
-      public static fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getDefaultInstance() {
+      public static fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<TrackBitrate>
-          PARSER = new com.google.protobuf.AbstractParser<TrackBitrate>() {
+      private static final com.google.protobuf.Parser<DisableTrackVariant>
+          PARSER = new com.google.protobuf.AbstractParser<DisableTrackVariant>() {
         @java.lang.Override
-        public TrackBitrate parsePartialFrom(
+        public DisableTrackVariant parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6948,17 +6303,640 @@ public final class Peer {
         }
       };
 
-      public static com.google.protobuf.Parser<TrackBitrate> parser() {
+      public static com.google.protobuf.Parser<DisableTrackVariant> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<TrackBitrate> getParserForType() {
+      public com.google.protobuf.Parser<DisableTrackVariant> getParserForType() {
         return PARSER;
       }
 
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getDefaultInstanceForType() {
+      public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface EnableTrackVariantOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.media_events.peer.MediaEvent.EnableTrackVariant)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The trackId.
+       */
+      java.lang.String getTrackId();
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The bytes for trackId.
+       */
+      com.google.protobuf.ByteString
+          getTrackIdBytes();
+
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      int getVariantValue();
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The variant.
+       */
+      fishjam.media_events.Shared.Variant getVariant();
+    }
+    /**
+     * <pre>
+     * Sent when client enables one of the track variants
+     * </pre>
+     *
+     * Protobuf type {@code fishjam.media_events.peer.MediaEvent.EnableTrackVariant}
+     */
+    public static final class EnableTrackVariant extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.media_events.peer.MediaEvent.EnableTrackVariant)
+        EnableTrackVariantOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          EnableTrackVariant.class.getName());
+      }
+      // Use EnableTrackVariant.newBuilder() to construct.
+      private EnableTrackVariant(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private EnableTrackVariant() {
+        trackId_ = "";
+        variant_ = 0;
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.class, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder.class);
+      }
+
+      public static final int TRACK_ID_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object trackId_ = "";
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The trackId.
+       */
+      @java.lang.Override
+      public java.lang.String getTrackId() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          trackId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string track_id = 1;</code>
+       * @return The bytes for trackId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTrackIdBytes() {
+        java.lang.Object ref = trackId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          trackId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int VARIANT_FIELD_NUMBER = 2;
+      private int variant_ = 0;
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The enum numeric value on the wire for variant.
+       */
+      @java.lang.Override public int getVariantValue() {
+        return variant_;
+      }
+      /**
+       * <code>.fishjam.media_events.Variant variant = 2;</code>
+       * @return The variant.
+       */
+      @java.lang.Override public fishjam.media_events.Shared.Variant getVariant() {
+        fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+        return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          output.writeEnum(2, variant_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(trackId_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, trackId_);
+        }
+        if (variant_ != fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(2, variant_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant)) {
+          return super.equals(obj);
+        }
+        fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant other = (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) obj;
+
+        if (!getTrackId()
+            .equals(other.getTrackId())) return false;
+        if (variant_ != other.variant_) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + TRACK_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getTrackId().hashCode();
+        hash = (37 * hash) + VARIANT_FIELD_NUMBER;
+        hash = (53 * hash) + variant_;
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Sent when client enables one of the track variants
+       * </pre>
+       *
+       * Protobuf type {@code fishjam.media_events.peer.MediaEvent.EnableTrackVariant}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.media_events.peer.MediaEvent.EnableTrackVariant)
+          fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.class, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder.class);
+        }
+
+        // Construct using fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          trackId_ = "";
+          variant_ = 0;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.media_events.peer.Peer.internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant getDefaultInstanceForType() {
+          return fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant build() {
+          fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant buildPartial() {
+          fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant result = new fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.trackId_ = trackId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.variant_ = variant_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) {
+            return mergeFrom((fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant other) {
+          if (other == fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance()) return this;
+          if (!other.getTrackId().isEmpty()) {
+            trackId_ = other.trackId_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (other.variant_ != 0) {
+            setVariantValue(other.getVariantValue());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  trackId_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                case 16: {
+                  variant_ = input.readEnum();
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 16
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object trackId_ = "";
+        /**
+         * <code>string track_id = 1;</code>
+         * @return The trackId.
+         */
+        public java.lang.String getTrackId() {
+          java.lang.Object ref = trackId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            trackId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @return The bytes for trackId.
+         */
+        public com.google.protobuf.ByteString
+            getTrackIdBytes() {
+          java.lang.Object ref = trackId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            trackId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @param value The trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackId(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          trackId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearTrackId() {
+          trackId_ = getDefaultInstance().getTrackId();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string track_id = 1;</code>
+         * @param value The bytes for trackId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTrackIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          trackId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        private int variant_ = 0;
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @return The enum numeric value on the wire for variant.
+         */
+        @java.lang.Override public int getVariantValue() {
+          return variant_;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @param value The enum numeric value on the wire for variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariantValue(int value) {
+          variant_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @return The variant.
+         */
+        @java.lang.Override
+        public fishjam.media_events.Shared.Variant getVariant() {
+          fishjam.media_events.Shared.Variant result = fishjam.media_events.Shared.Variant.forNumber(variant_);
+          return result == null ? fishjam.media_events.Shared.Variant.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @param value The variant to set.
+         * @return This builder for chaining.
+         */
+        public Builder setVariant(fishjam.media_events.Shared.Variant value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000002;
+          variant_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.media_events.Variant variant = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearVariant() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          variant_ = 0;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent.EnableTrackVariant)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.media_events.peer.MediaEvent.EnableTrackVariant)
+      private static final fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant();
+      }
+
+      public static fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<EnableTrackVariant>
+          PARSER = new com.google.protobuf.AbstractParser<EnableTrackVariant>() {
+        @java.lang.Override
+        public EnableTrackVariant parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<EnableTrackVariant> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<EnableTrackVariant> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -6977,7 +6955,9 @@ public final class Peer {
       RENEGOTIATE_TRACKS(5),
       CANDIDATE(6),
       SDP_OFFER(7),
-      TRACK_BITRATE(8),
+      TRACK_BITRATES(8),
+      ENABLE_TRACK_VARIANT(9),
+      DISABLE_TRACK_VARIANT(10),
       CONTENT_NOT_SET(0);
       private final int value;
       private ContentCase(int value) {
@@ -7002,7 +6982,9 @@ public final class Peer {
           case 5: return RENEGOTIATE_TRACKS;
           case 6: return CANDIDATE;
           case 7: return SDP_OFFER;
-          case 8: return TRACK_BITRATE;
+          case 8: return TRACK_BITRATES;
+          case 9: return ENABLE_TRACK_VARIANT;
+          case 10: return DISABLE_TRACK_VARIANT;
           case 0: return CONTENT_NOT_SET;
           default: return null;
         }
@@ -7235,35 +7217,97 @@ public final class Peer {
       return fishjam.media_events.peer.Peer.MediaEvent.SdpOffer.getDefaultInstance();
     }
 
-    public static final int TRACK_BITRATE_FIELD_NUMBER = 8;
+    public static final int TRACK_BITRATES_FIELD_NUMBER = 8;
     /**
-     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
-     * @return Whether the trackBitrate field is set.
+     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
+     * @return Whether the trackBitrates field is set.
      */
     @java.lang.Override
-    public boolean hasTrackBitrate() {
+    public boolean hasTrackBitrates() {
       return contentCase_ == 8;
     }
     /**
-     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
-     * @return The trackBitrate.
+     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
+     * @return The trackBitrates.
      */
     @java.lang.Override
-    public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getTrackBitrate() {
+    public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackBitrates() {
       if (contentCase_ == 8) {
-         return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_;
+         return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_;
       }
-      return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+      return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
     }
     /**
-     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+     * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
      */
     @java.lang.Override
-    public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder getTrackBitrateOrBuilder() {
+    public fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder getTrackBitratesOrBuilder() {
       if (contentCase_ == 8) {
-         return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_;
+         return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_;
       }
-      return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+      return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
+    }
+
+    public static final int ENABLE_TRACK_VARIANT_FIELD_NUMBER = 9;
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+     * @return Whether the enableTrackVariant field is set.
+     */
+    @java.lang.Override
+    public boolean hasEnableTrackVariant() {
+      return contentCase_ == 9;
+    }
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+     * @return The enableTrackVariant.
+     */
+    @java.lang.Override
+    public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant getEnableTrackVariant() {
+      if (contentCase_ == 9) {
+         return (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_;
+      }
+      return fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder getEnableTrackVariantOrBuilder() {
+      if (contentCase_ == 9) {
+         return (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_;
+      }
+      return fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+    }
+
+    public static final int DISABLE_TRACK_VARIANT_FIELD_NUMBER = 10;
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+     * @return Whether the disableTrackVariant field is set.
+     */
+    @java.lang.Override
+    public boolean hasDisableTrackVariant() {
+      return contentCase_ == 10;
+    }
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+     * @return The disableTrackVariant.
+     */
+    @java.lang.Override
+    public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant getDisableTrackVariant() {
+      if (contentCase_ == 10) {
+         return (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_;
+      }
+      return fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder getDisableTrackVariantOrBuilder() {
+      if (contentCase_ == 10) {
+         return (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_;
+      }
+      return fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -7302,7 +7346,13 @@ public final class Peer {
         output.writeMessage(7, (fishjam.media_events.peer.Peer.MediaEvent.SdpOffer) content_);
       }
       if (contentCase_ == 8) {
-        output.writeMessage(8, (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_);
+        output.writeMessage(8, (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_);
+      }
+      if (contentCase_ == 9) {
+        output.writeMessage(9, (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_);
+      }
+      if (contentCase_ == 10) {
+        output.writeMessage(10, (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7343,7 +7393,15 @@ public final class Peer {
       }
       if (contentCase_ == 8) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_);
+          .computeMessageSize(8, (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_);
+      }
+      if (contentCase_ == 9) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_);
+      }
+      if (contentCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -7391,8 +7449,16 @@ public final class Peer {
               .equals(other.getSdpOffer())) return false;
           break;
         case 8:
-          if (!getTrackBitrate()
-              .equals(other.getTrackBitrate())) return false;
+          if (!getTrackBitrates()
+              .equals(other.getTrackBitrates())) return false;
+          break;
+        case 9:
+          if (!getEnableTrackVariant()
+              .equals(other.getEnableTrackVariant())) return false;
+          break;
+        case 10:
+          if (!getDisableTrackVariant()
+              .equals(other.getDisableTrackVariant())) return false;
           break;
         case 0:
         default:
@@ -7438,8 +7504,16 @@ public final class Peer {
           hash = (53 * hash) + getSdpOffer().hashCode();
           break;
         case 8:
-          hash = (37 * hash) + TRACK_BITRATE_FIELD_NUMBER;
-          hash = (53 * hash) + getTrackBitrate().hashCode();
+          hash = (37 * hash) + TRACK_BITRATES_FIELD_NUMBER;
+          hash = (53 * hash) + getTrackBitrates().hashCode();
+          break;
+        case 9:
+          hash = (37 * hash) + ENABLE_TRACK_VARIANT_FIELD_NUMBER;
+          hash = (53 * hash) + getEnableTrackVariant().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + DISABLE_TRACK_VARIANT_FIELD_NUMBER;
+          hash = (53 * hash) + getDisableTrackVariant().hashCode();
           break;
         case 0:
         default:
@@ -7600,8 +7674,14 @@ public final class Peer {
         if (sdpOfferBuilder_ != null) {
           sdpOfferBuilder_.clear();
         }
-        if (trackBitrateBuilder_ != null) {
-          trackBitrateBuilder_.clear();
+        if (trackBitratesBuilder_ != null) {
+          trackBitratesBuilder_.clear();
+        }
+        if (enableTrackVariantBuilder_ != null) {
+          enableTrackVariantBuilder_.clear();
+        }
+        if (disableTrackVariantBuilder_ != null) {
+          disableTrackVariantBuilder_.clear();
         }
         contentCase_ = 0;
         content_ = null;
@@ -7673,8 +7753,16 @@ public final class Peer {
           result.content_ = sdpOfferBuilder_.build();
         }
         if (contentCase_ == 8 &&
-            trackBitrateBuilder_ != null) {
-          result.content_ = trackBitrateBuilder_.build();
+            trackBitratesBuilder_ != null) {
+          result.content_ = trackBitratesBuilder_.build();
+        }
+        if (contentCase_ == 9 &&
+            enableTrackVariantBuilder_ != null) {
+          result.content_ = enableTrackVariantBuilder_.build();
+        }
+        if (contentCase_ == 10 &&
+            disableTrackVariantBuilder_ != null) {
+          result.content_ = disableTrackVariantBuilder_.build();
         }
       }
 
@@ -7719,8 +7807,16 @@ public final class Peer {
             mergeSdpOffer(other.getSdpOffer());
             break;
           }
-          case TRACK_BITRATE: {
-            mergeTrackBitrate(other.getTrackBitrate());
+          case TRACK_BITRATES: {
+            mergeTrackBitrates(other.getTrackBitrates());
+            break;
+          }
+          case ENABLE_TRACK_VARIANT: {
+            mergeEnableTrackVariant(other.getEnableTrackVariant());
+            break;
+          }
+          case DISABLE_TRACK_VARIANT: {
+            mergeDisableTrackVariant(other.getDisableTrackVariant());
             break;
           }
           case CONTENT_NOT_SET: {
@@ -7804,11 +7900,25 @@ public final class Peer {
               } // case 58
               case 66: {
                 input.readMessage(
-                    getTrackBitrateFieldBuilder().getBuilder(),
+                    getTrackBitratesFieldBuilder().getBuilder(),
                     extensionRegistry);
                 contentCase_ = 8;
                 break;
               } // case 66
+              case 74: {
+                input.readMessage(
+                    getEnableTrackVariantFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 9;
+                break;
+              } // case 74
+              case 82: {
+                input.readMessage(
+                    getDisableTrackVariantFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 10;
+                break;
+              } // case 82
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -8836,71 +8946,71 @@ public final class Peer {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder> trackBitrateBuilder_;
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder> trackBitratesBuilder_;
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
-       * @return Whether the trackBitrate field is set.
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
+       * @return Whether the trackBitrates field is set.
        */
       @java.lang.Override
-      public boolean hasTrackBitrate() {
+      public boolean hasTrackBitrates() {
         return contentCase_ == 8;
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
-       * @return The trackBitrate.
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
+       * @return The trackBitrates.
        */
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate getTrackBitrate() {
-        if (trackBitrateBuilder_ == null) {
+      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates getTrackBitrates() {
+        if (trackBitratesBuilder_ == null) {
           if (contentCase_ == 8) {
-            return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_;
+            return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_;
           }
-          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
         } else {
           if (contentCase_ == 8) {
-            return trackBitrateBuilder_.getMessage();
+            return trackBitratesBuilder_.getMessage();
           }
-          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
         }
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
-      public Builder setTrackBitrate(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate value) {
-        if (trackBitrateBuilder_ == null) {
+      public Builder setTrackBitrates(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates value) {
+        if (trackBitratesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           content_ = value;
           onChanged();
         } else {
-          trackBitrateBuilder_.setMessage(value);
+          trackBitratesBuilder_.setMessage(value);
         }
         contentCase_ = 8;
         return this;
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
-      public Builder setTrackBitrate(
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder builderForValue) {
-        if (trackBitrateBuilder_ == null) {
+      public Builder setTrackBitrates(
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder builderForValue) {
+        if (trackBitratesBuilder_ == null) {
           content_ = builderForValue.build();
           onChanged();
         } else {
-          trackBitrateBuilder_.setMessage(builderForValue.build());
+          trackBitratesBuilder_.setMessage(builderForValue.build());
         }
         contentCase_ = 8;
         return this;
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
-      public Builder mergeTrackBitrate(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate value) {
-        if (trackBitrateBuilder_ == null) {
+      public Builder mergeTrackBitrates(fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates value) {
+        if (trackBitratesBuilder_ == null) {
           if (contentCase_ == 8 &&
-              content_ != fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance()) {
-            content_ = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.newBuilder((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_)
+              content_ != fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance()) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder((fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_)
                 .mergeFrom(value).buildPartial();
           } else {
             content_ = value;
@@ -8908,19 +9018,19 @@ public final class Peer {
           onChanged();
         } else {
           if (contentCase_ == 8) {
-            trackBitrateBuilder_.mergeFrom(value);
+            trackBitratesBuilder_.mergeFrom(value);
           } else {
-            trackBitrateBuilder_.setMessage(value);
+            trackBitratesBuilder_.setMessage(value);
           }
         }
         contentCase_ = 8;
         return this;
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
-      public Builder clearTrackBitrate() {
-        if (trackBitrateBuilder_ == null) {
+      public Builder clearTrackBitrates() {
+        if (trackBitratesBuilder_ == null) {
           if (contentCase_ == 8) {
             contentCase_ = 0;
             content_ = null;
@@ -8931,50 +9041,334 @@ public final class Peer {
             contentCase_ = 0;
             content_ = null;
           }
-          trackBitrateBuilder_.clear();
+          trackBitratesBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder getTrackBitrateBuilder() {
-        return getTrackBitrateFieldBuilder().getBuilder();
+      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder getTrackBitratesBuilder() {
+        return getTrackBitratesFieldBuilder().getBuilder();
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
       @java.lang.Override
-      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder getTrackBitrateOrBuilder() {
-        if ((contentCase_ == 8) && (trackBitrateBuilder_ != null)) {
-          return trackBitrateBuilder_.getMessageOrBuilder();
+      public fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder getTrackBitratesOrBuilder() {
+        if ((contentCase_ == 8) && (trackBitratesBuilder_ != null)) {
+          return trackBitratesBuilder_.getMessageOrBuilder();
         } else {
           if (contentCase_ == 8) {
-            return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_;
+            return (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_;
           }
-          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+          return fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
         }
       }
       /**
-       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrate track_bitrate = 8;</code>
+       * <code>.fishjam.media_events.peer.MediaEvent.TrackBitrates track_bitrates = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder> 
-          getTrackBitrateFieldBuilder() {
-        if (trackBitrateBuilder_ == null) {
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder> 
+          getTrackBitratesFieldBuilder() {
+        if (trackBitratesBuilder_ == null) {
           if (!(contentCase_ == 8)) {
-            content_ = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.getDefaultInstance();
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.getDefaultInstance();
           }
-          trackBitrateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrateOrBuilder>(
-                  (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate) content_,
+          trackBitratesBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.Builder, fishjam.media_events.peer.Peer.MediaEvent.TrackBitratesOrBuilder>(
+                  (fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates) content_,
                   getParentForChildren(),
                   isClean());
           content_ = null;
         }
         contentCase_ = 8;
         onChanged();
-        return trackBitrateBuilder_;
+        return trackBitratesBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder> enableTrackVariantBuilder_;
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       * @return Whether the enableTrackVariant field is set.
+       */
+      @java.lang.Override
+      public boolean hasEnableTrackVariant() {
+        return contentCase_ == 9;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       * @return The enableTrackVariant.
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant getEnableTrackVariant() {
+        if (enableTrackVariantBuilder_ == null) {
+          if (contentCase_ == 9) {
+            return (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_;
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+        } else {
+          if (contentCase_ == 9) {
+            return enableTrackVariantBuilder_.getMessage();
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      public Builder setEnableTrackVariant(fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant value) {
+        if (enableTrackVariantBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          enableTrackVariantBuilder_.setMessage(value);
+        }
+        contentCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      public Builder setEnableTrackVariant(
+          fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder builderForValue) {
+        if (enableTrackVariantBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          enableTrackVariantBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      public Builder mergeEnableTrackVariant(fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant value) {
+        if (enableTrackVariantBuilder_ == null) {
+          if (contentCase_ == 9 &&
+              content_ != fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance()) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.newBuilder((fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 9) {
+            enableTrackVariantBuilder_.mergeFrom(value);
+          } else {
+            enableTrackVariantBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      public Builder clearEnableTrackVariant() {
+        if (enableTrackVariantBuilder_ == null) {
+          if (contentCase_ == 9) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 9) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          enableTrackVariantBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder getEnableTrackVariantBuilder() {
+        return getEnableTrackVariantFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder getEnableTrackVariantOrBuilder() {
+        if ((contentCase_ == 9) && (enableTrackVariantBuilder_ != null)) {
+          return enableTrackVariantBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 9) {
+            return (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_;
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.EnableTrackVariant enable_track_variant = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder> 
+          getEnableTrackVariantFieldBuilder() {
+        if (enableTrackVariantBuilder_ == null) {
+          if (!(contentCase_ == 9)) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.getDefaultInstance();
+          }
+          enableTrackVariantBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.Builder, fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariantOrBuilder>(
+                  (fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 9;
+        onChanged();
+        return enableTrackVariantBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder> disableTrackVariantBuilder_;
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       * @return Whether the disableTrackVariant field is set.
+       */
+      @java.lang.Override
+      public boolean hasDisableTrackVariant() {
+        return contentCase_ == 10;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       * @return The disableTrackVariant.
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant getDisableTrackVariant() {
+        if (disableTrackVariantBuilder_ == null) {
+          if (contentCase_ == 10) {
+            return (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_;
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
+        } else {
+          if (contentCase_ == 10) {
+            return disableTrackVariantBuilder_.getMessage();
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      public Builder setDisableTrackVariant(fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant value) {
+        if (disableTrackVariantBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          disableTrackVariantBuilder_.setMessage(value);
+        }
+        contentCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      public Builder setDisableTrackVariant(
+          fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder builderForValue) {
+        if (disableTrackVariantBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          disableTrackVariantBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      public Builder mergeDisableTrackVariant(fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant value) {
+        if (disableTrackVariantBuilder_ == null) {
+          if (contentCase_ == 10 &&
+              content_ != fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance()) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.newBuilder((fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 10) {
+            disableTrackVariantBuilder_.mergeFrom(value);
+          } else {
+            disableTrackVariantBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      public Builder clearDisableTrackVariant() {
+        if (disableTrackVariantBuilder_ == null) {
+          if (contentCase_ == 10) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 10) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          disableTrackVariantBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder getDisableTrackVariantBuilder() {
+        return getDisableTrackVariantFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder getDisableTrackVariantOrBuilder() {
+        if ((contentCase_ == 10) && (disableTrackVariantBuilder_ != null)) {
+          return disableTrackVariantBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 10) {
+            return (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_;
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent.DisableTrackVariant disable_track_variant = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder> 
+          getDisableTrackVariantFieldBuilder() {
+        if (disableTrackVariantBuilder_ == null) {
+          if (!(contentCase_ == 10)) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.getDefaultInstance();
+          }
+          disableTrackVariantBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.Builder, fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariantOrBuilder>(
+                  (fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 10;
+        onChanged();
+        return disableTrackVariantBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:fishjam.media_events.peer.MediaEvent)
@@ -9039,16 +9433,6 @@ public final class Peer {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_peer_MediaEvent_VariantBitrate_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_media_events_peer_MediaEvent_Connect_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -9079,10 +9463,35 @@ public final class Peer {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_descriptor;
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToMetadataJsonEntry_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_fieldAccessorTable;
+      internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToMetadataJsonEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToBitratesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToBitratesEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_MidToTrackIdEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_MidToTrackIdEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9094,7 +9503,7 @@ public final class Peer {
     java.lang.String[] descriptorData = {
       "\n$fishjam/media_events/peer/peer.proto\022\031" +
       "fishjam.media_events.peer\032!fishjam/media" +
-      "_events/shared.proto\"\333\013\n\nMediaEvent\022@\n\007c" +
+      "_events/shared.proto\"\223\017\n\nMediaEvent\022@\n\007c" +
       "onnect\030\001 \001(\0132-.fishjam.media_events.peer" +
       ".MediaEvent.ConnectH\000\022F\n\ndisconnect\030\002 \001(" +
       "\01320.fishjam.media_events.peer.MediaEvent" +
@@ -9108,30 +9517,41 @@ public final class Peer {
       "teTracksH\000\0224\n\tcandidate\030\006 \001(\0132\037.fishjam." +
       "media_events.CandidateH\000\022C\n\tsdp_offer\030\007 " +
       "\001(\0132..fishjam.media_events.peer.MediaEve" +
-      "nt.SdpOfferH\000\022K\n\rtrack_bitrate\030\010 \001(\01322.f" +
-      "ishjam.media_events.peer.MediaEvent.Trac" +
-      "kBitrateH\000\032Q\n\016VariantBitrate\022.\n\007variant\030" +
-      "\001 \001(\0162\035.fishjam.media_events.Variant\022\017\n\007" +
-      "bitrate\030\002 \001(\005\032W\n\021TrackIdToMetadata\022\020\n\010tr" +
-      "ack_id\030\001 \001(\t\0220\n\010metadata\030\002 \001(\0132\036.fishjam" +
-      ".media_events.Metadata\032j\n\021TrackIdToBitra" +
-      "tes\022K\n\rtrack_bitrate\030\001 \001(\01322.fishjam.med" +
-      "ia_events.peer.MediaEvent.TrackBitrateH\000" +
-      "B\010\n\006tracks\032;\n\007Connect\0220\n\010metadata\030\001 \001(\0132" +
-      "\036.fishjam.media_events.Metadata\032\014\n\nDisco" +
-      "nnect\032J\n\026UpdateEndpointMetadata\0220\n\010metad" +
-      "ata\030\001 \001(\0132\036.fishjam.media_events.Metadat" +
-      "a\032Y\n\023UpdateTrackMetadata\022\020\n\010track_id\030\001 \001" +
-      "(\t\0220\n\010metadata\030\002 \001(\0132\036.fishjam.media_eve" +
-      "nts.Metadata\032\023\n\021RenegotiateTracks\032\210\002\n\010Sd" +
-      "pOffer\022\021\n\tsdp_offer\030\001 \001(\t\022U\n\024track_id_to" +
-      "_metadata\030\002 \003(\01327.fishjam.media_events.p" +
-      "eer.MediaEvent.TrackIdToMetadata\022U\n\024trac" +
-      "k_id_to_bitrates\030\003 \003(\01327.fishjam.media_e" +
-      "vents.peer.MediaEvent.TrackIdToBitrates\022" +
-      ";\n\017mid_to_track_id\030\004 \003(\0132\".fishjam.media" +
-      "_events.MidToTrackId\0321\n\014TrackBitrate\022\020\n\010" +
-      "track_id\030\001 \001(\t\022\017\n\007bitrate\030\002 \001(\005B\t\n\007conte" +
+      "nt.SdpOfferH\000\022M\n\016track_bitrates\030\010 \001(\01323." +
+      "fishjam.media_events.peer.MediaEvent.Tra" +
+      "ckBitratesH\000\022X\n\024enable_track_variant\030\t \001" +
+      "(\01328.fishjam.media_events.peer.MediaEven" +
+      "t.EnableTrackVariantH\000\022Z\n\025disable_track_" +
+      "variant\030\n \001(\01329.fishjam.media_events.pee" +
+      "r.MediaEvent.DisableTrackVariantH\000\032Q\n\016Va" +
+      "riantBitrate\022.\n\007variant\030\001 \001(\0162\035.fishjam." +
+      "media_events.Variant\022\017\n\007bitrate\030\002 \001(\005\032 \n" +
+      "\007Connect\022\025\n\rmetadata_json\030\001 \001(\t\032\014\n\nDisco" +
+      "nnect\032/\n\026UpdateEndpointMetadata\022\025\n\rmetad" +
+      "ata_json\030\001 \001(\t\032>\n\023UpdateTrackMetadata\022\020\n" +
+      "\010track_id\030\001 \001(\t\022\025\n\rmetadata_json\030\002 \001(\t\032\023" +
+      "\n\021RenegotiateTracks\032\255\004\n\010SdpOffer\022\021\n\tsdp_" +
+      "offer\030\001 \001(\t\022l\n\031track_id_to_metadata_json" +
+      "\030\002 \003(\0132I.fishjam.media_events.peer.Media" +
+      "Event.SdpOffer.TrackIdToMetadataJsonEntr" +
+      "y\022c\n\024track_id_to_bitrates\030\003 \003(\0132E.fishja" +
+      "m.media_events.peer.MediaEvent.SdpOffer." +
+      "TrackIdToBitratesEntry\022Y\n\017mid_to_track_i" +
+      "d\030\004 \003(\0132@.fishjam.media_events.peer.Medi" +
+      "aEvent.SdpOffer.MidToTrackIdEntry\032<\n\032Tra" +
+      "ckIdToMetadataJsonEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\t:\0028\001\032m\n\026TrackIdToBitratesEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022B\n\005value\030\002 \001(\01323.fishjam." +
+      "media_events.peer.MediaEvent.TrackBitrat" +
+      "es:\0028\001\0323\n\021MidToTrackIdEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\r\n\005value\030\002 \001(\t:\0028\001\032q\n\rTrackBitrates\022\020\n\010" +
+      "track_id\030\001 \001(\t\022N\n\020variant_bitrates\030\002 \003(\013" +
+      "24.fishjam.media_events.peer.MediaEvent." +
+      "VariantBitrate\032W\n\023DisableTrackVariant\022\020\n" +
+      "\010track_id\030\001 \001(\t\022.\n\007variant\030\002 \001(\0162\035.fishj" +
+      "am.media_events.Variant\032V\n\022EnableTrackVa" +
+      "riant\022\020\n\010track_id\030\001 \001(\t\022.\n\007variant\030\002 \001(\016" +
+      "2\035.fishjam.media_events.VariantB\t\n\007conte" +
       "ntb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
@@ -9144,67 +9564,85 @@ public final class Peer {
     internal_static_fishjam_media_events_peer_MediaEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_descriptor,
-        new java.lang.String[] { "Connect", "Disconnect", "UpdateEndpointMetadata", "UpdateTrackMetadata", "RenegotiateTracks", "Candidate", "SdpOffer", "TrackBitrate", "Content", });
+        new java.lang.String[] { "Connect", "Disconnect", "UpdateEndpointMetadata", "UpdateTrackMetadata", "RenegotiateTracks", "Candidate", "SdpOffer", "TrackBitrates", "EnableTrackVariant", "DisableTrackVariant", "Content", });
     internal_static_fishjam_media_events_peer_MediaEvent_VariantBitrate_descriptor =
       internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(0);
     internal_static_fishjam_media_events_peer_MediaEvent_VariantBitrate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_VariantBitrate_descriptor,
         new java.lang.String[] { "Variant", "Bitrate", });
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(1);
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToMetadata_descriptor,
-        new java.lang.String[] { "TrackId", "Metadata", });
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(2);
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_fishjam_media_events_peer_MediaEvent_TrackIdToBitrates_descriptor,
-        new java.lang.String[] { "TrackBitrate", "Tracks", });
     internal_static_fishjam_media_events_peer_MediaEvent_Connect_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(3);
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(1);
     internal_static_fishjam_media_events_peer_MediaEvent_Connect_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_Connect_descriptor,
-        new java.lang.String[] { "Metadata", });
+        new java.lang.String[] { "MetadataJson", });
     internal_static_fishjam_media_events_peer_MediaEvent_Disconnect_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(4);
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(2);
     internal_static_fishjam_media_events_peer_MediaEvent_Disconnect_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_Disconnect_descriptor,
         new java.lang.String[] { });
     internal_static_fishjam_media_events_peer_MediaEvent_UpdateEndpointMetadata_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(5);
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(3);
     internal_static_fishjam_media_events_peer_MediaEvent_UpdateEndpointMetadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_UpdateEndpointMetadata_descriptor,
-        new java.lang.String[] { "Metadata", });
+        new java.lang.String[] { "MetadataJson", });
     internal_static_fishjam_media_events_peer_MediaEvent_UpdateTrackMetadata_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(6);
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(4);
     internal_static_fishjam_media_events_peer_MediaEvent_UpdateTrackMetadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_UpdateTrackMetadata_descriptor,
-        new java.lang.String[] { "TrackId", "Metadata", });
+        new java.lang.String[] { "TrackId", "MetadataJson", });
     internal_static_fishjam_media_events_peer_MediaEvent_RenegotiateTracks_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(7);
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(5);
     internal_static_fishjam_media_events_peer_MediaEvent_RenegotiateTracks_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_RenegotiateTracks_descriptor,
         new java.lang.String[] { });
     internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(8);
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(6);
     internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor,
-        new java.lang.String[] { "SdpOffer", "TrackIdToMetadata", "TrackIdToBitrates", "MidToTrackId", });
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_descriptor =
-      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(9);
-    internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_fieldAccessorTable = new
+        new java.lang.String[] { "SdpOffer", "TrackIdToMetadataJson", "TrackIdToBitrates", "MidToTrackId", });
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToMetadataJsonEntry_descriptor =
+      internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor.getNestedTypes().get(0);
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToMetadataJsonEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrate_descriptor,
-        new java.lang.String[] { "TrackId", "Bitrate", });
+        internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToMetadataJsonEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToBitratesEntry_descriptor =
+      internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor.getNestedTypes().get(1);
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToBitratesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_TrackIdToBitratesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_MidToTrackIdEntry_descriptor =
+      internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_descriptor.getNestedTypes().get(2);
+    internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_MidToTrackIdEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_peer_MediaEvent_SdpOffer_MidToTrackIdEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_descriptor =
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(7);
+    internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_peer_MediaEvent_TrackBitrates_descriptor,
+        new java.lang.String[] { "TrackId", "VariantBitrates", });
+    internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_descriptor =
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(8);
+    internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_peer_MediaEvent_DisableTrackVariant_descriptor,
+        new java.lang.String[] { "TrackId", "Variant", });
+    internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_descriptor =
+      internal_static_fishjam_media_events_peer_MediaEvent_descriptor.getNestedTypes().get(9);
+    internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_media_events_peer_MediaEvent_EnableTrackVariant_descriptor,
+        new java.lang.String[] { "TrackId", "Variant", });
     descriptor.resolveAllFeaturesImmutable();
     fishjam.media_events.Shared.getDescriptor();
   }
