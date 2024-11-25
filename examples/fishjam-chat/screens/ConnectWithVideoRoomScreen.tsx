@@ -18,6 +18,7 @@ import {
   TabParamList,
 } from '../navigators/AppNavigator';
 import { joinRoomWithRoomManager } from '../utils/roomManager';
+import { FishjamLogo } from '../assets';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithVideoRoom'>,
@@ -117,7 +118,7 @@ export default function ConnectScreen({ navigation }: Props) {
           )}
           <Image
             style={styles.logo}
-            source={require('../assets/fishjam-logo.png')}
+            source={FishjamLogo}
             resizeMode="contain"
           />
           <View
