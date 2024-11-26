@@ -44,3 +44,12 @@ extension Encodable  {
         }
     }
 }
+
+extension Dictionary<String, Metadata> {
+    public func toDictionaryJson() -> Dictionary<String, String> {
+        return mapValues { val in
+            val.toJsonStringOrEmpty
+        }
+    }
+}
+ 

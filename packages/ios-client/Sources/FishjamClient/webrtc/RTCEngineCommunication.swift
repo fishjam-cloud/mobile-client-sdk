@@ -63,13 +63,20 @@ internal class RTCEngineCommunication {
     ) {
         var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
 
-        let encodedOffer =
-            String(data: (try? JSONEncoder().encode(["sdp": sdp, "type": "offer"])) ?? .init(), encoding: .utf8) ?? ""
-
-        sdpOffer.sdpOffer = encodedOffer
-        sdpOffer.trackIDToMetadataJson = trackIdToTrackMetadata.toJsonStringOrEmpty
+        sdpOffer.sdp = sdp
+        sdpOffer.trackIDToMetadataJson = trackIdToTrackMetadata.toDictionaryJson()
         sdpOffer.midToTrackID = midToTrackId
-        sdpOffer.trackIDToBitrates = trackIdToBitrates
+        sdpOffer.trackIDToBitrates = Dictionary(uniqueKeysWithValues:
+                                                    trackIdToBitrates.map { key, value in
+            var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
+            trackBitrates.trackID = key
+            var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+            bitrate.variant = .unspecified // TODO: Add with simulcast
+            bitrate.bitrate = value
+            trackBitrates.variantBitrates = [bitrate]
+            
+            return (key, trackBitrates)
+        })
 
         sendEvent(event: .sdpOffer(sdpOffer))
     }
@@ -90,13 +97,16 @@ internal class RTCEngineCommunication {
         switch content {
         case .connected(let connected):
             for listener in listeners {
-                listener.onConnected(endpointId: connected.endpointID, endpoints: connected.endpoints)
+                listener.onConnected(endpointId: connected.endpointID,
+                                     endpointIdToEndpoint: connected.endpointIDToEndpoint,
+                                     iceServers: connected.iceServers
+                )
             }
         case .endpointAdded(let endpointAdded):
             for listener in listeners {
                 listener.onEndpointAdded(
                     endpointId: endpointAdded.endpointID,
-                    metadata: endpointAdded.metadata.json.toAnyJson() ?? Metadata())
+                    metadata: endpointAdded.metadataJson.toAnyJson() ?? Metadata())
             }
         case .endpointRemoved(let endpointRemoved):
             for listener in listeners {
@@ -107,7 +117,8 @@ internal class RTCEngineCommunication {
             for listener in listeners {
                 listener.onEndpointUpdated(
                     endpointId: endpointUpdated.endpointID,
-                    metadata: endpointUpdated.metadata.json.toAnyJson() ?? Metadata())
+                    metadata: endpointUpdated.metadataJson.toAnyJson() ?? Metadata()
+                )
             }
         case .offerData(let offerData):
             for listener in listeners {
@@ -125,10 +136,9 @@ internal class RTCEngineCommunication {
             }
         case .tracksAdded(let tracksAdded):
             for listener in listeners {
-
                 listener.onTracksAdded(
                     endpointId: tracksAdded.endpointID,
-                    tracks: tracksAdded.tracks
+                    trackIdToTracks: tracksAdded.trackIDToTrack
                 )
             }
         case .tracksRemoved(let tracksRemoved):
@@ -145,14 +155,14 @@ internal class RTCEngineCommunication {
                 listener.onTrackUpdated(
                     endpointId: tracksUpdated.endpointID,
                     trackId: tracksUpdated.trackID,
-                    metadata: tracksUpdated.metadata.json.toAnyJson() ?? Metadata()
+                    metadata: tracksUpdated.metadataJson.toAnyJson() ?? Metadata()
                 )
             }
         case .sdpAnswer(let sdpAnswer):
             for listener in listeners {
 
                 listener.onSdpAnswer(
-                    sdpAnswer: sdpAnswer.sdpAnswer,
+                    sdp: sdpAnswer.sdp,
                     midToTrackId: sdpAnswer.midToTrackID
                 )
             }
@@ -167,6 +177,9 @@ internal class RTCEngineCommunication {
         case .error(let error):
             sdkLogger.error("Failed to handle event. Message: \(error.message)")
 
+        case .trackVariantSwitched(_): break // TODO: Add with simulcast
+        case .trackVariantDisabled(_): break // TODO: Add with simulcast
+        case .trackVariantEnabled(_): break// TODO: Add with simulcast
         }
     }
 }

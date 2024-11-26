@@ -22,7 +22,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
 
-    private var midToTrackId: [Fishjam_MediaEvents_MidToTrackId] = []
+    private var midToTrackId: Dictionary<String, String> = [:]
 
     private static let mediaConstraints = RTCMediaConstraints(
         mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
@@ -176,11 +176,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         config.candidateNetworkPolicy = .all
         config.tcpCandidatePolicy = .disabled
 
-        // if ice servers are not empty that probably means we are using turn servers
+        // if ice servers are not empty that probably means we are using turn servers, which are not handled at the moment
         if iceServers.count > 0 {
             config.iceServers = iceServers
-        } else {
-            config.iceServers = [Self.defaultIceServer()]
         }
 
         guard
@@ -207,18 +205,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             peerConnectionStats = [:]
             iceServers = []
             config = nil
-            midToTrackId = []
+            midToTrackId = [:]
         }
-    }
-
-    // Default ICE server when no turn servers are specified
-    private static func defaultIceServer() -> RTCIceServer {
-        let iceUrls = [
-            "stun:stun.l.google.com:19302",
-            "stun:stun.l.google.com:5349",
-        ]
-
-        return RTCIceServer(urlStrings: iceUrls)
     }
 
     /// On each `OfferData` we receive an information about an amount of audio/video
@@ -451,7 +439,11 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return newSdpAnswer
     }
 
-    public func onSdpAnswer(sdp: String, midToTrackId: [Fishjam_MediaEvents_MidToTrackId]) {
+    public func setupIceServers(iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]) {
+        self.iceServers = iceServers.map { RTCIceServer(urlStrings: $0.urls, username: $0.username, credential: $0.credential) }
+    }
+
+    public func onSdpAnswer(sdp: String, midToTrackId: Dictionary<String, String>) {
         guard let pc = connection else {
             return
         }
@@ -512,9 +504,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         _: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver
     ) {
         guard
-            let trackId = midToTrackId.first(where: { midToTrack in
-                return midToTrack.mid == transceiver.mid
-            })?.trackID
+            let trackId = midToTrackId[transceiver.mid]
         else {
             sdkLogger.error(
                 "\(pcLogPrefix) started receiving on a transceiver with an unknown 'mid' parameter"
