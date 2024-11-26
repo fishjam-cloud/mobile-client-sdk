@@ -108,6 +108,14 @@ public struct Fishjam_MediaEvents_Peer_MediaEvent {
     set {content = .disableTrackVariant(newValue)}
   }
 
+  public var setTargetTrackVariant: Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant {
+    get {
+      if case .setTargetTrackVariant(let v)? = content {return v}
+      return Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant()
+    }
+    set {content = .setTargetTrackVariant(newValue)}
+  }
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public enum OneOf_Content: Equatable {
@@ -121,6 +129,7 @@ public struct Fishjam_MediaEvents_Peer_MediaEvent {
     case trackBitrates(Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates)
     case enableTrackVariant(Fishjam_MediaEvents_Peer_MediaEvent.EnableTrackVariant)
     case disableTrackVariant(Fishjam_MediaEvents_Peer_MediaEvent.DisableTrackVariant)
+    case setTargetTrackVariant(Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant)
 
   #if !swift(>=4.1)
     public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content, rhs: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) -> Bool {
@@ -166,6 +175,10 @@ public struct Fishjam_MediaEvents_Peer_MediaEvent {
       }()
       case (.disableTrackVariant, .disableTrackVariant): return {
         guard case .disableTrackVariant(let l) = lhs, case .disableTrackVariant(let r) = rhs else { preconditionFailure() }
+        return l == r
+      }()
+      case (.setTargetTrackVariant, .setTargetTrackVariant): return {
+        guard case .setTargetTrackVariant(let l) = lhs, case .setTargetTrackVariant(let r) = rhs else { preconditionFailure() }
         return l == r
       }()
       default: return false
@@ -259,7 +272,8 @@ public struct Fishjam_MediaEvents_Peer_MediaEvent {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var sdpOffer: String = String()
+    /// The value of the `sessionDescription.sdp`
+    public var sdp: String = String()
 
     public var trackIDToMetadataJson: Dictionary<String,String> = [:]
 
@@ -319,6 +333,20 @@ public struct Fishjam_MediaEvents_Peer_MediaEvent {
     public init() {}
   }
 
+  public struct SetTargetTrackVariant {
+    // SwiftProtobuf.Message conformance is added in an extension below. See the
+    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+    // methods supported on all messages.
+
+    public var trackID: String = String()
+
+    public var variant: Fishjam_MediaEvents_Variant = .unspecified
+
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+    public init() {}
+  }
+
   public init() {}
 }
 
@@ -335,6 +363,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Peer_MediaEvent.DisableTrackVariant: @unchecked Sendable {}
 extension Fishjam_MediaEvents_Peer_MediaEvent.EnableTrackVariant: @unchecked Sendable {}
+extension Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -354,6 +383,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
     8: .standard(proto: "track_bitrates"),
     9: .standard(proto: "enable_track_variant"),
     10: .standard(proto: "disable_track_variant"),
+    11: .standard(proto: "set_target_track_variant"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -492,6 +522,19 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
           self.content = .disableTrackVariant(v)
         }
       }()
+      case 11: try {
+        var v: Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant?
+        var hadOneofValue = false
+        if let current = self.content {
+          hadOneofValue = true
+          if case .setTargetTrackVariant(let m) = current {v = m}
+        }
+        try decoder.decodeSingularMessageField(value: &v)
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.content = .setTargetTrackVariant(v)
+        }
+      }()
       default: break
       }
     }
@@ -542,6 +585,10 @@ extension Fishjam_MediaEvents_Peer_MediaEvent: SwiftProtobuf.Message, SwiftProto
     case .disableTrackVariant?: try {
       guard case .disableTrackVariant(let v)? = self.content else { preconditionFailure() }
       try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+    }()
+    case .setTargetTrackVariant?: try {
+      guard case .setTargetTrackVariant(let v)? = self.content else { preconditionFailure() }
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
     }()
     case nil: break
     }
@@ -736,7 +783,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.RenegotiateTracks: SwiftProtobuf.M
 extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".SdpOffer"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "sdp_offer"),
+    1: .same(proto: "sdp"),
     2: .standard(proto: "track_id_to_metadata_json"),
     3: .standard(proto: "track_id_to_bitrates"),
     4: .standard(proto: "mid_to_track_id"),
@@ -748,7 +795,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, S
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.sdpOffer) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.sdp) }()
       case 2: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: &self.trackIDToMetadataJson) }()
       case 3: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMessageMap<SwiftProtobuf.ProtobufString,Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates>.self, value: &self.trackIDToBitrates) }()
       case 4: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: &self.midToTrackID) }()
@@ -758,8 +805,8 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, S
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.sdpOffer.isEmpty {
-      try visitor.visitSingularStringField(value: self.sdpOffer, fieldNumber: 1)
+    if !self.sdp.isEmpty {
+      try visitor.visitSingularStringField(value: self.sdp, fieldNumber: 1)
     }
     if !self.trackIDToMetadataJson.isEmpty {
       try visitor.visitMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: self.trackIDToMetadataJson, fieldNumber: 2)
@@ -774,7 +821,7 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer: SwiftProtobuf.Message, S
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer, rhs: Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer) -> Bool {
-    if lhs.sdpOffer != rhs.sdpOffer {return false}
+    if lhs.sdp != rhs.sdp {return false}
     if lhs.trackIDToMetadataJson != rhs.trackIDToMetadataJson {return false}
     if lhs.trackIDToBitrates != rhs.trackIDToBitrates {return false}
     if lhs.midToTrackID != rhs.midToTrackID {return false}
@@ -890,6 +937,44 @@ extension Fishjam_MediaEvents_Peer_MediaEvent.EnableTrackVariant: SwiftProtobuf.
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.EnableTrackVariant, rhs: Fishjam_MediaEvents_Peer_MediaEvent.EnableTrackVariant) -> Bool {
+    if lhs.trackID != rhs.trackID {return false}
+    if lhs.variant != rhs.variant {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = Fishjam_MediaEvents_Peer_MediaEvent.protoMessageName + ".SetTargetTrackVariant"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "track_id"),
+    2: .same(proto: "variant"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.trackID) }()
+      case 2: try { try decoder.decodeSingularEnumField(value: &self.variant) }()
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.trackID.isEmpty {
+      try visitor.visitSingularStringField(value: self.trackID, fieldNumber: 1)
+    }
+    if self.variant != .unspecified {
+      try visitor.visitSingularEnumField(value: self.variant, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant, rhs: Fishjam_MediaEvents_Peer_MediaEvent.SetTargetTrackVariant) -> Bool {
     if lhs.trackID != rhs.trackID {return false}
     if lhs.variant != rhs.variant {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}

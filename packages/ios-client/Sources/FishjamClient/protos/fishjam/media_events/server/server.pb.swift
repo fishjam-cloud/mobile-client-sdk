@@ -473,7 +473,8 @@ public struct Fishjam_MediaEvents_Server_MediaEvent {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    public var sdpAnswer: String = String()
+    /// The value of the `sessionDescription.sdp`
+    public var sdp: String = String()
 
     public var midToTrackID: Dictionary<String,String> = [:]
 
@@ -1485,7 +1486,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes: SwiftProto
 extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = Fishjam_MediaEvents_Server_MediaEvent.protoMessageName + ".SdpAnswer"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "sdp_answer"),
+    1: .same(proto: "sdp"),
     2: .standard(proto: "mid_to_track_id"),
   ]
 
@@ -1495,7 +1496,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: SwiftProtobuf.Message
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.sdpAnswer) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.sdp) }()
       case 2: try { try decoder.decodeMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: &self.midToTrackID) }()
       default: break
       }
@@ -1503,8 +1504,8 @@ extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: SwiftProtobuf.Message
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.sdpAnswer.isEmpty {
-      try visitor.visitSingularStringField(value: self.sdpAnswer, fieldNumber: 1)
+    if !self.sdp.isEmpty {
+      try visitor.visitSingularStringField(value: self.sdp, fieldNumber: 1)
     }
     if !self.midToTrackID.isEmpty {
       try visitor.visitMapField(fieldType: SwiftProtobuf._ProtobufMap<SwiftProtobuf.ProtobufString,SwiftProtobuf.ProtobufString>.self, value: self.midToTrackID, fieldNumber: 2)
@@ -1513,7 +1514,7 @@ extension Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer: SwiftProtobuf.Message
   }
 
   public static func ==(lhs: Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer, rhs: Fishjam_MediaEvents_Server_MediaEvent.SdpAnswer) -> Bool {
-    if lhs.sdpAnswer != rhs.sdpAnswer {return false}
+    if lhs.sdp != rhs.sdp {return false}
     if lhs.midToTrackID != rhs.midToTrackID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

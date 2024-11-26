@@ -270,6 +270,30 @@ public object MediaEventKt {
     public fun hasDisableTrackVariant(): kotlin.Boolean {
       return _builder.hasDisableTrackVariant()
     }
+
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.SetTargetTrackVariant set_target_track_variant = 11;`
+     */
+    public var setTargetTrackVariant: fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant
+      @JvmName("getSetTargetTrackVariant")
+      get() = _builder.getSetTargetTrackVariant()
+      @JvmName("setSetTargetTrackVariant")
+      set(value) {
+        _builder.setSetTargetTrackVariant(value)
+      }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.SetTargetTrackVariant set_target_track_variant = 11;`
+     */
+    public fun clearSetTargetTrackVariant() {
+      _builder.clearSetTargetTrackVariant()
+    }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent.SetTargetTrackVariant set_target_track_variant = 11;`
+     * @return Whether the setTargetTrackVariant field is set.
+     */
+    public fun hasSetTargetTrackVariant(): kotlin.Boolean {
+      return _builder.hasSetTargetTrackVariant()
+    }
     public val contentCase: fishjam.media_events.peer.Peer.MediaEvent.ContentCase
       @JvmName("getContentCase")
       get() = _builder.getContentCase()
@@ -574,20 +598,28 @@ public object MediaEventKt {
       internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.SdpOffer = _builder.build()
 
       /**
-       * `string sdp_offer = 1;`
+       * ```
+       * The value of the `sessionDescription.sdp`
+       * ```
+       *
+       * `string sdp = 1;`
        */
-      public var sdpOffer: kotlin.String
-        @JvmName("getSdpOffer")
-        get() = _builder.getSdpOffer()
-        @JvmName("setSdpOffer")
+      public var sdp: kotlin.String
+        @JvmName("getSdp")
+        get() = _builder.getSdp()
+        @JvmName("setSdp")
         set(value) {
-          _builder.setSdpOffer(value)
+          _builder.setSdp(value)
         }
       /**
-       * `string sdp_offer = 1;`
+       * ```
+       * The value of the `sessionDescription.sdp`
+       * ```
+       *
+       * `string sdp = 1;`
        */
-      public fun clearSdpOffer() {
-        _builder.clearSdpOffer()
+      public fun clearSdp() {
+        _builder.clearSdp()
       }
 
       /**
@@ -1078,6 +1110,70 @@ public object MediaEventKt {
       }
     }
   }
+  @kotlin.jvm.JvmName("-initializesetTargetTrackVariant")
+  public inline fun setTargetTrackVariant(block: fishjam.media_events.peer.MediaEventKt.SetTargetTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant =
+    fishjam.media_events.peer.MediaEventKt.SetTargetTrackVariantKt.Dsl._create(fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant.newBuilder()).apply { block() }._build()
+  /**
+   * Protobuf type `fishjam.media_events.peer.MediaEvent.SetTargetTrackVariant`
+   */
+  public object SetTargetTrackVariantKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant = _builder.build()
+
+      /**
+       * `string track_id = 1;`
+       */
+      public var trackId: kotlin.String
+        @JvmName("getTrackId")
+        get() = _builder.getTrackId()
+        @JvmName("setTrackId")
+        set(value) {
+          _builder.setTrackId(value)
+        }
+      /**
+       * `string track_id = 1;`
+       */
+      public fun clearTrackId() {
+        _builder.clearTrackId()
+      }
+
+      /**
+       * `.fishjam.media_events.Variant variant = 2;`
+       */
+      public var variant: fishjam.media_events.Shared.Variant
+        @JvmName("getVariant")
+        get() = _builder.getVariant()
+        @JvmName("setVariant")
+        set(value) {
+          _builder.setVariant(value)
+        }
+      public var variantValue: kotlin.Int
+        @JvmName("getVariantValue")
+        get() = _builder.getVariantValue()
+        @JvmName("setVariantValue")
+        set(value) {
+          _builder.setVariantValue(value)
+        }
+      /**
+       * `.fishjam.media_events.Variant variant = 2;`
+       */
+      public fun clearVariant() {
+        _builder.clearVariant()
+      }
+    }
+  }
 }
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.copy(block: `fishjam.media_events.peer`.MediaEventKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent =
@@ -1123,6 +1219,10 @@ public inline fun fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant.
 public inline fun fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant.copy(block: `fishjam.media_events.peer`.MediaEventKt.EnableTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.EnableTrackVariant =
   `fishjam.media_events.peer`.MediaEventKt.EnableTrackVariantKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant.copy(block: `fishjam.media_events.peer`.MediaEventKt.SetTargetTrackVariantKt.Dsl.() -> kotlin.Unit): fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant =
+  `fishjam.media_events.peer`.MediaEventKt.SetTargetTrackVariantKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
 public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.connectOrNull: fishjam.media_events.peer.Peer.MediaEvent.Connect?
   get() = if (hasConnect()) getConnect() else null
 
@@ -1152,4 +1252,7 @@ public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.enableTrackVariant
 
 public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.disableTrackVariantOrNull: fishjam.media_events.peer.Peer.MediaEvent.DisableTrackVariant?
   get() = if (hasDisableTrackVariant()) getDisableTrackVariant() else null
+
+public val fishjam.media_events.peer.Peer.MediaEventOrBuilder.setTargetTrackVariantOrNull: fishjam.media_events.peer.Peer.MediaEvent.SetTargetTrackVariant?
+  get() = if (hasSetTargetTrackVariant()) getSetTargetTrackVariant() else null
 

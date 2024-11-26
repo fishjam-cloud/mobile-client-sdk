@@ -11001,16 +11001,24 @@ fishjam.media_events.server.Server.MediaEvent.Endpoint defaultValue) {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>string sdp_answer = 1;</code>
-       * @return The sdpAnswer.
+       * <pre>
+       * The value of the `sessionDescription.sdp`
+       * </pre>
+       *
+       * <code>string sdp = 1;</code>
+       * @return The sdp.
        */
-      java.lang.String getSdpAnswer();
+      java.lang.String getSdp();
       /**
-       * <code>string sdp_answer = 1;</code>
-       * @return The bytes for sdpAnswer.
+       * <pre>
+       * The value of the `sessionDescription.sdp`
+       * </pre>
+       *
+       * <code>string sdp = 1;</code>
+       * @return The bytes for sdp.
        */
       com.google.protobuf.ByteString
-          getSdpAnswerBytes();
+          getSdpBytes();
 
       /**
        * <code>map&lt;string, string&gt; mid_to_track_id = 2;</code>
@@ -11072,7 +11080,7 @@ java.lang.String defaultValue);
         super(builder);
       }
       private SdpAnswer() {
-        sdpAnswer_ = "";
+        sdp_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -11100,39 +11108,47 @@ java.lang.String defaultValue);
                 fishjam.media_events.server.Server.MediaEvent.SdpAnswer.class, fishjam.media_events.server.Server.MediaEvent.SdpAnswer.Builder.class);
       }
 
-      public static final int SDP_ANSWER_FIELD_NUMBER = 1;
+      public static final int SDP_FIELD_NUMBER = 1;
       @SuppressWarnings("serial")
-      private volatile java.lang.Object sdpAnswer_ = "";
+      private volatile java.lang.Object sdp_ = "";
       /**
-       * <code>string sdp_answer = 1;</code>
-       * @return The sdpAnswer.
+       * <pre>
+       * The value of the `sessionDescription.sdp`
+       * </pre>
+       *
+       * <code>string sdp = 1;</code>
+       * @return The sdp.
        */
       @java.lang.Override
-      public java.lang.String getSdpAnswer() {
-        java.lang.Object ref = sdpAnswer_;
+      public java.lang.String getSdp() {
+        java.lang.Object ref = sdp_;
         if (ref instanceof java.lang.String) {
           return (java.lang.String) ref;
         } else {
           com.google.protobuf.ByteString bs = 
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          sdpAnswer_ = s;
+          sdp_ = s;
           return s;
         }
       }
       /**
-       * <code>string sdp_answer = 1;</code>
-       * @return The bytes for sdpAnswer.
+       * <pre>
+       * The value of the `sessionDescription.sdp`
+       * </pre>
+       *
+       * <code>string sdp = 1;</code>
+       * @return The bytes for sdp.
        */
       @java.lang.Override
       public com.google.protobuf.ByteString
-          getSdpAnswerBytes() {
-        java.lang.Object ref = sdpAnswer_;
+          getSdpBytes() {
+        java.lang.Object ref = sdp_;
         if (ref instanceof java.lang.String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          sdpAnswer_ = b;
+          sdp_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
@@ -11232,8 +11248,8 @@ java.lang.String defaultValue) {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdpAnswer_)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 1, sdpAnswer_);
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdp_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, sdp_);
         }
         com.google.protobuf.GeneratedMessage
           .serializeStringMapTo(
@@ -11250,8 +11266,8 @@ java.lang.String defaultValue) {
         if (size != -1) return size;
 
         size = 0;
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdpAnswer_)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, sdpAnswer_);
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdp_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, sdp_);
         }
         for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
              : internalGetMidToTrackId().getMap().entrySet()) {
@@ -11278,8 +11294,8 @@ java.lang.String defaultValue) {
         }
         fishjam.media_events.server.Server.MediaEvent.SdpAnswer other = (fishjam.media_events.server.Server.MediaEvent.SdpAnswer) obj;
 
-        if (!getSdpAnswer()
-            .equals(other.getSdpAnswer())) return false;
+        if (!getSdp()
+            .equals(other.getSdp())) return false;
         if (!internalGetMidToTrackId().equals(
             other.internalGetMidToTrackId())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -11293,8 +11309,8 @@ java.lang.String defaultValue) {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + SDP_ANSWER_FIELD_NUMBER;
-        hash = (53 * hash) + getSdpAnswer().hashCode();
+        hash = (37 * hash) + SDP_FIELD_NUMBER;
+        hash = (53 * hash) + getSdp().hashCode();
         if (!internalGetMidToTrackId().getMap().isEmpty()) {
           hash = (37 * hash) + MID_TO_TRACK_ID_FIELD_NUMBER;
           hash = (53 * hash) + internalGetMidToTrackId().hashCode();
@@ -11456,7 +11472,7 @@ java.lang.String defaultValue) {
         public Builder clear() {
           super.clear();
           bitField0_ = 0;
-          sdpAnswer_ = "";
+          sdp_ = "";
           internalGetMutableMidToTrackId().clear();
           return this;
         }
@@ -11492,7 +11508,7 @@ java.lang.String defaultValue) {
         private void buildPartial0(fishjam.media_events.server.Server.MediaEvent.SdpAnswer result) {
           int from_bitField0_ = bitField0_;
           if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.sdpAnswer_ = sdpAnswer_;
+            result.sdp_ = sdp_;
           }
           if (((from_bitField0_ & 0x00000002) != 0)) {
             result.midToTrackId_ = internalGetMidToTrackId();
@@ -11512,8 +11528,8 @@ java.lang.String defaultValue) {
 
         public Builder mergeFrom(fishjam.media_events.server.Server.MediaEvent.SdpAnswer other) {
           if (other == fishjam.media_events.server.Server.MediaEvent.SdpAnswer.getDefaultInstance()) return this;
-          if (!other.getSdpAnswer().isEmpty()) {
-            sdpAnswer_ = other.sdpAnswer_;
+          if (!other.getSdp().isEmpty()) {
+            sdp_ = other.sdp_;
             bitField0_ |= 0x00000001;
             onChanged();
           }
@@ -11547,7 +11563,7 @@ java.lang.String defaultValue) {
                   done = true;
                   break;
                 case 10: {
-                  sdpAnswer_ = input.readStringRequireUtf8();
+                  sdp_ = input.readStringRequireUtf8();
                   bitField0_ |= 0x00000001;
                   break;
                 } // case 10
@@ -11577,73 +11593,93 @@ java.lang.String defaultValue) {
         }
         private int bitField0_;
 
-        private java.lang.Object sdpAnswer_ = "";
+        private java.lang.Object sdp_ = "";
         /**
-         * <code>string sdp_answer = 1;</code>
-         * @return The sdpAnswer.
+         * <pre>
+         * The value of the `sessionDescription.sdp`
+         * </pre>
+         *
+         * <code>string sdp = 1;</code>
+         * @return The sdp.
          */
-        public java.lang.String getSdpAnswer() {
-          java.lang.Object ref = sdpAnswer_;
+        public java.lang.String getSdp() {
+          java.lang.Object ref = sdp_;
           if (!(ref instanceof java.lang.String)) {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
             java.lang.String s = bs.toStringUtf8();
-            sdpAnswer_ = s;
+            sdp_ = s;
             return s;
           } else {
             return (java.lang.String) ref;
           }
         }
         /**
-         * <code>string sdp_answer = 1;</code>
-         * @return The bytes for sdpAnswer.
+         * <pre>
+         * The value of the `sessionDescription.sdp`
+         * </pre>
+         *
+         * <code>string sdp = 1;</code>
+         * @return The bytes for sdp.
          */
         public com.google.protobuf.ByteString
-            getSdpAnswerBytes() {
-          java.lang.Object ref = sdpAnswer_;
+            getSdpBytes() {
+          java.lang.Object ref = sdp_;
           if (ref instanceof String) {
             com.google.protobuf.ByteString b = 
                 com.google.protobuf.ByteString.copyFromUtf8(
                     (java.lang.String) ref);
-            sdpAnswer_ = b;
+            sdp_ = b;
             return b;
           } else {
             return (com.google.protobuf.ByteString) ref;
           }
         }
         /**
-         * <code>string sdp_answer = 1;</code>
-         * @param value The sdpAnswer to set.
+         * <pre>
+         * The value of the `sessionDescription.sdp`
+         * </pre>
+         *
+         * <code>string sdp = 1;</code>
+         * @param value The sdp to set.
          * @return This builder for chaining.
          */
-        public Builder setSdpAnswer(
+        public Builder setSdp(
             java.lang.String value) {
           if (value == null) { throw new NullPointerException(); }
-          sdpAnswer_ = value;
+          sdp_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
         /**
-         * <code>string sdp_answer = 1;</code>
+         * <pre>
+         * The value of the `sessionDescription.sdp`
+         * </pre>
+         *
+         * <code>string sdp = 1;</code>
          * @return This builder for chaining.
          */
-        public Builder clearSdpAnswer() {
-          sdpAnswer_ = getDefaultInstance().getSdpAnswer();
+        public Builder clearSdp() {
+          sdp_ = getDefaultInstance().getSdp();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
         /**
-         * <code>string sdp_answer = 1;</code>
-         * @param value The bytes for sdpAnswer to set.
+         * <pre>
+         * The value of the `sessionDescription.sdp`
+         * </pre>
+         *
+         * <code>string sdp = 1;</code>
+         * @param value The bytes for sdp to set.
          * @return This builder for chaining.
          */
-        public Builder setSdpAnswerBytes(
+        public Builder setSdpBytes(
             com.google.protobuf.ByteString value) {
           if (value == null) { throw new NullPointerException(); }
           checkByteStringIsUtf8(value);
-          sdpAnswer_ = value;
+          sdp_ = value;
           bitField0_ |= 0x00000001;
           onChanged();
           return this;
@@ -18544,7 +18580,7 @@ java.lang.String defaultValue) {
     java.lang.String[] descriptorData = {
       "\n(fishjam/media_events/server/server.pro" +
       "to\022\033fishjam.media_events.server\032!fishjam" +
-      "/media_events/shared.proto\"\341\033\n\nMediaEven" +
+      "/media_events/shared.proto\"\332\033\n\nMediaEven" +
       "t\022S\n\020endpoint_updated\030\001 \001(\01327.fishjam.me" +
       "dia_events.server.MediaEvent.EndpointUpd" +
       "atedH\000\022M\n\rtrack_updated\030\002 \001(\01324.fishjam." +
@@ -18615,25 +18651,25 @@ java.lang.String defaultValue) {
       "\001 \001(\t\032\213\001\n\tOfferData\022R\n\014tracks_types\030\001 \001(" +
       "\0132<.fishjam.media_events.server.MediaEve" +
       "nt.OfferData.TrackTypes\032*\n\nTrackTypes\022\r\n" +
-      "\005audio\030\001 \001(\005\022\r\n\005video\030\002 \001(\005\032\262\001\n\tSdpAnswe" +
-      "r\022\022\n\nsdp_answer\030\001 \001(\t\022\\\n\017mid_to_track_id" +
-      "\030\002 \003(\0132C.fishjam.media_events.server.Med" +
-      "iaEvent.SdpAnswer.MidToTrackIdEntry\0323\n\021M" +
-      "idToTrackIdEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\t:\0028\001\032\274\001\n\017VadNotification\022\020\n\010track_id" +
-      "\030\001 \001(\t\022N\n\006status\030\002 \001(\0162>.fishjam.media_e" +
-      "vents.server.MediaEvent.VadNotification." +
-      "Status\"G\n\006Status\022\026\n\022STATUS_UNSPECIFIED\020\000" +
-      "\022\022\n\016STATUS_SILENCE\020\001\022\021\n\rSTATUS_SPEECH\020\002\032" +
-      "m\n\024TrackVariantSwitched\022\023\n\013endpoint_id\030\001" +
-      " \001(\t\022\020\n\010track_id\030\002 \001(\t\022.\n\007variant\030\003 \001(\0162" +
-      "\035.fishjam.media_events.Variant\032m\n\024TrackV" +
-      "ariantDisabled\022\023\n\013endpoint_id\030\001 \001(\t\022\020\n\010t" +
-      "rack_id\030\002 \001(\t\022.\n\007variant\030\003 \001(\0162\035.fishjam" +
-      ".media_events.Variant\032l\n\023TrackVariantEna" +
-      "bled\022\023\n\013endpoint_id\030\001 \001(\t\022\020\n\010track_id\030\002 " +
-      "\001(\t\022.\n\007variant\030\003 \001(\0162\035.fishjam.media_eve" +
-      "nts.VariantB\t\n\007contentb\006proto3"
+      "\005audio\030\001 \001(\005\022\r\n\005video\030\002 \001(\005\032\253\001\n\tSdpAnswe" +
+      "r\022\013\n\003sdp\030\001 \001(\t\022\\\n\017mid_to_track_id\030\002 \003(\0132" +
+      "C.fishjam.media_events.server.MediaEvent" +
+      ".SdpAnswer.MidToTrackIdEntry\0323\n\021MidToTra" +
+      "ckIdEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
+      "\001\032\274\001\n\017VadNotification\022\020\n\010track_id\030\001 \001(\t\022" +
+      "N\n\006status\030\002 \001(\0162>.fishjam.media_events.s" +
+      "erver.MediaEvent.VadNotification.Status\"" +
+      "G\n\006Status\022\026\n\022STATUS_UNSPECIFIED\020\000\022\022\n\016STA" +
+      "TUS_SILENCE\020\001\022\021\n\rSTATUS_SPEECH\020\002\032m\n\024Trac" +
+      "kVariantSwitched\022\023\n\013endpoint_id\030\001 \001(\t\022\020\n" +
+      "\010track_id\030\002 \001(\t\022.\n\007variant\030\003 \001(\0162\035.fishj" +
+      "am.media_events.Variant\032m\n\024TrackVariantD" +
+      "isabled\022\023\n\013endpoint_id\030\001 \001(\t\022\020\n\010track_id" +
+      "\030\002 \001(\t\022.\n\007variant\030\003 \001(\0162\035.fishjam.media_" +
+      "events.Variant\032l\n\023TrackVariantEnabled\022\023\n" +
+      "\013endpoint_id\030\001 \001(\t\022\020\n\010track_id\030\002 \001(\t\022.\n\007" +
+      "variant\030\003 \001(\0162\035.fishjam.media_events.Var" +
+      "iantB\t\n\007contentb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -18753,7 +18789,7 @@ java.lang.String defaultValue) {
     internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor,
-        new java.lang.String[] { "SdpAnswer", "MidToTrackId", });
+        new java.lang.String[] { "Sdp", "MidToTrackId", });
     internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_descriptor =
       internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_descriptor.getNestedTypes().get(0);
     internal_static_fishjam_media_events_server_MediaEvent_SdpAnswer_MidToTrackIdEntry_fieldAccessorTable = new

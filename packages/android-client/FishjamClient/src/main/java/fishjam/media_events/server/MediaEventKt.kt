@@ -1704,20 +1704,28 @@ public object MediaEventKt {
       internal fun _build(): fishjam.media_events.server.Server.MediaEvent.SdpAnswer = _builder.build()
 
       /**
-       * `string sdp_answer = 1;`
+       * ```
+       * The value of the `sessionDescription.sdp`
+       * ```
+       *
+       * `string sdp = 1;`
        */
-      public var sdpAnswer: kotlin.String
-        @JvmName("getSdpAnswer")
-        get() = _builder.getSdpAnswer()
-        @JvmName("setSdpAnswer")
+      public var sdp: kotlin.String
+        @JvmName("getSdp")
+        get() = _builder.getSdp()
+        @JvmName("setSdp")
         set(value) {
-          _builder.setSdpAnswer(value)
+          _builder.setSdp(value)
         }
       /**
-       * `string sdp_answer = 1;`
+       * ```
+       * The value of the `sessionDescription.sdp`
+       * ```
+       *
+       * `string sdp = 1;`
        */
-      public fun clearSdpAnswer() {
-        _builder.clearSdpAnswer()
+      public fun clearSdp() {
+        _builder.clearSdp()
       }
 
       /**
