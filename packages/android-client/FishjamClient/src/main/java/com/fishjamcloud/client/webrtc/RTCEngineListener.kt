@@ -6,8 +6,9 @@ import fishjam.media_events.server.Server
 
 internal interface RTCEngineListener {
   fun onConnected(
-    endpointID: String,
-    otherEndpoints: List<Server.MediaEvent.Endpoint>
+    endpointId: String,
+    endpoints: Map<String, Server.MediaEvent.Endpoint>,
+    iceServers: List<Server.MediaEvent.IceServer>
   )
 
   fun onSendMediaEvent(event: fishjam.media_events.peer.Peer.MediaEvent)
@@ -28,7 +29,7 @@ internal interface RTCEngineListener {
 
   fun onSdpAnswer(
     sdpAnswer: String,
-    midToTrackId: List<Shared.MidToTrackId>
+    midToTrackId: Map<String, String>
   )
 
   fun onRemoteCandidate(
@@ -39,7 +40,7 @@ internal interface RTCEngineListener {
 
   fun onTracksAdded(
     endpointId: String,
-    tracks: List<Server.MediaEvent.Track>
+    trackIdToTrack: Map<String, Server.MediaEvent.Track>
   )
 
   fun onTracksRemoved(
@@ -51,13 +52,6 @@ internal interface RTCEngineListener {
     endpointId: String,
     trackId: String,
     metadata: Metadata? = mapOf()
-  )
-
-  fun onTrackEncodingChanged(
-    endpointId: String,
-    trackId: String,
-    encoding: String,
-    encodingReason: String
   )
 
   fun onVadNotification(

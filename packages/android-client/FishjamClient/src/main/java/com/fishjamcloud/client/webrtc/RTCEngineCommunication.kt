@@ -26,12 +26,8 @@ internal class RTCEngineCommunication {
         .setConnect(
           fishjam.media_events.peer.Peer.MediaEvent.Connect
             .newBuilder()
-            .setMetadata(
-              Shared.Metadata
-                .newBuilder()
-                .setJson(gson.toJson(endpointMetadata).toString())
-                .build()
-            ).build()
+            .setMetadataJson(gson.toJson(endpointMetadata))
+            .build()
         ).build()
 
     sendEvent(mediaEvent)
@@ -44,12 +40,8 @@ internal class RTCEngineCommunication {
         .setUpdateEndpointMetadata(
           fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata
             .newBuilder()
-            .setMetadata(
-              Shared.Metadata
-                .newBuilder()
-                .setJson(gson.toJson(endpointMetadata))
-                .build()
-            ).build()
+            .setMetadataJson(gson.toJson(endpointMetadata))
+            .build()
         ).build()
 
     sendEvent(mediaEvent)
@@ -66,12 +58,8 @@ internal class RTCEngineCommunication {
           fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata
             .newBuilder()
             .setTrackId(trackId)
-            .setMetadata(
-              Shared.Metadata
-                .newBuilder()
-                .setJson(gson.toJson(trackMetadata))
-                .build()
-            ).build()
+            .setMetadataJson(gson.toJson(trackMetadata))
+            .build()
         ).build()
 
     sendEvent(mediaEvent)
@@ -132,44 +120,27 @@ internal class RTCEngineCommunication {
         .setSdpOffer(
           fishjam.media_events.peer.Peer.MediaEvent.SdpOffer
             .newBuilder()
-            .setSdpOffer(gson.toJson(mapOf("sdp" to sdp, "type" to "offer")))
-            .addAllTrackIdToMetadata(
-              trackIdToTrackMetadata.map { (trackId, metadata) ->
-                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToMetadata
-                  .newBuilder()
-                  .setTrackId(trackId)
-                  .apply {
-                    metadata?.let {
-                      setMetadata(
-                        Shared.Metadata
-                          .newBuilder()
-                          .setJson(gson.toJson(it))
-                          .build()
-                      )
-                    }
-                  }.build()
+            .setSdp(gson.toJson(mapOf("sdp" to sdp, "type" to "offer")))
+            .putAllTrackIdToMetadataJson(
+              trackIdToTrackMetadata.mapValues { (_, metadata) ->
+                metadata?.let { gson.toJson(it) } ?: ""
               }
-            ).addAllMidToTrackId(
-              midToTrackId.map { (mid, trackId) ->
-                Shared.MidToTrackId
-                  .newBuilder()
-                  .setMid(mid)
+            )
+            .putAllMidToTrackId(midToTrackId)
+            .putAllTrackIdToBitrates(
+              trackIdToBitrates.mapValues { (trackId, bitrate) ->
+                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()
                   .setTrackId(trackId)
-                  .build()
-              }
-            ).addAllTrackIdToBitrates(
-              trackIdToBitrates.map { (trackId, bitrate) ->
-                fishjam.media_events.peer.Peer.MediaEvent.TrackIdToBitrates
-                  .newBuilder()
-                  .setTrackBitrate(
-                    fishjam.media_events.peer.Peer.MediaEvent.TrackBitrate
-                      .newBuilder()
-                      .setTrackId(trackId)
+                  .addVariantBitrates(
+                    fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.newBuilder()
+                      .setVariant(fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED) // TODO: Update with simulcast
                       .setBitrate(bitrate)
                       .build()
-                  ).build()
+                  )
+                  .build()
               }
-            ).build()
+            )
+            .build()
         ).build()
 
     sendEvent(mediaEvent)
@@ -200,7 +171,8 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onConnected(
             event.connected.endpointId,
-            event.connected.endpointsList
+            event.connected.endpointIdToEndpointMap,
+            event.connected.iceServersList
           )
         }
 
@@ -220,8 +192,7 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointAdded(
             event.endpointAdded.endpointId,
-            event.endpointAdded.metadata.json
-              .serializeToMap()
+            event.endpointAdded.metadataJson.serializeToMap()
           )
         }
 
@@ -229,8 +200,7 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onEndpointUpdated(
             event.endpointUpdated.endpointId,
-            event.endpointUpdated.metadata.json
-              .serializeToMap()
+            event.endpointUpdated.metadataJson.serializeToMap()
           )
         }
 
@@ -246,8 +216,8 @@ internal class RTCEngineCommunication {
       event.hasSdpAnswer() ->
         listeners.forEach { listener ->
           listener.onSdpAnswer(
-            event.sdpAnswer.sdpAnswer,
-            event.sdpAnswer.midToTrackIdList
+            event.sdpAnswer.sdp,
+            event.sdpAnswer.midToTrackIdMap
           )
         }
 
@@ -256,8 +226,7 @@ internal class RTCEngineCommunication {
           listener.onTrackUpdated(
             event.trackUpdated.endpointId,
             event.trackUpdated.trackId,
-            event.trackUpdated.metadata.json
-              .serializeToMap()
+            event.trackUpdated.metadataJson.serializeToMap()
           )
         }
 
@@ -265,7 +234,7 @@ internal class RTCEngineCommunication {
         listeners.forEach { listener ->
           listener.onTracksAdded(
             event.tracksAdded.endpointId,
-            event.tracksAdded.tracksList
+            event.tracksAdded.trackIdToTrackMap
           )
         }
 
@@ -284,6 +253,10 @@ internal class RTCEngineCommunication {
             event.vadNotification.status
           )
         }
+
+      event.hasTrackVariantSwitched() -> {} // TODO: Add with simulcast
+      event.hasTrackVariantDisabled() -> {} // TODO: Add with simulcast
+      event.hasTrackVariantEnabled() -> {} // TODO: Add with simulcast
 
       else -> Timber.e("Failed to process unknown event: $event")
     }

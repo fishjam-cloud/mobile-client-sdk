@@ -223,23 +223,26 @@ internal class FishjamClientInternal(
 
   override fun onConnected(
     endpointID: String,
-    otherEndpoints: List<Server.MediaEvent.Endpoint>
+    endpoints: Map<String, Server.MediaEvent.Endpoint>,
+    iceServers: List<Server.MediaEvent.IceServer>
   ) {
     localEndpoint = localEndpoint.copy(id = endpointID)
+    peerConnectionManager.setupIceServers(iceServers)
 
-    otherEndpoints.forEach {
-      if (it.endpointId == endpointID) {
-        this.localEndpoint = this.localEndpoint.copy( metadata = it.metadata.json.serializeToMap())
+    endpoints.forEach {
+      val (endpointId, endpointData) = it
+      if (endpointId == endpointID) {
+        this.localEndpoint = this.localEndpoint.copy( metadata = endpointData.metadataJson.serializeToMap())
       } else {
-        var endpoint = Endpoint(it.endpointId, it.metadata.json.serializeToMap())
+        var endpoint = Endpoint(endpointId, endpointData.metadataJson.serializeToMap())
 
-        for (trackData in it.tracksList) {
+        for ((trackId, trackData) in endpointData.trackIdToTrackMap) {
           val track =
-            Track(null, it.endpointId, trackData.trackId, trackData.metadata.json.serializeToMap())
+            Track(null, endpointId, trackId, trackData.metadataJson.serializeToMap())
           endpoint = endpoint.addOrReplaceTrack(track)
           this.listener.onTrackAdded(track)
         }
-        this.remoteEndpoints[it.endpointId] = endpoint
+        this.remoteEndpoints[endpointId] = endpoint
       }
     }
     listener.onJoined(endpointID, remoteEndpoints)
@@ -317,7 +320,7 @@ internal class FishjamClientInternal(
 
   override fun onSdpAnswer(
     sdpAnswer: String,
-    midToTrackId: List<Shared.MidToTrackId>
+    midToTrackId: Map<String, String>
   ) {
     coroutineScope.launch {
       val sdp = gson.fromJson(sdpAnswer, SdpAnswer::class.java).sdp
@@ -672,7 +675,7 @@ internal class FishjamClientInternal(
 
   override fun onTracksAdded(
     endpointId: String,
-    tracks: List<Server.MediaEvent.Track>
+    trackIdToTrack: Map<String, Server.MediaEvent.Track>
   ) {
     if (localEndpoint.id == endpointId) { return }
 
@@ -684,15 +687,15 @@ internal class FishjamClientInternal(
 
     val updatedTracks = endpoint.tracks.toMutableMap()
 
-    for (trackData in tracks) {
-      var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackData.trackId }
+    for ((trackId, trackData) in trackIdToTrack) {
+      var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
       if (track != null) {
-        track.metadata = trackData.metadata.json.serializeToMap()
+        track.metadata = trackData.metadataJson.serializeToMap()
       } else {
-        track = Track(null, endpointId, trackData.trackId, trackData.metadata.json.serializeToMap())
+        track = Track(null, endpointId, trackId, trackData.metadataJson.serializeToMap())
         this.listener.onTrackAdded(track)
       }
-      updatedTracks[trackData.trackId] = track
+      updatedTracks[trackId] = track
     }
 
     val updatedEndpoint = endpoint.copy(tracks = updatedTracks)
@@ -734,7 +737,7 @@ internal class FishjamClientInternal(
     this.listener.onTrackUpdated(track)
   }
 
-  override fun onTrackEncodingChanged(
+  fun onTrackEncodingChanged(
     endpointId: String,
     trackId: String,
     encoding: String,

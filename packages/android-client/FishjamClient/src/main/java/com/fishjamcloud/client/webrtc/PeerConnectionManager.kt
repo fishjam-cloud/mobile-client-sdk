@@ -51,7 +51,7 @@ internal class PeerConnectionManager(
   private var config: PeerConnection.RTCConfiguration? = null
   private var queuedRemoteCandidates: MutableList<IceCandidate>? = null
   private val qrcMutex = Mutex()
-  private var midToTrackId: List<Shared.MidToTrackId> = emptyList()
+  private var midToTrackId: Map<String, String> = emptyMap()
 
   private val coroutineScope: CoroutineScope =
     ClosableCoroutineScope(SupervisorJob())
@@ -299,9 +299,20 @@ internal class PeerConnectionManager(
     }
   }
 
+  fun setupIceServers(iceServers: List<Server.MediaEvent.IceServer>) {
+    val rtcIceServers = iceServers.map { server ->
+      PeerConnection.IceServer.builder(server.urlsList)
+        .setUsername(server.username)
+        .setPassword(server.credential)
+        .createIceServer()
+    }
+
+    this.iceServers = rtcIceServers
+  }
+
   suspend fun onSdpAnswer(
     sdp: String,
-    midToTrackId: List<Shared.MidToTrackId>
+    midToTrackId: Map<String, String>
   ) {
     peerConnectionMutex.withLock {
       val pc = peerConnection ?: return
@@ -440,7 +451,7 @@ internal class PeerConnectionManager(
       iceServers = null
       config = null
       queuedRemoteCandidates = null
-      midToTrackId = emptyList()
+      midToTrackId = emptyMap()
 
       streamIds = listOf(UUID.randomUUID().toString())
     }
@@ -518,7 +529,7 @@ internal class PeerConnectionManager(
 
         val mid = transceiver.mid
 
-        trackId = midToTrackId.find { it.mid == mid }?.trackId ?: run {
+        trackId = midToTrackId[mid] ?: run {
           Timber.e("onAddTrack: Track with mid=$mid not found")
           return@launch
         }
