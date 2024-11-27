@@ -13,8 +13,3 @@ internal fun String.serializeToMap(): Map<String, Any?> =
     Timber.e(e, "Failed to parse JSON string to map")
     emptyMap()
   }
-
-data class SdpAnswer(
-  val sdp: String,
-  val type: String
-)

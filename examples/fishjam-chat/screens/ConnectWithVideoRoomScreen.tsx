@@ -87,7 +87,6 @@ export default function ConnectScreen({ navigation }: Props) {
         videoRoomEnv === 'staging'
           ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER!
           : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER!;
-
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
       const { fishjamUrl, token } = await joinRoomWithRoomManager(

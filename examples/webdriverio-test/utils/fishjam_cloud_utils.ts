@@ -20,7 +20,7 @@ const config = new Configuration(configParam);
 
 export const createFishjamRoom = async () => {
   const { createRoom } = RoomApiFp(config);
-  const createRoomFunction = await createRoom();
+  const createRoomFunction = await createRoom({ videoCodec: 'vp8' });
   try {
     const response = await createRoomFunction();
     return response.data.data.room;
