@@ -14,6 +14,7 @@ import com.fishjamcloud.client.utils.setLocalDescription
 import com.fishjamcloud.client.webrtc.PeerConnectionFactoryWrapper
 import com.fishjamcloud.client.webrtc.PeerConnectionListener
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
+import fishjam.media_events.server.Server
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -69,7 +70,10 @@ class EndpointConnectionManagerTest {
   @Test
   fun createsOffer() =
     runTest {
-      val offer = manager.getSdpOffer(emptyList(), emptyMap(), emptyList())
+      val offer = manager.getSdpOffer(
+        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        listOf()
+      )
 
       Assert.assertNotNull(offer)
       Assert.assertEquals("test_description", offer.description)
@@ -80,7 +84,10 @@ class EndpointConnectionManagerTest {
   fun addsAudioTrack() =
     runTest {
       val audioTrack = LocalAudioTrack(mockk(relaxed = true), "endpoint-id", mockk(relaxed = true), mockk(relaxed = true))
-      manager.getSdpOffer(emptyList(), emptyMap(), listOf(audioTrack))
+      manager.getSdpOffer(
+        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        listOf(audioTrack)
+      )
 
       verify(exactly = 1) {
         endpointConnectionMock.addTransceiver(
@@ -111,8 +118,10 @@ class EndpointConnectionManagerTest {
           mockk(relaxed = true),
           VideoParameters.presetFHD169
         )
-
-      manager.getSdpOffer(emptyList(), emptyMap(), listOf(videoTrack))
+      manager.getSdpOffer(
+        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        listOf(videoTrack)
+      )
 
       verify(exactly = 1) {
         endpointConnectionMock.addTransceiver(
@@ -153,7 +162,10 @@ class EndpointConnectionManagerTest {
           videoParameters
         )
 
-      manager.getSdpOffer(emptyList(), emptyMap(), listOf(videoTrack))
+      manager.getSdpOffer(
+        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        listOf(videoTrack)
+      )
 
       verify(exactly = 1) {
         endpointConnectionMock.addTransceiver(
@@ -220,7 +232,10 @@ class EndpointConnectionManagerTest {
               }
           }
         )
-      manager.getSdpOffer(emptyList(), emptyMap(), emptyList())
+      manager.getSdpOffer(
+        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        listOf()
+      )
       Assert.assertNull("layers have no maxBitrateBps", h.maxBitrateBps)
       manager.setTrackBandwidth("track_id", TrackBandwidthLimit.BandwidthLimit(1000))
       Assert.assertEquals("h layer has correct maxBitrateBps", 780190, h.maxBitrateBps)
