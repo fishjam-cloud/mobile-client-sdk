@@ -17,7 +17,6 @@ import com.fishjamcloud.client.utils.createOffer
 import com.fishjamcloud.client.utils.getEncodings
 import com.fishjamcloud.client.utils.setLocalDescription
 import com.fishjamcloud.client.utils.setRemoteDescription
-import fishjam.media_events.Shared
 import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -300,12 +299,14 @@ internal class PeerConnectionManager(
   }
 
   fun setupIceServers(iceServers: List<Server.MediaEvent.IceServer>) {
-    val rtcIceServers = iceServers.map { server ->
-      PeerConnection.IceServer.builder(server.urlsList)
-        .setUsername(server.username)
-        .setPassword(server.credential)
-        .createIceServer()
-    }
+    val rtcIceServers =
+      iceServers.map { server ->
+        PeerConnection.IceServer
+          .builder(server.urlsList)
+          .setUsername(server.username)
+          .setPassword(server.credential)
+          .createIceServer()
+      }
 
     this.iceServers = rtcIceServers
   }

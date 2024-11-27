@@ -453,10 +453,11 @@ class RNFishjamClient(
                   "id" to track.id(),
                   "type" to "Audio",
                   "metadata" to track.metadata,
-                  "vadStatus" to when (track.vadStatus) {
-                    Server.MediaEvent.VadNotification.Status.STATUS_SPEECH -> "speech"
-                    else -> "silence"
-                  }
+                  "vadStatus" to
+                    when (track.vadStatus) {
+                      Server.MediaEvent.VadNotification.Status.STATUS_SPEECH -> "speech"
+                      else -> "silence"
+                    }
                 )
 
               is LocalVideoTrack ->

@@ -1,9 +1,6 @@
 package com.fishjamcloud.client
 
 import android.content.Intent
-import android.util.Log
-import com.fishjamcloud.client.events.SdpAnswer
-import com.fishjamcloud.client.events.gson
 import com.fishjamcloud.client.events.serializeToMap
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
@@ -32,7 +29,6 @@ import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import com.fishjamcloud.client.webrtc.RTCEngineListener
 import com.github.ajalt.timberkt.BuildConfig
 import fishjam.PeerNotifications
-import fishjam.media_events.Shared
 import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -232,7 +228,7 @@ internal class FishjamClientInternal(
     endpoints.forEach {
       val (endpointId, endpointData) = it
       if (endpointId == endpointID) {
-        this.localEndpoint = this.localEndpoint.copy( metadata = endpointData.metadataJson.serializeToMap())
+        this.localEndpoint = this.localEndpoint.copy(metadata = endpointData.metadataJson.serializeToMap())
       } else {
         var endpoint = Endpoint(endpointId, endpointData.metadataJson.serializeToMap())
 
@@ -323,7 +319,6 @@ internal class FishjamClientInternal(
     midToTrackId: Map<String, String>
   ) {
     coroutineScope.launch {
-
       peerConnectionManager.onSdpAnswer(sdp, midToTrackId)
 
       // temporary workaround, the backend doesn't add ~ in sdp answer
@@ -563,7 +558,9 @@ internal class FishjamClientInternal(
     endpointId: String,
     metadata: Metadata?
   ) {
-    if (endpointId == this.localEndpoint.id) { return }
+    if (endpointId == this.localEndpoint.id) {
+      return
+    }
 
     val endpoint = Endpoint(endpointId, metadata)
 
@@ -676,7 +673,9 @@ internal class FishjamClientInternal(
     endpointId: String,
     trackIdToTrack: Map<String, Server.MediaEvent.Track>
   ) {
-    if (localEndpoint.id == endpointId) { return }
+    if (localEndpoint.id == endpointId) {
+      return
+    }
 
     val endpoint =
       remoteEndpoints.remove(endpointId) ?: run {

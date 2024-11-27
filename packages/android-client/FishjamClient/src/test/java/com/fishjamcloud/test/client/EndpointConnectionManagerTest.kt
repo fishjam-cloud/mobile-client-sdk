@@ -70,10 +70,12 @@ class EndpointConnectionManagerTest {
   @Test
   fun createsOffer() =
     runTest {
-      val offer = manager.getSdpOffer(
-        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
-        listOf()
-      )
+      val offer =
+        manager.getSdpOffer(
+          Server.MediaEvent.OfferData.TrackTypes
+            .getDefaultInstance(),
+          listOf()
+        )
 
       Assert.assertNotNull(offer)
       Assert.assertEquals("test_description", offer.description)
@@ -85,7 +87,8 @@ class EndpointConnectionManagerTest {
     runTest {
       val audioTrack = LocalAudioTrack(mockk(relaxed = true), "endpoint-id", mockk(relaxed = true), mockk(relaxed = true))
       manager.getSdpOffer(
-        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        Server.MediaEvent.OfferData.TrackTypes
+          .getDefaultInstance(),
         listOf(audioTrack)
       )
 
@@ -119,7 +122,8 @@ class EndpointConnectionManagerTest {
           VideoParameters.presetFHD169
         )
       manager.getSdpOffer(
-        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        Server.MediaEvent.OfferData.TrackTypes
+          .getDefaultInstance(),
         listOf(videoTrack)
       )
 
@@ -163,7 +167,8 @@ class EndpointConnectionManagerTest {
         )
 
       manager.getSdpOffer(
-        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        Server.MediaEvent.OfferData.TrackTypes
+          .getDefaultInstance(),
         listOf(videoTrack)
       )
 
@@ -233,7 +238,8 @@ class EndpointConnectionManagerTest {
           }
         )
       manager.getSdpOffer(
-        Server.MediaEvent.OfferData.TrackTypes.getDefaultInstance(),
+        Server.MediaEvent.OfferData.TrackTypes
+          .getDefaultInstance(),
         listOf()
       )
       Assert.assertNull("layers have no maxBitrateBps", h.maxBitrateBps)

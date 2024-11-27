@@ -69,7 +69,7 @@ internal class RTCEngineCommunication {
     trackId: String,
     encoding: TrackEncoding
   ) {
-    //TODO: This will be useful after simulcast is enabled
+    // TODO: This will be useful after simulcast is enabled
   }
 
   fun renegotiateTracks() {
@@ -126,21 +126,20 @@ internal class RTCEngineCommunication {
               trackIdToTrackMetadata.mapValues { (_, metadata) ->
                 metadata?.let { gson.toJson(it) } ?: ""
               }
-            )
-            .putAllTrackIdToBitrates(
+            ).putAllTrackIdToBitrates(
               trackIdToBitrates.mapValues { (trackId, bitrate) ->
-                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()
+                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
+                  .newBuilder()
                   .setTrackId(trackId)
                   .addVariantBitrates(
-                    fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.newBuilder()
+                    fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate
+                      .newBuilder()
                       .setVariant(fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED) // TODO: Update with simulcast
                       .setBitrate(bitrate)
                       .build()
-                  )
-                  .build()
+                  ).build()
               }
-            )
-            .build()
+            ).build()
         ).build()
 
     sendEvent(mediaEvent)

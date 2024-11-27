@@ -22,7 +22,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
 
-    private var midToTrackId: Dictionary<String, String> = [:]
+    private var midToTrackId: [String: String] = [:]
 
     private static let mediaConstraints = RTCMediaConstraints(
         mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
@@ -440,10 +440,12 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     public func setupIceServers(iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]) {
-        self.iceServers = iceServers.map { RTCIceServer(urlStrings: $0.urls, username: $0.username, credential: $0.credential) }
+        self.iceServers = iceServers.map {
+            RTCIceServer(urlStrings: $0.urls, username: $0.username, credential: $0.credential)
+        }
     }
 
-    public func onSdpAnswer(sdp: String, midToTrackId: Dictionary<String, String>) {
+    public func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
         guard let pc = connection else {
             return
         }

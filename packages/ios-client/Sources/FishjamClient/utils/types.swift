@@ -26,15 +26,15 @@ extension AnyJson {
 
 public struct JsonEncodingError: Error {}
 
-extension Encodable  {
-    
+extension Encodable {
+
     public func toJsonString() throws -> String {
         if let json = String(data: try JSONEncoder().encode(self), encoding: .utf8) {
             return json
         }
         throw JsonEncodingError()
     }
-    
+
     var toJsonStringOrEmpty: String {
         do {
             return try self.toJsonString()
@@ -45,11 +45,10 @@ extension Encodable  {
     }
 }
 
-extension Dictionary<String, Metadata> {
-    public func toDictionaryJson() -> Dictionary<String, String> {
+extension [String: Metadata] {
+    public func toDictionaryJson() -> [String: String] {
         return mapValues { val in
             val.toJsonStringOrEmpty
         }
     }
 }
- 

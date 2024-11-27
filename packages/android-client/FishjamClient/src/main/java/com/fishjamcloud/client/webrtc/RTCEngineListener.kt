@@ -1,7 +1,6 @@
 package com.fishjamcloud.client.webrtc
 
 import com.fishjamcloud.client.models.Metadata
-import fishjam.media_events.Shared
 import fishjam.media_events.server.Server
 
 internal interface RTCEngineListener {

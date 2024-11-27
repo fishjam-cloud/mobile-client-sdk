@@ -66,17 +66,18 @@ internal class RTCEngineCommunication {
         sdpOffer.sdp = sdp
         sdpOffer.trackIDToMetadataJson = trackIdToTrackMetadata.toDictionaryJson()
         sdpOffer.midToTrackID = midToTrackId
-        sdpOffer.trackIDToBitrates = Dictionary(uniqueKeysWithValues:
-                                                    trackIdToBitrates.map { key, value in
-            var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
-            trackBitrates.trackID = key
-            var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
-            bitrate.variant = .unspecified // TODO: Add with simulcast
-            bitrate.bitrate = value
-            trackBitrates.variantBitrates = [bitrate]
-            
-            return (key, trackBitrates)
-        })
+        sdpOffer.trackIDToBitrates = Dictionary(
+            uniqueKeysWithValues:
+                trackIdToBitrates.map { key, value in
+                    var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
+                    trackBitrates.trackID = key
+                    var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+                    bitrate.variant = .unspecified  // TODO: Add with simulcast
+                    bitrate.bitrate = value
+                    trackBitrates.variantBitrates = [bitrate]
+
+                    return (key, trackBitrates)
+                })
 
         sendEvent(event: .sdpOffer(sdpOffer))
     }
@@ -93,9 +94,10 @@ internal class RTCEngineCommunication {
         switch content {
         case .connected(let connected):
             for listener in listeners {
-                listener.onConnected(endpointId: connected.endpointID,
-                                     endpointIdToEndpoint: connected.endpointIDToEndpoint,
-                                     iceServers: connected.iceServers
+                listener.onConnected(
+                    endpointId: connected.endpointID,
+                    endpointIdToEndpoint: connected.endpointIDToEndpoint,
+                    iceServers: connected.iceServers
                 )
             }
         case .endpointAdded(let endpointAdded):
@@ -173,9 +175,9 @@ internal class RTCEngineCommunication {
         case .error(let error):
             sdkLogger.error("Failed to handle event. Message: \(error.message)")
 
-        case .trackVariantSwitched(_): break // TODO: Add with simulcast
-        case .trackVariantDisabled(_): break // TODO: Add with simulcast
-        case .trackVariantEnabled(_): break// TODO: Add with simulcast
+        case .trackVariantSwitched(_): break  // TODO: Add with simulcast
+        case .trackVariantDisabled(_): break  // TODO: Add with simulcast
+        case .trackVariantEnabled(_): break  // TODO: Add with simulcast
         }
     }
 }
