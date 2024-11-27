@@ -28,7 +28,7 @@ internal interface RTCEngineListener {
   fun onOfferData(tracksTypes: Server.MediaEvent.OfferData.TrackTypes)
 
   fun onSdpAnswer(
-    sdpAnswer: String,
+    sdp: String,
     midToTrackId: Map<String, String>
   )
 

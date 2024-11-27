@@ -120,13 +120,13 @@ internal class RTCEngineCommunication {
         .setSdpOffer(
           fishjam.media_events.peer.Peer.MediaEvent.SdpOffer
             .newBuilder()
-            .setSdp(gson.toJson(mapOf("sdp" to sdp, "type" to "offer")))
+            .setSdp(sdp)
+            .putAllMidToTrackId(midToTrackId)
             .putAllTrackIdToMetadataJson(
               trackIdToTrackMetadata.mapValues { (_, metadata) ->
                 metadata?.let { gson.toJson(it) } ?: ""
               }
             )
-            .putAllMidToTrackId(midToTrackId)
             .putAllTrackIdToBitrates(
               trackIdToBitrates.mapValues { (trackId, bitrate) ->
                 fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()

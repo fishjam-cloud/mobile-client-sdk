@@ -319,11 +319,10 @@ internal class FishjamClientInternal(
   }
 
   override fun onSdpAnswer(
-    sdpAnswer: String,
+    sdp: String,
     midToTrackId: Map<String, String>
   ) {
     coroutineScope.launch {
-      val sdp = gson.fromJson(sdpAnswer, SdpAnswer::class.java).sdp
 
       peerConnectionManager.onSdpAnswer(sdp, midToTrackId)
 
