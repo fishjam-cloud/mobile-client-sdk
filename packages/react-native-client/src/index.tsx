@@ -82,6 +82,7 @@ export { usePeerStatus } from './hooks/usePeerStatus';
 export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
+export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 // #endregion
 
 export { FishjamRoom } from './components/FishjamRoom';
