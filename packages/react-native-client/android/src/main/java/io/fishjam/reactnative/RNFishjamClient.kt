@@ -30,6 +30,7 @@ import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
+import fishjam.media_events.server.Server
 import io.fishjam.reactnative.extensions.toLocalCamera
 import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
@@ -452,7 +453,10 @@ class RNFishjamClient(
                   "id" to track.id(),
                   "type" to "Audio",
                   "metadata" to track.metadata,
-                  "vadStatus" to "Silence" // TODO:FIX
+                  "vadStatus" to when (track.vadStatus) {
+                    Server.MediaEvent.VadNotification.Status.STATUS_SPEECH -> "speech"
+                    else -> "silence"
+                  }
                 )
 
               is LocalVideoTrack ->

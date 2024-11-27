@@ -94,13 +94,10 @@ function addIsActiveToTracks<
 >(
   peers: ReadonlyArray<Peer<PeerMetadata, ServerMetadata>>,
 ): Peer<PeerMetadata, ServerMetadata>[] {
-  console.log({ peers });
   return peers.map((peer) => {
-    console.log({ peer });
     return {
       ...peer,
       tracks: peer.tracks.map((track) => {
-        console.log({ track });
         return {
           ...track,
           isActive:

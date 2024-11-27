@@ -44,14 +44,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { localPeer, remotePeers } = usePeers<PeerMetadata>();
 
-  console.log(`PLATFORM: ${Platform.OS}`, {
-    remoteTracks: JSON.stringify(
-      remotePeers.map((item) => item.tracks),
-      null,
-      2,
-    ),
-  });
-
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
   const onDisconnectPress = useCallback(() => {

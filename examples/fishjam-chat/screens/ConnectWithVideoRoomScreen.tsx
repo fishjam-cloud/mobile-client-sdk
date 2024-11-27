@@ -47,7 +47,10 @@ async function readStorageData(): Promise<VideoRoomData> {
 }
 
 export function shouldShowVideoRoomTab() {
-  return true;
+  return (
+    !!process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER &&
+    !!process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER
+  );
 }
 
 /**
@@ -80,7 +83,10 @@ export default function ConnectScreen({ navigation }: Props) {
     try {
       setConnectionError(null);
       setLoading(true);
-      const roomManagerUrl = 'http://192.168.82.18:8080/api/rooms';
+      const roomManagerUrl =
+        videoRoomEnv === 'staging'
+          ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER!
+          : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER!;
 
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
@@ -98,7 +104,6 @@ export default function ConnectScreen({ navigation }: Props) {
     } catch (e) {
       const message =
         'message' in (e as Error) ? (e as Error).message : 'Unknown error';
-      console.log({ message });
       setConnectionError(message);
     } finally {
       setLoading(false);

@@ -1,12 +1,6 @@
 import { PeerWithTracks } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
 import React, { useCallback, useMemo } from 'react';
-import {
-  FlatList,
-  ListRenderItemInfo,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
 import NoCameraView from '../NoCameraView';
@@ -25,8 +19,6 @@ export default function VideosGrid({
   username: string;
 }) {
   const videoTracks = parsePeersToTracks(localPeer, remotePeers);
-
-  console.log(Platform.OS, { videoTracks });
 
   const keyExtractor = useCallback((item: GridTrack) => item.id, []);
   const renderItem = useCallback(

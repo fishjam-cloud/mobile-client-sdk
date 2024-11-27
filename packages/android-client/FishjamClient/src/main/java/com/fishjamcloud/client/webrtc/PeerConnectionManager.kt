@@ -364,8 +364,6 @@ internal class PeerConnectionManager(
       this.queuedLocalCandidates = mutableListOf()
     }
 
-    val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
-    this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
     val config = PeerConnection.RTCConfiguration(iceServers)
     config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
     config.iceTransportsType = PeerConnection.IceTransportsType.ALL
