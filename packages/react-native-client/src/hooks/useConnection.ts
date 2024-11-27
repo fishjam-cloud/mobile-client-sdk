@@ -32,9 +32,6 @@ function useConnectionStatus() {
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
-  const connectionStatus: ConnectionStatus =
-    reconnectionStatus === 'idle' ? peerStatus : reconnectionStatus;
-
   return {
     /**
      * join room and start streaming camera and microphone
@@ -48,6 +45,7 @@ export function useConnection() {
      * Leave room and stop streaming
      */
     leaveRoom,
-    connectionStatus,
+    peerStatus,
+    reconnectionStatus
   };
 }
