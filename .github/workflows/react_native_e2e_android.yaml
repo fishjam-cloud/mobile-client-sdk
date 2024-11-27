@@ -36,14 +36,14 @@ jobs:
     env:
       ARCH: "x86_64"
       TARGET: "default"
-      API_LEVEL: "33"
+      API_LEVEL: "35"
       BUILD_TOOLS: "33.0.0"
-      ANDROID_API_LEVEL: android;33
+      ANDROID_API_LEVEL: android;35
       ANDROID_APIS: google_apis;x86_64
-      EMULATOR_PACKAGE: system-images;android-33;default;x86_64
+      EMULATOR_PACKAGE: system-images;android-35;default;x86_64
       EMULATOR_NAME: "nexus"
       EMULATOR_DEVICE: "Nexus 6"
-      PLATFORM_VERSION: platforms;android-33
+      PLATFORM_VERSION: platforms;android-35
       BUILD_TOOL: "build-tools;33.0.0"
       ANDROID_CMD: "commandlinetools-linux-10406996_latest.zip"
       ANDROID_APP_PATH: ${{ github.workspace
