@@ -46,6 +46,6 @@ export function useConnection() {
      */
     leaveRoom,
     peerStatus,
-    reconnectionStatus
+    reconnectionStatus,
   };
 }
