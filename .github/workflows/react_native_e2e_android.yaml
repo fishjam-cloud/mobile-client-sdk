@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 40
     services:
       fishjam:
-        image: ghcr.io/fishjam-dev/fishjam:0.6.2
+        image: ghcr.io/fishjam-cloud/fishjam:v0.10.0-dev
         env:
           FJ_CHECK_ORIGIN: false
           FJ_HOST: localhost:5002
