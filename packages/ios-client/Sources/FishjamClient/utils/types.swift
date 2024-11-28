@@ -29,15 +29,16 @@ public struct JsonEncodingError: Error {}
 extension Encodable {
 
     public func toJsonString() throws -> String {
-        if let json = String(data: try JSONEncoder().encode(self), encoding: .utf8) {
-            return json
+        guard let json = String(data: try JSONEncoder().encode(self), encoding: .utf8) else {
+            throw JsonEncodingError()
         }
-        throw JsonEncodingError()
+        return json
+        
     }
 
     var toJsonStringOrEmpty: String {
         do {
-            return try self.toJsonString()
+            return try toJsonString()
         } catch {
             sdkLogger.log(level: .error, "Unable to encode metadata")
             return "{}"
@@ -47,8 +48,6 @@ extension Encodable {
 
 extension [String: Metadata] {
     public func toDictionaryJson() -> [String: String] {
-        return mapValues { val in
-            val.toJsonStringOrEmpty
-        }
+        return mapValues(\.toJsonStringOrEmpty)
     }
 }

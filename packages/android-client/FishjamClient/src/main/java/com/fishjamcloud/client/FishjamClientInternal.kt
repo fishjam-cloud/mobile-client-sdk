@@ -1,7 +1,7 @@
 package com.fishjamcloud.client
 
 import android.content.Intent
-import com.fishjamcloud.client.events.serializeToMap
+import com.fishjamcloud.client.utils.serializeToMap
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalTrack

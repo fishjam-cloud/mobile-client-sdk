@@ -1,8 +1,8 @@
 package com.fishjamcloud.client.webrtc
 
 import android.util.Log
-import com.fishjamcloud.client.events.gson
-import com.fishjamcloud.client.events.serializeToMap
+import com.fishjamcloud.client.utils.gson
+import com.fishjamcloud.client.utils.serializeToMap
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.TrackEncoding
 import fishjam.media_events.Shared

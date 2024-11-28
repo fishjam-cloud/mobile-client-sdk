@@ -598,18 +598,18 @@ extension FishjamClientInternal: RTCEngineListener {
 
         for (eventEndpointId, eventEndpoint) in endpointIdToEndpoint {
             if eventEndpointId == endpointId {
-                localEndpoint = localEndpoint.copyWith(metadata: eventEndpoint.metadataJson.toAnyJson())
+                localEndpoint = localEndpoint.copyWith(metadata: try? AnyJson(from: eventEndpoint.metadataJson))
             } else {
                 var endpoint = Endpoint(
                     id: eventEndpointId,
-                    metadata: eventEndpoint.metadataJson.toAnyJson() ?? Metadata())
+                    metadata: (try? AnyJson(from:eventEndpoint.metadataJson)) ?? Metadata())
 
                 for (trackId, track) in eventEndpoint.trackIDToTrack {
                     let track = Track(
                         mediaTrack: nil,
                         endpointId: eventEndpointId,
                         rtcEngineId: trackId,
-                        metadata: track.metadataJson.toAnyJson() ?? Metadata()
+                        metadata: (try? AnyJson(from: track.metadataJson)) ?? Metadata()
                     )
                     endpoint = endpoint.addOrReplaceTrack(track)
                     listener.onTrackAdded(track: track)
@@ -755,13 +755,13 @@ extension FishjamClientInternal: RTCEngineListener {
         for (trackId, trackData) in trackIdToTracks {
             var track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId })
             if track != nil {
-                track!.metadata = trackData.metadataJson.toAnyJson() ?? Metadata()
+                track!.metadata = (try? AnyJson(from: trackData.metadataJson)) ?? Metadata()
             } else {
                 track = Track(
                     mediaTrack: nil,
                     endpointId: endpointId,
                     rtcEngineId: trackId,
-                    metadata: trackData.metadataJson.toAnyJson() ?? Metadata()
+                    metadata: (try? AnyJson(from: trackData.metadataJson)) ?? Metadata()
                 )
                 listener.onTrackAdded(track: track!)
             }

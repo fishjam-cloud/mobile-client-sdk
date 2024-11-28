@@ -104,7 +104,7 @@ internal class RTCEngineCommunication {
             for listener in listeners {
                 listener.onEndpointAdded(
                     endpointId: endpointAdded.endpointID,
-                    metadata: endpointAdded.metadataJson.toAnyJson() ?? Metadata())
+                    metadata: (try? AnyJson(from: endpointAdded.metadataJson)) ?? Metadata())
             }
         case .endpointRemoved(let endpointRemoved):
             for listener in listeners {
@@ -115,7 +115,7 @@ internal class RTCEngineCommunication {
             for listener in listeners {
                 listener.onEndpointUpdated(
                     endpointId: endpointUpdated.endpointID,
-                    metadata: endpointUpdated.metadataJson.toAnyJson() ?? Metadata()
+                    metadata: (try? AnyJson(from: endpointUpdated.metadataJson)) ?? Metadata()
                 )
             }
         case .offerData(let offerData):
@@ -153,7 +153,7 @@ internal class RTCEngineCommunication {
                 listener.onTrackUpdated(
                     endpointId: tracksUpdated.endpointID,
                     trackId: tracksUpdated.trackID,
-                    metadata: tracksUpdated.metadataJson.toAnyJson() ?? Metadata()
+                    metadata: (try? AnyJson(from: tracksUpdated.metadataJson)) ?? Metadata()
                 )
             }
         case .sdpAnswer(let sdpAnswer):

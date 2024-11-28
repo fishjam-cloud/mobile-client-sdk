@@ -236,13 +236,3 @@ public struct AnyJson: Codable {
         var stringValue: String { return key }
     }
 }
-
-extension String {
-    func toAnyJson() throws -> AnyJson {
-        return try AnyJson(from: self)
-    }
-
-    func toAnyJson() -> AnyJson? {
-        return try? AnyJson(from: self)
-    }
-}

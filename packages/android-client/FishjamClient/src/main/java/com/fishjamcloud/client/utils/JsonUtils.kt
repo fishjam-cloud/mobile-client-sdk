@@ -1,4 +1,4 @@
-package com.fishjamcloud.client.events
+package com.fishjamcloud.client.utils
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException

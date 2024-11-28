@@ -94,18 +94,14 @@ function addIsActiveToTracks<
 >(
   peers: ReadonlyArray<Peer<PeerMetadata, ServerMetadata>>,
 ): Peer<PeerMetadata, ServerMetadata>[] {
-  return peers.map((peer) => {
-    return {
-      ...peer,
-      tracks: peer.tracks.map((track) => {
-        return {
-          ...track,
-          isActive:
-            (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
-        };
-      }),
-    };
-  });
+  return peers.map((peer) => ({
+    ...peer,
+    tracks: peer.tracks.map((track) => ({
+      ...track,
+      isActive:
+        (track as { metadata?: TrackMetadata })?.metadata?.active ?? true,
+    })),
+  }));
 }
 
 function getPeerWithDistinguishedTracks<
