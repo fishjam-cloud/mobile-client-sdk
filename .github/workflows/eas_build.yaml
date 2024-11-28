@@ -24,10 +24,27 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn && yarn build
 
-      - name: 🚀 Build app
-        run: eas build --non-interactive --platform=all
+      # - name: 🚀 Build app
+      #   run: eas build --non-interactive --platform=all
+      #   working-directory: examples/fishjam-chat
+
+      # - name: 🛫 Submit iOS app to TestFlight
+      #   run: eas submit --non-interactive --platform=ios --latest
+      #   working-directory: examples/fishjam-chat
+
+      - name: Get Android archive url
+        id: android_archive
+        run: echo "url=$(eas build:list --json --non-interactive | jq -r '.[] | select(.platform=="ANDROID") | .artifacts.applicationArchiveUrl' | head -n 1)" >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
-      - name: 🛫 Submit iOS app to TestFlight
-        run: eas submit --non-interactive --platform=ios --latest
-        working-directory: examples/fishjam-chat
+      - name: Add comment with build links
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Android download link:\n${{ steps.android_archive.outputs.url }}'
+            })
