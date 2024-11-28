@@ -32,12 +32,22 @@ jobs:
       #   run: eas submit --non-interactive --platform=ios --latest
       #   working-directory: examples/fishjam-chat
 
-      - name: Get Android archive url
-        id: android_archive
-        run: echo "url=$(eas build:list --json --non-interactive | jq -r '.[] | select(.platform=="ANDROID") | .artifacts.applicationArchiveUrl' | head -n 1)" >> $GITHUB_OUTPUT
+      - name: 🗒️ Download EAS build list
+        id: eas_build_list
+        run: echo "list=$(eas build:list --json --non-interactive)" >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
-      - name: Add comment with build links
+      - name: 🔢 Get build version
+        id: build_version
+        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '.[0] | "version=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+        working-directory: examples/fishjam-chat
+
+      - name: ⛓️‍💥 Get Android archive url
+        id: android_archive
+        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '[.[] | select(.platform=="ANDROID")][0] | "url=\(.artifacts.applicationArchiveUrl)"' >> $GITHUB_OUTPUT
+        working-directory: examples/fishjam-chat
+
+      - name: 💬 Add comment with build links
         uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -46,5 +56,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Android download link:\n${{ steps.android_archive.outputs.url }}'
+              body: '**Download links for build ${{ steps.build_version.outputs.version }}**\nAndroid: ${{ steps.android_archive.outputs.url }}\niOS: https://testflight.apple.com/v1/app/6711353226'
             })
