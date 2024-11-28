@@ -33,7 +33,7 @@ extension Encodable {
             throw JsonEncodingError()
         }
         return json
-        
+
     }
 
     var toJsonStringOrEmpty: String {

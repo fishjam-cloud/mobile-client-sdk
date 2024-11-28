@@ -602,7 +602,7 @@ extension FishjamClientInternal: RTCEngineListener {
             } else {
                 var endpoint = Endpoint(
                     id: eventEndpointId,
-                    metadata: (try? AnyJson(from:eventEndpoint.metadataJson)) ?? Metadata())
+                    metadata: (try? AnyJson(from: eventEndpoint.metadataJson)) ?? Metadata())
 
                 for (trackId, track) in eventEndpoint.trackIDToTrack {
                     let track = Track(

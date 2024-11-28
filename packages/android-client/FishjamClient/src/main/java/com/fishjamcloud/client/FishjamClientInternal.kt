@@ -1,7 +1,6 @@
 package com.fishjamcloud.client
 
 import android.content.Intent
-import com.fishjamcloud.client.utils.serializeToMap
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalTrack
@@ -22,6 +21,7 @@ import com.fishjamcloud.client.models.VideoParameters
 import com.fishjamcloud.client.ui.VideoTextureViewRenderer
 import com.fishjamcloud.client.utils.ClosableCoroutineScope
 import com.fishjamcloud.client.utils.TimberDebugTree
+import com.fishjamcloud.client.utils.serializeToMap
 import com.fishjamcloud.client.webrtc.PeerConnectionFactoryWrapper
 import com.fishjamcloud.client.webrtc.PeerConnectionListener
 import com.fishjamcloud.client.webrtc.PeerConnectionManager

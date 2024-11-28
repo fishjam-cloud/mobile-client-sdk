@@ -1,10 +1,10 @@
 package com.fishjamcloud.client.webrtc
 
 import android.util.Log
-import com.fishjamcloud.client.utils.gson
-import com.fishjamcloud.client.utils.serializeToMap
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.TrackEncoding
+import com.fishjamcloud.client.utils.gson
+import com.fishjamcloud.client.utils.serializeToMap
 import fishjam.media_events.Shared
 import timber.log.Timber
 
