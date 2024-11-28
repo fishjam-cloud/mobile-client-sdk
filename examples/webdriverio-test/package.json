@@ -20,8 +20,8 @@
     "@wdio/spec-reporter": "^8.40.6",
     "appium-xcuitest-driver": "^7.32.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.6.3",
-    "webdriverio": "^9.3.0"
+    "typescript": "^5.7.2",
+    "webdriverio": "^9.4.1"
   },
   "dependencies": {
     "dotenv": "^16.3.1"
