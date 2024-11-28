@@ -1,5 +1,5 @@
 import { ReceivableEvents } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 /**
  * This hook provides current bandwidth estimation

@@ -4,7 +4,7 @@ import { ConnectionConfig, joinRoom, leaveRoom } from '../common/client';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 import { GenericMetadata } from '../types';
 
 type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
