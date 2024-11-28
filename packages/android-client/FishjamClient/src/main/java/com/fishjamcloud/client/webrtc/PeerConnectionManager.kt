@@ -370,18 +370,12 @@ internal class PeerConnectionManager(
     config.iceTransportsType = PeerConnection.IceTransportsType.ALL
     this.config = config
 
-    var needsRestart = true
     if (peerConnection == null) {
       setupPeerConnection(localTracks)
-      needsRestart = false
     }
 
     peerConnectionMutex.withLock {
       val pc = peerConnection!!
-
-      if (needsRestart) {
-        pc.restartIce()
-      }
 
       addNecessaryTransceivers(tracksTypes)
 

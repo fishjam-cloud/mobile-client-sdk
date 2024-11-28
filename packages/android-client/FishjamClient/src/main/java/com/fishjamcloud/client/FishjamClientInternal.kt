@@ -643,7 +643,7 @@ internal class FishjamClientInternal(
           offer.description,
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
           offer.midToTrackIdMapping,
-          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 500 }.toMap() // TODO: Update with simulcast
+          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 1500000 }.toMap() // TODO: Update with simulcast
         )
         peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {

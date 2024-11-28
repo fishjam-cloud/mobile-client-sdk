@@ -176,11 +176,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         config.candidateNetworkPolicy = .all
         config.tcpCandidatePolicy = .disabled
 
-        // if ice servers are not empty that probably means we are using turn servers, which are not handled at the moment
-        if iceServers.count > 0 {
-            config.iceServers = iceServers
-        }
-
         guard
             let peerConnection = peerConnectionFactory.createPeerConnection(
                 config, constraints: Self.mediaConstraints)
@@ -283,7 +278,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             guard let trackId: String = transceiver.sender.track?.trackId else {
                 return
             }
-            mapping[trackId] = 500  // TODO: Change with simulcast
+            mapping[trackId] = 1500000  // TODO: Change with simulcast
         }
 
         return mapping
