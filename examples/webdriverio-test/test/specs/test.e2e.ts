@@ -129,7 +129,7 @@ const tests: Test[] = [
       await driver.pause(500);
       await getElement(driver, '~' + NO_CAMERA_VIEW);
     },
-    skip: true,
+    skip: false,
   },
   {
     name: 'toggle camera on',

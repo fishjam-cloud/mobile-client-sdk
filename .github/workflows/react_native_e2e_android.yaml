@@ -57,7 +57,7 @@ jobs:
         run: |
           echo -e "
           FISHJAM_HOST_SERVER=127.0.0.1:5002
-          FISHJAM_HOST_MOBILE=10.0.2.2:5002
+          FISHJAM_HOST_MOBILE=127.0.0.1:5002
           ANDROID_DEVICE_NAME=$EMULATOR_DEVICE
           ANDROID_APP_PATH=$ANDROID_APP_PATH
           " > $GITHUB_WORKSPACE/examples/webdriverio-test/.env
