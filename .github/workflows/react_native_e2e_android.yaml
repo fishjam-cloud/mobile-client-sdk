@@ -17,7 +17,7 @@ jobs:
       packages: read
     services:
       fishjam:
-        image: ghcr.io/fishjam-cloud/fishjam:edge
+        image: ghcr.io/fishjam-cloud/fishjam:0.10.0-dev
         credentials:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
