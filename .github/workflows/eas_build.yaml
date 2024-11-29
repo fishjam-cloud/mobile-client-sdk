@@ -33,24 +33,14 @@ jobs:
       #   run: eas submit --non-interactive --platform=ios --latest
       #   working-directory: examples/fishjam-chat
 
-      - name: 🗒️ Download EAS build list
-        id: eas_build_list
-        run: |
-          list=$(eas build:list --json --non-interactive)
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "list<<$EOF" >> $GITHUB_OUTPUT
-          echo "$list" >> $GITHUB_OUTPUT
-          echo "$EOF" >> $GITHUB_OUTPUT
-        working-directory: examples/fishjam-chat
-
       - name: 🔢 Get iOS archive url and version
         id: ios_build
-        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '[.[] | select(.platform=="IOS")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+        run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="IOS")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
       - name: ⛓️‍💥 Get Android archive url and version
         id: android_build
-        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '[.[] | select(.platform=="ANDROID")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+        run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="ANDROID")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
       - name: 💬 Add comment with build links
