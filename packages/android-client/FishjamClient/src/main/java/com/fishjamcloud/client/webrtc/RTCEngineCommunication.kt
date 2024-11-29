@@ -69,7 +69,7 @@ internal class RTCEngineCommunication {
     trackId: String,
     encoding: TrackEncoding
   ) {
-    // TODO: This will be useful after simulcast is enabled
+    // TODO(FCE-953): This will be useful after simulcast is enabled
   }
 
   fun renegotiateTracks() {
@@ -134,7 +134,7 @@ internal class RTCEngineCommunication {
                   .addVariantBitrates(
                     fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate
                       .newBuilder()
-                      .setVariant(fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED) // TODO: Update with simulcast
+                      .setVariant(fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED) // TODO(FCE-953): Update with simulcast
                       .setBitrate(bitrate)
                       .build()
                   ).build()
@@ -253,9 +253,9 @@ internal class RTCEngineCommunication {
           )
         }
 
-      event.hasTrackVariantSwitched() -> {} // TODO: Add with simulcast
-      event.hasTrackVariantDisabled() -> {} // TODO: Add with simulcast
-      event.hasTrackVariantEnabled() -> {} // TODO: Add with simulcast
+      event.hasTrackVariantSwitched() -> {} // TODO(FCE-953): Add with simulcast
+      event.hasTrackVariantDisabled() -> {} // TODO(FCE-953): Add with simulcast
+      event.hasTrackVariantEnabled() -> {} // TODO(FCE-953): Add with simulcast
 
       else -> Timber.e("Failed to process unknown event: $event")
     }

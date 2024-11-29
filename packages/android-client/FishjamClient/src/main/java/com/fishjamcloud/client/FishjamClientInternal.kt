@@ -209,8 +209,6 @@ internal class FishjamClientInternal(
     coroutineScope.launch {
       commandsQueue.addCommand(
         Command(CommandName.JOIN, ClientState.JOINED) {
-          // TODO: Remove after FCE-834
-          localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
           rtcEngineCommunication.connect(connectConfig?.peerMetadata ?: emptyMap())
         }
       )
@@ -471,9 +469,7 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
-      // TODO: Remove after FCE-834
       rtcEngineCommunication.updatePeerMetadata(peerMetadata)
-      localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
     }
   }
 
@@ -643,7 +639,7 @@ internal class FishjamClientInternal(
           offer.description,
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
           offer.midToTrackIdMapping,
-          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 1500000 }.toMap() // TODO: Update with simulcast
+          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 1500000 }.toMap() // TODO(FCE-953): Update with simulcast
         )
         peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {

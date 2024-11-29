@@ -278,7 +278,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             guard let trackId: String = transceiver.sender.track?.trackId else {
                 return
             }
-            mapping[trackId] = 1_500_000  // TODO: Change with simulcast
+            mapping[trackId] = 1_500_000  // TODO(FCE-953): Change with simulcast
         }
 
         return mapping

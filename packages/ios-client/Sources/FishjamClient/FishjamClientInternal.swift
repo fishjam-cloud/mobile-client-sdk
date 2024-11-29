@@ -86,11 +86,6 @@ class FishjamClientInternal {
     func join() {
         commandsQueue.addCommand(
             Command(commandName: .JOIN, clientStateAfterCommand: .JOINED) {
-                self.localEndpoint = self.localEndpoint.copyWith(
-                    metadata: [
-                        "peer": self.config?.peerMetadata.toDict() as Any,  // TODO: Remove after FCE-834
-                        "server": [:],
-                    ].toMetadata())
                 self.rtcEngineCommunication.connect(metadata: self.config?.peerMetadata ?? [:].toMetadata())
             })
     }
@@ -294,11 +289,6 @@ class FishjamClientInternal {
 
     func updatePeerMetadata(metadata: Metadata) {
         rtcEngineCommunication.updateEndpointMetadata(metadata: metadata)
-        localEndpoint = localEndpoint.copyWith(
-            metadata: [
-                "peer": self.config?.peerMetadata.toDict() as Any,  // TODO: Remove after FCE-834
-                "server": [:],
-            ].toMetadata())
     }
 
     func updateTrackMetadata(trackId: String, metadata: Metadata) {
