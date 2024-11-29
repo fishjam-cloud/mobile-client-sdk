@@ -209,8 +209,6 @@ internal class FishjamClientInternal(
     coroutineScope.launch {
       commandsQueue.addCommand(
         Command(CommandName.JOIN, ClientState.JOINED) {
-          // TODO: Remove after FCE-834
-          localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
           rtcEngineCommunication.connect(connectConfig?.peerMetadata ?: emptyMap())
         }
       )
@@ -471,9 +469,7 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
-      // TODO: Remove after FCE-834
       rtcEngineCommunication.updatePeerMetadata(peerMetadata)
-      localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
     }
   }
 
