@@ -54,9 +54,6 @@ export interface JoinRoomConfig<
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
-  const connectionStatus: ConnectionStatus =
-    reconnectionStatus === 'idle' ? peerStatus : reconnectionStatus;
-
   const join = useCallback(
     async <PeerMetadata extends GenericMetadata = GenericMetadata>({
       url,
@@ -78,6 +75,7 @@ export function useConnection() {
      * Leave room and stop streaming
      */
     leaveRoom,
-    connectionStatus,
+    peerStatus,
+    reconnectionStatus,
   };
 }
