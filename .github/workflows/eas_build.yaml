@@ -36,10 +36,10 @@ jobs:
       - name: 🗒️ Download EAS build list
         id: eas_build_list
         run: |
-          build_json=$(eas build:list --json --non-interactive)
+          list=$(eas build:list --json --non-interactive)
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "build_json<<$EOF" >> $GITHUB_OUTPUT
-          echo "$build_json" >> $GITHUB_OUTPUT
+          echo "list<<$EOF" >> $GITHUB_OUTPUT
+          echo "$list" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
