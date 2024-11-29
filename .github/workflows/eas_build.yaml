@@ -1,3 +1,4 @@
+name: EAS Build
 on:
   pull_request:
     types: [labeled]
@@ -34,17 +35,22 @@ jobs:
 
       - name: 🗒️ Download EAS build list
         id: eas_build_list
-        run: echo "list=$(eas build:list --json --non-interactive)" >> $GITHUB_OUTPUT
+        run: |
+          build_json=$(eas build:list --json --non-interactive)
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "build_json<<$EOF" >> $GITHUB_OUTPUT
+          echo "$build_json" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
-      - name: 🔢 Get build version
-        id: build_version
-        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '.[0] | "version=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+      - name: 🔢 Get iOS archive url and version
+        id: ios_build
+        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '[.[] | select(.platform=="IOS")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
-      - name: ⛓️‍💥 Get Android archive url
-        id: android_archive
-        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '[.[] | select(.platform=="ANDROID")][0] | "url=\(.artifacts.applicationArchiveUrl)"' >> $GITHUB_OUTPUT
+      - name: ⛓️‍💥 Get Android archive url and version
+        id: android_build
+        run: ${{ steps.eas_build_list.outputs.list }} | jq -r '[.[] | select(.platform=="ANDROID")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
       - name: 💬 Add comment with build links
@@ -56,5 +62,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '**Download links for build ${{ steps.build_version.outputs.version }}**\nAndroid: ${{ steps.android_archive.outputs.url }}\niOS: https://testflight.apple.com/v1/app/6711353226'
+              body: '**Download links**\nAndroid (${{ steps.android_build.outputs.version }}): ${{ steps.android_build.outputs.url }}\niOS (${{ steps.ios_build.outputs.version }}): https://testflight.apple.com/v1/app/6711353226'
             })
