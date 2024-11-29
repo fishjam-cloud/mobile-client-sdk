@@ -35,7 +35,7 @@ jobs:
 
       - name: ⛓️‍💥 Get iOS archive url and version
         id: ios_build
-        run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="IOS")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+        run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="IOS")][0] | "version=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
 
       - name: ⛓️‍💥 Get Android archive url and version
