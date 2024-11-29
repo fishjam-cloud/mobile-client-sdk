@@ -25,15 +25,15 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn && yarn build
 
-      # - name: 🚀 Build app
-      #   run: eas build --non-interactive --platform=all
-      #   working-directory: examples/fishjam-chat
+      - name: 🚀 Build app
+        run: eas build --non-interactive --platform=all
+        working-directory: examples/fishjam-chat
 
-      # - name: 🛫 Submit iOS app to TestFlight
-      #   run: eas submit --non-interactive --platform=ios --latest
-      #   working-directory: examples/fishjam-chat
+      - name: 🛫 Submit iOS app to TestFlight
+        run: eas submit --non-interactive --platform=ios --latest
+        working-directory: examples/fishjam-chat
 
-      - name: 🔢 Get iOS archive url and version
+      - name: ⛓️‍💥 Get iOS archive url and version
         id: ios_build
         run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="IOS")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
         working-directory: examples/fishjam-chat
@@ -52,5 +52,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '**Download links**\nAndroid (${{ steps.android_build.outputs.version }}): ${{ steps.android_build.outputs.url }}\niOS (${{ steps.ios_build.outputs.version }}): https://testflight.apple.com/v1/app/6711353226'
+              body: '**Download links**\nAndroid - ${{ steps.android_build.outputs.version }}: ${{ steps.android_build.outputs.url }}\niOS - ${{ steps.ios_build.outputs.version }}: https://testflight.apple.com/v1/app/6711353226'
             })
