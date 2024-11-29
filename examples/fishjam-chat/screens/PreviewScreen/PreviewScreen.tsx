@@ -3,6 +3,7 @@ import {
   useMicrophone,
   useConnection,
   VideoPreviewView,
+  TrackEncoding,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -14,6 +15,7 @@ import { SwitchOutputDeviceButton } from './SwitchOutputDeviceButton';
 import { ToggleCameraButton } from './ToggleCameraButton';
 import {
   InCallButton,
+  LetterButton,
   NoCameraView,
   SoundOutputDevicesBottomSheet,
 } from '../../components';
@@ -36,6 +38,12 @@ const { JOIN_BUTTON, TOGGLE_MICROPHONE_BUTTON } = previewScreenLabels;
 
 let unsubscribeBeforeRemove: () => void;
 
+const encodings: TrackEncoding[] =
+  Platform.select({
+    ios: ['l', 'h'],
+    android: ['l', 'm', 'h'],
+  }) ?? [];
+
 function PreviewScreen({
   navigation,
   route,
@@ -48,6 +56,8 @@ function PreviewScreen({
     switchCamera,
     toggleCamera,
     currentCamera,
+    simulcastConfig,
+    toggleVideoTrackEncoding,
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
   const { joinRoom, leaveRoom } = useConnection();
@@ -64,7 +74,7 @@ function PreviewScreen({
 
   useEffect(() => {
     prepareCamera({
-      simulcastEnabled: false,
+      simulcastEnabled: true,
       quality: 'HD169',
       cameraEnabled: true,
     });
@@ -97,6 +107,8 @@ function PreviewScreen({
     }
   }, []);
 
+  console.log({ active: simulcastConfig.activeEncodings });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cameraPreview}>
@@ -119,7 +131,18 @@ function PreviewScreen({
         <SwitchCameraButton switchCamera={toggleSwitchCamera} />
         <SwitchOutputDeviceButton bottomSheetRef={bottomSheetRef} />
       </View>
-
+      <View style={styles.simulcastButtonsWrapper}>
+        {encodings.map((val) => (
+          <LetterButton
+            trackEncoding={val}
+            key={`encoding-${val}`}
+            selected={simulcastConfig.activeEncodings.includes(val)}
+            onPress={() => {
+              toggleVideoTrackEncoding(val);
+            }}
+          />
+        ))}
+      </View>
       <View style={styles.joinButton}>
         <Button
           title="Join Room"

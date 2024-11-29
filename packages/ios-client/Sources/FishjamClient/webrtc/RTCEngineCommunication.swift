@@ -72,7 +72,7 @@ internal class RTCEngineCommunication {
                     var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
                     trackBitrates.trackID = key
                     var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
-                    bitrate.variant = .unspecified  // TODO: Add with simulcast
+                    bitrate.variant = .unspecified  // TODO(FCE-953):
                     bitrate.bitrate = value
                     trackBitrates.variantBitrates = [bitrate]
 
@@ -175,9 +175,9 @@ internal class RTCEngineCommunication {
         case .error(let error):
             sdkLogger.error("Failed to handle event. Message: \(error.message)")
 
-        case .trackVariantSwitched(_): break  // TODO: Add with simulcast
-        case .trackVariantDisabled(_): break  // TODO: Add with simulcast
-        case .trackVariantEnabled(_): break  // TODO: Add with simulcast
+        case .trackVariantSwitched(_): break  // TODO(FCE-953): Add with simulcast
+        case .trackVariantDisabled(_): break  // TODO(FCE-953): Add with simulcast
+        case .trackVariantEnabled(_): break  // TODO(FCE-953): Add with simulcast
         }
     }
 }
