@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 export type AudioOutputDeviceType =
   | 'bluetooth'

@@ -1,7 +1,7 @@
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 /**
  * Represents the possible statuses of a peer connection to a room (websocket state).
@@ -16,8 +16,6 @@ export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
 /**
  * This hook provides live updates of current connection state of the local peer to a room (websocket state)
  * @returns Current peer status.
- * @category Connection
- * @group Hooks
  * @deprecated
  */
 export const usePeerStatus = () => {
