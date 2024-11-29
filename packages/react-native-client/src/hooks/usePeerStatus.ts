@@ -1,7 +1,7 @@
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 /**
  * Represents the possible statuses of a peer connection to a room (websocket state).
