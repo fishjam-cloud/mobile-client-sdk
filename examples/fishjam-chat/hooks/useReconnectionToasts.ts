@@ -1,32 +1,32 @@
 import { useEffect, useRef } from 'react';
 import Toast from 'react-native-toast-message';
 import {
-  ConnectionStatus,
+  ReconnectionStatus,
   useConnection,
 } from '@fishjam-cloud/react-native-client';
 
 export function useReconnectionToasts() {
-  const prevStatus = useRef<ConnectionStatus>('idle');
-  const { connectionStatus } = useConnection();
+  const prevStatus = useRef<ReconnectionStatus>('idle');
+  const { reconnectionStatus } = useConnection();
 
   useEffect(() => {
-    if (prevStatus.current === connectionStatus) return;
+    if (prevStatus.current === reconnectionStatus) return;
 
-    if (connectionStatus === 'reconnecting') {
+    if (reconnectionStatus === 'reconnecting') {
       Toast.show({
         text1: 'Connection is broken, reconnecting...',
       });
     } else if (prevStatus.current === 'reconnecting') {
-      if (connectionStatus === 'connected') {
+      if (reconnectionStatus === 'idle') {
         Toast.show({
           text1: 'Connected successfully',
         });
-      } else if (connectionStatus === 'error') {
+      } else if (reconnectionStatus === 'error') {
         Toast.show({
           text1: 'Failed to reconnect',
         });
       }
     }
-    prevStatus.current = connectionStatus;
-  }, [connectionStatus]);
+    prevStatus.current = reconnectionStatus;
+  }, [reconnectionStatus]);
 }

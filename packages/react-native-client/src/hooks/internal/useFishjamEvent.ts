@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import nativeModule, { ReceivableEvents } from '../RNFishjamClientModule';
+import nativeModule, { ReceivableEvents } from '../../RNFishjamClientModule';
 
 export function useFishjamEvent<T>(
   eventName: keyof typeof ReceivableEvents,
