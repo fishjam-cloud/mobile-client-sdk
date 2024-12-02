@@ -5,7 +5,7 @@ import RNFishjamClientModule, {
 import { SimulcastConfig } from '../types';
 import { ScreenShareOptions } from './useScreenShare';
 import { Platform } from 'react-native';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 const defaultSimulcastConfig = () => ({
   enabled: false,

@@ -1,7 +1,7 @@
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
@@ -9,7 +9,6 @@ export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
  * Information about reconnection status.
  * Could be used to retrieve connection status, once user will be disconnected
  * @group Hooks
- * @category Connection
  * @deprecated
  */
 export function useReconnection() {
