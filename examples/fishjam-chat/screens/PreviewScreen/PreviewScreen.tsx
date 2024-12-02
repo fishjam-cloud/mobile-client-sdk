@@ -75,13 +75,13 @@ function PreviewScreen({
   }, [prepareCamera, navigation, leaveRoom]);
 
   const onJoinPressed = async () => {
-    await joinRoom<PeerMetadata>(
-      route.params.fishjamUrl,
-      route.params.peerToken,
-      {
+    await joinRoom<PeerMetadata>({
+      url: route.params.fishjamUrl,
+      peerToken: route.params.peerToken,
+      peerMetadata: {
         displayName: route.params.userName,
       },
-    );
+    });
 
     unsubscribeBeforeRemove();
 

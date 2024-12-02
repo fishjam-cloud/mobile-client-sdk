@@ -4,7 +4,7 @@ import { Brand, GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 export type PeerId = Brand<string, 'PeerId'>;
 export type TrackId = Brand<string, 'TrackId'>;
