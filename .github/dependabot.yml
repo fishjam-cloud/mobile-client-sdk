@@ -11,3 +11,9 @@ updates:
     groups:
       development-dependencies:
         dependency-type: "development"
+    ignore:
+      - dependency-name: "@react-native-async-storage/async-storage"
+      - dependency-name: "expo"
+      - dependency-name: "react-native"
+      - dependency-name: "react-native-safe-area-context"
+      - dependency-name: "react-native-screens"
