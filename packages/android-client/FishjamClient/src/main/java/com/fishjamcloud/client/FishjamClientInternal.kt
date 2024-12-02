@@ -1,8 +1,6 @@
 package com.fishjamcloud.client
 
 import android.content.Intent
-import com.fishjamcloud.client.events.OfferData
-import com.fishjamcloud.client.events.TrackData
 import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalTrack
@@ -16,21 +14,22 @@ import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
 import com.fishjamcloud.client.models.RTCStats
-import com.fishjamcloud.client.models.SerializedMediaEvent
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.TrackEncoding
-import com.fishjamcloud.client.models.VadStatus
 import com.fishjamcloud.client.models.VideoParameters
 import com.fishjamcloud.client.ui.VideoTextureViewRenderer
 import com.fishjamcloud.client.utils.ClosableCoroutineScope
 import com.fishjamcloud.client.utils.TimberDebugTree
+import com.fishjamcloud.client.utils.serializeToMap
 import com.fishjamcloud.client.webrtc.PeerConnectionFactoryWrapper
 import com.fishjamcloud.client.webrtc.PeerConnectionListener
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import com.fishjamcloud.client.webrtc.RTCEngineListener
+import com.github.ajalt.timberkt.BuildConfig
 import fishjam.PeerNotifications
+import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -141,8 +140,8 @@ internal class FishjamClientInternal(
             if (peerMessage.hasAuthenticated()) {
               commandsQueue.finishCommand()
               join()
-            } else if (peerMessage.hasMediaEvent()) {
-              receiveEvent(peerMessage.mediaEvent.data)
+            } else if (peerMessage.hasServerMediaEvent()) {
+              receiveEvent(peerMessage.serverMediaEvent)
             } else {
               Timber.w("Received unexpected websocket message: $peerMessage")
             }
@@ -162,6 +161,7 @@ internal class FishjamClientInternal(
                 PeerNotifications.PeerMessage.AuthRequest
                   .newBuilder()
                   .setToken(connectConfig.token)
+                  .setSdkVersion("mobile-0.6.0")
               ).build()
           sendEvent(authRequest)
         }
@@ -209,8 +209,6 @@ internal class FishjamClientInternal(
     coroutineScope.launch {
       commandsQueue.addCommand(
         Command(CommandName.JOIN, ClientState.JOINED) {
-          // TODO: Remove after FCE-834
-          localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
           rtcEngineCommunication.connect(connectConfig?.peerMetadata ?: emptyMap())
         }
       )
@@ -219,20 +217,27 @@ internal class FishjamClientInternal(
 
   override fun onConnected(
     endpointID: String,
-    otherEndpoints: List<com.fishjamcloud.client.events.Endpoint>
+    endpoints: Map<String, Server.MediaEvent.Endpoint>,
+    iceServers: List<Server.MediaEvent.IceServer>
   ) {
     localEndpoint = localEndpoint.copy(id = endpointID)
+    peerConnectionManager.setupIceServers(iceServers)
 
-    otherEndpoints.forEach {
-      var endpoint = Endpoint(it.id, it.metadata)
+    endpoints.forEach {
+      val (endpointId, endpointData) = it
+      if (endpointId == endpointID) {
+        this.localEndpoint = this.localEndpoint.copy(metadata = endpointData.metadataJson.serializeToMap())
+      } else {
+        var endpoint = Endpoint(endpointId, endpointData.metadataJson.serializeToMap())
 
-      for ((trackId, trackData) in it.tracks) {
-        val track = Track(null, it.id, trackId, trackData.metadata ?: mapOf())
-        endpoint = endpoint.addOrReplaceTrack(track)
-
-        this.listener.onTrackAdded(track)
+        for ((trackId, trackData) in endpointData.trackIdToTrackMap) {
+          val track =
+            Track(null, endpointId, trackId, trackData.metadataJson.serializeToMap())
+          endpoint = endpoint.addOrReplaceTrack(track)
+          this.listener.onTrackAdded(track)
+        }
+        this.remoteEndpoints[endpointId] = endpoint
       }
-      this.remoteEndpoints[it.id] = (endpoint)
     }
     listener.onJoined(endpointID, remoteEndpoints)
     commandsQueue.finishCommand()
@@ -308,7 +313,6 @@ internal class FishjamClientInternal(
   }
 
   override fun onSdpAnswer(
-    type: String,
     sdp: String,
     midToTrackId: Map<String, String>
   ) {
@@ -465,9 +469,7 @@ internal class FishjamClientInternal(
 
   fun updatePeerMetadata(peerMetadata: Metadata) {
     coroutineScope.launch {
-      // TODO: Remove after FCE-834
       rtcEngineCommunication.updatePeerMetadata(peerMetadata)
-      localEndpoint = localEndpoint.copy(metadata = mapOf("peer" to connectConfig?.peerMetadata, "server" to mapOf()))
     }
   }
 
@@ -535,19 +537,16 @@ internal class FishjamClientInternal(
     webSocket?.send(peerMessage.toByteArray().toByteString())
   }
 
-  private fun receiveEvent(event: SerializedMediaEvent) {
+  private fun receiveEvent(event: Server.MediaEvent) {
     rtcEngineCommunication.onEvent(event)
   }
 
-  override fun onSendMediaEvent(event: SerializedMediaEvent) {
+  override fun onSendMediaEvent(event: fishjam.media_events.peer.Peer.MediaEvent) {
     val mediaEvent =
       PeerNotifications.PeerMessage
         .newBuilder()
-        .setMediaEvent(
-          PeerNotifications.PeerMessage.MediaEvent
-            .newBuilder()
-            .setData(event)
-        ).build()
+        .setPeerMediaEvent(event)
+        .build()
     sendEvent(mediaEvent)
   }
 
@@ -588,6 +587,12 @@ internal class FishjamClientInternal(
     endpointId: String,
     endpointMetadata: Metadata?
   ) {
+    if (endpointId == this.localEndpoint.id) {
+      localEndpoint = this.localEndpoint.copy(metadata = endpointMetadata)
+      listener.onPeerUpdated(localEndpoint)
+      return
+    }
+
     val endpoint =
       remoteEndpoints.remove(endpointId) ?: run {
         Timber.e("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
@@ -621,15 +626,11 @@ internal class FishjamClientInternal(
     prevTracks = mutableListOf()
   }
 
-  override fun onOfferData(
-    integratedTurnServers: List<OfferData.TurnServer>,
-    tracksTypes: Map<String, Int>
-  ) {
+  override fun onOfferData(tracksTypes: Server.MediaEvent.OfferData.TrackTypes) {
     coroutineScope.launch {
       try {
         val offer =
           peerConnectionManager.getSdpOffer(
-            integratedTurnServers,
             tracksTypes,
             localEndpoint.tracks.values.toList()
           )
@@ -637,7 +638,8 @@ internal class FishjamClientInternal(
         rtcEngineCommunication.sdpOffer(
           offer.description,
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
-          offer.midToTrackIdMapping
+          offer.midToTrackIdMapping,
+          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 1500000 }.toMap() // TODO(FCE-953): Update with simulcast
         )
         peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {
@@ -649,12 +651,12 @@ internal class FishjamClientInternal(
   override fun onRemoteCandidate(
     candidate: String,
     sdpMLineIndex: Int,
-    sdpMid: Int?
+    sdpMid: String
   ) {
     coroutineScope.launch {
       val iceCandidate =
         IceCandidate(
-          sdpMid?.toString() ?: "",
+          sdpMid,
           sdpMLineIndex,
           candidate
         )
@@ -665,9 +667,11 @@ internal class FishjamClientInternal(
 
   override fun onTracksAdded(
     endpointId: String,
-    tracks: Map<String, TrackData>
+    trackIdToTrack: Map<String, Server.MediaEvent.Track>
   ) {
-    if (localEndpoint.id == endpointId) return
+    if (localEndpoint.id == endpointId) {
+      return
+    }
 
     val endpoint =
       remoteEndpoints.remove(endpointId) ?: run {
@@ -677,15 +681,15 @@ internal class FishjamClientInternal(
 
     val updatedTracks = endpoint.tracks.toMutableMap()
 
-    for ((trackId, trackData) in tracks) {
+    for ((trackId, trackData) in trackIdToTrack) {
       var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
       if (track != null) {
-        track.metadata = trackData.metadata ?: mapOf()
+        track.metadata = trackData.metadataJson.serializeToMap()
       } else {
-        track = Track(null, endpointId, trackId, trackData.metadata ?: mapOf())
+        track = Track(null, endpointId, trackId, trackData.metadataJson.serializeToMap())
         this.listener.onTrackAdded(track)
       }
-      updatedTracks[track.id()] = track
+      updatedTracks[trackId] = track
     }
 
     val updatedEndpoint = endpoint.copy(tracks = updatedTracks)
@@ -727,7 +731,7 @@ internal class FishjamClientInternal(
     this.listener.onTrackUpdated(track)
   }
 
-  override fun onTrackEncodingChanged(
+  fun onTrackEncodingChanged(
     endpointId: String,
     trackId: String,
     encoding: String,
@@ -753,20 +757,16 @@ internal class FishjamClientInternal(
 
   override fun onVadNotification(
     trackId: String,
-    status: String
+    status: Server.MediaEvent.VadNotification.Status
   ) {
     val track =
       getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: run {
         Timber.e("Invalid track id = $trackId")
         return
       }
-    val vadStatus = VadStatus.fromString(status)
-    if (vadStatus == null) {
-      Timber.e("Invalid vad status = $status")
-      return
-    }
-    if (track.vadStatus != vadStatus) {
-      track.vadStatus = vadStatus
+
+    if (track.vadStatus != status) {
+      track.vadStatus = status
       listener.onTrackUpdated(track)
     }
   }
@@ -784,6 +784,10 @@ internal class FishjamClientInternal(
         Timber.e("onAddTrack: Track context with trackId=$rtcEngineTrackId not found")
         return
       }
+
+    if (track.endpointId == this.localEndpoint.id) {
+      return
+    }
 
     val trackId = track.id()
 

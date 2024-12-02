@@ -126,6 +126,54 @@ public object PeerMessageKt {
     public fun hasRtcStatsReport(): kotlin.Boolean {
       return _builder.hasRtcStatsReport()
     }
+
+    /**
+     * `.fishjam.media_events.peer.MediaEvent peer_media_event = 5;`
+     */
+    public var peerMediaEvent: fishjam.media_events.peer.Peer.MediaEvent
+      @JvmName("getPeerMediaEvent")
+      get() = _builder.getPeerMediaEvent()
+      @JvmName("setPeerMediaEvent")
+      set(value) {
+        _builder.setPeerMediaEvent(value)
+      }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent peer_media_event = 5;`
+     */
+    public fun clearPeerMediaEvent() {
+      _builder.clearPeerMediaEvent()
+    }
+    /**
+     * `.fishjam.media_events.peer.MediaEvent peer_media_event = 5;`
+     * @return Whether the peerMediaEvent field is set.
+     */
+    public fun hasPeerMediaEvent(): kotlin.Boolean {
+      return _builder.hasPeerMediaEvent()
+    }
+
+    /**
+     * `.fishjam.media_events.server.MediaEvent server_media_event = 6;`
+     */
+    public var serverMediaEvent: fishjam.media_events.server.Server.MediaEvent
+      @JvmName("getServerMediaEvent")
+      get() = _builder.getServerMediaEvent()
+      @JvmName("setServerMediaEvent")
+      set(value) {
+        _builder.setServerMediaEvent(value)
+      }
+    /**
+     * `.fishjam.media_events.server.MediaEvent server_media_event = 6;`
+     */
+    public fun clearServerMediaEvent() {
+      _builder.clearServerMediaEvent()
+    }
+    /**
+     * `.fishjam.media_events.server.MediaEvent server_media_event = 6;`
+     * @return Whether the serverMediaEvent field is set.
+     */
+    public fun hasServerMediaEvent(): kotlin.Boolean {
+      return _builder.hasServerMediaEvent()
+    }
     public val contentCase: fishjam.PeerNotifications.PeerMessage.ContentCase
       @JvmName("getContentCase")
       get() = _builder.getContentCase()
@@ -203,49 +251,22 @@ public object PeerMessageKt {
       public fun clearToken() {
         _builder.clearToken()
       }
-    }
-  }
-  @kotlin.jvm.JvmName("-initializemediaEvent")
-  public inline fun mediaEvent(block: fishjam.PeerMessageKt.MediaEventKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage.MediaEvent =
-    fishjam.PeerMessageKt.MediaEventKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.MediaEvent.newBuilder()).apply { block() }._build()
-  /**
-   * ```
-   * Any type of WebRTC messages passed betweend FJ and peer
-   * ```
-   *
-   * Protobuf type `fishjam.PeerMessage.MediaEvent`
-   */
-  public object MediaEventKt {
-    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
-    @com.google.protobuf.kotlin.ProtoDslMarker
-    public class Dsl private constructor(
-      private val _builder: fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder
-    ) {
-      public companion object {
-        @kotlin.jvm.JvmSynthetic
-        @kotlin.PublishedApi
-        internal fun _create(builder: fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder): Dsl = Dsl(builder)
-      }
-
-      @kotlin.jvm.JvmSynthetic
-      @kotlin.PublishedApi
-      internal fun _build(): fishjam.PeerNotifications.PeerMessage.MediaEvent = _builder.build()
 
       /**
-       * `string data = 1;`
+       * `string sdk_version = 2;`
        */
-      public var data: kotlin.String
-        @JvmName("getData")
-        get() = _builder.getData()
-        @JvmName("setData")
+      public var sdkVersion: kotlin.String
+        @JvmName("getSdkVersion")
+        get() = _builder.getSdkVersion()
+        @JvmName("setSdkVersion")
         set(value) {
-          _builder.setData(value)
+          _builder.setSdkVersion(value)
         }
       /**
-       * `string data = 1;`
+       * `string sdk_version = 2;`
        */
-      public fun clearData() {
-        _builder.clearData()
+      public fun clearSdkVersion() {
+        _builder.clearSdkVersion()
       }
     }
   }
@@ -294,6 +315,50 @@ public object PeerMessageKt {
       }
     }
   }
+  @kotlin.jvm.JvmName("-initializemediaEvent")
+  public inline fun mediaEvent(block: fishjam.PeerMessageKt.MediaEventKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage.MediaEvent =
+    fishjam.PeerMessageKt.MediaEventKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.MediaEvent.newBuilder()).apply { block() }._build()
+  /**
+   * ```
+   * Any type of WebRTC messages passed betweend FJ and peer
+   * ```
+   *
+   * Protobuf type `fishjam.PeerMessage.MediaEvent`
+   */
+  public object MediaEventKt {
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    @com.google.protobuf.kotlin.ProtoDslMarker
+    public class Dsl private constructor(
+      private val _builder: fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder
+    ) {
+      public companion object {
+        @kotlin.jvm.JvmSynthetic
+        @kotlin.PublishedApi
+        internal fun _create(builder: fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder): Dsl = Dsl(builder)
+      }
+
+      @kotlin.jvm.JvmSynthetic
+      @kotlin.PublishedApi
+      internal fun _build(): fishjam.PeerNotifications.PeerMessage.MediaEvent = _builder.build()
+
+      /**
+       * `string data = 1;`
+       */
+      public var data: kotlin.String
+        @JvmName("getData")
+        get() = _builder.getData()
+        @JvmName("setData")
+        set(value) {
+          _builder.setData(value)
+        }
+      /**
+       * `string data = 1;`
+       */
+      public fun clearData() {
+        _builder.clearData()
+      }
+    }
+  }
 }
 @kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.copy(block: `fishjam`.PeerMessageKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage =
@@ -308,12 +373,12 @@ public inline fun fishjam.PeerNotifications.PeerMessage.AuthRequest.copy(block: 
   `fishjam`.PeerMessageKt.AuthRequestKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 @kotlin.jvm.JvmSynthetic
-public inline fun fishjam.PeerNotifications.PeerMessage.MediaEvent.copy(block: `fishjam`.PeerMessageKt.MediaEventKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage.MediaEvent =
-  `fishjam`.PeerMessageKt.MediaEventKt.Dsl._create(this.toBuilder()).apply { block() }._build()
-
-@kotlin.jvm.JvmSynthetic
 public inline fun fishjam.PeerNotifications.PeerMessage.RTCStatsReport.copy(block: `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage.RTCStatsReport =
   `fishjam`.PeerMessageKt.RTCStatsReportKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+@kotlin.jvm.JvmSynthetic
+public inline fun fishjam.PeerNotifications.PeerMessage.MediaEvent.copy(block: `fishjam`.PeerMessageKt.MediaEventKt.Dsl.() -> kotlin.Unit): fishjam.PeerNotifications.PeerMessage.MediaEvent =
+  `fishjam`.PeerMessageKt.MediaEventKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 
 public val fishjam.PeerNotifications.PeerMessageOrBuilder.authenticatedOrNull: fishjam.PeerNotifications.PeerMessage.Authenticated?
   get() = if (hasAuthenticated()) getAuthenticated() else null
@@ -326,4 +391,10 @@ public val fishjam.PeerNotifications.PeerMessageOrBuilder.mediaEventOrNull: fish
 
 public val fishjam.PeerNotifications.PeerMessageOrBuilder.rtcStatsReportOrNull: fishjam.PeerNotifications.PeerMessage.RTCStatsReport?
   get() = if (hasRtcStatsReport()) getRtcStatsReport() else null
+
+public val fishjam.PeerNotifications.PeerMessageOrBuilder.peerMediaEventOrNull: fishjam.media_events.peer.Peer.MediaEvent?
+  get() = if (hasPeerMediaEvent()) getPeerMediaEvent() else null
+
+public val fishjam.PeerNotifications.PeerMessageOrBuilder.serverMediaEventOrNull: fishjam.media_events.server.Server.MediaEvent?
+  get() = if (hasServerMediaEvent()) getServerMediaEvent() else null
 

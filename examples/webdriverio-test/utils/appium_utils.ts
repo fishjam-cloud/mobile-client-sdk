@@ -5,13 +5,11 @@ type TimeoutConfig = {
   interval: number;
 };
 
-const findTimeoutConfig = (selector: string): TimeoutConfig => {
-  return {
-    timeout: TIMEOUT,
-    timeoutMsg: `Element with selector ${selector} not found within the specified time`,
-    interval: INTERVAL,
-  };
-};
+const findTimeoutConfig = (selector: string): TimeoutConfig => ({
+  timeout: TIMEOUT,
+  timeoutMsg: `Element with selector ${selector} not found within the specified time`,
+  interval: INTERVAL,
+});
 
 const getElement = async (
   driver: WebdriverIO.Browser,

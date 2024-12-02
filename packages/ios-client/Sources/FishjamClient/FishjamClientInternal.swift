@@ -86,11 +86,6 @@ class FishjamClientInternal {
     func join() {
         commandsQueue.addCommand(
             Command(commandName: .JOIN, clientStateAfterCommand: .JOINED) {
-                self.localEndpoint = self.localEndpoint.copyWith(
-                    metadata: [
-                        "peer": self.config?.peerMetadata.toDict() as Any,  // TODO: Remove after FCE-834
-                        "server": [:],
-                    ].toMetadata())
                 self.rtcEngineCommunication.connect(metadata: self.config?.peerMetadata ?? [:].toMetadata())
             })
     }
@@ -294,11 +289,6 @@ class FishjamClientInternal {
 
     func updatePeerMetadata(metadata: Metadata) {
         rtcEngineCommunication.updateEndpointMetadata(metadata: metadata)
-        localEndpoint = localEndpoint.copyWith(
-            metadata: [
-                "peer": self.config?.peerMetadata.toDict() as Any,  // TODO: Remove after FCE-834
-                "server": [:],
-            ].toMetadata())
     }
 
     func updateTrackMetadata(trackId: String, metadata: Metadata) {
@@ -345,14 +335,15 @@ class FishjamClientInternal {
         self.webSocket?.write(data: peerMessage)
     }
 
-    private func receiveEvent(event: SerializedMediaEvent) {
-        rtcEngineCommunication.onEvent(serializedEvent: event)
+    private func receiveEvent(event: Fishjam_MediaEvents_Server_MediaEvent) {
+        rtcEngineCommunication.onEvent(event: event)
     }
 
     func websocketDidConnect() {
         let authRequest = Fishjam_PeerMessage.with({
             $0.authRequest = Fishjam_PeerMessage.AuthRequest.with({
                 $0.token = self.config?.token ?? ""
+                $0.sdkVersion = "mobile-0.6.0"
             })
         })
 
@@ -369,8 +360,8 @@ class FishjamClientInternal {
                 isAuthenticated = true
                 commandsQueue.finishCommand()
                 join()
-            } else if case .mediaEvent(_) = peerMessage.content {
-                receiveEvent(event: peerMessage.mediaEvent.data)
+            } else if case .serverMediaEvent(_) = peerMessage.content {
+                receiveEvent(event: peerMessage.serverMediaEvent)
             } else {
                 sdkLogger.error("Received unexpected websocket message: \(peerMessage)")
             }
@@ -505,6 +496,9 @@ extension FishjamClientInternal: PeerConnectionListener {
             sdkLogger.error("Invalid rtcEngineId in onAddTrack: \(trackId)")
             return
         }
+
+        guard track.endpointId != localEndpoint.id else { return }
+
         let trackId = track.id
         let endpointId = track.endpointId
         let rtcEngineId = track.rtcEngineId
@@ -542,15 +536,40 @@ extension FishjamClientInternal: PeerConnectionListener {
 }
 
 extension FishjamClientInternal: RTCEngineListener {
-    func onSendMediaEvent(event: SerializedMediaEvent) {
+
+    func onSendMediaEvent(event: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) {
         if !isAuthenticated {
             sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
+
         let mediaEvent =
             Fishjam_PeerMessage.with({
-                $0.mediaEvent = Fishjam_PeerMessage.MediaEvent.with({
-                    $0.data = event
+                $0.peerMediaEvent = Fishjam_MediaEvents_Peer_MediaEvent.with({
+                    switch event {
+                    case .connect(let connect):
+                        $0.connect = connect
+                    case .disconnect(let disconnect):
+                        $0.disconnect = disconnect
+                    case .updateEndpointMetadata(let updateEndpointMetadata):
+                        $0.updateEndpointMetadata = updateEndpointMetadata
+                    case .updateTrackMetadata(let updateTrackMetadata):
+                        $0.updateTrackMetadata = updateTrackMetadata
+                    case .renegotiateTracks(let renegotiateTracks):
+                        $0.renegotiateTracks = renegotiateTracks
+                    case .candidate(let candidate):
+                        $0.candidate = candidate
+                    case .sdpOffer(let sdpOffer):
+                        $0.sdpOffer = sdpOffer
+                    case .trackBitrates(let trackBitrates):
+                        $0.trackBitrates = trackBitrates
+                    case .enableTrackVariant(let variant):
+                        $0.enableTrackVariant = variant
+                    case .disableTrackVariant(let variant):
+                        $0.disableTrackVariant = variant
+                    case .setTargetTrackVariant(let variant):
+                        $0.setTargetTrackVariant = variant
+                    }
                 })
             })
 
@@ -560,19 +579,33 @@ extension FishjamClientInternal: RTCEngineListener {
         sendEvent(peerMessage: serialzedData)
     }
 
-    func onConnected(endpointId: String, otherEndpoints: [EventEndpoint]) {
+    func onConnected(
+        endpointId: String, endpointIdToEndpoint: [String: Fishjam_MediaEvents_Server_MediaEvent.Endpoint],
+        iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]
+    ) {
         localEndpoint = localEndpoint.copyWith(id: endpointId)
-        for eventEndpoint in otherEndpoints {
-            var endpoint = Endpoint(
-                id: eventEndpoint.id,
-                metadata: eventEndpoint.metadata ?? Metadata())
-            for (trackId, track) in eventEndpoint.tracks {
-                let track = Track(
-                    mediaTrack: nil, endpointId: eventEndpoint.id, rtcEngineId: trackId, metadata: track.metadata)
-                endpoint = endpoint.addOrReplaceTrack(track)
-                listener.onTrackAdded(track: track)
+        peerConnectionManager.setupIceServers(iceServers: iceServers)
+
+        for (eventEndpointId, eventEndpoint) in endpointIdToEndpoint {
+            if eventEndpointId == endpointId {
+                localEndpoint = localEndpoint.copyWith(metadata: try? AnyJson(from: eventEndpoint.metadataJson))
+            } else {
+                var endpoint = Endpoint(
+                    id: eventEndpointId,
+                    metadata: (try? AnyJson(from: eventEndpoint.metadataJson)) ?? Metadata())
+
+                for (trackId, track) in eventEndpoint.trackIDToTrack {
+                    let track = Track(
+                        mediaTrack: nil,
+                        endpointId: eventEndpointId,
+                        rtcEngineId: trackId,
+                        metadata: (try? AnyJson(from: track.metadataJson)) ?? Metadata()
+                    )
+                    endpoint = endpoint.addOrReplaceTrack(track)
+                    listener.onTrackAdded(track: track)
+                }
+                remoteEndpointsMap[eventEndpointId] = endpoint
             }
-            remoteEndpointsMap[eventEndpoint.id] = endpoint
         }
 
         listener.onJoined(peerID: endpointId, peersInRoom: remoteEndpointsMap)
@@ -595,9 +628,8 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onEndpointAdded(endpointId: String, metadata: Metadata?) {
-        if endpointId == localEndpoint.id {
-            return
-        }
+        guard endpointId != localEndpoint.id else { return }
+
         let endpoint = Endpoint(id: endpointId, metadata: metadata ?? Metadata())
 
         remoteEndpointsMap[endpoint.id] = endpoint
@@ -606,10 +638,11 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onEndpointRemoved(endpointId: String) {
-        if endpointId == localEndpoint.id {
+        guard endpointId != localEndpoint.id else {
             listener.onDisconnected()
             return
         }
+
         guard let endpoint = remoteEndpointsMap.removeValue(forKey: endpointId) else {
             sdkLogger.error("Failed to process EndpointLeft event: Endpoint not found: \(endpointId)")
             return
@@ -623,27 +656,33 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onEndpointUpdated(endpointId: String, metadata: Metadata?) {
+        guard endpointId != localEndpoint.id else {
+            localEndpoint = localEndpoint.copyWith(metadata: metadata)
+            listener.onPeerUpdated(endpoint: localEndpoint)
+            return
+        }
+
         guard let endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process EndpointUpdated event: Endpoint not found: $endpointId")
             return
         }
 
         remoteEndpointsMap[endpoint.id] = endpoint.copyWith(metadata: metadata)
-
         listener.onPeerUpdated(endpoint: endpoint)
     }
 
-    func onOfferData(integratedTurnServers: [OfferDataEvent.TurnServer], tracksTypes: [String: Int]) {
+    func onOfferData(tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes) {
         let localTracks = localEndpoint.tracks.map { $1 }
         peerConnectionManager.getSdpOffer(
-            integratedTurnServers: integratedTurnServers, tracksTypes: tracksTypes, localTracks: localTracks
-        ) { sdp, midToTrackId, error in
+            tracksTypes: tracksTypes,
+            localTracks: localTracks
+        ) { sdp, midToTrackId, trackIdToBitrates, error in
             if let err = error {
                 sdkLogger.error("Failed to create sdp offer: \(err)")
                 return
             }
 
-            if let sdp = sdp, let midToTrackId = midToTrackId {
+            if let sdp = sdp, let midToTrackId = midToTrackId, let trackIdToBitrates = trackIdToBitrates {
                 self.rtcEngineCommunication.sdpOffer(
                     sdp: sdp,
                     trackIdToTrackMetadata: self.localEndpoint.tracks.reduce(into: [String: Metadata]()) {
@@ -651,13 +690,14 @@ extension FishjamClientInternal: RTCEngineListener {
                         let (_, trackData) = trackEntry
                         result[trackData.webrtcId] = trackData.metadata
                     },
-                    midToTrackId: midToTrackId
+                    midToTrackId: midToTrackId,
+                    trackIdToBitrates: trackIdToBitrates
                 )
             }
         }
     }
 
-    func onSdpAnswer(type: String, sdp: String, midToTrackId: [String: String]) {
+    func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
 
         localEndpoint.tracks.values.forEach { track in
@@ -692,8 +732,8 @@ extension FishjamClientInternal: RTCEngineListener {
         peerConnectionManager.onRemoteCandidate(candidate: iceCandidate)
     }
 
-    func onTracksAdded(endpointId: String, tracks: [String: TrackData]) {
-        if localEndpoint.id == endpointId { return }
+    func onTracksAdded(endpointId: String, trackIdToTracks: [String: Fishjam_MediaEvents_Server_MediaEvent.Track]) {
+        guard localEndpoint.id != endpointId else { return }
 
         guard let endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process TracksAdded event: Endpoint not found: \(endpointId)")
@@ -702,13 +742,17 @@ extension FishjamClientInternal: RTCEngineListener {
 
         var updatedTracks: [String: Track] = endpoint.tracks
 
-        for (trackId, trackData) in tracks {
+        for (trackId, trackData) in trackIdToTracks {
             var track = endpoint.tracks.values.first(where: { track in track.rtcEngineId == trackId })
             if track != nil {
-                track!.metadata = trackData.metadata
+                track!.metadata = (try? AnyJson(from: trackData.metadataJson)) ?? Metadata()
             } else {
                 track = Track(
-                    mediaTrack: nil, endpointId: endpointId, rtcEngineId: trackId, metadata: trackData.metadata)
+                    mediaTrack: nil,
+                    endpointId: endpointId,
+                    rtcEngineId: trackId,
+                    metadata: (try? AnyJson(from: trackData.metadataJson)) ?? Metadata()
+                )
                 listener.onTrackAdded(track: track!)
             }
             updatedTracks[track!.id] = track
@@ -720,7 +764,7 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onTracksRemoved(endpointId: String, trackIds: [String]) {
-        if localEndpoint.id == endpointId { return }
+        guard localEndpoint.id != endpointId else { return }
 
         guard var endpoint = remoteEndpointsMap[endpointId] else {
             sdkLogger.error("Failed to process onTracksRemoved event: Endpoint not found: \(endpointId)")
@@ -769,18 +813,14 @@ extension FishjamClientInternal: RTCEngineListener {
         track.setEncoding(encoding: encodingEnum, encodingReason: encodingReasonEnum)
     }
 
-    func onVadNotification(trackId: String, status: String) {
+    func onVadNotification(trackId: String, status: Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status) {
         guard let track = getTrackWithRtcEngineId(trackId: trackId) as? RemoteAudioTrack else {
             sdkLogger.error("Invalid trackId in onVadNotification: \(trackId)")
             return
         }
 
-        guard let vadStatus = VadStatus(rawValue: status) else {
-            sdkLogger.error("Invalid vad status in onVadNotification: \(status)")
-            return
-        }
-        if track.vadStatus != vadStatus {
-            track.vadStatus = vadStatus
+        if track.vadStatus != status {
+            track.vadStatus = status
             listener.onTrackUpdated(track: track)
         }
 

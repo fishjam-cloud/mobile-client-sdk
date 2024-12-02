@@ -1,36 +1,12 @@
 package com.fishjamcloud.client.webrtc
 
-import com.fishjamcloud.client.events.BandwidthEstimation
-import com.fishjamcloud.client.events.Connect
-import com.fishjamcloud.client.events.Connected
-import com.fishjamcloud.client.events.Disconnect
-import com.fishjamcloud.client.events.EncodingSwitched
-import com.fishjamcloud.client.events.EndpointAdded
-import com.fishjamcloud.client.events.EndpointRemoved
-import com.fishjamcloud.client.events.EndpointUpdated
-import com.fishjamcloud.client.events.LocalCandidate
-import com.fishjamcloud.client.events.OfferData
-import com.fishjamcloud.client.events.ReceivableEvent
-import com.fishjamcloud.client.events.RemoteCandidate
-import com.fishjamcloud.client.events.RenegotiateTracks
-import com.fishjamcloud.client.events.SdpAnswer
-import com.fishjamcloud.client.events.SdpOffer
-import com.fishjamcloud.client.events.SelectEncoding
-import com.fishjamcloud.client.events.SendableEvent
-import com.fishjamcloud.client.events.TrackUpdated
-import com.fishjamcloud.client.events.TracksAdded
-import com.fishjamcloud.client.events.TracksRemoved
-import com.fishjamcloud.client.events.UpdateEndpointMetadata
-import com.fishjamcloud.client.events.UpdateTrackMetadata
-import com.fishjamcloud.client.events.VadNotification
-import com.fishjamcloud.client.events.gson
-import com.fishjamcloud.client.events.serializeToMap
+import android.util.Log
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.models.SerializedMediaEvent
 import com.fishjamcloud.client.models.TrackEncoding
-import com.google.gson.reflect.TypeToken
+import com.fishjamcloud.client.utils.gson
+import com.fishjamcloud.client.utils.serializeToMap
+import fishjam.media_events.Shared
 import timber.log.Timber
-import kotlin.math.roundToLong
 
 internal class RTCEngineCommunication {
   private val listeners = mutableListOf<RTCEngineListener>()
@@ -44,34 +20,69 @@ internal class RTCEngineCommunication {
   }
 
   fun connect(endpointMetadata: Metadata) {
-    sendEvent(Connect(endpointMetadata))
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setConnect(
+          fishjam.media_events.peer.Peer.MediaEvent.Connect
+            .newBuilder()
+            .setMetadataJson(gson.toJson(endpointMetadata))
+            .build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
   fun updatePeerMetadata(endpointMetadata: Metadata) {
-    sendEvent(UpdateEndpointMetadata(endpointMetadata))
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setUpdateEndpointMetadata(
+          fishjam.media_events.peer.Peer.MediaEvent.UpdateEndpointMetadata
+            .newBuilder()
+            .setMetadataJson(gson.toJson(endpointMetadata))
+            .build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
   fun updateTrackMetadata(
     trackId: String,
     trackMetadata: Metadata
   ) {
-    sendEvent(UpdateTrackMetadata(trackId, trackMetadata))
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setUpdateTrackMetadata(
+          fishjam.media_events.peer.Peer.MediaEvent.UpdateTrackMetadata
+            .newBuilder()
+            .setTrackId(trackId)
+            .setMetadataJson(gson.toJson(trackMetadata))
+            .build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
   fun setTargetTrackEncoding(
     trackId: String,
     encoding: TrackEncoding
   ) {
-    sendEvent(
-      SelectEncoding(
-        trackId,
-        encoding.rid
-      )
-    )
+    // TODO(FCE-953): This will be useful after simulcast is enabled
   }
 
   fun renegotiateTracks() {
-    sendEvent(RenegotiateTracks())
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setRenegotiateTracks(
+          fishjam.media_events.peer.Peer.MediaEvent.RenegotiateTracks
+            .newBuilder()
+            .build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
   fun localCandidate(
@@ -80,149 +91,172 @@ internal class RTCEngineCommunication {
     sdpMid: Int?,
     usernameFragment: String?
   ) {
-    sendEvent(
-      LocalCandidate(
-        sdp,
-        sdpMLineIndex,
-        sdpMid,
-        usernameFragment
-      )
-    )
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setCandidate(
+          Shared.Candidate
+            .newBuilder()
+            .setCandidate(sdp)
+            .setSdpMLineIndex(sdpMLineIndex)
+            .apply {
+              sdpMid?.let { setSdpMid(it.toString()) }
+              usernameFragment?.let { setUsernameFragment(it) }
+            }.build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
   fun sdpOffer(
     sdp: String,
     trackIdToTrackMetadata: Map<String, Metadata?>,
-    midToTrackId: Map<String, String>
+    midToTrackId: Map<String, String>,
+    trackIdToBitrates: Map<String, Int>
   ) {
-    sendEvent(
-      SdpOffer(
-        sdp,
-        trackIdToTrackMetadata,
-        midToTrackId
-      )
-    )
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setSdpOffer(
+          fishjam.media_events.peer.Peer.MediaEvent.SdpOffer
+            .newBuilder()
+            .setSdp(sdp)
+            .putAllMidToTrackId(midToTrackId)
+            .putAllTrackIdToMetadataJson(
+              trackIdToTrackMetadata.mapValues { (_, metadata) ->
+                metadata?.let { gson.toJson(it) } ?: ""
+              }
+            ).putAllTrackIdToBitrates(
+              trackIdToBitrates.mapValues { (trackId, bitrate) ->
+                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
+                  .newBuilder()
+                  .setTrackId(trackId)
+                  .addVariantBitrates(
+                    fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate
+                      .newBuilder()
+                      .setVariant(fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED) // TODO(FCE-953): Update with simulcast
+                      .setBitrate(bitrate)
+                      .build()
+                  ).build()
+              }
+            ).build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
   fun disconnect() {
-    sendEvent(Disconnect())
+    val mediaEvent =
+      fishjam.media_events.peer.Peer.MediaEvent
+        .newBuilder()
+        .setDisconnect(
+          fishjam.media_events.peer.Peer.MediaEvent.Disconnect
+            .newBuilder()
+            .build()
+        ).build()
+
+    sendEvent(mediaEvent)
   }
 
-  private fun sendEvent(event: SendableEvent) {
-    val serializedMediaEvent = gson.toJson(event.serializeToMap())
-    listeners.forEach { listener -> listener.onSendMediaEvent(serializedMediaEvent) }
+  private fun sendEvent(event: fishjam.media_events.peer.Peer.MediaEvent) {
+    listeners.forEach { listener -> listener.onSendMediaEvent(event) }
   }
 
-  private fun decodeEvent(event: SerializedMediaEvent): ReceivableEvent? {
-    val type = object : TypeToken<Map<String, Any?>>() {}.type
+  fun onEvent(event: fishjam.media_events.server.Server.MediaEvent) {
+    Log.i("IncomingEvent", event.toString())
 
-    val rawMessage: Map<String, Any?> = gson.fromJson(event, type)
-
-    ReceivableEvent.decode(rawMessage)?.let {
-      return it
-    } ?: run {
-      Timber.d("Failed to decode event $rawMessage")
-      return null
-    }
-  }
-
-  fun onEvent(serializedEvent: SerializedMediaEvent) {
-    when (val event = decodeEvent(serializedEvent)) {
-      is Connected ->
+    when {
+      event.hasConnected() ->
         listeners.forEach { listener ->
           listener.onConnected(
-            event.data.id,
-            event.data.otherEndpoints
+            event.connected.endpointId,
+            event.connected.endpointIdToEndpointMap,
+            event.connected.iceServersList
           )
         }
 
-      is OfferData ->
+      event.hasOfferData() ->
         listeners.forEach { listener ->
           listener.onOfferData(
-            event.data.integratedTurnServers,
-            event.data.tracksTypes
+            event.offerData.tracksTypes
           )
         }
 
-      is EndpointRemoved -> listeners.forEach { listener -> listener.onEndpointRemoved(event.data.id) }
-      is EndpointAdded ->
+      event.hasEndpointRemoved() ->
+        listeners.forEach { listener ->
+          listener.onEndpointRemoved(event.endpointRemoved.endpointId)
+        }
+
+      event.hasEndpointAdded() ->
         listeners.forEach { listener ->
           listener.onEndpointAdded(
-            event.data.id,
-            event.data.metadata
+            event.endpointAdded.endpointId,
+            event.endpointAdded.metadataJson.serializeToMap()
           )
         }
 
-      is EndpointUpdated ->
+      event.hasEndpointUpdated() ->
         listeners.forEach { listener ->
           listener.onEndpointUpdated(
-            event.data.id,
-            event.data.metadata
+            event.endpointUpdated.endpointId,
+            event.endpointUpdated.metadataJson.serializeToMap()
           )
         }
 
-      is RemoteCandidate ->
+      event.hasCandidate() ->
         listeners.forEach { listener ->
           listener.onRemoteCandidate(
-            event.data.candidate,
-            event.data.sdpMLineIndex,
-            event.data.sdpMid
+            event.candidate.candidate,
+            event.candidate.sdpMLineIndex,
+            event.candidate.sdpMid
           )
         }
 
-      is SdpAnswer ->
+      event.hasSdpAnswer() ->
         listeners.forEach { listener ->
           listener.onSdpAnswer(
-            event.data.type,
-            event.data.sdp,
-            event.data.midToTrackId
+            event.sdpAnswer.sdp,
+            event.sdpAnswer.midToTrackIdMap
           )
         }
 
-      is TrackUpdated ->
+      event.hasTrackUpdated() ->
         listeners.forEach { listener ->
           listener.onTrackUpdated(
-            event.data.endpointId,
-            event.data.trackId,
-            event.data.metadata
+            event.trackUpdated.endpointId,
+            event.trackUpdated.trackId,
+            event.trackUpdated.metadataJson.serializeToMap()
           )
         }
 
-      is TracksAdded ->
+      event.hasTracksAdded() ->
         listeners.forEach { listener ->
           listener.onTracksAdded(
-            event.data.endpointId,
-            event.data.tracks
+            event.tracksAdded.endpointId,
+            event.tracksAdded.trackIdToTrackMap
           )
         }
 
-      is TracksRemoved ->
+      event.hasTracksRemoved() ->
         listeners.forEach { listener ->
           listener.onTracksRemoved(
-            event.data.endpointId,
-            event.data.trackIds
+            event.tracksRemoved.endpointId,
+            event.tracksRemoved.trackIdsList
           )
         }
 
-      is EncodingSwitched ->
-        listeners.forEach { listener ->
-          listener.onTrackEncodingChanged(
-            event.data.endpointId,
-            event.data.trackId,
-            event.data.encoding,
-            event.data.reason
-          )
-        }
-
-      is VadNotification ->
+      event.hasVadNotification() ->
         listeners.forEach { listener ->
           listener.onVadNotification(
-            event.data.trackId,
-            event.data.status
+            event.vadNotification.trackId,
+            event.vadNotification.status
           )
         }
 
-      is BandwidthEstimation -> listeners.forEach { listener -> listener.onBandwidthEstimation(event.data.estimation.roundToLong()) }
+      event.hasTrackVariantSwitched() -> {} // TODO(FCE-953): Add with simulcast
+      event.hasTrackVariantDisabled() -> {} // TODO(FCE-953): Add with simulcast
+      event.hasTrackVariantEnabled() -> {} // TODO(FCE-953): Add with simulcast
+
       else -> Timber.e("Failed to process unknown event: $event")
     }
   }

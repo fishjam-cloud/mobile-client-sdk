@@ -176,13 +176,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         config.candidateNetworkPolicy = .all
         config.tcpCandidatePolicy = .disabled
 
-        // if ice servers are not empty that probably means we are using turn servers
-        if iceServers.count > 0 {
-            config.iceServers = iceServers
-        } else {
-            config.iceServers = [Self.defaultIceServer()]
-        }
-
         guard
             let peerConnection = peerConnectionFactory.createPeerConnection(
                 config, constraints: Self.mediaConstraints)
@@ -200,26 +193,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         peerConnection.enforceSendOnlyDirection()
     }
 
-    /// Parses a list of turn servers and sets them up as `iceServers` that can be used for `RTCPeerConnection` ceration.
-    private func setTurnServers(_ turnServers: [OfferDataEvent.TurnServer]) {
-        let isExWebrtc = turnServers.isEmpty
-
-        let servers: [RTCIceServer] = turnServers.map { server in
-            let url = "turn:\(server.serverAddr):\(server.serverPort)?transport=\(server.transport)"
-
-            return RTCIceServer(
-                urlStrings: [url],
-                username: server.username,
-                credential: server.password
-            )
-        }
-
-        iceServers = servers
-        config = RTCConfiguration()
-        config?.iceServers = servers
-        config?.iceTransportPolicy = isExWebrtc ? .all : .relay
-    }
-
     public func close() {
         if let pc = connection {
             pc.close()
@@ -231,31 +204,18 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         }
     }
 
-    // Default ICE server when no turn servers are specified
-    private static func defaultIceServer() -> RTCIceServer {
-        let iceUrls = [
-            "stun:stun.l.google.com:19302",
-            "stun:stun.l.google.com:5349",
-        ]
-
-        return RTCIceServer(urlStrings: iceUrls)
-    }
-
     /// On each `OfferData` we receive an information about an amount of audio/video
     /// tracks that we have to receive. For each type of track we need a proper transceiver that
     /// will be used for receiving the media. So each time when we don't have an appropriate amount of audio/video
     /// transceiers just create the missing ones and set their directions to `recvOnly` which is the only direction
     /// acceptable by the `Membrane RTC Engine`.
-    private func addNecessaryTransceivers(_ tracksTypes: [String: Int]) {
+    private func addNecessaryTransceivers(_ tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes) {
         guard let pc = connection else {
             return
         }
 
-        let necessaryAudio = tracksTypes["audio"] ?? 0
-        let necessaryVideo = tracksTypes["video"] ?? 0
-
-        var lackingAudio: Int = necessaryAudio
-        var lackingVideo: Int = necessaryVideo
+        var lackingAudio = tracksTypes.audio
+        var lackingVideo = tracksTypes.video
 
         pc.transceivers.filter {
             $0.direction == .recvOnly
@@ -303,6 +263,22 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             if localTracks.map({ track in track.webrtcId }).contains(trackId) {
                 mapping[transceiver.mid] = trackId
             }
+        }
+
+        return mapping
+    }
+
+    private func getTrackIdToBitrates(localTracks: [Track]) -> [String: Int32] {
+        guard let pc = connection else {
+            return [:]
+        }
+
+        var mapping: [String: Int32] = [:]
+        pc.transceivers.forEach { transceiver in
+            guard let trackId: String = transceiver.sender.track?.trackId else {
+                return
+            }
+            mapping[trackId] = 1_500_000  // TODO(FCE-953): Change with simulcast
         }
 
         return mapping
@@ -380,26 +356,23 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     public func getSdpOffer(
-        integratedTurnServers: [OfferDataEvent.TurnServer],
-        tracksTypes: [String: Int],
+        tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
-        onCompletion: @escaping (_ sdp: String?, _ midToTrackId: [String: String]?, _ error: Error?) -> Void
+        onCompletion: @escaping (
+            _ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?
+        ) -> Void
     ) {
-        let isExWebrtc = integratedTurnServers.isEmpty
-        setTurnServers(integratedTurnServers)
 
-        var needsRestart = true
+        config = RTCConfiguration()
+        config?.iceServers = []
+        config?.iceTransportPolicy = .all
+
         if connection == nil {
             setupPeerConnection(localTracks: localTracks)
-            needsRestart = false
         }
 
         guard let pc = connection else {
             return
-        }
-
-        if needsRestart && !isExWebrtc {
-            pc.restartIce()
         }
 
         addNecessaryTransceivers(tracksTypes)
@@ -409,7 +382,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             completionHandler: { offer, error in
                 guard let offer = offer else {
                     if let err = error {
-                        onCompletion(nil, nil, err)
+                        onCompletion(nil, nil, nil, err)
                     }
                     return
                 }
@@ -418,10 +391,14 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
                     offer,
                     completionHandler: { error in
                         guard let err = error else {
-                            onCompletion(offer.sdp, self.getMidToTrackId(localTracks: localTracks), nil)
+                            onCompletion(
+                                offer.sdp,
+                                self.getMidToTrackId(localTracks: localTracks),
+                                self.getTrackIdToBitrates(localTracks: localTracks),
+                                nil)
                             return
                         }
-                        onCompletion(nil, nil, err)
+                        onCompletion(nil, nil, nil, err)
                     })
             })
     }
@@ -457,12 +434,19 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return newSdpAnswer
     }
 
+    public func setupIceServers(iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]) {
+        self.iceServers = iceServers.map {
+            RTCIceServer(urlStrings: $0.urls, username: $0.username, credential: $0.credential)
+        }
+    }
+
     public func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
         guard let pc = connection else {
             return
         }
 
         self.midToTrackId = midToTrackId
+
         let description = RTCSessionDescription(type: .answer, sdp: sdp)
 
         pc.setRemoteDescription(
@@ -516,7 +500,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func peerConnection(
         _: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver
     ) {
-        guard let trackId = midToTrackId[transceiver.mid]
+        guard
+            let trackId = midToTrackId[transceiver.mid]
         else {
             sdkLogger.error(
                 "\(pcLogPrefix) started receiving on a transceiver with an unknown 'mid' parameter"

@@ -1,3 +1,5 @@
+import SwiftProtobuf
+
 public typealias Metadata = AnyJson
 public typealias Payload = AnyJson
 public typealias SerializedMediaEvent = String
@@ -19,5 +21,33 @@ extension AnyJson {
             res[key] = self[key]
         }
         return res
+    }
+}
+
+public struct JsonEncodingError: Error {}
+
+extension Encodable {
+
+    public func toJsonString() throws -> String {
+        guard let json = String(data: try JSONEncoder().encode(self), encoding: .utf8) else {
+            throw JsonEncodingError()
+        }
+        return json
+
+    }
+
+    var toJsonStringOrEmpty: String {
+        do {
+            return try toJsonString()
+        } catch {
+            sdkLogger.log(level: .error, "Unable to encode metadata")
+            return "{}"
+        }
+    }
+}
+
+extension [String: Metadata] {
+    public func toDictionaryJson() -> [String: String] {
+        return mapValues(\.toJsonStringOrEmpty)
     }
 }
