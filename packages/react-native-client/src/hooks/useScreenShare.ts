@@ -11,7 +11,7 @@ import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
 import { Platform } from 'react-native';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 export type ScreenShareQuality = 'VGA' | 'HD5' | 'HD15' | 'FHD15' | 'FHD30';
 

@@ -1,9 +1,11 @@
-import { joinRoom, leaveRoom } from '../common/client';
+import { useCallback } from 'react';
+import { ConnectionConfig, joinRoom, leaveRoom } from '../common/client';
 
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
+import { GenericMetadata } from '../types';
 
 type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
@@ -23,6 +25,26 @@ function useConnectionStatus() {
 
   return { peerStatus, reconnectionStatus };
 }
+export interface JoinRoomConfig<
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+> {
+  /**
+   * fishjam URL
+   */
+  url: string;
+  /**
+   * token received from server (or Room Manager)
+   */
+  peerToken: string;
+  /**
+   * string indexed record with metadata, that will be available to all other peers
+   */
+  peerMetadata?: PeerMetadata;
+  /**
+   *  additional connection configuration
+   */
+  config?: ConnectionConfig;
+}
 
 /**
  * Connect/leave room. And get connection status.
@@ -32,15 +54,23 @@ function useConnectionStatus() {
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
+  const join = useCallback(
+    async <PeerMetadata extends GenericMetadata = GenericMetadata>({
+      url,
+      peerToken,
+      peerMetadata,
+      config,
+    }: JoinRoomConfig<PeerMetadata>) => {
+      await joinRoom(url, peerToken, peerMetadata, config);
+    },
+    [],
+  );
+
   return {
     /**
      * join room and start streaming camera and microphone
-     * @param url fishjam Url
-     * @param peerToken token received from server (or Room Manager)
-     * @param peerMetadata string indexed record with metadata, that will be available to all other peers
-     * @param config additional connection configuration
      */
-    joinRoom,
+    joinRoom: join,
     /**
      * Leave room and stop streaming
      */

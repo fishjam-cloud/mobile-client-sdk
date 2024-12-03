@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 /**
  * This hook can toggle microphone on/off and provides current microphone state.
