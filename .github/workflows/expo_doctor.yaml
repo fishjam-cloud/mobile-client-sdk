@@ -3,7 +3,7 @@ on:
   pull_request:
 jobs:
   expo_doctor:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: "yarn"
+          cache: yarn
 
       - name: 🩺 Run Expo Doctor
         run: npx expo-doctor@latest
