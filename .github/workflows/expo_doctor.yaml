@@ -17,6 +17,9 @@ jobs:
       - name: 🏗 Setup Expo
         uses: expo/expo-github-action@v8
 
+      - name: 📦 Install dependencies
+        run: yarn && yarn build
+
       - name: 🩺 Run Expo Doctor
         run: npx expo-doctor@latest
         working-directory: examples/fishjam-chat
