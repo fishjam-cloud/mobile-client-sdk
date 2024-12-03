@@ -14,9 +14,6 @@ jobs:
           node-version: 18.x
           cache: yarn
 
-      - name: 🏗 Setup Expo
-        uses: expo/expo-github-action@v8
-
       - name: 📦 Install dependencies
         run: yarn && yarn build
 
