@@ -5,7 +5,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FishjamCloudClient'
-  s.version          = '0.5.0'
+  s.version          = '0.6.0'
   s.summary          = 'Fishjam SDK fully compatible with `Membrane RTC Engine` for iOS.'
 
   s.homepage         = 'https://github.com/fishjam-cloud/mobile-client-sdk'
