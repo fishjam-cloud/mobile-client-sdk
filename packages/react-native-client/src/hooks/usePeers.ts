@@ -111,6 +111,7 @@ function getPeerWithDistinguishedTracks<
   peer: Peer<PeerMetadata, ServerMetadata>,
 ): PeerWithTracks<PeerMetadata, ServerMetadata> {
   const { tracks: peerTracks } = peer;
+
   const distinguishedTracks: DistinguishedTracks = {};
 
   for (const track of peerTracks) {

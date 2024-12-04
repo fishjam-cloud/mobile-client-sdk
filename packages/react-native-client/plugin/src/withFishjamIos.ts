@@ -88,25 +88,21 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
  * Adds constants to Info.plist
  * In other to dynamically retreive extension's bundleId and group name we need to store it in Info.plist.
  */
-const withInfoPlistConstants: ConfigPlugin = (config) => {
-  return withInfoPlist(config, (configuration) => {
+const withInfoPlistConstants: ConfigPlugin = (config) =>
+  withInfoPlist(config, (configuration) => {
     const bundleIdentifier = configuration.ios?.bundleIdentifier || '';
     configuration.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
     configuration.modResults['ScreenShareExtensionBundleId'] =
       `${bundleIdentifier}.${SBE_TARGET_NAME}`;
     return configuration;
   });
-};
 
 /**
  * Updates and copies required extension files.
  * Our extension needs to be properly setup inside the Xcode project. In order to do that we need to copy the files and update the pbxproj.
  */
-const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
-  config,
-  options,
-) => {
-  return withXcodeProject(config, async (props) => {
+const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
+  withXcodeProject(config, async (props) => {
     const appName = props.modRequest.projectName || '';
     const iosPath = props.modRequest.platformProjectRoot;
     const bundleIdentifier = props.ios?.bundleIdentifier;
@@ -261,7 +257,6 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (
 
     return props;
   });
-};
 
 /**
  * Applies screen sharing plugin if enabled. In order for screensharing to work, we need to copy extension files to your iOS project.

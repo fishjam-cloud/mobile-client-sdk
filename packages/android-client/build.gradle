@@ -32,4 +32,5 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id 'org.jetbrains.dokka' version '1.8.10'
     id 'org.jmailen.kotlinter' version "3.14.0" apply false
+    id 'com.google.protobuf' version "0.9.4" apply false
 }

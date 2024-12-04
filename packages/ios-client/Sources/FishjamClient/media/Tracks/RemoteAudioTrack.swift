@@ -11,9 +11,9 @@ public class RemoteAudioTrack: Track {
         super.init(mediaTrack: audioTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
     }
 
-    private var _vadStatus: VadStatus = VadStatus.silence
+    private var _vadStatus: Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status = .silence
 
-    internal(set) public var vadStatus: VadStatus {
+    internal(set) public var vadStatus: Fishjam_MediaEvents_Server_MediaEvent.VadNotification.Status {
         get { return _vadStatus }
         set {
             _vadStatus = newValue

@@ -32,9 +32,8 @@ const getIosDeviceCapabilities = (
 const getCapabilityIfDeviceAvailable = (
   deviceName: string | undefined,
   capabilityGetter: (device: string) => Capabilities.RemoteCapability,
-): Capabilities.RemoteCapability | undefined => {
-  return deviceName ? capabilityGetter(deviceName) : undefined;
-};
+): Capabilities.RemoteCapability | undefined =>
+  deviceName ? capabilityGetter(deviceName) : undefined;
 
 const androidDeviceName = process.env.ANDROID_DEVICE_NAME;
 const iosDeviceId = process.env.IOS_DEVICE_ID;

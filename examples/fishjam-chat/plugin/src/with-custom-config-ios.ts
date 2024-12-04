@@ -13,9 +13,9 @@ function replaceCloudClientForExtension(podfileContent: string) {
     'g',
   );
 
-  podfileContent = podfileContent.replace(targetRegex, (match) => {
-    return match.replace(podToReplace, replacementPod);
-  });
+  podfileContent = podfileContent.replace(targetRegex, (match) =>
+    match.replace(podToReplace, replacementPod),
+  );
   return podfileContent;
 }
 

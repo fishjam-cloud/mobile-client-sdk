@@ -1,6 +1,5 @@
 package com.fishjamcloud.client.webrtc
 
-import com.fishjamcloud.client.events.OfferData
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.Track
@@ -18,6 +17,7 @@ import com.fishjamcloud.client.utils.createOffer
 import com.fishjamcloud.client.utils.getEncodings
 import com.fishjamcloud.client.utils.setLocalDescription
 import com.fishjamcloud.client.utils.setRemoteDescription
+import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -50,7 +50,7 @@ internal class PeerConnectionManager(
   private var config: PeerConnection.RTCConfiguration? = null
   private var queuedRemoteCandidates: MutableList<IceCandidate>? = null
   private val qrcMutex = Mutex()
-  private var midToTrackId: Map<String, String> = HashMap<String, String>()
+  private var midToTrackId: Map<String, String> = emptyMap()
 
   private val coroutineScope: CoroutineScope =
     ClosableCoroutineScope(SupervisorJob())
@@ -264,46 +264,11 @@ internal class PeerConnectionManager(
     }
   }
 
-  private fun prepareIceServers(integratedTurnServers: List<OfferData.TurnServer>) {
-    if (config != null || iceServers != null) {
-      Timber.e("prepareIceServers: Config or ice servers are already initialized, skipping the preparation")
-      return
-    }
-
-    val isExWebrtc = integratedTurnServers.isEmpty()
-
-    if (isExWebrtc) {
-      val iceServerList = listOf("stun:stun.l.google.com:19302", "stun:stun.l.google.com:5349")
-      this.iceServers = listOf(PeerConnection.IceServer.builder(iceServerList).createIceServer())
-    } else {
-      this.iceServers =
-        integratedTurnServers.map {
-          val url = "turn:${it.serverAddr}:${it.serverPort}?transport=${it.transport}"
-
-          PeerConnection.IceServer
-            .builder(url)
-            .setUsername(it.username)
-            .setPassword(it.password)
-            .createIceServer()
-        }
-    }
-
-    val config = PeerConnection.RTCConfiguration(iceServers)
-    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
-    config.iceTransportsType =
-      if (isExWebrtc) {
-        PeerConnection.IceTransportsType.ALL
-      } else {
-        PeerConnection.IceTransportsType.RELAY
-      }
-    this.config = config
-  }
-
-  private fun addNecessaryTransceivers(tracksTypes: Map<String, Int>) {
+  private fun addNecessaryTransceivers(tracksTypes: Server.MediaEvent.OfferData.TrackTypes) {
     val pc = peerConnection ?: return
 
-    val necessaryAudio = tracksTypes["audio"] ?: 0
-    val necessaryVideo = tracksTypes["video"] ?: 0
+    val necessaryAudio = tracksTypes.audio
+    val necessaryVideo = tracksTypes.video
 
     var lackingAudio = necessaryAudio
     var lackingVideo = necessaryVideo
@@ -331,6 +296,19 @@ internal class PeerConnectionManager(
       pc.addTransceiver(MediaStreamTrack.MediaType.MEDIA_TYPE_VIDEO).direction =
         RtpTransceiver.RtpTransceiverDirection.RECV_ONLY
     }
+  }
+
+  fun setupIceServers(iceServers: List<Server.MediaEvent.IceServer>) {
+    val rtcIceServers =
+      iceServers.map { server ->
+        PeerConnection.IceServer
+          .builder(server.urlsList)
+          .setUsername(server.username)
+          .setPassword(server.credential)
+          .createIceServer()
+      }
+
+    this.iceServers = rtcIceServers
   }
 
   suspend fun onSdpAnswer(
@@ -376,12 +354,9 @@ internal class PeerConnectionManager(
   )
 
   suspend fun getSdpOffer(
-    integratedTurnServers: List<OfferData.TurnServer>,
-    tracksTypes: Map<String, Int>,
+    tracksTypes: Server.MediaEvent.OfferData.TrackTypes,
     localTracks: List<Track>
   ): SdpOffer {
-    val isExWebrtc = integratedTurnServers.isEmpty()
-
     qrcMutex.withLock {
       this@PeerConnectionManager.queuedRemoteCandidates = mutableListOf()
     }
@@ -389,20 +364,18 @@ internal class PeerConnectionManager(
       sentSdpOffer = false
       this.queuedLocalCandidates = mutableListOf()
     }
-    prepareIceServers(integratedTurnServers)
 
-    var needsRestart = true
+    val config = PeerConnection.RTCConfiguration(iceServers)
+    config.sdpSemantics = PeerConnection.SdpSemantics.UNIFIED_PLAN
+    config.iceTransportsType = PeerConnection.IceTransportsType.ALL
+    this.config = config
+
     if (peerConnection == null) {
       setupPeerConnection(localTracks)
-      needsRestart = false
     }
 
     peerConnectionMutex.withLock {
       val pc = peerConnection!!
-
-      if (needsRestart && !isExWebrtc) {
-        pc.restartIce()
-      }
 
       addNecessaryTransceivers(tracksTypes)
 
@@ -471,7 +444,7 @@ internal class PeerConnectionManager(
       iceServers = null
       config = null
       queuedRemoteCandidates = null
-      midToTrackId = HashMap<String, String>()
+      midToTrackId = emptyMap()
 
       streamIds = listOf(UUID.randomUUID().toString())
     }

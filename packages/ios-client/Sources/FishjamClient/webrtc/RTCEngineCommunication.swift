@@ -17,150 +17,167 @@ internal class RTCEngineCommunication {
     }
 
     func connect(metadata: Metadata) {
-        sendEvent(event: ConnectEvent(metadata: metadata))
+        var connect = Fishjam_MediaEvents_Peer_MediaEvent.Connect()
+        connect.metadataJson = metadata.toJsonStringOrEmpty
+        sendEvent(event: .connect(connect))
     }
 
     func disconnect() {
-        sendEvent(event: DisconnectEvent())
+        sendEvent(event: .disconnect(.init()))
     }
 
     func updateEndpointMetadata(metadata: Metadata) {
-        sendEvent(event: UpdateEndpointMetadata(metadata: metadata))
+        var updateEndpointMetadata = Fishjam_MediaEvents_Peer_MediaEvent.UpdateEndpointMetadata()
+        updateEndpointMetadata.metadataJson = metadata.toJsonStringOrEmpty
+        sendEvent(event: .updateEndpointMetadata(updateEndpointMetadata))
     }
 
     func updateTrackMetadata(trackId: String, trackMetadata: Metadata) {
-        sendEvent(event: UpdateTrackMetadata(trackId: trackId, trackMetadata: trackMetadata))
+        var updateTrackMetadata = Fishjam_MediaEvents_Peer_MediaEvent.UpdateTrackMetadata()
+        updateTrackMetadata.metadataJson = trackMetadata.toJsonStringOrEmpty
+        updateTrackMetadata.trackID = trackId
+        sendEvent(event: .updateTrackMetadata(updateTrackMetadata))
     }
 
     func setTargetTrackEncoding(trackId: String, encoding: TrackEncoding) {
-        sendEvent(event: SelectEncodingEvent(trackId: trackId, encoding: encoding.description))
+        //TODO(FCE-953): This will be useful after simulcast is enabled
     }
 
     func renegotiateTracks() {
-        sendEvent(event: RenegotiateTracksEvent())
+        sendEvent(event: .renegotiateTracks(.init()))
     }
 
     func localCandidate(sdp: String, sdpMLineIndex: Int32, sdpMid: Int32, usernameFragment: String) {
-        sendEvent(
-            event: LocalCandidateEvent(
-                candidate: sdp, sdpMLineIndex: sdpMLineIndex, sdpMid: sdpMid, usernameFragment: usernameFragment))
+        var candidate = Fishjam_MediaEvents_Candidate()
+        candidate.candidate = sdp
+        candidate.sdpMLineIndex = sdpMLineIndex
+        candidate.sdpMid = String(sdpMid)
+        candidate.usernameFragment = usernameFragment
+
+        sendEvent(event: .candidate(candidate))
     }
 
-    func sdpOffer(sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String]) {
-        sendEvent(
-            event: SdpOfferEvent(sdp: sdp, trackIdToTrackMetadata: trackIdToTrackMetadata, midToTrackId: midToTrackId))
+    func sdpOffer(
+        sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String],
+        trackIdToBitrates: [String: Int32]
+    ) {
+        var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
+
+        sdpOffer.sdp = sdp
+        sdpOffer.trackIDToMetadataJson = trackIdToTrackMetadata.toDictionaryJson()
+        sdpOffer.midToTrackID = midToTrackId
+        sdpOffer.trackIDToBitrates = Dictionary(
+            uniqueKeysWithValues:
+                trackIdToBitrates.map { key, value in
+                    var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
+                    trackBitrates.trackID = key
+                    var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+                    bitrate.variant = .unspecified  // TODO(FCE-953):
+                    bitrate.bitrate = value
+                    trackBitrates.variantBitrates = [bitrate]
+
+                    return (key, trackBitrates)
+                })
+
+        sendEvent(event: .sdpOffer(sdpOffer))
     }
 
-    private func sendEvent(event: SendableEvent) {
-        guard let data = try? JSONEncoder().encode(event.serialize()),
-            let dataPayload = String(data: data, encoding: .utf8)
-        else {
-            return
-        }
+    private func sendEvent(event: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) {
         for listener in listeners {
-            listener.onSendMediaEvent(event: dataPayload)
+            listener.onSendMediaEvent(event: event)
         }
     }
 
-    func onEvent(serializedEvent: SerializedMediaEvent) {
-        guard let event = Events.deserialize(payload: serializedEvent) else {
-            sdkLogger.error("Failed to decode event \(serializedEvent)")
-            return
-        }
-        switch event.type {
-        case .Connected:
-            let connected = event as! ConnectedEvent
-            for listener in listeners {
-                listener.onConnected(endpointId: connected.data.id, otherEndpoints: connected.data.otherEndpoints)
-            }
-        case .EndpointAdded:
-            let endpointAdded = event as! EndpointAddedEvent
-            for listener in listeners {
-                listener.onEndpointAdded(
-                    endpointId: endpointAdded.data.id,
-                    metadata: endpointAdded.data.metadata)
-            }
-        case .EndpointRemoved:
-            let endpointRemoved = event as! EndpointRemovedEvent
-            for listener in listeners {
+    func onEvent(event: Fishjam_MediaEvents_Server_MediaEvent) {
+        guard let content = event.content else { return }
 
-                listener.onEndpointRemoved(endpointId: endpointRemoved.data.id)
-            }
-        case .EndpointUpdated:
-            let endpointUpdated = event as! EndpointUpdatedEvent
+        switch content {
+        case .connected(let connected):
             for listener in listeners {
-
-                listener.onEndpointUpdated(
-                    endpointId: endpointUpdated.data.endpointId, metadata: endpointUpdated.data.metadata ?? AnyJson())
-            }
-        case .OfferData:
-            let offerData = event as! OfferDataEvent
-            for listener in listeners {
-                listener.onOfferData(
-                    integratedTurnServers: offerData.data.integratedTurnServers, tracksTypes: offerData.data.tracksTypes
+                listener.onConnected(
+                    endpointId: connected.endpointID,
+                    endpointIdToEndpoint: connected.endpointIDToEndpoint,
+                    iceServers: connected.iceServers
                 )
             }
-        case .Candidate:
-            let candidate = event as! RemoteCandidateEvent
+        case .endpointAdded(let endpointAdded):
             for listener in listeners {
-                let sdpMid = candidate.data.sdpMid.map(String.init)
+                listener.onEndpointAdded(
+                    endpointId: endpointAdded.endpointID,
+                    metadata: (try? AnyJson(from: endpointAdded.metadataJson)) ?? Metadata())
+            }
+        case .endpointRemoved(let endpointRemoved):
+            for listener in listeners {
 
+                listener.onEndpointRemoved(endpointId: endpointRemoved.endpointID)
+            }
+        case .endpointUpdated(let endpointUpdated):
+            for listener in listeners {
+                listener.onEndpointUpdated(
+                    endpointId: endpointUpdated.endpointID,
+                    metadata: (try? AnyJson(from: endpointUpdated.metadataJson)) ?? Metadata()
+                )
+            }
+        case .offerData(let offerData):
+            for listener in listeners {
+                listener.onOfferData(
+                    tracksTypes: offerData.tracksTypes
+                )
+            }
+        case .candidate(let candidate):
+            for listener in listeners {
                 listener.onRemoteCandidate(
-                    candidate: candidate.data.candidate, sdpMLineIndex: candidate.data.sdpMLineIndex,
-                    sdpMid: sdpMid)
+                    candidate: candidate.candidate,
+                    sdpMLineIndex: candidate.sdpMLineIndex,
+                    sdpMid: candidate.sdpMid
+                )
             }
-        case .TracksAdded:
-            let tracksAdded = event as! TracksAddedEvent
+        case .tracksAdded(let tracksAdded):
             for listener in listeners {
-
                 listener.onTracksAdded(
-                    endpointId: tracksAdded.data.endpointId, tracks: tracksAdded.data.tracks)
+                    endpointId: tracksAdded.endpointID,
+                    trackIdToTracks: tracksAdded.trackIDToTrack
+                )
             }
-        case .TracksRemoved:
-            let tracksRemoved = event as! TracksRemovedEvent
+        case .tracksRemoved(let tracksRemoved):
             for listener in listeners {
 
                 listener.onTracksRemoved(
-                    endpointId: tracksRemoved.data.endpointId, trackIds: tracksRemoved.data.trackIds)
+                    endpointId: tracksRemoved.endpointID,
+                    trackIds: tracksRemoved.trackIds
+                )
             }
-        case .TrackUpdated:
-            let tracksUpdated = event as! TracksUpdatedEvent
+        case .trackUpdated(let tracksUpdated):
             for listener in listeners {
 
                 listener.onTrackUpdated(
-                    endpointId: tracksUpdated.data.endpointId, trackId: tracksUpdated.data.trackId,
-                    metadata: tracksUpdated.data.metadata ?? AnyJson())
+                    endpointId: tracksUpdated.endpointID,
+                    trackId: tracksUpdated.trackID,
+                    metadata: (try? AnyJson(from: tracksUpdated.metadataJson)) ?? Metadata()
+                )
             }
-        case .SdpAnswer:
-            let sdpAnswer = event as! SdpAnswerEvent
+        case .sdpAnswer(let sdpAnswer):
             for listener in listeners {
 
                 listener.onSdpAnswer(
-                    type: sdpAnswer.data.type, sdp: sdpAnswer.data.sdp, midToTrackId: sdpAnswer.data.midToTrackId)
+                    sdp: sdpAnswer.sdp,
+                    midToTrackId: sdpAnswer.midToTrackID
+                )
             }
-        case .EncodingSwitched:
-            let encodingSwitched = event as! EncodingSwitchedEvent
+        case .vadNotification(let vadNotification):
             for listener in listeners {
 
-                listener.onTrackEncodingChanged(
-                    endpointId: encodingSwitched.data.endpointId, trackId: encodingSwitched.data.trackId,
-                    encoding: encodingSwitched.data.encoding, encodingReason: encodingSwitched.data.reason)
+                listener.onVadNotification(
+                    trackId: vadNotification.trackID,
+                    status: vadNotification.status
+                )
             }
-        case .VadNotification:
-            let vadNotification = event as! VadNotificationEvent
-            for listener in listeners {
+        case .error(let error):
+            sdkLogger.error("Failed to handle event. Message: \(error.message)")
 
-                listener.onVadNotification(trackId: vadNotification.data.trackId, status: vadNotification.data.status)
-            }
-        case .BandwidthEstimation:
-            let bandwidthEstimation = event as! BandwidthEstimationEvent
-            for listener in listeners {
-
-                listener.onBandwidthEstimation(estimation: Int(bandwidthEstimation.data.estimation))
-            }
-        default:
-            sdkLogger.error("Failed to handle ReceivableEvent of type \(event.type)")
-            return
+        case .trackVariantSwitched(_): break  // TODO(FCE-953): Add with simulcast
+        case .trackVariantDisabled(_): break  // TODO(FCE-953): Add with simulcast
+        case .trackVariantEnabled(_): break  // TODO(FCE-953): Add with simulcast
         }
     }
 }

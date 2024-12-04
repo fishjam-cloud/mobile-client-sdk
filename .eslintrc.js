@@ -21,5 +21,6 @@ module.exports = {
         argsIgnorePattern: "^_",
       },
     ],
+    "arrow-body-style": ["error", "as-needed"]
   },
 };

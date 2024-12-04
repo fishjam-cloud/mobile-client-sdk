@@ -2,8 +2,8 @@ import { ConfigPlugin, withAndroidManifest } from '@expo/config-plugins';
 import { getMainApplicationOrThrow } from '@expo/config-plugins/build/android/Manifest';
 import { FishjamPluginOptions } from './types';
 
-const withFishjamForegroundService: ConfigPlugin = (config) => {
-  return withAndroidManifest(config, async (configuration) => {
+const withFishjamForegroundService: ConfigPlugin = (config) =>
+  withAndroidManifest(config, async (configuration) => {
     const mainApplication = getMainApplicationOrThrow(configuration.modResults);
     mainApplication.service = mainApplication.service || [];
 
@@ -27,7 +27,6 @@ const withFishjamForegroundService: ConfigPlugin = (config) => {
 
     return configuration;
   });
-};
 
 export const withFishjamAndroid: ConfigPlugin<FishjamPluginOptions> = (
   config,

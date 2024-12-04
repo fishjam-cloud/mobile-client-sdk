@@ -1,7 +1,7 @@
 package com.fishjamcloud.client.media
 
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.models.VadStatus
+import fishjam.media_events.server.Server
 import org.webrtc.AudioTrack
 import java.util.UUID
 
@@ -18,7 +18,7 @@ class RemoteAudioTrack(
 ) : Track(audioTrack, endpointId, rtcEngineId, metadata, id) {
   private var onVadNotificationListener: (OnVoiceActivityChangedListener)? = null
 
-  var vadStatus: VadStatus = VadStatus.SILENCE
+  var vadStatus = Server.MediaEvent.VadNotification.Status.STATUS_SILENCE
     internal set(value) {
       field = value
       onVadNotificationListener?.let { onVadNotificationListener?.onVoiceActivityChanged(this) }
