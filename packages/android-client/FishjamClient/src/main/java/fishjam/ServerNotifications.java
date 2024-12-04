@@ -347,7 +347,7 @@ public final class ServerNotifications {
   }
   /**
    * <pre>
-   * Defines any type of message passed between FJ and server client
+   * Defines any type of message passed between FJ and server peer
    * </pre>
    *
    * Protobuf type {@code fishjam.ServerMessage}
@@ -388,7 +388,7 @@ public final class ServerNotifications {
 
     /**
      * <pre>
-     * Defines message groups for which client can subscribe
+     * Defines message groups for which peer can subscribe
      * </pre>
      *
      * Protobuf enum {@code fishjam.ServerMessage.EventType}
@@ -5689,7 +5689,7 @@ public final class ServerNotifications {
     }
     /**
      * <pre>
-     * Request sent by client, to authenticate to FJ server
+     * Request sent by peer, to authenticate to FJ server
      * </pre>
      *
      * Protobuf type {@code fishjam.ServerMessage.AuthRequest}
@@ -5926,7 +5926,7 @@ public final class ServerNotifications {
       }
       /**
        * <pre>
-       * Request sent by client, to authenticate to FJ server
+       * Request sent by peer, to authenticate to FJ server
        * </pre>
        *
        * Protobuf type {@code fishjam.ServerMessage.AuthRequest}
@@ -6206,7 +6206,7 @@ public final class ServerNotifications {
     }
     /**
      * <pre>
-     * Request sent by client to subsribe for certain message type
+     * Request sent by peer to subsribe for certain message type
      * </pre>
      *
      * Protobuf type {@code fishjam.ServerMessage.SubscribeRequest}
@@ -6422,7 +6422,7 @@ public final class ServerNotifications {
       }
       /**
        * <pre>
-       * Request sent by client to subsribe for certain message type
+       * Request sent by peer to subsribe for certain message type
        * </pre>
        *
        * Protobuf type {@code fishjam.ServerMessage.SubscribeRequest}
@@ -16732,7 +16732,7 @@ public final class ServerNotifications {
     }
     /**
      * <pre>
-     * Defines any type of message passed between FJ and server client
+     * Defines any type of message passed between FJ and server peer
      * </pre>
      *
      * Protobuf type {@code fishjam.ServerMessage}

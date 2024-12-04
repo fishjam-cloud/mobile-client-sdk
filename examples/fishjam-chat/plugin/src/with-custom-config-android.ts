@@ -6,8 +6,8 @@ import {
 } from '@expo/config-plugins';
 import { INFO_GENERATED_COMMENT_ANDROID } from './utils';
 
-const withCustomSettingsGradle: ConfigPlugin = (config) => {
-  return withSettingsGradle(config, (configuration) => {
+const withCustomSettingsGradle: ConfigPlugin = (config) =>
+  withSettingsGradle(config, (configuration) => {
     configuration.modResults.contents += `
 ${INFO_GENERATED_COMMENT_ANDROID}
 include ':fishjam-cloud-android-client'
@@ -16,10 +16,9 @@ project(':fishjam-cloud-android-client').projectDir = new File('../../../package
 
     return configuration;
   });
-};
 
-const withCustomProjectBuildGradle: ConfigPlugin = (config) => {
-  return withProjectBuildGradle(config, (configuration) => {
+const withCustomProjectBuildGradle: ConfigPlugin = (config) =>
+  withProjectBuildGradle(config, (configuration) => {
     const dokkaClasspath = `
 ${INFO_GENERATED_COMMENT_ANDROID}
 classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
@@ -37,10 +36,9 @@ classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
 
     return configuration;
   });
-};
 
-const withCustomGradleProperties: ConfigPlugin = (config) => {
-  return withGradleProperties(config, (configuration) => {
+const withCustomGradleProperties: ConfigPlugin = (config) =>
+  withGradleProperties(config, (configuration) => {
     configuration.modResults.push({
       type: 'property',
       key: 'org.gradle.caching',
@@ -58,7 +56,6 @@ const withCustomGradleProperties: ConfigPlugin = (config) => {
     });
     return configuration;
   });
-};
 
 export const withCustomConfigAndroid: ConfigPlugin = (config) => {
   config = withCustomSettingsGradle(config);

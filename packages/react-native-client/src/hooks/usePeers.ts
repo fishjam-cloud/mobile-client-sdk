@@ -4,7 +4,7 @@ import { Brand, GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './useFishjamEventState';
+import { useFishjamEventState } from './internal/useFishjamEventState';
 
 export type PeerId = Brand<string, 'PeerId'>;
 export type TrackId = Brand<string, 'TrackId'>;
@@ -111,6 +111,7 @@ function getPeerWithDistinguishedTracks<
   peer: Peer<PeerMetadata, ServerMetadata>,
 ): PeerWithTracks<PeerMetadata, ServerMetadata> {
   const { tracks: peerTracks } = peer;
+
   const distinguishedTracks: DistinguishedTracks = {};
 
   for (const track of peerTracks) {

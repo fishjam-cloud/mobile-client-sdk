@@ -1,18 +1,16 @@
 package com.fishjamcloud.client.webrtc
 
-import com.fishjamcloud.client.events.Endpoint
-import com.fishjamcloud.client.events.OfferData
-import com.fishjamcloud.client.events.TrackData
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.models.SerializedMediaEvent
+import fishjam.media_events.server.Server
 
 internal interface RTCEngineListener {
   fun onConnected(
-    endpointID: String,
-    otherEndpoints: List<Endpoint>
+    endpointId: String,
+    endpoints: Map<String, Server.MediaEvent.Endpoint>,
+    iceServers: List<Server.MediaEvent.IceServer>
   )
 
-  fun onSendMediaEvent(event: SerializedMediaEvent)
+  fun onSendMediaEvent(event: fishjam.media_events.peer.Peer.MediaEvent)
 
   fun onEndpointAdded(
     endpointId: String,
@@ -26,13 +24,9 @@ internal interface RTCEngineListener {
     endpointMetadata: Metadata? = mapOf()
   )
 
-  fun onOfferData(
-    integratedTurnServers: List<OfferData.TurnServer>,
-    tracksTypes: Map<String, Int>
-  )
+  fun onOfferData(tracksTypes: Server.MediaEvent.OfferData.TrackTypes)
 
   fun onSdpAnswer(
-    type: String,
     sdp: String,
     midToTrackId: Map<String, String>
   )
@@ -40,12 +34,12 @@ internal interface RTCEngineListener {
   fun onRemoteCandidate(
     candidate: String,
     sdpMLineIndex: Int,
-    sdpMid: Int?
+    sdpMid: String
   )
 
   fun onTracksAdded(
     endpointId: String,
-    tracks: Map<String, TrackData>
+    trackIdToTrack: Map<String, Server.MediaEvent.Track>
   )
 
   fun onTracksRemoved(
@@ -59,16 +53,9 @@ internal interface RTCEngineListener {
     metadata: Metadata? = mapOf()
   )
 
-  fun onTrackEncodingChanged(
-    endpointId: String,
-    trackId: String,
-    encoding: String,
-    encodingReason: String
-  )
-
   fun onVadNotification(
     trackId: String,
-    status: String
+    status: Server.MediaEvent.VadNotification.Status
   )
 
   fun onBandwidthEstimation(estimation: Long)

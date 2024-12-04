@@ -33,9 +33,7 @@ const createGridTracksFromPeer = (
 export const parsePeersToTracks = (
   localPeer: PeerWithTracks<PeerMetadata> | null,
   remotePeers: PeerWithTracks<PeerMetadata>[],
-): GridTrack[] => {
-  return [
-    ...(localPeer ? createGridTracksFromPeer(localPeer) : []),
-    ...remotePeers.flatMap(createGridTracksFromPeer),
-  ];
-};
+): GridTrack[] => [
+  ...(localPeer ? createGridTracksFromPeer(localPeer) : []),
+  ...remotePeers.flatMap(createGridTracksFromPeer),
+];

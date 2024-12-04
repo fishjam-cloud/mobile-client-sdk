@@ -20,15 +20,15 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-/// Defines any type of message passed between FJ and server client
-struct Fishjam_ServerMessage {
+/// Defines any type of message passed between FJ and server peer
+public struct Fishjam_ServerMessage {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var content: Fishjam_ServerMessage.OneOf_Content? = nil
+  public var content: Fishjam_ServerMessage.OneOf_Content? = nil
 
-  var roomCrashed: Fishjam_ServerMessage.RoomCrashed {
+  public var roomCrashed: Fishjam_ServerMessage.RoomCrashed {
     get {
       if case .roomCrashed(let v)? = content {return v}
       return Fishjam_ServerMessage.RoomCrashed()
@@ -36,7 +36,7 @@ struct Fishjam_ServerMessage {
     set {content = .roomCrashed(newValue)}
   }
 
-  var peerConnected: Fishjam_ServerMessage.PeerConnected {
+  public var peerConnected: Fishjam_ServerMessage.PeerConnected {
     get {
       if case .peerConnected(let v)? = content {return v}
       return Fishjam_ServerMessage.PeerConnected()
@@ -44,7 +44,7 @@ struct Fishjam_ServerMessage {
     set {content = .peerConnected(newValue)}
   }
 
-  var peerDisconnected: Fishjam_ServerMessage.PeerDisconnected {
+  public var peerDisconnected: Fishjam_ServerMessage.PeerDisconnected {
     get {
       if case .peerDisconnected(let v)? = content {return v}
       return Fishjam_ServerMessage.PeerDisconnected()
@@ -52,7 +52,7 @@ struct Fishjam_ServerMessage {
     set {content = .peerDisconnected(newValue)}
   }
 
-  var peerCrashed: Fishjam_ServerMessage.PeerCrashed {
+  public var peerCrashed: Fishjam_ServerMessage.PeerCrashed {
     get {
       if case .peerCrashed(let v)? = content {return v}
       return Fishjam_ServerMessage.PeerCrashed()
@@ -60,7 +60,7 @@ struct Fishjam_ServerMessage {
     set {content = .peerCrashed(newValue)}
   }
 
-  var componentCrashed: Fishjam_ServerMessage.ComponentCrashed {
+  public var componentCrashed: Fishjam_ServerMessage.ComponentCrashed {
     get {
       if case .componentCrashed(let v)? = content {return v}
       return Fishjam_ServerMessage.ComponentCrashed()
@@ -68,7 +68,7 @@ struct Fishjam_ServerMessage {
     set {content = .componentCrashed(newValue)}
   }
 
-  var authenticated: Fishjam_ServerMessage.Authenticated {
+  public var authenticated: Fishjam_ServerMessage.Authenticated {
     get {
       if case .authenticated(let v)? = content {return v}
       return Fishjam_ServerMessage.Authenticated()
@@ -76,7 +76,7 @@ struct Fishjam_ServerMessage {
     set {content = .authenticated(newValue)}
   }
 
-  var authRequest: Fishjam_ServerMessage.AuthRequest {
+  public var authRequest: Fishjam_ServerMessage.AuthRequest {
     get {
       if case .authRequest(let v)? = content {return v}
       return Fishjam_ServerMessage.AuthRequest()
@@ -84,7 +84,7 @@ struct Fishjam_ServerMessage {
     set {content = .authRequest(newValue)}
   }
 
-  var subscribeRequest: Fishjam_ServerMessage.SubscribeRequest {
+  public var subscribeRequest: Fishjam_ServerMessage.SubscribeRequest {
     get {
       if case .subscribeRequest(let v)? = content {return v}
       return Fishjam_ServerMessage.SubscribeRequest()
@@ -92,7 +92,7 @@ struct Fishjam_ServerMessage {
     set {content = .subscribeRequest(newValue)}
   }
 
-  var subscribeResponse: Fishjam_ServerMessage.SubscribeResponse {
+  public var subscribeResponse: Fishjam_ServerMessage.SubscribeResponse {
     get {
       if case .subscribeResponse(let v)? = content {return v}
       return Fishjam_ServerMessage.SubscribeResponse()
@@ -100,7 +100,7 @@ struct Fishjam_ServerMessage {
     set {content = .subscribeResponse(newValue)}
   }
 
-  var roomCreated: Fishjam_ServerMessage.RoomCreated {
+  public var roomCreated: Fishjam_ServerMessage.RoomCreated {
     get {
       if case .roomCreated(let v)? = content {return v}
       return Fishjam_ServerMessage.RoomCreated()
@@ -108,7 +108,7 @@ struct Fishjam_ServerMessage {
     set {content = .roomCreated(newValue)}
   }
 
-  var roomDeleted: Fishjam_ServerMessage.RoomDeleted {
+  public var roomDeleted: Fishjam_ServerMessage.RoomDeleted {
     get {
       if case .roomDeleted(let v)? = content {return v}
       return Fishjam_ServerMessage.RoomDeleted()
@@ -116,7 +116,7 @@ struct Fishjam_ServerMessage {
     set {content = .roomDeleted(newValue)}
   }
 
-  var metricsReport: Fishjam_ServerMessage.MetricsReport {
+  public var metricsReport: Fishjam_ServerMessage.MetricsReport {
     get {
       if case .metricsReport(let v)? = content {return v}
       return Fishjam_ServerMessage.MetricsReport()
@@ -124,7 +124,7 @@ struct Fishjam_ServerMessage {
     set {content = .metricsReport(newValue)}
   }
 
-  var hlsPlayable: Fishjam_ServerMessage.HlsPlayable {
+  public var hlsPlayable: Fishjam_ServerMessage.HlsPlayable {
     get {
       if case .hlsPlayable(let v)? = content {return v}
       return Fishjam_ServerMessage.HlsPlayable()
@@ -132,7 +132,7 @@ struct Fishjam_ServerMessage {
     set {content = .hlsPlayable(newValue)}
   }
 
-  var hlsUploaded: Fishjam_ServerMessage.HlsUploaded {
+  public var hlsUploaded: Fishjam_ServerMessage.HlsUploaded {
     get {
       if case .hlsUploaded(let v)? = content {return v}
       return Fishjam_ServerMessage.HlsUploaded()
@@ -140,7 +140,7 @@ struct Fishjam_ServerMessage {
     set {content = .hlsUploaded(newValue)}
   }
 
-  var hlsUploadCrashed: Fishjam_ServerMessage.HlsUploadCrashed {
+  public var hlsUploadCrashed: Fishjam_ServerMessage.HlsUploadCrashed {
     get {
       if case .hlsUploadCrashed(let v)? = content {return v}
       return Fishjam_ServerMessage.HlsUploadCrashed()
@@ -148,7 +148,7 @@ struct Fishjam_ServerMessage {
     set {content = .hlsUploadCrashed(newValue)}
   }
 
-  var peerMetadataUpdated: Fishjam_ServerMessage.PeerMetadataUpdated {
+  public var peerMetadataUpdated: Fishjam_ServerMessage.PeerMetadataUpdated {
     get {
       if case .peerMetadataUpdated(let v)? = content {return v}
       return Fishjam_ServerMessage.PeerMetadataUpdated()
@@ -156,7 +156,7 @@ struct Fishjam_ServerMessage {
     set {content = .peerMetadataUpdated(newValue)}
   }
 
-  var trackAdded: Fishjam_ServerMessage.TrackAdded {
+  public var trackAdded: Fishjam_ServerMessage.TrackAdded {
     get {
       if case .trackAdded(let v)? = content {return v}
       return Fishjam_ServerMessage.TrackAdded()
@@ -164,7 +164,7 @@ struct Fishjam_ServerMessage {
     set {content = .trackAdded(newValue)}
   }
 
-  var trackRemoved: Fishjam_ServerMessage.TrackRemoved {
+  public var trackRemoved: Fishjam_ServerMessage.TrackRemoved {
     get {
       if case .trackRemoved(let v)? = content {return v}
       return Fishjam_ServerMessage.TrackRemoved()
@@ -172,7 +172,7 @@ struct Fishjam_ServerMessage {
     set {content = .trackRemoved(newValue)}
   }
 
-  var trackMetadataUpdated: Fishjam_ServerMessage.TrackMetadataUpdated {
+  public var trackMetadataUpdated: Fishjam_ServerMessage.TrackMetadataUpdated {
     get {
       if case .trackMetadataUpdated(let v)? = content {return v}
       return Fishjam_ServerMessage.TrackMetadataUpdated()
@@ -180,7 +180,7 @@ struct Fishjam_ServerMessage {
     set {content = .trackMetadataUpdated(newValue)}
   }
 
-  var peerAdded: Fishjam_ServerMessage.PeerAdded {
+  public var peerAdded: Fishjam_ServerMessage.PeerAdded {
     get {
       if case .peerAdded(let v)? = content {return v}
       return Fishjam_ServerMessage.PeerAdded()
@@ -188,7 +188,7 @@ struct Fishjam_ServerMessage {
     set {content = .peerAdded(newValue)}
   }
 
-  var peerDeleted: Fishjam_ServerMessage.PeerDeleted {
+  public var peerDeleted: Fishjam_ServerMessage.PeerDeleted {
     get {
       if case .peerDeleted(let v)? = content {return v}
       return Fishjam_ServerMessage.PeerDeleted()
@@ -196,9 +196,9 @@ struct Fishjam_ServerMessage {
     set {content = .peerDeleted(newValue)}
   }
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  enum OneOf_Content: Equatable {
+  public enum OneOf_Content: Equatable {
     case roomCrashed(Fishjam_ServerMessage.RoomCrashed)
     case peerConnected(Fishjam_ServerMessage.PeerConnected)
     case peerDisconnected(Fishjam_ServerMessage.PeerDisconnected)
@@ -222,7 +222,7 @@ struct Fishjam_ServerMessage {
     case peerDeleted(Fishjam_ServerMessage.PeerDeleted)
 
   #if !swift(>=4.1)
-    static func ==(lhs: Fishjam_ServerMessage.OneOf_Content, rhs: Fishjam_ServerMessage.OneOf_Content) -> Bool {
+    public static func ==(lhs: Fishjam_ServerMessage.OneOf_Content, rhs: Fishjam_ServerMessage.OneOf_Content) -> Bool {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -317,19 +317,19 @@ struct Fishjam_ServerMessage {
   #endif
   }
 
-  /// Defines message groups for which client can subscribe
-  enum EventType: SwiftProtobuf.Enum {
-    typealias RawValue = Int
+  /// Defines message groups for which peer can subscribe
+  public enum EventType: SwiftProtobuf.Enum {
+    public typealias RawValue = Int
     case unspecified // = 0
     case serverNotification // = 1
     case metrics // = 2
     case UNRECOGNIZED(Int)
 
-    init() {
+    public init() {
       self = .unspecified
     }
 
-    init?(rawValue: Int) {
+    public init?(rawValue: Int) {
       switch rawValue {
       case 0: self = .unspecified
       case 1: self = .serverNotification
@@ -338,7 +338,7 @@ struct Fishjam_ServerMessage {
       }
     }
 
-    var rawValue: Int {
+    public var rawValue: Int {
       switch self {
       case .unspecified: return 0
       case .serverNotification: return 1
@@ -350,18 +350,18 @@ struct Fishjam_ServerMessage {
   }
 
   /// Defines types of tracks being published by peers and component
-  enum TrackType: SwiftProtobuf.Enum {
-    typealias RawValue = Int
+  public enum TrackType: SwiftProtobuf.Enum {
+    public typealias RawValue = Int
     case unspecified // = 0
     case video // = 1
     case audio // = 2
     case UNRECOGNIZED(Int)
 
-    init() {
+    public init() {
       self = .unspecified
     }
 
-    init?(rawValue: Int) {
+    public init?(rawValue: Int) {
       switch rawValue {
       case 0: self = .unspecified
       case 1: self = .video
@@ -370,7 +370,7 @@ struct Fishjam_ServerMessage {
       }
     }
 
-    var rawValue: Int {
+    public var rawValue: Int {
       switch self {
       case .unspecified: return 0
       case .video: return 1
@@ -382,285 +382,285 @@ struct Fishjam_ServerMessage {
   }
 
   /// Notification sent when a room crashes
-  struct RoomCrashed {
+  public struct RoomCrashed {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a peer is added
-  struct PeerAdded {
+  public struct PeerAdded {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var peerID: String = String()
+    public var peerID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a peer is removed
-  struct PeerDeleted {
+  public struct PeerDeleted {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var peerID: String = String()
+    public var peerID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a peer connects
-  struct PeerConnected {
+  public struct PeerConnected {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var peerID: String = String()
+    public var peerID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a peer disconnects from FJ
-  struct PeerDisconnected {
+  public struct PeerDisconnected {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var peerID: String = String()
+    public var peerID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a peer crashes
-  struct PeerCrashed {
+  public struct PeerCrashed {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var peerID: String = String()
+    public var peerID: String = String()
 
-    var reason: String = String()
+    public var reason: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a component crashes
-  struct ComponentCrashed {
+  public struct ComponentCrashed {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var componentID: String = String()
+    public var componentID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Response sent by FJ, confirming successfull authentication
-  struct Authenticated {
+  public struct Authenticated {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  /// Request sent by client, to authenticate to FJ server
-  struct AuthRequest {
+  /// Request sent by peer, to authenticate to FJ server
+  public struct AuthRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var token: String = String()
+    public var token: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
-  /// Request sent by client to subsribe for certain message type
-  struct SubscribeRequest {
+  /// Request sent by peer to subsribe for certain message type
+  public struct SubscribeRequest {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var eventType: Fishjam_ServerMessage.EventType = .unspecified
+    public var eventType: Fishjam_ServerMessage.EventType = .unspecified
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Response sent by FJ, confirming subscription for message type
-  struct SubscribeResponse {
+  public struct SubscribeResponse {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var eventType: Fishjam_ServerMessage.EventType = .unspecified
+    public var eventType: Fishjam_ServerMessage.EventType = .unspecified
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a room is created
-  struct RoomCreated {
+  public struct RoomCreated {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when a room is deleted
-  struct RoomDeleted {
+  public struct RoomDeleted {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Message containing WebRTC metrics from FJ
-  struct MetricsReport {
+  public struct MetricsReport {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var metrics: String = String()
+    public var metrics: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when the HLS stream becomes available in a room
-  struct HlsPlayable {
+  public struct HlsPlayable {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var componentID: String = String()
+    public var componentID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when the HLS recording is successfully uploded to AWS S3
-  struct HlsUploaded {
+  public struct HlsUploaded {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when the upload of HLS recording to AWS S3 fails
-  struct HlsUploadCrashed {
+  public struct HlsUploadCrashed {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when peer updates its metadata
-  struct PeerMetadataUpdated {
+  public struct PeerMetadataUpdated {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var peerID: String = String()
+    public var peerID: String = String()
 
-    var metadata: String = String()
+    public var metadata: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Describes a media track
-  struct Track {
+  public struct Track {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var id: String = String()
+    public var id: String = String()
 
-    var type: Fishjam_ServerMessage.TrackType = .unspecified
+    public var type: Fishjam_ServerMessage.TrackType = .unspecified
 
-    var metadata: String = String()
+    public var metadata: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
   }
 
   /// Notification sent when peer or component adds new track
-  struct TrackAdded {
+  public struct TrackAdded {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var endpointInfo: Fishjam_ServerMessage.TrackAdded.OneOf_EndpointInfo? = nil
+    public var endpointInfo: Fishjam_ServerMessage.TrackAdded.OneOf_EndpointInfo? = nil
 
-    var peerID: String {
+    public var peerID: String {
       get {
         if case .peerID(let v)? = endpointInfo {return v}
         return String()
@@ -668,7 +668,7 @@ struct Fishjam_ServerMessage {
       set {endpointInfo = .peerID(newValue)}
     }
 
-    var componentID: String {
+    public var componentID: String {
       get {
         if case .componentID(let v)? = endpointInfo {return v}
         return String()
@@ -676,23 +676,23 @@ struct Fishjam_ServerMessage {
       set {endpointInfo = .componentID(newValue)}
     }
 
-    var track: Fishjam_ServerMessage.Track {
+    public var track: Fishjam_ServerMessage.Track {
       get {return _track ?? Fishjam_ServerMessage.Track()}
       set {_track = newValue}
     }
     /// Returns true if `track` has been explicitly set.
-    var hasTrack: Bool {return self._track != nil}
+    public var hasTrack: Bool {return self._track != nil}
     /// Clears the value of `track`. Subsequent reads from it will return its default value.
-    mutating func clearTrack() {self._track = nil}
+    public mutating func clearTrack() {self._track = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    enum OneOf_EndpointInfo: Equatable {
+    public enum OneOf_EndpointInfo: Equatable {
       case peerID(String)
       case componentID(String)
 
     #if !swift(>=4.1)
-      static func ==(lhs: Fishjam_ServerMessage.TrackAdded.OneOf_EndpointInfo, rhs: Fishjam_ServerMessage.TrackAdded.OneOf_EndpointInfo) -> Bool {
+      public static func ==(lhs: Fishjam_ServerMessage.TrackAdded.OneOf_EndpointInfo, rhs: Fishjam_ServerMessage.TrackAdded.OneOf_EndpointInfo) -> Bool {
         // The use of inline closures is to circumvent an issue where the compiler
         // allocates stack space for every case branch when no optimizations are
         // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -711,22 +711,22 @@ struct Fishjam_ServerMessage {
     #endif
     }
 
-    init() {}
+    public init() {}
 
     fileprivate var _track: Fishjam_ServerMessage.Track? = nil
   }
 
   /// Notification sent when a track is removed
-  struct TrackRemoved {
+  public struct TrackRemoved {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var endpointInfo: Fishjam_ServerMessage.TrackRemoved.OneOf_EndpointInfo? = nil
+    public var endpointInfo: Fishjam_ServerMessage.TrackRemoved.OneOf_EndpointInfo? = nil
 
-    var peerID: String {
+    public var peerID: String {
       get {
         if case .peerID(let v)? = endpointInfo {return v}
         return String()
@@ -734,7 +734,7 @@ struct Fishjam_ServerMessage {
       set {endpointInfo = .peerID(newValue)}
     }
 
-    var componentID: String {
+    public var componentID: String {
       get {
         if case .componentID(let v)? = endpointInfo {return v}
         return String()
@@ -742,23 +742,23 @@ struct Fishjam_ServerMessage {
       set {endpointInfo = .componentID(newValue)}
     }
 
-    var track: Fishjam_ServerMessage.Track {
+    public var track: Fishjam_ServerMessage.Track {
       get {return _track ?? Fishjam_ServerMessage.Track()}
       set {_track = newValue}
     }
     /// Returns true if `track` has been explicitly set.
-    var hasTrack: Bool {return self._track != nil}
+    public var hasTrack: Bool {return self._track != nil}
     /// Clears the value of `track`. Subsequent reads from it will return its default value.
-    mutating func clearTrack() {self._track = nil}
+    public mutating func clearTrack() {self._track = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    enum OneOf_EndpointInfo: Equatable {
+    public enum OneOf_EndpointInfo: Equatable {
       case peerID(String)
       case componentID(String)
 
     #if !swift(>=4.1)
-      static func ==(lhs: Fishjam_ServerMessage.TrackRemoved.OneOf_EndpointInfo, rhs: Fishjam_ServerMessage.TrackRemoved.OneOf_EndpointInfo) -> Bool {
+      public static func ==(lhs: Fishjam_ServerMessage.TrackRemoved.OneOf_EndpointInfo, rhs: Fishjam_ServerMessage.TrackRemoved.OneOf_EndpointInfo) -> Bool {
         // The use of inline closures is to circumvent an issue where the compiler
         // allocates stack space for every case branch when no optimizations are
         // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -777,22 +777,22 @@ struct Fishjam_ServerMessage {
     #endif
     }
 
-    init() {}
+    public init() {}
 
     fileprivate var _track: Fishjam_ServerMessage.Track? = nil
   }
 
   /// Notification sent when metadata of a multimedia track is updated
-  struct TrackMetadataUpdated {
+  public struct TrackMetadataUpdated {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var roomID: String = String()
+    public var roomID: String = String()
 
-    var endpointInfo: Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo? = nil
+    public var endpointInfo: Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo? = nil
 
-    var peerID: String {
+    public var peerID: String {
       get {
         if case .peerID(let v)? = endpointInfo {return v}
         return String()
@@ -800,7 +800,7 @@ struct Fishjam_ServerMessage {
       set {endpointInfo = .peerID(newValue)}
     }
 
-    var componentID: String {
+    public var componentID: String {
       get {
         if case .componentID(let v)? = endpointInfo {return v}
         return String()
@@ -808,23 +808,23 @@ struct Fishjam_ServerMessage {
       set {endpointInfo = .componentID(newValue)}
     }
 
-    var track: Fishjam_ServerMessage.Track {
+    public var track: Fishjam_ServerMessage.Track {
       get {return _track ?? Fishjam_ServerMessage.Track()}
       set {_track = newValue}
     }
     /// Returns true if `track` has been explicitly set.
-    var hasTrack: Bool {return self._track != nil}
+    public var hasTrack: Bool {return self._track != nil}
     /// Clears the value of `track`. Subsequent reads from it will return its default value.
-    mutating func clearTrack() {self._track = nil}
+    public mutating func clearTrack() {self._track = nil}
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    enum OneOf_EndpointInfo: Equatable {
+    public enum OneOf_EndpointInfo: Equatable {
       case peerID(String)
       case componentID(String)
 
     #if !swift(>=4.1)
-      static func ==(lhs: Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo, rhs: Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo) -> Bool {
+      public static func ==(lhs: Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo, rhs: Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo) -> Bool {
         // The use of inline closures is to circumvent an issue where the compiler
         // allocates stack space for every case branch when no optimizations are
         // enabled. https://github.com/apple/swift-protobuf/issues/1034
@@ -843,19 +843,19 @@ struct Fishjam_ServerMessage {
     #endif
     }
 
-    init() {}
+    public init() {}
 
     fileprivate var _track: Fishjam_ServerMessage.Track? = nil
   }
 
-  init() {}
+  public init() {}
 }
 
 #if swift(>=4.2)
 
 extension Fishjam_ServerMessage.EventType: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static let allCases: [Fishjam_ServerMessage.EventType] = [
+  public static let allCases: [Fishjam_ServerMessage.EventType] = [
     .unspecified,
     .serverNotification,
     .metrics,
@@ -864,7 +864,7 @@ extension Fishjam_ServerMessage.EventType: CaseIterable {
 
 extension Fishjam_ServerMessage.TrackType: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static let allCases: [Fishjam_ServerMessage.TrackType] = [
+  public static let allCases: [Fishjam_ServerMessage.TrackType] = [
     .unspecified,
     .video,
     .audio,
@@ -910,8 +910,8 @@ extension Fishjam_ServerMessage.TrackMetadataUpdated.OneOf_EndpointInfo: @unchec
 fileprivate let _protobuf_package = "fishjam"
 
 extension Fishjam_ServerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".ServerMessage"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".ServerMessage"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_crashed"),
     2: .standard(proto: "peer_connected"),
     3: .standard(proto: "peer_disconnected"),
@@ -935,7 +935,7 @@ extension Fishjam_ServerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     21: .standard(proto: "peer_deleted"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1219,7 +1219,7 @@ extension Fishjam_ServerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -1314,7 +1314,7 @@ extension Fishjam_ServerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage, rhs: Fishjam_ServerMessage) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage, rhs: Fishjam_ServerMessage) -> Bool {
     if lhs.content != rhs.content {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1322,7 +1322,7 @@ extension Fishjam_ServerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
 }
 
 extension Fishjam_ServerMessage.EventType: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "EVENT_TYPE_UNSPECIFIED"),
     1: .same(proto: "EVENT_TYPE_SERVER_NOTIFICATION"),
     2: .same(proto: "EVENT_TYPE_METRICS"),
@@ -1330,7 +1330,7 @@ extension Fishjam_ServerMessage.EventType: SwiftProtobuf._ProtoNameProviding {
 }
 
 extension Fishjam_ServerMessage.TrackType: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "TRACK_TYPE_UNSPECIFIED"),
     1: .same(proto: "TRACK_TYPE_VIDEO"),
     2: .same(proto: "TRACK_TYPE_AUDIO"),
@@ -1338,12 +1338,12 @@ extension Fishjam_ServerMessage.TrackType: SwiftProtobuf._ProtoNameProviding {
 }
 
 extension Fishjam_ServerMessage.RoomCrashed: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".RoomCrashed"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".RoomCrashed"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1355,14 +1355,14 @@ extension Fishjam_ServerMessage.RoomCrashed: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.RoomCrashed, rhs: Fishjam_ServerMessage.RoomCrashed) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.RoomCrashed, rhs: Fishjam_ServerMessage.RoomCrashed) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1370,13 +1370,13 @@ extension Fishjam_ServerMessage.RoomCrashed: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.PeerAdded: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerAdded"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerAdded"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1389,7 +1389,7 @@ extension Fishjam_ServerMessage.PeerAdded: SwiftProtobuf.Message, SwiftProtobuf.
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1399,7 +1399,7 @@ extension Fishjam_ServerMessage.PeerAdded: SwiftProtobuf.Message, SwiftProtobuf.
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.PeerAdded, rhs: Fishjam_ServerMessage.PeerAdded) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.PeerAdded, rhs: Fishjam_ServerMessage.PeerAdded) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.peerID != rhs.peerID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -1408,13 +1408,13 @@ extension Fishjam_ServerMessage.PeerAdded: SwiftProtobuf.Message, SwiftProtobuf.
 }
 
 extension Fishjam_ServerMessage.PeerDeleted: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerDeleted"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerDeleted"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1427,7 +1427,7 @@ extension Fishjam_ServerMessage.PeerDeleted: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1437,7 +1437,7 @@ extension Fishjam_ServerMessage.PeerDeleted: SwiftProtobuf.Message, SwiftProtobu
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.PeerDeleted, rhs: Fishjam_ServerMessage.PeerDeleted) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.PeerDeleted, rhs: Fishjam_ServerMessage.PeerDeleted) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.peerID != rhs.peerID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -1446,13 +1446,13 @@ extension Fishjam_ServerMessage.PeerDeleted: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.PeerConnected: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerConnected"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerConnected"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1465,7 +1465,7 @@ extension Fishjam_ServerMessage.PeerConnected: SwiftProtobuf.Message, SwiftProto
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1475,7 +1475,7 @@ extension Fishjam_ServerMessage.PeerConnected: SwiftProtobuf.Message, SwiftProto
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.PeerConnected, rhs: Fishjam_ServerMessage.PeerConnected) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.PeerConnected, rhs: Fishjam_ServerMessage.PeerConnected) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.peerID != rhs.peerID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -1484,13 +1484,13 @@ extension Fishjam_ServerMessage.PeerConnected: SwiftProtobuf.Message, SwiftProto
 }
 
 extension Fishjam_ServerMessage.PeerDisconnected: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerDisconnected"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerDisconnected"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1503,7 +1503,7 @@ extension Fishjam_ServerMessage.PeerDisconnected: SwiftProtobuf.Message, SwiftPr
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1513,7 +1513,7 @@ extension Fishjam_ServerMessage.PeerDisconnected: SwiftProtobuf.Message, SwiftPr
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.PeerDisconnected, rhs: Fishjam_ServerMessage.PeerDisconnected) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.PeerDisconnected, rhs: Fishjam_ServerMessage.PeerDisconnected) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.peerID != rhs.peerID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -1522,14 +1522,14 @@ extension Fishjam_ServerMessage.PeerDisconnected: SwiftProtobuf.Message, SwiftPr
 }
 
 extension Fishjam_ServerMessage.PeerCrashed: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerCrashed"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerCrashed"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
     3: .same(proto: "reason"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1543,7 +1543,7 @@ extension Fishjam_ServerMessage.PeerCrashed: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1556,7 +1556,7 @@ extension Fishjam_ServerMessage.PeerCrashed: SwiftProtobuf.Message, SwiftProtobu
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.PeerCrashed, rhs: Fishjam_ServerMessage.PeerCrashed) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.PeerCrashed, rhs: Fishjam_ServerMessage.PeerCrashed) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.peerID != rhs.peerID {return false}
     if lhs.reason != rhs.reason {return false}
@@ -1566,13 +1566,13 @@ extension Fishjam_ServerMessage.PeerCrashed: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.ComponentCrashed: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".ComponentCrashed"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".ComponentCrashed"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "component_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1585,7 +1585,7 @@ extension Fishjam_ServerMessage.ComponentCrashed: SwiftProtobuf.Message, SwiftPr
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1595,7 +1595,7 @@ extension Fishjam_ServerMessage.ComponentCrashed: SwiftProtobuf.Message, SwiftPr
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.ComponentCrashed, rhs: Fishjam_ServerMessage.ComponentCrashed) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.ComponentCrashed, rhs: Fishjam_ServerMessage.ComponentCrashed) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.componentID != rhs.componentID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -1604,31 +1604,31 @@ extension Fishjam_ServerMessage.ComponentCrashed: SwiftProtobuf.Message, SwiftPr
 }
 
 extension Fishjam_ServerMessage.Authenticated: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".Authenticated"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".Authenticated"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let _ = try decoder.nextFieldNumber() {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.Authenticated, rhs: Fishjam_ServerMessage.Authenticated) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.Authenticated, rhs: Fishjam_ServerMessage.Authenticated) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
 extension Fishjam_ServerMessage.AuthRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".AuthRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".AuthRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "token"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1640,14 +1640,14 @@ extension Fishjam_ServerMessage.AuthRequest: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.token.isEmpty {
       try visitor.visitSingularStringField(value: self.token, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.AuthRequest, rhs: Fishjam_ServerMessage.AuthRequest) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.AuthRequest, rhs: Fishjam_ServerMessage.AuthRequest) -> Bool {
     if lhs.token != rhs.token {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1655,12 +1655,12 @@ extension Fishjam_ServerMessage.AuthRequest: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.SubscribeRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".SubscribeRequest"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".SubscribeRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "event_type"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1672,14 +1672,14 @@ extension Fishjam_ServerMessage.SubscribeRequest: SwiftProtobuf.Message, SwiftPr
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.eventType != .unspecified {
       try visitor.visitSingularEnumField(value: self.eventType, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.SubscribeRequest, rhs: Fishjam_ServerMessage.SubscribeRequest) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.SubscribeRequest, rhs: Fishjam_ServerMessage.SubscribeRequest) -> Bool {
     if lhs.eventType != rhs.eventType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1687,12 +1687,12 @@ extension Fishjam_ServerMessage.SubscribeRequest: SwiftProtobuf.Message, SwiftPr
 }
 
 extension Fishjam_ServerMessage.SubscribeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".SubscribeResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".SubscribeResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "event_type"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1704,14 +1704,14 @@ extension Fishjam_ServerMessage.SubscribeResponse: SwiftProtobuf.Message, SwiftP
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.eventType != .unspecified {
       try visitor.visitSingularEnumField(value: self.eventType, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.SubscribeResponse, rhs: Fishjam_ServerMessage.SubscribeResponse) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.SubscribeResponse, rhs: Fishjam_ServerMessage.SubscribeResponse) -> Bool {
     if lhs.eventType != rhs.eventType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1719,12 +1719,12 @@ extension Fishjam_ServerMessage.SubscribeResponse: SwiftProtobuf.Message, SwiftP
 }
 
 extension Fishjam_ServerMessage.RoomCreated: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".RoomCreated"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".RoomCreated"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1736,14 +1736,14 @@ extension Fishjam_ServerMessage.RoomCreated: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.RoomCreated, rhs: Fishjam_ServerMessage.RoomCreated) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.RoomCreated, rhs: Fishjam_ServerMessage.RoomCreated) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1751,12 +1751,12 @@ extension Fishjam_ServerMessage.RoomCreated: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.RoomDeleted: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".RoomDeleted"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".RoomDeleted"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1768,14 +1768,14 @@ extension Fishjam_ServerMessage.RoomDeleted: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.RoomDeleted, rhs: Fishjam_ServerMessage.RoomDeleted) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.RoomDeleted, rhs: Fishjam_ServerMessage.RoomDeleted) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1783,12 +1783,12 @@ extension Fishjam_ServerMessage.RoomDeleted: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.MetricsReport: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".MetricsReport"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".MetricsReport"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "metrics"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1800,14 +1800,14 @@ extension Fishjam_ServerMessage.MetricsReport: SwiftProtobuf.Message, SwiftProto
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.metrics.isEmpty {
       try visitor.visitSingularStringField(value: self.metrics, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.MetricsReport, rhs: Fishjam_ServerMessage.MetricsReport) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.MetricsReport, rhs: Fishjam_ServerMessage.MetricsReport) -> Bool {
     if lhs.metrics != rhs.metrics {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1815,13 +1815,13 @@ extension Fishjam_ServerMessage.MetricsReport: SwiftProtobuf.Message, SwiftProto
 }
 
 extension Fishjam_ServerMessage.HlsPlayable: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".HlsPlayable"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".HlsPlayable"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "component_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1834,7 +1834,7 @@ extension Fishjam_ServerMessage.HlsPlayable: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1844,7 +1844,7 @@ extension Fishjam_ServerMessage.HlsPlayable: SwiftProtobuf.Message, SwiftProtobu
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.HlsPlayable, rhs: Fishjam_ServerMessage.HlsPlayable) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.HlsPlayable, rhs: Fishjam_ServerMessage.HlsPlayable) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.componentID != rhs.componentID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -1853,12 +1853,12 @@ extension Fishjam_ServerMessage.HlsPlayable: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.HlsUploaded: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".HlsUploaded"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".HlsUploaded"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1870,14 +1870,14 @@ extension Fishjam_ServerMessage.HlsUploaded: SwiftProtobuf.Message, SwiftProtobu
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.HlsUploaded, rhs: Fishjam_ServerMessage.HlsUploaded) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.HlsUploaded, rhs: Fishjam_ServerMessage.HlsUploaded) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1885,12 +1885,12 @@ extension Fishjam_ServerMessage.HlsUploaded: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension Fishjam_ServerMessage.HlsUploadCrashed: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".HlsUploadCrashed"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".HlsUploadCrashed"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1902,14 +1902,14 @@ extension Fishjam_ServerMessage.HlsUploadCrashed: SwiftProtobuf.Message, SwiftPr
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.HlsUploadCrashed, rhs: Fishjam_ServerMessage.HlsUploadCrashed) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.HlsUploadCrashed, rhs: Fishjam_ServerMessage.HlsUploadCrashed) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1917,14 +1917,14 @@ extension Fishjam_ServerMessage.HlsUploadCrashed: SwiftProtobuf.Message, SwiftPr
 }
 
 extension Fishjam_ServerMessage.PeerMetadataUpdated: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerMetadataUpdated"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".PeerMetadataUpdated"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
     3: .same(proto: "metadata"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1938,7 +1938,7 @@ extension Fishjam_ServerMessage.PeerMetadataUpdated: SwiftProtobuf.Message, Swif
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.roomID.isEmpty {
       try visitor.visitSingularStringField(value: self.roomID, fieldNumber: 1)
     }
@@ -1951,7 +1951,7 @@ extension Fishjam_ServerMessage.PeerMetadataUpdated: SwiftProtobuf.Message, Swif
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.PeerMetadataUpdated, rhs: Fishjam_ServerMessage.PeerMetadataUpdated) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.PeerMetadataUpdated, rhs: Fishjam_ServerMessage.PeerMetadataUpdated) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.peerID != rhs.peerID {return false}
     if lhs.metadata != rhs.metadata {return false}
@@ -1961,14 +1961,14 @@ extension Fishjam_ServerMessage.PeerMetadataUpdated: SwiftProtobuf.Message, Swif
 }
 
 extension Fishjam_ServerMessage.Track: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".Track"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".Track"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "id"),
     2: .same(proto: "type"),
     3: .same(proto: "metadata"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -1982,7 +1982,7 @@ extension Fishjam_ServerMessage.Track: SwiftProtobuf.Message, SwiftProtobuf._Mes
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.id.isEmpty {
       try visitor.visitSingularStringField(value: self.id, fieldNumber: 1)
     }
@@ -1995,7 +1995,7 @@ extension Fishjam_ServerMessage.Track: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.Track, rhs: Fishjam_ServerMessage.Track) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.Track, rhs: Fishjam_ServerMessage.Track) -> Bool {
     if lhs.id != rhs.id {return false}
     if lhs.type != rhs.type {return false}
     if lhs.metadata != rhs.metadata {return false}
@@ -2005,15 +2005,15 @@ extension Fishjam_ServerMessage.Track: SwiftProtobuf.Message, SwiftProtobuf._Mes
 }
 
 extension Fishjam_ServerMessage.TrackAdded: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".TrackAdded"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".TrackAdded"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
     3: .standard(proto: "component_id"),
     4: .same(proto: "track"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -2042,7 +2042,7 @@ extension Fishjam_ServerMessage.TrackAdded: SwiftProtobuf.Message, SwiftProtobuf
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -2067,7 +2067,7 @@ extension Fishjam_ServerMessage.TrackAdded: SwiftProtobuf.Message, SwiftProtobuf
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.TrackAdded, rhs: Fishjam_ServerMessage.TrackAdded) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.TrackAdded, rhs: Fishjam_ServerMessage.TrackAdded) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.endpointInfo != rhs.endpointInfo {return false}
     if lhs._track != rhs._track {return false}
@@ -2077,15 +2077,15 @@ extension Fishjam_ServerMessage.TrackAdded: SwiftProtobuf.Message, SwiftProtobuf
 }
 
 extension Fishjam_ServerMessage.TrackRemoved: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".TrackRemoved"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".TrackRemoved"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
     3: .standard(proto: "component_id"),
     4: .same(proto: "track"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -2114,7 +2114,7 @@ extension Fishjam_ServerMessage.TrackRemoved: SwiftProtobuf.Message, SwiftProtob
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -2139,7 +2139,7 @@ extension Fishjam_ServerMessage.TrackRemoved: SwiftProtobuf.Message, SwiftProtob
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.TrackRemoved, rhs: Fishjam_ServerMessage.TrackRemoved) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.TrackRemoved, rhs: Fishjam_ServerMessage.TrackRemoved) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.endpointInfo != rhs.endpointInfo {return false}
     if lhs._track != rhs._track {return false}
@@ -2149,15 +2149,15 @@ extension Fishjam_ServerMessage.TrackRemoved: SwiftProtobuf.Message, SwiftProtob
 }
 
 extension Fishjam_ServerMessage.TrackMetadataUpdated: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".TrackMetadataUpdated"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = Fishjam_ServerMessage.protoMessageName + ".TrackMetadataUpdated"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "room_id"),
     2: .standard(proto: "peer_id"),
     3: .standard(proto: "component_id"),
     4: .same(proto: "track"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -2186,7 +2186,7 @@ extension Fishjam_ServerMessage.TrackMetadataUpdated: SwiftProtobuf.Message, Swi
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -2211,7 +2211,7 @@ extension Fishjam_ServerMessage.TrackMetadataUpdated: SwiftProtobuf.Message, Swi
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Fishjam_ServerMessage.TrackMetadataUpdated, rhs: Fishjam_ServerMessage.TrackMetadataUpdated) -> Bool {
+  public static func ==(lhs: Fishjam_ServerMessage.TrackMetadataUpdated, rhs: Fishjam_ServerMessage.TrackMetadataUpdated) -> Bool {
     if lhs.roomID != rhs.roomID {return false}
     if lhs.endpointInfo != rhs.endpointInfo {return false}
     if lhs._track != rhs._track {return false}

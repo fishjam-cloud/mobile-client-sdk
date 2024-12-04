@@ -10,7 +10,7 @@ public inline fun serverMessage(block: fishjam.ServerMessageKt.Dsl.() -> kotlin.
   fishjam.ServerMessageKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.newBuilder()).apply { block() }._build()
 /**
  * ```
- * Defines any type of message passed between FJ and server client
+ * Defines any type of message passed between FJ and server peer
  * ```
  *
  * Protobuf type `fishjam.ServerMessage`
@@ -1001,7 +1001,7 @@ public object ServerMessageKt {
     fishjam.ServerMessageKt.AuthRequestKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.AuthRequest.newBuilder()).apply { block() }._build()
   /**
    * ```
-   * Request sent by client, to authenticate to FJ server
+   * Request sent by peer, to authenticate to FJ server
    * ```
    *
    * Protobuf type `fishjam.ServerMessage.AuthRequest`
@@ -1045,7 +1045,7 @@ public object ServerMessageKt {
     fishjam.ServerMessageKt.SubscribeRequestKt.Dsl._create(fishjam.ServerNotifications.ServerMessage.SubscribeRequest.newBuilder()).apply { block() }._build()
   /**
    * ```
-   * Request sent by client to subsribe for certain message type
+   * Request sent by peer to subsribe for certain message type
    * ```
    *
    * Protobuf type `fishjam.ServerMessage.SubscribeRequest`

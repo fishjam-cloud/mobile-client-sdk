@@ -88,6 +88,36 @@ public final class PeerNotifications {
      */
     fishjam.PeerNotifications.PeerMessage.RTCStatsReportOrBuilder getRtcStatsReportOrBuilder();
 
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+     * @return Whether the peerMediaEvent field is set.
+     */
+    boolean hasPeerMediaEvent();
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+     * @return The peerMediaEvent.
+     */
+    fishjam.media_events.peer.Peer.MediaEvent getPeerMediaEvent();
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+     */
+    fishjam.media_events.peer.Peer.MediaEventOrBuilder getPeerMediaEventOrBuilder();
+
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+     * @return Whether the serverMediaEvent field is set.
+     */
+    boolean hasServerMediaEvent();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+     * @return The serverMediaEvent.
+     */
+    fishjam.media_events.server.Server.MediaEvent getServerMediaEvent();
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+     */
+    fishjam.media_events.server.Server.MediaEventOrBuilder getServerMediaEventOrBuilder();
+
     fishjam.PeerNotifications.PeerMessage.ContentCase getContentCase();
   }
   /**
@@ -509,6 +539,18 @@ public final class PeerNotifications {
        */
       com.google.protobuf.ByteString
           getTokenBytes();
+
+      /**
+       * <code>string sdk_version = 2;</code>
+       * @return The sdkVersion.
+       */
+      java.lang.String getSdkVersion();
+      /**
+       * <code>string sdk_version = 2;</code>
+       * @return The bytes for sdkVersion.
+       */
+      com.google.protobuf.ByteString
+          getSdkVersionBytes();
     }
     /**
      * <pre>
@@ -537,6 +579,7 @@ public final class PeerNotifications {
       }
       private AuthRequest() {
         token_ = "";
+        sdkVersion_ = "";
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -591,6 +634,45 @@ public final class PeerNotifications {
         }
       }
 
+      public static final int SDK_VERSION_FIELD_NUMBER = 2;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object sdkVersion_ = "";
+      /**
+       * <code>string sdk_version = 2;</code>
+       * @return The sdkVersion.
+       */
+      @java.lang.Override
+      public java.lang.String getSdkVersion() {
+        java.lang.Object ref = sdkVersion_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sdkVersion_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string sdk_version = 2;</code>
+       * @return The bytes for sdkVersion.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getSdkVersionBytes() {
+        java.lang.Object ref = sdkVersion_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sdkVersion_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       private byte memoizedIsInitialized = -1;
       @java.lang.Override
       public final boolean isInitialized() {
@@ -608,6 +690,9 @@ public final class PeerNotifications {
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(token_)) {
           com.google.protobuf.GeneratedMessage.writeString(output, 1, token_);
         }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdkVersion_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, sdkVersion_);
+        }
         getUnknownFields().writeTo(output);
       }
 
@@ -619,6 +704,9 @@ public final class PeerNotifications {
         size = 0;
         if (!com.google.protobuf.GeneratedMessage.isStringEmpty(token_)) {
           size += com.google.protobuf.GeneratedMessage.computeStringSize(1, token_);
+        }
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sdkVersion_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, sdkVersion_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
@@ -637,6 +725,8 @@ public final class PeerNotifications {
 
         if (!getToken()
             .equals(other.getToken())) return false;
+        if (!getSdkVersion()
+            .equals(other.getSdkVersion())) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -650,6 +740,8 @@ public final class PeerNotifications {
         hash = (19 * hash) + getDescriptor().hashCode();
         hash = (37 * hash) + TOKEN_FIELD_NUMBER;
         hash = (53 * hash) + getToken().hashCode();
+        hash = (37 * hash) + SDK_VERSION_FIELD_NUMBER;
+        hash = (53 * hash) + getSdkVersion().hashCode();
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -786,6 +878,7 @@ public final class PeerNotifications {
           super.clear();
           bitField0_ = 0;
           token_ = "";
+          sdkVersion_ = "";
           return this;
         }
 
@@ -822,6 +915,9 @@ public final class PeerNotifications {
           if (((from_bitField0_ & 0x00000001) != 0)) {
             result.token_ = token_;
           }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.sdkVersion_ = sdkVersion_;
+          }
         }
 
         @java.lang.Override
@@ -839,6 +935,11 @@ public final class PeerNotifications {
           if (!other.getToken().isEmpty()) {
             token_ = other.token_;
             bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          if (!other.getSdkVersion().isEmpty()) {
+            sdkVersion_ = other.sdkVersion_;
+            bitField0_ |= 0x00000002;
             onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
@@ -872,6 +973,11 @@ public final class PeerNotifications {
                   bitField0_ |= 0x00000001;
                   break;
                 } // case 10
+                case 18: {
+                  sdkVersion_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 18
                 default: {
                   if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                     done = true; // was an endgroup tag
@@ -961,6 +1067,78 @@ public final class PeerNotifications {
           return this;
         }
 
+        private java.lang.Object sdkVersion_ = "";
+        /**
+         * <code>string sdk_version = 2;</code>
+         * @return The sdkVersion.
+         */
+        public java.lang.String getSdkVersion() {
+          java.lang.Object ref = sdkVersion_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            sdkVersion_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string sdk_version = 2;</code>
+         * @return The bytes for sdkVersion.
+         */
+        public com.google.protobuf.ByteString
+            getSdkVersionBytes() {
+          java.lang.Object ref = sdkVersion_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            sdkVersion_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string sdk_version = 2;</code>
+         * @param value The sdkVersion to set.
+         * @return This builder for chaining.
+         */
+        public Builder setSdkVersion(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          sdkVersion_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string sdk_version = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearSdkVersion() {
+          sdkVersion_ = getDefaultInstance().getSdkVersion();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string sdk_version = 2;</code>
+         * @param value The bytes for sdkVersion to set.
+         * @return This builder for chaining.
+         */
+        public Builder setSdkVersionBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          sdkVersion_ = value;
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+
         // @@protoc_insertion_point(builder_scope:fishjam.PeerMessage.AuthRequest)
       }
 
@@ -1007,524 +1185,6 @@ public final class PeerNotifications {
 
       @java.lang.Override
       public fishjam.PeerNotifications.PeerMessage.AuthRequest getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
-    }
-
-    public interface MediaEventOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:fishjam.PeerMessage.MediaEvent)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>string data = 1;</code>
-       * @return The data.
-       */
-      java.lang.String getData();
-      /**
-       * <code>string data = 1;</code>
-       * @return The bytes for data.
-       */
-      com.google.protobuf.ByteString
-          getDataBytes();
-    }
-    /**
-     * <pre>
-     * Any type of WebRTC messages passed betweend FJ and peer
-     * </pre>
-     *
-     * Protobuf type {@code fishjam.PeerMessage.MediaEvent}
-     */
-    public static final class MediaEvent extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:fishjam.PeerMessage.MediaEvent)
-        MediaEventOrBuilder {
-    private static final long serialVersionUID = 0L;
-      static {
-        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-          /* major= */ 4,
-          /* minor= */ 26,
-          /* patch= */ 1,
-          /* suffix= */ "",
-          MediaEvent.class.getName());
-      }
-      // Use MediaEvent.newBuilder() to construct.
-      private MediaEvent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-        super(builder);
-      }
-      private MediaEvent() {
-        data_ = "";
-      }
-
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                fishjam.PeerNotifications.PeerMessage.MediaEvent.class, fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder.class);
-      }
-
-      public static final int DATA_FIELD_NUMBER = 1;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object data_ = "";
-      /**
-       * <code>string data = 1;</code>
-       * @return The data.
-       */
-      @java.lang.Override
-      public java.lang.String getData() {
-        java.lang.Object ref = data_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          data_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string data = 1;</code>
-       * @return The bytes for data.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getDataBytes() {
-        java.lang.Object ref = data_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          data_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      private byte memoizedIsInitialized = -1;
-      @java.lang.Override
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      @java.lang.Override
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(data_)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 1, data_);
-        }
-        getUnknownFields().writeTo(output);
-      }
-
-      @java.lang.Override
-      public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(data_)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, data_);
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSize = size;
-        return size;
-      }
-
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
-        if (obj == this) {
-         return true;
-        }
-        if (!(obj instanceof fishjam.PeerNotifications.PeerMessage.MediaEvent)) {
-          return super.equals(obj);
-        }
-        fishjam.PeerNotifications.PeerMessage.MediaEvent other = (fishjam.PeerNotifications.PeerMessage.MediaEvent) obj;
-
-        if (!getData()
-            .equals(other.getData())) return false;
-        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-        return true;
-      }
-
-      @java.lang.Override
-      public int hashCode() {
-        if (memoizedHashCode != 0) {
-          return memoizedHashCode;
-        }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getData().hashCode();
-        hash = (29 * hash) + getUnknownFields().hashCode();
-        memoizedHashCode = hash;
-        return hash;
-      }
-
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          java.nio.ByteBuffer data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          java.nio.ByteBuffer data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseDelimitedWithIOException(PARSER, input);
-      }
-
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input);
-      }
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      @java.lang.Override
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(fishjam.PeerNotifications.PeerMessage.MediaEvent prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      @java.lang.Override
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * <pre>
-       * Any type of WebRTC messages passed betweend FJ and peer
-       * </pre>
-       *
-       * Protobuf type {@code fishjam.PeerMessage.MediaEvent}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:fishjam.PeerMessage.MediaEvent)
-          fishjam.PeerNotifications.PeerMessage.MediaEventOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
-        }
-
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  fishjam.PeerNotifications.PeerMessage.MediaEvent.class, fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder.class);
-        }
-
-        // Construct using fishjam.PeerNotifications.PeerMessage.MediaEvent.newBuilder()
-        private Builder() {
-
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-
-        }
-        @java.lang.Override
-        public Builder clear() {
-          super.clear();
-          bitField0_ = 0;
-          data_ = "";
-          return this;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
-        }
-
-        @java.lang.Override
-        public fishjam.PeerNotifications.PeerMessage.MediaEvent getDefaultInstanceForType() {
-          return fishjam.PeerNotifications.PeerMessage.MediaEvent.getDefaultInstance();
-        }
-
-        @java.lang.Override
-        public fishjam.PeerNotifications.PeerMessage.MediaEvent build() {
-          fishjam.PeerNotifications.PeerMessage.MediaEvent result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        @java.lang.Override
-        public fishjam.PeerNotifications.PeerMessage.MediaEvent buildPartial() {
-          fishjam.PeerNotifications.PeerMessage.MediaEvent result = new fishjam.PeerNotifications.PeerMessage.MediaEvent(this);
-          if (bitField0_ != 0) { buildPartial0(result); }
-          onBuilt();
-          return result;
-        }
-
-        private void buildPartial0(fishjam.PeerNotifications.PeerMessage.MediaEvent result) {
-          int from_bitField0_ = bitField0_;
-          if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.data_ = data_;
-          }
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof fishjam.PeerNotifications.PeerMessage.MediaEvent) {
-            return mergeFrom((fishjam.PeerNotifications.PeerMessage.MediaEvent)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(fishjam.PeerNotifications.PeerMessage.MediaEvent other) {
-          if (other == fishjam.PeerNotifications.PeerMessage.MediaEvent.getDefaultInstance()) return this;
-          if (!other.getData().isEmpty()) {
-            data_ = other.data_;
-            bitField0_ |= 0x00000001;
-            onChanged();
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          onChanged();
-          return this;
-        }
-
-        @java.lang.Override
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          if (extensionRegistry == null) {
-            throw new java.lang.NullPointerException();
-          }
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                case 10: {
-                  data_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000001;
-                  break;
-                } // case 10
-                default: {
-                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                    done = true; // was an endgroup tag
-                  }
-                  break;
-                } // default:
-              } // switch (tag)
-            } // while (!done)
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.unwrapIOException();
-          } finally {
-            onChanged();
-          } // finally
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object data_ = "";
-        /**
-         * <code>string data = 1;</code>
-         * @return The data.
-         */
-        public java.lang.String getData() {
-          java.lang.Object ref = data_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            data_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string data = 1;</code>
-         * @return The bytes for data.
-         */
-        public com.google.protobuf.ByteString
-            getDataBytes() {
-          java.lang.Object ref = data_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            data_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string data = 1;</code>
-         * @param value The data to set.
-         * @return This builder for chaining.
-         */
-        public Builder setData(
-            java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
-          data_ = value;
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string data = 1;</code>
-         * @return This builder for chaining.
-         */
-        public Builder clearData() {
-          data_ = getDefaultInstance().getData();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string data = 1;</code>
-         * @param value The bytes for data to set.
-         * @return This builder for chaining.
-         */
-        public Builder setDataBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
-          data_ = value;
-          bitField0_ |= 0x00000001;
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:fishjam.PeerMessage.MediaEvent)
-      }
-
-      // @@protoc_insertion_point(class_scope:fishjam.PeerMessage.MediaEvent)
-      private static final fishjam.PeerNotifications.PeerMessage.MediaEvent DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new fishjam.PeerNotifications.PeerMessage.MediaEvent();
-      }
-
-      public static fishjam.PeerNotifications.PeerMessage.MediaEvent getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      private static final com.google.protobuf.Parser<MediaEvent>
-          PARSER = new com.google.protobuf.AbstractParser<MediaEvent>() {
-        @java.lang.Override
-        public MediaEvent parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          Builder builder = newBuilder();
-          try {
-            builder.mergeFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.setUnfinishedMessage(builder.buildPartial());
-          } catch (com.google.protobuf.UninitializedMessageException e) {
-            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-          } catch (java.io.IOException e) {
-            throw new com.google.protobuf.InvalidProtocolBufferException(e)
-                .setUnfinishedMessage(builder.buildPartial());
-          }
-          return builder.buildPartial();
-        }
-      };
-
-      public static com.google.protobuf.Parser<MediaEvent> parser() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<MediaEvent> getParserForType() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public fishjam.PeerNotifications.PeerMessage.MediaEvent getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -2050,6 +1710,524 @@ public final class PeerNotifications {
 
     }
 
+    public interface MediaEventOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:fishjam.PeerMessage.MediaEvent)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string data = 1;</code>
+       * @return The data.
+       */
+      java.lang.String getData();
+      /**
+       * <code>string data = 1;</code>
+       * @return The bytes for data.
+       */
+      com.google.protobuf.ByteString
+          getDataBytes();
+    }
+    /**
+     * <pre>
+     * Any type of WebRTC messages passed betweend FJ and peer
+     * </pre>
+     *
+     * Protobuf type {@code fishjam.PeerMessage.MediaEvent}
+     */
+    public static final class MediaEvent extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:fishjam.PeerMessage.MediaEvent)
+        MediaEventOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          MediaEvent.class.getName());
+      }
+      // Use MediaEvent.newBuilder() to construct.
+      private MediaEvent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private MediaEvent() {
+        data_ = "";
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                fishjam.PeerNotifications.PeerMessage.MediaEvent.class, fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder.class);
+      }
+
+      public static final int DATA_FIELD_NUMBER = 1;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object data_ = "";
+      /**
+       * <code>string data = 1;</code>
+       * @return The data.
+       */
+      @java.lang.Override
+      public java.lang.String getData() {
+        java.lang.Object ref = data_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          data_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string data = 1;</code>
+       * @return The bytes for data.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getDataBytes() {
+        java.lang.Object ref = data_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          data_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(data_)) {
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, data_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!com.google.protobuf.GeneratedMessage.isStringEmpty(data_)) {
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, data_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof fishjam.PeerNotifications.PeerMessage.MediaEvent)) {
+          return super.equals(obj);
+        }
+        fishjam.PeerNotifications.PeerMessage.MediaEvent other = (fishjam.PeerNotifications.PeerMessage.MediaEvent) obj;
+
+        if (!getData()
+            .equals(other.getData())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + DATA_FIELD_NUMBER;
+        hash = (53 * hash) + getData().hashCode();
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(fishjam.PeerNotifications.PeerMessage.MediaEvent prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Any type of WebRTC messages passed betweend FJ and peer
+       * </pre>
+       *
+       * Protobuf type {@code fishjam.PeerMessage.MediaEvent}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:fishjam.PeerMessage.MediaEvent)
+          fishjam.PeerNotifications.PeerMessage.MediaEventOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  fishjam.PeerNotifications.PeerMessage.MediaEvent.class, fishjam.PeerNotifications.PeerMessage.MediaEvent.Builder.class);
+        }
+
+        // Construct using fishjam.PeerNotifications.PeerMessage.MediaEvent.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          data_ = "";
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
+        }
+
+        @java.lang.Override
+        public fishjam.PeerNotifications.PeerMessage.MediaEvent getDefaultInstanceForType() {
+          return fishjam.PeerNotifications.PeerMessage.MediaEvent.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public fishjam.PeerNotifications.PeerMessage.MediaEvent build() {
+          fishjam.PeerNotifications.PeerMessage.MediaEvent result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public fishjam.PeerNotifications.PeerMessage.MediaEvent buildPartial() {
+          fishjam.PeerNotifications.PeerMessage.MediaEvent result = new fishjam.PeerNotifications.PeerMessage.MediaEvent(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(fishjam.PeerNotifications.PeerMessage.MediaEvent result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.data_ = data_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof fishjam.PeerNotifications.PeerMessage.MediaEvent) {
+            return mergeFrom((fishjam.PeerNotifications.PeerMessage.MediaEvent)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(fishjam.PeerNotifications.PeerMessage.MediaEvent other) {
+          if (other == fishjam.PeerNotifications.PeerMessage.MediaEvent.getDefaultInstance()) return this;
+          if (!other.getData().isEmpty()) {
+            data_ = other.data_;
+            bitField0_ |= 0x00000001;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 10: {
+                  data_ = input.readStringRequireUtf8();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 10
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object data_ = "";
+        /**
+         * <code>string data = 1;</code>
+         * @return The data.
+         */
+        public java.lang.String getData() {
+          java.lang.Object ref = data_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            data_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string data = 1;</code>
+         * @return The bytes for data.
+         */
+        public com.google.protobuf.ByteString
+            getDataBytes() {
+          java.lang.Object ref = data_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            data_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string data = 1;</code>
+         * @param value The data to set.
+         * @return This builder for chaining.
+         */
+        public Builder setData(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          data_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string data = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearData() {
+          data_ = getDefaultInstance().getData();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string data = 1;</code>
+         * @param value The bytes for data to set.
+         * @return This builder for chaining.
+         */
+        public Builder setDataBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          data_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:fishjam.PeerMessage.MediaEvent)
+      }
+
+      // @@protoc_insertion_point(class_scope:fishjam.PeerMessage.MediaEvent)
+      private static final fishjam.PeerNotifications.PeerMessage.MediaEvent DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new fishjam.PeerNotifications.PeerMessage.MediaEvent();
+      }
+
+      public static fishjam.PeerNotifications.PeerMessage.MediaEvent getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<MediaEvent>
+          PARSER = new com.google.protobuf.AbstractParser<MediaEvent>() {
+        @java.lang.Override
+        public MediaEvent parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<MediaEvent> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<MediaEvent> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public fishjam.PeerNotifications.PeerMessage.MediaEvent getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int contentCase_ = 0;
     @SuppressWarnings("serial")
     private java.lang.Object content_;
@@ -2060,6 +2238,8 @@ public final class PeerNotifications {
       AUTH_REQUEST(2),
       MEDIA_EVENT(3),
       RTC_STATS_REPORT(4),
+      PEER_MEDIA_EVENT(5),
+      SERVER_MEDIA_EVENT(6),
       CONTENT_NOT_SET(0);
       private final int value;
       private ContentCase(int value) {
@@ -2081,6 +2261,8 @@ public final class PeerNotifications {
           case 2: return AUTH_REQUEST;
           case 3: return MEDIA_EVENT;
           case 4: return RTC_STATS_REPORT;
+          case 5: return PEER_MEDIA_EVENT;
+          case 6: return SERVER_MEDIA_EVENT;
           case 0: return CONTENT_NOT_SET;
           default: return null;
         }
@@ -2220,6 +2402,68 @@ public final class PeerNotifications {
       return fishjam.PeerNotifications.PeerMessage.RTCStatsReport.getDefaultInstance();
     }
 
+    public static final int PEER_MEDIA_EVENT_FIELD_NUMBER = 5;
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+     * @return Whether the peerMediaEvent field is set.
+     */
+    @java.lang.Override
+    public boolean hasPeerMediaEvent() {
+      return contentCase_ == 5;
+    }
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+     * @return The peerMediaEvent.
+     */
+    @java.lang.Override
+    public fishjam.media_events.peer.Peer.MediaEvent getPeerMediaEvent() {
+      if (contentCase_ == 5) {
+         return (fishjam.media_events.peer.Peer.MediaEvent) content_;
+      }
+      return fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.peer.Peer.MediaEventOrBuilder getPeerMediaEventOrBuilder() {
+      if (contentCase_ == 5) {
+         return (fishjam.media_events.peer.Peer.MediaEvent) content_;
+      }
+      return fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance();
+    }
+
+    public static final int SERVER_MEDIA_EVENT_FIELD_NUMBER = 6;
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+     * @return Whether the serverMediaEvent field is set.
+     */
+    @java.lang.Override
+    public boolean hasServerMediaEvent() {
+      return contentCase_ == 6;
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+     * @return The serverMediaEvent.
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEvent getServerMediaEvent() {
+      if (contentCase_ == 6) {
+         return (fishjam.media_events.server.Server.MediaEvent) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.getDefaultInstance();
+    }
+    /**
+     * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+     */
+    @java.lang.Override
+    public fishjam.media_events.server.Server.MediaEventOrBuilder getServerMediaEventOrBuilder() {
+      if (contentCase_ == 6) {
+         return (fishjam.media_events.server.Server.MediaEvent) content_;
+      }
+      return fishjam.media_events.server.Server.MediaEvent.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2246,6 +2490,12 @@ public final class PeerNotifications {
       if (contentCase_ == 4) {
         output.writeMessage(4, (fishjam.PeerNotifications.PeerMessage.RTCStatsReport) content_);
       }
+      if (contentCase_ == 5) {
+        output.writeMessage(5, (fishjam.media_events.peer.Peer.MediaEvent) content_);
+      }
+      if (contentCase_ == 6) {
+        output.writeMessage(6, (fishjam.media_events.server.Server.MediaEvent) content_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2270,6 +2520,14 @@ public final class PeerNotifications {
       if (contentCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (fishjam.PeerNotifications.PeerMessage.RTCStatsReport) content_);
+      }
+      if (contentCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (fishjam.media_events.peer.Peer.MediaEvent) content_);
+      }
+      if (contentCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (fishjam.media_events.server.Server.MediaEvent) content_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -2304,6 +2562,14 @@ public final class PeerNotifications {
           if (!getRtcStatsReport()
               .equals(other.getRtcStatsReport())) return false;
           break;
+        case 5:
+          if (!getPeerMediaEvent()
+              .equals(other.getPeerMediaEvent())) return false;
+          break;
+        case 6:
+          if (!getServerMediaEvent()
+              .equals(other.getServerMediaEvent())) return false;
+          break;
         case 0:
         default:
       }
@@ -2334,6 +2600,14 @@ public final class PeerNotifications {
         case 4:
           hash = (37 * hash) + RTC_STATS_REPORT_FIELD_NUMBER;
           hash = (53 * hash) + getRtcStatsReport().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + PEER_MEDIA_EVENT_FIELD_NUMBER;
+          hash = (53 * hash) + getPeerMediaEvent().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + SERVER_MEDIA_EVENT_FIELD_NUMBER;
+          hash = (53 * hash) + getServerMediaEvent().hashCode();
           break;
         case 0:
         default:
@@ -2485,6 +2759,12 @@ public final class PeerNotifications {
         if (rtcStatsReportBuilder_ != null) {
           rtcStatsReportBuilder_.clear();
         }
+        if (peerMediaEventBuilder_ != null) {
+          peerMediaEventBuilder_.clear();
+        }
+        if (serverMediaEventBuilder_ != null) {
+          serverMediaEventBuilder_.clear();
+        }
         contentCase_ = 0;
         content_ = null;
         return this;
@@ -2542,6 +2822,14 @@ public final class PeerNotifications {
             rtcStatsReportBuilder_ != null) {
           result.content_ = rtcStatsReportBuilder_.build();
         }
+        if (contentCase_ == 5 &&
+            peerMediaEventBuilder_ != null) {
+          result.content_ = peerMediaEventBuilder_.build();
+        }
+        if (contentCase_ == 6 &&
+            serverMediaEventBuilder_ != null) {
+          result.content_ = serverMediaEventBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -2571,6 +2859,14 @@ public final class PeerNotifications {
           }
           case RTC_STATS_REPORT: {
             mergeRtcStatsReport(other.getRtcStatsReport());
+            break;
+          }
+          case PEER_MEDIA_EVENT: {
+            mergePeerMediaEvent(other.getPeerMediaEvent());
+            break;
+          }
+          case SERVER_MEDIA_EVENT: {
+            mergeServerMediaEvent(other.getServerMediaEvent());
             break;
           }
           case CONTENT_NOT_SET: {
@@ -2631,6 +2927,20 @@ public final class PeerNotifications {
                 contentCase_ = 4;
                 break;
               } // case 34
+              case 42: {
+                input.readMessage(
+                    getPeerMediaEventFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 5;
+                break;
+              } // case 42
+              case 50: {
+                input.readMessage(
+                    getServerMediaEventFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                contentCase_ = 6;
+                break;
+              } // case 50
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3231,6 +3541,290 @@ public final class PeerNotifications {
         return rtcStatsReportBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.peer.Peer.MediaEvent, fishjam.media_events.peer.Peer.MediaEvent.Builder, fishjam.media_events.peer.Peer.MediaEventOrBuilder> peerMediaEventBuilder_;
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       * @return Whether the peerMediaEvent field is set.
+       */
+      @java.lang.Override
+      public boolean hasPeerMediaEvent() {
+        return contentCase_ == 5;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       * @return The peerMediaEvent.
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEvent getPeerMediaEvent() {
+        if (peerMediaEventBuilder_ == null) {
+          if (contentCase_ == 5) {
+            return (fishjam.media_events.peer.Peer.MediaEvent) content_;
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance();
+        } else {
+          if (contentCase_ == 5) {
+            return peerMediaEventBuilder_.getMessage();
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      public Builder setPeerMediaEvent(fishjam.media_events.peer.Peer.MediaEvent value) {
+        if (peerMediaEventBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          peerMediaEventBuilder_.setMessage(value);
+        }
+        contentCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      public Builder setPeerMediaEvent(
+          fishjam.media_events.peer.Peer.MediaEvent.Builder builderForValue) {
+        if (peerMediaEventBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          peerMediaEventBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      public Builder mergePeerMediaEvent(fishjam.media_events.peer.Peer.MediaEvent value) {
+        if (peerMediaEventBuilder_ == null) {
+          if (contentCase_ == 5 &&
+              content_ != fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance()) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.newBuilder((fishjam.media_events.peer.Peer.MediaEvent) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 5) {
+            peerMediaEventBuilder_.mergeFrom(value);
+          } else {
+            peerMediaEventBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      public Builder clearPeerMediaEvent() {
+        if (peerMediaEventBuilder_ == null) {
+          if (contentCase_ == 5) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 5) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          peerMediaEventBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      public fishjam.media_events.peer.Peer.MediaEvent.Builder getPeerMediaEventBuilder() {
+        return getPeerMediaEventFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.peer.Peer.MediaEventOrBuilder getPeerMediaEventOrBuilder() {
+        if ((contentCase_ == 5) && (peerMediaEventBuilder_ != null)) {
+          return peerMediaEventBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 5) {
+            return (fishjam.media_events.peer.Peer.MediaEvent) content_;
+          }
+          return fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.peer.MediaEvent peer_media_event = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.peer.Peer.MediaEvent, fishjam.media_events.peer.Peer.MediaEvent.Builder, fishjam.media_events.peer.Peer.MediaEventOrBuilder> 
+          getPeerMediaEventFieldBuilder() {
+        if (peerMediaEventBuilder_ == null) {
+          if (!(contentCase_ == 5)) {
+            content_ = fishjam.media_events.peer.Peer.MediaEvent.getDefaultInstance();
+          }
+          peerMediaEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.peer.Peer.MediaEvent, fishjam.media_events.peer.Peer.MediaEvent.Builder, fishjam.media_events.peer.Peer.MediaEventOrBuilder>(
+                  (fishjam.media_events.peer.Peer.MediaEvent) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 5;
+        onChanged();
+        return peerMediaEventBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent, fishjam.media_events.server.Server.MediaEvent.Builder, fishjam.media_events.server.Server.MediaEventOrBuilder> serverMediaEventBuilder_;
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       * @return Whether the serverMediaEvent field is set.
+       */
+      @java.lang.Override
+      public boolean hasServerMediaEvent() {
+        return contentCase_ == 6;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       * @return The serverMediaEvent.
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEvent getServerMediaEvent() {
+        if (serverMediaEventBuilder_ == null) {
+          if (contentCase_ == 6) {
+            return (fishjam.media_events.server.Server.MediaEvent) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.getDefaultInstance();
+        } else {
+          if (contentCase_ == 6) {
+            return serverMediaEventBuilder_.getMessage();
+          }
+          return fishjam.media_events.server.Server.MediaEvent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      public Builder setServerMediaEvent(fishjam.media_events.server.Server.MediaEvent value) {
+        if (serverMediaEventBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          content_ = value;
+          onChanged();
+        } else {
+          serverMediaEventBuilder_.setMessage(value);
+        }
+        contentCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      public Builder setServerMediaEvent(
+          fishjam.media_events.server.Server.MediaEvent.Builder builderForValue) {
+        if (serverMediaEventBuilder_ == null) {
+          content_ = builderForValue.build();
+          onChanged();
+        } else {
+          serverMediaEventBuilder_.setMessage(builderForValue.build());
+        }
+        contentCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      public Builder mergeServerMediaEvent(fishjam.media_events.server.Server.MediaEvent value) {
+        if (serverMediaEventBuilder_ == null) {
+          if (contentCase_ == 6 &&
+              content_ != fishjam.media_events.server.Server.MediaEvent.getDefaultInstance()) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.newBuilder((fishjam.media_events.server.Server.MediaEvent) content_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            content_ = value;
+          }
+          onChanged();
+        } else {
+          if (contentCase_ == 6) {
+            serverMediaEventBuilder_.mergeFrom(value);
+          } else {
+            serverMediaEventBuilder_.setMessage(value);
+          }
+        }
+        contentCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      public Builder clearServerMediaEvent() {
+        if (serverMediaEventBuilder_ == null) {
+          if (contentCase_ == 6) {
+            contentCase_ = 0;
+            content_ = null;
+            onChanged();
+          }
+        } else {
+          if (contentCase_ == 6) {
+            contentCase_ = 0;
+            content_ = null;
+          }
+          serverMediaEventBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      public fishjam.media_events.server.Server.MediaEvent.Builder getServerMediaEventBuilder() {
+        return getServerMediaEventFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      @java.lang.Override
+      public fishjam.media_events.server.Server.MediaEventOrBuilder getServerMediaEventOrBuilder() {
+        if ((contentCase_ == 6) && (serverMediaEventBuilder_ != null)) {
+          return serverMediaEventBuilder_.getMessageOrBuilder();
+        } else {
+          if (contentCase_ == 6) {
+            return (fishjam.media_events.server.Server.MediaEvent) content_;
+          }
+          return fishjam.media_events.server.Server.MediaEvent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.fishjam.media_events.server.MediaEvent server_media_event = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          fishjam.media_events.server.Server.MediaEvent, fishjam.media_events.server.Server.MediaEvent.Builder, fishjam.media_events.server.Server.MediaEventOrBuilder> 
+          getServerMediaEventFieldBuilder() {
+        if (serverMediaEventBuilder_ == null) {
+          if (!(contentCase_ == 6)) {
+            content_ = fishjam.media_events.server.Server.MediaEvent.getDefaultInstance();
+          }
+          serverMediaEventBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              fishjam.media_events.server.Server.MediaEvent, fishjam.media_events.server.Server.MediaEvent.Builder, fishjam.media_events.server.Server.MediaEventOrBuilder>(
+                  (fishjam.media_events.server.Server.MediaEvent) content_,
+                  getParentForChildren(),
+                  isClean());
+          content_ = null;
+        }
+        contentCase_ = 6;
+        onChanged();
+        return serverMediaEventBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:fishjam.PeerMessage)
     }
 
@@ -3298,15 +3892,15 @@ public final class PeerNotifications {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_PeerMessage_AuthRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fishjam_PeerMessage_RTCStatsReport_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fishjam_PeerMessage_RTCStatsReport_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fishjam_PeerMessage_MediaEvent_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3317,27 +3911,35 @@ public final class PeerNotifications {
   static {
     java.lang.String[] descriptorData = {
       "\n fishjam/peer_notifications.proto\022\007fish" +
-      "jam\"\363\002\n\013PeerMessage\022;\n\rauthenticated\030\001 \001" +
+      "jam\032$fishjam/media_events/peer/peer.prot" +
+      "o\032(fishjam/media_events/server/server.pr" +
+      "oto\"\222\004\n\013PeerMessage\022;\n\rauthenticated\030\001 \001" +
       "(\0132\".fishjam.PeerMessage.AuthenticatedH\000" +
       "\0228\n\014auth_request\030\002 \001(\0132 .fishjam.PeerMes" +
       "sage.AuthRequestH\000\0226\n\013media_event\030\003 \001(\0132" +
       "\037.fishjam.PeerMessage.MediaEventH\000\022?\n\020rt" +
       "c_stats_report\030\004 \001(\0132#.fishjam.PeerMessa" +
-      "ge.RTCStatsReportH\000\032\017\n\rAuthenticated\032\034\n\013" +
-      "AuthRequest\022\r\n\005token\030\001 \001(\t\032\032\n\nMediaEvent" +
-      "\022\014\n\004data\030\001 \001(\t\032\036\n\016RTCStatsReport\022\014\n\004data" +
-      "\030\001 \001(\tB\t\n\007contentb\006proto3"
+      "ge.RTCStatsReportH\000\022A\n\020peer_media_event\030" +
+      "\005 \001(\0132%.fishjam.media_events.peer.MediaE" +
+      "ventH\000\022E\n\022server_media_event\030\006 \001(\0132\'.fis" +
+      "hjam.media_events.server.MediaEventH\000\032\017\n" +
+      "\rAuthenticated\0321\n\013AuthRequest\022\r\n\005token\030\001" +
+      " \001(\t\022\023\n\013sdk_version\030\002 \001(\t\032\036\n\016RTCStatsRep" +
+      "ort\022\014\n\004data\030\001 \001(\t\032\032\n\nMediaEvent\022\014\n\004data\030" +
+      "\001 \001(\tB\t\n\007contentb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          fishjam.media_events.peer.Peer.getDescriptor(),
+          fishjam.media_events.server.Server.getDescriptor(),
         });
     internal_static_fishjam_PeerMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_fishjam_PeerMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_PeerMessage_descriptor,
-        new java.lang.String[] { "Authenticated", "AuthRequest", "MediaEvent", "RtcStatsReport", "Content", });
+        new java.lang.String[] { "Authenticated", "AuthRequest", "MediaEvent", "RtcStatsReport", "PeerMediaEvent", "ServerMediaEvent", "Content", });
     internal_static_fishjam_PeerMessage_Authenticated_descriptor =
       internal_static_fishjam_PeerMessage_descriptor.getNestedTypes().get(0);
     internal_static_fishjam_PeerMessage_Authenticated_fieldAccessorTable = new
@@ -3349,20 +3951,22 @@ public final class PeerNotifications {
     internal_static_fishjam_PeerMessage_AuthRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_PeerMessage_AuthRequest_descriptor,
-        new java.lang.String[] { "Token", });
-    internal_static_fishjam_PeerMessage_MediaEvent_descriptor =
-      internal_static_fishjam_PeerMessage_descriptor.getNestedTypes().get(2);
-    internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_fishjam_PeerMessage_MediaEvent_descriptor,
-        new java.lang.String[] { "Data", });
+        new java.lang.String[] { "Token", "SdkVersion", });
     internal_static_fishjam_PeerMessage_RTCStatsReport_descriptor =
-      internal_static_fishjam_PeerMessage_descriptor.getNestedTypes().get(3);
+      internal_static_fishjam_PeerMessage_descriptor.getNestedTypes().get(2);
     internal_static_fishjam_PeerMessage_RTCStatsReport_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_PeerMessage_RTCStatsReport_descriptor,
         new java.lang.String[] { "Data", });
+    internal_static_fishjam_PeerMessage_MediaEvent_descriptor =
+      internal_static_fishjam_PeerMessage_descriptor.getNestedTypes().get(3);
+    internal_static_fishjam_PeerMessage_MediaEvent_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_fishjam_PeerMessage_MediaEvent_descriptor,
+        new java.lang.String[] { "Data", });
     descriptor.resolveAllFeaturesImmutable();
+    fishjam.media_events.peer.Peer.getDescriptor();
+    fishjam.media_events.server.Server.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

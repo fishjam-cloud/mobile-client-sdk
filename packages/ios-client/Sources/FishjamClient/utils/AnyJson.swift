@@ -16,6 +16,12 @@ public struct AnyJson: Codable {
 
     // MARK: Decoding
 
+    public init(from string: String) throws {
+        let data = Data(string.utf8)
+        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
+        self.store = json
+    }
+
     public init(from decoder: Decoder) throws {
         var container = try decoder.container(keyedBy: JSONCodingKey.self)
         self.store = try Self.decodeDictionary(from: &container)
