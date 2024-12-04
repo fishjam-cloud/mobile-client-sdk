@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-def packageVersion = '0.5.0'
+def packageVersion = '0.6.0'
 
 group = 'io.fishjam.reactnative'
 version = "${packageVersion}"
