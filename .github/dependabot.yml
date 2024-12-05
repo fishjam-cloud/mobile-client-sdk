@@ -11,3 +11,19 @@ updates:
     groups:
       development-dependencies:
         dependency-type: "development"
+    ignore:
+      - dependency-name: "@react-native-async-storage/async-storage"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "expo"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "react-native"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "react-native-safe-area-context"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "react-native-screens"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
