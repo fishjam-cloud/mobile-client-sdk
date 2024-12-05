@@ -1,6 +1,6 @@
 {
   "name": "@fishjam-cloud/react-native-client",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A React Native client for Fishjam Cloud",
   "author": "Fishjam Cloud Team",
   "license": "Apache-2.0",
@@ -54,7 +54,7 @@
     "husky": "^9.1.7",
     "jest": "^29.6.1",
     "jest-environment-jsdom": "^29.6.1",
-    "jest-expo": "^52.0.0",
+    "jest-expo": "~52.0.2",
     "jest-websocket-mock": "^2.4.0",
     "pod-install": "^0.3.2",
     "react-dom": "^18.3.1",
@@ -89,5 +89,12 @@
     "expo-module.config.json",
     "README.md",
     "!**/node_modules"
-  ]
+  ],
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
+  }
 }
