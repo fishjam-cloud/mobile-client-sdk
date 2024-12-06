@@ -410,7 +410,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         pc.setRemoteDescription(
             description,
-            completionHandler: { error in
+            completionHandler: {   error in
                 guard let err = error else {
                     return
                 }

@@ -730,6 +730,7 @@ class RNFishjamClient: FishjamClientListener {
         try ensureCreated()
 
         let stats = RNFishjamClient.fishjamClient!.getStats()
+
         let pairs = stats.map { (key, value) in
             let rnValue =
                 value is RTCOutboundStats

@@ -175,9 +175,9 @@ internal class RTCEngineCommunication {
         case .error(let error):
             sdkLogger.error("Failed to handle event. Message: \(error.message)")
 
-        case .trackVariantSwitched(_): break  // TODO(FCE-953): Add with simulcast
-        case .trackVariantDisabled(_): break  // TODO(FCE-953): Add with simulcast
-        case .trackVariantEnabled(_): break  // TODO(FCE-953): Add with simulcast
+        case .trackVariantSwitched(_): break
+        case .trackVariantDisabled(_): break
+        case .trackVariantEnabled(_): break
         }
     }
 }
