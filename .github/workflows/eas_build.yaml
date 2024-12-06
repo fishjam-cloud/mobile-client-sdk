@@ -1,0 +1,56 @@
+name: EAS Build
+on:
+  pull_request:
+    types: [labeled]
+jobs:
+  build:
+    if: ${{ github.event.label.name == 'eas build' }}
+    runs-on: macOS-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: yarn && yarn build
+
+      - name: 🚀 Build app
+        run: eas build --non-interactive --platform=all
+        working-directory: examples/fishjam-chat
+
+      - name: 🛫 Submit iOS app to TestFlight
+        run: eas submit --non-interactive --platform=ios --latest
+        working-directory: examples/fishjam-chat
+
+      - name: ⛓️‍💥 Get iOS archive url and version
+        id: ios_build
+        run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="IOS")][0] | "version=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+        working-directory: examples/fishjam-chat
+
+      - name: ⛓️‍💥 Get Android archive url and version
+        id: android_build
+        run: eas build:list --json --non-interactive | jq -r '[.[] | select(.platform=="ANDROID")][0] | "url=\(.artifacts.applicationArchiveUrl)\nversion=\(.appVersion) (\(.appBuildVersion))"' >> $GITHUB_OUTPUT
+        working-directory: examples/fishjam-chat
+
+      - name: 💬 Add comment with build links
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '**Download links**\nAndroid - ${{ steps.android_build.outputs.version }}: ${{ steps.android_build.outputs.url }}\niOS - ${{ steps.ios_build.outputs.version }}: https://testflight.apple.com/v1/app/6711353226'
+            })
