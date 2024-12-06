@@ -1,4 +1,4 @@
-# React Native Fishjam Cloud example
+# React Native Fishjam example
 
 ## Running the Example app
 
