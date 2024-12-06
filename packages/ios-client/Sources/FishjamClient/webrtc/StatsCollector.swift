@@ -6,6 +6,7 @@ class StatsCollector {
 
     init(connection: RTCPeerConnection) {
         self.connection = connection
+        
         connection.statistics(completionHandler: { [weak self] report in
             self?.extractRelevantStats(rp: report)
         })

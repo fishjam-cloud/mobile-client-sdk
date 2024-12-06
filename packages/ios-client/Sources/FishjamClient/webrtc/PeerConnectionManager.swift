@@ -273,19 +273,41 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return mapping
     }
 
-    private func getTrackIdToBitrates(localTracks: [Track]) -> [String: Int32] {
+    private func getTrackIdToBitrates(localTracks: [Track]) -> Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates> {
         guard let pc = connection else {
             return [:]
         }
-
-        var mapping: [String: Int32] = [:]
+        
+        var mapping: Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates> = [:]
         pc.transceivers.forEach { transceiver in
             guard let trackId: String = transceiver.sender.track?.trackId else {
                 return
             }
-            mapping[trackId] = 1_500_000  // TODO(FCE-953): Change with simulcast
-        }
+            var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+            bitrate.variant = .unspecified
+            bitrate.bitrate = 1_500_000 // TODO(FCE-953):
+            
+            var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
+            trackBitrates.trackID = trackId
+            trackBitrates.variantBitrates = [bitrate]
+            
+            mapping[trackId] = trackBitrates
 
+//            if let track = localTracks.first(where: { $0.webrtcId == trackId }), let videoParameters =
+//                (track as? LocalCameraTrack)?.videoParameters ?? (track as? LocalBroadcastScreenShareTrack)?.videoParameters {
+//                var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
+//                trackBitrates.trackID = trackId
+//                
+//                videoParameters.simulcastConfig.activeEncodings.forEach { encoding in
+//                    var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+//                    bitrate.variant = .unspecified
+//                    bitrate.bitrate = 1_500_000 // TODO(FCE-953):
+//                    trackBitrates.variantBitrates = [bitrate]
+//                }
+//                mapping[trackId] = trackBitrates
+//            }
+        }
+        
         return mapping
     }
 
@@ -318,7 +340,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
         onCompletion: @escaping (
-            _ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?
+            _ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates>?, _ error: Error?
         ) -> Void
     ) {
 

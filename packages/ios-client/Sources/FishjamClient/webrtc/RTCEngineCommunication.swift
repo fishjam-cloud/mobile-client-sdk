@@ -59,25 +59,14 @@ internal class RTCEngineCommunication {
 
     func sdpOffer(
         sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String],
-        trackIdToBitrates: [String: Int32]
+        trackIdToBitrates: Dictionary<String,Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates>
     ) {
         var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
 
         sdpOffer.sdp = sdp
         sdpOffer.trackIDToMetadataJson = trackIdToTrackMetadata.toDictionaryJson()
         sdpOffer.midToTrackID = midToTrackId
-        sdpOffer.trackIDToBitrates = Dictionary(
-            uniqueKeysWithValues:
-                trackIdToBitrates.map { key, value in
-                    var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
-                    trackBitrates.trackID = key
-                    var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
-                    bitrate.variant = .unspecified  // TODO(FCE-953):
-                    bitrate.bitrate = value
-                    trackBitrates.variantBitrates = [bitrate]
-
-                    return (key, trackBitrates)
-                })
+        sdpOffer.trackIDToBitrates = trackIdToBitrates
 
         sendEvent(event: .sdpOffer(sdpOffer))
     }
