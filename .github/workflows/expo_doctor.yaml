@@ -1,0 +1,22 @@
+name: React Native - Expo Doctor
+on:
+  pull_request:
+jobs:
+  expo_doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+
+      - name: 📦 Install dependencies
+        run: yarn && yarn build
+
+      - name: 🩺 Run Expo Doctor
+        run: npx expo-doctor@latest
+        working-directory: examples/fishjam-chat
