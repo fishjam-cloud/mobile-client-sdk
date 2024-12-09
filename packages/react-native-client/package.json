@@ -1,8 +1,8 @@
 {
   "name": "@fishjam-cloud/react-native-client",
   "version": "0.6.0",
-  "description": "A React Native client for Fishjam Cloud",
-  "author": "Fishjam Cloud Team",
+  "description": "A React Native client for Fishjam",
+  "author": "Fishjam Team",
   "license": "Apache-2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -22,6 +22,7 @@
   "keywords": [
     "react-native",
     "expo",
+    "Fishjam",
     "FishjamCloud",
     "MembraneWebRTC",
     "webRTC",

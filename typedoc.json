@@ -1,6 +1,6 @@
 {
   "entryPoints": ["packages/*"],
-  "name": "Fishjam Cloud Mobile SDK",
+  "name": "Fishjam Mobile SDK",
   "entryPointStrategy": "packages",
   "includeVersion": true,
   "plugin": ["typedoc-material-theme"],
