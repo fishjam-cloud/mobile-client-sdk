@@ -28,7 +28,8 @@ class FishjamClientInternal {
     private var packageVersion: String {
         let url = Bundle.main.url(forResource: "package", withExtension: "json")!
         let data = try! Data(contentsOf: url)
-        let jsonResult = try! JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as! [String: AnyObject]
+        let jsonResult =
+            try! JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as! [String: AnyObject]
         return jsonResult["version"] as! String
     }
 
