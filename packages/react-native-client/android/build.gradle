@@ -1,11 +1,16 @@
+import groovy.json.JsonSlurper
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-def packageVersion = '0.6.0'
+def packageVersion() {
+    def inputFile = new File("../../../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["version"]
+}
 
 group = 'io.fishjam.reactnative'
-version = "${packageVersion}"
+version = "${packageVersion()}"
 
 buildscript {
   def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
@@ -61,8 +66,9 @@ android {
     minSdkVersion safeExtGet("minSdkVersion", 21)
     targetSdkVersion safeExtGet("targetSdkVersion", 34)
     versionCode 1
-    versionName "${packageVersion}"
+    versionName "${packageVersion()}"
   }
+
   lintOptions {
     abortOnError false
   }
@@ -84,7 +90,7 @@ dependencies {
     implementation project(':fishjam-cloud-android-client')
   } else {
     // update version number when releasing
-    implementation "com.github.fishjam-cloud:mobile-client-sdk:${packageVersion}"
+    implementation "com.github.fishjam-cloud:mobile-client-sdk:${packageVersion()}"
   }
   implementation 'com.twilio:audioswitch:1.2.0'
   implementation 'androidx.appcompat:appcompat:1.6.1'
