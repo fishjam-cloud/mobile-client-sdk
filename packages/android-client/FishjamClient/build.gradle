@@ -9,11 +9,9 @@ plugins {
     id "kotlin-android"
 }
 
-def packageVersion() {
-  def inputFile = new File("../../../package.json")
-  def packageJson = new JsonSlurper().parseText(inputFile.text)
-  return packageJson["version"]
-}
+def inputFile = new File("$projectDir/../../../package.json")
+def packageJson = new JsonSlurper().parseText(inputFile.text)
+def packageVersion = packageJson["version"]
 
 ext {
     kotlin_version = '1.8.0'
@@ -34,7 +32,7 @@ android {
 
     buildTypes {
         configureEach {
-            buildConfigField "String", "PACKAGE_VERSION", "\"${packageVersion()}\""
+            buildConfigField "String", "PACKAGE_VERSION", "\"${packageVersion}\""
         }
 
         release {
