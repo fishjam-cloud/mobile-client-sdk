@@ -27,7 +27,6 @@ import com.fishjamcloud.client.webrtc.PeerConnectionListener
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import com.fishjamcloud.client.webrtc.RTCEngineListener
-import com.github.ajalt.timberkt.BuildConfig
 import fishjam.PeerNotifications
 import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
@@ -161,7 +160,7 @@ internal class FishjamClientInternal(
                 PeerNotifications.PeerMessage.AuthRequest
                   .newBuilder()
                   .setToken(connectConfig.token)
-                  .setSdkVersion("mobile-0.6.0")
+                  .setSdkVersion("mobile-${BuildConfig.PACKAGE_VERSION}")
               ).build()
           sendEvent(authRequest)
         }
