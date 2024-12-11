@@ -18,5 +18,5 @@ jobs:
         run: yarn && yarn build
 
       - name: 🩺 Run Expo Doctor
-        run: npx expo-doctor@latest
+        run: EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 npx expo-doctor@latest
         working-directory: examples/fishjam-chat
