@@ -1,4 +1,4 @@
-<img src="../../.github/images/fishjam-card.png" width="100%">
+<img src="../../.github/images/fishjam-card.png" width="100%" />
 
 # Fishjam React Native client
 
@@ -20,7 +20,7 @@ There is simple example app, that allows you to test our service. To run it loca
 
 ## License
 
-Licensed under the [Apache License, Version 2.0](LICENSE)
+Licensed under the [Apache License, Version 2.0](./LICENSE.txt)
 
 ## Fishjam is created by Software Mansion
 
