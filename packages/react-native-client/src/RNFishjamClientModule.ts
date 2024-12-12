@@ -94,7 +94,6 @@ export const ReceivableEvents = {
   SimulcastConfigUpdate: 'SimulcastConfigUpdate',
   PeersUpdate: 'PeersUpdate',
   AudioDeviceUpdate: 'AudioDeviceUpdate',
-  SendMediaEvent: 'SendMediaEvent',
   BandwidthEstimation: 'BandwidthEstimation',
   ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
   ReconnectionStarted: 'ReconnectionStarted',
@@ -112,7 +111,6 @@ export type ReceivableEventPayloads = {
   [ReceivableEvents.SimulcastConfigUpdate]: SimulcastConfig;
   [ReceivableEvents.PeersUpdate]: Peer<GenericMetadata, GenericMetadata>[];
   [ReceivableEvents.AudioDeviceUpdate]: OnAudioDeviceEvent;
-  [ReceivableEvents.SendMediaEvent]: unknown;
   [ReceivableEvents.BandwidthEstimation]: number | null;
   [ReceivableEvents.ReconnectionRetriesLimitReached]: void;
   [ReceivableEvents.ReconnectionStarted]: void;

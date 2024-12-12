@@ -3,6 +3,7 @@ import nativeModule, {
   ReceivableEvents,
   ReceivableEventPayloads,
 } from '../../RNFishjamClientModule';
+import { isNativeEventPayloadValid } from '../../debug/internal/eventPayloadValidator';
 
 export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
   eventName: T,
@@ -10,7 +11,16 @@ export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
 ) {
   useEffect(() => {
     const eventListener = nativeModule.addListener(eventName, (event) => {
-      callback(event[eventName]);
+      const payload = event[eventName];
+
+      if (__DEV__ && !isNativeEventPayloadValid(eventName, payload)) {
+        console.error(
+          `Invalid payload received for event ${eventName}:`,
+          payload,
+        );
+      }
+
+      callback(payload);
     });
     return () => eventListener.remove();
   }, [callback, eventName]);
