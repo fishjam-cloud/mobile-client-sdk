@@ -248,8 +248,9 @@ export function useCamera() {
      * @returns A promise that resolves to the list of available cameras.
      */
     cameras,
-
-    /** Enable/disable current camera */
+    /**
+     * Enable/disable current camera
+     */
     toggleCamera,
     /**
      * Prepares camera and starts local video track
@@ -265,12 +266,12 @@ export function useCamera() {
 
     /**
      * @deprecated
-     * toggles encoding of a video track on/off
+     * Toggles encoding of a video track on/off
      * @param encoding encoding to toggle
      */
     toggleVideoTrackEncoding,
     /**
-     * updates maximum bandwidth for the given simulcast encoding of the video track
+     * Updates maximum bandwidth for the given simulcast encoding of the video track
      * @param encoding  encoding to update
      * @param bandwidth BandwidthLimit to set
      * @deprecated
