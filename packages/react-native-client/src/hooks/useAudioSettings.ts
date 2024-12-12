@@ -19,7 +19,7 @@ export type AudioOutputDevice = {
   name: string;
 };
 
-type OnAudioDeviceEvent = {
+export type OnAudioDeviceEvent = {
   selectedDevice: AudioOutputDevice | null;
   availableDevices: AudioOutputDevice[];
 };

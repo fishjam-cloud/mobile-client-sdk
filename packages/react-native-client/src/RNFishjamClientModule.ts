@@ -3,12 +3,17 @@ import { requireNativeModule } from 'expo-modules-core';
 import type { NativeModule } from 'expo-modules-core/types';
 import type { RTCStats } from './debug/stats/types';
 import type { GenericMetadata, SimulcastConfig } from './types';
-import type { CameraConfigInternal, Camera } from './hooks/useCamera';
+import type {
+  CameraConfigInternal,
+  Camera,
+  CurrentCameraChangedType,
+} from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
 import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
+import { OnAudioDeviceEvent } from './hooks/useAudioSettings';
 import { ReconnectionStatus } from './hooks/useReconnection';
 
 type Metadata = { [key: string]: unknown };
@@ -100,8 +105,25 @@ export const ReceivableEvents = {
   CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 
+export type EventPayloads = {
+  [ReceivableEvents.IsMicrophoneOn]: boolean;
+  [ReceivableEvents.IsScreenShareOn]: boolean;
+  [ReceivableEvents.IsAppScreenShareOn]: boolean;
+  [ReceivableEvents.SimulcastConfigUpdate]: SimulcastConfig;
+  [ReceivableEvents.PeersUpdate]: Peer<GenericMetadata, GenericMetadata>[];
+  [ReceivableEvents.AudioDeviceUpdate]: OnAudioDeviceEvent;
+  [ReceivableEvents.SendMediaEvent]: unknown;
+  [ReceivableEvents.BandwidthEstimation]: number;
+  [ReceivableEvents.ReconnectionRetriesLimitReached]: void;
+  [ReceivableEvents.ReconnectionStarted]: void;
+  [ReceivableEvents.Reconnected]: void;
+  [ReceivableEvents.Warning]: string;
+  [ReceivableEvents.PeerStatusChanged]: PeerStatus;
+  [ReceivableEvents.ReconnectionStatusChanged]: ReconnectionStatus;
+  [ReceivableEvents.CurrentCameraChanged]: CurrentCameraChangedType;
+};
+
 export default requireNativeModule('RNFishjamClient') as RNFishjamClient &
   NativeModule<
-    // TODO: Make event arguments typesafe instead of generic.
-    Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
+    Record<keyof typeof ReceivableEvents, (payload: EventPayloads) => void>
   >;
