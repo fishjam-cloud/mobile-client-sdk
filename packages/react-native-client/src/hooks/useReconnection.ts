@@ -3,7 +3,7 @@ import RNFishjamClientModule, {
 } from '../RNFishjamClientModule';
 import { useFishjamEventState } from './internal/useFishjamEventState';
 
-export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
+type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
 /**
  * Information about reconnection status.
