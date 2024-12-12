@@ -24,7 +24,9 @@ const NativeView: React.ComponentType<VideoPreviewViewProps> =
 
 /**
  * Render camera preview.
- * Allows to display camera preview beofre streaming is started
+ * Allows to display camera preview before streaming is started
+ *
+ *
  * @category Components
  */
 export const VideoPreviewView = React.forwardRef<
