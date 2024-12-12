@@ -105,7 +105,8 @@ const emptyFunction = () => {};
  * @param {Object} config.channelName - The user visible name of the channel.
  * @param {Object} config.notificationTitle - The title (first row) of the notification, in a standard notification.
  * @param {Object} config.notificationContent - The text (second row) of the notification, in a standard notification.
- *
+ * @group Hooks
+ * @category Connection
  */
 export const useForegroundService = Platform.select({
   android: useForegroundServiceAndroid,

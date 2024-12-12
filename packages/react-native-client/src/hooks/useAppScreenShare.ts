@@ -74,7 +74,7 @@ function useDefaultAppScreenShareAndroid(): AppScreenShareData {
  * It works only on iOS.
  *
  * @returns An object with functions to manage app screen share on iOS and null on android.
- * @category Screenshare
+ * @category Connection
  * @group Hooks
  */
 export const useAppScreenShare = Platform.select({
