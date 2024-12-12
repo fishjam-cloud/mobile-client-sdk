@@ -25,6 +25,14 @@ class FishjamClientInternal {
     private var prevTracks: [Track] = []
     private var remoteEndpointsMap: [String: Endpoint] = [:]
 
+    private var packageVersion: String {
+        let url = Bundle.main.url(forResource: "package", withExtension: "json")!
+        let data = try! Data(contentsOf: url)
+        let jsonResult =
+            try! JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as! [String: AnyObject]
+        return jsonResult["version"] as! String
+    }
+
     public init(listener: FishjamClientListener, websocketFactory: @escaping (String) -> FishjamWebsocket) {
         self.listener = listener
         self.websocketFactory = websocketFactory
@@ -343,7 +351,7 @@ class FishjamClientInternal {
         let authRequest = Fishjam_PeerMessage.with({
             $0.authRequest = Fishjam_PeerMessage.AuthRequest.with({
                 $0.token = self.config?.token ?? ""
-                $0.sdkVersion = "mobile-0.6.0"
+                $0.sdkVersion = "mobile-\(packageVersion)"
             })
         })
 
