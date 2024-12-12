@@ -13,5 +13,10 @@ export function useBandwidthEstimation() {
     ReceivableEvents.BandwidthEstimation,
     null,
   );
-  return { estimation };
+  return {
+    /**
+     * Bandwidth estimation, measured in bits per second
+     */
+    estimation,
+  };
 }
