@@ -18,10 +18,7 @@ export type ConnectionConfig = {
 };
 
 /**
- * @param url fishjam Url
- * @param peerToken token received from server (or Room Manager)
- * @param peerMetadata string indexed record with metadata, that will be available to all other peers
- * @param config additional connection configuration
+ * @ignore
  */
 export async function joinRoom<
   PeerMetadata extends GenericMetadata = GenericMetadata,
@@ -38,7 +35,9 @@ export async function joinRoom<
     config ?? {},
   );
 }
-
+/**
+ * @ignore
+ */
 export async function leaveRoom() {
   await RNFishjamClientModule.leaveRoom();
 }

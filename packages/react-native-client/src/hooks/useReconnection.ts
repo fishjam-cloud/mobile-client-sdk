@@ -10,6 +10,7 @@ export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
  * Could be used to retrieve connection status, once user will be disconnected
  * @group Hooks
  * @deprecated
+ * @ignore
  */
 export function useReconnection() {
   const reconnectionStatus = useFishjamEventState<ReconnectionStatus>(
