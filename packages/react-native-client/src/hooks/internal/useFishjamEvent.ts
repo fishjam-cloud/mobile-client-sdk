@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import nativeModule, {
   ReceivableEvents,
-  EventPayloads,
+  ReceivableEventPayloads,
 } from '../../RNFishjamClientModule';
 
 export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
   eventName: T,
-  callback: (event: EventPayloads[T]) => void,
+  callback: (event: ReceivableEventPayloads[T]) => void,
 ) {
   useEffect(() => {
     const eventListener = nativeModule.addListener(eventName, (event) => {

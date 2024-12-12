@@ -31,13 +31,10 @@ export type OnAudioDeviceEvent = {
  */
 export function useAudioSettings() {
   const { selectedDevice: selectedAudioOutputDevice, availableDevices } =
-    useFishjamEventState<OnAudioDeviceEvent>(
-      ReceivableEvents.AudioDeviceUpdate,
-      {
-        selectedDevice: null,
-        availableDevices: [],
-      },
-    );
+    useFishjamEventState(ReceivableEvents.AudioDeviceUpdate, {
+      selectedDevice: null,
+      availableDevices: [],
+    });
 
   useEffect(() => {
     RNFishjamClientModule.startAudioSwitcher();

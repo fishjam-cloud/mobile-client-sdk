@@ -12,7 +12,7 @@ export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
  * @deprecated
  */
 export function useReconnection() {
-  const reconnectionStatus = useFishjamEventState<ReconnectionStatus>(
+  const reconnectionStatus = useFishjamEventState(
     ReceivableEvents.ReconnectionStatusChanged,
     RNFishjamClientModule.reconnectionStatus,
   );

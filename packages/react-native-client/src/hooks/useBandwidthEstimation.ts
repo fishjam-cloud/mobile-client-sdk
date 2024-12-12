@@ -9,7 +9,7 @@ import { useFishjamEventState } from './internal/useFishjamEventState';
  * @group Hooks
  */
 export function useBandwidthEstimation() {
-  const estimation = useFishjamEventState<number | null>(
+  const estimation = useFishjamEventState(
     ReceivableEvents.BandwidthEstimation,
     null,
   );

@@ -3,18 +3,18 @@ import { requireNativeModule } from 'expo-modules-core';
 import type { NativeModule } from 'expo-modules-core/types';
 import type { RTCStats } from './debug/stats/types';
 import type { GenericMetadata, SimulcastConfig } from './types';
+import type { Peer } from './hooks/usePeers';
+import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
+import type { ConnectionConfig } from './common/client';
+import type { PeerStatus } from './hooks/usePeerStatus';
+import type { ForegroundServiceConfig } from './hooks/useForegroundService';
+import type { OnAudioDeviceEvent } from './hooks/useAudioSettings';
+import type { ReconnectionStatus } from './hooks/useReconnection';
 import type {
   CameraConfigInternal,
   Camera,
   CurrentCameraChangedType,
 } from './hooks/useCamera';
-import type { Peer } from './hooks/usePeers';
-import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
-import type { ConnectionConfig } from './common/client';
-import { PeerStatus } from './hooks/usePeerStatus';
-import { ForegroundServiceConfig } from './hooks/useForegroundService';
-import { OnAudioDeviceEvent } from './hooks/useAudioSettings';
-import { ReconnectionStatus } from './hooks/useReconnection';
 
 type Metadata = { [key: string]: unknown };
 
@@ -105,7 +105,7 @@ export const ReceivableEvents = {
   CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 
-export type EventPayloads = {
+export type ReceivableEventPayloads = {
   [ReceivableEvents.IsMicrophoneOn]: boolean;
   [ReceivableEvents.IsScreenShareOn]: boolean;
   [ReceivableEvents.IsAppScreenShareOn]: boolean;
@@ -113,7 +113,7 @@ export type EventPayloads = {
   [ReceivableEvents.PeersUpdate]: Peer<GenericMetadata, GenericMetadata>[];
   [ReceivableEvents.AudioDeviceUpdate]: OnAudioDeviceEvent;
   [ReceivableEvents.SendMediaEvent]: unknown;
-  [ReceivableEvents.BandwidthEstimation]: number;
+  [ReceivableEvents.BandwidthEstimation]: number | null;
   [ReceivableEvents.ReconnectionRetriesLimitReached]: void;
   [ReceivableEvents.ReconnectionStarted]: void;
   [ReceivableEvents.Reconnected]: void;
@@ -125,5 +125,8 @@ export type EventPayloads = {
 
 export default requireNativeModule('RNFishjamClient') as RNFishjamClient &
   NativeModule<
-    Record<keyof typeof ReceivableEvents, (payload: EventPayloads) => void>
+    Record<
+      keyof typeof ReceivableEvents,
+      (payload: ReceivableEventPayloads) => void
+    >
   >;

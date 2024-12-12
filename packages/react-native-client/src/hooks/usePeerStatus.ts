@@ -19,7 +19,7 @@ export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
  * @deprecated
  */
 export const usePeerStatus = () => {
-  const peerStatus = useFishjamEventState<PeerStatus>(
+  const peerStatus = useFishjamEventState(
     ReceivableEvents.PeerStatusChanged,
     RNFishjamClientModule.peerStatus,
   );

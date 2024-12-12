@@ -158,19 +158,16 @@ export function updateCameraConfig(
  * @group Hooks
  */
 export function useCamera() {
-  const simulcastConfig = useFishjamEventState<SimulcastConfig>(
+  const simulcastConfig = useFishjamEventState(
     ReceivableEvents.SimulcastConfigUpdate,
     defaultSimulcastConfig(), // TODO: Fetch from native
   );
 
   const { currentCamera: currentCameraState, isCameraOn } =
-    useFishjamEventState<CurrentCameraChangedType>(
-      ReceivableEvents.CurrentCameraChanged,
-      {
-        currentCamera: RNFishjamClientModule.currentCamera,
-        isCameraOn: RNFishjamClientModule.isCameraOn,
-      },
-    );
+    useFishjamEventState(ReceivableEvents.CurrentCameraChanged, {
+      currentCamera: RNFishjamClientModule.currentCamera,
+      isCameraOn: RNFishjamClientModule.isCameraOn,
+    });
 
   // For Android Expo converts null to undefined ¯\_(ツ)_/¯
   const currentCamera = currentCameraState ?? null;
