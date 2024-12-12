@@ -93,8 +93,6 @@ const useForegroundServiceAndroid = ({
 const emptyFunction = () => {};
 
 /**
- * useForegroundService
- *
  * A hook for managing a foreground service on Android. Does nothing on other platforms.
  * You can use this hook to keep your app running in the background. You're also required to run a foreground service when screen sharing.
  *

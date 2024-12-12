@@ -18,7 +18,7 @@ export type FishjamRoomProps = {
 /**
  * Simple component that enables your camera and show all tracks
  *
- * Usage:
+ * Example usage:
  * ```tsx
  * <FishjamRoom
  *    fishjamUrl={FISHJAM_URL}
@@ -26,7 +26,9 @@ export type FishjamRoomProps = {
  * />
  * ```
  * @category Components
- * @param {object} __namedParameters Component properties
+ * @param {object} props
+ * @param {string} props.fishjamUrl
+ * @param {string} props.peerToken
  */
 export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
   const { prepareCamera } = useCamera();

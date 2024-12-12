@@ -262,8 +262,8 @@ export function useCamera() {
      * Switches to the specified camera.
      * List of available devices can be retrieved from `cameras` variable
      * @returns A promise that resolves when camera is switched.
-     */ switchCamera,
-
+     */
+    switchCamera,
     /**
      * @deprecated
      * Toggles encoding of a video track on/off

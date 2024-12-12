@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import {
   ConnectionConfig,
   joinRoom as joinRoomClient,
-  leaveRoom,
+  leaveRoom as leaveRoomClient,
 } from '../common/client';
 
 import RNFishjamClientModule, {
@@ -52,29 +52,22 @@ export type JoinRoomConfig<
   PeerMetadata extends GenericMetadata = GenericMetadata,
 > = {
   /**
-   * fishjam URL
+   * Fishjam URL
    */
   url: string;
   /**
-   * token received from server (or Room Manager)
+   * Token received from server (or Room Manager)
    */
   peerToken: string;
   /**
-   * string indexed record with metadata, that will be available to all other peers
+   * String indexed record with metadata, that will be available to all other peers
    */
   peerMetadata?: PeerMetadata;
   /**
-   *  additional connection configuration
+   *  Additional connection configuration
    */
   config?: ConnectionConfig;
 };
-
-type JoinRoomType<PeerMetadata extends GenericMetadata = GenericMetadata> = ({
-  url,
-  peerToken,
-  peerMetadata,
-  config,
-}: JoinRoomConfig<PeerMetadata>) => Promise<void>;
 
 /**
  * Connect/leave room. And get connection status.
@@ -84,7 +77,7 @@ type JoinRoomType<PeerMetadata extends GenericMetadata = GenericMetadata> = ({
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
-  const joinRoom: JoinRoomType = useCallback(
+  const joinRoom = useCallback(
     async <PeerMetadata extends GenericMetadata = GenericMetadata>({
       url,
       peerToken,
@@ -95,14 +88,16 @@ export function useConnection() {
     },
     [],
   );
+
+  const leaveRoom = useCallback(() => {
+    leaveRoomClient();
+  }, []);
+
   return {
     /**
      * Join room and start streaming camera and microphone
      *
-     * @param url fishjam Url
-     * @param peerToken token received from server (or Room Manager)
-     * @param peerMetadata string indexed record with metadata, that will be available to all other peers
-     * @param config additional connection configuration
+     * See {@link JoinRoomConfig} for parameter list
      */
     joinRoom,
     /**
