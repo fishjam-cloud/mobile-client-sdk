@@ -14,8 +14,8 @@ export type TrackType = 'Audio' | 'Video';
 /**
  * Type describing Voice Activity Detection statuses.
  *
- * speech - voice activity has been detected
- * silence - lack of voice activity has been detected
+ * `speech` voice activity has been detected
+ * `silence` - lack of voice activity has been detected
  */
 export type VadStatus = 'silence' | 'speech';
 
@@ -148,22 +148,10 @@ export type UsePeersResult<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
 > = {
-  /**
-   * The local peer with distinguished tracks (camera, microphone, screen share).
-   * Will be null if the local peer is not found.
-   */
   localPeer: PeerWithTracks<PeerMetadata, ServerMetadata> | null;
 
-  /**
-   * Array of remote peers with distinguished tracks (camera, microphone, screen share).
-   */
   remotePeers: PeerWithTracks<PeerMetadata, ServerMetadata>[];
 
-  /**
-   * @deprecated Use localPeer and remotePeers instead
-   * Legacy array containing all peers (both local and remote) without distinguished tracks.
-   * This property will be removed in future versions.
-   */
   peers: Peer<PeerMetadata, ServerMetadata>[];
 };
 
@@ -171,17 +159,13 @@ export type UsePeersResult<
  * Hook that provides live updates of room peers.
  * @template PeerMetadata - Type for peer-specific metadata
  * @template ServerMetadata - Type for server-specific metadata
- * @returns {UsePeersResult<PeerMetadata, ServerMetadata>} Object containing:
- * - localPeer: The local peer with distinguished tracks (camera, microphone, screen share)
- * - remotePeers: Array of remote peers with distinguished tracks
- * - peers: Deprecated array of all peers without distinguished tracks
  * @category Connection
  * @group Hooks
  */
 export function usePeers<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
->(): UsePeersResult<PeerMetadata, ServerMetadata> {
+>() {
   const peers = useFishjamEventState<Peer<PeerMetadata, ServerMetadata>[]>(
     ReceivableEvents.PeersUpdate,
     RNFishjamClientModule.getPeers<PeerMetadata, ServerMetadata>(),
@@ -199,5 +183,22 @@ export function usePeers<
     [peers],
   );
 
-  return { localPeer, remotePeers, peers };
+  return {
+    /**
+     * The local peer with distinguished tracks (camera, microphone, screen share).
+     * Will be null if the local peer is not found.
+     */
+    localPeer,
+
+    /**
+     * Array of remote peers with distinguished tracks (camera, microphone, screen share).
+     */
+    remotePeers,
+    /**
+     * @deprecated Use localPeer and remotePeers instead
+     * Legacy array containing all peers (both local and remote) without distinguished tracks.
+     * This property will be removed in future versions.
+     */
+    peers,
+  };
 }
