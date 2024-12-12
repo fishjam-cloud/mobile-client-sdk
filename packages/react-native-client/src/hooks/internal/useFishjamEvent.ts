@@ -14,7 +14,7 @@ export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
       const payload = event[eventName];
 
       if (__DEV__ && !isNativeEventPayloadValid(eventName, payload)) {
-        if (process.env.CI) {
+        if (process.env.EXPO_PUBLIC_IS_E2E) {
           ErrorUtils['reportFatalError'](
             new Error(`Invalid payload received for event ${eventName}`),
           );

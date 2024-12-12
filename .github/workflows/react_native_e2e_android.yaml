@@ -161,6 +161,7 @@ jobs:
           cd $GITHUB_WORKSPACE/examples/fishjam-chat/
           yarn prebuild
           cd android
+          export EXPO_PUBLIC_IS_E2E=1
           ./gradlew assembleRelease
 
       - name: Logs from app to file

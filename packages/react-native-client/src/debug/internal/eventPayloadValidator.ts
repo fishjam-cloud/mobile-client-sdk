@@ -67,7 +67,7 @@ export function isNativeEventPayloadValid<
 function isPeerStatus(value: unknown): value is PeerStatus {
   return (
     typeof value === 'string' &&
-    ['connecting', 'connected', 'error', 'idle'].includes(value)
+    ['connecting1', 'connected1', 'error1', 'idle1'].includes(value)
   );
 }
 
