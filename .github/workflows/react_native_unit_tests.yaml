@@ -6,12 +6,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-      - name: Use Node.js 18
-        uses: actions/setup-node@v2
+        uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.12.0
-          cache: "yarn"
+          node-version: 22.x
+          cache: "npm"
+      - name: Use corepack
+        run: corepack enable
       - name: Install node dependencies
         run: yarn
       - name: Run unit tests for the library
