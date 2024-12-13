@@ -24,7 +24,7 @@
     "expo-build-properties": "~0.13.1",
     "expo-device": "~7.0.1",
     "expo-status-bar": "~2.0.0",
-    "react": "18.3.1",
+    "react": "19.0.0",
     "react-native": "0.76.3",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-reanimated": "^3.16.3",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@types/react": "^18.3.12",
+    "@types/react": "^19.0.1",
     "typescript": "^5.7.2"
   },
   "private": true,
