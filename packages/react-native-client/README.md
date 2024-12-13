@@ -1,6 +1,6 @@
-<img src="../../.github/images/fishjam-card.png" width="100%">
+<img src="../../.github/images/fishjam-card.png" width="100%" />
 
-# Fishjam Cloud React Native client
+# Fishjam React Native client
 
 `@fishjam-cloud/react-native-client` is an easiest way to add video streaming to your React Native app.
 
@@ -10,7 +10,7 @@ Check out the [installation](https://docs.fishjam.io/react-native/installation) 
 
 # Documentation
 
-Check out our [documentation](https://docs.fishjam.io/) on how Fishjam Cloud work and how to integrate our service with your app.
+Check out our [documentation](https://docs.fishjam.io/) on how Fishjam work and how to integrate our service with your app.
 
 There is also [API documentation](https://fishjam-cloud.github.io/mobile-client-sdk/modules/_fishjam_cloud_react_native_client.html) available.
 
@@ -20,9 +20,9 @@ There is simple example app, that allows you to test our service. To run it loca
 
 ## License
 
-Licensed under the [Apache License, Version 2.0](LICENSE)
+Licensed under the [Apache License, Version 2.0](./LICENSE.txt)
 
-## Fishjam Cloud is created by Software Mansion
+## Fishjam is created by Software Mansion
 
 Since 2012 [Software Mansion](https://swmansion.com) is a software agency with experience in building web and mobile apps. We are Core React Native Contributors and experts in dealing with all kinds of React Native issues. We can help you build your next dream product – [Hire us](https://swmansion.com/contact/projects?utm_source=fishjam&utm_medium=mobile-readme).
 

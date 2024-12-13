@@ -61,7 +61,7 @@ yarn tsc
 yarn lint:check
 ```
 
-To edit the React Native SDK's Swift files, open `examples/fishjam-chat/ios/FishjamExample.xcworkspace` in XCode
+To edit the React Native SDK's Swift files, open `examples/fishjam-chat/ios/FishjamExample.xcworkspace` in Xcode
 and find the source files at
 `Pods > Development Pods > RNFishjamClient`
 to edit the iOS native SDK find
@@ -92,6 +92,7 @@ When you're sending a pull request:
 
 - Prefer small pull requests focused on one change.
 - Verify that linters and tests are passing.
+- Run `npx expo-doctor` and make sure that your changes don't break any of it's checks.
 - Review the documentation to make sure it looks good.
 - Follow the pull request template when opening a pull request.
 - For pull requests that change the API or implementation, discuss with

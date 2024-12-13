@@ -1,8 +1,12 @@
+import groovy.json.JsonSlurper
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-def packageVersion = '0.5.0'
+def inputFile = new File("$projectDir/../../../package.json")
+def packageJson = new JsonSlurper().parseText(inputFile.text)
+def packageVersion = packageJson["version"]
 
 group = 'io.fishjam.reactnative'
 version = "${packageVersion}"
@@ -63,6 +67,7 @@ android {
     versionCode 1
     versionName "${packageVersion}"
   }
+
   lintOptions {
     abortOnError false
   }
@@ -83,7 +88,6 @@ dependencies {
   if (findProject(':fishjam-cloud-android-client')) {
     implementation project(':fishjam-cloud-android-client')
   } else {
-    // update version number when releasing
     implementation "com.github.fishjam-cloud:mobile-client-sdk:${packageVersion}"
   }
   implementation 'com.twilio:audioswitch:1.2.0'

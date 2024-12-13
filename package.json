@@ -1,6 +1,6 @@
 {
   "name": "fishjam-mobile-sdk",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "license": "MIT",
   "private": true,
   "packageManager": "yarn@4.5.0",
@@ -15,15 +15,15 @@
     ]
   },
   "devDependencies": {
-    "@react-native/eslint-config": "^0.76.2",
-    "@react-native/eslint-plugin": "^0.76.2",
+    "@react-native/eslint-config": "^0.76.4",
+    "@react-native/eslint-plugin": "^0.76.4",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "prettier": "^3.3.3",
-    "typedoc": "^0.26.11",
-    "typedoc-material-theme": "^1.1.0"
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "prettier": "^3.4.2",
+    "typedoc": "^0.27.4",
+    "typedoc-material-theme": "^1.2.0"
   },
   "scripts": {
     "setup": "sh ./scripts/init.sh",
