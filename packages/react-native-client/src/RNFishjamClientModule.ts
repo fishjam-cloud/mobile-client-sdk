@@ -7,9 +7,8 @@ import type { CameraConfigInternal, Camera } from './hooks/useCamera';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
-import { PeerStatus } from './hooks/usePeerStatus';
 import { ForegroundServiceConfig } from './hooks/useForegroundService';
-import { ReconnectionStatus } from './hooks/useReconnection';
+import { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
 
 type Metadata = { [key: string]: unknown };
 
