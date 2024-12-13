@@ -27,7 +27,20 @@ const NativeView: React.ComponentType<VideoRendererProps> =
 
 /**
  * Render video track received from {@link usePeers} hook
+ *
+ * Example usage:
+ * ```tsx
+ *  <VideoRendererView
+ *      trackId={peer.track.id}
+ *      videoLayout="FIT"
+ *      style={styles.videoContent}
+ *  />
+ *  ```
+ *
  * @category Components
+ *
+ * @param {Object} props
+ * @param props.trackId
  */
 export const VideoRendererView = React.forwardRef<
   React.ComponentType<VideoRendererProps>,

@@ -2,7 +2,6 @@
  * `FILL` or `FIT` - it works just like RN Image component. `FILL` fills the whole view
  * with video and it may cut some parts of the video. `FIT` scales the video so the whole
  * video is visible, but it may leave some empty space in the view.
- * @category Components
  */
 export type VideoLayout = 'FILL' | 'FIT';
 

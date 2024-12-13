@@ -5,21 +5,31 @@ import { PermissionsAndroid, Platform } from 'react-native';
 
 /**
  * A type representing the configuration for foreground service permissions.
- *
- * @param enableCamera Indicates whether the camera is enabled for the foreground service.
- * @param enableMicrophone Indicates whether the microphone is enabled for the foreground service.
- * @param channelId The id of the channel. Must be unique per package.
- * @param channelName The user visible name of the channel.
- * @param notificationTitle The title (first row) of the notification, in a standard notification.
- * @param notificationContent The text (second row) of the notification, in a standard notification.
- *
  */
 export type ForegroundServiceConfig = {
+  /**
+   * Indicates whether the camera is enabled for the foreground service.
+   */
   enableCamera?: boolean;
+  /**
+   * Indicates whether the microphone is enabled for the foreground service.
+   */
   enableMicrophone?: boolean;
+  /**
+   * The id of the channel. Must be unique per package.
+   */
   channelId?: string;
+  /**
+   * The user visible name of the channel.
+   */
   channelName?: string;
+  /**
+   * The title (first row) of the notification, in a standard notification.
+   */
   notificationTitle?: string;
+  /**
+   * The text (second row) of the notification, in a standard notification.
+   */
   notificationContent?: string;
 };
 
@@ -83,8 +93,6 @@ const useForegroundServiceAndroid = ({
 const emptyFunction = () => {};
 
 /**
- * useForegroundService
- *
  * A hook for managing a foreground service on Android. Does nothing on other platforms.
  * You can use this hook to keep your app running in the background. You're also required to run a foreground service when screen sharing.
  *
@@ -95,7 +103,8 @@ const emptyFunction = () => {};
  * @param {Object} config.channelName - The user visible name of the channel.
  * @param {Object} config.notificationTitle - The title (first row) of the notification, in a standard notification.
  * @param {Object} config.notificationContent - The text (second row) of the notification, in a standard notification.
- *
+ * @group Hooks
+ * @category Connection
  */
 export const useForegroundService = Platform.select({
   android: useForegroundServiceAndroid,

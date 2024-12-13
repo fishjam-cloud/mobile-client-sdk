@@ -40,10 +40,12 @@ export type {
   TrackType,
   VadStatus,
   EncodingReason,
+  TrackBase,
   AudioTrack,
   VideoTrack,
   UsePeersResult,
   PeerWithTracks,
+  PeerTrackMetadata,
 } from './hooks/usePeers';
 
 export type {
@@ -64,10 +66,12 @@ export type {
   ScreenShareOptions,
   ScreenShareQuality,
 } from './hooks/useScreenShare';
-export type { ReconnectionStatus } from './hooks/useReconnection';
-export type { PeerStatus } from './hooks/usePeerStatus';
 export type { ForegroundServiceConfig } from './hooks/useForegroundService';
-export type { ConnectionStatus, JoinRoomConfig } from './hooks/useConnection';
+export type {
+  JoinRoomConfig,
+  ReconnectionStatus,
+  PeerStatus,
+} from './hooks/useConnection';
 // #endregion
 
 // #region hooks
@@ -85,6 +89,7 @@ export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 // #endregion
 
+export type { FishjamRoomProps } from './components/FishjamRoom';
 export { FishjamRoom } from './components/FishjamRoom';
 
 initializeWarningListener();
