@@ -1,6 +1,6 @@
 import { requireNativeViewManager } from 'expo-modules-core';
 import * as React from 'react';
-import { ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 
 import { VideoLayout } from '../types';
 import { CameraId } from '../hooks/useCamera';
@@ -11,7 +11,8 @@ export type VideoPreviewViewProps = {
    * @default `FILL`
    */
   videoLayout?: VideoLayout;
-  style?: ViewStyle;
+
+  style?: StyleProp<ViewStyle>;
   /**
    * Id of the camera used for preview. Get available cameras with `cameras` property.
    * @default the first front camera
@@ -24,8 +25,12 @@ const NativeView: React.ComponentType<VideoPreviewViewProps> =
 
 /**
  * Render camera preview.
- * Allows to display camera preview beofre streaming is started
+ * Allows to display camera preview before streaming is started
+ *
+ *
  * @category Components
+ * @param {object} props
+ * @param {string} props.cameraId
  */
 export const VideoPreviewView = React.forwardRef<
   React.ComponentType<VideoPreviewViewProps>,

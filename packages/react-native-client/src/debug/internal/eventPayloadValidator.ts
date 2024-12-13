@@ -2,8 +2,7 @@ import {
   ReceivableEventPayloads,
   ReceivableEvents,
 } from '../../RNFishjamClientModule';
-import type { PeerStatus } from '../../hooks/usePeerStatus';
-import type { ReconnectionStatus } from '../../hooks/useReconnection';
+
 import type {
   GenericMetadata,
   SimulcastConfig,
@@ -19,7 +18,9 @@ import type {
   CameraFacingDirection,
   CurrentCameraChangedType,
 } from '../../hooks/useCamera';
-import { AudioTrack, Peer, VideoTrack } from '../../hooks/usePeers';
+import type { AudioTrack, Peer, VideoTrack } from '../../hooks/usePeers';
+import type { ReconnectionStatus } from '../../hooks/useConnection';
+import type { PeerStatus } from '../../hooks/useConnection';
 
 export function isNativeEventPayloadValid<
   T extends keyof typeof ReceivableEvents,

@@ -2954,7 +2954,7 @@ __metadata:
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
     react-dom: "npm:^18.3.1"
-    ts-proto: "npm:^2.5.1"
+    ts-proto: "npm:^2.6.0"
     typedoc: "npm:^0.27.4"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
     typescript: "npm:^5.7.2"
@@ -3003,7 +3003,7 @@ __metadata:
     "@wdio/local-runner": "npm:^8.40.6"
     "@wdio/mocha-framework": "npm:^8.40.6"
     "@wdio/spec-reporter": "npm:^8.40.6"
-    appium-xcuitest-driver: "npm:^7.32.1"
+    appium-xcuitest-driver: "npm:^7.33.0"
     dotenv: "npm:^16.4.7"
     ts-node: "npm:^10.9.1"
     typescript: "npm:^5.7.2"
@@ -4049,13 +4049,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/eslint-config@npm:^0.76.4":
-  version: 0.76.4
-  resolution: "@react-native/eslint-config@npm:0.76.4"
+"@react-native/eslint-config@npm:^0.76.5":
+  version: 0.76.5
+  resolution: "@react-native/eslint-config@npm:0.76.5"
   dependencies:
     "@babel/core": "npm:^7.25.2"
     "@babel/eslint-parser": "npm:^7.25.1"
-    "@react-native/eslint-plugin": "npm:0.76.4"
+    "@react-native/eslint-plugin": "npm:0.76.5"
     "@typescript-eslint/eslint-plugin": "npm:^7.1.1"
     "@typescript-eslint/parser": "npm:^7.1.1"
     eslint-config-prettier: "npm:^8.5.0"
@@ -4068,14 +4068,14 @@ __metadata:
   peerDependencies:
     eslint: ">=8"
     prettier: ">=2"
-  checksum: 10c0/83a70578d7beb49bc512b081267ca2a11723ef421e42a3de9217ba8c1a92dc97d9698cd16b1ab825028d34cbfb4d879efc12b932ce01de6b2cc41c3321f73385
+  checksum: 10c0/7f24a33aed685a876b9a6aa4438e2b508241ef902d0b37fbe6701e6551f9f64757576ef9e9f44e9bda8c96d132514f88e524f402149520425ab20e3626b4fd3d
   languageName: node
   linkType: hard
 
-"@react-native/eslint-plugin@npm:0.76.4, @react-native/eslint-plugin@npm:^0.76.4":
-  version: 0.76.4
-  resolution: "@react-native/eslint-plugin@npm:0.76.4"
-  checksum: 10c0/be840948100ed1beb336877c7957bf15e114468674646084ca63cfb9e4e7e0b4ee8e5c6a50c5e06cd7f605dea397a24069a3273722bf67c3fdd84f769ef47653
+"@react-native/eslint-plugin@npm:0.76.5, @react-native/eslint-plugin@npm:^0.76.5":
+  version: 0.76.5
+  resolution: "@react-native/eslint-plugin@npm:0.76.5"
+  checksum: 10c0/b7c2f7475a8cbcc778917718498b652fb7dde7bc28b078b198f7bc3d3f7988c4bea721bc563013ed0c7846e17b3184b83134edd0fb2bea5da211f18e03961f0d
   languageName: node
   linkType: hard
 
@@ -6052,9 +6052,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"appium-xcuitest-driver@npm:^7.32.1":
-  version: 7.32.1
-  resolution: "appium-xcuitest-driver@npm:7.32.1"
+"appium-xcuitest-driver@npm:^7.33.0":
+  version: 7.33.0
+  resolution: "appium-xcuitest-driver@npm:7.33.0"
   dependencies:
     "@colors/colors": "npm:^1.6.0"
     appium-idb: "npm:^1.6.13"
@@ -6080,7 +6080,7 @@ __metadata:
     ws: "npm:^8.13.0"
   peerDependencies:
     appium: ^2.5.4
-  checksum: 10c0/4910e46e4b71a2af0ccc1b60e9a7a9904b237106782d94c7cebf4b1b64e475f1eb8db2b1e91d783b0a104e0ee17db916988cf16d0ea6df3a9e5bc134822bfbfb
+  checksum: 10c0/bc01926bd6d78a25b85f5429eb8aec542895ae1f66a9bd42ba9458295d652074743f4799b1d9ebd447aa37b653e27d4d8a9a10b0cb8562de8a17ee2610922831
   languageName: node
   linkType: hard
 
@@ -9836,8 +9836,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "fishjam-mobile-sdk@workspace:."
   dependencies:
-    "@react-native/eslint-config": "npm:^0.76.4"
-    "@react-native/eslint-plugin": "npm:^0.76.4"
+    "@react-native/eslint-config": "npm:^0.76.5"
+    "@react-native/eslint-plugin": "npm:^0.76.5"
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
@@ -13602,11 +13602,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.1.23, nanoid@npm:^3.3.1, nanoid@npm:^3.3.7":
-  version: 3.3.7
-  resolution: "nanoid@npm:3.3.7"
+  version: 3.3.8
+  resolution: "nanoid@npm:3.3.8"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 10c0/e3fb661aa083454f40500473bb69eedb85dc160e763150b9a2c567c7e9ff560ce028a9f833123b618a6ea742e311138b591910e795614a629029e86e180660f3
+  checksum: 10c0/4b1bb29f6cfebf3be3bc4ad1f1296fb0a10a3043a79f34fbffe75d1621b4318319211cd420549459018ea3592f0d2f159247a6f874911d6d26eaaadda2478120
   languageName: node
   linkType: hard
 
@@ -17367,9 +17367,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-proto@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "ts-proto@npm:2.5.1"
+"ts-proto@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "ts-proto@npm:2.6.0"
   dependencies:
     "@bufbuild/protobuf": "npm:^2.0.0"
     case-anything: "npm:^2.1.13"
@@ -17377,7 +17377,7 @@ __metadata:
     ts-proto-descriptors: "npm:2.0.0"
   bin:
     protoc-gen-ts_proto: protoc-gen-ts_proto
-  checksum: 10c0/fd120dc50ddbf6792eebb862cce20cd6a26edf42804e3ff3be99b07fb2102750b6a61fe233770ab855eb2936137af33894b33801bde0ba457d8749dbd27315c5
+  checksum: 10c0/83a378dce4d929a06e9039dd2b0b016d5f800ffdfe80dc94e427ae89f5b9bd63d0de528436bd86029170aa84dba5d4458404cb242ff42abeb5f49074fabf86f1
   languageName: node
   linkType: hard
 

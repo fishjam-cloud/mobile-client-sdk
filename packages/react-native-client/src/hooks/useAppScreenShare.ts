@@ -22,12 +22,6 @@ type AppScreenShareData = {
   ) => Promise<void>;
 };
 
-/**
- * This hook can toggle client app screen sharing on/off and provides current screen share state. It works only on iOS.
- * @returns An object with functions to manage app screen share on iOS and null on android.
- * @category Screenshare
- * @group Hooks
- */
 function useIosAppScreenShare(): AppScreenShareData {
   const isAppScreenShareOn = useFishjamEventState(
     ReceivableEvents.IsAppScreenShareOn,
@@ -74,6 +68,15 @@ function useDefaultAppScreenShareAndroid(): AppScreenShareData {
   };
 }
 
+/**
+ * This hook can toggle client app screen sharing on/off and provides current screen share state.
+ *
+ * It works only on iOS.
+ *
+ * @returns An object with functions to manage app screen share on iOS and null on android.
+ * @category Connection
+ * @group Hooks
+ */
 export const useAppScreenShare = Platform.select({
   ios: useIosAppScreenShare,
   default: useDefaultAppScreenShareAndroid,

@@ -46,7 +46,7 @@ let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 /**
  * This hook can toggle screen sharing on/off and provides current screen share state.
  * @returns An object with functions to manage screen share.
- * @category Screenshare
+ * @category Connection
  * @group Hooks
  */
 export function useScreenShare() {

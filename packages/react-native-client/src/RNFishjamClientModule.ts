@@ -1,20 +1,19 @@
 import { requireNativeModule } from 'expo-modules-core';
 
 import type { NativeModule } from 'expo-modules-core/types';
-import type { RTCStats } from './debug/stats/types';
-import type { GenericMetadata, SimulcastConfig } from './types';
-import type { Peer } from './hooks/usePeers';
-import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { ConnectionConfig } from './common/client';
-import type { PeerStatus } from './hooks/usePeerStatus';
-import type { ForegroundServiceConfig } from './hooks/useForegroundService';
+import type { RTCStats } from './debug/stats/types';
 import type { OnAudioDeviceEvent } from './hooks/useAudioSettings';
-import type { ReconnectionStatus } from './hooks/useReconnection';
 import type {
-  CameraConfigInternal,
   Camera,
+  CameraConfigInternal,
   CurrentCameraChangedType,
 } from './hooks/useCamera';
+import type { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
+import type { ForegroundServiceConfig } from './hooks/useForegroundService';
+import type { Peer } from './hooks/usePeers';
+import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
+import type { GenericMetadata, SimulcastConfig } from './types';
 
 type Metadata = { [key: string]: unknown };
 

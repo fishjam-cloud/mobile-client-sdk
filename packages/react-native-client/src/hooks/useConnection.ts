@@ -1,5 +1,9 @@
 import { useCallback } from 'react';
-import { ConnectionConfig, joinRoom, leaveRoom } from '../common/client';
+import {
+  ConnectionConfig,
+  joinRoom as joinRoomClient,
+  leaveRoom as leaveRoomClient,
+} from '../common/client';
 
 import RNFishjamClientModule, {
   ReceivableEvents,
@@ -7,10 +11,24 @@ import RNFishjamClientModule, {
 import { useFishjamEventState } from './internal/useFishjamEventState';
 import { GenericMetadata } from '../types';
 
-type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
-type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
+/**
+ * Represents the possible statuses of a peer while reconnecting to room
+ *
+ * - `idle` - No reconnection in progress. See {@link PeerStatus} for more details
+ * - `reconnecting` - Peer is in the process of reconnecting.
+ * - `error` - There was an error in the reconnection process.
+ */
+export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
-export type ConnectionStatus = ReconnectionStatus | PeerStatus;
+/**
+ * Represents the possible statuses of a peer connection to a room (websocket state).
+ *
+ * - `idle` - Peer is not connected, either never connected or successfully disconnected.
+ * - `connecting` - Peer is in the process of connecting.
+ * - `connected` - Peer has successfully connected.
+ * - `error` - There was an error in the connection process.
+ */
+export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
 
 function useConnectionStatus() {
   const peerStatus = useFishjamEventState(
@@ -25,26 +43,26 @@ function useConnectionStatus() {
 
   return { peerStatus, reconnectionStatus };
 }
-export interface JoinRoomConfig<
+export type JoinRoomConfig<
   PeerMetadata extends GenericMetadata = GenericMetadata,
-> {
+> = {
   /**
-   * fishjam URL
+   * Fishjam URL
    */
   url: string;
   /**
-   * token received from server (or Room Manager)
+   * Token received from server (or Room Manager)
    */
   peerToken: string;
   /**
-   * string indexed record with metadata, that will be available to all other peers
+   * String indexed record with metadata, that will be available to all other peers
    */
   peerMetadata?: PeerMetadata;
   /**
-   *  additional connection configuration
+   *  Additional connection configuration
    */
   config?: ConnectionConfig;
-}
+};
 
 /**
  * Connect/leave room. And get connection status.
@@ -54,25 +72,32 @@ export interface JoinRoomConfig<
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
-  const join = useCallback(
+  const joinRoom = useCallback(
     async <PeerMetadata extends GenericMetadata = GenericMetadata>({
       url,
       peerToken,
       peerMetadata,
       config,
     }: JoinRoomConfig<PeerMetadata>) => {
-      await joinRoom(url, peerToken, peerMetadata, config);
+      await joinRoomClient(url, peerToken, peerMetadata, config);
     },
     [],
   );
 
+  const leaveRoom = useCallback(() => {
+    leaveRoomClient();
+  }, []);
+
   return {
     /**
-     * join room and start streaming camera and microphone
+     * Join room and start streaming camera and microphone
+     *
+     * See {@link JoinRoomConfig} for parameter list
      */
-    joinRoom: join,
+    joinRoom,
     /**
      * Leave room and stop streaming
+     * @type function
      */
     leaveRoom,
     peerStatus,
