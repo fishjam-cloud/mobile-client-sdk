@@ -23,6 +23,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - run: yarn
       - run: yarn prepare
       - name: Publish to NPM

@@ -12,6 +12,8 @@ jobs:
         with:
           node-version: 18.12.0
           cache: "yarn"
+      - name: Use corepack
+        run: corepack enable
       - name: Install node dependencies
         run: yarn
       - name: Run unit tests for the library

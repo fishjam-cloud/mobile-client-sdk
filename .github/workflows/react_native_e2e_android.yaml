@@ -88,6 +88,9 @@ jobs:
           yarn-version: "1.22.x"
           cache: "yarn"
 
+      - name: Use corepack
+        run: corepack enable
+
       - name: Run yarn install in root directory
         run: |
           cd $GITHUB_WORKSPACE

@@ -14,6 +14,9 @@ jobs:
           node-version: 18.x
           cache: yarn
 
+      - name: Use corepack
+        run: corepack enable
+
       - name: 📦 Install dependencies
         run: yarn && yarn build
 
