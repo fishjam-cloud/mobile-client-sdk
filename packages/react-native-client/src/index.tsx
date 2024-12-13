@@ -40,10 +40,12 @@ export type {
   TrackType,
   VadStatus,
   EncodingReason,
+  TrackBase,
   AudioTrack,
   VideoTrack,
   UsePeersResult,
   PeerWithTracks,
+  PeerTrackMetadata,
 } from './hooks/usePeers';
 
 export type {

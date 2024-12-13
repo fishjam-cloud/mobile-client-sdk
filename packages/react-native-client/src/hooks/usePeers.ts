@@ -14,8 +14,8 @@ export type TrackType = 'Audio' | 'Video';
 /**
  * Type describing Voice Activity Detection statuses.
  *
- * `speech` voice activity has been detected
- * `silence` - lack of voice activity has been detected
+ * - `speech` voice activity has been detected
+ * - `silence` - lack of voice activity has been detected
  */
 export type VadStatus = 'silence' | 'speech';
 
@@ -24,7 +24,7 @@ export type PeerTrackMetadata<PeerMetadata, ServerMetadata> = {
   server: ServerMetadata;
 };
 
-type TrackBase = {
+export type TrackBase = {
   id: TrackId;
   type: TrackType;
   isActive: boolean;
@@ -189,7 +189,6 @@ export function usePeers<
      * Will be null if the local peer is not found.
      */
     localPeer,
-
     /**
      * Array of remote peers with distinguished tracks (camera, microphone, screen share).
      */

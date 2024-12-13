@@ -14,24 +14,19 @@ import { GenericMetadata } from '../types';
 /**
  * Represents the possible statuses of a peer while reconnecting to room
  *
- * `idle` - No reconnection in progress. See {@link PeerStatus} for more details
- *
- * `reconnecting` - Peer is in the process of reconnecting.
- *
- * `error` - There was an error in the reconnection process.
+ * - `idle` - No reconnection in progress. See {@link PeerStatus} for more details
+ * - `reconnecting` - Peer is in the process of reconnecting.
+ * - `error` - There was an error in the reconnection process.
  */
 export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 
 /**
  * Represents the possible statuses of a peer connection to a room (websocket state).
  *
- * `idle` - Peer is not connected, either never connected or successfully disconnected.
- *
- * `connecting` - Peer is in the process of connecting.
- *
- * `connected` - Peer has successfully connected.
- *
- * `error` - There was an error in the connection process.
+ * - `idle` - Peer is not connected, either never connected or successfully disconnected.
+ * - `connecting` - Peer is in the process of connecting.
+ * - `connected` - Peer has successfully connected.
+ * - `error` - There was an error in the connection process.
  */
 export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
 
