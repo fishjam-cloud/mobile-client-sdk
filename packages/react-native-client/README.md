@@ -12,7 +12,7 @@ Check out the [installation](https://docs.fishjam.io/react-native/installation) 
 
 Check out our [documentation](https://docs.fishjam.io/) on how Fishjam work and how to integrate our service with your app.
 
-There is also [API documentation](https://fishjam-cloud.github.io/mobile-client-sdk/modules/_fishjam_cloud_react_native_client.html) available.
+There is also [API documentation](https://docs.fishjam.io/category/api) available.
 
 # Examples
 
