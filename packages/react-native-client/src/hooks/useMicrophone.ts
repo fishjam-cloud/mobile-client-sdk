@@ -11,7 +11,7 @@ import { useFishjamEventState } from './internal/useFishjamEventState';
  * @group Hooks
  */
 export function useMicrophone() {
-  const isMicrophoneOn = useFishjamEventState<boolean>(
+  const isMicrophoneOn = useFishjamEventState(
     ReceivableEvents.IsMicrophoneOn,
     RNFishjamClientModule.isMicrophoneOn,
   );

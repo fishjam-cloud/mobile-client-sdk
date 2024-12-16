@@ -1,13 +1,26 @@
 import { useEffect } from 'react';
-import nativeModule, { ReceivableEvents } from '../../RNFishjamClientModule';
+import nativeModule, {
+  ReceivableEvents,
+  ReceivableEventPayloads,
+} from '../../RNFishjamClientModule';
+import { isNativeEventPayloadValid } from '../../debug/internal/eventPayloadValidator';
 
-export function useFishjamEvent<T>(
-  eventName: keyof typeof ReceivableEvents,
-  callback: (event: T) => void,
+export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
+  eventName: T,
+  callback: (event: ReceivableEventPayloads[T]) => void,
 ) {
   useEffect(() => {
     const eventListener = nativeModule.addListener(eventName, (event) => {
-      callback(event[eventName]);
+      const payload = event[eventName];
+
+      if (__DEV__ && !isNativeEventPayloadValid(eventName, payload)) {
+        console.error(
+          `Invalid payload received for event ${eventName}:`,
+          payload,
+        );
+      }
+
+      callback(payload);
     });
     return () => eventListener.remove();
   }, [callback, eventName]);
