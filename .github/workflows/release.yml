@@ -6,7 +6,7 @@ jobs:
   publish-ios-client:
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Install Cocoapods
         run: gem install cocoapods
       - name: Deploy to Cocoapods
@@ -23,6 +23,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - run: yarn
       - run: yarn prepare
       - name: Publish to NPM
