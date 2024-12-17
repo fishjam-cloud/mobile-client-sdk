@@ -61,7 +61,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         }
 
         if let maxBandwidth = (track as? LocalCameraTrack)?.videoParameters.maxBandwidth {
-            applyBitrate(encodings: sendEncodings, maxBitrate: maxBandwidth)
+            applyEncodingBitrates(encodings: sendEncodings, maxBitrate: maxBandwidth)
         }
         let transceiverInit = RTCRtpTransceiverInit()
         transceiverInit.direction = RTCRtpTransceiverDirection.sendOnly
@@ -73,48 +73,12 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         pc.enforceSendOnlyDirection()
     }
 
-    private func applyBitrate(encodings: [RTCRtpEncodingParameters], maxBitrate: TrackBandwidthLimit) {
-        switch maxBitrate {
-        case .BandwidthLimit(let limit):
-            splitBitrate(encodings: encodings, bitrate: limit)
-        case .SimulcastBandwidthLimit(let limit):
-            encodings.forEach { encoding in
-                let encodingLimit = limit[encoding.rid ?? ""] ?? 0
-                encoding.maxBitrateBps = encodingLimit == 0 ? nil : (encodingLimit * 1024) as NSNumber
-            }
+    private func applyEncodingBitrates(encodings: [RTCRtpEncodingParameters], maxBitrate: TrackBandwidthLimit) {
+        let calculatedEncodings = BitrateLimiter.calculateBitrates(for: encodings, maxBitrate: maxBitrate)
+        
+        for (original, calculated) in zip(encodings, calculatedEncodings) {
+            original.maxBitrateBps = calculated.maxBitrateBps
         }
-    }
-
-    private func splitBitrate(encodings: [RTCRtpEncodingParameters], bitrate: Int) {
-        if encodings.isEmpty {
-            sdkLogger.error("\(#function): Attempted to limit bandwidth of the track that doesn't have any encodings")
-            return
-        }
-
-        if bitrate == 0 {
-            encodings.forEach({ encoding in
-                encoding.maxBitrateBps = nil
-            })
-            return
-        }
-
-        let k0 = Double(
-            truncating: encodings.min(by: { a, b in
-                Double(truncating: a.scaleResolutionDownBy ?? 1) < Double(truncating: b.scaleResolutionDownBy ?? 1)
-            })?.scaleResolutionDownBy ?? 1)
-
-        let bitrateParts = encodings.reduce(
-            0.0,
-            { acc, encoding in
-                acc + pow((k0 / Double(truncating: encoding.scaleResolutionDownBy ?? 1)), 2)
-            })
-
-        let x = Double(bitrate) / bitrateParts
-
-        encodings.forEach({ encoding in
-            encoding.maxBitrateBps =
-                Int((x * pow(k0 / Double(truncating: encoding.scaleResolutionDownBy ?? 1), 2) * 1024)) as NSNumber
-        })
     }
 
     public func setTrackBandwidth(trackId: String, bandwidth: BandwidthLimit) {
@@ -130,7 +94,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         let params = sender.parameters
 
-        applyBitrate(encodings: params.encodings, maxBitrate: .BandwidthLimit(bandwidth))
+        applyEncodingBitrates(encodings: params.encodings, maxBitrate: .BandwidthLimit(bandwidth))
 
         sender.parameters = params
     }
