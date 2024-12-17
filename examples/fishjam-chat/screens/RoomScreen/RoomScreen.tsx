@@ -8,7 +8,6 @@ import {
   useScreenShare,
 } from '@fishjam-cloud/react-native-client';
 
-import { useRTCStatistics } from '@fishjam-cloud/react-native-client/debug';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useRef } from 'react';
@@ -61,10 +60,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
   });
-
-  const stats = useRTCStatistics(3000);
-
-  console.log({ [`stats-${Platform.OS}`]: JSON.stringify(stats, null, 2) });
 
   const onToggleScreenShare = useCallback(async () => {
     await toggleScreenShare({

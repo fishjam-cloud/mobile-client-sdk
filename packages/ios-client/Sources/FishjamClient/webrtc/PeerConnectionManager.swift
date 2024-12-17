@@ -16,13 +16,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         }
     }
 
-    private var statsCollector: StatsCollector?
-    private var connection: RTCPeerConnection? {
-        didSet {
-            guard let connection = connection else { return }
-            statsCollector = StatsCollector(connection: connection)
-        }
-    }
+    private var connection: RTCPeerConnection?
 
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
@@ -204,7 +198,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         if let pc = connection {
             pc.close()
             connection = nil
-            statsCollector = nil
             iceServers = []
             config = nil
             midToTrackId = [:]
@@ -317,8 +310,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
 
-    public func getStats() -> [String: RTCStats] {
-        return statsCollector?.peerConnectionStats ?? [:]
+    public func getStats() async -> [String: RTCStats] {
+        guard let connection = connection else { return [:] }
+        return await StatsCollector.getStats(for: connection)
     }
 
     public func getSdpOffer(

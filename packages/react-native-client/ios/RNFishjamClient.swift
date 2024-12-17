@@ -726,10 +726,10 @@ class RNFishjamClient: FishjamClientListener {
         return res
     }
 
-    func getStatistics() throws -> [String: Any] {
+    func getStatistics() async throws -> [String: Any] {
         try ensureCreated()
 
-        let stats = RNFishjamClient.fishjamClient!.getStats()
+        let stats = await RNFishjamClient.fishjamClient!.getStats()
 
         let pairs = stats.map { (key, value) in
             let rnValue =

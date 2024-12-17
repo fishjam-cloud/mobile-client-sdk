@@ -331,9 +331,11 @@ class FishjamClientInternal {
         RTCSetMinDebugLogLevel(severity)
     }
 
-    var stats: [String: RTCStats] {
-        return peerConnectionManager.getStats()
+    func getStats() async -> [String: RTCStats] {
+        return await peerConnectionManager.getStats()
     }
+    
+    
 
     var remoteEndpoints: [Endpoint] {
         return remoteEndpointsMap.map { $0.value }

@@ -77,9 +77,12 @@ export function useRTCStatistics(refreshInterval: number) {
   // Gets stats from the native libraries.
   const getStatistics = useCallback(async () => {
     const stats = await RNFishjamClientModule.getStatistics();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setStatistics(stats as unknown as any);
-  }, []);
+    setStatistics((prev) => {
+      const newStats = [...prev, processIncomingStats(prev, stats)];
+      takeRight(newStats, MAX_SIZE);
+      return newStats;
+    });
+  }, [processIncomingStats]);
 
   useEffect(() => {
     const intervalId = setInterval(getStatistics, refreshInterval);

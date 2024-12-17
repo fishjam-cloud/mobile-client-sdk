@@ -1,18 +1,14 @@
 import WebRTC
 
-class StatsCollector {
-    private let connection: RTCPeerConnection
-    private(set) var peerConnectionStats: [String: RTCStats] = [:]
-
-    init(connection: RTCPeerConnection) {
-        self.connection = connection
-        
-        connection.statistics(completionHandler: { [weak self] report in
-            self?.extractRelevantStats(rp: report)
-        })
+class StatsCollector {    
+    static func getStats(for connection: RTCPeerConnection) async -> [String: RTCStats] {
+        let report = await connection.statistics()
+        return extractRelevantStats(rp: report)
     }
     
-    private func extractRelevantStats(rp: RTCStatisticsReport){
+    private static func extractRelevantStats(rp: RTCStatisticsReport) -> [String: RTCStats] {
+        var peerConnectionStats: [String: RTCStats] = [:]
+        
         rp.statistics.forEach { it1 in
             let it = it1.value
             if it.type == "outbound-rtp" {
@@ -48,5 +44,7 @@ class StatsCollector {
                 )
             }
         }
+        
+        return peerConnectionStats
     }
 }
