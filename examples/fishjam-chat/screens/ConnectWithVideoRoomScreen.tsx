@@ -80,7 +80,7 @@ export default function ConnectScreen({ navigation }: Props) {
     try {
       setConnectionError(null);
       setLoading(true);
-      const roomManagerUrl = 'http://192.168.83.125:8080/api/rooms';
+      const roomManagerUrl = 'http://192.168.82.75:8080/api/rooms';
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
       const { fishjamUrl, token } = await joinRoomWithRoomManager(

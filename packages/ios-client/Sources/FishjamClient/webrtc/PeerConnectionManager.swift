@@ -41,9 +41,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private func getSendEncodingsFromSimulcastConfig(_ simulcastConfig: SimulcastConfig) -> [RTCRtpEncodingParameters] {
         let sendEncodings = Constants.simulcastEncodings()
         simulcastConfig.activeEncodings.forEach { encoding in
-            sendEncodings[encoding.rawValue].isActive = true
+            sendEncodings[encoding]?.isActive = true
         }
-        return sendEncodings
+        return sendEncodings.values.map{ $0 }
     }
 
     public func addTrack(track: Track) {
@@ -73,6 +73,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         transceiverInit.direction = RTCRtpTransceiverDirection.sendOnly
         transceiverInit.streamIds = streamsId
         transceiverInit.sendEncodings = sendEncodings
+        
+        track.sendEncodings = sendEncodings
         pc.addTransceiver(with: track.mediaTrack!, init: transceiverInit)
         pc.enforceSendOnlyDirection()
     }
@@ -274,41 +276,24 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     private func getTrackIdToBitrates(localTracks: [Track]) -> Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates> {
-        guard let pc = connection else {
-            return [:]
-        }
-        
-        var mapping: Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates> = [:]
-        pc.transceivers.forEach { transceiver in
-            guard let trackId: String = transceiver.sender.track?.trackId else {
-                return
+        Dictionary(uniqueKeysWithValues: localTracks.compactMap { t -> (String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates)? in
+            guard let track = t as? LocalCameraTrack else { return nil }
+            
+            let bitrates: [Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate] = track.sendEncodings.compactMap { param in
+                guard let ridString = param.rid else { return nil }
+                var variantBitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+                let trackEncoding = try? TrackEncoding(ridString)
+                variantBitrate.variant = Fishjam_MediaEvents_Variant(rawValue: trackEncoding?.rawValue ?? 0) ?? .unspecified
+                variantBitrate.bitrate = param.maxBitrateBps?.int32Value ?? 0
+                return variantBitrate
             }
-            var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
-            bitrate.variant = .unspecified
-            bitrate.bitrate = 1_500_000 // TODO(FCE-953):
             
             var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
-            trackBitrates.trackID = trackId
-            trackBitrates.variantBitrates = [bitrate]
+            trackBitrates.trackID = track.webrtcId
+            trackBitrates.variantBitrates = bitrates
             
-            mapping[trackId] = trackBitrates
-
-//            if let track = localTracks.first(where: { $0.webrtcId == trackId }), let videoParameters =
-//                (track as? LocalCameraTrack)?.videoParameters ?? (track as? LocalBroadcastScreenShareTrack)?.videoParameters {
-//                var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
-//                trackBitrates.trackID = trackId
-//                
-//                videoParameters.simulcastConfig.activeEncodings.forEach { encoding in
-//                    var bitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
-//                    bitrate.variant = .unspecified
-//                    bitrate.bitrate = 1_500_000 // TODO(FCE-953):
-//                    trackBitrates.variantBitrates = [bitrate]
-//                }
-//                mapping[trackId] = trackBitrates
-//            }
-        }
-        
-        return mapping
+            return (track.webrtcId, trackBitrates)
+        })
     }
 
     public func setTrackEncoding(trackId: String, encoding: TrackEncoding, enabled: Bool) {
