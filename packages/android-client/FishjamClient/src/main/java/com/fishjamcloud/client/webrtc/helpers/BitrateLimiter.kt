@@ -23,7 +23,7 @@ class BitrateLimiter {
     ): List<RtpParameters.Encoding> =
       encodings.map { encoding ->
         val encodingLimit = limits[encoding.rid]?.limit ?: 0
-        encoding.withBitrate(encodingLimit)
+        encoding.withBitrateInBps(encodingLimit)
       }
 
     private fun calculateUniformBitrates(
@@ -32,38 +32,34 @@ class BitrateLimiter {
     ): List<RtpParameters.Encoding> {
       if (encodings.isEmpty()) return emptyList()
       if (bitrate == 0) {
-        return encodings.map { it.withBitrate(null) }
+        return encodings.map { it.withBitrateInBps(null) }
       }
 
-      // Find minimum scale resolution
-      val k0 = encodings.minOfOrNull { it.scaleResolutionDownBy ?: 1.0 } ?: 1.0
+      val k0 = encodings.minByOrNull { it.scaleResolutionDownBy ?: 1.0 }
 
       val bitrateParts =
-        encodings.sumOf { encoding ->
-          (k0 / (encoding.scaleResolutionDownBy ?: 1.0)).pow(2)
+        encodings.sumOf {
+          ((k0?.scaleResolutionDownBy ?: 1.0) / (it.scaleResolutionDownBy ?: 1.0)).pow(2)
         }
 
-      val multiplier = bitrate.toDouble() / bitrateParts
+      val x = bitrate / bitrateParts
 
       return encodings.map { encoding ->
         val calculatedBitrate =
-          (
-            multiplier *
-              (k0 / (encoding.scaleResolutionDownBy ?: 1.0)).pow(2)
-          ).toInt()
-        encoding.withBitrate(calculatedBitrate)
+          (x * ((k0?.scaleResolutionDownBy ?: 1.0) / (encoding.scaleResolutionDownBy ?: 1.0)).pow(2) * 1024).toInt()
+        encoding.withBitrateInBps(calculatedBitrate)
       }
     }
   }
 }
 
-private fun RtpParameters.Encoding.withBitrate(kbps: Int?): RtpParameters.Encoding {
+private fun RtpParameters.Encoding.withBitrateInBps(bps: Int?): RtpParameters.Encoding {
   val encoding =
     RtpParameters.Encoding(
       rid,
       active,
       scaleResolutionDownBy
     )
-  encoding.maxBitrateBps = if (kbps == 0) null else kbps?.times(1024)
+  encoding.maxBitrateBps = if (bps == 0) null else bps
   return encoding
 }
