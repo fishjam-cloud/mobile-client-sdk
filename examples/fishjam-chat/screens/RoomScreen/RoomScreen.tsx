@@ -7,7 +7,6 @@ import {
   usePeers,
   useScreenShare,
 } from '@fishjam-cloud/react-native-client';
-
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useRef } from 'react';
@@ -23,7 +22,6 @@ import type { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
 import { ToggleAppScreenButton } from './ToggleAppScreenShare.ios';
-import { useRTCStatistics } from '@fishjam-cloud/react-native-client/debug';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -52,12 +50,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
     leaveRoom();
     navigation.navigate('Home');
   }, [navigation]);
-
-  const stats = useRTCStatistics(1000);
-
-  if (Platform.OS === 'android') {
-    console.log({ stats: JSON.stringify(stats, null, 2) });
-  }
 
   useForegroundService({
     channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
