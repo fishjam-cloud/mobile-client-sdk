@@ -9,7 +9,7 @@ class LocalAudioTrack(
   endpointId: String,
   metadata: Metadata,
   internal val audioSource: AudioSource
-) : Track(mediaTrack, endpointId, null, metadata),
+) : Track(mediaTrack, emptyList(), endpointId, null, metadata),
   LocalTrack {
   constructor(
     mediaTrack: AudioTrack,

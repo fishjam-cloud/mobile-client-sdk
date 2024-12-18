@@ -2,6 +2,7 @@ import WebRTC
 
 open class Track: Equatable {
     internal var mediaTrack: RTCMediaStreamTrack?
+    internal var sendEncodings: [RTCRtpEncodingParameters] = []
     let endpointId: String
     internal var rtcEngineId: String?
     public var metadata: Metadata

@@ -257,8 +257,8 @@ public class FishjamClient {
     * Returns current connection stats
     * @return a map containing statistics
     */
-    public func getStats() -> [String: RTCStats] {
-        return client.stats
+    public func getStats() async -> [String: RTCStats] {
+        return await client.getStats()
     }
 
     public func getLocalEndpoint() -> Endpoint {

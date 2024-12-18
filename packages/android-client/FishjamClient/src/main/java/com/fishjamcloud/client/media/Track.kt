@@ -2,10 +2,12 @@ package com.fishjamcloud.client.media
 
 import com.fishjamcloud.client.models.Metadata
 import org.webrtc.MediaStreamTrack
+import org.webrtc.RtpParameters
 import java.util.UUID
 
 open class Track(
   internal val mediaTrack: MediaStreamTrack?,
+  internal var sendEncodings: List<RtpParameters.Encoding> = emptyList(),
   val endpointId: String,
   private var rtcEngineId: String?,
   metadata: Metadata = mapOf(),

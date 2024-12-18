@@ -301,7 +301,9 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
+      AsyncFunction("getStatistics") Coroutine { ->
+        return@Coroutine rnFishjamClient.getStatistics()
+      }
 
       AsyncFunction("startForegroundService") Coroutine { config: ForegroundServiceConfig ->
         rnFishjamClient.startForegroundService(config)

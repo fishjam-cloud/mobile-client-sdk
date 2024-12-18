@@ -64,7 +64,7 @@ function PreviewScreen({
 
   useEffect(() => {
     prepareCamera({
-      simulcastEnabled: false,
+      simulcastEnabled: true,
       quality: 'HD169',
       cameraEnabled: true,
     });

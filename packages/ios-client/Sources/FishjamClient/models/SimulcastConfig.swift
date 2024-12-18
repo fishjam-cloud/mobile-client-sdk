@@ -3,9 +3,9 @@
 /// `"m"` - original encoding scaled down by 2
 /// `"l"` - original encoding scaled down by 4
 public enum TrackEncoding: Int, CustomStringConvertible, Codable, CaseIterable {
-    case l = 0
-    case m
-    case h
+    case l = 1
+    case m = 2
+    case h = 3
 
     static private let descriptionMap: [Self: String] = [.l: "l", .m: "m", .h: "h"]
 

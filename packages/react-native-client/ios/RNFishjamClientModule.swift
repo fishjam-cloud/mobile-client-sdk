@@ -211,7 +211,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("getStatistics") {
-            try rnFishjamClient.getStatistics()
+            try await rnFishjamClient.getStatistics()
         }
 
         AsyncFunction("selectAudioSessionMode") { (sessionMode: String) in

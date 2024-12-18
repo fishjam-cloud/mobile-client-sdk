@@ -12,7 +12,7 @@ const createGridTracksFromPeer = (
       ...peer.cameraTrack,
       peerId: peer.id,
       isLocal: peer.isLocal,
-      userName: peer.metadata.peer.displayName,
+      userName: peer.metadata.peer?.displayName,
       isVadActive: peer.microphoneTrack?.vadStatus === 'speech',
     });
   }
@@ -22,7 +22,7 @@ const createGridTracksFromPeer = (
       ...peer.screenShareVideoTrack,
       peerId: peer.id,
       isLocal: peer.isLocal,
-      userName: peer.metadata.peer.displayName,
+      userName: peer.metadata.peer?.displayName,
       isVadActive: peer.screenShareAudioTrack?.vadStatus === 'speech',
     });
   }
