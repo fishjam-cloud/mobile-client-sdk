@@ -225,13 +225,14 @@ internal class FishjamClientInternal(
     endpoints.forEach {
       val (endpointId, endpointData) = it
       if (endpointId == endpointID) {
-        this.localEndpoint = this.localEndpoint.copy(metadata = endpointData.metadataJson.serializeToMap())
+        this.localEndpoint =
+          this.localEndpoint.copy(metadata = endpointData.metadataJson.serializeToMap())
       } else {
         var endpoint = Endpoint(endpointId, endpointData.metadataJson.serializeToMap())
 
         for ((trackId, trackData) in endpointData.trackIdToTrackMap) {
           val track =
-            Track(null, endpointId, trackId, trackData.metadataJson.serializeToMap())
+            Track(null, emptyList(), endpointId, trackId, trackData.metadataJson.serializeToMap())
           endpoint = endpoint.addOrReplaceTrack(track)
           this.listener.onTrackAdded(track)
         }
@@ -380,7 +381,14 @@ internal class FishjamClientInternal(
         mediaProjectionPermission
       )
     val screenShareTrack =
-      LocalScreenShareTrack(webrtcTrack, localEndpoint.id, metadata, capturer, videoParameters, videoSource)
+      LocalScreenShareTrack(
+        webrtcTrack,
+        localEndpoint.id,
+        metadata,
+        capturer,
+        videoParameters,
+        videoSource
+      )
     screenShareTrack.start()
     callback.addCallback {
       if (onEnd != null) {
@@ -530,7 +538,8 @@ internal class FishjamClientInternal(
 
   fun getLocalEndpoint(): Endpoint = localEndpoint
 
-  fun createVideoViewRenderer(): VideoTextureViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
+  fun createVideoViewRenderer(): VideoTextureViewRenderer =
+    peerConnectionFactoryWrapper.createVideoViewRenderer()
 
   private fun sendEvent(peerMessage: PeerNotifications.PeerMessage) {
     webSocket?.send(peerMessage.toByteArray().toByteString())
@@ -610,11 +619,13 @@ internal class FishjamClientInternal(
           val videoTrack = LocalVideoTrack(webrtcVideoTrack, track)
           localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
         }
+
         is LocalAudioTrack -> {
           val webrtcAudioTrack = peerConnectionFactoryWrapper.createAudioTrack(track.audioSource)
           val audioTrack = LocalAudioTrack(webrtcAudioTrack, track)
           localEndpoint = localEndpoint.addOrReplaceTrack(audioTrack)
         }
+
         is LocalScreenShareTrack -> {
           val webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(track.videoSource)
           val screenShareTrack = LocalScreenShareTrack(webrtcTrack, track)
@@ -638,13 +649,36 @@ internal class FishjamClientInternal(
           offer.description,
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
           offer.midToTrackIdMapping,
-          localEndpoint.tracks.map { (_, track) -> track.webrtcId() to 1500000 }.toMap() // TODO(FCE-953): Update with simulcast
+          getTrackIdToBitrates(localEndpoint.tracks)
         )
         peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {
         Timber.e(e, "Failed to create an sdp offer")
       }
     }
+  }
+
+  private fun getTrackIdToBitrates(localTracks: Map<String, Track>): Map<String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> {
+    return localTracks.mapNotNull { (trackId, track) ->
+      trackId to fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()
+        .setTrackId(trackId)
+        .addAllVariantBitrates(
+          track.sendEncodings.map { encoding ->
+            val variant = when (encoding.rid) {
+              "h" -> fishjam.media_events.Shared.Variant.VARIANT_HIGH
+              "m" -> fishjam.media_events.Shared.Variant.VARIANT_MEDIUM
+              "l" -> fishjam.media_events.Shared.Variant.VARIANT_LOW
+              else -> fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED
+            }
+
+            fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.newBuilder()
+              .setVariant(variant)
+              .setBitrate(encoding.maxBitrateBps ?: 0)
+              .build()
+          }
+        )
+        .build()
+    }.toMap()
   }
 
   override fun onRemoteCandidate(
@@ -685,7 +719,8 @@ internal class FishjamClientInternal(
       if (track != null) {
         track.metadata = trackData.metadataJson.serializeToMap()
       } else {
-        track = Track(null, endpointId, trackId, trackData.metadataJson.serializeToMap())
+        track =
+          Track(null, emptyList(), endpointId, trackId, trackData.metadataJson.serializeToMap())
         this.listener.onTrackAdded(track)
       }
       updatedTracks[trackId] = track
@@ -822,7 +857,12 @@ internal class FishjamClientInternal(
     coroutineScope.launch {
       val splitSdp = candidate.sdp.split(" ")
       val ufrag = splitSdp[splitSdp.indexOf("ufrag") + 1]
-      rtcEngineCommunication.localCandidate(candidate.sdp, candidate.sdpMLineIndex, candidate.sdpMid.toInt(), ufrag)
+      rtcEngineCommunication.localCandidate(
+        candidate.sdp,
+        candidate.sdpMLineIndex,
+        candidate.sdpMid.toInt(),
+        ufrag
+      )
     }
   }
 }

@@ -101,6 +101,7 @@ internal class PeerConnectionManager(
 
       if (videoParameters?.maxBitrate != null) {
         applyEncodingBitrates(sendEncodings, videoParameters.maxBitrate)
+        track.sendEncodings = sendEncodings
       }
 
       pc.addTransceiver(
