@@ -704,9 +704,10 @@ class RNFishjamClient(
     return res
   }
 
-  fun getStatistics(): MutableMap<String, Map<String, Any?>> {
+  suspend fun getStatistics(): Map<String, Map<String, Any?>> {
     val newMap = mutableMapOf<String, Map<String, Any?>>()
-    fishjamClient.getStats().forEach { entry ->
+    val stats = fishjamClient.getStats()
+    stats.forEach { entry ->
       newMap[entry.key] =
         if (entry.value is RTCInboundStats) {
           rtcInboundStatsToRNMap(

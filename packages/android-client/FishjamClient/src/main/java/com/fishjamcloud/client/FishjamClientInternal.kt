@@ -524,7 +524,7 @@ internal class FishjamClientInternal(
     Logging.enableLogToDebugOutput(severity)
   }
 
-  fun getStats(): Map<String, RTCStats> = peerConnectionManager.getStats()
+  suspend fun getStats(): Map<String, RTCStats> = peerConnectionManager.getStats()
 
   fun getRemotePeers(): List<Peer> = remoteEndpoints.values.toList()
 
