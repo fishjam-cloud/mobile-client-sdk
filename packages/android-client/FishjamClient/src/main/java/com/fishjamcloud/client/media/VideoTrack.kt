@@ -12,6 +12,7 @@ open class VideoTrack(
   id: String = UUID.randomUUID().toString()
 ) : Track(
     videoTrack,
+    emptyList(),
     endpointId,
     rtcEngineId,
     metadata,
