@@ -538,8 +538,7 @@ internal class FishjamClientInternal(
 
   fun getLocalEndpoint(): Endpoint = localEndpoint
 
-  fun createVideoViewRenderer(): VideoTextureViewRenderer =
-    peerConnectionFactoryWrapper.createVideoViewRenderer()
+  fun createVideoViewRenderer(): VideoTextureViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
 
   private fun sendEvent(peerMessage: PeerNotifications.PeerMessage) {
     webSocket?.send(peerMessage.toByteArray().toByteString())
@@ -658,28 +657,31 @@ internal class FishjamClientInternal(
     }
   }
 
-  private fun getTrackIdToBitrates(localTracks: Map<String, Track>): Map<String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> {
-    return localTracks.mapNotNull { (trackId, track) ->
-      trackId to fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates.newBuilder()
-        .setTrackId(trackId)
-        .addAllVariantBitrates(
-          track.sendEncodings.map { encoding ->
-            val variant = when (encoding.rid) {
-              "h" -> fishjam.media_events.Shared.Variant.VARIANT_HIGH
-              "m" -> fishjam.media_events.Shared.Variant.VARIANT_MEDIUM
-              "l" -> fishjam.media_events.Shared.Variant.VARIANT_LOW
-              else -> fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED
-            }
+  private fun getTrackIdToBitrates(localTracks: Map<String, Track>): Map<String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> =
+    localTracks
+      .mapNotNull { (trackId, track) ->
+        trackId to
+          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
+            .newBuilder()
+            .setTrackId(trackId)
+            .addAllVariantBitrates(
+              track.sendEncodings.map { encoding ->
+                val variant =
+                  when (encoding.rid) {
+                    "h" -> fishjam.media_events.Shared.Variant.VARIANT_HIGH
+                    "m" -> fishjam.media_events.Shared.Variant.VARIANT_MEDIUM
+                    "l" -> fishjam.media_events.Shared.Variant.VARIANT_LOW
+                    else -> fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED
+                  }
 
-            fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate.newBuilder()
-              .setVariant(variant)
-              .setBitrate(encoding.maxBitrateBps ?: 0)
-              .build()
-          }
-        )
-        .build()
-    }.toMap()
-  }
+                fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate
+                  .newBuilder()
+                  .setVariant(variant)
+                  .setBitrate(encoding.maxBitrateBps ?: 0)
+                  .build()
+              }
+            ).build()
+      }.toMap()
 
   override fun onRemoteCandidate(
     candidate: String,

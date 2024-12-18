@@ -334,8 +334,6 @@ class FishjamClientInternal {
     func getStats() async -> [String: RTCStats] {
         return await peerConnectionManager.getStats()
     }
-    
-    
 
     var remoteEndpoints: [Endpoint] {
         return remoteEndpointsMap.map { $0.value }

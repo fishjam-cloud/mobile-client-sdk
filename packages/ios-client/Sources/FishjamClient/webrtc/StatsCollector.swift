@@ -1,14 +1,14 @@
 import WebRTC
 
-class StatsCollector {    
+class StatsCollector {
     static func getStats(for connection: RTCPeerConnection) async -> [String: RTCStats] {
         let report = await connection.statistics()
         return extractRelevantStats(rp: report)
     }
-    
+
     private static func extractRelevantStats(rp: RTCStatisticsReport) -> [String: RTCStats] {
         var peerConnectionStats: [String: RTCStats] = [:]
-        
+
         rp.statistics.forEach { it1 in
             let it = it1.value
             if it.type == "outbound-rtp" {
@@ -16,7 +16,7 @@ class StatsCollector {
                 let qualityLimitation: QualityLimitationDurations = QualityLimitationDurations(
                     bandwidth: duration?["bandwidth"] ?? 0.0,
                     cpu: duration?["cpu"] ?? 0.0, none: duration?["none"] ?? 0.0, other: duration?["other"] ?? 0.0)
-                
+
                 peerConnectionStats[it.id as String] = RTCOutboundStats(
                     kind: it.values["kind"] as? String ?? "",
                     rid: it.values["rid"] as? String ?? "",
@@ -44,7 +44,7 @@ class StatsCollector {
                 )
             }
         }
-        
+
         return peerConnectionStats
     }
 }

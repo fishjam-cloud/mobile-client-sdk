@@ -67,7 +67,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         transceiverInit.direction = RTCRtpTransceiverDirection.sendOnly
         transceiverInit.streamIds = streamsId
         transceiverInit.sendEncodings = sendEncodings
-        
+
         track.sendEncodings = sendEncodings
         pc.addTransceiver(with: track.mediaTrack!, init: transceiverInit)
         pc.enforceSendOnlyDirection()
@@ -75,7 +75,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     private func applyEncodingBitrates(encodings: [RTCRtpEncodingParameters], maxBitrate: TrackBandwidthLimit) {
         let calculatedEncodings = BitrateLimiter.calculateBitrates(for: encodings, maxBitrate: maxBitrate)
-        
+
         for (original, calculated) in zip(encodings, calculatedEncodings) {
             original.maxBitrateBps = calculated.maxBitrateBps
         }
@@ -232,25 +232,31 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return mapping
     }
 
-    private func getTrackIdToBitrates(localTracks: [Track]) -> Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates> {
-        Dictionary(uniqueKeysWithValues: localTracks.compactMap { t -> (String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates)? in
-            guard let track = t as? LocalCameraTrack else { return nil }
-            
-            let bitrates: [Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate] = track.sendEncodings.compactMap { param in
-                guard let ridString = param.rid else { return nil }
-                var variantBitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
-                let trackEncoding = try? TrackEncoding(ridString)
-                variantBitrate.variant = Fishjam_MediaEvents_Variant(rawValue: trackEncoding?.rawValue ?? 0) ?? .unspecified
-                variantBitrate.bitrate = param.maxBitrateBps?.int32Value ?? 0
-                return variantBitrate
-            }
-            
-            var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
-            trackBitrates.trackID = track.webrtcId
-            trackBitrates.variantBitrates = bitrates
-            
-            return (track.webrtcId, trackBitrates)
-        })
+    private func getTrackIdToBitrates(localTracks: [Track]) -> [String: Fishjam_MediaEvents_Peer_MediaEvent
+        .TrackBitrates]
+    {
+        Dictionary(
+            uniqueKeysWithValues: localTracks.compactMap {
+                t -> (String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates)? in
+                guard let track = t as? LocalCameraTrack else { return nil }
+
+                let bitrates: [Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate] = track.sendEncodings.compactMap {
+                    param in
+                    guard let ridString = param.rid else { return nil }
+                    var variantBitrate = Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate()
+                    let trackEncoding = try? TrackEncoding(ridString)
+                    variantBitrate.variant =
+                        Fishjam_MediaEvents_Variant(rawValue: trackEncoding?.rawValue ?? 0) ?? .unspecified
+                    variantBitrate.bitrate = param.maxBitrateBps?.int32Value ?? 0
+                    return variantBitrate
+                }
+
+                var trackBitrates = Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates()
+                trackBitrates.trackID = track.webrtcId
+                trackBitrates.variantBitrates = bitrates
+
+                return (track.webrtcId, trackBitrates)
+            })
     }
 
     public func setTrackEncoding(trackId: String, encoding: TrackEncoding, enabled: Bool) {
@@ -273,7 +279,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         sender.parameters = params
     }
 
-
     public func getStats() async -> [String: RTCStats] {
         guard let connection = connection else { return [:] }
         return await StatsCollector.getStats(for: connection)
@@ -283,7 +288,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
         onCompletion: @escaping (
-            _ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: Dictionary<String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates>?, _ error: Error?
+            _ sdp: String?, _ midToTrackId: [String: String]?,
+            _ trackIdToBitrates: [String: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates]?, _ error: Error?
         ) -> Void
     ) {
 

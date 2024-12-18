@@ -59,7 +59,7 @@ internal class RTCEngineCommunication {
 
     func sdpOffer(
         sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String],
-        trackIdToBitrates: Dictionary<String,Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates>
+        trackIdToBitrates: [String: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates]
     ) {
         var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
 

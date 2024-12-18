@@ -4,9 +4,6 @@ import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.models.Constants
-import com.fishjamcloud.client.models.QualityLimitationDurations
-import com.fishjamcloud.client.models.RTCInboundStats
-import com.fishjamcloud.client.models.RTCOutboundStats
 import com.fishjamcloud.client.models.RTCStats
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
@@ -26,9 +23,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.webrtc.*
 import timber.log.Timber
-import java.math.BigInteger
 import java.util.*
-import kotlin.math.pow
 
 internal class PeerConnectionManager(
   private val peerConnectionFactory: PeerConnectionFactoryWrapper
@@ -513,9 +508,10 @@ internal class PeerConnectionManager(
   }
 
   suspend fun getStats(): Map<String, RTCStats> {
-    val pc = peerConnection ?: run {
+    val pc =
+      peerConnection ?: run {
         return emptyMap()
-    }
+      }
     val stats = StatsCollector.getStats(pc)
 
     return stats
