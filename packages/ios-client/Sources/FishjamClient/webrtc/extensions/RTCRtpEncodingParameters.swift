@@ -15,7 +15,6 @@ extension RTCRtpEncodingParameters {
     }
 }
 
-// Helper for array of encodings
 extension Array where Element == RTCRtpEncodingParameters {
     func withUpdatedBitrates(_ calculator: (Array<RTCRtpEncodingParameters>) -> [(Int, Int?)]) -> [RTCRtpEncodingParameters] {
         let bitrateUpdates = calculator(self)

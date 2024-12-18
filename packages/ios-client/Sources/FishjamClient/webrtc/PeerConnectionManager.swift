@@ -37,7 +37,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         simulcastConfig.activeEncodings.forEach { encoding in
             sendEncodings[encoding]?.isActive = true
         }
-        return sendEncodings.values.map{ $0 }
+        return sendEncodings.values.map { $0 }
     }
 
     public func addTrack(track: Track) {
@@ -375,7 +375,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         pc.setRemoteDescription(
             description,
-            completionHandler: {   error in
+            completionHandler: { error in
                 guard let err = error else {
                     return
                 }
