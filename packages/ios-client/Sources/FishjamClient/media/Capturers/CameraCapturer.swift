@@ -7,7 +7,7 @@ public protocol CameraCapturerDeviceChangedListener: AnyObject {
 /// `VideoCapturer` responsible for capturing device's camera.
 class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
-    private let capturer: RTCCameraVideoCapturer
+    private let capturer: CustomVideoCapturer
     internal var isFront: Bool = true
     private(set) var device: AVCaptureDevice? {
         didSet {
@@ -19,7 +19,8 @@ class CameraCapturer: VideoCapturer {
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
-        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
+//        RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
+        self.capturer = CustomVideoCapturer(delegate: delegate)
         let devices = RTCCameraVideoCapturer.captureDevices()
 
         if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
@@ -103,14 +104,16 @@ class CameraCapturer: VideoCapturer {
         if fps < minFps || fps > maxFps {
             fatalError("unsported requested frame rate of (\(minFps) - \(maxFps)")
         }
+        
+
 
         capturer.startCapture(
             with: device,
             format: selectedFormat,
-            fps: fps,
-            completionHandler: { _ in
-                self.mirrorVideo(self.isFront)
-            }
+            fps: fps
+//            completionHandler: { _ in
+//                self.mirrorVideo(self.isFront)
+//            }
         )
     }
 }
