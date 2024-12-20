@@ -8,6 +8,7 @@ public protocol CameraCapturerDeviceChangedListener: AnyObject {
 class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer
+    private let captureSession = AVCaptureSession()
     internal var isFront: Bool = true
     private(set) var device: AVCaptureDevice? {
         didSet {
@@ -19,7 +20,7 @@ class CameraCapturer: VideoCapturer {
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
-        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
+        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: captureSession)
         let devices = RTCCameraVideoCapturer.captureDevices()
 
         if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
@@ -28,7 +29,14 @@ class CameraCapturer: VideoCapturer {
     }
 
     public func stopCapture() {
-        capturer.stopCapture()
+        // TODO: FCE-1012
+        // capturer.stopCapture() causes a crash so this is a temporary fix
+        // There are two things that don't work
+        // 1. Weird WebRTC SDK implementation that uses AVCaptureConnection in RTCCameraVideoCapturer
+        // 2. Retain cycle that does't allow this object to ever be dealocated.
+        DispatchQueue.main.async {
+            self.captureSession.stopRunning()
+        }
     }
 
     public func switchCamera() {
