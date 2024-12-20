@@ -1,20 +1,12 @@
 import { initializeWarningListener } from './utils/errorListener';
 
 // #region types
-export type {
-  TrackBandwidthLimit,
-  TrackEncoding,
-  SimulcastBandwidthLimit,
-  BandwidthLimit,
-  SimulcastConfig,
-  VideoLayout,
-} from './types';
+export type { SimulcastConfig, VideoLayout } from './types';
 export type { ConnectionConfig } from './common/client';
 // #endregion
 
 // #region methods
 export { updatePeerMetadata } from './common/metadata';
-export { setTargetTrackEncoding } from './common/webRTC';
 export {
   /** @deprecated */
   joinRoom,
