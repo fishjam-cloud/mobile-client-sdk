@@ -21,7 +21,6 @@ class RNFishjamClient: FishjamClientListener {
     var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
 
     var screenShareSimulcastConfig: SimulcastConfig = SimulcastConfig()
-    var screenShareMaxBandwidth: TrackBandwidthLimit = .BandwidthLimit(0)
 
     var cameraId: String? = nil
 
@@ -58,13 +57,10 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) throws -> SimulcastConfig {
-        var activeEncodings: [TrackEncoding] = []
-
-        for encoding in simulcastConfig.activeEncodings {
-            if let fishjamEncoding = try? TrackEncoding(encoding) {
-                activeEncodings.append(fishjamEncoding)
-            }
-        }
+        // iOS has a limit of 3 hardware encoders
+        // 3 simulcast layers + 1 screen share layer = 4, which is too much
+        // so we limit simulcast layers to 2
+        let activeEncodings: [TrackEncoding] = [.l, .h]
 
         return SimulcastConfig(
             enabled: simulcastConfig.enabled,
@@ -73,11 +69,6 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     private func getMaxBandwidthFromOptions(maxBandwidth: RNTrackBandwidthLimit) -> TrackBandwidthLimit {
-        if let maxBandwidth: Int = maxBandwidth.get() {
-            return .BandwidthLimit(maxBandwidth)
-        } else if let maxBandwidth: [String: Int] = maxBandwidth.get() {
-            return .SimulcastBandwidthLimit(maxBandwidth)
-        }
         return .BandwidthLimit(0)
     }
 
@@ -88,7 +79,7 @@ class RNFishjamClient: FishjamClientListener {
     func getVideoParametersFromOptions(connectionOptions: CameraConfig) throws -> VideoParameters {
         let videoQuality = connectionOptions.quality
         let flipDimensions = connectionOptions.flipDimensions
-        let videoBandwidthLimit = getMaxBandwidthFromOptions(maxBandwidth: connectionOptions.maxBandwidth)
+        let videoBandwidthLimit = TrackBandwidthLimit.BandwidthLimit(0)
         let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: connectionOptions.simulcastConfig)
 
         let preset: VideoParameters = {
@@ -396,8 +387,6 @@ class RNFishjamClient: FishjamClientListener {
         let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
 
         screenShareSimulcastConfig = simulcastConfig
-        screenShareMaxBandwidth = getMaxBandwidthFromOptions(
-            maxBandwidth: screenShareOptions.maxBandwidth)
         let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
         let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
         RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
@@ -451,7 +440,6 @@ class RNFishjamClient: FishjamClientListener {
         let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
 
         screenShareSimulcastConfig = simulcastConfig
-        screenShareMaxBandwidth = getMaxBandwidthFromOptions(maxBandwidth: screenShareOptions.maxBandwidth)
         let metadata = screenShareOptions.screenShareMetadata.toMetadata()
         let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
         let screenAppTrack = RNFishjamClient.fishjamClient!.createScreenAppTrack(
@@ -760,7 +748,6 @@ class RNFishjamClient: FishjamClientListener {
         }
         return VideoParameters(
             dimensions: preset.dimensions.flipped,
-            maxBandwidth: screenShareMaxBandwidth,
             maxFps: preset.maxFps,
             simulcastConfig: screenShareSimulcastConfig
         )
