@@ -3,9 +3,6 @@ import ExpoModulesCore
 struct RNSimulcastConfig: Record {
     @Field
     var enabled: Bool = false
-
-    @Field
-    var activeEncodings: [String] = []
 }
 
 struct CameraConfig: Record {
@@ -20,9 +17,6 @@ struct CameraConfig: Record {
 
     @Field
     var simulcastConfig: RNSimulcastConfig = RNSimulcastConfig()
-
-    @Field
-    var maxBandwidth: RNTrackBandwidthLimit = RNTrackBandwidthLimit(0)
 
     @Field
     var cameraEnabled: Bool = true
@@ -48,9 +42,6 @@ struct ScreenShareOptions: Record {
 
     @Field
     var simulcastConfig: RNSimulcastConfig = RNSimulcastConfig()
-
-    @Field
-    var maxBandwidth: RNTrackBandwidthLimit = RNTrackBandwidthLimit(0)
 }
 
 struct ReconnectConfig: Record {
