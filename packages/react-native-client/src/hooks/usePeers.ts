@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Brand, GenericMetadata, TrackEncoding, TrackMetadata } from '../types';
+import { Brand, GenericMetadata, TrackMetadata } from '../types';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
@@ -38,10 +38,6 @@ export type AudioTrack = TrackBase & {
 
 export type VideoTrack = TrackBase & {
   type: 'Video';
-  // Encoding that is currently received. Only present for remote tracks.
-  encoding: TrackEncoding | null;
-  // The reason of currently selected encoding. Only present for remote tracks.
-  encodingReason: EncodingReason | null;
 };
 
 export type Track = VideoTrack | AudioTrack;

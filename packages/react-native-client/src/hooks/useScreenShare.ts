@@ -1,12 +1,6 @@
 import { useCallback } from 'react';
 
-import {
-  BandwidthLimit,
-  SimulcastConfig,
-  TrackBandwidthLimit,
-  TrackEncoding,
-  TrackMetadata,
-} from '../types';
+import { SimulcastConfig, TrackMetadata } from '../types';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
@@ -23,10 +17,6 @@ export type ScreenShareOptions = {
    * @default `HD15``
    */
   quality: ScreenShareQuality;
-  /**
-   *  bandwidth limit of a screen share track. By default there is no bandwidth limit.
-   */
-  maxBandwidth: TrackBandwidthLimit;
 };
 export type ScreenShareOptionsInternal = {
   screenShareMetadata: TrackMetadata & { displayName?: string };
@@ -36,10 +26,10 @@ export type ScreenShareOptionsInternal = {
   simulcastConfig: SimulcastConfig;
 };
 
-const defaultSimulcastConfig = () => ({
-  enabled: false,
-  activeEncodings: [],
-});
+const defaultSimulcastConfig = () =>
+  ({
+    enabled: false,
+  }) satisfies SimulcastConfig;
 
 let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 
@@ -58,30 +48,6 @@ export function useScreenShare() {
   const simulcastConfig = useFishjamEventState<SimulcastConfig>(
     ReceivableEvents.SimulcastConfigUpdate,
     screenShareSimulcastConfig,
-  );
-
-  const toggleScreenShareTrackEncoding = useCallback(
-    async (encoding: TrackEncoding) => {
-      await RNFishjamClientModule.toggleScreenShareTrackEncoding(encoding);
-    },
-    [],
-  );
-
-  const setScreenShareTrackEncodingBandwidth = useCallback(
-    async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
-      await RNFishjamClientModule.setScreenShareTrackEncodingBandwidth(
-        encoding,
-        bandwidth,
-      );
-    },
-    [],
-  );
-
-  const setScreenShareTrackBandwidth = useCallback(
-    async (bandwidth: BandwidthLimit) => {
-      await RNFishjamClientModule.setScreenShareTrackBandwidth(bandwidth);
-    },
-    [],
   );
 
   const handleScreenSharePermission = useCallback(async () => {
@@ -122,31 +88,5 @@ export function useScreenShare() {
      */
     toggleScreenShare,
     handleScreenSharePermission,
-
-    /**
-     * @deprecated
-     */
-    setScreenShareTrackBandwidth,
-    /**
-     * Toggles simulcast encoding of a screen share track on/off
-     * @param encoding encoding to toggle
-     * @deprecated
-     */
-    toggleScreenShareTrackEncoding,
-    /**
-     * updates maximum bandwidth for the given simulcast encoding of the screen share track
-     * @param encoding encoding to update
-     * @param bandwidth BandwidthLimit to set
-     * @deprecated
-     */
-    setScreenShareTrackEncodingBandwidth,
-    /**
-     * updates maximum bandwidth for the screen share track. This value directly translates
-     * to quality of the stream and the amount of RTP packets being sent. In case simulcast
-     * is enabled bandwidth is split between all of the variant streams proportionally to
-     * their resolution
-     * @param bandwidth BandwidthLimit to set
-     * @deprecated
-     */
   };
 }
