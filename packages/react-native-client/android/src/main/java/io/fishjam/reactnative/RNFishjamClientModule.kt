@@ -16,9 +16,6 @@ import kotlinx.coroutines.withContext
 class SimulcastConfig : Record {
   @Field
   val enabled: Boolean = false
-
-  @Field
-  val activeEncodings: List<String> = emptyList()
 }
 
 class CameraConfig : Record {
@@ -33,13 +30,6 @@ class CameraConfig : Record {
 
   @Field
   val simulcastConfig: SimulcastConfig = SimulcastConfig()
-
-  // expo-modules on Android don't support Either type
-  @Field
-  val maxBandwidthMap: Map<String, Int> = emptyMap()
-
-  @Field
-  val maxBandwidthInt: Int = 0
 
   @Field
   val cameraEnabled: Boolean = true
@@ -57,12 +47,6 @@ class ScreenShareOptions : Record {
 
   @Field
   val simulcastConfig: SimulcastConfig = SimulcastConfig()
-
-  @Field
-  val maxBandwidthMap: Map<String, Int> = emptyMap()
-
-  @Field
-  val maxBandwidthInt: Int = 0
 }
 
 class ReconnectConfig : Record {
