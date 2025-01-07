@@ -659,11 +659,11 @@ internal class FishjamClientInternal(
 
   private fun getTrackIdToBitrates(localTracks: Map<String, Track>): Map<String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> =
     localTracks
-      .mapNotNull { (trackId, track) ->
-        trackId to
+      .mapNotNull { (_, track) ->
+        track.webrtcId() to
           fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
             .newBuilder()
-            .setTrackId(trackId)
+            .setTrackId(track.webrtcId())
             .addAllVariantBitrates(
               track.sendEncodings.map { encoding ->
                 val variant =
