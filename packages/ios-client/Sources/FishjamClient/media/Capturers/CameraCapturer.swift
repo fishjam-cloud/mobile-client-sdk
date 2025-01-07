@@ -29,14 +29,7 @@ class CameraCapturer: VideoCapturer {
     }
 
     public func stopCapture() {
-        // TODO: FCE-1012
-        // capturer.stopCapture() causes a crash so this is a temporary fix
-        // There are two things that don't work
-        // 1. Weird WebRTC SDK implementation that uses AVCaptureConnection in RTCCameraVideoCapturer
-        // 2. Retain cycle that does't allow this object to ever be dealocated.
-        DispatchQueue.main.async {
-            self.captureSession.stopRunning()
-        }
+        self.captureSession.stopRunning()
     }
 
     public func switchCamera() {

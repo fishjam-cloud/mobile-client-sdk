@@ -124,7 +124,9 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("leaveRoom") {
-            rnFishjamClient.leaveRoom()
+            DispatchQueue.main.async {
+                rnFishjamClient.leaveRoom()
+            }
         }
 
         AsyncFunction("startCamera") { (config: CameraConfig) in
