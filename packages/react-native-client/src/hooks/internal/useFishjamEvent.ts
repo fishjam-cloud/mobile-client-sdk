@@ -3,7 +3,7 @@ import nativeModule, {
   ReceivableEvents,
   ReceivableEventPayloads,
 } from '../../RNFishjamClientModule';
-import { isNativeEventPayloadValid } from '../../debug/internal/eventPayloadValidator';
+import { isNativeEventPayloadValid } from '../../utils/eventPayloadValidator';
 
 export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
   eventName: T,

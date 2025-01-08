@@ -1,26 +1,22 @@
 import {
   ReceivableEventPayloads,
   ReceivableEvents,
-} from '../../RNFishjamClientModule';
+} from '../RNFishjamClientModule';
 
-import type {
-  GenericMetadata,
-  SimulcastConfig,
-  TrackMetadata,
-} from '../../types';
+import type { GenericMetadata, SimulcastConfig, TrackMetadata } from '../types';
 import type {
   AudioOutputDevice,
   AudioOutputDeviceType,
   OnAudioDeviceEvent,
-} from '../../hooks/useAudioSettings';
+} from '../hooks/useAudioSettings';
 import type {
   Camera,
   CameraFacingDirection,
   CurrentCameraChangedType,
-} from '../../hooks/useCamera';
-import type { AudioTrack, Peer, VideoTrack } from '../../hooks/usePeers';
-import type { ReconnectionStatus } from '../../hooks/useConnection';
-import type { PeerStatus } from '../../hooks/useConnection';
+} from '../hooks/useCamera';
+import type { AudioTrack, Peer, VideoTrack } from '../hooks/usePeers';
+import type { ReconnectionStatus } from '../hooks/useConnection';
+import type { PeerStatus } from '../hooks/useConnection';
 
 export function isNativeEventPayloadValid<
   T extends keyof typeof ReceivableEvents,
@@ -89,7 +85,8 @@ function isSimulcastConfig(value: unknown): value is SimulcastConfig {
     typeof config.enabled === 'boolean' &&
     Array.isArray(config.activeEncodings) &&
     config.activeEncodings.every(
-      (e) => typeof e === 'string' && validEncodings.includes(e),
+      (encoding) =>
+        typeof encoding === 'string' && validEncodings.includes(encoding),
     )
   );
 }
