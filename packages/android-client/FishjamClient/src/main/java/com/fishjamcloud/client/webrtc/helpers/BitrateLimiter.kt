@@ -13,6 +13,7 @@ class BitrateLimiter {
       when (maxBitrate) {
         is TrackBandwidthLimit.BandwidthLimit ->
           calculateUniformBitrates(encodings, maxBitrate.limit)
+
         is TrackBandwidthLimit.SimulcastBandwidthLimit ->
           calculateSimulcastBitrates(encodings, maxBitrate.limit)
       }
@@ -35,18 +36,26 @@ class BitrateLimiter {
         return encodings.map { it.withBitrateInBps(null) }
       }
 
-      val k0 = encodings.minByOrNull { it.scaleResolutionDownBy ?: 1.0 }
+      val baseEncoding = encodings.minByOrNull { it.scaleResolutionDownBy ?: 1.0 }
 
       val bitrateParts =
         encodings.sumOf {
-          ((k0?.scaleResolutionDownBy ?: 1.0) / (it.scaleResolutionDownBy ?: 1.0)).pow(2)
+          ((baseEncoding?.scaleResolutionDownBy ?: 1.0) / (it.scaleResolutionDownBy ?: 1.0)).pow(2)
         }
 
-      val x = bitrate / bitrateParts
+      val multiplier = bitrate / bitrateParts
 
       return encodings.map { encoding ->
         val calculatedBitrate =
-          (x * ((k0?.scaleResolutionDownBy ?: 1.0) / (encoding.scaleResolutionDownBy ?: 1.0)).pow(2) * 1024).toInt()
+          (
+            multiplier *
+              (
+                (
+                  baseEncoding?.scaleResolutionDownBy
+                    ?: 1.0
+                ) / (encoding.scaleResolutionDownBy ?: 1.0)
+              ).pow(2) * 1024
+          ).toInt()
         encoding.withBitrateInBps(calculatedBitrate)
       }
     }

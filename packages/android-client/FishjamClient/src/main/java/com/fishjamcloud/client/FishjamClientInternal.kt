@@ -27,6 +27,7 @@ import com.fishjamcloud.client.webrtc.PeerConnectionListener
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import com.fishjamcloud.client.webrtc.RTCEngineListener
+import com.fishjamcloud.client.webrtc.helpers.TrackBitratesMapper
 import fishjam.PeerNotifications
 import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
@@ -232,7 +233,13 @@ internal class FishjamClientInternal(
 
         for ((trackId, trackData) in endpointData.trackIdToTrackMap) {
           val track =
-            Track(null, emptyList(), endpointId, trackId, trackData.metadataJson.serializeToMap())
+            Track(
+              mediaTrack = null,
+              sendEncodings = emptyList(),
+              endpointId = endpointId,
+              rtcEngineId = trackId,
+              metadata = trackData.metadataJson.serializeToMap()
+            )
           endpoint = endpoint.addOrReplaceTrack(track)
           this.listener.onTrackAdded(track)
         }
@@ -648,7 +655,7 @@ internal class FishjamClientInternal(
           offer.description,
           localEndpoint.tracks.map { (_, track) -> track.webrtcId() to track.metadata }.toMap(),
           offer.midToTrackIdMapping,
-          getTrackIdToBitrates(localEndpoint.tracks)
+          TrackBitratesMapper.mapTracksToProtoBitrates(localEndpoint.tracks)
         )
         peerConnectionManager.onSentSdpOffer()
       } catch (e: Exception) {
@@ -656,32 +663,6 @@ internal class FishjamClientInternal(
       }
     }
   }
-
-  private fun getTrackIdToBitrates(localTracks: Map<String, Track>): Map<String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates> =
-    localTracks
-      .mapNotNull { (_, track) ->
-        track.webrtcId() to
-          fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
-            .newBuilder()
-            .setTrackId(track.webrtcId())
-            .addAllVariantBitrates(
-              track.sendEncodings.map { encoding ->
-                val variant =
-                  when (encoding.rid) {
-                    "h" -> fishjam.media_events.Shared.Variant.VARIANT_HIGH
-                    "m" -> fishjam.media_events.Shared.Variant.VARIANT_MEDIUM
-                    "l" -> fishjam.media_events.Shared.Variant.VARIANT_LOW
-                    else -> fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED
-                  }
-
-                fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate
-                  .newBuilder()
-                  .setVariant(variant)
-                  .setBitrate(encoding.maxBitrateBps ?: 0)
-                  .build()
-              }
-            ).build()
-      }.toMap()
 
   override fun onRemoteCandidate(
     candidate: String,
@@ -722,7 +703,13 @@ internal class FishjamClientInternal(
         track.metadata = trackData.metadataJson.serializeToMap()
       } else {
         track =
-          Track(null, emptyList(), endpointId, trackId, trackData.metadataJson.serializeToMap())
+          Track(
+            mediaTrack = null,
+            sendEncodings = emptyList(),
+            endpointId = endpointId,
+            rtcEngineId = trackId,
+            metadata = trackData.metadataJson.serializeToMap()
+          )
         this.listener.onTrackAdded(track)
       }
       updatedTracks[trackId] = track

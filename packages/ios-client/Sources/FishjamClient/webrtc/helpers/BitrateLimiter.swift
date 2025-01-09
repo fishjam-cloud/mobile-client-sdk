@@ -32,12 +32,12 @@ struct BitrateLimiter {
         }
 
         // Find minimum scale resolution
-        let k0 =
+        let baseEncoding =
             encodings.map { $0.scaleResolutionDownByDouble }
             .min() ?? 1.0
 
         let bitrateParts = encodings.reduce(0.0) { acc, encoding in
-            acc + pow((k0 / encoding.scaleResolutionDownByDouble), 2)
+            acc + pow((baseEncoding / encoding.scaleResolutionDownByDouble), 2)
         }
 
         let multiplier = Double(bitrate) / bitrateParts
@@ -45,7 +45,7 @@ struct BitrateLimiter {
         // Calculate new bitrates
         return encodings.map { encoding in
             let calculatedBitrate = Int(
-                multiplier * pow(k0 / encoding.scaleResolutionDownByDouble, 2)
+                multiplier * pow(baseEncoding / encoding.scaleResolutionDownByDouble, 2)
             )
             return encoding.withBitrate(kbps: calculatedBitrate)
         }
