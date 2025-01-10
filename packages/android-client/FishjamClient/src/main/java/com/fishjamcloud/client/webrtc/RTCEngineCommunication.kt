@@ -112,7 +112,7 @@ internal class RTCEngineCommunication {
     sdp: String,
     trackIdToTrackMetadata: Map<String, Metadata?>,
     midToTrackId: Map<String, String>,
-    trackIdToBitrates: Map<String, Int>
+    trackIdToBitrates: Map<String, fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates>
   ) {
     val mediaEvent =
       fishjam.media_events.peer.Peer.MediaEvent
@@ -127,18 +127,7 @@ internal class RTCEngineCommunication {
                 metadata?.let { gson.toJson(it) } ?: ""
               }
             ).putAllTrackIdToBitrates(
-              trackIdToBitrates.mapValues { (trackId, bitrate) ->
-                fishjam.media_events.peer.Peer.MediaEvent.TrackBitrates
-                  .newBuilder()
-                  .setTrackId(trackId)
-                  .addVariantBitrates(
-                    fishjam.media_events.peer.Peer.MediaEvent.VariantBitrate
-                      .newBuilder()
-                      .setVariant(fishjam.media_events.Shared.Variant.VARIANT_UNSPECIFIED) // TODO(FCE-953): Update with simulcast
-                      .setBitrate(bitrate)
-                      .build()
-                  ).build()
-              }
+              trackIdToBitrates
             ).build()
         ).build()
 

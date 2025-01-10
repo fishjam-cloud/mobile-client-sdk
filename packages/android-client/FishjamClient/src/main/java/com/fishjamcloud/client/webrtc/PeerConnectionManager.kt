@@ -4,9 +4,6 @@ import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.models.Constants
-import com.fishjamcloud.client.models.QualityLimitationDurations
-import com.fishjamcloud.client.models.RTCInboundStats
-import com.fishjamcloud.client.models.RTCOutboundStats
 import com.fishjamcloud.client.models.RTCStats
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
@@ -17,6 +14,7 @@ import com.fishjamcloud.client.utils.createOffer
 import com.fishjamcloud.client.utils.getEncodings
 import com.fishjamcloud.client.utils.setLocalDescription
 import com.fishjamcloud.client.utils.setRemoteDescription
+import com.fishjamcloud.client.webrtc.helpers.BitrateLimiter
 import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -25,9 +23,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.webrtc.*
 import timber.log.Timber
-import java.math.BigInteger
 import java.util.*
-import kotlin.math.pow
 
 internal class PeerConnectionManager(
   private val peerConnectionFactory: PeerConnectionFactoryWrapper
@@ -99,7 +95,8 @@ internal class PeerConnectionManager(
         }
 
       if (videoParameters?.maxBitrate != null) {
-        applyBitrate(sendEncodings, videoParameters.maxBitrate)
+        applyEncodingBitrates(sendEncodings, videoParameters.maxBitrate)
+        track.sendEncodings = sendEncodings
       }
 
       pc.addTransceiver(
@@ -112,47 +109,14 @@ internal class PeerConnectionManager(
     }
   }
 
-  private fun applyBitrate(
+  private fun applyEncodingBitrates(
     encodings: List<RtpParameters.Encoding>,
     maxBitrate: TrackBandwidthLimit
   ) {
-    when (maxBitrate) {
-      is TrackBandwidthLimit.BandwidthLimit -> splitBitrate(encodings, maxBitrate)
-      is TrackBandwidthLimit.SimulcastBandwidthLimit ->
-        encodings.forEach {
-          val encodingLimit = maxBitrate.limit[it.rid]?.limit ?: 0
-          it.maxBitrateBps = if (encodingLimit == 0) null else encodingLimit * 1024
-        }
-    }
-  }
+    val calculatedEncodings = BitrateLimiter.calculateBitrates(encodings, maxBitrate)
 
-  private fun splitBitrate(
-    encodings: List<RtpParameters.Encoding>,
-    maxBitrate: TrackBandwidthLimit.BandwidthLimit
-  ) {
-    if (encodings.isEmpty()) {
-      Timber.e("splitBitrate: Attempted to limit bandwidth of the track that doesn't have any encodings")
-      return
-    }
-    if (maxBitrate.limit == 0) {
-      encodings.forEach { it.maxBitrateBps = null }
-      return
-    }
-
-    val k0 = encodings.minByOrNull { it.scaleResolutionDownBy ?: 1.0 }
-
-    val bitrateParts =
-      encodings.sumOf {
-        ((k0?.scaleResolutionDownBy ?: 1.0) / (it.scaleResolutionDownBy ?: 1.0)).pow(
-          2
-        )
-      }
-
-    val x = maxBitrate.limit / bitrateParts
-
-    encodings.forEach {
-      it.maxBitrateBps =
-        (x * ((k0?.scaleResolutionDownBy ?: 1.0) / (it.scaleResolutionDownBy ?: 1.0)).pow(2) * 1024).toInt()
+    encodings.zip(calculatedEncodings) { original, calculated ->
+      original.maxBitrateBps = calculated.maxBitrateBps
     }
   }
 
@@ -173,7 +137,7 @@ internal class PeerConnectionManager(
         }
       val params = sender.parameters
 
-      applyBitrate(params.getEncodings(), bandwidthLimit)
+      applyEncodingBitrates(params.getEncodings(), bandwidthLimit)
 
       sender.parameters = params
     }
@@ -543,56 +507,14 @@ internal class PeerConnectionManager(
     Timber.d("Renegotiation needed")
   }
 
-  fun getStats(): Map<String, RTCStats> {
-    peerConnection?.getStats { rtcStatsReport -> extractRelevantStats(rtcStatsReport) }
-    return peerConnectionStats.toMap()
-  }
-
-  private fun extractRelevantStats(rp: RTCStatsReport) {
-    rp.statsMap.values.forEach {
-      if (it.type == "outbound-rtp") {
-        val durations = it.members["qualityLimitationDurations"] as? Map<*, *>
-        val qualityLimitation =
-          QualityLimitationDurations(
-            durations?.get("bandwidth") as? Double ?: 0.0,
-            durations?.get("cpu") as? Double ?: 0.0,
-            durations?.get("none") as? Double ?: 0.0,
-            durations?.get("other") as? Double ?: 0.0
-          )
-
-        val tmp =
-          RTCOutboundStats(
-            it.members["kind"] as? String,
-            it.members["rid"] as? String,
-            it.members["bytesSent"] as? BigInteger,
-            it.members["targetBitrate"] as? Double,
-            it.members["packetsSent"] as? Long,
-            it.members["framesEncoded"] as? Long,
-            it.members["framesPerSecond"] as? Double,
-            it.members["frameWidth"] as? Long,
-            it.members["frameHeight"] as? Long,
-            qualityLimitation
-          )
-
-        peerConnectionStats[it.id as String] = tmp
-      } else if (it.type == "inbound-rtp") {
-        val tmp =
-          RTCInboundStats(
-            it.members["kind"] as? String,
-            it.members["jitter"] as? Double,
-            it.members["packetsLost"] as? Int,
-            it.members["packetsReceived"] as? Long,
-            it.members["bytesReceived"] as? BigInteger,
-            it.members["framesReceived"] as? Int,
-            it.members["frameWidth"] as? Long,
-            it.members["frameHeight"] as? Long,
-            it.members["framesPerSecond"] as? Double,
-            it.members["framesDropped"] as? Long
-          )
-
-        peerConnectionStats[it.id as String] = tmp
+  suspend fun getStats(): Map<String, RTCStats> {
+    val pc =
+      peerConnection ?: run {
+        return emptyMap()
       }
-    }
+    val stats = StatsCollector.getStats(pc)
+
+    return stats
   }
 }
 

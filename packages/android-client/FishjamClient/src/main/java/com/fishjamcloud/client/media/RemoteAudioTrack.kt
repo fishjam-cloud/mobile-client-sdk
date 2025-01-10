@@ -15,7 +15,7 @@ class RemoteAudioTrack(
   rtcEngineId: String?,
   metadata: Metadata,
   id: String = UUID.randomUUID().toString()
-) : Track(audioTrack, endpointId, rtcEngineId, metadata, id) {
+) : Track(audioTrack, emptyList(), endpointId, rtcEngineId, metadata, id) {
   private var onVadNotificationListener: (OnVoiceActivityChangedListener)? = null
 
   var vadStatus = Server.MediaEvent.VadNotification.Status.STATUS_SILENCE
