@@ -158,8 +158,6 @@ class RNFishjamClient(
   }
 
   private fun getVideoParametersFromOptions(createOptions: CameraConfig): VideoParameters {
-    val videoMaxBandwidth =
-      TrackBandwidthLimit.BandwidthLimit(0)
     var videoParameters =
       when (createOptions.quality) {
         "QVGA169" -> VideoParameters.presetQVGA169
@@ -178,7 +176,7 @@ class RNFishjamClient(
       videoParameters.copy(
         dimensions = if (createOptions.flipDimensions) videoParameters.dimensions.flip() else videoParameters.dimensions,
         simulcastConfig = getSimulcastConfigFromOptions(createOptions.simulcastConfig),
-        maxBitrate = videoMaxBandwidth
+        maxBitrate = videoParameters.maxBitrate
       )
     return videoParameters
   }
@@ -735,7 +733,7 @@ class RNFishjamClient(
     return videoParameters.copy(
       dimensions = dimensions,
       simulcastConfig = screenShareSimulcastConfig,
-      maxBitrate = TrackBandwidthLimit.BandwidthLimit(0)
+      maxBitrate = videoParameters.maxBitrate
     )
   }
 
