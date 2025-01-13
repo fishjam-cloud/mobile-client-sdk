@@ -19,7 +19,7 @@ class CameraCapturer: VideoCapturer {
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
-        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
+        self.capturer = RTCCameraVideoCapturer(delegate: delegate)
         let devices = RTCCameraVideoCapturer.captureDevices()
 
         if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
@@ -28,7 +28,7 @@ class CameraCapturer: VideoCapturer {
     }
 
     public func stopCapture() {
-        capturer.stopCapture()
+        self.capturer.stopCapture()
     }
 
     public func switchCamera() {

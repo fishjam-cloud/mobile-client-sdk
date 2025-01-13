@@ -124,7 +124,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("leaveRoom") {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 rnFishjamClient.leaveRoom()
             }
         }
