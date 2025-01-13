@@ -117,6 +117,10 @@ public class RNFishjamClientModule: Module {
         Property("isAppScreenShareOn") {
             return rnFishjamClient.isAppScreenShareOn
         }
+        
+        Property("isCameraInitialized") {
+            return rnFishjamClient.isCameraInitialized
+        }
 
         Function("getPeers") {
             return rnFishjamClient.getPeers()
