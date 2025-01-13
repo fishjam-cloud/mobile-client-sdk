@@ -16,12 +16,13 @@
       "bundleIdentifier": "io.fishjam.example.fishjamchat",
       "infoPlist": {
         "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true //this allows for testing in local network without secured connections
+          "NSAllowsArbitraryLoads": true
         },
         "NSCameraUsageDescription": "We need to access your camera for video calls.",
         "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls.",
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "appleTeamId": "J5FM626PE2"
     },
     "android": {
       "adaptiveIcon": {
@@ -69,7 +70,7 @@
         }
       ],
       [
-        "./plugin/build/with-local-paths-for-native-packages.js" // Only relevant for local development of packages/ios-client and packages/android-client
+        "./plugin/build/with-local-paths-for-native-packages.js"
       ]
     ],
     "extra": {
