@@ -8,7 +8,6 @@ public protocol CameraCapturerDeviceChangedListener: AnyObject {
 class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer
-    private let captureSession = AVCaptureSession()
     internal var isFront: Bool = true
     private(set) var device: AVCaptureDevice? {
         didSet {
@@ -20,7 +19,7 @@ class CameraCapturer: VideoCapturer {
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
-        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: captureSession)
+        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
         let devices = RTCCameraVideoCapturer.captureDevices()
 
         if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
@@ -29,7 +28,7 @@ class CameraCapturer: VideoCapturer {
     }
 
     public func stopCapture() {
-        self.captureSession.stopRunning()
+        capturer.stopCapture()
     }
 
     public func switchCamera() {
