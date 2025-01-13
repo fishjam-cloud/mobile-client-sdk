@@ -16,7 +16,9 @@ class RNFishjamClient: FishjamClientListener {
 
     private(set) var isCameraInitialized = false {
         didSet {
-            emit(event: .currentCameraChanged(localCamera: currentCamera, isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
+            emit(
+                event: .currentCameraChanged(
+                    localCamera: currentCamera, isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
         }
     }
 
@@ -291,7 +293,8 @@ class RNFishjamClient: FishjamClientListener {
         isCameraOn = enabled
         emit(
             event: .currentCameraChanged(
-                localCamera: cameraTrack.currentCaptureDevice?.toLocalCamera(), isCameraOn: enabled, isCameraInitialized: isCameraInitialized))
+                localCamera: cameraTrack.currentCaptureDevice?.toLocalCamera(), isCameraOn: enabled,
+                isCameraInitialized: isCameraInitialized))
         RNFishjamClient.localCameraTracksChangedListenersManager.notifyListeners()
     }
 
@@ -912,6 +915,8 @@ class RNFishjamClient: FishjamClientListener {
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {
     func onCaptureDeviceChanged(_ device: AVCaptureDevice?) {
-        emit(event: .currentCameraChanged(localCamera: device?.toLocalCamera(), isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
+        emit(
+            event: .currentCameraChanged(
+                localCamera: device?.toLocalCamera(), isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
     }
 }

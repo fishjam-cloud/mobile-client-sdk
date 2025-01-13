@@ -511,8 +511,7 @@ class RNFishjamClient(
     }
   }
 
-  fun getCurrentCaptureDevice(): Map<String, Any>? =
-    getLocalVideoTrack()?.getCaptureDevice()?.toLocalCamera()
+  fun getCurrentCaptureDevice(): Map<String, Any>? = getLocalVideoTrack()?.getCaptureDevice()?.toLocalCamera()
 
   fun updatePeerMetadata(metadata: Metadata) {
     ensureConnected()

@@ -57,13 +57,15 @@ class EmitableEvent {
         .init(event: .ReconnectionStatusChanged, eventContent: reconnectionStatus.rawValue)
     }
 
-    static func currentCameraChanged(localCamera: LocalCamera?, isCameraOn: Bool, isCameraInitialized: Bool) -> EmitableEvent {
+    static func currentCameraChanged(localCamera: LocalCamera?, isCameraOn: Bool, isCameraInitialized: Bool)
+        -> EmitableEvent
+    {
         return .init(
             event: .CurrentCameraChanged,
             eventContent: [
                 "currentCamera": localCamera as Any,
                 "isCameraOn": isCameraOn,
-                "isCameraInitialized": isCameraInitialized
+                "isCameraInitialized": isCameraInitialized,
             ])
     }
 
