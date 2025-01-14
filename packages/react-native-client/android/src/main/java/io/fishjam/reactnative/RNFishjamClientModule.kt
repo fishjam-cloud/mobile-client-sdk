@@ -159,6 +159,10 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.reconnectionStatus.status
       }
 
+      Property("isCameraInitialized") {
+        return@Property rnFishjamClient.isCameraInitialized
+      }
+
       Function("getPeers") {
         return@Function rnFishjamClient.getPeers()
       }

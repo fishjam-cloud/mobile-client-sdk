@@ -27,6 +27,7 @@ export type Camera = {
 export type CurrentCameraChangedType = {
   currentCamera: Camera | null;
   isCameraOn: boolean;
+  isCameraInitialized: boolean;
 };
 
 export type VideoQuality =
@@ -163,14 +164,18 @@ export function useCamera() {
     defaultSimulcastConfig(), // TODO: Fetch from native
   );
 
-  const { currentCamera: currentCameraState, isCameraOn } =
-    useFishjamEventState<CurrentCameraChangedType>(
-      ReceivableEvents.CurrentCameraChanged,
-      {
-        currentCamera: RNFishjamClientModule.currentCamera,
-        isCameraOn: RNFishjamClientModule.isCameraOn,
-      },
-    );
+  const {
+    currentCamera: currentCameraState,
+    isCameraOn,
+    isCameraInitialized,
+  } = useFishjamEventState<CurrentCameraChangedType>(
+    ReceivableEvents.CurrentCameraChanged,
+    {
+      currentCamera: RNFishjamClientModule.currentCamera,
+      isCameraOn: RNFishjamClientModule.isCameraOn,
+      isCameraInitialized: RNFishjamClientModule.isCameraInitialized,
+    },
+  );
 
   // For Android Expo converts null to undefined ¯\_(ツ)_/¯
   const currentCamera = currentCameraState ?? null;
@@ -248,6 +253,10 @@ export function useCamera() {
      * @returns A promise that resolves to the list of available cameras.
      */
     cameras,
+    /**
+     * A value indicating if camera was already initialized (if `prepareCamera` was called).
+     */
+    isInitialized: isCameraInitialized,
     /**
      * Enable/disable current camera
      */

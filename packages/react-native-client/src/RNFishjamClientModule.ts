@@ -21,6 +21,7 @@ type RNFishjamClient = {
   currentCamera: Camera | null;
   peerStatus: PeerStatus;
   reconnectionStatus: ReconnectionStatus;
+  isCameraInitialized: boolean;
 
   getPeers: <
     PeerMetadataType extends Metadata,
