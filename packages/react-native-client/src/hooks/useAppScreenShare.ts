@@ -7,10 +7,10 @@ import { ScreenShareOptions } from './useScreenShare';
 import { Platform } from 'react-native';
 import { useFishjamEventState } from './internal/useFishjamEventState';
 
-const defaultSimulcastConfig = () => ({
-  enabled: false,
-  activeEncodings: [],
-});
+const defaultSimulcastConfig = () =>
+  ({
+    enabled: false,
+  }) satisfies SimulcastConfig;
 
 let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 

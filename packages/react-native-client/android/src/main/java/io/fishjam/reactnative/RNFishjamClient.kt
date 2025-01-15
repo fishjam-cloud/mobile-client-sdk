@@ -25,6 +25,7 @@ import com.fishjamcloud.client.models.RTCOutboundStats
 import com.fishjamcloud.client.models.ReconnectConfig
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
+import com.fishjamcloud.client.models.TrackEncoding
 import com.fishjamcloud.client.models.VideoParameters
 import com.twilio.audioswitch.AudioDevice
 import expo.modules.kotlin.AppContext
@@ -74,7 +75,6 @@ class RNFishjamClient(
 
   var screenShareQuality: String? = null
   var screenShareSimulcastConfig: SimulcastConfig = SimulcastConfig()
-  var screenShareMaxBandwidth: TrackBandwidthLimit = TrackBandwidthLimit.BandwidthLimit(0)
 
   var screenShareMetadata: Map<String, Any> = mutableMapOf()
 
@@ -151,25 +151,11 @@ class RNFishjamClient(
 
   private fun getSimulcastConfigFromOptions(simulcastConfigMap: io.fishjam.reactnative.SimulcastConfig): SimulcastConfig {
     val simulcastEnabled = simulcastConfigMap.enabled
-    val activeEncodings = simulcastConfigMap.activeEncodings.map { e -> e.toTrackEncoding() }
+    val activeEncodings = listOf(TrackEncoding.L, TrackEncoding.M, TrackEncoding.H)
     return SimulcastConfig(
       enabled = simulcastEnabled,
       activeEncodings = activeEncodings
     )
-  }
-
-  private fun getMaxBandwidthFromOptions(
-    maxBandwidthMap: Map<String, Int>?,
-    maxBandwidthInt: Int
-  ): TrackBandwidthLimit {
-    if (maxBandwidthMap != null) {
-      val maxBandwidthSimulcast = mutableMapOf<String, TrackBandwidthLimit.BandwidthLimit>()
-      maxBandwidthMap.forEach {
-        maxBandwidthSimulcast[it.key] = TrackBandwidthLimit.BandwidthLimit(it.value)
-      }
-      return TrackBandwidthLimit.SimulcastBandwidthLimit(maxBandwidthSimulcast)
-    }
-    return TrackBandwidthLimit.BandwidthLimit(maxBandwidthInt)
   }
 
   private fun create() {
@@ -182,8 +168,6 @@ class RNFishjamClient(
   }
 
   private fun getVideoParametersFromOptions(createOptions: CameraConfig): VideoParameters {
-    val videoMaxBandwidth =
-      getMaxBandwidthFromOptions(createOptions.maxBandwidthMap, createOptions.maxBandwidthInt)
     var videoParameters =
       when (createOptions.quality) {
         "QVGA169" -> VideoParameters.presetQVGA169
@@ -202,7 +186,7 @@ class RNFishjamClient(
       videoParameters.copy(
         dimensions = if (createOptions.flipDimensions) videoParameters.dimensions.flip() else videoParameters.dimensions,
         simulcastConfig = getSimulcastConfigFromOptions(createOptions.simulcastConfig),
-        maxBitrate = videoMaxBandwidth
+        maxBitrate = videoParameters.maxBitrate
       )
     return videoParameters
   }
@@ -431,11 +415,6 @@ class RNFishjamClient(
     this.screenShareQuality = screenShareOptions.quality
     this.screenShareSimulcastConfig =
       getSimulcastConfigFromOptions(screenShareOptions.simulcastConfig)
-    this.screenShareMaxBandwidth =
-      getMaxBandwidthFromOptions(
-        screenShareOptions.maxBandwidthMap,
-        screenShareOptions.maxBandwidthInt
-      )
 
     if (!isScreenShareOn) {
       ensureConnected()
@@ -769,7 +748,7 @@ class RNFishjamClient(
     return videoParameters.copy(
       dimensions = dimensions,
       simulcastConfig = screenShareSimulcastConfig,
-      maxBitrate = screenShareMaxBandwidth
+      maxBitrate = videoParameters.maxBitrate
     )
   }
 

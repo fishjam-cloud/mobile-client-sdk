@@ -1,14 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { Platform } from 'react-native';
-
-import {
-  BandwidthLimit,
-  Brand,
-  SimulcastBandwidthLimit,
-  SimulcastConfig,
-  TrackBandwidthLimit,
-  TrackEncoding,
-} from '../types';
+import { Brand, SimulcastConfig } from '../types';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
@@ -96,48 +87,18 @@ export type CameraConfigInternal = CameraConfigBase & {
    *  SimulcastConfig of a video track. By default simulcast is disabled.
    */
   simulcastConfig?: SimulcastConfig;
-  /**
-   *  bandwidth limit of a video track. By default there is no bandwidth limit.
-   */
-  maxBandwidth?: TrackBandwidthLimit;
-} & (
-    | { maxBandwidthInt?: BandwidthLimit }
-    | { maxBandwidthMap?: SimulcastBandwidthLimit }
-  );
+};
 
-const defaultSimulcastConfig = () => ({
-  enabled: false,
-  activeEncodings: [],
-});
-
-function maxBandwidthConfig(maxBandwidth: TrackBandwidthLimit | undefined) {
-  if (Platform.OS === 'android') {
-    if (typeof maxBandwidth === 'object') {
-      return {
-        maxBandwidth: undefined,
-        maxBandwidthMap: maxBandwidth,
-      };
-    } else {
-      return {
-        maxBandwidth: undefined,
-        maxBandwidthInt: maxBandwidth,
-      };
-    }
-  }
-  return { maxBandwidth };
-}
+const defaultSimulcastConfig = () =>
+  ({
+    enabled: false,
+  }) satisfies SimulcastConfig;
 
 function getSimulcastConfig(
   simulcastEnabled: boolean | undefined,
 ): SimulcastConfig | undefined {
-  // iOS has a limit of 3 hardware encoders
-  // 3 simulcast layers + 1 screen share layer = 4, which is too much
-  // so we limit simulcast layers to 2
   if (simulcastEnabled) {
-    return Platform.select<SimulcastConfig>({
-      ios: { enabled: true, activeEncodings: ['l', 'h'] },
-      android: { enabled: true, activeEncodings: ['l', 'm', 'h'] },
-    });
+    return { enabled: true };
   }
   return undefined;
 }
@@ -147,7 +108,6 @@ export function updateCameraConfig(
 ): CameraConfigInternal {
   return {
     ...config,
-    ...maxBandwidthConfig({ l: 150, m: 500, h: 1500 }),
     videoTrackMetadata: { active: true, type: 'camera' },
     simulcastConfig: getSimulcastConfig(config.simulcastEnabled),
   };
@@ -211,30 +171,6 @@ export function useCamera() {
     await RNFishjamClientModule.switchCamera(cameraId);
   }, []);
 
-  const setVideoTrackBandwidth = useCallback(
-    async (bandwidth: BandwidthLimit) => {
-      await RNFishjamClientModule.setVideoTrackBandwidth(bandwidth);
-    },
-    [],
-  );
-
-  const toggleVideoTrackEncoding = useCallback(
-    async (encoding: TrackEncoding) => {
-      await RNFishjamClientModule.toggleVideoTrackEncoding(encoding);
-    },
-    [],
-  );
-
-  const setVideoTrackEncodingBandwidth = useCallback(
-    async (encoding: TrackEncoding, bandwidth: BandwidthLimit) => {
-      await RNFishjamClientModule.setVideoTrackEncodingBandwidth(
-        encoding,
-        bandwidth,
-      );
-    },
-    [],
-  );
-
   return {
     /**
      * Informs if user camera is streaming video
@@ -273,27 +209,5 @@ export function useCamera() {
      * @returns A promise that resolves when camera is switched.
      */
     switchCamera,
-    /**
-     * @deprecated
-     * Toggles encoding of a video track on/off
-     * @param encoding encoding to toggle
-     */
-    toggleVideoTrackEncoding,
-    /**
-     * Updates maximum bandwidth for the given simulcast encoding of the video track
-     * @param encoding  encoding to update
-     * @param bandwidth BandwidthLimit to set
-     * @deprecated
-     */
-    setVideoTrackEncodingBandwidth,
-    /**
-     * updates maximum bandwidth for the video track. This value directly translates
-     * to quality of the stream and the amount of RTP packets being sent. In case simulcast
-     * is enabled bandwidth is split between all of the variant streams proportionally to
-     * their resolution.
-     * @param BandwidthLimit to set
-     * @deprecated
-     */
-    setVideoTrackBandwidth,
   };
 }

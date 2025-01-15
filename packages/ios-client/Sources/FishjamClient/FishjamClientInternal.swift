@@ -100,11 +100,6 @@ class FishjamClientInternal {
 
     func leave(onLeave: (() -> Void)? = nil) {
         rtcEngineCommunication.disconnect()
-        for track in localEndpoint.tracks.values {
-            if let track = track as? LocalTrack {
-                track.stop()
-            }
-        }
         peerConnectionManager.close()
         localEndpoint = Endpoint(id: "")
         remoteEndpointsMap = [:]
