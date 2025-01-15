@@ -128,9 +128,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("leaveRoom") {
-            await MainActor.run {
-                rnFishjamClient.leaveRoom()
-            }
+            rnFishjamClient.leaveRoom()
         }
 
         AsyncFunction("startCamera") { (config: CameraConfig) in
