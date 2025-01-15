@@ -33,7 +33,7 @@ export type VideoQuality =
   | 'HD43'
   | 'FHD43';
 
-type CameraConfigBase = {
+export type CameraConfigBase = {
   /**
    * resolution + aspect ratio of local video track, one of: `QVGA_169`, `VGA_169`, `QHD_169`, `HD_169`,
    * `FHD_169`, `QVGA_43`, `VGA_43`, `QHD_43`, `HD_43`, `FHD_43`. Note that quality might be worse than

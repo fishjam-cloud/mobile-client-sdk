@@ -14,7 +14,7 @@ const defaultSimulcastConfig = () =>
 
 let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 
-type AppScreenShareData = {
+export type AppScreenShareData = {
   isAppScreenShareOn: boolean;
   simulcastConfig: SimulcastConfig;
   toggleAppScreenShare: (
