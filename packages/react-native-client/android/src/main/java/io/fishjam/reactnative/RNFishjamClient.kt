@@ -54,7 +54,17 @@ class RNFishjamClient(
   var isScreenShareOn = false
   var isConnected = false
 
-  private var isCameraInitialized = false
+  var isCameraInitialized = false
+    private set(value) {
+      field = value
+      emitEvent(
+        EmitableEvent.currentCameraChanged(
+          getCurrentCaptureDevice(),
+          isCameraOn,
+          value
+        )
+      )
+    }
 
   private var connectPromise: Promise? = null
   private var screenSharePermissionPromise: Promise? = null
@@ -293,7 +303,6 @@ class RNFishjamClient(
 
   suspend fun startCamera(config: CameraConfig): Boolean {
     if (isCameraInitialized) {
-      emitEvent(EmitableEvent.warning("Camera already started. You may only call startCamera once before leaveRoom is called."))
       return true
     }
     if (!PermissionUtils.requestCameraPermission(appContext)) {
@@ -325,7 +334,13 @@ class RNFishjamClient(
   ) {
     cameraTrack.setEnabled(isEnabled)
     isCameraOn = isEnabled
-    emitEvent(EmitableEvent.currentCameraChanged(cameraTrack.getCaptureDevice()?.toLocalCamera(), isEnabled))
+    emitEvent(
+      EmitableEvent.currentCameraChanged(
+        cameraTrack.getCaptureDevice()?.toLocalCamera(),
+        isEnabled,
+        isCameraInitialized
+      )
+    )
     localCameraTracksChangedListenersManager.notifyListeners()
   }
 
@@ -704,9 +719,10 @@ class RNFishjamClient(
     return res
   }
 
-  fun getStatistics(): MutableMap<String, Map<String, Any?>> {
+  suspend fun getStatistics(): Map<String, Map<String, Any?>> {
     val newMap = mutableMapOf<String, Map<String, Any?>>()
-    fishjamClient.getStats().forEach { entry ->
+    val stats = fishjamClient.getStats()
+    stats.forEach { entry ->
       newMap[entry.key] =
         if (entry.value is RTCInboundStats) {
           rtcInboundStatsToRNMap(
@@ -904,6 +920,12 @@ class RNFishjamClient(
   }
 
   override fun onCaptureDeviceChanged(captureDevice: CaptureDevice?) {
-    emitEvent(EmitableEvent.currentCameraChanged(captureDevice?.toLocalCamera(), isCameraOn))
+    emitEvent(
+      EmitableEvent.currentCameraChanged(
+        captureDevice?.toLocalCamera(),
+        isCameraOn,
+        isCameraInitialized
+      )
+    )
   }
 }

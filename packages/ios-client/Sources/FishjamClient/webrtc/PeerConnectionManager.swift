@@ -17,7 +17,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     private var connection: RTCPeerConnection?
-    private var peerConnectionStats: [String: RTCStats] = [:]
 
     private var iceServers: [RTCIceServer] = []
     private var config: RTCConfiguration?
@@ -36,9 +35,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private func getSendEncodingsFromSimulcastConfig(_ simulcastConfig: SimulcastConfig) -> [RTCRtpEncodingParameters] {
         let sendEncodings = Constants.simulcastEncodings()
         simulcastConfig.activeEncodings.forEach { encoding in
-            sendEncodings[encoding.rawValue].isActive = true
+            sendEncodings[encoding]?.isActive = true
         }
-        return sendEncodings
+        return sendEncodings.values.map { $0 }
     }
 
     public func addTrack(track: Track) {
@@ -62,58 +61,24 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         }
 
         if let maxBandwidth = (track as? LocalCameraTrack)?.videoParameters.maxBandwidth {
-            applyBitrate(encodings: sendEncodings, maxBitrate: maxBandwidth)
+            applyEncodingBitrates(encodings: sendEncodings, maxBitrate: maxBandwidth)
         }
         let transceiverInit = RTCRtpTransceiverInit()
         transceiverInit.direction = RTCRtpTransceiverDirection.sendOnly
         transceiverInit.streamIds = streamsId
         transceiverInit.sendEncodings = sendEncodings
+
+        track.sendEncodings = sendEncodings
         pc.addTransceiver(with: track.mediaTrack!, init: transceiverInit)
         pc.enforceSendOnlyDirection()
     }
 
-    private func applyBitrate(encodings: [RTCRtpEncodingParameters], maxBitrate: TrackBandwidthLimit) {
-        switch maxBitrate {
-        case .BandwidthLimit(let limit):
-            splitBitrate(encodings: encodings, bitrate: limit)
-        case .SimulcastBandwidthLimit(let limit):
-            encodings.forEach { encoding in
-                let encodingLimit = limit[encoding.rid ?? ""] ?? 0
-                encoding.maxBitrateBps = encodingLimit == 0 ? nil : (encodingLimit * 1024) as NSNumber
-            }
+    private func applyEncodingBitrates(encodings: [RTCRtpEncodingParameters], maxBitrate: TrackBandwidthLimit) {
+        let calculatedEncodings = BitrateLimiter.calculateBitrates(for: encodings, maxBitrate: maxBitrate)
+
+        for (original, calculated) in zip(encodings, calculatedEncodings) {
+            original.maxBitrateBps = calculated.maxBitrateBps
         }
-    }
-
-    private func splitBitrate(encodings: [RTCRtpEncodingParameters], bitrate: Int) {
-        if encodings.isEmpty {
-            sdkLogger.error("\(#function): Attempted to limit bandwidth of the track that doesn't have any encodings")
-            return
-        }
-
-        if bitrate == 0 {
-            encodings.forEach({ encoding in
-                encoding.maxBitrateBps = nil
-            })
-            return
-        }
-
-        let k0 = Double(
-            truncating: encodings.min(by: { a, b in
-                Double(truncating: a.scaleResolutionDownBy ?? 1) < Double(truncating: b.scaleResolutionDownBy ?? 1)
-            })?.scaleResolutionDownBy ?? 1)
-
-        let bitrateParts = encodings.reduce(
-            0.0,
-            { acc, encoding in
-                acc + pow((k0 / Double(truncating: encoding.scaleResolutionDownBy ?? 1)), 2)
-            })
-
-        let x = Double(bitrate) / bitrateParts
-
-        encodings.forEach({ encoding in
-            encoding.maxBitrateBps =
-                Int((x * pow(k0 / Double(truncating: encoding.scaleResolutionDownBy ?? 1), 2) * 1024)) as NSNumber
-        })
     }
 
     public func setTrackBandwidth(trackId: String, bandwidth: BandwidthLimit) {
@@ -129,7 +94,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         let params = sender.parameters
 
-        applyBitrate(encodings: params.encodings, maxBitrate: .BandwidthLimit(bandwidth))
+        applyEncodingBitrates(encodings: params.encodings, maxBitrate: .BandwidthLimit(bandwidth))
 
         sender.parameters = params
     }
@@ -197,7 +162,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         if let pc = connection {
             pc.close()
             connection = nil
-            peerConnectionStats = [:]
             iceServers = []
             config = nil
             midToTrackId = [:]
@@ -268,22 +232,6 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         return mapping
     }
 
-    private func getTrackIdToBitrates(localTracks: [Track]) -> [String: Int32] {
-        guard let pc = connection else {
-            return [:]
-        }
-
-        var mapping: [String: Int32] = [:]
-        pc.transceivers.forEach { transceiver in
-            guard let trackId: String = transceiver.sender.track?.trackId else {
-                return
-            }
-            mapping[trackId] = 1_500_000  // TODO(FCE-953): Change with simulcast
-        }
-
-        return mapping
-    }
-
     public func setTrackEncoding(trackId: String, encoding: TrackEncoding, enabled: Bool) {
         guard let pc = connection else {
             sdkLogger.error("\(#function): Peer connection not yet established")
@@ -304,62 +252,17 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         sender.parameters = params
     }
 
-    private func extractRelevantStats(rp: RTCStatisticsReport) {
-        rp.statistics.forEach { it1 in
-            let it = it1.value
-            if it.type == "outbound-rtp" {
-                let duration = it.values["qualityLimitationDurations"] as? [String: Double]
-                let qualityLimitation: QualityLimitationDurations = QualityLimitationDurations(
-                    bandwidth: duration?["bandwidth"] ?? 0.0,
-                    cpu: duration?["cpu"] ?? 0.0, none: duration?["none"] ?? 0.0, other: duration?["other"] ?? 0.0)
-
-                let tmp = RTCOutboundStats(
-                    kind: it.values["kind"] as? String ?? "",
-                    rid: it.values["rid"] as? String ?? "",
-                    bytesSent: it.values["bytesSent"] as? UInt ?? 0,
-                    targetBitrate: it.values["targetBitrate"] as? Double ?? 0.0,
-                    packetsSent: it.values["packetsSent"] as? UInt ?? 0,
-                    framesEncoded: it.values["framesEncoded"] as? UInt ?? 0,
-                    framesPerSecond: it.values["framesPerSecond"] as? Double ?? 0.0,
-                    frameWidth: it.values["frameWidth"] as? UInt ?? 0,
-                    frameHeight: it.values["frameHeight"] as? UInt ?? 0,
-                    qualityLimitationDurations: qualityLimitation
-                )
-
-                peerConnectionStats[it.id as String] = tmp
-            } else if it.type == "inbound-rtp" {
-                let tmp = RTCInboundStats(
-                    kind: it.values["kind"] as? String ?? "",
-                    jitter: it.values["jitter"] as? Double ?? 0.0,
-                    packetsLost: it.values["packetsLost"] as? UInt ?? 0,
-                    packetsReceived: it.values["packetsReceived"] as? UInt ?? 0,
-                    bytesReceived: it.values["bytesReceived"] as? UInt ?? 0,
-                    framesReceived: it.values["framesReceived"] as? UInt ?? 0,
-                    frameWidth: it.values["frameWidth"] as? UInt ?? 0,
-                    frameHeight: it.values["frameHeight"] as? UInt ?? 0,
-                    framesPerSecond: it.values["framesPerSecond"] as? Double ?? 0.0,
-                    framesDropped: it.values["framesDropped"] as? UInt ?? 0
-                )
-
-                peerConnectionStats[it.id as String] = tmp
-            }
-        }
-    }
-
-    public func getStats() -> [String: RTCStats] {
-        if let connection = connection {
-            connection.statistics(completionHandler: { RTCStatisticsReport in
-                self.extractRelevantStats(rp: RTCStatisticsReport)
-            })
-        }
-        return peerConnectionStats
+    public func getStats() async -> [String: RTCStats] {
+        guard let connection = connection else { return [:] }
+        return await StatsCollector.getStats(for: connection)
     }
 
     public func getSdpOffer(
         tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
         onCompletion: @escaping (
-            _ sdp: String?, _ midToTrackId: [String: String]?, _ trackIdToBitrates: [String: Int32]?, _ error: Error?
+            _ sdp: String?, _ midToTrackId: [String: String]?,
+            _ trackIdToBitrates: [String: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates]?, _ error: Error?
         ) -> Void
     ) {
 
@@ -394,7 +297,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
                             onCompletion(
                                 offer.sdp,
                                 self.getMidToTrackId(localTracks: localTracks),
-                                self.getTrackIdToBitrates(localTracks: localTracks),
+                                TrackBitratesMapper.mapTracksToProtoBitrates(localTracks: localTracks),
                                 nil)
                             return
                         }

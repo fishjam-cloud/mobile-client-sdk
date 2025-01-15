@@ -226,7 +226,7 @@ class FishjamClient(
    * Returns current connection stats
    * @return a map containing statistics
    */
-  fun getStats(): Map<String, RTCStats> = client.getStats()
+  suspend fun getStats(): Map<String, RTCStats> = client.getStats()
 
   fun getRemotePeers(): List<Peer> = client.getRemotePeers()
 

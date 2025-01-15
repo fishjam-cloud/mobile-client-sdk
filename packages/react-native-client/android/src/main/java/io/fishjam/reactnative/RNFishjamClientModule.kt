@@ -159,6 +159,10 @@ class RNFishjamClientModule : Module() {
         return@Property rnFishjamClient.reconnectionStatus.status
       }
 
+      Property("isCameraInitialized") {
+        return@Property rnFishjamClient.isCameraInitialized
+      }
+
       Function("getPeers") {
         return@Function rnFishjamClient.getPeers()
       }
@@ -301,7 +305,9 @@ class RNFishjamClientModule : Module() {
         }
       }
 
-      AsyncFunction("getStatistics") { rnFishjamClient.getStatistics() }
+      AsyncFunction("getStatistics") Coroutine { ->
+        return@Coroutine rnFishjamClient.getStatistics()
+      }
 
       AsyncFunction("startForegroundService") Coroutine { config: ForegroundServiceConfig ->
         rnFishjamClient.startForegroundService(config)

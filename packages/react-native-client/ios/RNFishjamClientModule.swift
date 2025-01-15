@@ -118,6 +118,10 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isAppScreenShareOn
         }
 
+        Property("isCameraInitialized") {
+            return rnFishjamClient.isCameraInitialized
+        }
+
         Function("getPeers") {
             return rnFishjamClient.getPeers()
         }
@@ -211,7 +215,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("getStatistics") {
-            try rnFishjamClient.getStatistics()
+            try await rnFishjamClient.getStatistics()
         }
 
         AsyncFunction("selectAudioSessionMode") { (sessionMode: String) in

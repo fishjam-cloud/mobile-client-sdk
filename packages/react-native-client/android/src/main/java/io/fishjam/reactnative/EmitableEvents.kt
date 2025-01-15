@@ -53,12 +53,14 @@ class EmitableEvent private constructor(
 
     fun currentCameraChanged(
       localCamera: LocalCamera?,
-      isCameraOn: Boolean
+      isCameraOn: Boolean,
+      isCameraInitialized: Boolean
     ) = EmitableEvent(
       EventName.CurrentCameraChanged,
       mapOf(
         "currentCamera" to localCamera,
-        "isCameraOn" to isCameraOn
+        "isCameraOn" to isCameraOn,
+        "isCameraInitialized" to isCameraInitialized
       )
     )
 

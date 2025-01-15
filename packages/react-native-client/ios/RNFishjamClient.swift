@@ -14,7 +14,13 @@ class RNFishjamClient: FishjamClientListener {
     var isAppScreenShareOn = false
     var isConnected = false
 
-    private var isCameraInitialized = false
+    private(set) var isCameraInitialized = false {
+        didSet {
+            emit(
+                event: .currentCameraChanged(
+                    localCamera: currentCamera, isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
+        }
+    }
 
     var connectPromise: Promise? = nil
 
@@ -254,11 +260,6 @@ class RNFishjamClient: FishjamClientListener {
             try ensureCreated()
 
             guard !isCameraInitialized else {
-                emit(
-                    event: .warning(
-                        message:
-                            "Camera already started. You may only call startCamera once before leaveRoom is called."))
-
                 return true
             }
 
@@ -292,7 +293,8 @@ class RNFishjamClient: FishjamClientListener {
         isCameraOn = enabled
         emit(
             event: .currentCameraChanged(
-                localCamera: cameraTrack.currentCaptureDevice?.toLocalCamera(), isCameraOn: enabled))
+                localCamera: cameraTrack.currentCaptureDevice?.toLocalCamera(), isCameraOn: enabled,
+                isCameraInitialized: isCameraInitialized))
         RNFishjamClient.localCameraTracksChangedListenersManager.notifyListeners()
     }
 
@@ -726,10 +728,11 @@ class RNFishjamClient: FishjamClientListener {
         return res
     }
 
-    func getStatistics() throws -> [String: Any] {
+    func getStatistics() async throws -> [String: Any] {
         try ensureCreated()
 
-        let stats = RNFishjamClient.fishjamClient!.getStats()
+        let stats = await RNFishjamClient.fishjamClient!.getStats()
+
         let pairs = stats.map { (key, value) in
             let rnValue =
                 value is RTCOutboundStats
@@ -912,6 +915,8 @@ class RNFishjamClient: FishjamClientListener {
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {
     func onCaptureDeviceChanged(_ device: AVCaptureDevice?) {
-        emit(event: .currentCameraChanged(localCamera: device?.toLocalCamera(), isCameraOn: isCameraOn))
+        emit(
+            event: .currentCameraChanged(
+                localCamera: device?.toLocalCamera(), isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
     }
 }
