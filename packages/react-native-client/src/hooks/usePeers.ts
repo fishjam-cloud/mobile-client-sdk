@@ -162,7 +162,7 @@ export function usePeers<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
 >() {
-  const peers = useFishjamEventState<Peer<PeerMetadata, ServerMetadata>[]>(
+  const peers = useFishjamEventState(
     ReceivableEvents.PeersUpdate,
     RNFishjamClientModule.getPeers<PeerMetadata, ServerMetadata>(),
     (peersWithoutActive) => addIsActiveToTracks(peersWithoutActive),

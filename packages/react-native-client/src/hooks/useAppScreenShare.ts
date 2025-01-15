@@ -23,12 +23,12 @@ type AppScreenShareData = {
 };
 
 function useIosAppScreenShare(): AppScreenShareData {
-  const isAppScreenShareOn = useFishjamEventState<boolean>(
+  const isAppScreenShareOn = useFishjamEventState(
     ReceivableEvents.IsAppScreenShareOn,
     RNFishjamClientModule.isAppScreenShareOn,
   );
 
-  const simulcastConfig = useFishjamEventState<SimulcastConfig>(
+  const simulcastConfig = useFishjamEventState(
     ReceivableEvents.SimulcastConfigUpdate,
     screenShareSimulcastConfig,
   );

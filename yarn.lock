@@ -2933,6 +2933,7 @@ __metadata:
     typedoc: "npm:^0.27.4"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
     typescript: "npm:^5.7.2"
+    zod: "npm:^3.24.1"
   peerDependencies:
     expo: "*"
     react: "*"
@@ -18674,5 +18675,12 @@ __metadata:
     compress-commons: "npm:^6.0.2"
     readable-stream: "npm:^4.0.0"
   checksum: 10c0/50f2fb30327fb9d09879abf7ae2493705313adf403e794b030151aaae00009162419d60d0519e807673ec04d442e140c8879ca14314df0a0192de3b233e8f28b
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.24.1":
+  version: 3.24.1
+  resolution: "zod@npm:3.24.1"
+  checksum: 10c0/0223d21dbaa15d8928fe0da3b54696391d8e3e1e2d0283a1a070b5980a1dbba945ce631c2d1eccc088fdbad0f2dfa40155590bf83732d3ac4fcca2cc9237591b
   languageName: node
   linkType: hard

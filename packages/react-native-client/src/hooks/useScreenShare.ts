@@ -40,12 +40,12 @@ let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
  * @group Hooks
  */
 export function useScreenShare() {
-  const isScreenShareOn = useFishjamEventState<boolean>(
+  const isScreenShareOn = useFishjamEventState(
     ReceivableEvents.IsScreenShareOn,
     RNFishjamClientModule.isScreenShareOn,
   );
 
-  const simulcastConfig = useFishjamEventState<SimulcastConfig>(
+  const simulcastConfig = useFishjamEventState(
     ReceivableEvents.SimulcastConfigUpdate,
     screenShareSimulcastConfig,
   );

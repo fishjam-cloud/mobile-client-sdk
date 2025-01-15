@@ -31,12 +31,12 @@ export type ReconnectionStatus = 'idle' | 'reconnecting' | 'error';
 export type PeerStatus = 'connecting' | 'connected' | 'error' | 'idle';
 
 function useConnectionStatus() {
-  const peerStatus = useFishjamEventState<PeerStatus>(
+  const peerStatus = useFishjamEventState(
     ReceivableEvents.PeerStatusChanged,
     RNFishjamClientModule.peerStatus,
   );
 
-  const reconnectionStatus = useFishjamEventState<ReconnectionStatus>(
+  const reconnectionStatus = useFishjamEventState(
     ReceivableEvents.ReconnectionStatusChanged,
     RNFishjamClientModule.reconnectionStatus,
   );

@@ -1,14 +1,19 @@
 import { requireNativeModule } from 'expo-modules-core';
 
 import type { NativeModule } from 'expo-modules-core/types';
+import type { ConnectionConfig } from './common/client';
 import type { RTCStats } from './debug/stats/types';
-import type { GenericMetadata, SimulcastConfig } from './types';
-import type { CameraConfigInternal, Camera } from './hooks/useCamera';
+import type { OnAudioDeviceEvent } from './hooks/useAudioSettings';
+import type {
+  Camera,
+  CameraConfigInternal,
+  CurrentCameraChangedType,
+} from './hooks/useCamera';
+import type { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
+import type { ForegroundServiceConfig } from './hooks/useForegroundService';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
-import type { ConnectionConfig } from './common/client';
-import { ForegroundServiceConfig } from './hooks/useForegroundService';
-import { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
+import type { GenericMetadata, SimulcastConfig } from './types';
 
 type Metadata = { [key: string]: unknown };
 
@@ -89,7 +94,6 @@ export const ReceivableEvents = {
   SimulcastConfigUpdate: 'SimulcastConfigUpdate',
   PeersUpdate: 'PeersUpdate',
   AudioDeviceUpdate: 'AudioDeviceUpdate',
-  SendMediaEvent: 'SendMediaEvent',
   BandwidthEstimation: 'BandwidthEstimation',
   ReconnectionRetriesLimitReached: 'ReconnectionRetriesLimitReached',
   ReconnectionStarted: 'ReconnectionStarted',
@@ -100,8 +104,27 @@ export const ReceivableEvents = {
   CurrentCameraChanged: 'CurrentCameraChanged',
 } as const;
 
+export type ReceivableEventPayloads = {
+  [ReceivableEvents.IsMicrophoneOn]: boolean;
+  [ReceivableEvents.IsScreenShareOn]: boolean;
+  [ReceivableEvents.IsAppScreenShareOn]: boolean;
+  [ReceivableEvents.SimulcastConfigUpdate]: SimulcastConfig;
+  [ReceivableEvents.PeersUpdate]: Peer<GenericMetadata, GenericMetadata>[];
+  [ReceivableEvents.AudioDeviceUpdate]: OnAudioDeviceEvent;
+  [ReceivableEvents.BandwidthEstimation]: number | null;
+  [ReceivableEvents.ReconnectionRetriesLimitReached]: void;
+  [ReceivableEvents.ReconnectionStarted]: void;
+  [ReceivableEvents.Reconnected]: void;
+  [ReceivableEvents.Warning]: string;
+  [ReceivableEvents.PeerStatusChanged]: PeerStatus;
+  [ReceivableEvents.ReconnectionStatusChanged]: ReconnectionStatus;
+  [ReceivableEvents.CurrentCameraChanged]: CurrentCameraChangedType;
+};
+
 export default requireNativeModule('RNFishjamClient') as RNFishjamClient &
   NativeModule<
-    // TODO: Make event arguments typesafe instead of generic.
-    Record<keyof typeof ReceivableEvents, <T>(...args: T[]) => void>
+    Record<
+      keyof typeof ReceivableEvents,
+      (payload: ReceivableEventPayloads) => void
+    >
   >;

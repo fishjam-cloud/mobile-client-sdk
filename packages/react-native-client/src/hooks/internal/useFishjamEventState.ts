@@ -1,11 +1,17 @@
 import { useCallback, useState } from 'react';
 import { useFishjamEvent } from './useFishjamEvent';
-import { ReceivableEvents } from '../../RNFishjamClientModule';
+import {
+  ReceivableEventPayloads,
+  ReceivableEvents,
+} from '../../RNFishjamClientModule';
 
-export function useFishjamEventState<EventType, StateType = EventType>(
-  eventName: keyof typeof ReceivableEvents,
-  defaultValue: EventType,
-  transform?: (eventValue: EventType) => StateType,
+export function useFishjamEventState<
+  EventName extends keyof typeof ReceivableEvents,
+  StateType = ReceivableEventPayloads[EventName],
+>(
+  eventName: EventName,
+  defaultValue: ReceivableEventPayloads[EventName],
+  transform?: (eventValue: ReceivableEventPayloads[EventName]) => StateType,
 ) {
   const [value, setValue] = useState<StateType>(
     transform
@@ -14,7 +20,7 @@ export function useFishjamEventState<EventType, StateType = EventType>(
   );
 
   const onEvent = useCallback(
-    (newValue: EventType) => {
+    (newValue: ReceivableEventPayloads[EventName]) => {
       if (transform) {
         setValue(transform(newValue));
       } else {
@@ -24,7 +30,7 @@ export function useFishjamEventState<EventType, StateType = EventType>(
     [transform],
   );
 
-  useFishjamEvent(eventName, onEvent);
+  useFishjamEvent<EventName>(eventName, onEvent);
 
   return value;
 }
