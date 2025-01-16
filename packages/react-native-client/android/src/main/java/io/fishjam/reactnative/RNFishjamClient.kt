@@ -354,7 +354,7 @@ class RNFishjamClient(
       return
     }
 
-    val microphoneTrack = fishjamClient.createAudioTrack(emptyMap())
+    val microphoneTrack = fishjamClient.createAudioTrack(getMicrophoneTrackMetadata())
     setMicrophoneTrackState(microphoneTrack, true)
     emitEndpoints()
   }
@@ -375,16 +375,17 @@ class RNFishjamClient(
       getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
     }
 
-    updateLocalAudioTrackMetadata(
-      mapOf(
-        "active" to isMicrophoneOn,
-        "paused" to !isMicrophoneOn, // TODO: FCE-711,
-        "type" to "microphone"
-      )
-    )
+    updateLocalAudioTrackMetadata(getMicrophoneTrackMetadata())
 
     return isMicrophoneOn
   }
+
+  private fun getMicrophoneTrackMetadata(): Map<String, Any> =
+    mapOf(
+      "active" to isMicrophoneOn,
+      "paused" to !isMicrophoneOn, // TODO: FCE-711,
+      "type" to "microphone"
+    )
 
   fun handleScreenSharePermission(promise: Promise) {
     screenSharePermissionPromise = promise
