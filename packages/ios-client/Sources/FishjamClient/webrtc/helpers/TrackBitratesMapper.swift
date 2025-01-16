@@ -6,9 +6,7 @@ struct TrackBitratesMapper {
     {
         Dictionary(
             uniqueKeysWithValues: localTracks.compactMap {
-                t -> (String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates)? in
-                guard let track = t as? LocalCameraTrack else { return nil }
-
+                track -> (String, Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates)? in
                 let bitrates: [Fishjam_MediaEvents_Peer_MediaEvent.VariantBitrate] = track.sendEncodings.compactMap {
                     param in
                     guard let ridString = param.rid else { return nil }

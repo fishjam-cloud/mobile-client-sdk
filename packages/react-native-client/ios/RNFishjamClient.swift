@@ -308,11 +308,7 @@ class RNFishjamClient: FishjamClientListener {
             try await startMicrophone()
         }
 
-        try updateLocalAudioTrackMetadata(metadata: [
-            "active": isMicrophoneOn,
-            "paused": !isMicrophoneOn,  //TODO: FCE-711
-            "type": "microphone",
-        ])
+        try updateLocalAudioTrackMetadata(metadata: getMicrophoneTrackMetadata())
 
         return isMicrophoneOn
     }
@@ -322,10 +318,19 @@ class RNFishjamClient: FishjamClientListener {
             emit(event: .warning(message: "Microphone permission not granted."))
             return
         }
-        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(metadata: Metadata())
+        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
+            metadata: getMicrophoneTrackMetadata().toMetadata())
         setAudioSessionMode()
         setMicrophoneTrackState(microphoneTrack, enabled: true)
         emitEndpoints()
+    }
+
+    private func getMicrophoneTrackMetadata() -> [String: Any] {
+        return [
+            "active": isMicrophoneOn,
+            "paused": !isMicrophoneOn,  //TODO: FCE-711
+            "type": "microphone",
+        ]
     }
 
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) {
