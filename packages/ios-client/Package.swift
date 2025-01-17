@@ -26,9 +26,6 @@ let package = Package(
         .package(
             name: "Promises", url: "https://github.com/google/promises.git", .upToNextMajor(from: "2.0.0")
         ),
-        .package(
-            name: "SwiftPhoenixClient", url: "https://github.com/davidstump/SwiftPhoenixClient.git",
-            .upToNextMajor(from: "5.0.0")),
         .package(url: "https://github.com/apple/swift-log.git", .upToNextMajor(from: "1.4.2")),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
 
@@ -39,7 +36,7 @@ let package = Package(
         .target(
             name: "FishjamClient",
             dependencies: [
-                "WebRTC", "SwiftProtobuf", "Promises", "SwiftPhoenixClient",
+                "WebRTC", "SwiftProtobuf", "Promises",
                 .product(name: "Starscream", package: "Starscream"),
                 .product(name: "FBLPromises", package: "Promises"),
                 .product(name: "Logging", package: "swift-log"),
