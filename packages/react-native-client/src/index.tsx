@@ -1,7 +1,13 @@
 import { initializeWarningListener } from './utils/errorListener';
 
 // #region types
-export type { SimulcastConfig, VideoLayout } from './types';
+export type {
+  SimulcastConfig,
+  VideoLayout,
+  GenericMetadata,
+  TrackMetadata,
+  Brand,
+} from './types';
 export type { ConnectionConfig } from './common/client';
 // #endregion
 
@@ -38,6 +44,7 @@ export type {
   UsePeersResult,
   PeerWithTracks,
   PeerTrackMetadata,
+  DistinguishedTracks,
 } from './hooks/usePeers';
 
 export type {
@@ -52,6 +59,7 @@ export type {
   CameraConfig,
   VideoQuality,
   CameraFacingDirection,
+  CameraConfigBase,
 } from './hooks/useCamera';
 
 export type {
@@ -64,6 +72,7 @@ export type {
   ReconnectionStatus,
   PeerStatus,
 } from './hooks/useConnection';
+export type { AppScreenShareData } from './hooks/useAppScreenShare';
 // #endregion
 
 // #region hooks
