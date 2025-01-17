@@ -3085,7 +3085,6 @@ __metadata:
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.0.1"
     "@types/lodash": "npm:^4.17.14"
-    "@types/phoenix": "npm:^1.6.5"
     "@types/promise-fs": "npm:^2.1.2"
     "@types/react": "npm:^18.3.12"
     expo-module-scripts: "npm:^4.0.3"
@@ -3094,7 +3093,6 @@ __metadata:
     jest-environment-jsdom: "npm:^29.6.1"
     jest-expo: "npm:~52.0.2"
     jest-websocket-mock: "npm:^2.4.0"
-    phoenix: "npm:^1.7.6"
     pod-install: "npm:^0.3.4"
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
@@ -5104,13 +5102,6 @@ __metadata:
   version: 2.4.4
   resolution: "@types/normalize-package-data@npm:2.4.4"
   checksum: 10c0/aef7bb9b015883d6f4119c423dd28c4bdc17b0e8a0ccf112c78b4fe0e91fbc4af7c6204b04bba0e199a57d2f3fbbd5b4a14bf8739bf9d2a39b2a0aad545e0f86
-  languageName: node
-  linkType: hard
-
-"@types/phoenix@npm:^1.6.5":
-  version: 1.6.5
-  resolution: "@types/phoenix@npm:1.6.5"
-  checksum: 10c0/a5a6bb468c1596905fd6d1d493fd468cb0b325b0d09573845e01124d65267e606ad9c526701201e2e30d334721108e5e1b98e4fe9dc9d6270eb2f90042cc7bda
   languageName: node
   linkType: hard
 
@@ -15139,13 +15130,6 @@ __metadata:
   version: 1.2.0
   resolution: "pend@npm:1.2.0"
   checksum: 10c0/8a87e63f7a4afcfb0f9f77b39bb92374afc723418b9cb716ee4257689224171002e07768eeade4ecd0e86f1fa3d8f022994219fb45634f2dbd78c6803e452458
-  languageName: node
-  linkType: hard
-
-"phoenix@npm:^1.7.6":
-  version: 1.7.14
-  resolution: "phoenix@npm:1.7.14"
-  checksum: 10c0/df1fd7c5023474f35d38dafc3185c80351de2c9b3fdba1684ef60bac71759e5b6d931811f61059eb9579b0b85fd912a31af6ddc6c25f1b23c460093cd377b72f
   languageName: node
   linkType: hard
 

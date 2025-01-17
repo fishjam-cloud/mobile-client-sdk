@@ -28,7 +28,6 @@ Pod::Spec.new do |s|
   s.dependency 'SwiftProtobuf', '~> 1.18.0'
   s.dependency 'Starscream', '~> 4.0.0'
   s.dependency 'PromisesSwift'
-  s.dependency 'SwiftPhoenixClient', '~> 5.0.0'
   s.dependency 'SwiftLogJellyfish', '1.5.2'
 
   s.subspec "Broadcast" do |spec|

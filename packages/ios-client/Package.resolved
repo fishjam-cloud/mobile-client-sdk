@@ -72,15 +72,6 @@
           "revision": "ce20dc083ee485524b802669890291c0d8090170",
           "version": "1.22.1"
         }
-      },
-      {
-        "package": "SwiftPhoenixClient",
-        "repositoryURL": "https://github.com/davidstump/SwiftPhoenixClient.git",
-        "state": {
-          "branch": null,
-          "revision": "588bf6baab5d049752748e19a4bff32421ea40ec",
-          "version": "5.3.2"
-        }
       }
     ]
   },
