@@ -1,8 +1,11 @@
 {
-  "entryPoints": ["packages/*"],
+  "entryPoints": ["packages/react-native-client/*"],
   "name": "Fishjam Mobile SDK",
   "entryPointStrategy": "packages",
   "includeVersion": true,
   "plugin": ["typedoc-material-theme"],
-  "themeColor": "#FCF6E7"
+  "themeColor": "#FCF6E7",
+  "readme": "none",
+  "treatValidationWarningsAsErrors": true,
+  "treatWarningsAsErrors": true
 }

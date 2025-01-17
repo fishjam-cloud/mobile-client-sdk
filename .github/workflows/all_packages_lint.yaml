@@ -5,22 +5,32 @@ jobs:
   types_and_lint:
     runs-on: macos-14
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js 22
+
+      - name: Use Node 22 🛎️
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
           cache: "npm"
+
       - name: Use corepack
         run: corepack enable
-      - name: Install deps
+
+      - name: Install system deps 🍎
         run: brew install swift-format xcbeautify ktlint
-      - name: Install node dependencies
+
+      - name: Install node dependencies ⬇️
         run: yarn
-      - name: Build Types
+
+      - name: Build Types 📦
         run: yarn build
-      - name: Check types
+
+      - name: Check types 🚓
         run: yarn tsc
-      - name: Lint
+
+      - name: Run linter (and check formatting) 👮
         run: yarn lint:check
+
+      - name: Run docs generation 📘
+        run: yarn docs
