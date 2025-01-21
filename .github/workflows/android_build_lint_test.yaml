@@ -7,7 +7,7 @@ on:
 
 jobs:
   android_build_and_lint:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v4
 

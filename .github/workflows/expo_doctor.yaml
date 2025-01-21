@@ -3,7 +3,7 @@ on:
   pull_request:
 jobs:
   expo_doctor:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v4

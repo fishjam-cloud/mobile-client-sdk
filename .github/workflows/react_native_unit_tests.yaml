@@ -3,7 +3,7 @@ on:
   pull_request:
 jobs:
   rn-client-unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     steps:
       - name: checkout
         uses: actions/checkout@v4

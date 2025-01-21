@@ -10,7 +10,7 @@ on:
 
 jobs:
   rn_e2e_android:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 40
     permissions:
       contents: read
