@@ -47,7 +47,7 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
-    "@types/lodash": "^4.17.14",
+    "@types/lodash": "^4.17.15",
     "@types/promise-fs": "^2.1.2",
     "@types/react": "^18.3.12",
     "expo-module-scripts": "^4.0.3",
