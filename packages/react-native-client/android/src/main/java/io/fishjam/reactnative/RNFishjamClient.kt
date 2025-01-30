@@ -85,7 +85,6 @@ class RNFishjamClient(
             peerStatus = PeerStatus.Error
           }
         }
-
       }
     }
   private var screenSharePermissionPromise: Promise? = null

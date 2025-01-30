@@ -25,7 +25,7 @@ class RNFishjamClient: FishjamClientListener {
     var connectPromise: Promise? = nil {
         didSet {
             guard connectPromise != nil else { return }
-            
+
             let timeout = DispatchTime.now() + .seconds(15)
             DispatchQueue.main.asyncAfter(deadline: timeout) { [weak self] in
                 // If promise is still assigned it means it was not resolved in that time,
