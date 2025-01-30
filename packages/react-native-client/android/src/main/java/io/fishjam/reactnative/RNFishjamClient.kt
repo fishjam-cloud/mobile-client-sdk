@@ -41,6 +41,7 @@ import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.webrtc.Logging
 
@@ -68,6 +69,25 @@ class RNFishjamClient(
     }
 
   private var connectPromise: Promise? = null
+    private set(value) {
+      field = value
+      if (value == null) {
+        return
+      }
+      coroutineScope.launch {
+        delay(15000)
+        // If promise is still assigned it means it was not resolved in that time,
+        // so close the client and reject it with timeout error
+        connectPromise?.let { promise ->
+          fishjamClient.leave {
+            promise.reject(SocketError("Failed to connect: socket timeout"))
+            connectPromise = null
+            peerStatus = PeerStatus.Error
+          }
+        }
+
+      }
+    }
   private var screenSharePermissionPromise: Promise? = null
 
   var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
