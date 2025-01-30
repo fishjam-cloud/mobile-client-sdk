@@ -22,7 +22,23 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    var connectPromise: Promise? = nil
+    var connectPromise: Promise? = nil {
+        didSet {
+            guard connectPromise != nil else { return }
+            
+            let timeout = DispatchTime.now() + .seconds(15)
+            DispatchQueue.main.asyncAfter(deadline: timeout) { [weak self] in
+                // If promise is still assigned it means it was not resolved in that time,
+                // so close the client and reject it with timeout error.
+                guard let promise = self?.connectPromise else { return }
+                RNFishjamClient.fishjamClient?.leave { [weak self] in
+                    promise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket timeout")
+                    self?.connectPromise = nil
+                    self?.peerStatus = .error
+                }
+            }
+        }
+    }
 
     var videoSimulcastConfig: SimulcastConfig = SimulcastConfig()
 

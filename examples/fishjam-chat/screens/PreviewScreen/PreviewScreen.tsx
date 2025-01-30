@@ -75,20 +75,23 @@ function PreviewScreen({
   }, [prepareCamera, navigation, leaveRoom]);
 
   const onJoinPressed = async () => {
-    await joinRoom<PeerMetadata>({
-      url: route.params.fishjamUrl,
-      peerToken: route.params.peerToken,
-      peerMetadata: {
-        displayName: route.params.userName,
-      },
-    });
+    try {
+      await joinRoom<PeerMetadata>({
+        url: route.params.fishjamUrl,
+        peerToken: route.params.peerToken,
+        peerMetadata: {
+          displayName: route.params.userName,
+        },
+      });
+      unsubscribeBeforeRemove();
 
-    unsubscribeBeforeRemove();
-
-    navigation.navigate('Room', {
-      isCameraOn,
-      userName: route?.params?.userName,
-    });
+      navigation.navigate('Room', {
+        isCameraOn,
+        userName: route?.params?.userName,
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
