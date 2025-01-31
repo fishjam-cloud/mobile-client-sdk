@@ -32,7 +32,7 @@ class RNFishjamClient: FishjamClientListener {
                 // so close the client and reject it with timeout error.
                 guard let promise = self?.connectPromise else { return }
                 RNFishjamClient.fishjamClient?.leave { [weak self] in
-                    promise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket timeout")
+                    promise.reject("E_MEMBRANE_CONNECT", "Failed to connect: Fishjam server is not responding")
                     self?.connectPromise = nil
                     self?.peerStatus = .error
                 }

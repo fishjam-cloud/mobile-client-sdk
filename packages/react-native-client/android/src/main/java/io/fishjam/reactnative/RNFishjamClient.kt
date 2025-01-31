@@ -80,7 +80,7 @@ class RNFishjamClient(
         // so close the client and reject it with timeout error
         connectPromise?.let { promise ->
           fishjamClient.leave {
-            promise.reject(SocketError("Failed to connect: socket timeout"))
+            promise.reject(SocketError("Failed to connect: Fishjam server is not responding"))
             connectPromise = null
             peerStatus = PeerStatus.Error
           }

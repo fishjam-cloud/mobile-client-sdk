@@ -90,7 +90,7 @@ function PreviewScreen({
         userName: route?.params?.userName,
       });
     } catch (e) {
-      console.error(e);
+      console.warn(e);
     }
   };
 

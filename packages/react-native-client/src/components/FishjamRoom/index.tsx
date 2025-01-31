@@ -46,7 +46,7 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
           server: {},
         });
       } catch (e) {
-        console.error(e);
+        console.warn(e);
       }
     };
     join();
