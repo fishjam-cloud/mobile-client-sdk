@@ -25,6 +25,11 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
             updateVideoTrack()
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        videoView.frame = self.frame
+    }
 
     func updateVideoTrack() {
         DispatchQueue.main.async { [weak self] in
