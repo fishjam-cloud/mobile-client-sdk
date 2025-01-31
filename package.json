@@ -19,11 +19,11 @@
     "@react-native/eslint-plugin": "^0.76.6",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.2",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react-hooks": "^5.1.0",
     "prettier": "^3.4.2",
     "typedoc": "^0.27.6",
-    "typedoc-material-theme": "^1.2.0"
+    "typedoc-material-theme": "^1.3.0"
   },
   "scripts": {
     "setup": "sh ./scripts/init.sh",
