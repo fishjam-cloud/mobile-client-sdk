@@ -35,15 +35,19 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
 
   useEffect(() => {
     const join = async () => {
-      await prepareCamera({
-        simulcastEnabled: true,
-        quality: 'HD169',
-        cameraEnabled: true,
-      });
-      await joinRoom(fishjamUrl, peerToken, {
-        peer: {},
-        server: {},
-      });
+      try {
+        await prepareCamera({
+          simulcastEnabled: true,
+          quality: 'HD169',
+          cameraEnabled: true,
+        });
+        await joinRoom(fishjamUrl, peerToken, {
+          peer: {},
+          server: {},
+        });
+      } catch (e) {
+        console.warn(e);
+      }
     };
     join();
     return () => {
