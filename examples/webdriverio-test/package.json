@@ -18,10 +18,10 @@
     "@wdio/local-runner": "^8.41.0",
     "@wdio/mocha-framework": "^8.41.0",
     "@wdio/spec-reporter": "^8.41.0",
-    "appium-xcuitest-driver": "^7.35.1",
+    "appium-xcuitest-driver": "^8.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.7.3",
-    "webdriverio": "^9.5.7"
+    "webdriverio": "^9.7.2"
   },
   "dependencies": {
     "dotenv": "^16.4.7"
