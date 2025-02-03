@@ -45,6 +45,11 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
         }
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        videoView.frame = self.frame
+    }
+
     var videoLayout: String = "FILL" {
         didSet {
             switch videoLayout {
