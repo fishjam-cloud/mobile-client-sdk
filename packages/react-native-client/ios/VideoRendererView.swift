@@ -25,7 +25,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
             updateVideoTrack()
         }
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         videoView.frame = self.frame
