@@ -47,7 +47,7 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        videoView.frame = self.frame
+        videoView.frame = bounds
     }
 
     var videoLayout: String = "FILL" {
