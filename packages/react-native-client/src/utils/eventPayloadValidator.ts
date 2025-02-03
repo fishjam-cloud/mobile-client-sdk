@@ -4,19 +4,9 @@ import {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
 
-const TrackMetadataSchema = z.object({
-  active: z.boolean(),
-  type: z.enum([
-    'microphone',
-    'camera',
-    'screenShareVideo',
-    'screenShareAudio',
-  ]),
-});
-
 const BaseTrackSchema = z.object({
   id: z.string(),
-  metadata: TrackMetadataSchema.optional(),
+  metadata: z.object({}).passthrough(),
 });
 
 const AudioTrackSchema = BaseTrackSchema.extend({
@@ -37,7 +27,7 @@ const PeerSchema = z.object({
   id: z.string(),
   isLocal: z.boolean(),
   tracks: z.array(TrackSchema),
-  metadata: z.record(z.any()),
+  metadata: z.object({}).passthrough(),
 });
 
 const SimulcastConfigSchema = z.object({
