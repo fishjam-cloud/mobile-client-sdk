@@ -12,6 +12,7 @@ const withFishjamForegroundService: ConfigPlugin = (config) =>
         'android:name':
           'io.fishjam.reactnative.foregroundService.FishjamForegroundService',
         'android:foregroundServiceType': 'camera|microphone|mediaProjection',
+        'android:stopWithTask': 'true',
       },
     };
 
