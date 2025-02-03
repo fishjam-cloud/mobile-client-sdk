@@ -16,7 +16,18 @@ jobs:
           pod trunk push --allow-warnings
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+  publish-android-client:
+    # Packages built by Jitpack are not immediately available upon the creation of a tag or branch.
+    # Instead, availability occurs when an initial attempt is made to download the specified tag or branch.
+    # This mechanism ensures that Jitpack only builds a package when it is first requested and efficiently handles the generation of newly released versions.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch POM file
+        run: corepack enable && yarn jitpack-cache ${{ github.ref_name }}
+        working-directory: packages/android-client
   publish-react-native-client:
+    needs: [publish-ios-client, publish-android-client]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -31,13 +42,3 @@ jobs:
         working-directory: packages/react-native-client
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  publish-android-client:
-    # Packages built by Jitpack are not immediately available upon the creation of a tag or branch.
-    # Instead, availability occurs when an initial attempt is made to download the specified tag or branch.
-    # This mechanism ensures that Jitpack only builds a package when it is first requested and efficiently handles the generation of newly released versions.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Fetch POM file
-        run: yarn jitpack-cache ${{ github.ref_name }}
-        working-directory: packages/android-client
