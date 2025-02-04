@@ -23,8 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - name: Fetch POM file
-        run: corepack enable && yarn jitpack-cache ${{ github.ref_name }}
+        run: yarn jitpack-cache ${{ github.ref_name }}
         working-directory: packages/android-client
   publish-react-native-client:
     needs: [publish-ios-client, publish-android-client]
