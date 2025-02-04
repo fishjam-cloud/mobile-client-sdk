@@ -26,15 +26,10 @@ class VideoPreviewView(
     super.setupTrack()
   }
 
-  override fun dispose() {
-    videoView.let { localVideoTrack?.removeRenderer(it) }
-    super.dispose()
-  }
-
   override fun onDetachedFromWindow() {
     RNFishjamClient.localCameraTracksChangedListenersManager.remove(this)
+    videoView.let { localVideoTrack?.removeRenderer(it) }
     super.onDetachedFromWindow()
-    dispose()
   }
 
   override fun onAttachedToWindow() {
