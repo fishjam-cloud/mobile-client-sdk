@@ -102,4 +102,11 @@ interface FishjamClientListener : ReconnectionManagerListener {
   fun onBandwidthEstimationChanged(estimation: Long) {
     Timber.i("Bandwidth estimation changed: $estimation")
   }
+
+  /**
+   * Called after a SDP offer has been created.
+   *
+   * @param codecs - a list of strings with supported codecs by the device
+   */
+  fun onCodecsOffered(codecs: List<String>)
 }

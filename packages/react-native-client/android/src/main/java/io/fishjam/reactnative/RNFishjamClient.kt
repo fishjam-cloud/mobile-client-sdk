@@ -927,4 +927,13 @@ class RNFishjamClient(
       )
     )
   }
+
+  override fun onCodecsOffered(codecs: List<String>) {
+    // TODO: Remove when ex_webrtc adds support for both VP8 and H264
+    // Right now all rooms on Sandbox are created with H264. Android emulators
+    // usually won't support this, so let's inform users for now why stream is not working.
+    if (!codecs.contains("H264")) {
+      emitEvent(EmitableEvent.warning("H264 codec is not supported on your device. Video won't be sent/received."))
+    }
+  }
 }

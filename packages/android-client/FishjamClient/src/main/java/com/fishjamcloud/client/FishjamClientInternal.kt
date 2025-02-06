@@ -658,6 +658,9 @@ internal class FishjamClientInternal(
           TrackBitratesMapper.mapTracksToProtoBitrates(localEndpoint.tracks)
         )
         peerConnectionManager.onSentSdpOffer()
+
+        val codecs = parseCodecsFromSdp(offer.description)
+        listener.onCodecsOffered(codecs)
       } catch (e: Exception) {
         Timber.e(e, "Failed to create an sdp offer")
       }
@@ -854,4 +857,15 @@ internal class FishjamClientInternal(
       )
     }
   }
+
+  private fun parseCodecsFromSdp(sdp: String): List<String> =
+    sdp
+      .split("\r\n")
+      .filter { it.startsWith("a=rtpmap:") }
+      // These are not actual video codecs
+      .filterNot { it.contains("rtx/") || it.contains("red/") || it.contains("ulpfec/") }
+      .map { line ->
+        // Format is "a=rtpmap:<payload-type> <codec>/<clock-rate>"
+        line.split(" ")[1].split("/")[0]
+      }
 }
