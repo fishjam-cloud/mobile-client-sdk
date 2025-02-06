@@ -80,4 +80,11 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
             videoView.checkVisibilityTimeInterval = checkVisibilityTimeInterval
         }
     }
+    
+    func didChange(dimensions: FishjamCloudClient.Dimensions) {
+        sendEvent("onResolutionChanged", [
+            "width": dimensions.width,
+            "height": dimensions.height
+        ])
+    }
 }
