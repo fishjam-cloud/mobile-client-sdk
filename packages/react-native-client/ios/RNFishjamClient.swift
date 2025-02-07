@@ -519,6 +519,7 @@ class RNFishjamClient: FishjamClientListener {
                             "metadata": track.metadata.toDict(),
                             "encoding": track.encoding?.description,
                             "encodingReason": track.encodingReason?.rawValue,
+                            "dimensions": track.dimensions.toDict()
                         ]
 
                     case let track as RemoteAudioTrack:

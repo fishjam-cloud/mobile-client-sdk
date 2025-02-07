@@ -8,9 +8,11 @@ open class VideoTrack: Track {
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
     }
 
-    internal var videoTrack: RTCVideoTrack {
+    var videoTrack: RTCVideoTrack {
         return self.mediaTrack as! RTCVideoTrack
     }
+    
+    public internal(set) var dimensions: Dimensions?
     /**
      * Every track can have 2 ids:
      * - the one from rtc engine in the form of <peerid>:<trackid>

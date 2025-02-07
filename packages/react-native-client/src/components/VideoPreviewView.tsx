@@ -18,6 +18,11 @@ export type VideoPreviewViewProps = {
    * @default the first front camera
    */
   cameraId?: CameraId;
+
+  /**
+   * Callback that is called when the dimensions of the underlying track change.
+   */
+  onDimensionsChanged?: (dimensions: { width: number; height: number }) => void;
 };
 
 const NativeView: React.ComponentType<VideoPreviewViewProps> =

@@ -8,6 +8,8 @@ const createGridTracksFromPeer = (
   const tracks: GridTrack[] = [];
 
   if (peer.cameraTrack && peer.cameraTrack.isActive) {
+    console.log({ dimensions: peer.cameraTrack.dimensions });
+
     tracks.push({
       ...peer.cameraTrack,
       peerId: peer.id,

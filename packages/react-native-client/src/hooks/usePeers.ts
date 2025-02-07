@@ -38,6 +38,7 @@ export type AudioTrack = TrackBase & {
 
 export type VideoTrack = TrackBase & {
   type: 'Video';
+  dimensions: { width: number; height: number } | undefined;
 };
 
 export type Track = VideoTrack | AudioTrack;

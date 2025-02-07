@@ -18,13 +18,6 @@ public class VideoRendererViewModule: Module {
             Prop("skipRenderOutsideVisibleArea") { (view, skipRenderOutsideVisibleArea) in
                 view.checkVisibilityTimeInterval = skipRenderOutsideVisibleArea ? 1 : nil
             }
-            
-            AsyncFunction("getCurrentDimensions") { (renderView: VideoRendererView) -> [String: Int32] in
-                [
-                    "width": renderView.videoView.dimensions?.width ?? 0,
-                    "height": renderView.videoView.dimensions?.height ?? 0
-                ]
-            }
         }
     }
 }

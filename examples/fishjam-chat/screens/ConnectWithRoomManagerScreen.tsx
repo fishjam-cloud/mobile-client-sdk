@@ -30,10 +30,10 @@ export default function ConnectScreen({ navigation }: Props) {
 
   const [roomManagerUrl, setRoomManagerUrl] = useState(
     process.env.EXPO_PUBLIC_ROOM_MANAGER_URL ??
-      'https://fishjam.io/api/v1/connect/ac6624ea6bc14104a1b340d5dffc8dbd/room-manager',
+      'https://room.fishjam.io/api/rooms',
   );
-  const [roomName, setRoomName] = useState('xd');
-  const [userName, setUserName] = useState('test');
+  const [roomName, setRoomName] = useState('test');
+  const [userName, setUserName] = useState('test-mob');
 
   const onTapConnectButton = async () => {
     try {

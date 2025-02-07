@@ -54,6 +54,7 @@ public class VideoView: UIView {
             shouldLayout()
 
             guard let dimensions = dimensions else { return }
+            track?.dimensions = dimensions
             delegate?.didChange(dimensions: dimensions)
         }
     }
