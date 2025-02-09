@@ -8,14 +8,13 @@ const createGridTracksFromPeer = (
   const tracks: GridTrack[] = [];
 
   if (peer.cameraTrack && peer.cameraTrack.isActive) {
-    console.log({ dimensions: peer.cameraTrack.dimensions });
-
     tracks.push({
       ...peer.cameraTrack,
       peerId: peer.id,
       isLocal: peer.isLocal,
       userName: peer.metadata.peer?.displayName,
       isVadActive: peer.microphoneTrack?.vadStatus === 'speech',
+      aspectRatio: peer.cameraTrack.aspectRatio,
     });
   }
 
@@ -26,6 +25,7 @@ const createGridTracksFromPeer = (
       isLocal: peer.isLocal,
       userName: peer.metadata.peer?.displayName,
       isVadActive: peer.screenShareAudioTrack?.vadStatus === 'speech',
+      aspectRatio: peer.screenShareVideoTrack.aspectRatio,
     });
   }
 

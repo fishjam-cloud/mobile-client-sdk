@@ -3,20 +3,15 @@ import ExpoModulesCore
 import FishjamCloudClient
 
 class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
-    enum Event: String {
-        case onDimensionsChanged
-    }
-    
-    var videoView: VideoView!
-    var cancellableEndpoints: Cancellable?
-    
-    let onDimensionsChanged = EventDispatcher(Event.onDimensionsChanged.rawValue)
-
+    let videoView: VideoView
+        
     required init(appContext: AppContext? = nil) {
-        super.init(appContext: appContext)
         videoView = VideoView()
         videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView.clipsToBounds = true
+        
+        super.init(appContext: appContext)
+        
         videoView.delegate = self
     }
 
@@ -88,74 +83,19 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
         }
     }
     
-    private func getPeers() -> [[String: Any?]] {
-        let endpoints = RNFishjamClient.getLocalAndRemoteEndpoints()
-        return endpoints.compactMap { endpoint in
-            [
-                "id": endpoint.id,
-                "isLocal": endpoint.id == RNFishjamClient.fishjamClient!.getLocalEndpoint().id,
-                "metadata": endpoint.metadata.toDict(),
-                "tracks": endpoint.tracks.values.compactMap { track -> [String: Any?]? in
-                    switch track {
-                    case let track as RemoteVideoTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Video",
-                            "metadata": track.metadata.toDict(),
-                            "encoding": track.encoding?.description,
-                            "encodingReason": track.encodingReason?.rawValue,
-                            "dimensions": track.dimensions.toDict()
-                        ]
-
-                    case let track as RemoteAudioTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Audio",
-                            "metadata": track.metadata.toDict(),
-                            "vadStatus": track.vadStatus == .speech ? "speech" : "silence",
-                        ]
-
-                    case let track as LocalCameraTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Video",
-                            "metadata": track.metadata.toDict(),
-                        ]
-
-                    case let track as LocalBroadcastScreenShareTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Video",
-                            "metadata": track.metadata.toDict(),
-                        ]
-
-                    case let track as LocalAppScreenShareTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Video",
-                            "metadata": track.metadata.toDict(),
-                        ]
-
-                    case let track as LocalAudioTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Audio",
-                            "metadata": track.metadata.toDict(),
-                        ]
-
-                    default:
-                        return nil
-                    }
-                },
-            ]
+    func didChange(dimensions newDimensions: FishjamCloudClient.Dimensions) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            
+            let event = EmitableEvent.trackAspectRatioUpdated(
+                trackId: trackId,
+                aspectRatio: AspectRatio(dimensions: newDimensions)
+            )
+            
+            self.appContext?.eventEmitter?.sendEvent(
+                withName: event.event.name,
+                body: event.data
+            )
         }
-    }
-    
-    func didChange(dimensions: FishjamCloudClient.Dimensions) {
-        guard let dimensions = videoView.track?.dimensions.toDict() else { return }
-        onDimensionsChanged(["dimensions" : dimensions])
-        //sendEvent(event.event.name, event.data)
-        let event = EmitableEvent.peersUpdate(peersData: getPeers())
-        appContext?.eventEmitter?.sendEvent(withName: event.event.name, body: event.data)
     }
 }

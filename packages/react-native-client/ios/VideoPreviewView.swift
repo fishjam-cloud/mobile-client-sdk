@@ -2,20 +2,15 @@ import ExpoModulesCore
 import FishjamCloudClient
 
 class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
-    enum Event: String {
-        case onDimensionsChanged
-    }
-    
-    let onDimensionsChanged = EventDispatcher(Event.onDimensionsChanged.rawValue)
-
-    var videoView: VideoView!
+    let videoView: VideoView
     private var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
-        super.init(appContext: appContext)
         videoView = VideoView()
         videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView.clipsToBounds = true
+        
+        super.init(appContext: appContext)
     }
 
     private func trySetLocalCameraTrack() {
@@ -85,9 +80,5 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
     func onLocalCameraTrackChanged() {
         guard localVideoTrack == nil else { return }
         trySetLocalCameraTrack()
-    }
-    
-    func didChange(dimensions: FishjamCloudClient.Dimensions) {
-        onDimensionsChanged(["dimensions" : videoView.track?.dimensions.toDict()])
     }
 }

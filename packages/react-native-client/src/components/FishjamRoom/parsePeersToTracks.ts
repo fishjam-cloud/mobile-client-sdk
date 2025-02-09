@@ -10,6 +10,7 @@ const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
       peerId: peer.id,
       isLocal: peer.isLocal,
       isVadActive: peer.microphoneTrack?.vadStatus === 'speech',
+      aspectRatio: peer.cameraTrack.aspectRatio,
     });
   }
 
@@ -19,6 +20,7 @@ const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
       peerId: peer.id,
       isLocal: peer.isLocal,
       isVadActive: peer.screenShareAudioTrack?.vadStatus === 'speech',
+      aspectRatio: peer.screenShareVideoTrack.aspectRatio,
     });
   }
 
@@ -30,6 +32,7 @@ const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
       isVadActive:
         peer.microphoneTrack?.vadStatus === 'speech' ||
         peer.screenShareAudioTrack?.vadStatus === 'speech',
+      aspectRatio: { width: 0, height: 0 },
     });
   }
 

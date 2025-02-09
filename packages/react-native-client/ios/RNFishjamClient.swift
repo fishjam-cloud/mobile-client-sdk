@@ -519,7 +519,7 @@ class RNFishjamClient: FishjamClientListener {
                             "metadata": track.metadata.toDict(),
                             "encoding": track.encoding?.description,
                             "encodingReason": track.encodingReason?.rawValue,
-                            "dimensions": track.dimensions.toDict()
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
                         ]
 
                     case let track as RemoteAudioTrack:
@@ -535,6 +535,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
                         ]
 
                     case let track as LocalBroadcastScreenShareTrack:
@@ -542,6 +543,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
                         ]
 
                     case let track as LocalAppScreenShareTrack:
@@ -549,6 +551,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
                         ]
 
                     case let track as LocalAudioTrack:
@@ -783,7 +786,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emitEndpoints() {
-        emit(event: .peersUpdate(peersData: getPeers()))
+        emit(event: .peersUpdate())
     }
 
     func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {

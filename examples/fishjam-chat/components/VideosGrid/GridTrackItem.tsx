@@ -15,6 +15,7 @@ export type GridTrack = Track & {
   isLocal: boolean;
   userName: string | undefined;
   isVadActive: boolean;
+  aspectRatio: { width: number; height: number };
 };
 
 export const GridTrackItem = ({

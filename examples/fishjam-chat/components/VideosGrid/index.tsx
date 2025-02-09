@@ -20,6 +20,18 @@ export default function VideosGrid({
 }) {
   const videoTracks = parsePeersToTracks(localPeer, remotePeers);
 
+  console.log({
+    videoTrackIdToDimensions: JSON.stringify(
+      videoTracks.map((track) => ({
+        id: track.id,
+        aspectRatio: track.aspectRatio,
+        isActive: track.isActive,
+      })),
+      null,
+      2,
+    ),
+  });
+
   const keyExtractor = useCallback((item: GridTrack) => item.id, []);
   const renderItem = useCallback(
     ({ item, index }: ListRenderItemInfo<GridTrack>) => (

@@ -21,6 +21,7 @@ class EmitableEvent {
         case PeerStatusChanged
         case ReconnectionStatusChanged
         case CurrentCameraChanged
+        case TrackAspectRatioUpdated
 
         var name: String {
             rawValue
@@ -78,8 +79,17 @@ class EmitableEvent {
             ])
     }
 
-    static func peersUpdate(peersData: [[String: Any?]]) -> EmitableEvent {
-        return .init(event: .PeersUpdate, eventContent: peersData)
+    static func peersUpdate() -> EmitableEvent {
+        return .init(event: .PeersUpdate)
+    }
+    
+    static func trackAspectRatioUpdated(trackId: String, aspectRatio: AspectRatio) -> EmitableEvent {
+        return .init(
+            event: .TrackAspectRatioUpdated,
+            eventContent: [
+                "trackId": trackId,
+                "aspectRatio": aspectRatio.toDict()
+            ])
     }
 
     static func audioDeviceUpdate(currentRoute: AVAudioSessionRouteDescription) -> EmitableEvent {

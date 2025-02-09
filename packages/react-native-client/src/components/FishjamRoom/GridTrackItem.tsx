@@ -8,6 +8,7 @@ export type GridTrack = {
   peerId: string;
   isLocal: boolean;
   isVadActive: boolean;
+  aspectRatio: { width: number; height: number };
 };
 
 export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
