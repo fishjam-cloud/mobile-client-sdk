@@ -10,6 +10,7 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.TextureView
 import android.view.TextureView.SurfaceTextureListener
+import com.fishjamcloud.client.models.Dimensions
 import org.webrtc.*
 import org.webrtc.RendererCommon.RendererEvents
 import org.webrtc.RendererCommon.ScalingType
@@ -18,6 +19,10 @@ import java.util.concurrent.CountDownLatch
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.roundToInt
+
+interface VideoTextureViewRendererListener {
+  fun onDimensionsChanged(dimensions: Dimensions)
+}
 
 open class VideoTextureViewRenderer :
   TextureView,
@@ -41,6 +46,8 @@ open class VideoTextureViewRenderer :
   private var enableFixedSize = false
   private var surfaceWidth = 0
   private var surfaceHeight = 0
+
+  private var dimensionsListener: VideoTextureViewRendererListener? = null
 
   /**
    * Standard View constructor. In order to render something, you must first call init().
@@ -389,6 +396,10 @@ open class VideoTextureViewRenderer :
     rendererEvents?.onFirstFrameRendered()
   }
 
+  fun setDimensionsListener(listener: VideoTextureViewRendererListener?) {
+    dimensionsListener = listener
+  }
+
   override fun onFrameResolutionChanged(
     videoWidth: Int,
     videoHeight: Int,
@@ -406,6 +417,7 @@ open class VideoTextureViewRenderer :
       rotatedFrameHeight = rotatedHeight
       updateSurfaceSize()
       requestLayout()
+      dimensionsListener?.onDimensionsChanged(Dimensions(rotatedWidth, rotatedHeight))
     }
   }
 
