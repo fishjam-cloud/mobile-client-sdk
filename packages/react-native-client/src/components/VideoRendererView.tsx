@@ -1,6 +1,6 @@
 import { requireNativeViewManager } from 'expo-modules-core';
 import * as React from 'react';
-import { ViewStyle, NativeSyntheticEvent } from 'react-native';
+import { ViewStyle, NativeSyntheticEvent, StyleProp } from 'react-native';
 
 import { VideoLayout } from '../types';
 import type { TrackId } from '../hooks/usePeers';
@@ -19,7 +19,7 @@ export type VideoRendererProps = {
    * Whether the video should be rendered if it's off screen or hidden.
    */
   skipRenderOutsideVisibleArea?: boolean;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 
   /**
    * Callback that is called when the dimensions of the underlying track change.

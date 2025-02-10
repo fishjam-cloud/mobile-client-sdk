@@ -62,20 +62,26 @@ class RNFishjamClient: FishjamClientListener {
             emit(event: .reconnectionStatusChanged(reconnectionStatus: reconnectionStatus))
         }
     }
-
-    let sendEvent: (_ eventName: String, _ data: [String: Any?]) -> Void
+    
+    static private(set) var sendEvent: ((_ event: EmitableEvent) -> Void)?
 
     static var tracksUpdateListenersManager = TracksUpdateListenersManager()
     static var localCameraTracksChangedListenersManager = LocalCameraTracksChangedListenersManager()
-
-    init(sendEvent: @escaping (_ eventName: String, _ data: [String: Any?]) -> Void) {
-        self.sendEvent = sendEvent
+    
+    init(_ eventEmitter: @escaping (_ eventName: String, _ data: [String: Any?]) -> Void) {
+        RNFishjamClient.sendEvent = { event in
+            eventEmitter(event.event.name, event.data)
+        }
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(onRouteChangeNotification),
             name: AVAudioSession.routeChangeNotification,
             object: nil
         )
+    }
+    
+    deinit {
+        RNFishjamClient.sendEvent = nil
     }
 
     private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) throws -> SimulcastConfig {
@@ -780,8 +786,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emit(event: EmitableEvent) {
-        DispatchQueue.main.async { [weak self] in
-            self?.sendEvent(event.event.name, event.data)
+        DispatchQueue.main.async {
+            RNFishjamClient.sendEvent?(event)
         }
     }
 

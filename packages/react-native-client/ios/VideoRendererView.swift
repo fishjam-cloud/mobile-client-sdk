@@ -92,10 +92,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
                 aspectRatio: AspectRatio(dimensions: newDimensions)
             )
             
-            self.appContext?.eventEmitter?.sendEvent(
-                withName: event.event.name,
-                body: event.data
-            )
+            RNFishjamClient.sendEvent?(event)
         }
     }
 }

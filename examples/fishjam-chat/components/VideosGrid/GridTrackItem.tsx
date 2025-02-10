@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { BrandColors } from '../../utils/Colors';
 import {
@@ -25,27 +25,39 @@ export const GridTrackItem = ({
   track: GridTrack;
   index: number;
 }) => {
-  const containerStyle = useMemo(
-    () => [
+  const videoStyle = useMemo(() => {
+    const baseStyle = [
       styles.video,
       {
         backgroundColor: track.isLocal
           ? BrandColors.yellow100
           : BrandColors.darkBlue60,
       },
-    ],
-    [track.isLocal],
-  );
+    ];
+
+    if (track.aspectRatio.width === 0 || track.aspectRatio.height === 0) {
+      return baseStyle;
+    }
+
+    const ratio = track.aspectRatio.width / track.aspectRatio.height;
+
+    return [
+      ...baseStyle,
+      {
+        aspectRatio: ratio,
+      },
+    ];
+  }, [track.aspectRatio.width, track.aspectRatio.height, track.isLocal]);
 
   return (
     <View
       accessibilityLabel={roomScreenLabels.VIDEO_CELL + index}
-      style={containerStyle}>
+      style={styles.container}>
       <VideoRendererView
         trackId={track.id}
-        videoLayout="FIT"
+        videoLayout="FILL"
         skipRenderOutsideVisibleArea={false}
-        style={styles.flexOne}
+        style={videoStyle}
       />
       {track.isVadActive && (
         <View style={styles.vadIcon}>
@@ -66,10 +78,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    padding: 10,
   },
   video: {
-    flex: 1,
-    margin: 10,
+    width: '100%',
     aspectRatio: 1,
     borderRadius: 8,
     overflow: 'hidden',
