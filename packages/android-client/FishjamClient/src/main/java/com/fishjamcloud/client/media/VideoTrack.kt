@@ -23,8 +23,8 @@ open class VideoTrack(
     rtcEngineId,
     metadata,
     id
-  ), VideoTextureViewRendererListener {
-
+  ),
+  VideoTextureViewRendererListener {
   private var dimensionsListener: VideoTrackListener? = null
 
   var dimensions: Dimensions? = null

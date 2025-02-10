@@ -6,7 +6,7 @@ public class VideoRendererViewModule: Module {
 
         View(VideoRendererView.self) {
             Events("onDimensionsChanged")
-            
+
             Prop("trackId") { (view, trackId) in
                 view.trackId = trackId
             }

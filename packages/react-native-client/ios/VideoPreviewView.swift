@@ -9,7 +9,7 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
         videoView = VideoView()
         videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView.clipsToBounds = true
-        
+
         super.init(appContext: appContext)
     }
 

@@ -4,14 +4,14 @@ import FishjamCloudClient
 
 class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
     let videoView: VideoView
-        
+
     required init(appContext: AppContext? = nil) {
         videoView = VideoView()
         videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView.clipsToBounds = true
-        
+
         super.init(appContext: appContext)
-        
+
         videoView.delegate = self
     }
 
@@ -82,16 +82,16 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
             videoView.checkVisibilityTimeInterval = checkVisibilityTimeInterval
         }
     }
-    
+
     func didChange(dimensions newDimensions: FishjamCloudClient.Dimensions) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            
+
             let event = EmitableEvent.trackAspectRatioUpdated(
                 trackId: trackId,
                 aspectRatio: AspectRatio(dimensions: newDimensions)
             )
-            
+
             RNFishjamClient.sendEvent?(event)
         }
     }

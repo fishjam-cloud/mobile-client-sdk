@@ -248,7 +248,7 @@ public class VideoView: UIView {
 }
 
 extension VideoView: RTCVideoViewDelegate {
-    public func videoView(_: RTCVideoRenderer, didChangeVideoSize size: CGSize) {        
+    public func videoView(_: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
         guard let width = Int32(exactly: size.width),
             let height = Int32(exactly: size.height)
         else {

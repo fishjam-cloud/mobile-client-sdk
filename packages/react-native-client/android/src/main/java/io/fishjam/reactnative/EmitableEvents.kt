@@ -110,7 +110,10 @@ class EmitableEvent private constructor(
       )
     }
 
-    fun trackAspectRatioUpdated(trackId: String, aspectRatio: AspectRatio) = EmitableEvent(
+    fun trackAspectRatioUpdated(
+      trackId: String,
+      aspectRatio: AspectRatio
+    ) = EmitableEvent(
       EventName.TrackAspectRatioUpdated,
       mapOf(
         "trackId" to trackId,

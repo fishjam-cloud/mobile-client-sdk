@@ -11,7 +11,7 @@ open class VideoTrack: Track {
     var videoTrack: RTCVideoTrack {
         return self.mediaTrack as! RTCVideoTrack
     }
-    
+
     public internal(set) var dimensions: Dimensions?
     /**
      * Every track can have 2 ids:

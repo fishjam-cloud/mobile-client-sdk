@@ -62,12 +62,12 @@ class RNFishjamClient: FishjamClientListener {
             emit(event: .reconnectionStatusChanged(reconnectionStatus: reconnectionStatus))
         }
     }
-    
+
     static private(set) var sendEvent: ((_ event: EmitableEvent) -> Void)?
 
     static var tracksUpdateListenersManager = TracksUpdateListenersManager()
     static var localCameraTracksChangedListenersManager = LocalCameraTracksChangedListenersManager()
-    
+
     init(_ eventEmitter: @escaping (_ eventName: String, _ data: [String: Any?]) -> Void) {
         RNFishjamClient.sendEvent = { event in
             eventEmitter(event.event.name, event.data)
@@ -79,7 +79,7 @@ class RNFishjamClient: FishjamClientListener {
             object: nil
         )
     }
-    
+
     deinit {
         RNFishjamClient.sendEvent = nil
     }
@@ -525,7 +525,7 @@ class RNFishjamClient: FishjamClientListener {
                             "metadata": track.metadata.toDict(),
                             "encoding": track.encoding?.description,
                             "encodingReason": track.encodingReason?.rawValue,
-                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict(),
                         ]
 
                     case let track as RemoteAudioTrack:
@@ -541,7 +541,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
-                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict(),
                         ]
 
                     case let track as LocalBroadcastScreenShareTrack:
@@ -549,7 +549,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
-                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict(),
                         ]
 
                     case let track as LocalAppScreenShareTrack:
@@ -557,7 +557,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
-                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict()
+                            "aspectRatio": AspectRatio(dimensions: track.dimensions).toDict(),
                         ]
 
                     case let track as LocalAudioTrack:

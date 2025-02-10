@@ -9,11 +9,15 @@ data class AspectRatio(
   companion object {
     private val zero = AspectRatio(0, 0)
 
-    private fun gcd(a: Int, b: Int): Int {
-      return if (b == 0) a else gcd(b, a % b)
-    }
+    private fun gcd(
+      a: Int,
+      b: Int
+    ): Int = if (b == 0) a else gcd(b, a % b)
 
-    fun create(width: Int, height: Int): AspectRatio {
+    fun create(
+      width: Int,
+      height: Int
+    ): AspectRatio {
       if (width <= 0 || height <= 0) {
         return zero
       }
@@ -21,19 +25,17 @@ data class AspectRatio(
       return AspectRatio(width / divisor, height / divisor)
     }
 
-    fun create(dimensions: Dimensions?): AspectRatio {
-      return if (dimensions != null) {
+    fun create(dimensions: Dimensions?): AspectRatio =
+      if (dimensions != null) {
         create(dimensions.width, dimensions.height)
       } else {
         zero
       }
-    }
   }
 
-  fun toMap(): Map<String, Int> {
-    return mapOf(
+  fun toMap(): Map<String, Int> =
+    mapOf(
       "width" to width,
       "height" to height
     )
-  }
 }

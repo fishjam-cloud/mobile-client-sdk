@@ -15,7 +15,8 @@ class VideoRendererView(
   context: Context,
   appContext: AppContext
 ) : VideoView(context, appContext),
-  TrackUpdateListener, VideoTrackListener {
+  TrackUpdateListener,
+  VideoTrackListener {
   private var activeVideoTrack: VideoTrack? = null
   private var trackId: String? = null
 
@@ -62,7 +63,7 @@ class VideoRendererView(
   override fun getVideoTrack(): VideoTrack? = activeVideoTrack
 
   override fun onDimensionsChanged(dimensions: Dimensions) {
-    if (trackId == null) { return }
+    if (trackId == null) return
 
     RNFishjamClient.sendEvent(
       EmitableEvent.trackAspectRatioUpdated(
