@@ -45,6 +45,7 @@ export type {
   PeerWithTracks,
   PeerTrackMetadata,
   DistinguishedTracks,
+  AspectRatio,
 } from './hooks/usePeers';
 
 export type {

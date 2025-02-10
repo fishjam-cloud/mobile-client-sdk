@@ -1,6 +1,6 @@
 import { requireNativeViewManager } from 'expo-modules-core';
 import * as React from 'react';
-import { ViewStyle, NativeSyntheticEvent, StyleProp } from 'react-native';
+import { ViewStyle, StyleProp } from 'react-native';
 
 import { VideoLayout } from '../types';
 import type { TrackId } from '../hooks/usePeers';
@@ -20,18 +20,6 @@ export type VideoRendererProps = {
    */
   skipRenderOutsideVisibleArea?: boolean;
   style?: StyleProp<ViewStyle>;
-
-  /**
-   * Callback that is called when the dimensions of the underlying track change.
-   */
-  onDimensionsChanged?: (
-    event: NativeSyntheticEvent<{
-      dimensions: {
-        width: number;
-        height: number;
-      };
-    }>,
-  ) => void;
 };
 
 const NativeView: React.ComponentType<VideoRendererProps> =

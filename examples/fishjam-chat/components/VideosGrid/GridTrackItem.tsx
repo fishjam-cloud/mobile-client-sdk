@@ -6,6 +6,7 @@ import {
   VideoRendererView,
   Track,
   PeerId,
+  type AspectRatio,
 } from '@fishjam-cloud/react-native-client';
 import Typo from '../Typo';
 import VADIcon from '../VADIcon';
@@ -15,7 +16,7 @@ export type GridTrack = Track & {
   isLocal: boolean;
   userName: string | undefined;
   isVadActive: boolean;
-  aspectRatio: { width: number; height: number };
+  aspectRatio: AspectRatio;
 };
 
 export const GridTrackItem = ({
