@@ -4,10 +4,9 @@ import android.content.Context
 import com.fishjamcloud.client.media.VideoTrack
 import com.fishjamcloud.client.models.Dimensions
 import com.fishjamcloud.client.ui.VideoTextureViewRendererListener
-import expo.modules.adapters.react.services.EventEmitterModule
 import expo.modules.kotlin.AppContext
-import expo.modules.kotlin.jni.JSIContext
 import io.fishjam.reactnative.managers.TrackUpdateListener
+import io.fishjam.reactnative.utils.AspectRatio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,6 +28,8 @@ class VideoRendererView(
 
     activeVideoTrack?.removeRenderer(videoView)
     activeVideoTrack = videoTrack
+
+    videoView.setDimensionsListener(this)
 
     videoTrack.addRenderer(videoView)
 
@@ -62,6 +63,15 @@ class VideoRendererView(
   override fun getVideoTrack(): VideoTrack? = activeVideoTrack
 
   override fun onDimensionsChanged(dimensions: Dimensions) {
-    
+    activeVideoTrack?.setDimensions(dimensions)
+
+    if (trackId == null) { return }
+
+    RNFishjamClient.sendEvent(
+      EmitableEvent.trackAspectRatioUpdated(
+        trackId!!,
+        AspectRatio.create(dimensions)
+      )
+    )
   }
 }

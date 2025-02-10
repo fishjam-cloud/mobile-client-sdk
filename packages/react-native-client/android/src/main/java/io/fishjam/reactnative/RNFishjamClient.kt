@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.fishjamcloud.client.FishjamClient
 import com.fishjamcloud.client.FishjamClientListener
@@ -47,7 +48,7 @@ import kotlinx.coroutines.launch
 import org.webrtc.Logging
 
 class RNFishjamClient(
-  val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
+  private val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
 ) : FishjamClientListener,
   CaptureDeviceChangedListener {
   private val SCREENSHARE_REQUEST = 1
@@ -135,16 +136,34 @@ class RNFishjamClient(
       listOfPeers.add(localEndpoint)
       return listOfPeers
     }
+
+    private var eventEmitter: ((String, Map<String, Any?>) -> Unit)? = null
+
+    private fun setEventEmitter(emitter: ((String, Map<String, Any?>) -> Unit)?) {
+      if (emitter != null && eventEmitter != null) {
+        throw IllegalStateException("Event emitter already set.")
+      }
+      eventEmitter = emitter
+    }
+
+    fun sendEvent(event: EmitableEvent) {
+      if (eventEmitter == null) {
+        Log.e("RNFishjamClient", "Event emitter is not set.")
+      }
+      eventEmitter?.invoke(event.name, event.data)
+    }
   }
 
   fun onModuleCreate(appContext: AppContext) {
     this.appContext = appContext
     this.audioSwitchManager = AudioSwitchManager(appContext.reactContext!!)
+    setEventEmitter(sendEvent)
     create()
   }
 
   fun onModuleDestroy() {
     audioSwitchManager?.stop()
+    setEventEmitter(null)
   }
 
   private val coroutineScope: CoroutineScope =
@@ -800,7 +819,7 @@ class RNFishjamClient(
 
   private fun emitEvent(event: EmitableEvent) {
     CoroutineScope(Dispatchers.Main).launch {
-      sendEvent(event.name, event.data)
+      RNFishjamClient.sendEvent(event)
     }
   }
 

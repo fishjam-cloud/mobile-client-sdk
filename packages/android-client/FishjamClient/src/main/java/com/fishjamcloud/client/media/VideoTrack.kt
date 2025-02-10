@@ -2,8 +2,6 @@ package com.fishjamcloud.client.media
 
 import com.fishjamcloud.client.models.Dimensions
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.ui.VideoTextureViewRenderer
-import com.fishjamcloud.client.ui.VideoTextureViewRendererListener
 import org.webrtc.VideoSink
 import java.util.UUID
 
@@ -20,23 +18,17 @@ open class VideoTrack(
     rtcEngineId,
     metadata,
     id
-  ), VideoTextureViewRendererListener {
+  ) {
 
   var dimensions: Dimensions? = null
     private set
 
   fun addRenderer(renderer: VideoSink) {
     videoTrack.addSink(renderer)
-    if (renderer is VideoTextureViewRenderer) {
-      renderer.setDimensionsListener(this)
-    }
   }
 
   fun removeRenderer(renderer: VideoSink) {
     videoTrack.removeSink(renderer)
-    if (renderer is VideoTextureViewRenderer) {
-      renderer.setDimensionsListener(null)
-    }
   }
 
   fun shouldReceive(shouldReceive: Boolean) {
@@ -45,7 +37,7 @@ open class VideoTrack(
     }
   }
 
-  override fun onDimensionsChanged(dimensions: Dimensions) {
+  fun setDimensions(dimensions: Dimensions) {
     this.dimensions = dimensions
   }
 }

@@ -30,13 +30,14 @@ export default function ConnectScreen({ navigation }: Props) {
 
   const [roomManagerUrl, setRoomManagerUrl] = useState(
     process.env.EXPO_PUBLIC_ROOM_MANAGER_URL ??
-      'https://room.fishjam.io/api/rooms',
+      'http://192.168.82.177:8080/api/rooms',
   );
   const [roomName, setRoomName] = useState('test');
   const [userName, setUserName] = useState('test-mob');
 
   const onTapConnectButton = async () => {
     try {
+      console.log('onTapConnectButton');
       setConnectionError(null);
       setLoading(true);
       const { fishjamUrl, token } = await joinRoomWithRoomManager(
@@ -44,6 +45,8 @@ export default function ConnectScreen({ navigation }: Props) {
         roomName,
         userName,
       );
+
+      console.log('fishjamUrl', fishjamUrl);
 
       navigation.navigate('Preview', {
         userName,
