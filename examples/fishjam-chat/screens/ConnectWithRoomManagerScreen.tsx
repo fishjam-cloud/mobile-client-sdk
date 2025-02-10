@@ -36,7 +36,6 @@ export default function ConnectScreen({ navigation }: Props) {
 
   const onTapConnectButton = async () => {
     try {
-      console.log('onTapConnectButton');
       setConnectionError(null);
       setLoading(true);
       const { fishjamUrl, token } = await joinRoomWithRoomManager(
