@@ -1,6 +1,6 @@
 import { requireNativeViewManager } from 'expo-modules-core';
 import * as React from 'react';
-import { ViewStyle } from 'react-native';
+import { ViewStyle, StyleProp } from 'react-native';
 
 import { VideoLayout } from '../types';
 import type { TrackId } from '../hooks/usePeers';
@@ -19,7 +19,7 @@ export type VideoRendererProps = {
    * Whether the video should be rendered if it's off screen or hidden.
    */
   skipRenderOutsideVisibleArea?: boolean;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 };
 
 const NativeView: React.ComponentType<VideoRendererProps> =

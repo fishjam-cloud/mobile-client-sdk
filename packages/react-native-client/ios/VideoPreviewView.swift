@@ -2,14 +2,15 @@ import ExpoModulesCore
 import FishjamCloudClient
 
 class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
-    var videoView: VideoView!
+    let videoView: VideoView
     private var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
-        super.init(appContext: appContext)
         videoView = VideoView()
         videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView.clipsToBounds = true
+
+        super.init(appContext: appContext)
     }
 
     private func trySetLocalCameraTrack() {

@@ -91,7 +91,7 @@ class RNFishjamClientModule : Module() {
       val mutex = Mutex()
 
       val rnFishjamClient =
-        RNFishjamClient { name: String, data: Map<String, Any?> ->
+        RNFishjamClient { name, data ->
           sendEvent(name, data)
         }
 

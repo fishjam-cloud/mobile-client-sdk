@@ -8,6 +8,8 @@ class VideoRendererViewModule : Module() {
     ModuleDefinition {
       Name("VideoRendererViewModule")
 
+      Events("TrackAspectRatioUpdated")
+
       View(VideoRendererView::class) {
         OnViewDestroys { view: VideoRendererView ->
           view.dispose()

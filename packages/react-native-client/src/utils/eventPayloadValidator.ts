@@ -4,32 +4,6 @@ import {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
 
-const BaseTrackSchema = z.object({
-  id: z.string(),
-  metadata: z.object({}).passthrough(),
-});
-
-const AudioTrackSchema = BaseTrackSchema.extend({
-  type: z.literal('Audio'),
-  vadStatus: z.enum(['silence', 'speech']).optional(),
-});
-
-const VideoTrackSchema = BaseTrackSchema.extend({
-  type: z.literal('Video'),
-});
-
-const TrackSchema = z.discriminatedUnion('type', [
-  AudioTrackSchema,
-  VideoTrackSchema,
-]);
-
-const PeerSchema = z.object({
-  id: z.string(),
-  isLocal: z.boolean(),
-  tracks: z.array(TrackSchema),
-  metadata: z.object({}).passthrough(),
-});
-
 const SimulcastConfigSchema = z.object({
   enabled: z.boolean(),
   activeEncodings: z.array(z.enum(['l', 'm', 'h'])),
@@ -56,6 +30,11 @@ const CameraChangedEventSchema = z.object({
   currentCamera: CameraSchema.nullable(),
 });
 
+const TrackAspectRatioUpdatedEventSchema = z.object({
+  trackId: z.string(),
+  aspectRatio: z.object({ width: z.number(), height: z.number() }),
+});
+
 export function validateNativeEventPayload<
   T extends keyof typeof ReceivableEvents,
 >(eventName: T, payload: ReceivableEventPayloads[T]): void {
@@ -71,7 +50,6 @@ export function validateNativeEventPayload<
       break;
 
     case ReceivableEvents.PeersUpdate:
-      z.array(PeerSchema).parse(payload);
       break;
 
     case ReceivableEvents.AudioDeviceUpdate:
@@ -102,6 +80,10 @@ export function validateNativeEventPayload<
 
     case ReceivableEvents.CurrentCameraChanged:
       CameraChangedEventSchema.parse(payload);
+      break;
+
+    case ReceivableEvents.TrackAspectRatioUpdated:
+      TrackAspectRatioUpdatedEventSchema.parse(payload);
       break;
 
     default:

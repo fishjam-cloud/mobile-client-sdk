@@ -5,6 +5,8 @@ public class VideoPreviewViewModule: Module {
         Name("VideoPreviewViewModule")
 
         View(VideoPreviewView.self) {
+            Events("onDimensionsChanged")
+
             Prop("captureDeviceId") { (view: VideoPreviewView, prop: String) in
                 view.captureDeviceId = prop
             }
