@@ -727,6 +727,11 @@ extension FishjamClientInternal: RTCEngineListener {
 
             }
         }
+        
+        if sdp.contains("a=inactive") {
+            listener.onIncompatibleTracksDetected()
+        }
+        
         commandsQueue.finishCommand(commandNames: [CommandName.ADD_TRACK, CommandName.REMOVE_TRACK])
     }
 

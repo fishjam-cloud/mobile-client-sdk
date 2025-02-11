@@ -848,8 +848,6 @@ internal class FishjamClientInternal(
 
   override fun onLocalIceCandidate(candidate: IceCandidate) {
     coroutineScope.launch {
-      val hasInactiveTracks = candidate.sdp.contains("a=inactive")
-
       val splitSdp = candidate.sdp.split(" ")
       val ufrag = splitSdp[splitSdp.indexOf("ufrag") + 1]
       rtcEngineCommunication.localCandidate(
