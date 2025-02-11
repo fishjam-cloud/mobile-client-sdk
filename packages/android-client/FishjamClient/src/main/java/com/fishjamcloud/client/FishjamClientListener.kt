@@ -102,4 +102,10 @@ interface FishjamClientListener : ReconnectionManagerListener {
   fun onBandwidthEstimationChanged(estimation: Long) {
     Timber.i("Bandwidth estimation changed: $estimation")
   }
+
+  /**
+   * Called when incompatible tracks are detected.
+   * This usually means that codecs are not supported by the receiver.
+   */
+  fun onIncompatibleTracksDetected()
 }

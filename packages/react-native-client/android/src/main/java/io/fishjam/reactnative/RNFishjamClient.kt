@@ -927,4 +927,8 @@ class RNFishjamClient(
       )
     )
   }
+
+  override fun onIncompatibleTracksDetected() {
+    emitEvent(EmitableEvent.warning("Incompatible track detected. This usually means your device is missing codecs negotiated for the room."))
+  }
 }
