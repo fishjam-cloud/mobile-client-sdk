@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { VideoRendererView } from '../VideoRendererView';
-import { AspectRatio, Track } from '../../hooks/usePeers';
+import { Track } from '../../hooks/usePeers';
 
 export type GridTrack = {
   track: Track | null;
   peerId: string;
   isLocal: boolean;
   isVadActive: boolean;
-  aspectRatio: AspectRatio;
+  aspectRatio: number | null;
 };
 
 export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {

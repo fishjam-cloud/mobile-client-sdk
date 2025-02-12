@@ -32,7 +32,7 @@ const CameraChangedEventSchema = z.object({
 
 const TrackAspectRatioUpdatedEventSchema = z.object({
   trackId: z.string(),
-  aspectRatio: z.object({ width: z.number(), height: z.number() }),
+  aspectRatio: z.number(),
 });
 
 export function validateNativeEventPayload<

@@ -22,6 +22,11 @@ public struct Dimensions {
     public var flipped: Dimensions {
         Dimensions(width: height, height: width)
     }
+    
+    public var aspectRatio: Double? {
+        guard width > 0 && height > 0 else { return nil }
+        return ((Double(width) / Double(height)) * 1000).rounded() / 1000
+    }
 }
 
 extension Dimensions: Equatable {

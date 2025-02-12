@@ -83,12 +83,12 @@ class EmitableEvent {
         return .init(event: .PeersUpdate)
     }
 
-    static func trackAspectRatioUpdated(trackId: String, aspectRatio: AspectRatio) -> EmitableEvent {
+    static func trackAspectRatioUpdated(trackId: String, aspectRatio: Double?) -> EmitableEvent {
         return .init(
             event: .TrackAspectRatioUpdated,
             eventContent: [
                 "trackId": trackId,
-                "aspectRatio": aspectRatio.toDict(),
+                "aspectRatio": aspectRatio as Any,
             ])
     }
 

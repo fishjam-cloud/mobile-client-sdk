@@ -32,7 +32,7 @@ const createGridTracksFromPeer = (peer: PeerWithTracks): GridTrack[] => {
       isVadActive:
         peer.microphoneTrack?.vadStatus === 'speech' ||
         peer.screenShareAudioTrack?.vadStatus === 'speech',
-      aspectRatio: { width: 0, height: 0 },
+      aspectRatio: null,
     });
   }
 

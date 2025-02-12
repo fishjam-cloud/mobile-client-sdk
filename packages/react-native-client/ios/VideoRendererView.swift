@@ -89,7 +89,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
 
             let event = EmitableEvent.trackAspectRatioUpdated(
                 trackId: trackId,
-                aspectRatio: AspectRatio(dimensions: newDimensions)
+                aspectRatio: newDimensions.aspectRatio
             )
 
             RNFishjamClient.sendEvent?(event)

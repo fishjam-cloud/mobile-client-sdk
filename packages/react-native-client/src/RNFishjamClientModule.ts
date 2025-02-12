@@ -11,7 +11,7 @@ import type {
 } from './hooks/useCamera';
 import type { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
 import type { ForegroundServiceConfig } from './hooks/useForegroundService';
-import type { Peer, AspectRatio } from './hooks/usePeers';
+import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { GenericMetadata, SimulcastConfig } from './types';
 
@@ -122,7 +122,7 @@ export type ReceivableEventPayloads = {
   [ReceivableEvents.CurrentCameraChanged]: CurrentCameraChangedType;
   [ReceivableEvents.TrackAspectRatioUpdated]: {
     trackId: string;
-    aspectRatio: AspectRatio;
+    aspectRatio: number | null;
   };
 };
 

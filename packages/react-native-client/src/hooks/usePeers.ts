@@ -36,14 +36,9 @@ export type AudioTrack = TrackBase & {
   vadStatus: VadStatus | undefined;
 };
 
-/**
- * A type describing the aspect ratio of a video track.
- */
-export type AspectRatio = { width: number; height: number };
-
 export type VideoTrack = TrackBase & {
   type: 'Video';
-  aspectRatio: AspectRatio;
+  aspectRatio: number;
 };
 
 export type Track = VideoTrack | AudioTrack;

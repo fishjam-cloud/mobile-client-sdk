@@ -6,7 +6,6 @@ import {
   VideoRendererView,
   Track,
   PeerId,
-  type AspectRatio,
 } from '@fishjam-cloud/react-native-client';
 import Typo from '../Typo';
 import VADIcon from '../VADIcon';
@@ -16,7 +15,7 @@ export type GridTrack = Track & {
   isLocal: boolean;
   userName: string | undefined;
   isVadActive: boolean;
-  aspectRatio: AspectRatio;
+  aspectRatio: number;
 };
 
 export const GridTrackItem = ({
@@ -26,29 +25,18 @@ export const GridTrackItem = ({
   track: GridTrack;
   index: number;
 }) => {
-  const videoStyle = useMemo(() => {
-    const baseStyle = [
+  const videoStyle = useMemo(
+    () => [
       styles.video,
       {
+        aspectRatio: track.aspectRatio,
         backgroundColor: track.isLocal
           ? BrandColors.yellow100
           : BrandColors.darkBlue60,
       },
-    ];
-
-    if (track.aspectRatio.width === 0 || track.aspectRatio.height === 0) {
-      return baseStyle;
-    }
-
-    const ratio = track.aspectRatio.width / track.aspectRatio.height;
-
-    return [
-      ...baseStyle,
-      {
-        aspectRatio: ratio,
-      },
-    ];
-  }, [track.aspectRatio.width, track.aspectRatio.height, track.isLocal]);
+    ],
+    [track.aspectRatio, track.isLocal],
+  );
 
   return (
     <View
