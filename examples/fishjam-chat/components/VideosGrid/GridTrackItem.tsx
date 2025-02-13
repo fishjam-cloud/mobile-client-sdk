@@ -29,7 +29,7 @@ export const GridTrackItem = ({
     () => [
       styles.video,
       {
-        aspectRatio: track.aspectRatio,
+        aspectRatio: track.aspectRatio < 1 ? 1 : track.aspectRatio,
         backgroundColor: track.isLocal
           ? BrandColors.yellow100
           : BrandColors.darkBlue60,
@@ -44,7 +44,7 @@ export const GridTrackItem = ({
       style={styles.container}>
       <VideoRendererView
         trackId={track.id}
-        videoLayout="FILL"
+        videoLayout={track.aspectRatio < 1 ? 'FIT' : 'FILL'}
         skipRenderOutsideVisibleArea={false}
         style={videoStyle}
       />
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
   },
   video: {
     width: '100%',
-    aspectRatio: 1,
     borderRadius: 8,
     overflow: 'hidden',
     borderColor: BrandColors.darkBlue100,
