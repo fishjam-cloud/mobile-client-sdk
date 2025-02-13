@@ -2,7 +2,6 @@ package com.fishjamcloud.client.ui
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Matrix
 import android.graphics.SurfaceTexture
 import android.os.Looper
 import android.util.AttributeSet
@@ -16,9 +15,6 @@ import org.webrtc.RendererCommon.RendererEvents
 import org.webrtc.RendererCommon.ScalingType
 import timber.log.Timber
 import java.util.concurrent.CountDownLatch
-import kotlin.math.ceil
-import kotlin.math.max
-import kotlin.math.roundToInt
 
 interface VideoTextureViewRendererListener {
   fun onDimensionsChanged(dimensions: Dimensions)
@@ -229,11 +225,14 @@ open class VideoTextureViewRenderer :
     ThreadUtils.checkIsOnMainThread()
 
     if (enableFixedSize && rotatedFrameWidth != 0 && rotatedFrameHeight != 0 && width != 0 && height != 0) {
-      val result = scalingCalculator.calculateScaling(
-        width, height,
-        rotatedFrameWidth, rotatedFrameHeight,
-        scalingType
-      )
+      val result =
+        scalingCalculator.calculateScaling(
+          width,
+          height,
+          rotatedFrameWidth,
+          rotatedFrameHeight,
+          scalingType
+        )
 
       if (result.surfaceWidth != surfaceWidth || result.surfaceHeight != surfaceHeight) {
         surfaceWidth = result.surfaceWidth
