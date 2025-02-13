@@ -38,7 +38,6 @@ import io.fishjam.reactnative.foregroundService.ForegroundServiceManager
 import io.fishjam.reactnative.managers.LocalCameraTracksChangedListenersManager
 import io.fishjam.reactnative.managers.LocalTracksSwitchListenersManager
 import io.fishjam.reactnative.managers.TracksUpdateListenersManager
-import io.fishjam.reactnative.utils.AspectRatio
 import io.fishjam.reactnative.utils.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -480,7 +479,7 @@ class RNFishjamClient(
                   "metadata" to track.metadata,
                   "encoding" to track.encoding?.rid,
                   "encodingReason" to track.encodingReason?.value,
-                  "aspectRatio" to AspectRatio.create(track.dimensions).toMap()
+                  "aspectRatio" to track.dimensions?.aspectRatio
                 )
 
               is RemoteAudioTrack ->
@@ -500,7 +499,7 @@ class RNFishjamClient(
                   "id" to track.id(),
                   "type" to "Video",
                   "metadata" to track.metadata,
-                  "aspectRatio" to AspectRatio.create(track.dimensions).toMap()
+                  "aspectRatio" to track.dimensions?.aspectRatio
                 )
 
               is LocalScreenShareTrack ->
@@ -508,7 +507,7 @@ class RNFishjamClient(
                   "id" to track.id(),
                   "type" to "Video",
                   "metadata" to track.metadata,
-                  "aspectRatio" to AspectRatio.create(track.dimensions).toMap()
+                  "aspectRatio" to track.dimensions?.aspectRatio
                 )
 
               is LocalAudioTrack ->

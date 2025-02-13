@@ -6,7 +6,6 @@ import com.fishjamcloud.client.media.VideoTrackListener
 import com.fishjamcloud.client.models.Dimensions
 import expo.modules.kotlin.AppContext
 import io.fishjam.reactnative.managers.TrackUpdateListener
-import io.fishjam.reactnative.utils.AspectRatio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,7 +67,7 @@ class VideoRendererView(
     RNFishjamClient.sendEvent(
       EmitableEvent.trackAspectRatioUpdated(
         trackId!!,
-        AspectRatio.create(dimensions)
+        dimensions.aspectRatio
       )
     )
   }

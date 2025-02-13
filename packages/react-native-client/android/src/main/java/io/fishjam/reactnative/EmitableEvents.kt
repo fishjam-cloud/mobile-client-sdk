@@ -4,7 +4,6 @@ import com.fishjamcloud.client.ReconnectionStatus
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.twilio.audioswitch.AudioDevice
 import io.fishjam.reactnative.extensions.LocalCamera
-import io.fishjam.reactnative.utils.AspectRatio
 
 enum class PeerStatus(
   val status: String
@@ -112,12 +111,12 @@ class EmitableEvent private constructor(
 
     fun trackAspectRatioUpdated(
       trackId: String,
-      aspectRatio: AspectRatio
+      aspectRatio: Double?
     ) = EmitableEvent(
       EventName.TrackAspectRatioUpdated,
       mapOf(
         "trackId" to trackId,
-        "aspectRatio" to aspectRatio.toMap()
+        "aspectRatio" to aspectRatio
       )
     )
 
