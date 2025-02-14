@@ -1,27 +1,9 @@
-import { requireNativeViewManager } from 'expo-modules-core';
 import * as React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
 
-import { VideoLayout } from '../types';
-import { CameraId } from '../hooks/useCamera';
+import { usePeers } from '../hooks/usePeers';
+import { VideoRendererProps, VideoRendererView } from './VideoRendererView';
 
-export type VideoPreviewViewProps = {
-  /**
-   * Video layout inside of the component
-   * @default `FILL`
-   */
-  videoLayout?: VideoLayout;
-
-  style?: StyleProp<ViewStyle>;
-  /**
-   * Id of the camera used for preview. Get available cameras with `cameras` property.
-   * @default the first front camera
-   */
-  cameraId?: CameraId;
-};
-
-const NativeView: React.ComponentType<VideoPreviewViewProps> =
-  requireNativeViewManager('VideoPreviewViewModule');
+export type VideoPreviewViewProps = Omit<VideoRendererProps, 'trackId'>;
 
 /**
  * Render camera preview.
@@ -32,10 +14,14 @@ const NativeView: React.ComponentType<VideoPreviewViewProps> =
  * @param {object} props
  * @param {string} props.cameraId
  */
-export const VideoPreviewView = React.forwardRef<
-  React.ComponentType<VideoPreviewViewProps>,
-  VideoPreviewViewProps
->((props, ref) => (
-  // @ts-expect-error ref prop needs to be updated
-  <NativeView {...props} captureDeviceId={props.cameraId} ref={ref} />
-));
+export const VideoPreviewView = (props: VideoPreviewViewProps) => {
+  const { localPeer } = usePeers();
+
+  const cameraTrack = localPeer?.cameraTrack;
+
+  if (!cameraTrack) {
+    return null;
+  }
+
+  return <VideoRendererView trackId={cameraTrack.id} {...props} />;
+};
