@@ -12,7 +12,6 @@ export type VideoPreviewViewProps = Omit<VideoRendererProps, 'trackId'>;
  *
  * @category Components
  * @param {object} props
- * @param {string} props.cameraId
  */
 export const VideoPreviewView = (props: VideoPreviewViewProps) => {
   const { localPeer } = usePeers();
