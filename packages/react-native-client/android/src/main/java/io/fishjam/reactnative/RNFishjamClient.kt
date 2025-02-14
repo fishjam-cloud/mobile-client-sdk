@@ -929,7 +929,7 @@ class RNFishjamClient(
   }
 
   override fun onIncompatibleTracksDetected() {
-    // TODO: Add proper url after docs are updated
+    // TODO: FCE-1215 Add proper url after docs are updated
     emitEvent(
       EmitableEvent.warning(
         "Incompatible track detected. This usually means your device is missing codecs negotiated for the room. Visit https://docs.fishjam.io/category/react-native-integration for information."

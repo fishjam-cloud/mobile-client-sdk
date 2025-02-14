@@ -919,7 +919,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onIncompatibleTracksDetected() {
-        // TODO: Add proper url after docs are updated
+        // TODO: FCE-1215 Add proper url after docs are updated
         emit(
             event: .warning(
                 message:
