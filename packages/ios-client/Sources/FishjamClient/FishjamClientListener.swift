@@ -80,4 +80,10 @@ public protocol FishjamClientListener: ReconnectionManagerListener {
      */
     func onBandwidthEstimationChanged(estimation: Int)
 
+    /**
+     * Called when incompatible tracks are detected.
+     * This usually means that codecs are not supported by the receiver.
+     */
+    func onIncompatibleTracksDetected()
+
 }

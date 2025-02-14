@@ -343,6 +343,10 @@ internal class FishjamClientInternal(
         }
       }
 
+      if (sdp.contains("a=inactive")) {
+        listener.onIncompatibleTracksDetected()
+      }
+
       commandsQueue.finishCommand(listOf(CommandName.ADD_TRACK, CommandName.REMOVE_TRACK))
     }
   }
