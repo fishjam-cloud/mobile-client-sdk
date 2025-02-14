@@ -42,7 +42,7 @@
   "dependencies": {
     "promise-fs": "^2.1.1",
     "protobufjs": "^7.4.0",
-    "zod": "^3.24.1"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
