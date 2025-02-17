@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { View } from 'react-native';
 import { usePeers } from '../hooks/usePeers';
 import { VideoRendererProps, VideoRendererView } from './VideoRendererView';
 
@@ -19,8 +19,8 @@ export const VideoPreviewView = (props: VideoPreviewViewProps) => {
   const cameraTrack = localPeer?.cameraTrack;
 
   if (!cameraTrack) {
-    return null;
+    return <View style={props.style} />;
   }
 
-  return <VideoRendererView {...props} trackId={cameraTrack.id}  />;
+  return <VideoRendererView {...props} trackId={cameraTrack.id} />;
 };
