@@ -1,16 +1,11 @@
 {
   "platforms": ["ios", "android", "web"],
   "ios": {
-    "modules": [
-      "RNFishjamClientModule",
-      "VideoPreviewViewModule",
-      "VideoRendererViewModule"
-    ]
+    "modules": ["RNFishjamClientModule", "VideoRendererViewModule"]
   },
   "android": {
     "modules": [
       "io.fishjam.reactnative.RNFishjamClientModule",
-      "io.fishjam.reactnative.VideoPreviewViewModule",
       "io.fishjam.reactnative.VideoRendererViewModule"
     ]
   }
