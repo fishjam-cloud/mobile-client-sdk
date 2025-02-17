@@ -22,5 +22,5 @@ export const VideoPreviewView = (props: VideoPreviewViewProps) => {
     return null;
   }
 
-  return <VideoRendererView trackId={cameraTrack.id} {...props} />;
+  return <VideoRendererView {...props} trackId={cameraTrack.id}  />;
 };
