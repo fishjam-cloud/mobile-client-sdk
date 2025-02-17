@@ -25,10 +25,9 @@ export const GridTrackItem = ({
   track: GridTrack;
   index: number;
 }) => {
-  const isPortrait = track.aspectRatio < 1;
-
-  const videoStyle = useMemo(
-    () => [
+  const videoStyle = useMemo(() => {
+    const isPortrait = track.aspectRatio < 1;
+    return [
       styles.video,
       {
         aspectRatio: isPortrait ? 1 : track.aspectRatio,
@@ -36,9 +35,8 @@ export const GridTrackItem = ({
           ? BrandColors.yellow100
           : BrandColors.darkBlue60,
       },
-    ],
-    [track.aspectRatio, track.isLocal, isPortrait],
-  );
+    ];
+  }, [track.aspectRatio, track.isLocal]);
 
   return (
     <View
@@ -46,7 +44,7 @@ export const GridTrackItem = ({
       style={styles.container}>
       <VideoRendererView
         trackId={track.id}
-        videoLayout={isPortrait ? 'FIT' : 'FILL'}
+        videoLayout={'FIT'}
         skipRenderOutsideVisibleArea={false}
         style={videoStyle}
       />
