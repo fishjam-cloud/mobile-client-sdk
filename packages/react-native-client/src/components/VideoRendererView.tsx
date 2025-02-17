@@ -25,6 +25,12 @@ export type VideoRendererProps = {
 const NativeView: React.ComponentType<VideoRendererProps> =
   requireNativeViewManager('VideoRendererViewModule');
 
+const defaultStyle = {
+  width: 100,
+  height: 100,
+  backgroundColor: 'aqua',
+};
+
 /**
  * Render video track received from {@link usePeers} hook
  *
@@ -47,5 +53,5 @@ export const VideoRendererView = React.forwardRef<
   VideoRendererProps
 >((props, ref) => (
   // @ts-expect-error ref prop needs to be updated
-  <NativeView {...props} ref={ref} />
+  <NativeView style={defaultStyle} {...props} ref={ref} />
 ));
