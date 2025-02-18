@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { joinRoom, leaveRoom } from '../../common/client';
 import { useCamera } from '../../hooks/useCamera';
 import { VideosGrid } from './VideosGrid';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleProp, ViewStyle } from 'react-native';
 
 export type FishjamRoomProps = {
   /**
@@ -13,6 +13,8 @@ export type FishjamRoomProps = {
    * Peer Token
    */
   peerToken: string;
+
+  style?: StyleProp<ViewStyle>;
 };
 
 /**
@@ -30,7 +32,11 @@ export type FishjamRoomProps = {
  * @param {string} props.fishjamUrl
  * @param {string} props.peerToken
  */
-export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
+export const FishjamRoom = ({
+  fishjamUrl,
+  peerToken,
+  style,
+}: FishjamRoomProps) => {
   const { prepareCamera } = useCamera();
 
   useEffect(() => {
@@ -56,7 +62,7 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
   }, [fishjamUrl, peerToken, prepareCamera]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={style}>
       <VideosGrid />
     </SafeAreaView>
   );
