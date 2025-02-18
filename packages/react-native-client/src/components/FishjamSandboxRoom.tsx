@@ -9,7 +9,7 @@ import { FishjamRoom } from './FishjamRoom';
 
 export type FishjamSandboxRoomProps = {
   /**
-   * URL to your Sandbox Room Manager
+   * URL to your Sandbox Room Manager available at https://fishjam.io/app/sandbox
    */
   roomManagerUrl: string;
   /**
@@ -31,6 +31,9 @@ type RoomData = {
   peerToken: string;
 };
 
+/**
+ * Simple UI to connect to Sandbox Room Manager
+ */
 export const FishjamSandboxRoom = ({
   roomManagerUrl,
   roomName,
