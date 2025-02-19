@@ -44,7 +44,7 @@ export const GridTrackItem = ({
       style={styles.container}>
       <VideoRendererView
         trackId={track.id}
-        videoLayout={'FIT'}
+        videoLayout="FIT"
         skipRenderOutsideVisibleArea={false}
         style={videoStyle}
       />

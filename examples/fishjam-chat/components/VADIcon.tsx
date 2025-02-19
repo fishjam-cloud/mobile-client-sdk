@@ -5,7 +5,7 @@ import { AdditionalColors } from '../utils/Colors';
 export default function VADIcon() {
   return (
     <MaterialCommunityIcons
-      name={'microphone'}
+      name="microphone"
       size={25}
       color={AdditionalColors.white}
     />
