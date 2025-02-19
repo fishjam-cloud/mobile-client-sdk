@@ -1,6 +1,7 @@
 package io.fishjam.reactnative
 
 import android.content.Context
+import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.VideoTrack
 import expo.modules.kotlin.AppContext
 import io.fishjam.reactnative.managers.TrackUpdateListener
@@ -47,7 +48,8 @@ class VideoRendererView(
 
   override fun dispose() {
     activeVideoTrack?.removeRenderer(videoView)
-    RNFishjamClient.trackUpdateListenersManager.add(this)
+    RNFishjamClient.trackUpdateListenersManager.remove(this)
+    (activeVideoTrack as? LocalVideoTrack)?.stop()
     super.dispose()
   }
 
