@@ -2,7 +2,6 @@ package com.fishjamcloud.client.ui
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Matrix
 import android.graphics.SurfaceTexture
 import android.os.Looper
 import android.util.AttributeSet
@@ -10,14 +9,16 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.TextureView
 import android.view.TextureView.SurfaceTextureListener
+import com.fishjamcloud.client.models.Dimensions
 import org.webrtc.*
 import org.webrtc.RendererCommon.RendererEvents
 import org.webrtc.RendererCommon.ScalingType
 import timber.log.Timber
 import java.util.concurrent.CountDownLatch
-import kotlin.math.ceil
-import kotlin.math.max
-import kotlin.math.roundToInt
+
+interface VideoTextureViewRendererListener {
+  fun onDimensionsChanged(dimensions: Dimensions)
+}
 
 open class VideoTextureViewRenderer :
   TextureView,
@@ -41,6 +42,10 @@ open class VideoTextureViewRenderer :
   private var enableFixedSize = false
   private var surfaceWidth = 0
   private var surfaceHeight = 0
+
+  private var dimensionsListener: VideoTextureViewRendererListener? = null
+
+  private val scalingCalculator = VideoScalingCalculator()
 
   /**
    * Standard View constructor. In order to render something, you must first call init().
@@ -213,108 +218,31 @@ open class VideoTextureViewRenderer :
   ) {
     ThreadUtils.checkIsOnMainThread()
 
-    val aspectRatio =
-      when (this.scalingType) {
-        ScalingType.SCALE_ASPECT_FIT ->
-          rotatedFrameWidth.toFloat() / max(rotatedFrameHeight, 1)
-
-        else ->
-          (right - left) / (bottom - top).toFloat()
-      }
-
-    eglRenderer.setLayoutAspectRatio(aspectRatio)
     updateSurfaceSize()
-
-    logD("onLayout() aspect ratio $aspectRatio")
   }
 
   private fun updateSurfaceSize() {
     ThreadUtils.checkIsOnMainThread()
 
     if (enableFixedSize && rotatedFrameWidth != 0 && rotatedFrameHeight != 0 && width != 0 && height != 0) {
-      val layoutAspectRatio = width / height.toFloat()
-      val frameAspectRatio = rotatedFrameWidth / rotatedFrameHeight.toFloat()
-      val drawnFrameWidth: Float
-      val drawnFrameHeight: Float
+      val result =
+        scalingCalculator.calculateScaling(
+          width,
+          height,
+          rotatedFrameWidth,
+          rotatedFrameHeight,
+          scalingType
+        )
 
-      var width = this.width.toFloat()
-      var height = this.height.toFloat()
-
-      when (scalingType) {
-        ScalingType.SCALE_ASPECT_FILL -> {
-          if (frameAspectRatio > layoutAspectRatio) {
-            drawnFrameWidth = rotatedFrameHeight * layoutAspectRatio
-            drawnFrameHeight = rotatedFrameHeight.toFloat()
-          } else {
-            drawnFrameWidth = rotatedFrameWidth.toFloat()
-            drawnFrameHeight = rotatedFrameWidth / layoutAspectRatio
-          }
-          // Aspect ratio of the drawn frame and the view is the same.
-          width = Math.min(width, drawnFrameWidth)
-          height = Math.min(height, drawnFrameHeight)
-        }
-
-        else -> {
-          width = rotatedFrameWidth.toFloat()
-          height = rotatedFrameHeight.toFloat()
-        }
-      }
-
-      logD(
-        "updateSurfaceSize() " +
-          "layout size: ${getWidth()} x ${getHeight()}, " +
-          "frame size: $rotatedFrameWidth x $rotatedFrameHeight, " +
-          "requested surface size: $width x $height, " +
-          "old surface size: $surfaceWidth x $surfaceHeight"
-      )
-
-      if (ceil(width).roundToInt() != surfaceWidth || ceil(height).roundToInt() != surfaceHeight) {
-        surfaceWidth = ceil(width).roundToInt()
-        surfaceHeight = ceil(height).roundToInt()
-        adjustAspectRatio(width, height)
+      if (result.surfaceWidth != surfaceWidth || result.surfaceHeight != surfaceHeight) {
+        surfaceWidth = result.surfaceWidth
+        surfaceHeight = result.surfaceHeight
+        setTransform(result.transform)
       }
     } else {
-      surfaceHeight = 0
       surfaceWidth = 0
+      surfaceHeight = 0
     }
-  }
-
-  /**
-   * Sets the TextureView transform to preserve the aspect ratio of the video.
-   */
-  private fun adjustAspectRatio(
-    videoWidth: Float,
-    videoHeight: Float
-  ) {
-    val viewWidth = width
-    val viewHeight = height
-    val aspectRatio = videoHeight / videoWidth
-    val newWidth: Int
-    val newHeight: Int
-
-    if (viewHeight > viewWidth * aspectRatio) {
-      // limited by narrow width; restrict height
-      newWidth = viewWidth
-      newHeight = ceil(viewWidth * aspectRatio).roundToInt()
-    } else {
-      // limited by short height; restrict width
-      newWidth = ceil(viewHeight / aspectRatio).roundToInt()
-      newHeight = viewHeight
-    }
-
-    val xoff = (viewWidth - newWidth) / 2
-    val yoff = (viewHeight - newHeight) / 2
-
-    logD(
-      "video=$videoWidth x $videoHeight view=$viewWidth x $viewHeight" +
-        " newView=$newWidth x $newHeight off=$xoff,$yoff"
-    )
-
-    val txform = Matrix()
-    getTransform(txform)
-    txform.setScale(newWidth.toFloat() / viewWidth, newHeight.toFloat() / viewHeight)
-    txform.postTranslate(xoff.toFloat(), yoff.toFloat())
-    setTransform(txform)
   }
 
   // SurfaceHolder.Callback interface.
@@ -389,6 +317,10 @@ open class VideoTextureViewRenderer :
     rendererEvents?.onFirstFrameRendered()
   }
 
+  fun setDimensionsListener(listener: VideoTextureViewRendererListener?) {
+    dimensionsListener = listener
+  }
+
   override fun onFrameResolutionChanged(
     videoWidth: Int,
     videoHeight: Int,
@@ -406,6 +338,7 @@ open class VideoTextureViewRenderer :
       rotatedFrameHeight = rotatedHeight
       updateSurfaceSize()
       requestLayout()
+      dimensionsListener?.onDimensionsChanged(Dimensions(rotatedWidth, rotatedHeight))
     }
   }
 

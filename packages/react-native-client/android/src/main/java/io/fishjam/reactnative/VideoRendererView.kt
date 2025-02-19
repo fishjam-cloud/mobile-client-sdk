@@ -3,6 +3,8 @@ package io.fishjam.reactnative
 import android.content.Context
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.VideoTrack
+import com.fishjamcloud.client.media.VideoTrackListener
+import com.fishjamcloud.client.models.Dimensions
 import expo.modules.kotlin.AppContext
 import io.fishjam.reactnative.managers.TrackUpdateListener
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +15,8 @@ class VideoRendererView(
   context: Context,
   appContext: AppContext
 ) : VideoView(context, appContext),
-  TrackUpdateListener {
+  TrackUpdateListener,
+  VideoTrackListener {
   private var activeVideoTrack: VideoTrack? = null
   private var trackId: String? = null
 
@@ -27,6 +30,7 @@ class VideoRendererView(
     activeVideoTrack?.removeRenderer(videoView)
     activeVideoTrack = videoTrack
 
+    videoTrack.setDimensionsListener(this)
     videoTrack.addRenderer(videoView)
 
     super.setupTrack()
@@ -58,4 +62,15 @@ class VideoRendererView(
   }
 
   override fun getVideoTrack(): VideoTrack? = activeVideoTrack
+
+  override fun onDimensionsChanged(dimensions: Dimensions) {
+    if (trackId == null) return
+
+    RNFishjamClient.sendEvent(
+      EmitableEvent.trackAspectRatioUpdated(
+        trackId!!,
+        dimensions.aspectRatio
+      )
+    )
+  }
 }

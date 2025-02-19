@@ -11,7 +11,7 @@ public protocol VideoViewDelegate: AnyObject {
 /// It supports two types of fitting, `fit` and `fill` where the prior tries to keep the original dimensions
 /// and the later one tries to fill the available space. Additionaly one can set mirror mode to flip the video horizontally,
 /// usually expected when displaying the local user's view.
-public class VideoView: UIView {
+public class VideoView: UIView, VideoTrackDelegate {
     public enum Layout {
         case fit
         case fill
@@ -44,20 +44,6 @@ public class VideoView: UIView {
         }
     }
 
-    /// Dimensions can change dynamically, either when the device changes the orientation
-    /// or when the resolution changes adaptively.
-    public private(set) var dimensions: Dimensions? {
-        didSet {
-            guard oldValue != dimensions else { return }
-
-            // when the dimensions change force the new layout
-            shouldLayout()
-
-            guard let dimensions = dimensions else { return }
-            delegate?.didChange(dimensions: dimensions)
-        }
-    }
-
     /// usually should be equal to `frame.size`
     private var viewSize: CGSize
 
@@ -79,7 +65,7 @@ public class VideoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public private(set) var rendererView: RTCVideoRenderer?
+    public private(set) var rendererView: RTCMTLVideoView?
 
     /// When the track changes,a new renderer gets created and attached to the new track.
     /// To avoid leaking resources the old renderer gets removed from the old track.
@@ -104,7 +90,7 @@ public class VideoView: UIView {
                     track.addRenderer(rendererView)
                 }
             }
-
+            track?.delegate = self
             shouldLayout()
         }
     }
@@ -123,12 +109,12 @@ public class VideoView: UIView {
     /// In case of an old renderer view, it gets detached from the current view and a new instance
     /// gets created and then reattached.
     private func createAndPrepareRenderView() {
-        if let view = rendererView as? UIView {
+        if let view = rendererView {
             view.removeFromSuperview()
         }
 
-        rendererView = VideoView.createNativeRendererView(delegate: self)
-        if let view = rendererView as? UIView {
+        rendererView = VideoView.createNativeRendererView()
+        if let view = rendererView {
             view.translatesAutoresizingMaskIntoConstraints = true
             addSubview(view)
         }
@@ -163,9 +149,9 @@ public class VideoView: UIView {
 
         viewSize = frame.size
 
-        guard let rendererView = rendererView as? UIView else { return }
+        guard let rendererView = rendererView else { return }
 
-        guard let dimensions = dimensions else {
+        guard let dimensions = track?.dimensions else {
             // hide the view until we receive the video's dimensions
             rendererView.isHidden = true
             return
@@ -234,39 +220,18 @@ public class VideoView: UIView {
         }
     }
 
-    private static func createNativeRendererView(delegate: RTCVideoViewDelegate) -> RTCVideoRenderer {
+    private static func createNativeRendererView() -> RTCMTLVideoView {
         DispatchQueue.fishjam.sync {
             let mtlView = RTCMTLVideoView()
             mtlView.contentMode = .scaleAspectFit
             mtlView.videoContentMode = .scaleAspectFit
-            mtlView.delegate = delegate
 
             return mtlView
         }
     }
-}
 
-extension VideoView: RTCVideoViewDelegate {
-    public func videoView(_: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
-        guard let width = Int32(exactly: size.width),
-            let height = Int32(exactly: size.height)
-        else {
-            // CGSize is used by WebRTC but this should always be an integer
-            sdkLogger.error("VideoView: size width/height is not an integer")
-            return
-        }
-
-        guard width > 1, height > 1 else {
-            // Handle known issue where the delegate (rarely) reports dimensions of 1x1
-            // which causes [MTLTextureDescriptorInternal validateWithDevice] to crash.
-            return
-        }
-
-        DispatchQueue.main.async {
-            self.dimensions = Dimensions(
-                width: width,
-                height: height
-            )
-        }
+    public func didChange(dimensions: Dimensions) {
+        shouldLayout()
+        delegate?.didChange(dimensions: dimensions)
     }
 }

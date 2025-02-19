@@ -1,6 +1,10 @@
 import WebRTC
 
-open class VideoTrack: Track {
+public protocol VideoTrackDelegate: AnyObject {
+    func didChange(dimensions: Dimensions)
+}
+
+open class VideoTrack: Track, RTCVideoViewDelegate {
     init(
         mediaTrack: RTCVideoTrack, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
@@ -8,9 +12,13 @@ open class VideoTrack: Track {
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
     }
 
-    internal var videoTrack: RTCVideoTrack {
+    var videoTrack: RTCVideoTrack {
         return self.mediaTrack as! RTCVideoTrack
     }
+
+    weak var delegate: VideoTrackDelegate?
+
+    public private(set) var dimensions: Dimensions?
     /**
      * Every track can have 2 ids:
      * - the one from rtc engine in the form of <peerid>:<trackid>
@@ -24,15 +32,47 @@ open class VideoTrack: Track {
      * unless they want to debug something.
      */
 
-    func addRenderer(_ renderer: RTCVideoRenderer) {
+    func addRenderer(_ renderer: RTCMTLVideoView) {
         videoTrack.add(renderer)
+        renderer.delegate = self
     }
 
-    func removeRenderer(_ renderer: RTCVideoRenderer) {
+    func removeRenderer(_ renderer: RTCMTLVideoView) {
         videoTrack.remove(renderer)
+        renderer.delegate = nil
     }
 
     func shouldReceive(_ shouldReceive: Bool) {
         videoTrack.shouldReceive = shouldReceive
+    }
+
+    public func videoView(_ videoView: any RTCVideoRenderer, didChangeVideoSize size: CGSize) {
+        guard let width = Int32(exactly: size.width),
+            let height = Int32(exactly: size.height)
+        else {
+            // CGSize is used by WebRTC but this should always be an integer
+            sdkLogger.error("VideoView: size width/height is not an integer")
+            return
+        }
+
+        guard width > 1, height > 1 else {
+            // Handle known issue where the delegate (rarely) reports dimensions of 1x1
+            // which causes [MTLTextureDescriptorInternal validateWithDevice] to crash.
+            return
+        }
+
+        let newDimensions = Dimensions(
+            width: width,
+            height: height
+        )
+
+        guard newDimensions != dimensions else { return }
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            self.dimensions = newDimensions
+            self.delegate?.didChange(dimensions: newDimensions)
+        }
     }
 }

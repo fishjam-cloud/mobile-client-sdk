@@ -14,6 +14,7 @@ const createGridTracksFromPeer = (
       isLocal: peer.isLocal,
       userName: peer.metadata.peer?.displayName,
       isVadActive: peer.microphoneTrack?.vadStatus === 'speech',
+      aspectRatio: peer.cameraTrack.aspectRatio,
     });
   }
 
@@ -24,6 +25,7 @@ const createGridTracksFromPeer = (
       isLocal: peer.isLocal,
       userName: peer.metadata.peer?.displayName,
       isVadActive: peer.screenShareAudioTrack?.vadStatus === 'speech',
+      aspectRatio: peer.screenShareVideoTrack.aspectRatio,
     });
   }
 
