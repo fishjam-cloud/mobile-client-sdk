@@ -4,7 +4,7 @@ import FishjamCloudClient
 
 class VideoRendererView: ExpoView, TrackUpdateListener {
     var videoView: VideoView!
-    private var localVideoTrack: LocalCameraTrack?
+    private weak var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
