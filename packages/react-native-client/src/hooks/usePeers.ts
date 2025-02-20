@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { Brand, GenericMetadata, TrackMetadata } from '../types';
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
-import { useFishjamEventState } from './internal/useFishjamEventState';
+import { useFishjamEvent } from './internal/useFishjamEvent';
 
 export type PeerId = Brand<string, 'PeerId'>;
 export type TrackId = Brand<string, 'TrackId'>;
@@ -38,6 +38,7 @@ export type AudioTrack = TrackBase & {
 
 export type VideoTrack = TrackBase & {
   type: 'Video';
+  aspectRatio: number;
 };
 
 export type Track = VideoTrack | AudioTrack;
@@ -84,6 +85,7 @@ export type Peer<
   tracks: Track[];
 };
 
+// TODO: This should return a different metadata type if it's requiring it to have a certain field.
 function addIsActiveToTracks<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
@@ -135,6 +137,29 @@ function getPeerWithDistinguishedTracks<
   };
 }
 
+const usePeersEventState = <
+  PeerMetadata extends GenericMetadata = GenericMetadata,
+  ServerMetadata extends GenericMetadata = GenericMetadata,
+>() => {
+  const getTransformedPeers = useCallback(
+    () =>
+      addIsActiveToTracks(
+        RNFishjamClientModule.getPeers<PeerMetadata, ServerMetadata>(),
+      ),
+    [],
+  );
+
+  const [value, setValue] = useState(getTransformedPeers());
+
+  const onEvent = useCallback(() => {
+    setValue(getTransformedPeers());
+  }, [getTransformedPeers]);
+
+  useFishjamEvent(ReceivableEvents.PeersUpdate, onEvent);
+  useFishjamEvent(ReceivableEvents.TrackAspectRatioUpdated, onEvent);
+  return value;
+};
+
 /**
  * Result type for the usePeers hook.
  * @template PeerMetadata - Type for peer-specific metadata
@@ -162,11 +187,7 @@ export function usePeers<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
 >() {
-  const peers = useFishjamEventState(
-    ReceivableEvents.PeersUpdate,
-    RNFishjamClientModule.getPeers<PeerMetadata, ServerMetadata>(),
-    (peersWithoutActive) => addIsActiveToTracks(peersWithoutActive),
-  );
+  const peers = usePeersEventState<PeerMetadata, ServerMetadata>();
 
   const localPeer = useMemo(() => {
     const localPeerData = peers.find((peer) => peer.isLocal);

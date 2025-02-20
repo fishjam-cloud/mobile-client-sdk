@@ -15,6 +15,7 @@ export type GridTrack = Track & {
   isLocal: boolean;
   userName: string | undefined;
   isVadActive: boolean;
+  aspectRatio: number;
 };
 
 export const GridTrackItem = ({
@@ -24,27 +25,28 @@ export const GridTrackItem = ({
   track: GridTrack;
   index: number;
 }) => {
-  const containerStyle = useMemo(
-    () => [
+  const videoStyle = useMemo(() => {
+    const isPortrait = track.aspectRatio < 1;
+    return [
       styles.video,
       {
+        aspectRatio: isPortrait ? 1 : track.aspectRatio,
         backgroundColor: track.isLocal
           ? BrandColors.yellow100
           : BrandColors.darkBlue60,
       },
-    ],
-    [track.isLocal],
-  );
+    ];
+  }, [track.aspectRatio, track.isLocal]);
 
   return (
     <View
       accessibilityLabel={roomScreenLabels.VIDEO_CELL + index}
-      style={containerStyle}>
+      style={styles.container}>
       <VideoRendererView
         trackId={track.id}
         videoLayout="FIT"
         skipRenderOutsideVisibleArea={false}
-        style={styles.flexOne}
+        style={videoStyle}
       />
       {track.isVadActive && (
         <View style={styles.vadIcon}>
@@ -65,11 +67,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    padding: 10,
   },
   video: {
-    flex: 1,
-    margin: 10,
-    aspectRatio: 1,
+    width: '100%',
     borderRadius: 8,
     overflow: 'hidden',
     borderColor: BrandColors.darkBlue100,

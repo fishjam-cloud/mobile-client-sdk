@@ -1,10 +1,20 @@
 package com.fishjamcloud.client.models
 
+import kotlin.math.roundToInt
+
 data class Dimensions(
   val width: Int,
   val height: Int
 ) {
   fun flip(): Dimensions = Dimensions(width = this.height, height = this.width)
+
+  val aspectRatio: Double?
+    get() =
+      if (width <= 0 || height <= 0) {
+        null
+      } else {
+        ((width.toDouble() / height.toDouble()) * 1000.0).roundToInt() / 1000.0
+      }
 }
 
 /**

@@ -63,19 +63,25 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    let sendEvent: (_ eventName: String, _ data: [String: Any?]) -> Void
+    static private(set) var sendEvent: ((_ event: EmitableEvent) -> Void)?
 
     static var tracksUpdateListenersManager = TracksUpdateListenersManager()
     static var localCameraTracksChangedListenersManager = LocalCameraTracksChangedListenersManager()
 
-    init(sendEvent: @escaping (_ eventName: String, _ data: [String: Any?]) -> Void) {
-        self.sendEvent = sendEvent
+    init(_ eventEmitter: @escaping (_ eventName: String, _ data: [String: Any?]) -> Void) {
+        RNFishjamClient.sendEvent = { event in
+            eventEmitter(event.event.name, event.data)
+        }
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(onRouteChangeNotification),
             name: AVAudioSession.routeChangeNotification,
             object: nil
         )
+    }
+
+    deinit {
+        RNFishjamClient.sendEvent = nil
     }
 
     private func getSimulcastConfigFromOptions(simulcastConfig: RNSimulcastConfig) throws -> SimulcastConfig {
@@ -519,6 +525,7 @@ class RNFishjamClient: FishjamClientListener {
                             "metadata": track.metadata.toDict(),
                             "encoding": track.encoding?.description,
                             "encodingReason": track.encodingReason?.rawValue,
+                            "aspectRatio": track.dimensions?.aspectRatio,
                         ]
 
                     case let track as RemoteAudioTrack:
@@ -534,6 +541,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
+                            "aspectRatio": track.dimensions?.aspectRatio,
                         ]
 
                     case let track as LocalBroadcastScreenShareTrack:
@@ -541,6 +549,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
+                            "aspectRatio": track.dimensions?.aspectRatio,
                         ]
 
                     case let track as LocalAppScreenShareTrack:
@@ -548,6 +557,7 @@ class RNFishjamClient: FishjamClientListener {
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
+                            "aspectRatio": track.dimensions?.aspectRatio,
                         ]
 
                     case let track as LocalAudioTrack:
@@ -776,13 +786,13 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func emit(event: EmitableEvent) {
-        DispatchQueue.main.async { [weak self] in
-            self?.sendEvent(event.event.name, event.data)
+        DispatchQueue.main.async {
+            RNFishjamClient.sendEvent?(event)
         }
     }
 
     func emitEndpoints() {
-        emit(event: .peersUpdate(peersData: getPeers()))
+        emit(event: .peersUpdate())
     }
 
     func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {

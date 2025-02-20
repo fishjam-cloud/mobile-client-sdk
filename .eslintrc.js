@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@react-native", "@typescript-eslint", "react-hooks"],
+  plugins: ["@react-native", "@typescript-eslint", "react-hooks", "react"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -21,6 +21,11 @@ module.exports = {
         argsIgnorePattern: "^_",
       },
     ],
-    "arrow-body-style": ["error", "as-needed"]
+    "arrow-body-style": ["error", "as-needed"],
+    "react/jsx-curly-brace-presence": ["error", {
+      props: "never",
+      children: "never",
+    },
+    ],
   },
 };

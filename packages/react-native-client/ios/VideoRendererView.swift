@@ -2,15 +2,18 @@ import Combine
 import ExpoModulesCore
 import FishjamCloudClient
 
-class VideoRendererView: ExpoView, TrackUpdateListener {
-    var videoView: VideoView!
-    var cancellableEndpoints: Cancellable?
+class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
+    let videoView: VideoView
+    private weak var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
-        super.init(appContext: appContext)
         videoView = VideoView()
         videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         videoView.clipsToBounds = true
+
+        super.init(appContext: appContext)
+
+        videoView.delegate = self
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
@@ -19,6 +22,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
         if newSuperview == nil {
             videoView.removeFromSuperview()
             RNFishjamClient.tracksUpdateListenersManager.remove(self)
+            localVideoTrack?.stop()
         } else {
             addSubview(videoView)
             RNFishjamClient.tracksUpdateListenersManager.add(self)
@@ -38,6 +42,7 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
                 guard let track = endpoint.tracks[self.trackId] as? VideoTrack else { continue }
                 if let track = track as? LocalCameraTrack {
                     self.mirrorVideo = track.isFrontCamera
+                    self.localVideoTrack = track
                 }
                 self.videoView.track = track
                 return
@@ -78,6 +83,19 @@ class VideoRendererView: ExpoView, TrackUpdateListener {
     var checkVisibilityTimeInterval: TimeInterval? {
         didSet {
             videoView.checkVisibilityTimeInterval = checkVisibilityTimeInterval
+        }
+    }
+
+    func didChange(dimensions newDimensions: FishjamCloudClient.Dimensions) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            let event = EmitableEvent.trackAspectRatioUpdated(
+                trackId: trackId,
+                aspectRatio: newDimensions.aspectRatio
+            )
+
+            RNFishjamClient.sendEvent?(event)
         }
     }
 }

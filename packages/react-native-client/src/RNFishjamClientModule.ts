@@ -102,6 +102,7 @@ export const ReceivableEvents = {
   PeerStatusChanged: 'PeerStatusChanged',
   ReconnectionStatusChanged: 'ReconnectionStatusChanged',
   CurrentCameraChanged: 'CurrentCameraChanged',
+  TrackAspectRatioUpdated: 'TrackAspectRatioUpdated',
 } as const;
 
 export type ReceivableEventPayloads = {
@@ -109,7 +110,7 @@ export type ReceivableEventPayloads = {
   [ReceivableEvents.IsScreenShareOn]: boolean;
   [ReceivableEvents.IsAppScreenShareOn]: boolean;
   [ReceivableEvents.SimulcastConfigUpdate]: SimulcastConfig;
-  [ReceivableEvents.PeersUpdate]: Peer<GenericMetadata, GenericMetadata>[];
+  [ReceivableEvents.PeersUpdate]: void;
   [ReceivableEvents.AudioDeviceUpdate]: OnAudioDeviceEvent;
   [ReceivableEvents.BandwidthEstimation]: number | null;
   [ReceivableEvents.ReconnectionRetriesLimitReached]: void;
@@ -119,6 +120,10 @@ export type ReceivableEventPayloads = {
   [ReceivableEvents.PeerStatusChanged]: PeerStatus;
   [ReceivableEvents.ReconnectionStatusChanged]: ReconnectionStatus;
   [ReceivableEvents.CurrentCameraChanged]: CurrentCameraChangedType;
+  [ReceivableEvents.TrackAspectRatioUpdated]: {
+    trackId: string;
+    aspectRatio: number | null;
+  };
 };
 
 export default requireNativeModule('RNFishjamClient') as RNFishjamClient &

@@ -8,6 +8,7 @@ export type GridTrack = {
   peerId: string;
   isLocal: boolean;
   isVadActive: boolean;
+  aspectRatio: number | null;
 };
 
 export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
@@ -37,7 +38,7 @@ export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
         )}
         {peer.isVadActive && (
           <View style={styles.vadIcon}>
-            <Text>{'speaking'}</Text>
+            <Text>speaking</Text>
           </View>
         )}
       </View>
