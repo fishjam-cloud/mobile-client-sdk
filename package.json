@@ -1,6 +1,6 @@
 {
   "name": "fishjam-mobile-sdk",
-  "version": "0.9.0",
+  "version": "0.13.0",
   "license": "MIT",
   "private": true,
   "packageManager": "yarn@4.5.3",
