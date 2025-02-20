@@ -38,7 +38,7 @@ export const GridTrackItem = ({ peer }: { peer: GridTrack }) => {
         )}
         {peer.isVadActive && (
           <View style={styles.vadIcon}>
-            <Text>{'speaking'}</Text>
+            <Text>speaking</Text>
           </View>
         )}
       </View>
