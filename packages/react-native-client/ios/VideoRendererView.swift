@@ -4,7 +4,6 @@ import FishjamCloudClient
 
 class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
     let videoView: VideoView
-    private weak var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
         videoView = VideoView()

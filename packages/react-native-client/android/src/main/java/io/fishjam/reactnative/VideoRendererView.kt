@@ -51,7 +51,7 @@ class VideoRendererView(
 
   override fun dispose() {
     activeVideoTrack?.removeRenderer(videoView)
-    RNFishjamClient.trackUpdateListenersManager.add(this)
+    RNFishjamClient.trackUpdateListenersManager.remove(this)
     super.dispose()
   }
 
