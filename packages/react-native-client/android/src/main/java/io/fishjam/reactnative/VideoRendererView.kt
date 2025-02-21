@@ -1,7 +1,6 @@
 package io.fishjam.reactnative
 
 import android.content.Context
-import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.VideoTrack
 import com.fishjamcloud.client.media.VideoTrackListener
 import com.fishjamcloud.client.models.Dimensions
@@ -53,7 +52,6 @@ class VideoRendererView(
   override fun dispose() {
     activeVideoTrack?.removeRenderer(videoView)
     RNFishjamClient.trackUpdateListenersManager.remove(this)
-    (activeVideoTrack as? LocalVideoTrack)?.stop()
     super.dispose()
   }
 

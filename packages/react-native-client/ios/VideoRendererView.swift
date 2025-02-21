@@ -4,7 +4,6 @@ import FishjamCloudClient
 
 class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
     let videoView: VideoView
-    private weak var localVideoTrack: LocalCameraTrack?
 
     required init(appContext: AppContext? = nil) {
         videoView = VideoView()
@@ -22,7 +21,6 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
         if newSuperview == nil {
             videoView.removeFromSuperview()
             RNFishjamClient.tracksUpdateListenersManager.remove(self)
-            localVideoTrack?.stop()
         } else {
             addSubview(videoView)
             RNFishjamClient.tracksUpdateListenersManager.add(self)
@@ -42,7 +40,6 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
                 guard let track = endpoint.tracks[self.trackId] as? VideoTrack else { continue }
                 if let track = track as? LocalCameraTrack {
                     self.mirrorVideo = track.isFrontCamera
-                    self.localVideoTrack = track
                 }
                 self.videoView.track = track
                 return
