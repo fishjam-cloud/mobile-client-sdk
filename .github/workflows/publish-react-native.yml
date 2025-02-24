@@ -1,0 +1,22 @@
+# If for some reason release.yml fails for iOS or Android, but the spec is public, you can try to publish the React Native package manually.
+name: Publish React Native Package
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  publish-react-native-client:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - run: yarn
+      - run: yarn prepare
+      - name: Publish to NPM
+        run: yarn npm publish --access public
+        working-directory: packages/react-native-client
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
