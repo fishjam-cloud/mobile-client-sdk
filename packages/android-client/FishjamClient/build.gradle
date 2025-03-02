@@ -108,8 +108,10 @@ dependencies {
     implementation 'androidx.core:core:1.8.20'
 
     api 'io.github.webrtc-sdk:android:125.6422.06'
+    implementation 'com.google.mlkit:vision-common:17.3.0'
+  implementation 'com.google.mlkit:segmentation-selfie:16.0.0-beta6'
 
-    testImplementation 'junit:junit:4.13.2'
+  testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.13.2"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
     testImplementation "io.mockk:mockk:1.13.2"
