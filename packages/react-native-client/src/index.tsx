@@ -92,5 +92,7 @@ export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 
 export type { FishjamRoomProps } from './components/FishjamRoom';
 export { FishjamRoom } from './components/FishjamRoom';
+export type { FishjamSandboxRoomProps } from './components/FishjamSandboxRoom';
+export { FishjamSandboxRoom } from './components/FishjamSandboxRoom';
 
 initializeWarningListener();
