@@ -187,7 +187,7 @@ public object PeerMessageKt {
     fishjam.PeerMessageKt.AuthenticatedKt.Dsl._create(fishjam.PeerNotifications.PeerMessage.Authenticated.newBuilder()).apply { block() }._build()
   /**
    * ```
-   * Response sent by FJ, confirming successfull authentication
+   * Response sent by FJ, confirming successful authentication
    * ```
    *
    * Protobuf type `fishjam.PeerMessage.Authenticated`
@@ -207,6 +207,30 @@ public object PeerMessageKt {
       @kotlin.jvm.JvmSynthetic
       @kotlin.PublishedApi
       internal fun _build(): fishjam.PeerNotifications.PeerMessage.Authenticated = _builder.build()
+
+      /**
+       * `.fishjam.PeerMessage.RoomType room_type = 1;`
+       */
+      public var roomType: fishjam.PeerNotifications.PeerMessage.RoomType
+        @JvmName("getRoomType")
+        get() = _builder.getRoomType()
+        @JvmName("setRoomType")
+        set(value) {
+          _builder.setRoomType(value)
+        }
+      public var roomTypeValue: kotlin.Int
+        @JvmName("getRoomTypeValue")
+        get() = _builder.getRoomTypeValue()
+        @JvmName("setRoomTypeValue")
+        set(value) {
+          _builder.setRoomTypeValue(value)
+        }
+      /**
+       * `.fishjam.PeerMessage.RoomType room_type = 1;`
+       */
+      public fun clearRoomType() {
+        _builder.clearRoomType()
+      }
     }
   }
   @kotlin.jvm.JvmName("-initializeauthRequest")

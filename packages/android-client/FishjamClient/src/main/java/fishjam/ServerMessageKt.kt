@@ -296,9 +296,9 @@ public object ServerMessageKt {
     }
 
     /**
-     * `.fishjam.ServerMessage.MetricsReport metrics_report = 12;`
+     * `.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];`
      */
-    public var metricsReport: fishjam.ServerNotifications.ServerMessage.MetricsReport
+    @kotlin.Deprecated(message = "Field metricsReport is deprecated") public var metricsReport: fishjam.ServerNotifications.ServerMessage.MetricsReport
       @JvmName("getMetricsReport")
       get() = _builder.getMetricsReport()
       @JvmName("setMetricsReport")
@@ -306,13 +306,13 @@ public object ServerMessageKt {
         _builder.setMetricsReport(value)
       }
     /**
-     * `.fishjam.ServerMessage.MetricsReport metrics_report = 12;`
+     * `.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];`
      */
     public fun clearMetricsReport() {
       _builder.clearMetricsReport()
     }
     /**
-     * `.fishjam.ServerMessage.MetricsReport metrics_report = 12;`
+     * `.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];`
      * @return Whether the metricsReport field is set.
      */
     public fun hasMetricsReport(): kotlin.Boolean {
