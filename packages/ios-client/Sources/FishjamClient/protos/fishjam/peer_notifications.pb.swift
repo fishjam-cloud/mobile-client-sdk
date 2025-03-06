@@ -122,11 +122,45 @@ public struct Fishjam_PeerMessage {
   #endif
   }
 
-  /// Response sent by FJ, confirming successfull authentication
+  /// Defines types of rooms peers may connect to
+  public enum RoomType: SwiftProtobuf.Enum {
+    public typealias RawValue = Int
+    case unspecified // = 0
+    case fullFeature // = 1
+    case audioOnly // = 2
+    case UNRECOGNIZED(Int)
+
+    public init() {
+      self = .unspecified
+    }
+
+    public init?(rawValue: Int) {
+      switch rawValue {
+      case 0: self = .unspecified
+      case 1: self = .fullFeature
+      case 2: self = .audioOnly
+      default: self = .UNRECOGNIZED(rawValue)
+      }
+    }
+
+    public var rawValue: Int {
+      switch self {
+      case .unspecified: return 0
+      case .fullFeature: return 1
+      case .audioOnly: return 2
+      case .UNRECOGNIZED(let i): return i
+      }
+    }
+
+  }
+
+  /// Response sent by FJ, confirming successful authentication
   public struct Authenticated {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
+
+    public var roomType: Fishjam_PeerMessage.RoomType = .unspecified
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -178,9 +212,23 @@ public struct Fishjam_PeerMessage {
   public init() {}
 }
 
+#if swift(>=4.2)
+
+extension Fishjam_PeerMessage.RoomType: CaseIterable {
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  public static let allCases: [Fishjam_PeerMessage.RoomType] = [
+    .unspecified,
+    .fullFeature,
+    .audioOnly,
+  ]
+}
+
+#endif  // swift(>=4.2)
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Fishjam_PeerMessage: @unchecked Sendable {}
 extension Fishjam_PeerMessage.OneOf_Content: @unchecked Sendable {}
+extension Fishjam_PeerMessage.RoomType: @unchecked Sendable {}
 extension Fishjam_PeerMessage.Authenticated: @unchecked Sendable {}
 extension Fishjam_PeerMessage.AuthRequest: @unchecked Sendable {}
 extension Fishjam_PeerMessage.RTCStatsReport: @unchecked Sendable {}
@@ -333,20 +381,41 @@ extension Fishjam_PeerMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
   }
 }
 
+extension Fishjam_PeerMessage.RoomType: SwiftProtobuf._ProtoNameProviding {
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    0: .same(proto: "ROOM_TYPE_UNSPECIFIED"),
+    1: .same(proto: "ROOM_TYPE_FULL_FEATURE"),
+    2: .same(proto: "ROOM_TYPE_AUDIO_ONLY"),
+  ]
+}
+
 extension Fishjam_PeerMessage.Authenticated: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = Fishjam_PeerMessage.protoMessageName + ".Authenticated"
-  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "room_type"),
+  ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let _ = try decoder.nextFieldNumber() {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularEnumField(value: &self.roomType) }()
+      default: break
+      }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.roomType != .unspecified {
+      try visitor.visitSingularEnumField(value: self.roomType, fieldNumber: 1)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Fishjam_PeerMessage.Authenticated, rhs: Fishjam_PeerMessage.Authenticated) -> Bool {
+    if lhs.roomType != rhs.roomType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
