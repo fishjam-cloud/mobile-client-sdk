@@ -161,13 +161,154 @@ public final class PeerNotifications {
               fishjam.PeerNotifications.PeerMessage.class, fishjam.PeerNotifications.PeerMessage.Builder.class);
     }
 
+    /**
+     * <pre>
+     * Defines types of rooms peers may connect to
+     * </pre>
+     *
+     * Protobuf enum {@code fishjam.PeerMessage.RoomType}
+     */
+    public enum RoomType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>ROOM_TYPE_UNSPECIFIED = 0;</code>
+       */
+      ROOM_TYPE_UNSPECIFIED(0),
+      /**
+       * <code>ROOM_TYPE_FULL_FEATURE = 1;</code>
+       */
+      ROOM_TYPE_FULL_FEATURE(1),
+      /**
+       * <code>ROOM_TYPE_AUDIO_ONLY = 2;</code>
+       */
+      ROOM_TYPE_AUDIO_ONLY(2),
+      UNRECOGNIZED(-1),
+      ;
+
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 26,
+          /* patch= */ 1,
+          /* suffix= */ "",
+          RoomType.class.getName());
+      }
+      /**
+       * <code>ROOM_TYPE_UNSPECIFIED = 0;</code>
+       */
+      public static final int ROOM_TYPE_UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>ROOM_TYPE_FULL_FEATURE = 1;</code>
+       */
+      public static final int ROOM_TYPE_FULL_FEATURE_VALUE = 1;
+      /**
+       * <code>ROOM_TYPE_AUDIO_ONLY = 2;</code>
+       */
+      public static final int ROOM_TYPE_AUDIO_ONLY_VALUE = 2;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static RoomType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static RoomType forNumber(int value) {
+        switch (value) {
+          case 0: return ROOM_TYPE_UNSPECIFIED;
+          case 1: return ROOM_TYPE_FULL_FEATURE;
+          case 2: return ROOM_TYPE_AUDIO_ONLY;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<RoomType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          RoomType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<RoomType>() {
+              public RoomType findValueByNumber(int number) {
+                return RoomType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return fishjam.PeerNotifications.PeerMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final RoomType[] VALUES = values();
+
+      public static RoomType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private RoomType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:fishjam.PeerMessage.RoomType)
+    }
+
     public interface AuthenticatedOrBuilder extends
         // @@protoc_insertion_point(interface_extends:fishjam.PeerMessage.Authenticated)
         com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+       * @return The enum numeric value on the wire for roomType.
+       */
+      int getRoomTypeValue();
+      /**
+       * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+       * @return The roomType.
+       */
+      fishjam.PeerNotifications.PeerMessage.RoomType getRoomType();
     }
     /**
      * <pre>
-     * Response sent by FJ, confirming successfull authentication
+     * Response sent by FJ, confirming successful authentication
      * </pre>
      *
      * Protobuf type {@code fishjam.PeerMessage.Authenticated}
@@ -191,6 +332,7 @@ public final class PeerNotifications {
         super(builder);
       }
       private Authenticated() {
+        roomType_ = 0;
       }
 
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -204,6 +346,24 @@ public final class PeerNotifications {
         return fishjam.PeerNotifications.internal_static_fishjam_PeerMessage_Authenticated_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 fishjam.PeerNotifications.PeerMessage.Authenticated.class, fishjam.PeerNotifications.PeerMessage.Authenticated.Builder.class);
+      }
+
+      public static final int ROOM_TYPE_FIELD_NUMBER = 1;
+      private int roomType_ = 0;
+      /**
+       * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+       * @return The enum numeric value on the wire for roomType.
+       */
+      @java.lang.Override public int getRoomTypeValue() {
+        return roomType_;
+      }
+      /**
+       * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+       * @return The roomType.
+       */
+      @java.lang.Override public fishjam.PeerNotifications.PeerMessage.RoomType getRoomType() {
+        fishjam.PeerNotifications.PeerMessage.RoomType result = fishjam.PeerNotifications.PeerMessage.RoomType.forNumber(roomType_);
+        return result == null ? fishjam.PeerNotifications.PeerMessage.RoomType.UNRECOGNIZED : result;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -220,6 +380,9 @@ public final class PeerNotifications {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
+        if (roomType_ != fishjam.PeerNotifications.PeerMessage.RoomType.ROOM_TYPE_UNSPECIFIED.getNumber()) {
+          output.writeEnum(1, roomType_);
+        }
         getUnknownFields().writeTo(output);
       }
 
@@ -229,6 +392,10 @@ public final class PeerNotifications {
         if (size != -1) return size;
 
         size = 0;
+        if (roomType_ != fishjam.PeerNotifications.PeerMessage.RoomType.ROOM_TYPE_UNSPECIFIED.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(1, roomType_);
+        }
         size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
         return size;
@@ -244,6 +411,7 @@ public final class PeerNotifications {
         }
         fishjam.PeerNotifications.PeerMessage.Authenticated other = (fishjam.PeerNotifications.PeerMessage.Authenticated) obj;
 
+        if (roomType_ != other.roomType_) return false;
         if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
@@ -255,6 +423,8 @@ public final class PeerNotifications {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ROOM_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + roomType_;
         hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -354,7 +524,7 @@ public final class PeerNotifications {
       }
       /**
        * <pre>
-       * Response sent by FJ, confirming successfull authentication
+       * Response sent by FJ, confirming successful authentication
        * </pre>
        *
        * Protobuf type {@code fishjam.PeerMessage.Authenticated}
@@ -389,6 +559,8 @@ public final class PeerNotifications {
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          bitField0_ = 0;
+          roomType_ = 0;
           return this;
         }
 
@@ -415,8 +587,16 @@ public final class PeerNotifications {
         @java.lang.Override
         public fishjam.PeerNotifications.PeerMessage.Authenticated buildPartial() {
           fishjam.PeerNotifications.PeerMessage.Authenticated result = new fishjam.PeerNotifications.PeerMessage.Authenticated(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
+        }
+
+        private void buildPartial0(fishjam.PeerNotifications.PeerMessage.Authenticated result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.roomType_ = roomType_;
+          }
         }
 
         @java.lang.Override
@@ -431,6 +611,9 @@ public final class PeerNotifications {
 
         public Builder mergeFrom(fishjam.PeerNotifications.PeerMessage.Authenticated other) {
           if (other == fishjam.PeerNotifications.PeerMessage.Authenticated.getDefaultInstance()) return this;
+          if (other.roomType_ != 0) {
+            setRoomTypeValue(other.getRoomTypeValue());
+          }
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -457,6 +640,11 @@ public final class PeerNotifications {
                 case 0:
                   done = true;
                   break;
+                case 8: {
+                  roomType_ = input.readEnum();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 8
                 default: {
                   if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                     done = true; // was an endgroup tag
@@ -470,6 +658,60 @@ public final class PeerNotifications {
           } finally {
             onChanged();
           } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private int roomType_ = 0;
+        /**
+         * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+         * @return The enum numeric value on the wire for roomType.
+         */
+        @java.lang.Override public int getRoomTypeValue() {
+          return roomType_;
+        }
+        /**
+         * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+         * @param value The enum numeric value on the wire for roomType to set.
+         * @return This builder for chaining.
+         */
+        public Builder setRoomTypeValue(int value) {
+          roomType_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+         * @return The roomType.
+         */
+        @java.lang.Override
+        public fishjam.PeerNotifications.PeerMessage.RoomType getRoomType() {
+          fishjam.PeerNotifications.PeerMessage.RoomType result = fishjam.PeerNotifications.PeerMessage.RoomType.forNumber(roomType_);
+          return result == null ? fishjam.PeerNotifications.PeerMessage.RoomType.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+         * @param value The roomType to set.
+         * @return This builder for chaining.
+         */
+        public Builder setRoomType(fishjam.PeerNotifications.PeerMessage.RoomType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000001;
+          roomType_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.fishjam.PeerMessage.RoomType room_type = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearRoomType() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          roomType_ = 0;
+          onChanged();
           return this;
         }
 
@@ -3913,7 +4155,7 @@ public final class PeerNotifications {
       "\n fishjam/peer_notifications.proto\022\007fish" +
       "jam\032$fishjam/media_events/peer/peer.prot" +
       "o\032(fishjam/media_events/server/server.pr" +
-      "oto\"\222\004\n\013PeerMessage\022;\n\rauthenticated\030\001 \001" +
+      "oto\"\241\005\n\013PeerMessage\022;\n\rauthenticated\030\001 \001" +
       "(\0132\".fishjam.PeerMessage.AuthenticatedH\000" +
       "\0228\n\014auth_request\030\002 \001(\0132 .fishjam.PeerMes" +
       "sage.AuthRequestH\000\0226\n\013media_event\030\003 \001(\0132" +
@@ -3922,11 +4164,15 @@ public final class PeerNotifications {
       "ge.RTCStatsReportH\000\022A\n\020peer_media_event\030" +
       "\005 \001(\0132%.fishjam.media_events.peer.MediaE" +
       "ventH\000\022E\n\022server_media_event\030\006 \001(\0132\'.fis" +
-      "hjam.media_events.server.MediaEventH\000\032\017\n" +
-      "\rAuthenticated\0321\n\013AuthRequest\022\r\n\005token\030\001" +
-      " \001(\t\022\023\n\013sdk_version\030\002 \001(\t\032\036\n\016RTCStatsRep" +
-      "ort\022\014\n\004data\030\001 \001(\t\032\032\n\nMediaEvent\022\014\n\004data\030" +
-      "\001 \001(\tB\t\n\007contentb\006proto3"
+      "hjam.media_events.server.MediaEventH\000\032A\n" +
+      "\rAuthenticated\0220\n\troom_type\030\001 \001(\0162\035.fish" +
+      "jam.PeerMessage.RoomType\0321\n\013AuthRequest\022" +
+      "\r\n\005token\030\001 \001(\t\022\023\n\013sdk_version\030\002 \001(\t\032\036\n\016R" +
+      "TCStatsReport\022\014\n\004data\030\001 \001(\t\032\032\n\nMediaEven" +
+      "t\022\014\n\004data\030\001 \001(\t\"[\n\010RoomType\022\031\n\025ROOM_TYPE" +
+      "_UNSPECIFIED\020\000\022\032\n\026ROOM_TYPE_FULL_FEATURE" +
+      "\020\001\022\030\n\024ROOM_TYPE_AUDIO_ONLY\020\002B\t\n\007contentb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3945,7 +4191,7 @@ public final class PeerNotifications {
     internal_static_fishjam_PeerMessage_Authenticated_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_fishjam_PeerMessage_Authenticated_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "RoomType", });
     internal_static_fishjam_PeerMessage_AuthRequest_descriptor =
       internal_static_fishjam_PeerMessage_descriptor.getNestedTypes().get(1);
     internal_static_fishjam_PeerMessage_AuthRequest_fieldAccessorTable = new

@@ -194,19 +194,23 @@ public final class ServerNotifications {
     fishjam.ServerNotifications.ServerMessage.RoomDeletedOrBuilder getRoomDeletedOrBuilder();
 
     /**
-     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
+     * @deprecated fishjam.ServerMessage.metrics_report is deprecated.
+     *     See fishjam/server_notifications.proto;l=167
      * @return Whether the metricsReport field is set.
      */
-    boolean hasMetricsReport();
+    @java.lang.Deprecated boolean hasMetricsReport();
     /**
-     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
+     * @deprecated fishjam.ServerMessage.metrics_report is deprecated.
+     *     See fishjam/server_notifications.proto;l=167
      * @return The metricsReport.
      */
-    fishjam.ServerNotifications.ServerMessage.MetricsReport getMetricsReport();
+    @java.lang.Deprecated fishjam.ServerNotifications.ServerMessage.MetricsReport getMetricsReport();
     /**
-     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
      */
-    fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder getMetricsReportOrBuilder();
+    @java.lang.Deprecated fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder getMetricsReportOrBuilder();
 
     /**
      * <code>.fishjam.ServerMessage.HlsPlayable hls_playable = 13;</code>
@@ -15546,7 +15550,7 @@ public final class ServerNotifications {
       SUBSCRIBE_RESPONSE(9),
       ROOM_CREATED(10),
       ROOM_DELETED(11),
-      METRICS_REPORT(12),
+      @java.lang.Deprecated METRICS_REPORT(12),
       HLS_PLAYABLE(13),
       HLS_UPLOADED(14),
       HLS_UPLOAD_CRASHED(15),
@@ -15952,29 +15956,33 @@ public final class ServerNotifications {
 
     public static final int METRICS_REPORT_FIELD_NUMBER = 12;
     /**
-     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
+     * @deprecated fishjam.ServerMessage.metrics_report is deprecated.
+     *     See fishjam/server_notifications.proto;l=167
      * @return Whether the metricsReport field is set.
      */
     @java.lang.Override
-    public boolean hasMetricsReport() {
+    @java.lang.Deprecated public boolean hasMetricsReport() {
       return contentCase_ == 12;
     }
     /**
-     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
+     * @deprecated fishjam.ServerMessage.metrics_report is deprecated.
+     *     See fishjam/server_notifications.proto;l=167
      * @return The metricsReport.
      */
     @java.lang.Override
-    public fishjam.ServerNotifications.ServerMessage.MetricsReport getMetricsReport() {
+    @java.lang.Deprecated public fishjam.ServerNotifications.ServerMessage.MetricsReport getMetricsReport() {
       if (contentCase_ == 12) {
          return (fishjam.ServerNotifications.ServerMessage.MetricsReport) content_;
       }
       return fishjam.ServerNotifications.ServerMessage.MetricsReport.getDefaultInstance();
     }
     /**
-     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+     * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
      */
     @java.lang.Override
-    public fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder getMetricsReportOrBuilder() {
+    @java.lang.Deprecated public fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder getMetricsReportOrBuilder() {
       if (contentCase_ == 12) {
          return (fishjam.ServerNotifications.ServerMessage.MetricsReport) content_;
       }
@@ -18829,19 +18837,23 @@ public final class ServerNotifications {
       private com.google.protobuf.SingleFieldBuilder<
           fishjam.ServerNotifications.ServerMessage.MetricsReport, fishjam.ServerNotifications.ServerMessage.MetricsReport.Builder, fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder> metricsReportBuilder_;
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
+       * @deprecated fishjam.ServerMessage.metrics_report is deprecated.
+       *     See fishjam/server_notifications.proto;l=167
        * @return Whether the metricsReport field is set.
        */
       @java.lang.Override
-      public boolean hasMetricsReport() {
+      @java.lang.Deprecated public boolean hasMetricsReport() {
         return contentCase_ == 12;
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
+       * @deprecated fishjam.ServerMessage.metrics_report is deprecated.
+       *     See fishjam/server_notifications.proto;l=167
        * @return The metricsReport.
        */
       @java.lang.Override
-      public fishjam.ServerNotifications.ServerMessage.MetricsReport getMetricsReport() {
+      @java.lang.Deprecated public fishjam.ServerNotifications.ServerMessage.MetricsReport getMetricsReport() {
         if (metricsReportBuilder_ == null) {
           if (contentCase_ == 12) {
             return (fishjam.ServerNotifications.ServerMessage.MetricsReport) content_;
@@ -18855,9 +18867,9 @@ public final class ServerNotifications {
         }
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
-      public Builder setMetricsReport(fishjam.ServerNotifications.ServerMessage.MetricsReport value) {
+      @java.lang.Deprecated public Builder setMetricsReport(fishjam.ServerNotifications.ServerMessage.MetricsReport value) {
         if (metricsReportBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -18871,9 +18883,9 @@ public final class ServerNotifications {
         return this;
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
-      public Builder setMetricsReport(
+      @java.lang.Deprecated public Builder setMetricsReport(
           fishjam.ServerNotifications.ServerMessage.MetricsReport.Builder builderForValue) {
         if (metricsReportBuilder_ == null) {
           content_ = builderForValue.build();
@@ -18885,9 +18897,9 @@ public final class ServerNotifications {
         return this;
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
-      public Builder mergeMetricsReport(fishjam.ServerNotifications.ServerMessage.MetricsReport value) {
+      @java.lang.Deprecated public Builder mergeMetricsReport(fishjam.ServerNotifications.ServerMessage.MetricsReport value) {
         if (metricsReportBuilder_ == null) {
           if (contentCase_ == 12 &&
               content_ != fishjam.ServerNotifications.ServerMessage.MetricsReport.getDefaultInstance()) {
@@ -18908,9 +18920,9 @@ public final class ServerNotifications {
         return this;
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
-      public Builder clearMetricsReport() {
+      @java.lang.Deprecated public Builder clearMetricsReport() {
         if (metricsReportBuilder_ == null) {
           if (contentCase_ == 12) {
             contentCase_ = 0;
@@ -18927,16 +18939,16 @@ public final class ServerNotifications {
         return this;
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
-      public fishjam.ServerNotifications.ServerMessage.MetricsReport.Builder getMetricsReportBuilder() {
+      @java.lang.Deprecated public fishjam.ServerNotifications.ServerMessage.MetricsReport.Builder getMetricsReportBuilder() {
         return getMetricsReportFieldBuilder().getBuilder();
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
       @java.lang.Override
-      public fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder getMetricsReportOrBuilder() {
+      @java.lang.Deprecated public fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder getMetricsReportOrBuilder() {
         if ((contentCase_ == 12) && (metricsReportBuilder_ != null)) {
           return metricsReportBuilder_.getMessageOrBuilder();
         } else {
@@ -18947,7 +18959,7 @@ public final class ServerNotifications {
         }
       }
       /**
-       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12;</code>
+       * <code>.fishjam.ServerMessage.MetricsReport metrics_report = 12 [deprecated = true];</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           fishjam.ServerNotifications.ServerMessage.MetricsReport, fishjam.ServerNotifications.ServerMessage.MetricsReport.Builder, fishjam.ServerNotifications.ServerMessage.MetricsReportOrBuilder> 
@@ -20422,7 +20434,7 @@ public final class ServerNotifications {
   static {
     java.lang.String[] descriptorData = {
       "\n\"fishjam/server_notifications.proto\022\007fi" +
-      "shjam\"\357\026\n\rServerMessage\022:\n\014room_crashed\030" +
+      "shjam\"\363\026\n\rServerMessage\022:\n\014room_crashed\030" +
       "\001 \001(\0132\".fishjam.ServerMessage.RoomCrashe" +
       "dH\000\022>\n\016peer_connected\030\002 \001(\0132$.fishjam.Se" +
       "rverMessage.PeerConnectedH\000\022D\n\021peer_disc" +
@@ -20440,62 +20452,62 @@ public final class ServerNotifications {
       "beResponseH\000\022:\n\014room_created\030\n \001(\0132\".fis" +
       "hjam.ServerMessage.RoomCreatedH\000\022:\n\014room" +
       "_deleted\030\013 \001(\0132\".fishjam.ServerMessage.R" +
-      "oomDeletedH\000\022>\n\016metrics_report\030\014 \001(\0132$.f" +
-      "ishjam.ServerMessage.MetricsReportH\000\022:\n\014" +
-      "hls_playable\030\r \001(\0132\".fishjam.ServerMessa" +
-      "ge.HlsPlayableH\000\022:\n\014hls_uploaded\030\016 \001(\0132\"" +
-      ".fishjam.ServerMessage.HlsUploadedH\000\022E\n\022" +
-      "hls_upload_crashed\030\017 \001(\0132\'.fishjam.Serve" +
-      "rMessage.HlsUploadCrashedH\000\022K\n\025peer_meta" +
-      "data_updated\030\020 \001(\0132*.fishjam.ServerMessa" +
-      "ge.PeerMetadataUpdatedH\000\0228\n\013track_added\030" +
-      "\021 \001(\0132!.fishjam.ServerMessage.TrackAdded" +
-      "H\000\022<\n\rtrack_removed\030\022 \001(\0132#.fishjam.Serv" +
-      "erMessage.TrackRemovedH\000\022M\n\026track_metada" +
-      "ta_updated\030\023 \001(\0132+.fishjam.ServerMessage" +
-      ".TrackMetadataUpdatedH\000\0226\n\npeer_added\030\024 " +
-      "\001(\0132 .fishjam.ServerMessage.PeerAddedH\000\022" +
-      ":\n\014peer_deleted\030\025 \001(\0132\".fishjam.ServerMe" +
-      "ssage.PeerDeletedH\000\032\036\n\013RoomCrashed\022\017\n\007ro" +
-      "om_id\030\001 \001(\t\032-\n\tPeerAdded\022\017\n\007room_id\030\001 \001(" +
-      "\t\022\017\n\007peer_id\030\002 \001(\t\032/\n\013PeerDeleted\022\017\n\007roo" +
-      "m_id\030\001 \001(\t\022\017\n\007peer_id\030\002 \001(\t\0321\n\rPeerConne" +
-      "cted\022\017\n\007room_id\030\001 \001(\t\022\017\n\007peer_id\030\002 \001(\t\0324" +
-      "\n\020PeerDisconnected\022\017\n\007room_id\030\001 \001(\t\022\017\n\007p" +
-      "eer_id\030\002 \001(\t\032?\n\013PeerCrashed\022\017\n\007room_id\030\001" +
-      " \001(\t\022\017\n\007peer_id\030\002 \001(\t\022\016\n\006reason\030\003 \001(\t\0329\n" +
-      "\020ComponentCrashed\022\017\n\007room_id\030\001 \001(\t\022\024\n\014co" +
-      "mponent_id\030\002 \001(\t\032\017\n\rAuthenticated\032\034\n\013Aut" +
-      "hRequest\022\r\n\005token\030\001 \001(\t\032H\n\020SubscribeRequ" +
-      "est\0224\n\nevent_type\030\001 \001(\0162 .fishjam.Server" +
-      "Message.EventType\032I\n\021SubscribeResponse\0224" +
-      "\n\nevent_type\030\001 \001(\0162 .fishjam.ServerMessa" +
-      "ge.EventType\032\036\n\013RoomCreated\022\017\n\007room_id\030\001" +
-      " \001(\t\032\036\n\013RoomDeleted\022\017\n\007room_id\030\001 \001(\t\032 \n\r" +
-      "MetricsReport\022\017\n\007metrics\030\001 \001(\t\0324\n\013HlsPla" +
-      "yable\022\017\n\007room_id\030\001 \001(\t\022\024\n\014component_id\030\002" +
-      " \001(\t\032\036\n\013HlsUploaded\022\017\n\007room_id\030\001 \001(\t\032#\n\020" +
-      "HlsUploadCrashed\022\017\n\007room_id\030\001 \001(\t\032I\n\023Pee" +
-      "rMetadataUpdated\022\017\n\007room_id\030\001 \001(\t\022\017\n\007pee" +
-      "r_id\030\002 \001(\t\022\020\n\010metadata\030\003 \001(\t\032U\n\005Track\022\n\n" +
-      "\002id\030\001 \001(\t\022.\n\004type\030\002 \001(\0162 .fishjam.Server" +
-      "Message.TrackType\022\020\n\010metadata\030\003 \001(\t\032\206\001\n\n" +
-      "TrackAdded\022\017\n\007room_id\030\001 \001(\t\022\021\n\007peer_id\030\002" +
-      " \001(\tH\000\022\026\n\014component_id\030\003 \001(\tH\000\022+\n\005track\030" +
-      "\004 \001(\0132\034.fishjam.ServerMessage.TrackB\017\n\re" +
-      "ndpoint_info\032\210\001\n\014TrackRemoved\022\017\n\007room_id" +
-      "\030\001 \001(\t\022\021\n\007peer_id\030\002 \001(\tH\000\022\026\n\014component_i" +
-      "d\030\003 \001(\tH\000\022+\n\005track\030\004 \001(\0132\034.fishjam.Serve" +
-      "rMessage.TrackB\017\n\rendpoint_info\032\220\001\n\024Trac" +
-      "kMetadataUpdated\022\017\n\007room_id\030\001 \001(\t\022\021\n\007pee" +
-      "r_id\030\002 \001(\tH\000\022\026\n\014component_id\030\003 \001(\tH\000\022+\n\005" +
-      "track\030\004 \001(\0132\034.fishjam.ServerMessage.Trac" +
-      "kB\017\n\rendpoint_info\"c\n\tEventType\022\032\n\026EVENT" +
-      "_TYPE_UNSPECIFIED\020\000\022\"\n\036EVENT_TYPE_SERVER" +
-      "_NOTIFICATION\020\001\022\026\n\022EVENT_TYPE_METRICS\020\002\"" +
-      "S\n\tTrackType\022\032\n\026TRACK_TYPE_UNSPECIFIED\020\000" +
-      "\022\024\n\020TRACK_TYPE_VIDEO\020\001\022\024\n\020TRACK_TYPE_AUD" +
-      "IO\020\002B\t\n\007contentb\006proto3"
+      "oomDeletedH\000\022B\n\016metrics_report\030\014 \001(\0132$.f" +
+      "ishjam.ServerMessage.MetricsReportB\002\030\001H\000" +
+      "\022:\n\014hls_playable\030\r \001(\0132\".fishjam.ServerM" +
+      "essage.HlsPlayableH\000\022:\n\014hls_uploaded\030\016 \001" +
+      "(\0132\".fishjam.ServerMessage.HlsUploadedH\000" +
+      "\022E\n\022hls_upload_crashed\030\017 \001(\0132\'.fishjam.S" +
+      "erverMessage.HlsUploadCrashedH\000\022K\n\025peer_" +
+      "metadata_updated\030\020 \001(\0132*.fishjam.ServerM" +
+      "essage.PeerMetadataUpdatedH\000\0228\n\013track_ad" +
+      "ded\030\021 \001(\0132!.fishjam.ServerMessage.TrackA" +
+      "ddedH\000\022<\n\rtrack_removed\030\022 \001(\0132#.fishjam." +
+      "ServerMessage.TrackRemovedH\000\022M\n\026track_me" +
+      "tadata_updated\030\023 \001(\0132+.fishjam.ServerMes" +
+      "sage.TrackMetadataUpdatedH\000\0226\n\npeer_adde" +
+      "d\030\024 \001(\0132 .fishjam.ServerMessage.PeerAdde" +
+      "dH\000\022:\n\014peer_deleted\030\025 \001(\0132\".fishjam.Serv" +
+      "erMessage.PeerDeletedH\000\032\036\n\013RoomCrashed\022\017" +
+      "\n\007room_id\030\001 \001(\t\032-\n\tPeerAdded\022\017\n\007room_id\030" +
+      "\001 \001(\t\022\017\n\007peer_id\030\002 \001(\t\032/\n\013PeerDeleted\022\017\n" +
+      "\007room_id\030\001 \001(\t\022\017\n\007peer_id\030\002 \001(\t\0321\n\rPeerC" +
+      "onnected\022\017\n\007room_id\030\001 \001(\t\022\017\n\007peer_id\030\002 \001" +
+      "(\t\0324\n\020PeerDisconnected\022\017\n\007room_id\030\001 \001(\t\022" +
+      "\017\n\007peer_id\030\002 \001(\t\032?\n\013PeerCrashed\022\017\n\007room_" +
+      "id\030\001 \001(\t\022\017\n\007peer_id\030\002 \001(\t\022\016\n\006reason\030\003 \001(" +
+      "\t\0329\n\020ComponentCrashed\022\017\n\007room_id\030\001 \001(\t\022\024" +
+      "\n\014component_id\030\002 \001(\t\032\017\n\rAuthenticated\032\034\n" +
+      "\013AuthRequest\022\r\n\005token\030\001 \001(\t\032H\n\020Subscribe" +
+      "Request\0224\n\nevent_type\030\001 \001(\0162 .fishjam.Se" +
+      "rverMessage.EventType\032I\n\021SubscribeRespon" +
+      "se\0224\n\nevent_type\030\001 \001(\0162 .fishjam.ServerM" +
+      "essage.EventType\032\036\n\013RoomCreated\022\017\n\007room_" +
+      "id\030\001 \001(\t\032\036\n\013RoomDeleted\022\017\n\007room_id\030\001 \001(\t" +
+      "\032 \n\rMetricsReport\022\017\n\007metrics\030\001 \001(\t\0324\n\013Hl" +
+      "sPlayable\022\017\n\007room_id\030\001 \001(\t\022\024\n\014component_" +
+      "id\030\002 \001(\t\032\036\n\013HlsUploaded\022\017\n\007room_id\030\001 \001(\t" +
+      "\032#\n\020HlsUploadCrashed\022\017\n\007room_id\030\001 \001(\t\032I\n" +
+      "\023PeerMetadataUpdated\022\017\n\007room_id\030\001 \001(\t\022\017\n" +
+      "\007peer_id\030\002 \001(\t\022\020\n\010metadata\030\003 \001(\t\032U\n\005Trac" +
+      "k\022\n\n\002id\030\001 \001(\t\022.\n\004type\030\002 \001(\0162 .fishjam.Se" +
+      "rverMessage.TrackType\022\020\n\010metadata\030\003 \001(\t\032" +
+      "\206\001\n\nTrackAdded\022\017\n\007room_id\030\001 \001(\t\022\021\n\007peer_" +
+      "id\030\002 \001(\tH\000\022\026\n\014component_id\030\003 \001(\tH\000\022+\n\005tr" +
+      "ack\030\004 \001(\0132\034.fishjam.ServerMessage.TrackB" +
+      "\017\n\rendpoint_info\032\210\001\n\014TrackRemoved\022\017\n\007roo" +
+      "m_id\030\001 \001(\t\022\021\n\007peer_id\030\002 \001(\tH\000\022\026\n\014compone" +
+      "nt_id\030\003 \001(\tH\000\022+\n\005track\030\004 \001(\0132\034.fishjam.S" +
+      "erverMessage.TrackB\017\n\rendpoint_info\032\220\001\n\024" +
+      "TrackMetadataUpdated\022\017\n\007room_id\030\001 \001(\t\022\021\n" +
+      "\007peer_id\030\002 \001(\tH\000\022\026\n\014component_id\030\003 \001(\tH\000" +
+      "\022+\n\005track\030\004 \001(\0132\034.fishjam.ServerMessage." +
+      "TrackB\017\n\rendpoint_info\"c\n\tEventType\022\032\n\026E" +
+      "VENT_TYPE_UNSPECIFIED\020\000\022\"\n\036EVENT_TYPE_SE" +
+      "RVER_NOTIFICATION\020\001\022\026\n\022EVENT_TYPE_METRIC" +
+      "S\020\002\"S\n\tTrackType\022\032\n\026TRACK_TYPE_UNSPECIFI" +
+      "ED\020\000\022\024\n\020TRACK_TYPE_VIDEO\020\001\022\024\n\020TRACK_TYPE" +
+      "_AUDIO\020\002B\t\n\007contentb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
