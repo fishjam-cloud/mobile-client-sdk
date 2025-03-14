@@ -87,11 +87,13 @@ public protocol FishjamCustomSource: AnyObject {
 }
 
 class FishjamCustomSourceRTCAdapter: RTCVideoCapturer, FishjamCustomSourceDelegate {
+  let trackId: String
   let rtcVideoSource: RTCVideoSource
   let customSource: FishjamCustomSource
   let onStop: () -> Void
   
-  init(customSource: FishjamCustomSource, rtcVideoSource: RTCVideoSource, onStop: @escaping () -> Void) {
+  init(trackId: String, customSource: FishjamCustomSource, rtcVideoSource: RTCVideoSource, onStop: @escaping () -> Void) {
+    self.trackId = trackId
     self.rtcVideoSource = rtcVideoSource
     self.customSource = customSource
     self.onStop = onStop
