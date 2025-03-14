@@ -4,6 +4,7 @@ import FishjamCloudClient
 import React
 import ReplayKit
 import WebRTC
+import ScreenCaptureKit
 
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
@@ -383,77 +384,91 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    func toggleScreenShare(screenShareOptions: ScreenShareOptions) throws {
+  func toggleScreenShare(screenShareOptions: ScreenShareOptions) async throws {
         try ensureCreated()
         try ensureConnected()
-        guard isAppScreenShareOn == false else {
-            emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
-            return
-        }
-        guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
-        else {
-            throw Exception(
-                name: "E_NO_BUNDLE_ID_SET",
-                description:
-                    "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
-            )
-        }
-        guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
-        else {
-            throw Exception(
-                name: "E_NO_APP_GROUP_SET",
-                description: "No app group name set. Please set AppGroupName in Info.plist")
-        }
+    
+    if #available(macCatalyst 18.2, *) {
+      let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
+      let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
+      try await RNFishjamClient.fishjamClient?.prepareForScreenBroadcast(appGroup: "", videoParameters: videoParameters, metadata: screenShareMetadata, canStart: {
+        return true
+      }, onStart: {
+        
+      }, onStop: {})
+      
+    } else {
+      // Fallback on earlier versions
+    }
 
-        guard !isScreenShareOn else {
-            DispatchQueue.main.async {
-                RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
-            }
-            return
-        }
-
-        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
-
-        screenShareSimulcastConfig = simulcastConfig
-        let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
-        let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
-            appGroup: appGroupName,
-            videoParameters: videoParameters,
-            metadata: screenShareMetadata,
-            canStart: {
-                if self.isAppScreenShareOn {
-                    self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
-                }
-                return !self.isAppScreenShareOn
-            },
-            onStart: { [weak self] in
-                guard let self else { return }
-                do {
-                    try setScreenShareTrackState(enabled: true)
-                } catch {
-                    os_log(
-                        "Error starting screen share: %{public}s", log: log, type: .error,
-                        String(describing: error)
-                    )
-                }
-
-            },
-            onStop: { [weak self] in
-                guard let self else { return }
-                do {
-                    try setScreenShareTrackState(enabled: false)
-                } catch {
-                    os_log(
-                        "Error stopping screen share: %{public}s", log: log, type: .error,
-                        String(describing: error)
-                    )
-                }
-            }
-        )
-        DispatchQueue.main.async {
-            RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
-        }
+//        guard isAppScreenShareOn == false else {
+//            emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+//            return
+//        }
+//        guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
+//        else {
+//            throw Exception(
+//                name: "E_NO_BUNDLE_ID_SET",
+//                description:
+//                    "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
+//            )
+//        }
+//        guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
+//        else {
+//            throw Exception(
+//                name: "E_NO_APP_GROUP_SET",
+//                description: "No app group name set. Please set AppGroupName in Info.plist")
+//        }
+//
+//        guard !isScreenShareOn else {
+//            DispatchQueue.main.async {
+//                RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
+//            }
+//            return
+//        }
+//
+//        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
+//
+//        screenShareSimulcastConfig = simulcastConfig
+//        let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
+//        let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
+//        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
+//            appGroup: appGroupName,
+//            videoParameters: videoParameters,
+//            metadata: screenShareMetadata,
+//            canStart: {
+//                if self.isAppScreenShareOn {
+//                    self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+//                }
+//                return !self.isAppScreenShareOn
+//            },
+//            onStart: { [weak self] in
+//                guard let self else { return }
+//                do {
+//                    try setScreenShareTrackState(enabled: true)
+//                } catch {
+//                    os_log(
+//                        "Error starting screen share: %{public}s", log: log, type: .error,
+//                        String(describing: error)
+//                    )
+//                }
+//
+//            },
+//            onStop: { [weak self] in
+//                guard let self else { return }
+//                do {
+//                    try setScreenShareTrackState(enabled: false)
+//                } catch {
+//                    os_log(
+//                        "Error stopping screen share: %{public}s", log: log, type: .error,
+//                        String(describing: error)
+//                    )
+//                }
+//            }
+//        )
+//        DispatchQueue.main.async {
+//            RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
+//        }
     }
 
     private func setScreenShareTrackState(enabled: Bool) throws {
@@ -945,4 +960,9 @@ extension RNFishjamClient: CameraCapturerDeviceChangedListener {
             event: .currentCameraChanged(
                 localCamera: device?.toLocalCamera(), isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
     }
+}
+
+struct RecordingError: Error, CustomDebugStringConvertible {
+    var debugDescription: String
+    init(_ debugDescription: String) { self.debugDescription = debugDescription }
 }
