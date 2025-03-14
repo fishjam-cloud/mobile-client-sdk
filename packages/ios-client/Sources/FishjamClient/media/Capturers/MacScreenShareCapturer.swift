@@ -77,73 +77,129 @@ import ScreenCaptureKit
 //  }
 //}
 
-@available(macCatalyst 18.2, *)
-class StreamOutput: RTCVideoCapturer, SCStreamOutput {
-  var sessionStarted = false
-  var firstSampleTime: CMTime = .zero
-  var lastSampleBuffer: CMSampleBuffer?
+public protocol FishjamCustomSourceDelegate: AnyObject {
+  func fishjamCustomSource(customSource: FishjamCustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer)
+  func fishjamCustomSourceDidStop(_ customSource: FishjamCustomSource)
+}
+
+public protocol FishjamCustomSource: AnyObject {
+  var delegate: FishjamCustomSourceDelegate? { get set }
+}
+
+class FishjamScreenCapturerRTCConverter: RTCVideoCapturer, FishjamCustomSourceDelegate {
   let source: RTCVideoSource
+  let onStop: () -> Void
   
-  
-  init(source: RTCVideoSource) {
+  init(source: RTCVideoSource, onStop: @escaping () -> Void) {
     self.source = source
+    self.onStop = onStop
     super.init()
   }
   
-  func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
-    
-    // Return early if session hasn't started yet
-    guard sessionStarted else { return }
-    
-    // Return early if the sample buffer is invalid
+  func fishjamCustomSource(customSource: FishjamCustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer) {
     guard sampleBuffer.isValid else { return }
     
-    // Retrieve the array of metadata attachments from the sample buffer
-    guard let attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
-          let attachments = attachmentsArray.first
-    else { return }
-    
-    // Validate the status of the frame. If it isn't `.complete`, return
-    guard let statusRawValue = attachments[SCStreamFrameInfo.status] as? Int,
-          let status = SCFrameStatus(rawValue: statusRawValue),
-          status == .complete
-    else { return }
-    
-    
-    switch type {
-    case .screen:
-    
-      guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-        return
-      }
-      
-      let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
-      let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
-
-      let rtcBuffer = RTCCVPixelBuffer(
-          pixelBuffer: pixelBuffer,
-          adaptedWidth: width,
-          adaptedHeight: height,
-          cropWidth: width,
-          cropHeight: height,
-          cropX: 0,
-          cropY: 0)
-
-      var rotation: RTCVideoRotation = ._0
-      
-      let buffer = rtcBuffer.toI420()
-      let videoFrame = RTCVideoFrame(
-        buffer: buffer, rotation: rotation, timeStampNs: sampleBuffer.presentationTimeStamp.value)
-
-      let delegate = source as RTCVideoCapturerDelegate
-
-      delegate.capturer(self, didCapture: videoFrame)
-    case .audio:
-      break
-      
-    @unknown default:
-      break
+    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+      return
     }
+    
+    let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
+    let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
+    
+    let rtcBuffer = RTCCVPixelBuffer(
+      pixelBuffer: pixelBuffer,
+      adaptedWidth: width,
+      adaptedHeight: height,
+      cropWidth: width,
+      cropHeight: height,
+      cropX: 0,
+      cropY: 0)
+    
+    let rotation = RTCVideoRotation._0
+    
+    let buffer = rtcBuffer.toI420()
+    let videoFrame = RTCVideoFrame(
+      buffer: buffer, rotation: rotation, timeStampNs: sampleBuffer.presentationTimeStamp.value)
+    
+    let delegate = source as RTCVideoCapturerDelegate
+    
+    delegate.capturer(self, didCapture: videoFrame)
+  }
+  
+  func fishjamCustomSourceDidStop(_ customSource: any FishjamCustomSource) {
+    onStop()
   }
 }
+
+
+
+//@available(macCatalyst 18.2, *)
+//class StreamOutput: NSObject, SCStreamOutput {
+//  var sessionStarted = false
+//  var firstSampleTime: CMTime = .zero
+//  var lastSampleBuffer: CMSampleBuffer?
+//  let source: RTCVideoSource
+//  
+//  
+//  init(source: RTCVideoSource) {
+//    self.source = source
+//    super.init()
+//  }
+//  
+//  func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
+//    
+//    // Return early if session hasn't started yet
+//    guard sessionStarted else { return }
+//    
+//    // Return early if the sample buffer is invalid
+//    guard sampleBuffer.isValid else { return }
+//    
+//    // Retrieve the array of metadata attachments from the sample buffer
+//    guard let attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
+//          let attachments = attachmentsArray.first
+//    else { return }
+//    
+//    // Validate the status of the frame. If it isn't `.complete`, return
+//    guard let statusRawValue = attachments[SCStreamFrameInfo.status] as? Int,
+//          let status = SCFrameStatus(rawValue: statusRawValue),
+//          status == .complete
+//    else { return }
+//    
+//    
+//    switch type {
+//    case .screen:
+//    
+//      guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+//        return
+//      }
+//      
+//      let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
+//      let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
+//
+//      let rtcBuffer = RTCCVPixelBuffer(
+//          pixelBuffer: pixelBuffer,
+//          adaptedWidth: width,
+//          adaptedHeight: height,
+//          cropWidth: width,
+//          cropHeight: height,
+//          cropX: 0,
+//          cropY: 0)
+//
+//      var rotation: RTCVideoRotation = ._0
+//      
+//      let buffer = rtcBuffer.toI420()
+//      let videoFrame = RTCVideoFrame(
+//        buffer: buffer, rotation: rotation, timeStampNs: sampleBuffer.presentationTimeStamp.value)
+//
+//      let delegate = source as RTCVideoCapturerDelegate
+//
+//      delegate.capturer(self, didCapture: videoFrame)
+//    case .audio:
+//      break
+//      
+//    @unknown default:
+//      break
+//    }
+//  }
+//}
 
