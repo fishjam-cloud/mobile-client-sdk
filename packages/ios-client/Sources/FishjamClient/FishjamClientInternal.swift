@@ -200,11 +200,14 @@ class FishjamClientInternal {
     try awaitPromise(promise)
     listener.onTrackAdded(track: track)
     
-    customSourcesManager.addSource(customSource, videoSource: videoSource)
+    customSourcesManager.addSource(trackId: track.id, source: customSource, videoSource: videoSource)
   }
   
   public func removeCustomVideoSource(customSource: FishjamCustomSource) {
-    customSourcesManager.removeSource(customSource)
+    if let trackId = customSourcesManager.removeSource(customSource) {
+      removeTrack(trackId: trackId)
+    }
+    
   }
 
   public func prepareForBroadcastScreenSharing(
