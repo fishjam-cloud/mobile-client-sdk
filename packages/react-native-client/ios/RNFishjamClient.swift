@@ -4,7 +4,6 @@ import FishjamCloudClient
 import React
 import ReplayKit
 import WebRTC
-import ScreenCaptureKit
 
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
@@ -384,152 +383,75 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
   
-  let videoSampleBufferQueue = DispatchQueue(label: "ScreenRecorder.VideoSampleBufferQueue")
-  var stream: Any?
-  var customCapturer: Any?
-
   func toggleScreenShare(screenShareOptions: ScreenShareOptions) async throws {
-    guard customCapturer == nil else {
-      if #available(macCatalyst 18.2, *) {
-        (customCapturer as! CatalystScreenShareSource).stop()
+    guard isAppScreenShareOn == false else {
+      emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+      return
+    }
+    guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
+    else {
+      throw Exception(
+        name: "E_NO_BUNDLE_ID_SET",
+        description:
+          "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
+      )
+    }
+    guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
+    else {
+      throw Exception(
+        name: "E_NO_APP_GROUP_SET",
+        description: "No app group name set. Please set AppGroupName in Info.plist")
+    }
+    
+    guard !isScreenShareOn else {
+      DispatchQueue.main.async {
+        RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
       }
-      customCapturer = nil
-      stream = nil
       return
     }
     
-    try ensureCreated()
-    try ensureConnected()
+    let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
     
-    if #available(macCatalyst 18.2, *) {
-      let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-      let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
-
-      
-      let displayID = CGMainDisplayID()
-      
-      let sharableContent = try await SCShareableContent.current
-      guard let display = sharableContent.displays.first(where: { $0.displayID == displayID }) else {
-        throw CustomSourceError("Can't find display with ID \(displayID) in sharable content")
+    screenShareSimulcastConfig = simulcastConfig
+    let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
+    let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
+    RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
+      appGroup: appGroupName,
+      videoParameters: videoParameters,
+      metadata: screenShareMetadata,
+      canStart: {
+        if self.isAppScreenShareOn {
+          self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+        }
+        return !self.isAppScreenShareOn
+      },
+      onStart: { [weak self] in
+        guard let self else { return }
+        do {
+          try setScreenShareTrackState(enabled: true)
+        } catch {
+          os_log(
+            "Error starting screen share: %{public}s", log: log, type: .error,
+            String(describing: error)
+          )
+        }
+        
+      },
+      onStop: { [weak self] in
+        guard let self else { return }
+        do {
+          try setScreenShareTrackState(enabled: false)
+        } catch {
+          os_log(
+            "Error stopping screen share: %{public}s", log: log, type: .error,
+            String(describing: error)
+          )
+        }
       }
-      
-      var cropRect: CGRect? = nil
-      let displaySize = CGDisplayBounds(displayID).size
-      let displayScaleFactor: Int
-      if let mode = CGDisplayCopyDisplayMode(displayID) {
-        displayScaleFactor = mode.pixelWidth / mode.width
-      } else {
-        displayScaleFactor = 1
-      }
-      
-      let filter = SCContentFilter(display: display, excludingWindows: [])
-      
-      let configuration = SCStreamConfiguration()
-      
-      // Increase the depth of the frame queue to ensure high fps at the expense of increasing
-      // the memory footprint of WindowServer.
-      configuration.queueDepth = 6 // 4 minimum, or it becomes very stuttery
-      
-      // Make sure to take displayScaleFactor into account
-      // otherwise, image is scaled up and gets blurry
-      if let cropRect = cropRect {
-        // ScreenCaptureKit uses top-left of screen as origin
-        configuration.sourceRect = cropRect
-        configuration.width = Int(cropRect.width) * displayScaleFactor
-        configuration.height = Int(cropRect.height) * displayScaleFactor
-      } else {
-        configuration.width = Int(displaySize.width) * displayScaleFactor
-        configuration.height = Int(displaySize.height) * displayScaleFactor
-      }
-      
-      // Set pixel format an color space, see CVPixelBuffer.h
-      configuration.pixelFormat = kCVPixelFormatType_32BGRA // 'BGRA'
-      configuration.colorSpaceName = CGColorSpace.sRGB
-      
-      customCapturer = CatalystScreenShareSource()
-      let customCapturer = customCapturer as! CatalystScreenShareSource
-      
-      stream = SCStream(filter: filter, configuration: configuration, delegate: nil)
-      let stream = stream as! SCStream
-      
-      try stream.addStreamOutput(customCapturer, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
-      
-      try await RNFishjamClient.fishjamClient?.prepareForCustomVideoSource(customCapturer: customCapturer, videoParameters: videoParameters, metadata: screenShareMetadata)
-      
-      try await stream.startCapture()
-      
-    } else {
-      // Fallback on earlier versions
+    )
+    DispatchQueue.main.async {
+      RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
     }
-    
-    //        guard isAppScreenShareOn == false else {
-    //            emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
-    //            return
-    //        }
-    //        guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
-    //        else {
-    //            throw Exception(
-    //                name: "E_NO_BUNDLE_ID_SET",
-    //                description:
-    //                    "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
-    //            )
-    //        }
-    //        guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
-    //        else {
-    //            throw Exception(
-    //                name: "E_NO_APP_GROUP_SET",
-    //                description: "No app group name set. Please set AppGroupName in Info.plist")
-    //        }
-    //
-    //        guard !isScreenShareOn else {
-    //            DispatchQueue.main.async {
-    //                RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
-    //            }
-    //            return
-    //        }
-    //
-    //        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
-    //
-    //        screenShareSimulcastConfig = simulcastConfig
-    //        let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
-    //        let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-    //        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
-    //            appGroup: appGroupName,
-    //            videoParameters: videoParameters,
-    //            metadata: screenShareMetadata,
-    //            canStart: {
-    //                if self.isAppScreenShareOn {
-    //                    self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
-    //                }
-    //                return !self.isAppScreenShareOn
-    //            },
-    //            onStart: { [weak self] in
-    //                guard let self else { return }
-    //                do {
-    //                    try setScreenShareTrackState(enabled: true)
-    //                } catch {
-    //                    os_log(
-    //                        "Error starting screen share: %{public}s", log: log, type: .error,
-    //                        String(describing: error)
-    //                    )
-    //                }
-    //
-    //            },
-    //            onStop: { [weak self] in
-    //                guard let self else { return }
-    //                do {
-    //                    try setScreenShareTrackState(enabled: false)
-    //                } catch {
-    //                    os_log(
-    //                        "Error stopping screen share: %{public}s", log: log, type: .error,
-    //                        String(describing: error)
-    //                    )
-    //                }
-    //            }
-    //        )
-    //        DispatchQueue.main.async {
-    //            RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
-    //        }
   }
 
     private func setScreenShareTrackState(enabled: Bool) throws {
@@ -1012,6 +934,14 @@ class RNFishjamClient: FishjamClientListener {
                     "Incompatible track detected. This usually means your device is missing codecs negotiated for the room. Visit https://docs.fishjam.io/category/react-native-integration for information."
             ))
     }
+  
+  static func addCustomVideoSource(_ source: FishjamCustomSource, videoParameters: VideoParameters, metadata: Metadata) async throws {
+    try await fishjamClient?.createCustomVideoSource(customSource: source, videoParameters: videoParameters, metadata: metadata)
+  }
+  
+  static func removeCustomVideoSource(_ source: FishjamCustomSource) {
+    fishjamClient?.removeCustomVideoSource(customSource: source)
+  }
 
 }
 
@@ -1021,38 +951,4 @@ extension RNFishjamClient: CameraCapturerDeviceChangedListener {
             event: .currentCameraChanged(
                 localCamera: device?.toLocalCamera(), isCameraOn: isCameraOn, isCameraInitialized: isCameraInitialized))
     }
-}
-
-struct CustomSourceError: Error, CustomDebugStringConvertible {
-    var debugDescription: String
-    init(_ debugDescription: String) { self.debugDescription = debugDescription }
-}
-
-@available(macCatalyst 18.2, *)
-class CatalystScreenShareSource: NSObject, FishjamCustomSource, SCStreamOutput {
-  
-  weak var delegate: FishjamCustomSourceDelegate?
-  
-  func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
-    
-    guard sampleBuffer.isValid else { return }
-    
-    guard let attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
-          let attachments = attachmentsArray.first
-    else { return }
-    
-    guard let statusRawValue = attachments[SCStreamFrameInfo.status] as? Int,
-          let status = SCFrameStatus(rawValue: statusRawValue),
-          status == .complete
-    else { return }
-    
-    guard .screen == type else { return }
-    
-    delegate?.fishjamCustomSource(customSource: self, didOutputSampleBuffer: sampleBuffer)
-  }
-  
-  func stop() {
-    delegate?.fishjamCustomSourceDidStop(self)
-  }
-  
 }

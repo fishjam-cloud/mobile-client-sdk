@@ -167,12 +167,11 @@ class FishjamClientInternal {
         }
         return audioTrack
     }
-  
-
-  var capturer: FishjamScreenCapturerRTCConverter?
-  
-  public func prepareForCustomVideoSource(
-    customCapturer: FishjamCustomSource,
+    
+  let customSourcesManager = CustomSourceManager()
+    
+  public func createCustomVideoSource(
+    customSource: FishjamCustomSource,
     videoParameters: VideoParameters,
     metadata: Metadata
   ) async throws {
@@ -201,18 +200,11 @@ class FishjamClientInternal {
     try awaitPromise(promise)
     listener.onTrackAdded(track: track)
     
-    capturer = FishjamScreenCapturerRTCConverter(source: videoSource, onStop: { [weak self] in
-      guard let self else { return }
-      capturer = nil
-      guard
-            let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
-              as? LocalBroadcastScreenShareTrack
-      else { return }
-      removeTrack(trackId: track.id)
-      listener.onTrackRemoved(track: track)
-    })
-
-    customCapturer.delegate = capturer
+    customSourcesManager.addSource(customSource, videoSource: videoSource)
+  }
+  
+  public func removeCustomVideoSource(customSource: FishjamCustomSource) {
+    customSourcesManager.removeSource(customSource)
   }
 
   public func prepareForBroadcastScreenSharing(
