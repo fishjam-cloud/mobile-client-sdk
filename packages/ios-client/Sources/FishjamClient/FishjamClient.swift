@@ -129,8 +129,8 @@ public class FishjamClient {
         canStart: @escaping () -> Bool,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
-    ) {
-        client.prepareForBroadcastScreenSharing(
+    ) async throws {
+        try await client.prepareForBroadcastScreenSharing(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,

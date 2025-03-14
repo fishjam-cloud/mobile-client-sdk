@@ -149,7 +149,7 @@ public class RNFishjamClientModule: Module {
         }
 
         AsyncFunction("toggleScreenShare") { (screenShareOptions: ScreenShareOptions) in
-            try rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
+            try await rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
         }
 
         AsyncFunction("toggleAppScreenShare") { (screenShareOptions: ScreenShareOptions) in
