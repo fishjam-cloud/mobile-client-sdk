@@ -86,14 +86,18 @@ public protocol FishjamCustomSource: AnyObject {
   var delegate: FishjamCustomSourceDelegate? { get set }
 }
 
-class FishjamScreenCapturerRTCConverter: RTCVideoCapturer, FishjamCustomSourceDelegate {
-  let source: RTCVideoSource
+class FishjamCustomSourceRTCAdapter: RTCVideoCapturer, FishjamCustomSourceDelegate {
+  let rtcVideoSource: RTCVideoSource
+  let customSource: FishjamCustomSource
   let onStop: () -> Void
   
-  init(source: RTCVideoSource, onStop: @escaping () -> Void) {
-    self.source = source
+  init(customSource: FishjamCustomSource, rtcVideoSource: RTCVideoSource, onStop: @escaping () -> Void) {
+    self.rtcVideoSource = rtcVideoSource
+    self.customSource = customSource
     self.onStop = onStop
     super.init()
+    
+    self.customSource.delegate = self
   }
   
   func fishjamCustomSource(customSource: FishjamCustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer) {
@@ -121,7 +125,7 @@ class FishjamScreenCapturerRTCConverter: RTCVideoCapturer, FishjamCustomSourceDe
     let videoFrame = RTCVideoFrame(
       buffer: buffer, rotation: rotation, timeStampNs: sampleBuffer.presentationTimeStamp.value)
     
-    let delegate = source as RTCVideoCapturerDelegate
+    let delegate = rtcVideoSource as RTCVideoCapturerDelegate
     
     delegate.capturer(self, didCapture: videoFrame)
   }

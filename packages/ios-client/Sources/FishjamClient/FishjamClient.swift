@@ -141,12 +141,16 @@ public class FishjamClient {
     }
   
   // TODO: Add docs?
-  public func prepareForCustomVideoSource(
-    customCapturer: FishjamCustomSource,
+  public func createCustomVideoSource(
+    customSource: FishjamCustomSource,
     videoParameters: VideoParameters,
     metadata: Metadata
   ) async throws {
-    try await client.prepareForCustomVideoSource(customCapturer: customCapturer, videoParameters: videoParameters, metadata: metadata)
+    try await client.createCustomVideoSource(customSource: customSource, videoParameters: videoParameters, metadata: metadata)
+  }
+  
+  public func removeCustomVideoSource(customSource: FishjamCustomSource) {
+    client.removeCustomVideoSource(customSource: customSource)
   }
 
     /**
