@@ -2,7 +2,6 @@ import Foundation
 import Promises
 import Starscream
 import WebRTC
-import ScreenCaptureKit
 
 class FishjamClientInternal {
     private var config: ConnectConfig?
@@ -169,161 +168,103 @@ class FishjamClientInternal {
         return audioTrack
     }
   
-  let videoSampleBufferQueue = DispatchQueue(label: "ScreenRecorder.VideoSampleBufferQueue")
-  var streamOutput: Any?
-  var stream: Any?
+
+  var capturer: FishjamScreenCapturerRTCConverter?
+  
+  public func prepareForCustomVideoSource(
+    customCapturer: FishjamCustomSource,
+    videoParameters: VideoParameters,
+    metadata: Metadata
+  ) async throws {
+    // TODO: Add ability to customize if screenshare etc
+    let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
+    let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
+    
+    //TODO: Figure out how adding tracks work so we can use the new one
+    let track = LocalBroadcastScreenShareTrack(
+      mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
+      appGroup: "",
+      videoParameters: videoParameters)
+    
+    let promise = commandsQueue.addCommand(
+      Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
+        guard let self else { return }
+        localEndpoint = localEndpoint.addOrReplaceTrack(track)
+        peerConnectionManager.addTrack(track: track)
+        if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+          rtcEngineCommunication.renegotiateTracks()
+        } else {
+          commandsQueue.finishCommand(commandName: .ADD_TRACK)
+        }
+      })
+
+    try awaitPromise(promise)
+    listener.onTrackAdded(track: track)
+    
+    capturer = FishjamScreenCapturerRTCConverter(source: videoSource, onStop: { [weak self] in
+      guard let self else { return }
+      capturer = nil
+      guard
+            let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
+              as? LocalBroadcastScreenShareTrack
+      else { return }
+      removeTrack(trackId: track.id)
+      listener.onTrackRemoved(track: track)
+    })
+
+    customCapturer.delegate = capturer
+  }
 
   public func prepareForBroadcastScreenSharing(
     appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
     canStart: @escaping () -> Bool,
     onStart: @escaping () -> Void,
     onStop: @escaping () -> Void
-  ) async throws {
-      guard stream == nil && streamOutput == nil else {
-          if #available(macCatalyst 18.2, *) {
-              try await (stream as! SCStream).stopCapture()
-          } else {
-              // Fallback on earlier versions
-          }
-          
-          stream = nil
-          streamOutput = nil
-          
-          guard
+  ) {
+    let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
+    
+    broadcastScreenShareReceiver = BroadcastScreenShareReceiver(
+      onStart: { [weak self] in
+        guard let self, let videoSource = broadcastScreenShareCapturer?.source else { return }
+        guard canStart() else { return }
+        let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
+        let track = LocalBroadcastScreenShareTrack(
+          mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
+          appGroup: appGroup,
+          videoParameters: videoParameters)
+        let promise = commandsQueue.addCommand(
+          Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
+            guard let self else { return }
+            localEndpoint = localEndpoint.addOrReplaceTrack(track)
+            peerConnectionManager.addTrack(track: track)
+            if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
+              rtcEngineCommunication.renegotiateTracks()
+            } else {
+              commandsQueue.finishCommand(commandName: .ADD_TRACK)
+            }
+            onStart()
+          })
+        do {
+          try awaitPromise(promise)
+          listener.onTrackAdded(track: track)
+        } catch {}
+      },
+      onStop: { [weak self] in
+        guard let self,
               let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
-                  as? LocalBroadcastScreenShareTrack
-          else { return }
-          removeTrack(trackId: track.id)
-          listener.onTrackRemoved(track: track)
-          onStop()
-          
-          
-          return
-      }
-      
-      
-        let videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
-      
-      if #available(macCatalyst 18.2, *) {
-        let displayID = CGMainDisplayID()
-        
-        let sharableContent = try await SCShareableContent.current
-        guard let display = sharableContent.displays.first(where: { $0.displayID == displayID }) else {
-          throw RecordingError("Can't find display with ID \(displayID) in sharable content")
-        }
-        
-        var cropRect: CGRect? = nil
-        let displaySize = CGDisplayBounds(displayID).size
-        let displayScaleFactor: Int
-        if let mode = CGDisplayCopyDisplayMode(displayID) {
-          displayScaleFactor = mode.pixelWidth / mode.width
-        } else {
-          displayScaleFactor = 1
-        }
-        
-        let filter = SCContentFilter(display: display, excludingWindows: [])
-        
-        let configuration = SCStreamConfiguration()
-        
-        // Increase the depth of the frame queue to ensure high fps at the expense of increasing
-        // the memory footprint of WindowServer.
-        configuration.queueDepth = 6 // 4 minimum, or it becomes very stuttery
-        
-        // Make sure to take displayScaleFactor into account
-        // otherwise, image is scaled up and gets blurry
-        if let cropRect = cropRect {
-          // ScreenCaptureKit uses top-left of screen as origin
-          configuration.sourceRect = cropRect
-          configuration.width = Int(cropRect.width) * displayScaleFactor
-          configuration.height = Int(cropRect.height) * displayScaleFactor
-        } else {
-          configuration.width = Int(displaySize.width) * displayScaleFactor
-          configuration.height = Int(displaySize.height) * displayScaleFactor
-        }
-        
-        // Set pixel format an color space, see CVPixelBuffer.h
-        configuration.pixelFormat = kCVPixelFormatType_32BGRA // 'BGRA'
-        configuration.colorSpaceName = CGColorSpace.sRGB
-        
-                          let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
-
-                          let track = LocalBroadcastScreenShareTrack(
-                              mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
-                              appGroup: appGroup,
-                              videoParameters: videoParameters)
-          
-                          let promise = commandsQueue.addCommand(
-                              Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
-                                  guard let self else { return }
-                                  localEndpoint = localEndpoint.addOrReplaceTrack(track)
-                                  peerConnectionManager.addTrack(track: track)
-                                  if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
-                                      rtcEngineCommunication.renegotiateTracks()
-                                  } else {
-                                      commandsQueue.finishCommand(commandName: .ADD_TRACK)
-                                  }
-                                  onStart()
-                              })
-                          do {
-                              try awaitPromise(promise)
-                              stream = SCStream(filter: filter, configuration: configuration, delegate: nil)
-                              let stream = stream as! SCStream
-                              streamOutput = StreamOutput(source: videoSource)
-                              let streamOutput = streamOutput as! StreamOutput
-                              try stream.addStreamOutput(streamOutput, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
-                                try await stream.startCapture()
-                              streamOutput.sessionStarted = true
-                              listener.onTrackAdded(track: track)
-                          } catch {}
-
-        
-
-
-      } else {
-        return
-      }
-
-//        broadcastScreenShareReceiver = BroadcastScreenShareReceiver(
-//            onStart: { [weak self] in
-//                guard let self, let videoSource = broadcastScreenShareCapturer?.source else { return }
-//                guard canStart() else { return }
-//                let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
-//                let track = LocalBroadcastScreenShareTrack(
-//                    mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
-//                    appGroup: appGroup,
-//                    videoParameters: videoParameters)
-//                let promise = commandsQueue.addCommand(
-//                    Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
-//                        guard let self else { return }
-//                        localEndpoint = localEndpoint.addOrReplaceTrack(track)
-//                        peerConnectionManager.addTrack(track: track)
-//                        if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
-//                            rtcEngineCommunication.renegotiateTracks()
-//                        } else {
-//                            commandsQueue.finishCommand(commandName: .ADD_TRACK)
-//                        }
-//                        onStart()
-//                    })
-//                do {
-//                    try awaitPromise(promise)
-//                    listener.onTrackAdded(track: track)
-//                } catch {}
-//            },
-//            onStop: { [weak self] in
-//                guard let self,
-//                    let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
-//                        as? LocalBroadcastScreenShareTrack
-//                else { return }
-//                removeTrack(trackId: track.id)
-//                listener.onTrackRemoved(track: track)
-//                onStop()
-//            })
-//
-//        broadcastScreenShareCapturer = BroadcastScreenShareCapturer(
-//            videoSource, appGroup: appGroup, videoParameters: videoParameters)
-//        broadcastScreenShareCapturer?.capturerDelegate = broadcastScreenShareReceiver
-//        broadcastScreenShareCapturer?.startListening()
-    }
+                as? LocalBroadcastScreenShareTrack
+        else { return }
+        removeTrack(trackId: track.id)
+        listener.onTrackRemoved(track: track)
+        onStop()
+      })
+    
+    broadcastScreenShareCapturer = BroadcastScreenShareCapturer(
+      videoSource, appGroup: appGroup, videoParameters: videoParameters)
+    broadcastScreenShareCapturer?.capturerDelegate = broadcastScreenShareReceiver
+    broadcastScreenShareCapturer?.startListening()
+  }
+  
     public func createAppScreenShareTrack(videoParameters: VideoParameters, metadata: Metadata)
         -> LocalAppScreenShareTrack
     {

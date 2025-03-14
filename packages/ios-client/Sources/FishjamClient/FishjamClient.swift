@@ -129,8 +129,8 @@ public class FishjamClient {
         canStart: @escaping () -> Bool,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
-    ) async throws {
-        try await client.prepareForBroadcastScreenSharing(
+    ) {
+        client.prepareForBroadcastScreenSharing(
             appGroup: appGroup,
             videoParameters: videoParameters,
             metadata: metadata,
@@ -139,6 +139,15 @@ public class FishjamClient {
             onStop: onStop
         )
     }
+  
+  // TODO: Add docs?
+  public func prepareForCustomVideoSource(
+    customCapturer: FishjamCustomSource,
+    videoParameters: VideoParameters,
+    metadata: Metadata
+  ) async throws {
+    try await client.prepareForCustomVideoSource(customCapturer: customCapturer, videoParameters: videoParameters, metadata: metadata)
+  }
 
     /**
   * Creates a app screencast track utilizing `RPScreenRecorder`
