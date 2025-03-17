@@ -29,4 +29,10 @@ jobs:
         working-directory: packages/android-client
   publish-react-native-client:
     needs: [publish-ios-client, publish-android-client]
-    uses: ./.github/workflows/publish-react-native.yml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish React Native Client
+        uses: ./.github/actions/publish-react-native-client
+        with:
+          npm-token: ${{ secrets.NPM_TOKEN }}
