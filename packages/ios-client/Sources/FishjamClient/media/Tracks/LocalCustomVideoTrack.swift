@@ -1,23 +1,11 @@
 import WebRTC
 
-public class LocalCustomVideoTrack: VideoTrack, LocalTrack {
-    internal var videoParameters: VideoParameters
-    internal var videoSource: RTCVideoSource
-
+public class LocalCustomVideoTrack: LocalVideoTrack, LocalTrack {
     internal init(
         mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),
         videoParameters: VideoParameters
     ) {
-        self.videoParameters = videoParameters
-        self.videoSource = videoSource
-        super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
-    }
-
-    internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalBroadcastScreenShareTrack) {
-        self.videoParameters = oldTrack.videoParameters
-        self.videoSource = oldTrack.videoSource
-        super.init(
-            mediaTrack: mediaTrack, endpointId: oldTrack.endpointId, rtcEngineId: nil, metadata: oldTrack.metadata)
+      super.init(mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil, videoParameters: videoParameters, metadata: metadata)
     }
 
     func start() {}

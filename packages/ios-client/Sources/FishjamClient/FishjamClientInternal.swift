@@ -180,9 +180,8 @@ class FishjamClientInternal {
     let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
     
     //TODO: Figure out how adding tracks work so we can use the new one
-    let track = LocalBroadcastScreenShareTrack(
+    let track = LocalCustomVideoTrack(
       mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
-      appGroup: "",
       videoParameters: videoParameters)
     
     let promise = commandsQueue.addCommand(
@@ -463,36 +462,23 @@ class FishjamClientInternal {
         DispatchQueue.fishjam.sync {
             prevTracks.forEach { track in
                 switch track {
-                case let track as LocalCameraTrack:
+                case let track as LocalVideoTrack:
                     let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
-                    let videoTrack = LocalCameraTrack(mediaTrack: webrtcTrack, oldTrack: track)
-                    localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
-                    break
+                    track.replace(mediaTrack: webrtcTrack)
+                    localEndpoint = localEndpoint.addOrReplaceTrack(track)
                 case let track as LocalAudioTrack:
                     let webrtcTrack = peerConnectionFactoryWrapper.createAudioTrack(source: track.audioSource)
                     let audioTrack = LocalAudioTrack(mediaTrack: webrtcTrack, oldTrack: track)
                     audioTrack.start()
                     localEndpoint = localEndpoint.addOrReplaceTrack(audioTrack)
-                    break
-                case let track as LocalBroadcastScreenShareTrack:
-                    let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
-                    let videoTrack = LocalBroadcastScreenShareTrack(mediaTrack: webrtcTrack, oldTrack: track)
-                    localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
-                    break
-                case let track as LocalAppScreenShareTrack:
-                    let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: track.videoSource)
-                    let videoTrack = LocalAppScreenShareTrack(mediaTrack: webrtcTrack, oldTrack: track)
-                    localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
-                    break
                 default:
                     break
                 }
 
             }
             prevTracks = []
-
         }
-    }
+  }
 }
 
 extension FishjamClientInternal: WebSocketDelegate {
@@ -755,11 +741,7 @@ extension FishjamClientInternal: RTCEngineListener {
             }
 
             var config: SimulcastConfig? = nil
-            if let track = track as? LocalCameraTrack {
-                config = track.videoParameters.simulcastConfig
-            }
-
-            if let track = track as? LocalBroadcastScreenShareTrack {
+            if let track = track as? LocalVideoTrack {
                 config = track.videoParameters.simulcastConfig
             }
 

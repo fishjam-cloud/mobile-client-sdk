@@ -4,12 +4,30 @@ public protocol VideoTrackDelegate: AnyObject {
     func didChange(dimensions: Dimensions)
 }
 
+open class LocalVideoTrack: VideoTrack {
+  var videoParameters: VideoParameters
+  var videoSource: RTCVideoSource
+
+  init(
+      mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, rtcEngineId: String?, videoParameters: VideoParameters, metadata: Metadata = Metadata(),
+      id: String = UUID().uuidString
+  ) {
+    self.videoParameters = videoParameters
+    self.videoSource = videoSource
+    super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId,  metadata: metadata, id: id)
+  }
+  
+  func replace(mediaTrack: RTCVideoTrack) {
+    self.mediaTrack = mediaTrack
+  }
+}
+
 open class VideoTrack: Track, RTCVideoViewDelegate {
     init(
         mediaTrack: RTCVideoTrack, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
-        super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
+      super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId,  metadata: metadata, id: id)
     }
 
     var videoTrack: RTCVideoTrack {

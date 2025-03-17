@@ -1,10 +1,8 @@
 import WebRTC
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing an instance of `VideoCapturer`
-public class LocalCameraTrack: VideoTrack, LocalTrack {
+public class LocalCameraTrack: LocalVideoTrack, LocalTrack {
     private var capturer: CameraCapturer
-    internal var videoParameters: VideoParameters
-    internal var videoSource: RTCVideoSource
 
     public weak var captureDeviceChangedListener: CameraCapturerDeviceChangedListener? {
         get {
@@ -25,16 +23,13 @@ public class LocalCameraTrack: VideoTrack, LocalTrack {
 
     ) {
         mediaTrack.shouldReceive = false
-        self.videoParameters = videoParameters
         self.capturer = capturer
-        self.videoSource = videoSource
-        super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
+      super.init(mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil, videoParameters: videoParameters, metadata: metadata)
     }
-
-    convenience internal init(mediaTrack: RTCVideoTrack, oldTrack: LocalCameraTrack) {
-        self.init(
-            mediaTrack: mediaTrack, videoSource: oldTrack.videoSource, endpointId: oldTrack.endpointId,
-            metadata: oldTrack.metadata, videoParameters: oldTrack.videoParameters, capturer: oldTrack.capturer)
+  
+    override func replace(mediaTrack: RTCVideoTrack) {
+      mediaTrack.shouldReceive = false
+      super.replace(mediaTrack: mediaTrack)
     }
 
     internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in } {
