@@ -128,6 +128,7 @@ public struct Fishjam_PeerMessage {
     case unspecified // = 0
     case fullFeature // = 1
     case audioOnly // = 2
+    case broadcaster // = 3
     case UNRECOGNIZED(Int)
 
     public init() {
@@ -139,6 +140,7 @@ public struct Fishjam_PeerMessage {
       case 0: self = .unspecified
       case 1: self = .fullFeature
       case 2: self = .audioOnly
+      case 3: self = .broadcaster
       default: self = .UNRECOGNIZED(rawValue)
       }
     }
@@ -148,6 +150,7 @@ public struct Fishjam_PeerMessage {
       case .unspecified: return 0
       case .fullFeature: return 1
       case .audioOnly: return 2
+      case .broadcaster: return 3
       case .UNRECOGNIZED(let i): return i
       }
     }
@@ -220,6 +223,7 @@ extension Fishjam_PeerMessage.RoomType: CaseIterable {
     .unspecified,
     .fullFeature,
     .audioOnly,
+    .broadcaster,
   ]
 }
 
@@ -386,6 +390,7 @@ extension Fishjam_PeerMessage.RoomType: SwiftProtobuf._ProtoNameProviding {
     0: .same(proto: "ROOM_TYPE_UNSPECIFIED"),
     1: .same(proto: "ROOM_TYPE_FULL_FEATURE"),
     2: .same(proto: "ROOM_TYPE_AUDIO_ONLY"),
+    3: .same(proto: "ROOM_TYPE_BROADCASTER"),
   ]
 }
 
