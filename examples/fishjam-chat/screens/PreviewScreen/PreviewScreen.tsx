@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   cameraPreview: {
     flex: 6,
     margin: 24,
-    alignSelf: 'stretch',
+    aspectRatio: 9 / 16,
     alignItems: 'center',
     borderRadius: 12,
     borderWidth: 1,
