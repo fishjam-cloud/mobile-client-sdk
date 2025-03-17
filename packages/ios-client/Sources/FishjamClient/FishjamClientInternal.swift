@@ -198,9 +198,10 @@ class FishjamClientInternal {
       })
 
     try awaitPromise(promise)
-    listener.onTrackAdded(track: track)
     
     customSourcesManager.addSource(trackId: track.id, source: customSource, videoSource: videoSource)
+    
+    listener.onTrackAdded(track: track)
   }
   
   public func removeCustomVideoSource(customSource: FishjamCustomSource) {
