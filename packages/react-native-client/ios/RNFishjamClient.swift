@@ -384,6 +384,9 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func toggleScreenShare(screenShareOptions: ScreenShareOptions) async throws {
+        try ensureCreated()
+        try ensureConnected()
+      
         guard isAppScreenShareOn == false else {
             emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
             return
@@ -935,17 +938,13 @@ class RNFishjamClient: FishjamClientListener {
             ))
     }
 
-    static func addCustomVideoSource(
-        _ source: FishjamCustomSource, videoParameters: VideoParameters, metadata: Metadata
-    ) async throws {
-        try await fishjamClient?.createCustomVideoSource(
-            customSource: source, videoParameters: videoParameters, metadata: metadata)
+    static func add(customSource: CustomSource) async throws {
+      try await fishjamClient?.create(customSource: customSource)
     }
 
-    static func removeCustomVideoSource(_ source: FishjamCustomSource) {
-        fishjamClient?.removeCustomVideoSource(customSource: source)
+    static func remove(customSource: CustomSource) {
+        fishjamClient?.remove(customSource: customSource)
     }
-
 }
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {
