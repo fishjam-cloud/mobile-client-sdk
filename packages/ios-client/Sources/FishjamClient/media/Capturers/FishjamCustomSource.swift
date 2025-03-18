@@ -2,7 +2,7 @@ import Foundation
 import WebRTC
 
 public protocol CustomSourceDelegate: AnyObject {
-    func fishjamCustomSource(customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer)
+    func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer)
 }
 
 public protocol CustomSource: AnyObject {
@@ -18,7 +18,8 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
     let customSource: CustomSource
 
     init(
-        trackId: String, customSource: CustomSource, rtcVideoSource: RTCVideoSource) {
+        trackId: String, customSource: CustomSource, rtcVideoSource: RTCVideoSource
+    ) {
         self.trackId = trackId
         self.rtcVideoSource = rtcVideoSource
         self.customSource = customSource
@@ -27,7 +28,7 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
         self.customSource.delegate = self
     }
 
-    func fishjamCustomSource(customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer) {
+    func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer) {
         guard sampleBuffer.isValid else { return }
 
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {

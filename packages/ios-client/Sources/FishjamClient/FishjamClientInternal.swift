@@ -200,7 +200,7 @@ class FishjamClientInternal {
         listener.onTrackAdded(track: track)
     }
 
-    public func removeCustomVideoSource(customSource: CustomSource) {
+    public func remove(customSource: CustomSource) {
         if let trackId = customSourcesManager.remove(source: customSource) {
             removeTrack(trackId: trackId)
         }

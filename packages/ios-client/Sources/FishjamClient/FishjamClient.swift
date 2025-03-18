@@ -140,13 +140,12 @@ public class FishjamClient {
         )
     }
 
-    // TODO: Add docs?
     public func create(customSource: CustomSource) async throws {
         try await client.create(customSource: customSource)
     }
 
     public func remove(customSource: CustomSource) {
-        client.removeCustomVideoSource(customSource: customSource)
+        client.remove(customSource: customSource)
     }
 
     /**
