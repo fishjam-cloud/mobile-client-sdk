@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   cameraPreview: {
     flex: 6,
     margin: 24,
+    // TODO: This should no longer be needed after FCE-1181
     aspectRatio: 9 / 16,
     alignItems: 'center',
     borderRadius: 12,
