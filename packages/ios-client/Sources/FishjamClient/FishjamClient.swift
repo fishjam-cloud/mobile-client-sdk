@@ -139,19 +139,15 @@ public class FishjamClient {
             onStop: onStop
         )
     }
-  
-  // TODO: Add docs?
-  public func createCustomVideoSource(
-    customSource: FishjamCustomSource,
-    videoParameters: VideoParameters,
-    metadata: Metadata
-  ) async throws {
-    try await client.createCustomVideoSource(customSource: customSource, videoParameters: videoParameters, metadata: metadata)
-  }
-  
-  public func removeCustomVideoSource(customSource: FishjamCustomSource) {
-    client.removeCustomVideoSource(customSource: customSource)
-  }
+
+    // TODO: Add docs?
+    public func create(customSource: CustomSource) async throws {
+        try await client.create(customSource: customSource)
+    }
+
+    public func remove(customSource: CustomSource) {
+        client.removeCustomVideoSource(customSource: customSource)
+    }
 
     /**
   * Creates a app screencast track utilizing `RPScreenRecorder`

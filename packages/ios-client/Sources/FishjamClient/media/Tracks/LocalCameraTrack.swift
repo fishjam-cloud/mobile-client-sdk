@@ -24,12 +24,14 @@ public class LocalCameraTrack: LocalVideoTrack, LocalTrack {
     ) {
         mediaTrack.shouldReceive = false
         self.capturer = capturer
-      super.init(mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil, videoParameters: videoParameters, metadata: metadata)
+        super.init(
+            mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil,
+            videoParameters: videoParameters, metadata: metadata)
     }
-  
+
     override func replace(mediaTrack: RTCVideoTrack) {
-      mediaTrack.shouldReceive = false
-      super.replace(mediaTrack: mediaTrack)
+        mediaTrack.shouldReceive = false
+        super.replace(mediaTrack: mediaTrack)
     }
 
     internal var mirrorVideo: (_ shouldMirror: Bool) -> Void = { _ in } {

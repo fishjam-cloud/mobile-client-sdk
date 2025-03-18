@@ -11,9 +11,11 @@ public class LocalAppScreenShareTrack: LocalVideoTrack, LocalTrack {
     ) {
         mediaTrack.shouldReceive = false
         self.capturer = capturer
-      super.init(mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil, videoParameters: videoParameters, metadata: metadata)
+        super.init(
+            mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil,
+            videoParameters: videoParameters, metadata: metadata)
     }
-  
+
     public func start() {
         capturer.startCapture()
     }

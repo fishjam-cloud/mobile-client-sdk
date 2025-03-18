@@ -10,7 +10,9 @@ public class LocalBroadcastScreenShareTrack: LocalVideoTrack, LocalTrack {
         videoParameters: VideoParameters
     ) {
         self.appGroup = appGroup
-      super.init(mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil, videoParameters: videoParameters, metadata: metadata)
+        super.init(
+            mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil,
+            videoParameters: videoParameters, metadata: metadata)
     }
 
     func start() {}

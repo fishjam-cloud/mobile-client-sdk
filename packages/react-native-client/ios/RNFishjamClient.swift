@@ -382,77 +382,77 @@ class RNFishjamClient: FishjamClientListener {
             break
         }
     }
-  
-  func toggleScreenShare(screenShareOptions: ScreenShareOptions) async throws {
-    guard isAppScreenShareOn == false else {
-      emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
-      return
-    }
-    guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
-    else {
-      throw Exception(
-        name: "E_NO_BUNDLE_ID_SET",
-        description:
-          "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
-      )
-    }
-    guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
-    else {
-      throw Exception(
-        name: "E_NO_APP_GROUP_SET",
-        description: "No app group name set. Please set AppGroupName in Info.plist")
-    }
-    
-    guard !isScreenShareOn else {
-      DispatchQueue.main.async {
-        RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
-      }
-      return
-    }
-    
-    let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
-    
-    screenShareSimulcastConfig = simulcastConfig
-    let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
-    let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-    RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
-      appGroup: appGroupName,
-      videoParameters: videoParameters,
-      metadata: screenShareMetadata,
-      canStart: {
-        if self.isAppScreenShareOn {
-          self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+
+    func toggleScreenShare(screenShareOptions: ScreenShareOptions) async throws {
+        guard isAppScreenShareOn == false else {
+            emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+            return
         }
-        return !self.isAppScreenShareOn
-      },
-      onStart: { [weak self] in
-        guard let self else { return }
-        do {
-          try setScreenShareTrackState(enabled: true)
-        } catch {
-          os_log(
-            "Error starting screen share: %{public}s", log: log, type: .error,
-            String(describing: error)
-          )
+        guard let screenShareExtensionBundleId = Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String
+        else {
+            throw Exception(
+                name: "E_NO_BUNDLE_ID_SET",
+                description:
+                    "No screen share extension bundle id set. Please set ScreenShareExtensionBundleId in Info.plist"
+            )
         }
-        
-      },
-      onStop: { [weak self] in
-        guard let self else { return }
-        do {
-          try setScreenShareTrackState(enabled: false)
-        } catch {
-          os_log(
-            "Error stopping screen share: %{public}s", log: log, type: .error,
-            String(describing: error)
-          )
+        guard let appGroupName = Bundle.main.infoDictionary?["AppGroupName"] as? String
+        else {
+            throw Exception(
+                name: "E_NO_APP_GROUP_SET",
+                description: "No app group name set. Please set AppGroupName in Info.plist")
         }
-      }
-    )
-    DispatchQueue.main.async {
-      RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
+
+        guard !isScreenShareOn else {
+            DispatchQueue.main.async {
+                RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
+            }
+            return
+        }
+
+        let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
+
+        screenShareSimulcastConfig = simulcastConfig
+        let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
+        let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
+        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
+            appGroup: appGroupName,
+            videoParameters: videoParameters,
+            metadata: screenShareMetadata,
+            canStart: {
+                if self.isAppScreenShareOn {
+                    self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+                }
+                return !self.isAppScreenShareOn
+            },
+            onStart: { [weak self] in
+                guard let self else { return }
+                do {
+                    try setScreenShareTrackState(enabled: true)
+                } catch {
+                    os_log(
+                        "Error starting screen share: %{public}s", log: log, type: .error,
+                        String(describing: error)
+                    )
+                }
+
+            },
+            onStop: { [weak self] in
+                guard let self else { return }
+                do {
+                    try setScreenShareTrackState(enabled: false)
+                } catch {
+                    os_log(
+                        "Error stopping screen share: %{public}s", log: log, type: .error,
+                        String(describing: error)
+                    )
+                }
+            }
+        )
+        DispatchQueue.main.async {
+            RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
+        }
     }
-  }
 
     private func setScreenShareTrackState(enabled: Bool) throws {
         isScreenShareOn = enabled
@@ -934,14 +934,17 @@ class RNFishjamClient: FishjamClientListener {
                     "Incompatible track detected. This usually means your device is missing codecs negotiated for the room. Visit https://docs.fishjam.io/category/react-native-integration for information."
             ))
     }
-  
-  static func addCustomVideoSource(_ source: FishjamCustomSource, videoParameters: VideoParameters, metadata: Metadata) async throws {
-    try await fishjamClient?.createCustomVideoSource(customSource: source, videoParameters: videoParameters, metadata: metadata)
-  }
-  
-  static func removeCustomVideoSource(_ source: FishjamCustomSource) {
-    fishjamClient?.removeCustomVideoSource(customSource: source)
-  }
+
+    static func addCustomVideoSource(
+        _ source: FishjamCustomSource, videoParameters: VideoParameters, metadata: Metadata
+    ) async throws {
+        try await fishjamClient?.createCustomVideoSource(
+            customSource: source, videoParameters: videoParameters, metadata: metadata)
+    }
+
+    static func removeCustomVideoSource(_ source: FishjamCustomSource) {
+        fishjamClient?.removeCustomVideoSource(customSource: source)
+    }
 
 }
 
