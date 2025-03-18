@@ -537,30 +537,13 @@ class RNFishjamClient: FishjamClientListener {
                             "vadStatus": track.vadStatus == .speech ? "speech" : "silence",
                         ]
 
-                    case let track as LocalCameraTrack:
+                    case let track as LocalVideoTrack:
                         return [
                             "id": track.id,
                             "type": "Video",
                             "metadata": track.metadata.toDict(),
                             "aspectRatio": track.dimensions?.aspectRatio,
                         ]
-
-                    case let track as LocalBroadcastScreenShareTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Video",
-                            "metadata": track.metadata.toDict(),
-                            "aspectRatio": track.dimensions?.aspectRatio,
-                        ]
-
-                    case let track as LocalAppScreenShareTrack:
-                        return [
-                            "id": track.id,
-                            "type": "Video",
-                            "metadata": track.metadata.toDict(),
-                            "aspectRatio": track.dimensions?.aspectRatio,
-                        ]
-
                     case let track as LocalAudioTrack:
                         return [
                             "id": track.id,
@@ -938,13 +921,13 @@ class RNFishjamClient: FishjamClientListener {
             ))
     }
 
-    static func add(customSource: CustomSource) async throws {
-      try await fishjamClient?.create(customSource: customSource)
-    }
-
-    static func remove(customSource: CustomSource) {
-        fishjamClient?.remove(customSource: customSource)
-    }
+  static func add(customSource: CustomSource) async throws {
+    try await fishjamClient?.create(customSource: customSource)
+  }
+  
+  static func remove(customSource: CustomSource) {
+    fishjamClient?.remove(customSource: customSource)
+  }
 }
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {
