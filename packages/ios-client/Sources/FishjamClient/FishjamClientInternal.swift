@@ -129,7 +129,7 @@ class FishjamClientInternal {
         let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                 self.localEndpoint = self.localEndpoint.addOrReplaceTrack(videoTrack)
-                self.peerConnectionManager.addTrack(track: videoTrack)
+                self.add(track: videoTrack)
                 if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
                     self.rtcEngineCommunication.renegotiateTracks()
                 } else {
@@ -154,7 +154,7 @@ class FishjamClientInternal {
         let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                 self.localEndpoint = self.localEndpoint.addOrReplaceTrack(audioTrack)
-                self.peerConnectionManager.addTrack(track: audioTrack)
+                self.add(track: audioTrack)
                 if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
                     self.rtcEngineCommunication.renegotiateTracks()
                 } else {
@@ -185,7 +185,7 @@ class FishjamClientInternal {
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
                 guard let self else { return }
                 localEndpoint = localEndpoint.addOrReplaceTrack(track)
-                peerConnectionManager.addTrack(track: track)
+                add(track: track)
                 if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
                     rtcEngineCommunication.renegotiateTracks()
                 } else {
@@ -227,7 +227,7 @@ class FishjamClientInternal {
                     Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
                         guard let self else { return }
                         localEndpoint = localEndpoint.addOrReplaceTrack(track)
-                        peerConnectionManager.addTrack(track: track)
+                        add(track: track)
                         if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
                             rtcEngineCommunication.renegotiateTracks()
                         } else {
@@ -269,7 +269,7 @@ class FishjamClientInternal {
         let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
                 self.localEndpoint = self.localEndpoint.addOrReplaceTrack(videoTrack)
-                self.peerConnectionManager.addTrack(track: videoTrack)
+                self.add(track: videoTrack)
                 if self.commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
                     self.rtcEngineCommunication.renegotiateTracks()
                 } else {
@@ -476,6 +476,16 @@ class FishjamClientInternal {
             prevTracks = []
         }
     }
+  
+  func add(track: Track) {
+    if roomState.type == .audioOnly && track is VideoTrack {
+      sdkLogger.error(
+          "\(_loggerPrefix) Cannot add track to an audio_only room")
+      listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
+      return
+    }
+    peerConnectionManager.addTrack(track: track)
+  }
 }
 
 extension FishjamClientInternal: WebSocketDelegate {

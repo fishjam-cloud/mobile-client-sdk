@@ -30,6 +30,7 @@ import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import com.fishjamcloud.client.webrtc.RTCEngineListener
 import com.fishjamcloud.client.webrtc.helpers.TrackBitratesMapper
 import fishjam.PeerNotifications
+import fishjam.PeerNotifications.PeerMessage
 import fishjam.media_events.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -318,7 +319,7 @@ internal class FishjamClientInternal(
           localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
 
           coroutineScope.launch {
-            peerConnectionManager.addTrack(videoTrack)
+            addTrack(videoTrack)
             if (commandsQueue.clientState == ClientState.CONNECTED || commandsQueue.clientState == ClientState.JOINED) {
               rtcEngineCommunication.renegotiateTracks()
             } else {
@@ -375,7 +376,7 @@ internal class FishjamClientInternal(
           localEndpoint = localEndpoint.addOrReplaceTrack(audioTrack)
 
           coroutineScope.launch {
-            peerConnectionManager.addTrack(audioTrack)
+            addTrack(audioTrack)
             if (commandsQueue.clientState == ClientState.CONNECTED || commandsQueue.clientState == ClientState.JOINED) {
               rtcEngineCommunication.renegotiateTracks()
             } else {
@@ -425,7 +426,7 @@ internal class FishjamClientInternal(
           localEndpoint = localEndpoint.addOrReplaceTrack(screenShareTrack)
 
           coroutineScope.launch {
-            peerConnectionManager.addTrack(screenShareTrack)
+            addTrack(screenShareTrack)
             rtcEngineCommunication.renegotiateTracks()
           }
         }
@@ -661,6 +662,15 @@ internal class FishjamClientInternal(
       }
     }
     prevTracks = mutableListOf()
+  }
+
+  private suspend fun addTrack(track: Track) {
+    if (roomState.type == PeerMessage.RoomType.ROOM_TYPE_AUDIO_ONLY && track is com.fishjamcloud.client.media.VideoTrack) {
+      Timber.e("Cannot add track to an audio_only room.")
+      listener.onJoinError(mapOf("reason" to "audio_only_room_with_video_track"))
+      return
+    }
+    peerConnectionManager.addTrack(track)
   }
 
   override fun onOfferData(tracksTypes: Server.MediaEvent.OfferData.TrackTypes) {
