@@ -14,6 +14,7 @@ import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
 import com.fishjamcloud.client.models.RTCStats
+import com.fishjamcloud.client.models.RoomState
 import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.TrackEncoding
@@ -61,6 +62,8 @@ internal class FishjamClientInternal(
   private var localEndpoint: Endpoint = Endpoint(id = "")
   private var prevTracks = mutableListOf<Track>()
   private var remoteEndpoints: MutableMap<String, Endpoint> = mutableMapOf()
+
+  private var roomState = RoomState()
 
   private val coroutineScope: CoroutineScope =
     ClosableCoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -138,6 +141,8 @@ internal class FishjamClientInternal(
           try {
             val peerMessage = PeerNotifications.PeerMessage.parseFrom(bytes.toByteArray())
             if (peerMessage.hasAuthenticated()) {
+              roomState.isAuthenticated = true
+              roomState.type = peerMessage.authenticated.roomType
               commandsQueue.finishCommand()
               join()
             } else if (peerMessage.hasServerMediaEvent()) {
@@ -220,6 +225,12 @@ internal class FishjamClientInternal(
     endpoints: Map<String, Server.MediaEvent.Endpoint>,
     iceServers: List<Server.MediaEvent.IceServer>
   ) {
+    if (roomState.type == PeerNotifications.PeerMessage.RoomType.ROOM_TYPE_AUDIO_ONLY && localEndpoint.hasVideoTracks()) {
+      Timber.e("Error while joining room. Room state is audio only but local track is video.")
+      listener.onJoinError(mapOf("reason" to "audio_only_room_with_video_track"))
+      return
+    }
+
     localEndpoint = localEndpoint.copy(id = endpointID)
     peerConnectionManager.setupIceServers(iceServers)
 
@@ -276,6 +287,7 @@ internal class FishjamClientInternal(
       rtcEngineCommunication.removeListener(this@FishjamClientInternal)
       webSocket?.close(1000, null)
       webSocket = null
+      roomState = RoomState()
       commandsQueue.clear()
       onLeave?.invoke()
     }
@@ -560,6 +572,11 @@ internal class FishjamClientInternal(
   }
 
   override fun onSendMediaEvent(event: fishjam.media_events.peer.Peer.MediaEvent) {
+    if (!roomState.isAuthenticated) {
+      Timber.e("Tried to send media event: $event before authentication")
+      return
+    }
+
     val mediaEvent =
       PeerNotifications.PeerMessage
         .newBuilder()
