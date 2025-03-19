@@ -12,7 +12,7 @@ class FishjamClientInternal {
     private var peerConnectionManager: PeerConnectionManager
     private var peerConnectionFactoryWrapper: PeerConnectionFactoryWrapper
     private var rtcEngineCommunication: RTCEngineCommunication
-    private var isAuthenticated = false
+    private var roomState = RoomState()
 
     private var broadcastScreenShareReceiver: BroadcastScreenShareReceiver?
     private var broadcastScreenShareCapturer: BroadcastScreenShareCapturer?
@@ -109,7 +109,7 @@ class FishjamClientInternal {
         rtcEngineCommunication.removeListener(self)
         webSocket?.disconnect(closeCode: CloseCode.normal.rawValue)
         webSocket = nil
-        isAuthenticated = false
+        roomState = RoomState()
         commandsQueue.clear()
         onLeave?()
     }
@@ -397,8 +397,9 @@ class FishjamClientInternal {
     func websocketDidReceiveData(data: Data) {
         do {
             let peerMessage = try Fishjam_PeerMessage(serializedData: data)
-            if case .authenticated(_) = peerMessage.content {
-                isAuthenticated = true
+            if case .authenticated(let content) = peerMessage.content {
+                roomState.isAuthenticated = true
+                roomState.type = content.roomType
                 commandsQueue.finishCommand()
                 join()
             } else if case .serverMediaEvent(_) = peerMessage.content {
@@ -428,12 +429,12 @@ class FishjamClientInternal {
     }
 
     func onSocketError() {
-        isAuthenticated = false
+        roomState.isAuthenticated = false
         listener.onSocketError()
     }
 
     func onDisconnected() {
-        isAuthenticated = false
+        roomState.isAuthenticated = false
         listener.onDisconnected()
     }
 
@@ -566,7 +567,7 @@ extension FishjamClientInternal: PeerConnectionListener {
 extension FishjamClientInternal: RTCEngineListener {
 
     func onSendMediaEvent(event: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content) {
-        if !isAuthenticated {
+        if !roomState.isAuthenticated {
             sdkLogger.error("Tried to send media event: \(event) before authentication")
             return
         }
@@ -611,6 +612,13 @@ extension FishjamClientInternal: RTCEngineListener {
         endpointId: String, endpointIdToEndpoint: [String: Fishjam_MediaEvents_Server_MediaEvent.Endpoint],
         iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]
     ) {
+
+        if roomState.type == .audioOnly && localEndpoint.hasVideoTracks {
+          sdkLogger.error("\(_loggerPrefix) Error while joining room. Room state is audio only but local track is video.")
+          listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
+          return
+        }
+      
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         peerConnectionManager.setupIceServers(iceServers: iceServers)
 
