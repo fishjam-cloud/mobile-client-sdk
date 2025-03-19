@@ -614,11 +614,12 @@ extension FishjamClientInternal: RTCEngineListener {
     ) {
 
         if roomState.type == .audioOnly && localEndpoint.hasVideoTracks {
-          sdkLogger.error("\(_loggerPrefix) Error while joining room. Room state is audio only but local track is video.")
-          listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
-          return
+            sdkLogger.error(
+                "\(_loggerPrefix) Error while joining room. Room state is audio only but local track is video.")
+            listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
+            return
         }
-      
+
         localEndpoint = localEndpoint.copyWith(id: endpointId)
         peerConnectionManager.setupIceServers(iceServers: iceServers)
 

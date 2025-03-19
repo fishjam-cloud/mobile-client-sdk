@@ -20,9 +20,7 @@ data class Endpoint(
     return this.copy(tracks = tracks)
   }
 
-  internal fun hasVideoTracks(): Boolean {
-    return tracks.values.any { it is VideoTrack }
-  }
+  internal fun hasVideoTracks(): Boolean = tracks.values.any { it is VideoTrack }
 }
 
 typealias Peer = Endpoint

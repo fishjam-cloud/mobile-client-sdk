@@ -788,7 +788,7 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func onJoinError(metadata: Any) {
-      let reason = (metadata as? Dictionary<String, Any>)?["reason"] as? String ?? "Unknown error"
+        let reason = (metadata as? [String: Any])?["reason"] as? String ?? "Unknown error"
         connectPromise?.reject("E_MEMBRANE_CONNECT", "Failed to join room, reason: \(reason)")
         connectPromise = nil
     }
