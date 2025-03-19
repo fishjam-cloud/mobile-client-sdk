@@ -1,10 +1,8 @@
 import WebRTC
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing an instance of `VideoCapturer`
-public class LocalAppScreenShareTrack: VideoTrack, LocalTrack {
+public class LocalAppScreenShareTrack: LocalVideoTrack, LocalTrack {
     internal var capturer: AppScreenShareCapturer
-    internal var videoParameters: VideoParameters
-    internal var videoSource: RTCVideoSource
 
     internal init(
         mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),
@@ -12,16 +10,10 @@ public class LocalAppScreenShareTrack: VideoTrack, LocalTrack {
 
     ) {
         mediaTrack.shouldReceive = false
-        self.videoParameters = videoParameters
         self.capturer = capturer
-        self.videoSource = videoSource
-        super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: nil, metadata: metadata)
-    }
-
-    convenience init(mediaTrack: RTCVideoTrack, oldTrack: LocalAppScreenShareTrack) {
-        self.init(
-            mediaTrack: mediaTrack, videoSource: oldTrack.videoSource, endpointId: oldTrack.endpointId,
-            metadata: oldTrack.metadata, videoParameters: oldTrack.videoParameters, capturer: oldTrack.capturer)
+        super.init(
+            mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil,
+            videoParameters: videoParameters, metadata: metadata)
     }
 
     public func start() {

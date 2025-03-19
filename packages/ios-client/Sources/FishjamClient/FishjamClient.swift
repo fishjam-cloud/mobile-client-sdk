@@ -140,6 +140,14 @@ public class FishjamClient {
         )
     }
 
+    public func create(customSource: CustomSource) async throws {
+        try await client.create(customSource: customSource)
+    }
+
+    public func remove(customSource: CustomSource) {
+        client.remove(customSource: customSource)
+    }
+
     /**
   * Creates a app screencast track utilizing `RPScreenRecorder`
   *

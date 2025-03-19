@@ -49,7 +49,7 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
             return
         }
         let videoParameters =
-            (track as? LocalCameraTrack)?.videoParameters ?? (track as? LocalBroadcastScreenShareTrack)?.videoParameters
+            (track as? LocalVideoTrack)?.videoParameters
         let simulcastConfig = videoParameters?.simulcastConfig
         var sendEncodings: [RTCRtpEncodingParameters] = []
         if track.mediaTrack?.kind == "video"
