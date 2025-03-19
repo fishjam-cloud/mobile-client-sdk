@@ -476,16 +476,16 @@ class FishjamClientInternal {
             prevTracks = []
         }
     }
-  
-  func add(track: Track) {
-    if roomState.type == .audioOnly && track is VideoTrack {
-      sdkLogger.error(
-          "\(_loggerPrefix) Cannot add track to an audio_only room")
-      listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
-      return
+
+    func add(track: Track) {
+        if roomState.type == .audioOnly && track is VideoTrack {
+            sdkLogger.error(
+                "\(_loggerPrefix) Cannot add track to an audio_only room")
+            listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
+            return
+        }
+        peerConnectionManager.addTrack(track: track)
     }
-    peerConnectionManager.addTrack(track: track)
-  }
 }
 
 extension FishjamClientInternal: WebSocketDelegate {
