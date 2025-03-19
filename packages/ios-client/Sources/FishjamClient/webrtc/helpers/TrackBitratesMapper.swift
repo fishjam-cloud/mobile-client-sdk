@@ -23,6 +23,7 @@ struct TrackBitratesMapper {
                 trackBitrates.variantBitrates = bitrates
 
                 return (track.webrtcId, trackBitrates)
-            })
+            }
+        )
     }
 }

@@ -18,15 +18,24 @@ public class LocalCameraTrack: LocalVideoTrack, LocalTrack {
     }
 
     internal init(
-        mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, metadata: Metadata = Metadata(),
-        videoParameters: VideoParameters, capturer: CameraCapturer
+        mediaTrack: RTCVideoTrack,
+        videoSource: RTCVideoSource,
+        endpointId: String,
+        metadata: Metadata = Metadata(),
+        videoParameters: VideoParameters,
+        capturer: CameraCapturer
 
     ) {
         mediaTrack.shouldReceive = false
         self.capturer = capturer
         super.init(
-            mediaTrack: mediaTrack, videoSource: videoSource, endpointId: endpointId, rtcEngineId: nil,
-            videoParameters: videoParameters, metadata: metadata)
+            mediaTrack: mediaTrack,
+            videoSource: videoSource,
+            endpointId: endpointId,
+            rtcEngineId: nil,
+            videoParameters: videoParameters,
+            metadata: metadata
+        )
     }
 
     override func replace(mediaTrack: RTCVideoTrack) {

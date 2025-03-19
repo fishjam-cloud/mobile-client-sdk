@@ -24,7 +24,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var midToTrackId: [String: String] = [:]
 
     private static let mediaConstraints = RTCMediaConstraints(
-        mandatoryConstraints: nil, optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue])
+        mandatoryConstraints: nil,
+        optionalConstraints: ["DtlsSrtpKeyAgreement": kRTCMediaConstraintsValueTrue]
+    )
     private var streamIds: [String] = [UUID().uuidString]
 
     internal init(config: RTCConfiguration, peerConnectionFactory: PeerConnectionFactoryWrapper) {
@@ -143,7 +145,9 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
         guard
             let peerConnection = peerConnectionFactory.createPeerConnection(
-                config, constraints: Self.mediaConstraints)
+                config,
+                constraints: Self.mediaConstraints
+            )
         else {
             fatalError("Failed to initialize new PeerConnection")
         }
@@ -298,12 +302,15 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
                                 offer.sdp,
                                 self.getMidToTrackId(localTracks: localTracks),
                                 TrackBitratesMapper.mapTracksToProtoBitrates(localTracks: localTracks),
-                                nil)
+                                nil
+                            )
                             return
                         }
                         onCompletion(nil, nil, nil, err)
-                    })
-            })
+                    }
+                )
+            }
+        )
     }
 
     func disableEncodings(sdpAnswer: String, encodingsToDisable: [String]) -> String {
@@ -359,7 +366,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
                     return
                 }
                 sdkLogger.error("error occured while trying to set a remote description \(err)")
-            })
+            }
+        )
     }
 
     public func onRemoteCandidate(candidate: RTCIceCandidate) {
@@ -375,7 +383,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
                 }
 
                 sdkLogger.error("error occured  during remote ice candidate processing: \(err)")
-            })
+            }
+        )
     }
 
     public func peerConnection(_: RTCPeerConnection, didAdd _: RTCMediaStream) {
@@ -397,11 +406,13 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         ]
 
         sdkLogger.debug(
-            "\(pcLogPrefix) changed signaling state to \(descriptions[stateChanged] ?? "unknown")")
+            "\(pcLogPrefix) changed signaling state to \(descriptions[stateChanged] ?? "unknown")"
+        )
     }
 
     public func peerConnection(
-        _: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver
+        _: RTCPeerConnection,
+        didStartReceivingOn transceiver: RTCRtpTransceiver
     ) {
         guard
             let trackId = midToTrackId[transceiver.mid]
@@ -423,7 +434,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
 
     public func peerConnection(
         _: RTCPeerConnection,
-        didAdd receiver: RTCRtpReceiver, streams _: [RTCMediaStream]
+        didAdd receiver: RTCRtpReceiver,
+        streams _: [RTCMediaStream]
     ) {
         sdkLogger.info("\(pcLogPrefix) new receiver has been added: \(receiver.receiverId)")
     }
@@ -433,8 +445,11 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     }
 
     public func peerConnection(
-        _: RTCPeerConnection, didChangeLocalCandidate local: RTCIceCandidate,
-        remoteCandidate remote: RTCIceCandidate, lastReceivedMs _: Int32, changeReason reason: String
+        _: RTCPeerConnection,
+        didChangeLocalCandidate local: RTCIceCandidate,
+        remoteCandidate remote: RTCIceCandidate,
+        lastReceivedMs _: Int32,
+        changeReason reason: String
     ) {
         sdkLogger.debug(
             "\(pcLogPrefix) a local candidate has been changed due to: '\(reason)'\nlocal: \(local.sdp)\nremote: \(remote.sdp)"
@@ -469,7 +484,8 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         ]
 
         sdkLogger.debug(
-            "\(pcLogPrefix) new ice gathering state: \(descriptions[newState] ?? "unknown")")
+            "\(pcLogPrefix) new ice gathering state: \(descriptions[newState] ?? "unknown")"
+        )
     }
 
     public func peerConnection(_: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {

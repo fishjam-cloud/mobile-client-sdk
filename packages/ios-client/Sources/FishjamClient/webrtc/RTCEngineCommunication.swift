@@ -58,7 +58,9 @@ internal class RTCEngineCommunication {
     }
 
     func sdpOffer(
-        sdp: String, trackIdToTrackMetadata: [String: Metadata], midToTrackId: [String: String],
+        sdp: String,
+        trackIdToTrackMetadata: [String: Metadata],
+        midToTrackId: [String: String],
         trackIdToBitrates: [String: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates]
     ) {
         var sdpOffer = Fishjam_MediaEvents_Peer_MediaEvent.SdpOffer()
@@ -93,7 +95,8 @@ internal class RTCEngineCommunication {
             for listener in listeners {
                 listener.onEndpointAdded(
                     endpointId: endpointAdded.endpointID,
-                    metadata: (try? AnyJson(from: endpointAdded.metadataJson)) ?? Metadata())
+                    metadata: (try? AnyJson(from: endpointAdded.metadataJson)) ?? Metadata()
+                )
             }
         case .endpointRemoved(let endpointRemoved):
             for listener in listeners {

@@ -41,7 +41,10 @@ class AppScreenShareCapturer: RTCVideoCapturer, VideoCapturer {
             Int64(CMTimeGetSeconds(CMSampleBufferGetPresentationTimeStamp(buffer))) * Int64(NSEC_PER_SEC)
 
         let videoFrame = RTCVideoFrame(
-            buffer: rtcPixelBuffer, rotation: RTCVideoRotation._0, timeStampNs: timeStampNs)
+            buffer: rtcPixelBuffer,
+            rotation: RTCVideoRotation._0,
+            timeStampNs: timeStampNs
+        )
 
         let delegate = source as RTCVideoCapturerDelegate
 
@@ -57,7 +60,8 @@ class AppScreenShareCapturer: RTCVideoCapturer, VideoCapturer {
             },
             completionHandler: { error in
                 sdkLogger.error("Encountered error while capturing screen: \(error?.localizedDescription ?? "")")
-            })
+            }
+        )
     }
 
     func stopCapture() {

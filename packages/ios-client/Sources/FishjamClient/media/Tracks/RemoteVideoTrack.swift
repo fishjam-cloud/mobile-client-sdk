@@ -7,7 +7,10 @@ public class RemoteVideoTrack: VideoTrack {
     private var onTrackEncodingChangedListener: ((_ track: Track) throws -> Void)?
 
     override init(
-        mediaTrack: RTCVideoTrack, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),
+        mediaTrack: RTCVideoTrack,
+        endpointId: String,
+        rtcEngineId: String?,
+        metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)

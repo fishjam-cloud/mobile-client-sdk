@@ -101,7 +101,10 @@ public class BroadcastSampleSource {
             // Check rotation tags. Extensions see these tags, but `RPScreenRecorder` does not appear to set them.
             // On iOS 12.0 and 13.0 rotation tags (other than up) are set by extensions.
             if let sampleOrientation = CMGetAttachment(
-                sampleBuffer, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil),
+                sampleBuffer,
+                key: RPVideoSampleOrientationKey as CFString,
+                attachmentModeOut: nil
+            ),
                 let coreSampleOrientation = sampleOrientation.uint32Value
             {
                 rotation = CGImagePropertyOrientation(rawValue: coreSampleOrientation)?.toRTCRotation()

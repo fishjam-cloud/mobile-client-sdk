@@ -5,7 +5,10 @@ public class RemoteAudioTrack: Track {
     private var vadChangedListener: ((_ track: Track) throws -> Void)?
 
     init(
-        audioTrack: RTCAudioTrack, endpointId: String, rtcEngineId: String? = nil, metadata: Metadata = Metadata(),
+        audioTrack: RTCAudioTrack,
+        endpointId: String,
+        rtcEngineId: String? = nil,
+        metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
         super.init(mediaTrack: audioTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)

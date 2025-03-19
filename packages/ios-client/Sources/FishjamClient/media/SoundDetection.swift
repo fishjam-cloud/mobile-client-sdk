@@ -75,8 +75,11 @@ public class SoundDetection: ObservableObject {
             engine.connect(inputNode, to: mixerNode, format: inputFormat)
             let mainMixerNode = engine.mainMixerNode
             let mixerFormat = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32, sampleRate: inputFormat.sampleRate, channels: 1,
-                interleaved: false)
+                commonFormat: .pcmFormatFloat32,
+                sampleRate: inputFormat.sampleRate,
+                channels: 1,
+                interleaved: false
+            )
             engine.connect(mixerNode, to: mainMixerNode, format: mixerFormat)
         }
     }
@@ -94,7 +97,9 @@ public class SoundDetection: ObservableObject {
             let format = tapNode.outputFormat(forBus: 0)
 
             tapNode.installTap(
-                onBus: 0, bufferSize: 4096, format: format,
+                onBus: 0,
+                bufferSize: 4096,
+                format: format,
                 block: {
                     (buffer, time) in
                     do {
@@ -102,7 +107,8 @@ public class SoundDetection: ObservableObject {
                     } catch let error {
                         print("Error processing audio buffer: \(error)")
                     }
-                })
+                }
+            )
 
             do {
                 try engine.start()
@@ -121,7 +127,8 @@ public class SoundDetection: ObservableObject {
      - volumeThreshold: The threshold value in decibels (dB) above which a sound is considered detected.
      */
     private func processAudioBufferForSoundDetection(
-        from buffer: AVAudioPCMBuffer, _ volumeThreshold: Int = 60
+        from buffer: AVAudioPCMBuffer,
+        _ volumeThreshold: Int = 60
     ) throws {
         let amplitude = try getMaxAmplitude(from: buffer)
         let soundVolume = calculateValue(from: amplitude)
@@ -166,9 +173,11 @@ public class SoundDetection: ObservableObject {
         let sourceFormat = buffer.format
         guard
             let targetFormat = AVAudioFormat(
-                commonFormat: .pcmFormatInt16, sampleRate: sourceFormat.sampleRate,
+                commonFormat: .pcmFormatInt16,
+                sampleRate: sourceFormat.sampleRate,
                 channels: sourceFormat.channelCount,
-                interleaved: true)
+                interleaved: true
+            )
         else {
             throw SoundDetectionError.audioConverterInitializationFailed
         }
@@ -178,7 +187,9 @@ public class SoundDetection: ObservableObject {
         }
 
         let outputBuffer = AVAudioPCMBuffer(
-            pcmFormat: targetFormat, frameCapacity: buffer.frameCapacity)
+            pcmFormat: targetFormat,
+            frameCapacity: buffer.frameCapacity
+        )
         let inputBlock: AVAudioConverterInputBlock = { inNumPackets, outStatus in
             outStatus.pointee = .haveData
             return buffer

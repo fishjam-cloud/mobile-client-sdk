@@ -96,7 +96,10 @@ public class FishjamClient {
         captureDeviceName: String? = nil
     ) -> LocalCameraTrack {
         return client.createCameraTrack(
-            videoParameters: videoParameters, metadata: metadata, captureDeviceName: captureDeviceName)
+            videoParameters: videoParameters,
+            metadata: metadata,
+            captureDeviceName: captureDeviceName
+        )
     }
 
     /**

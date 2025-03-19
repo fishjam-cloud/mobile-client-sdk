@@ -9,8 +9,12 @@ open class LocalVideoTrack: VideoTrack {
     var videoSource: RTCVideoSource
 
     init(
-        mediaTrack: RTCVideoTrack, videoSource: RTCVideoSource, endpointId: String, rtcEngineId: String?,
-        videoParameters: VideoParameters, metadata: Metadata = Metadata(),
+        mediaTrack: RTCVideoTrack,
+        videoSource: RTCVideoSource,
+        endpointId: String,
+        rtcEngineId: String?,
+        videoParameters: VideoParameters,
+        metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
         self.videoParameters = videoParameters
@@ -25,7 +29,10 @@ open class LocalVideoTrack: VideoTrack {
 
 open class VideoTrack: Track, RTCVideoViewDelegate {
     init(
-        mediaTrack: RTCVideoTrack, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),
+        mediaTrack: RTCVideoTrack,
+        endpointId: String,
+        rtcEngineId: String?,
+        metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)

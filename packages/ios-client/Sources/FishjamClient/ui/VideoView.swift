@@ -174,7 +174,8 @@ public class VideoView: UIView, VideoTrackDelegate {
                 x: -((size.width - viewSize.width) / 2),
                 y: -((size.height - viewSize.height) / 2),
                 width: size.width,
-                height: size.height)
+                height: size.height
+            )
         } else {
             rendererView.frame = bounds
         }

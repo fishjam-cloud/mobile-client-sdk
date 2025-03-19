@@ -27,8 +27,15 @@ public struct RTCOutboundStats: RTCStats {
     public let qualityLimitationDurations: QualityLimitationDurations?
 
     public init(
-        kind: String = "", rid: String = "", bytesSent: UInt = 0, targetBitrate: Double = 0.0, packetsSent: UInt = 0,
-        framesEncoded: UInt = 0, framesPerSecond: Double = 0.0, frameWidth: UInt = 0, frameHeight: UInt = 0,
+        kind: String = "",
+        rid: String = "",
+        bytesSent: UInt = 0,
+        targetBitrate: Double = 0.0,
+        packetsSent: UInt = 0,
+        framesEncoded: UInt = 0,
+        framesPerSecond: Double = 0.0,
+        frameWidth: UInt = 0,
+        frameHeight: UInt = 0,
         qualityLimitationDurations: QualityLimitationDurations? = nil
     ) {
         self.kind = kind
@@ -57,9 +64,15 @@ public struct RTCInboundStats: RTCStats {
     public let framesDropped: UInt
 
     public init(
-        kind: String = "", jitter: Double = 0.0, packetsLost: UInt = 0, packetsReceived: UInt = 0,
+        kind: String = "",
+        jitter: Double = 0.0,
+        packetsLost: UInt = 0,
+        packetsReceived: UInt = 0,
         bytesReceived: UInt = 0,
-        framesReceived: UInt = 0, frameWidth: UInt = 0, frameHeight: UInt = 0, framesPerSecond: Double = 0.0,
+        framesReceived: UInt = 0,
+        frameWidth: UInt = 0,
+        frameHeight: UInt = 0,
+        framesPerSecond: Double = 0.0,
         framesDropped: UInt = 0
     ) {
         self.kind = kind

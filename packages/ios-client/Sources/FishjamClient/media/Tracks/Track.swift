@@ -22,7 +22,10 @@ open class Track: Equatable {
     */
 
     init(
-        mediaTrack: RTCMediaStreamTrack?, endpointId: String, rtcEngineId: String?, metadata: Metadata = Metadata(),
+        mediaTrack: RTCMediaStreamTrack?,
+        endpointId: String,
+        rtcEngineId: String?,
+        metadata: Metadata = Metadata(),
         id: String = UUID().uuidString
     ) {
         self.mediaTrack = mediaTrack

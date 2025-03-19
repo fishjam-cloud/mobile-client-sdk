@@ -1,8 +1,10 @@
 internal protocol RTCEngineListener: AnyObject {
     func onSendMediaEvent(event: Fishjam_MediaEvents_Peer_MediaEvent.OneOf_Content)
     func onConnected(
-        endpointId: String, endpointIdToEndpoint: [String: Fishjam_MediaEvents_Server_MediaEvent.Endpoint],
-        iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer])
+        endpointId: String,
+        endpointIdToEndpoint: [String: Fishjam_MediaEvents_Server_MediaEvent.Endpoint],
+        iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]
+    )
     func onEndpointAdded(endpointId: String, metadata: Metadata?)
     func onEndpointRemoved(endpointId: String)
     func onEndpointUpdated(endpointId: String, metadata: Metadata?)
