@@ -18,7 +18,9 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
     let customSource: CustomSource
 
     init(
-        trackId: String, customSource: CustomSource, rtcVideoSource: RTCVideoSource
+        trackId: String,
+        customSource: CustomSource,
+        rtcVideoSource: RTCVideoSource
     ) {
         self.trackId = trackId
         self.rtcVideoSource = rtcVideoSource
@@ -45,13 +47,17 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
             cropWidth: width,
             cropHeight: height,
             cropX: 0,
-            cropY: 0)
+            cropY: 0
+        )
 
         let rotation = RTCVideoRotation._0
 
         let buffer = rtcBuffer.toI420()
         let videoFrame = RTCVideoFrame(
-            buffer: buffer, rotation: rotation, timeStampNs: sampleBuffer.presentationTimeStamp.value)
+            buffer: buffer,
+            rotation: rotation,
+            timeStampNs: sampleBuffer.presentationTimeStamp.value
+        )
 
         let delegate = rtcVideoSource as RTCVideoCapturerDelegate
 

@@ -23,7 +23,8 @@ class StatsCollector {
             bandwidth: duration?["bandwidth"] ?? 0.0,
             cpu: duration?["cpu"] ?? 0.0,
             none: duration?["none"] ?? 0.0,
-            other: duration?["other"] ?? 0.0)
+            other: duration?["other"] ?? 0.0
+        )
 
         return RTCOutboundStats(
             kind: stats.values["kind"] as? String ?? "",

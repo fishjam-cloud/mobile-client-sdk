@@ -11,10 +11,14 @@ internal class PeerConnectionFactoryWrapper {
         let encoderFactory = getEncoderFactory(from: encoder)
 
         let simulcastFactory = RTCVideoEncoderFactorySimulcast(
-            primary: encoderFactory, fallback: RTCDefaultVideoEncoderFactory())
+            primary: encoderFactory,
+            fallback: RTCDefaultVideoEncoderFactory()
+        )
 
         self.factory = RTCPeerConnectionFactory(
-            encoderFactory: simulcastFactory, decoderFactory: decoderFactory)
+            encoderFactory: simulcastFactory,
+            decoderFactory: decoderFactory
+        )
 
     }
 

@@ -6,7 +6,10 @@ class CustomSourceManager {
     func add(source: CustomSource, withTrackId trackId: String, forRTCVideoSource videoSource: RTCVideoSource) {
         sources.append(
             CustomSourceRTCVideoCapturerAdapter(
-                trackId: trackId, customSource: source, rtcVideoSource: videoSource)
+                trackId: trackId,
+                customSource: source,
+                rtcVideoSource: videoSource
+            )
         )
     }
 

@@ -41,7 +41,9 @@ class FishjamClientInternal {
         self.rtcEngineCommunication = RTCEngineCommunication(listeners: [])
         self.peerConnectionFactoryWrapper = PeerConnectionFactoryWrapper(encoder: Encoder.DEFAULT)
         self.peerConnectionManager = PeerConnectionManager(
-            config: RTCConfiguration(), peerConnectionFactory: peerConnectionFactoryWrapper)
+            config: RTCConfiguration(),
+            peerConnectionFactory: peerConnectionFactoryWrapper
+        )
     }
 
     private func getTrack(trackId: String) -> Track? {
@@ -74,7 +76,10 @@ class FishjamClientInternal {
         peerConnectionManager.addListener(self)
         rtcEngineCommunication.addListener(self)
         self.reconnectionManager = ReconnectionManager(
-            reconnectConfig: config.reconnectConfig, connect: { self.reconnect(config: config) }, listener: listener)
+            reconnectConfig: config.reconnectConfig,
+            connect: { self.reconnect(config: config) },
+            listener: listener
+        )
         setupWebsocket(config: config)
     }
 
@@ -97,7 +102,8 @@ class FishjamClientInternal {
         commandsQueue.addCommand(
             Command(commandName: .JOIN, clientStateAfterCommand: .JOINED) {
                 self.rtcEngineCommunication.connect(metadata: self.config?.peerMetadata ?? [:].toMetadata())
-            })
+            }
+        )
     }
 
     func leave(onLeave: (() -> Void)? = nil) {
@@ -120,11 +126,18 @@ class FishjamClientInternal {
         let videoSource = peerConnectionFactoryWrapper.createVideoSource()
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
         let videoCapturer = CameraCapturer(
-            videoParameters: videoParameters, delegate: videoSource, deviceId: captureDeviceName)
-        let videoTrack = LocalCameraTrack(
-            mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
             videoParameters: videoParameters,
-            capturer: videoCapturer)
+            delegate: videoSource,
+            deviceId: captureDeviceName
+        )
+        let videoTrack = LocalCameraTrack(
+            mediaTrack: webrtcTrack,
+            videoSource: videoSource,
+            endpointId: localEndpoint.id,
+            metadata: metadata,
+            videoParameters: videoParameters,
+            capturer: videoCapturer
+        )
         videoTrack.start()
         let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
@@ -135,7 +148,8 @@ class FishjamClientInternal {
                 } else {
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
                 }
-            })
+            }
+        )
         do {
             try awaitPromise(promise)
         } catch {
@@ -149,7 +163,11 @@ class FishjamClientInternal {
         let webrtcTrack = peerConnectionFactoryWrapper.createAudioTrack(source: audioSource)
         webrtcTrack.isEnabled = true
         let audioTrack = LocalAudioTrack(
-            mediaTrack: webrtcTrack, audioSource: audioSource, endpointId: localEndpoint.id, metadata: metadata)
+            mediaTrack: webrtcTrack,
+            audioSource: audioSource,
+            endpointId: localEndpoint.id,
+            metadata: metadata
+        )
         audioTrack.start()
         let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
@@ -160,7 +178,8 @@ class FishjamClientInternal {
                 } else {
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
                 }
-            })
+            }
+        )
 
         do {
             try awaitPromise(promise)
@@ -191,7 +210,8 @@ class FishjamClientInternal {
                 } else {
                     commandsQueue.finishCommand(commandName: .ADD_TRACK)
                 }
-            })
+            }
+        )
 
         try awaitPromise(promise)
 
@@ -207,7 +227,9 @@ class FishjamClientInternal {
     }
 
     public func prepareForBroadcastScreenSharing(
-        appGroup: String, videoParameters: VideoParameters, metadata: Metadata,
+        appGroup: String,
+        videoParameters: VideoParameters,
+        metadata: Metadata,
         canStart: @escaping () -> Bool,
         onStart: @escaping () -> Void,
         onStop: @escaping () -> Void
@@ -220,9 +242,13 @@ class FishjamClientInternal {
                 guard canStart() else { return }
                 let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
                 let track = LocalBroadcastScreenShareTrack(
-                    mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
+                    mediaTrack: webrtcTrack,
+                    videoSource: videoSource,
+                    endpointId: localEndpoint.id,
+                    metadata: metadata,
                     appGroup: appGroup,
-                    videoParameters: videoParameters)
+                    videoParameters: videoParameters
+                )
                 let promise = commandsQueue.addCommand(
                     Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
                         guard let self else { return }
@@ -234,7 +260,8 @@ class FishjamClientInternal {
                             commandsQueue.finishCommand(commandName: .ADD_TRACK)
                         }
                         onStart()
-                    })
+                    }
+                )
                 do {
                     try awaitPromise(promise)
                     listener.onTrackAdded(track: track)
@@ -248,10 +275,14 @@ class FishjamClientInternal {
                 removeTrack(trackId: track.id)
                 listener.onTrackRemoved(track: track)
                 onStop()
-            })
+            }
+        )
 
         broadcastScreenShareCapturer = BroadcastScreenShareCapturer(
-            videoSource, appGroup: appGroup, videoParameters: videoParameters)
+            videoSource,
+            appGroup: appGroup,
+            videoParameters: videoParameters
+        )
         broadcastScreenShareCapturer?.capturerDelegate = broadcastScreenShareReceiver
         broadcastScreenShareCapturer?.startListening()
     }
@@ -263,8 +294,13 @@ class FishjamClientInternal {
         let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
         let videoCapturer = AppScreenShareCapturer(videoSource)
         let videoTrack = LocalAppScreenShareTrack(
-            mediaTrack: webrtcTrack, videoSource: videoSource, endpointId: localEndpoint.id, metadata: metadata,
-            videoParameters: videoParameters, capturer: videoCapturer)
+            mediaTrack: webrtcTrack,
+            videoSource: videoSource,
+            endpointId: localEndpoint.id,
+            metadata: metadata,
+            videoParameters: videoParameters,
+            capturer: videoCapturer
+        )
         videoTrack.start()
         let promise = commandsQueue.addCommand(
             Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) {
@@ -275,7 +311,8 @@ class FishjamClientInternal {
                 } else {
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
                 }
-            })
+            }
+        )
         do {
             try awaitPromise(promise)
         } catch {
@@ -298,7 +335,8 @@ class FishjamClientInternal {
                 }
 
                 self.listener.onTrackRemoved(track: track)
-            })
+            }
+        )
         do {
             try awaitPromise(promise)
         } catch {}
@@ -545,13 +583,21 @@ extension FishjamClientInternal: PeerConnectionListener {
         switch webrtcTrack {
         case let videoTrack as RTCVideoTrack:
             track = RemoteVideoTrack(
-                mediaTrack: videoTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata,
-                id: trackId)
+                mediaTrack: videoTrack,
+                endpointId: endpointId,
+                rtcEngineId: rtcEngineId,
+                metadata: metadata,
+                id: trackId
+            )
 
         case let audioTrack as RTCAudioTrack:
             track = RemoteAudioTrack(
-                audioTrack: audioTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata,
-                id: trackId)
+                audioTrack: audioTrack,
+                endpointId: endpointId,
+                rtcEngineId: rtcEngineId,
+                metadata: metadata,
+                id: trackId
+            )
 
         default:
             sdkLogger.error("Invalid type of incoming track")
@@ -569,8 +615,11 @@ extension FishjamClientInternal: PeerConnectionListener {
         }
         let ufrag = String(splitSdp[ufragIndex + 1])
         rtcEngineCommunication.localCandidate(
-            sdp: candidate.sdp, sdpMLineIndex: candidate.sdpMLineIndex, sdpMid: Int32(candidate.sdpMid ?? "0") ?? 0,
-            usernameFragment: ufrag)
+            sdp: candidate.sdp,
+            sdpMLineIndex: candidate.sdpMLineIndex,
+            sdpMid: Int32(candidate.sdpMid ?? "0") ?? 0,
+            usernameFragment: ufrag
+        )
     }
 }
 
@@ -619,7 +668,8 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onConnected(
-        endpointId: String, endpointIdToEndpoint: [String: Fishjam_MediaEvents_Server_MediaEvent.Endpoint],
+        endpointId: String,
+        endpointIdToEndpoint: [String: Fishjam_MediaEvents_Server_MediaEvent.Endpoint],
         iceServers: [Fishjam_MediaEvents_Server_MediaEvent.IceServer]
     ) {
 
@@ -639,7 +689,8 @@ extension FishjamClientInternal: RTCEngineListener {
             } else {
                 var endpoint = Endpoint(
                     id: eventEndpointId,
-                    metadata: (try? AnyJson(from: eventEndpoint.metadataJson)) ?? Metadata())
+                    metadata: (try? AnyJson(from: eventEndpoint.metadataJson)) ?? Metadata()
+                )
 
                 for (trackId, track) in eventEndpoint.trackIDToTrack {
                     let track = Track(
@@ -666,7 +717,8 @@ extension FishjamClientInternal: RTCEngineListener {
                 } else {
                     self.commandsQueue.finishCommand(commandName: .ADD_TRACK)
                 }
-            })
+            }
+        )
         do {
             try awaitPromise(promise)
         } catch {

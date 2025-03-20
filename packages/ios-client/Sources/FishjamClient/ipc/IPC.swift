@@ -14,7 +14,8 @@ extension CFMessagePort {
             self as Any,
             &CFMessagePort.selfObjectHandle,
             obj,
-            objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC
+        )
     }
 }
 
@@ -68,7 +69,8 @@ public class IPCServer: IPC {
         }
 
         port = CFMessagePortCreateLocal(
-            nil, name as CFString,
+            nil,
+            name as CFString,
             {
                 (port: CFMessagePort?, id: Int32, data: CFData?, _: UnsafeMutableRawPointer?) -> Unmanaged<CFData>? in
                 guard let selfObj = port?.associatedSelf() as? IPCServer,
@@ -79,7 +81,10 @@ public class IPCServer: IPC {
 
                 selfObj.onReceive?(selfObj, id, data)
                 return nil
-            }, nil, nil)
+            },
+            nil,
+            nil
+        )
 
         if let port = port {
             port.associateSelf(self)

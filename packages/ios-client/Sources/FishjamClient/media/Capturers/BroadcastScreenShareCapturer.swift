@@ -30,7 +30,13 @@ extension CVPixelBuffer {
             var pixelBuffer: CVPixelBuffer!
 
             let result = CVPixelBufferCreate(
-                kCFAllocatorDefault, width, height, pixelFormat, nil, &pixelBuffer)
+                kCFAllocatorDefault,
+                width,
+                height,
+                pixelFormat,
+                nil,
+                &pixelBuffer
+            )
             guard result == kCVReturnSuccess else { fatalError() }
 
             CVPixelBufferLockBaseAddress(pixelBuffer, [])
@@ -96,7 +102,9 @@ class BroadcastScreenShareCapturer: RTCVideoCapturer {
         - delegate: A delegate that will receive notifications about the sceeen capture events such as started/stopped or paused
      */
     init(
-        _ source: RTCVideoSource, appGroup: String, videoParameters: VideoParameters,
+        _ source: RTCVideoSource,
+        appGroup: String,
+        videoParameters: VideoParameters,
         delegate: BroadcastScreenShareReceiverDelegate? = nil
     ) {
         self.source = source
@@ -172,14 +180,21 @@ class BroadcastScreenShareCapturer: RTCVideoCapturer {
 
                 let dimensions = downscaleResolution(
                     from: Dimensions(width: Int32(video.width), height: Int32(video.height)),
-                    to: videoParameters.dimensions)
+                    to: videoParameters.dimensions
+                )
 
                 self.source.adaptOutputFormat(
-                    toWidth: dimensions.width, height: dimensions.height, fps: Int32(videoParameters.maxFps))
+                    toWidth: dimensions.width,
+                    height: dimensions.height,
+                    fps: Int32(videoParameters.maxFps)
+                )
 
                 let pixelBuffer = CVPixelBuffer.from(
-                    sample.buffer, width: Int(video.width), height: Int(video.height),
-                    pixelFormat: video.format)
+                    sample.buffer,
+                    width: Int(video.width),
+                    height: Int(video.height),
+                    pixelFormat: video.format
+                )
                 let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
                 let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
 
@@ -190,7 +205,8 @@ class BroadcastScreenShareCapturer: RTCVideoCapturer {
                     cropWidth: width,
                     cropHeight: height,
                     cropX: 0,
-                    cropY: 0)
+                    cropY: 0
+                )
 
                 var rotation: RTCVideoRotation = ._0
 
@@ -209,7 +225,10 @@ class BroadcastScreenShareCapturer: RTCVideoCapturer {
                 // the I420 somehow does so keep it in that format as long as it works
                 let buffer = rtcBuffer.toI420()
                 let videoFrame = RTCVideoFrame(
-                    buffer: buffer, rotation: rotation, timeStampNs: sample.timestamp)
+                    buffer: buffer,
+                    rotation: rotation,
+                    timeStampNs: sample.timestamp
+                )
 
                 let delegate = source as RTCVideoCapturerDelegate
 

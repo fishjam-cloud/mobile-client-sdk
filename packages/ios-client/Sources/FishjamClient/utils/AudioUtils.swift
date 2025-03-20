@@ -10,7 +10,9 @@ internal class AudioUtils {
     ]
 
     static let audioConstraints = RTCMediaConstraints(
-        mandatoryConstraints: nil, optionalConstraints: constraints)
+        mandatoryConstraints: nil,
+        optionalConstraints: constraints
+    )
 
     static func createAudioConfig() -> RTCAudioSessionConfiguration {
         let config = RTCAudioSessionConfiguration.webRTC()

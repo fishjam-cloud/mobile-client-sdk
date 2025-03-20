@@ -48,7 +48,8 @@ public struct AnyJson: Codable {
     }
 
     static func decode(
-        from container: inout KeyedDecodingContainer<JSONCodingKey>, forKey key: JSONCodingKey
+        from container: inout KeyedDecodingContainer<JSONCodingKey>,
+        forKey key: JSONCodingKey
     ) throws -> Any {
         if let value = try? container.decode(Bool.self, forKey: key) {
             return value
@@ -75,7 +76,9 @@ public struct AnyJson: Codable {
             AnyJson.self,
             .init(
                 codingPath: container.codingPath,
-                debugDescription: "Couldn't parse object to Metadata: unknown type!"))
+                debugDescription: "Couldn't parse object to Metadata: unknown type!"
+            )
+        )
     }
 
     static func decode(from container: inout UnkeyedDecodingContainer) throws -> Any {
@@ -104,7 +107,9 @@ public struct AnyJson: Codable {
             AnyJson.self,
             .init(
                 codingPath: container.codingPath,
-                debugDescription: "Couldn't parse object to Metadata: decoding from container failed"))
+                debugDescription: "Couldn't parse object to Metadata: decoding from container failed"
+            )
+        )
     }
 
     // MARK: Encoding
@@ -115,7 +120,8 @@ public struct AnyJson: Codable {
     }
 
     static func encode(
-        to container: inout KeyedEncodingContainer<JSONCodingKey>, dictionary: [String: Any]
+        to container: inout KeyedEncodingContainer<JSONCodingKey>,
+        dictionary: [String: Any]
     ) throws {
         for (key, value) in dictionary {
             let key = JSONCodingKey(stringValue: key)!
@@ -152,7 +158,8 @@ public struct AnyJson: Codable {
                             codingPath: container.codingPath,
                             debugDescription:
                                 "Couldn't parse object to Metadata: unexpected type to encode: \(String(describing: value))"
-                        ))
+                        )
+                    )
                 }
             }
         }
@@ -190,7 +197,8 @@ public struct AnyJson: Codable {
                             codingPath: container.codingPath,
                             debugDescription:
                                 "Couldn't parse object to Metadata: unexpected type to encode: \(String(describing: value))"
-                        ))
+                        )
+                    )
                 }
             }
         }
@@ -221,7 +229,8 @@ public struct AnyJson: Codable {
                         codingPath: container.codingPath,
                         debugDescription:
                             "Couldn't parse object to Metadata: unexpected type to encode: \(String(describing: value))"
-                    ))
+                    )
+                )
             }
         }
     }

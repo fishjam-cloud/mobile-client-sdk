@@ -10,7 +10,9 @@ public struct Endpoint {
     }
 
     public func copyWith(
-        id: String? = nil, metadata: Metadata? = nil, tracks: [String: Track]? = nil
+        id: String? = nil,
+        metadata: Metadata? = nil,
+        tracks: [String: Track]? = nil
     ) -> Self {
         return Endpoint(
             id: id ?? self.id,
