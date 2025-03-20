@@ -1,6 +1,7 @@
 package com.fishjamcloud.client.models
 
 import com.fishjamcloud.client.media.Track
+import com.fishjamcloud.client.media.VideoTrack
 
 data class Endpoint(
   val id: String,
@@ -18,6 +19,8 @@ data class Endpoint(
     tracks.remove(trackId)
     return this.copy(tracks = tracks)
   }
+
+  internal fun hasVideoTracks(): Boolean = tracks.values.any { it is VideoTrack }
 }
 
 typealias Peer = Endpoint

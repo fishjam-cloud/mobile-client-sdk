@@ -182,6 +182,10 @@ public final class PeerNotifications {
        * <code>ROOM_TYPE_AUDIO_ONLY = 2;</code>
        */
       ROOM_TYPE_AUDIO_ONLY(2),
+      /**
+       * <code>ROOM_TYPE_BROADCASTER = 3;</code>
+       */
+      ROOM_TYPE_BROADCASTER(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -206,6 +210,10 @@ public final class PeerNotifications {
        * <code>ROOM_TYPE_AUDIO_ONLY = 2;</code>
        */
       public static final int ROOM_TYPE_AUDIO_ONLY_VALUE = 2;
+      /**
+       * <code>ROOM_TYPE_BROADCASTER = 3;</code>
+       */
+      public static final int ROOM_TYPE_BROADCASTER_VALUE = 3;
 
 
       public final int getNumber() {
@@ -235,6 +243,7 @@ public final class PeerNotifications {
           case 0: return ROOM_TYPE_UNSPECIFIED;
           case 1: return ROOM_TYPE_FULL_FEATURE;
           case 2: return ROOM_TYPE_AUDIO_ONLY;
+          case 3: return ROOM_TYPE_BROADCASTER;
           default: return null;
         }
       }
@@ -4155,7 +4164,7 @@ public final class PeerNotifications {
       "\n fishjam/peer_notifications.proto\022\007fish" +
       "jam\032$fishjam/media_events/peer/peer.prot" +
       "o\032(fishjam/media_events/server/server.pr" +
-      "oto\"\241\005\n\013PeerMessage\022;\n\rauthenticated\030\001 \001" +
+      "oto\"\274\005\n\013PeerMessage\022;\n\rauthenticated\030\001 \001" +
       "(\0132\".fishjam.PeerMessage.AuthenticatedH\000" +
       "\0228\n\014auth_request\030\002 \001(\0132 .fishjam.PeerMes" +
       "sage.AuthRequestH\000\0226\n\013media_event\030\003 \001(\0132" +
@@ -4169,10 +4178,10 @@ public final class PeerNotifications {
       "jam.PeerMessage.RoomType\0321\n\013AuthRequest\022" +
       "\r\n\005token\030\001 \001(\t\022\023\n\013sdk_version\030\002 \001(\t\032\036\n\016R" +
       "TCStatsReport\022\014\n\004data\030\001 \001(\t\032\032\n\nMediaEven" +
-      "t\022\014\n\004data\030\001 \001(\t\"[\n\010RoomType\022\031\n\025ROOM_TYPE" +
+      "t\022\014\n\004data\030\001 \001(\t\"v\n\010RoomType\022\031\n\025ROOM_TYPE" +
       "_UNSPECIFIED\020\000\022\032\n\026ROOM_TYPE_FULL_FEATURE" +
-      "\020\001\022\030\n\024ROOM_TYPE_AUDIO_ONLY\020\002B\t\n\007contentb" +
-      "\006proto3"
+      "\020\001\022\030\n\024ROOM_TYPE_AUDIO_ONLY\020\002\022\031\n\025ROOM_TYP" +
+      "E_BROADCASTER\020\003B\t\n\007contentb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -30,4 +30,8 @@ public struct Endpoint {
         newTracks.removeValue(forKey: track.id)
         return copyWith(tracks: newTracks)
     }
+
+    var hasVideoTracks: Bool {
+        tracks.values.contains(where: { $0 is VideoTrack })
+    }
 }
