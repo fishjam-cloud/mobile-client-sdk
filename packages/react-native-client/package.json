@@ -59,7 +59,7 @@
     "pod-install": "^0.3.4",
     "react-dom": "^18.3.1",
     "ts-proto": "^2.6.1",
-    "typedoc": "^0.27.9",
+    "typedoc": "^0.28.1",
     "typedoc-plugin-mark-react-functional-components": "^0.2.2",
     "typescript": "^5.8.2"
   },
