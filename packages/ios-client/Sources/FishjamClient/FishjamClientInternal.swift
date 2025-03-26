@@ -518,7 +518,8 @@ class FishjamClientInternal {
     func add(track: Track) {
         if roomState.type == .audioOnly && track is VideoTrack {
             sdkLogger.error(
-                "\(_loggerPrefix) Cannot add track to an audio_only room")
+                "\(_loggerPrefix) Cannot add track to an audio_only room"
+            )
             listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
             return
         }
@@ -675,7 +676,8 @@ extension FishjamClientInternal: RTCEngineListener {
 
         if roomState.type == .audioOnly && localEndpoint.hasVideoTracks {
             sdkLogger.error(
-                "\(_loggerPrefix) Error while joining room. Room state is audio only but local track is video.")
+                "\(_loggerPrefix) Error while joining room. Room type is audio only but local track is video."
+            )
             listener.onJoinError(metadata: ["reason": "audio_only_room_with_video_track"])
             return
         }
