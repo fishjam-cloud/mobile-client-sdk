@@ -7,18 +7,29 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.fishjam.example.audioonly"
+      "bundleIdentifier": "io.fishjam.example.audioonly",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls."
+      },
+      "appleTeamId": "J5FM626PE2"
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "monochromeImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "io.fishjam.example.audioonly"
+      "package": "io.fishjam.example.audioonly",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     }
   }
 }
