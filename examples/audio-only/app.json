@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "audio-only",
+    "slug": "audio-only",
+    "version": "0.15.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.fishjam.example.audioonly"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "io.fishjam.example.audioonly"
+    }
+  }
+}

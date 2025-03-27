@@ -7084,6 +7084,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"audio-only@workspace:examples/audio-only":
+  version: 0.0.0-use.local
+  resolution: "audio-only@workspace:examples/audio-only"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@types/react": "npm:^18.3.12"
+    expo: "npm:~52.0.30"
+    react: "npm:18.3.1"
+    react-native: "npm:~0.77.0"
+    typescript: "npm:^5.8.2"
+  languageName: unknown
+  linkType: soft
+
 "available-typed-arrays@npm:^1.0.7":
   version: 1.0.7
   resolution: "available-typed-arrays@npm:1.0.7"

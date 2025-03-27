@@ -1,0 +1,23 @@
+{
+  "name": "audio-only",
+  "version": "0.15.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@fishjam-cloud/react-native-client": "*",
+    "expo": "~52.0.30",
+    "react": "18.3.1",
+    "react-native": "~0.77.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@types/react": "^18.3.12",
+    "typescript": "^5.8.2"
+  },
+  "private": true
+}

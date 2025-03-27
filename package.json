@@ -11,7 +11,8 @@
       "packages/android-client",
       "packages/ios-client",
       "examples/fishjam-chat",
-      "examples/webdriverio-test"
+      "examples/webdriverio-test",
+      "examples/audio-only"
     ]
   },
   "devDependencies": {
