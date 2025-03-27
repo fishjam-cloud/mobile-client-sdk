@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import { AudioDevicePicker } from "./components/AudioDevicePicker";
+import { StyleSheet, View } from "react-native";
+import { JoinRoomForm } from "./components/JoinRoomForm";
+import { useConnection } from "@fishjam-cloud/react-native-client";
+import { RoomInfo } from "./components/RoomInfo";
 
 export default function App() {
+  const { peerStatus } = useConnection();
+
   return (
     <View style={styles.container}>
-      <Text>Audio Device Selection</Text>
-      <AudioDevicePicker />
+      {peerStatus === "idle" ? <JoinRoomForm /> : <RoomInfo />}
     </View>
   );
 }
@@ -16,5 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    padding: 16,
   },
 });

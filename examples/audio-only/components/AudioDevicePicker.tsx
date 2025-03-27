@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
     width: "100%",
-    maxWidth: 300,
   },
   picker: {
     width: "100%",
