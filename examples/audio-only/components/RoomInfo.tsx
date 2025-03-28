@@ -1,8 +1,13 @@
-import { PeerStatus, useConnection } from "@fishjam-cloud/react-native-client";
+import {
+  PeerStatus,
+  useConnection,
+  useMicrophone,
+} from "@fishjam-cloud/react-native-client";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useEffect } from "react";
 export const RoomInfo = () => {
   const { leaveRoom, peerStatus } = useConnection();
+  const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
 
   const onDisconnect = () => {
     leaveRoom();
@@ -17,10 +22,22 @@ export const RoomInfo = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.microphoneButton}
+        onPress={toggleMicrophone}
+      >
+        <Text style={styles.microphoneButtonText}>
+          {isMicrophoneOn ? "Disable Microphone" : "Enable Microphone"}
+        </Text>
+      </TouchableOpacity>
       <Text style={styles.text}>{peerStatusToLabel[peerStatus]}</Text>
+      <View style={styles.microphoneContainer}></View>
       {peerStatus === "connected" && (
-        <TouchableOpacity style={styles.button} onPress={onDisconnect}>
-          <Text style={styles.buttonText}>Disconnect</Text>
+        <TouchableOpacity
+          style={styles.disconnectButton}
+          onPress={onDisconnect}
+        >
+          <Text style={styles.disconnectButtonText}>Disconnect</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -44,14 +61,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
-  button: {
+  disconnectButton: {
     backgroundColor: "#FF3B30",
     padding: 12,
     borderRadius: 8,
     minWidth: 120,
     alignItems: "center",
   },
-  buttonText: {
+  disconnectButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  microphoneContainer: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  microphoneButton: {
+    backgroundColor: "#007AFF",
+    padding: 12,
+    borderRadius: 8,
+    minWidth: 120,
+  },
+  microphoneButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "600",
