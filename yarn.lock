@@ -4345,6 +4345,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-picker/picker@npm:2.9.0":
+  version: 2.9.0
+  resolution: "@react-native-picker/picker@npm:2.9.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/a7b64b1073a2a31f2efdcdd767316312a55516c80f2f6a48f3110875f6029b82cf9067fbea1da3df2ee992233f8aed23928f39ee935ef80c9c20ce06bb836303
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.77.0":
   version: 0.77.0
   resolution: "@react-native/assets-registry@npm:0.77.0"
@@ -7083,6 +7093,21 @@ __metadata:
   checksum: 10c0/4c058baf6df1bc5a1697cf182e2029c58cd99975288a13f9e70068ef5d6f4e1f1fd7c4d2c3c4912eae44797d1725be9700995736deca441b39f3e66d8dee97ef
   languageName: node
   linkType: hard
+
+"audio-only@workspace:examples/audio-only":
+  version: 0.0.0-use.local
+  resolution: "audio-only@workspace:examples/audio-only"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@react-native-picker/picker": "npm:2.9.0"
+    "@types/react": "npm:^18.3.12"
+    expo: "npm:~52.0.30"
+    react: "npm:18.3.1"
+    react-native: "npm:~0.77.0"
+    typescript: "npm:^5.8.2"
+  languageName: unknown
+  linkType: soft
 
 "available-typed-arrays@npm:^1.0.7":
   version: 1.0.7
