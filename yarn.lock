@@ -3295,7 +3295,7 @@ __metadata:
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
     react-dom: "npm:^18.3.1"
-    ts-proto: "npm:^2.6.1"
+    ts-proto: "npm:^2.7.0"
     typedoc: "npm:^0.28.1"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
     typescript: "npm:^5.8.2"
@@ -3345,7 +3345,7 @@ __metadata:
     "@wdio/local-runner": "npm:^8.43.0"
     "@wdio/mocha-framework": "npm:^8.41.0"
     "@wdio/spec-reporter": "npm:^8.43.0"
-    appium-xcuitest-driver: "npm:^8.4.3"
+    appium-xcuitest-driver: "npm:^9.0.1"
     dotenv: "npm:^16.4.7"
     ts-node: "npm:^10.9.1"
     typescript: "npm:^5.8.2"
@@ -6733,9 +6733,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"appium-webdriveragent@npm:^9.2.0":
-  version: 9.2.0
-  resolution: "appium-webdriveragent@npm:9.2.0"
+"appium-webdriveragent@npm:^9.3.2":
+  version: 9.3.2
+  resolution: "appium-webdriveragent@npm:9.3.2"
   dependencies:
     "@appium/base-driver": "npm:^9.0.0"
     "@appium/strongbox": "npm:^0.x"
@@ -6749,7 +6749,7 @@ __metadata:
     lodash: "npm:^4.17.11"
     source-map-support: "npm:^0.x"
     teen_process: "npm:^2.2.0"
-  checksum: 10c0/fb7f939f047e82e11a8610416a2b99db2e818c6707163dff8528188f9cb0c32618c1d3d5ed594202f5c7dcdc5d194012c23899015b79f25212b4ea0df60e6f9a
+  checksum: 10c0/46c9965f8162cfc17ab4cd478d6d9e74e24fbc4ca301ea5a105757365f9c0933e5a4604d8b1c4394333074e23a7387dfcf5109330453f3467567a2b4cc69642e
   languageName: node
   linkType: hard
 
@@ -6771,16 +6771,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"appium-xcuitest-driver@npm:^8.4.3":
-  version: 8.4.3
-  resolution: "appium-xcuitest-driver@npm:8.4.3"
+"appium-xcuitest-driver@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "appium-xcuitest-driver@npm:9.0.1"
   dependencies:
     "@colors/colors": "npm:^1.6.0"
     appium-idb: "npm:^1.6.13"
     appium-ios-device: "npm:^2.8.0"
     appium-ios-simulator: "npm:^6.2.0"
     appium-remote-debugger: "npm:^12.2.0"
-    appium-webdriveragent: "npm:^9.2.0"
+    appium-webdriveragent: "npm:^9.3.2"
     appium-xcode: "npm:^5.1.4"
     async-lock: "npm:^1.4.0"
     asyncbox: "npm:^3.0.0"
@@ -6799,7 +6799,7 @@ __metadata:
     ws: "npm:^8.13.0"
   peerDependencies:
     appium: ^2.5.4
-  checksum: 10c0/ce47ee62476a0fff03c52b27062099514c6ce871eb87c3d9876521d465e11a321f72b7b43d27e7452b9f71f6772e42e91656afd39fc60662521c53a75ebb1213
+  checksum: 10c0/e57c89158004573fc214895092f8316293d8cccd86495d157451d63a7b9fc2cfe7a9b30a55e6a93ee434bdee967621f8f9e53c96f0e32d90e5574526fa42d7e8
   languageName: node
   linkType: hard
 
@@ -18435,9 +18435,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-proto@npm:^2.6.1":
-  version: 2.6.1
-  resolution: "ts-proto@npm:2.6.1"
+"ts-proto@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "ts-proto@npm:2.7.0"
   dependencies:
     "@bufbuild/protobuf": "npm:^2.0.0"
     case-anything: "npm:^2.1.13"
@@ -18445,7 +18445,7 @@ __metadata:
     ts-proto-descriptors: "npm:2.0.0"
   bin:
     protoc-gen-ts_proto: protoc-gen-ts_proto
-  checksum: 10c0/7cc5eb611971d76ff0e43587f5dd0a6e0e42f6a30ec8054f59ef6f8b88d25226072bed20212e1b2d94902ab79cf4042237bd16efad379f2eed47d0b8fd741627
+  checksum: 10c0/5054335ea0cb6dc386de510bfd12d17593e2777593855b14802d83718a3872758b50dd2fbe517bc198847e18e2308d49689031136829939b267a35cb03b25d87
   languageName: node
   linkType: hard
 
