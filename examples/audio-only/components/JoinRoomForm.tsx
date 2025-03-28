@@ -93,7 +93,11 @@ export const JoinRoomForm = () => {
           </View>
         </KeyboardAvoidingView>
         <AudioDevicePicker />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity
+          style={styles.button}
+          disabled={isLoading}
+          onPress={handleSubmit}
+        >
           <Text style={styles.buttonText}>
             {isLoading ? "Joining..." : "Join room"}
           </Text>
