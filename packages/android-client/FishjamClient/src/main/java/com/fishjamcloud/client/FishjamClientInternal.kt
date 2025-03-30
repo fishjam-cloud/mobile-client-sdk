@@ -9,6 +9,7 @@ import com.fishjamcloud.client.media.RemoteAudioTrack
 import com.fishjamcloud.client.media.RemoteVideoTrack
 import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.models.AuthError
+import com.fishjamcloud.client.models.CustomSource
 import com.fishjamcloud.client.models.EncodingReason
 import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.Metadata
@@ -47,6 +48,7 @@ import org.webrtc.AudioTrack
 import org.webrtc.IceCandidate
 import org.webrtc.Logging
 import org.webrtc.MediaStreamTrack
+import org.webrtc.VideoSource
 import org.webrtc.VideoTrack
 import timber.log.Timber
 
@@ -292,6 +294,37 @@ internal class FishjamClientInternal(
       commandsQueue.clear()
       onLeave?.invoke()
     }
+  }
+
+
+  public fun createCustomVideoSource(
+    metadata: Metadata
+  ): CustomSource {
+    val videoSource = peerConnectionFactoryWrapper.createVideoSource()
+    val webrtcVideoTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
+
+    val videoTrack =
+      com.fishjamcloud.client.media.VideoTrack(webrtcVideoTrack, localEndpoint.id, null, metadata)
+
+    coroutineScope.launch {
+      commandsQueue
+        .addCommand(
+          Command(CommandName.ADD_TRACK) {
+            localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
+
+            coroutineScope.launch {
+              addTrack(videoTrack)
+              if (commandsQueue.clientState == ClientState.CONNECTED || commandsQueue.clientState == ClientState.JOINED) {
+                rtcEngineCommunication.renegotiateTracks()
+              } else {
+                commandsQueue.finishCommand(CommandName.ADD_TRACK)
+              }
+            }
+          }
+        )
+    }
+
+    return CustomSource(videoSource, videoTrack.id())
   }
 
   suspend fun createVideoTrack(

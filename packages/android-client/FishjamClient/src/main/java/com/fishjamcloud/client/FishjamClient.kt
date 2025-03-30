@@ -6,6 +6,7 @@ import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.createAudioDeviceModule
+import com.fishjamcloud.client.models.CustomSource
 import com.fishjamcloud.client.models.EncoderOptions
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
@@ -19,6 +20,7 @@ import com.fishjamcloud.client.webrtc.PeerConnectionFactoryWrapper
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import org.webrtc.Logging
+import org.webrtc.VideoSource
 
 data class ConnectConfig(
   private val _websocketUrl: String,
@@ -74,6 +76,8 @@ class FishjamClient(
     metadata: Metadata,
     captureDeviceName: String? = null
   ): LocalVideoTrack = client.createVideoTrack(videoParameters, metadata, captureDeviceName)
+
+  fun createCustomVideoSource(metadata: Metadata,): CustomSource = client.createCustomVideoSource(metadata)
 
   /**
    * Creates an audio track utilizing device's microphone.

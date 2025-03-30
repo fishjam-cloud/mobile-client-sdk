@@ -45,6 +45,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.webrtc.Logging
+import org.webrtc.VideoSource
 
 class RNFishjamClient(
   private val sendEvent: (name: String, data: Map<String, Any?>) -> Unit
