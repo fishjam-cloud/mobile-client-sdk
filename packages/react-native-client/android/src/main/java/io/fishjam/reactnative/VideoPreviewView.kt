@@ -2,7 +2,6 @@ package io.fishjam.reactnative
 
 import android.content.Context
 import com.fishjamcloud.client.media.LocalVideoTrack
-import com.fishjamcloud.client.media.VideoTrack
 import expo.modules.kotlin.AppContext
 import io.fishjam.reactnative.managers.LocalCameraTrackChangedListener
 
@@ -11,14 +10,15 @@ class VideoPreviewView(
   appContext: AppContext
 ) : VideoRendererView(context, appContext),
   LocalCameraTrackChangedListener {
-    private fun trySetLocalCameraTrack() {
-
-      (RNFishjamClient.fishjamClient.getLocalEndpoint().tracks.values.firstOrNull { track ->
-          track is LocalVideoTrack
-        } as? LocalVideoTrack?)?.let {
-        init(it.id())
-      }
+  private fun trySetLocalCameraTrack() {
+    (
+      RNFishjamClient.fishjamClient.getLocalEndpoint().tracks.values.firstOrNull { track ->
+        track is LocalVideoTrack
+      } as? LocalVideoTrack?
+    )?.let {
+      init(it.id())
     }
+  }
 
   override fun onDetachedFromWindow() {
     RNFishjamClient.localCameraTracksChangedListenersManager.remove(this)
