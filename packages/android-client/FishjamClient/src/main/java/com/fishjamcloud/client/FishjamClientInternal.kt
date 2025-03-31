@@ -74,7 +74,7 @@ internal class FishjamClientInternal(
 
   private lateinit var reconnectionManager: ReconnectionManager
 
-  private val customSourcesManager = CustomSourceManager()
+  private val customSourceManager = CustomSourceManager()
 
   init {
     if (BuildConfig.DEBUG) {
@@ -322,13 +322,13 @@ internal class FishjamClientInternal(
         }
       )
 
-    customSourcesManager.add(customSource, videoTrack.id(), videoSource)
+    customSourceManager.add(customSource, videoTrack.id(), videoSource)
 
     listener.onTrackAdded(videoTrack)
   }
 
   suspend fun removeCustomSource(customSource: CustomSource) {
-    val trackId = customSourcesManager.remove(customSource)
+    val trackId = customSourceManager.remove(customSource)
     if (trackId != null) {
       removeTrack(trackId)
     }

@@ -523,7 +523,7 @@ class RNFishjamClient(
                   "metadata" to track.metadata
                 )
 
-              is VideoTrack ->
+              is VideoTrack -> // TODO(FCE-1418): Remove after refactoring LocalVideoTrack
                 mapOf(
                   "id" to track.id(),
                   "type" to "Video",
