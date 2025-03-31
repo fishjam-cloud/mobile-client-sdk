@@ -102,8 +102,8 @@ class VideoScalingCalculator {
     viewHeight: Int
   ): Matrix {
     // Center along whichever axis has leftover space
-    val xOffset = if (scaledWidth < viewWidth) (viewWidth / 2) - (scaledWidth / 2) else 0
-    val yOffset = if (scaledHeight < viewHeight) (viewHeight / 2) - (scaledHeight / 2) else 0
+    val xOffset = maxOf(viewWidth - scaledWidth, 0) / 2
+    val yOffset = maxOf(viewHeight - scaledHeight, 0) / 2
 
     return Matrix().apply {
       postScale(
