@@ -108,6 +108,7 @@ dependencies {
     implementation 'androidx.core:core:1.8.20'
 
     api 'io.github.webrtc-sdk:android:125.6422.06'
+    compileOnly 'androidx.camera:camera-core:1.5.0-alpha03'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.13.2"

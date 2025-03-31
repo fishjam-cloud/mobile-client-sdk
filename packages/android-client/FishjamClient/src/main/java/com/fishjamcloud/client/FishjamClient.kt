@@ -77,7 +77,9 @@ class FishjamClient(
     captureDeviceName: String? = null
   ): LocalVideoTrack = client.createVideoTrack(videoParameters, metadata, captureDeviceName)
 
-  fun createCustomVideoSource(metadata: Metadata,): CustomSource = client.createCustomVideoSource(metadata)
+  suspend fun createCustomSource(customSource: CustomSource) = client.createCustomSource(customSource)
+
+  suspend fun removeCustomSource(customSource: CustomSource) = client.removeCustomSource(customSource)
 
   /**
    * Creates an audio track utilizing device's microphone.

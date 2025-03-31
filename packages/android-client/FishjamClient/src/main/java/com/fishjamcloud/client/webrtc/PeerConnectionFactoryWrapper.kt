@@ -57,9 +57,7 @@ internal class PeerConnectionFactoryWrapper(
     observer: PeerConnection.Observer
   ): PeerConnection? = peerConnectionFactory.createPeerConnection(rtcConfig, observer)
 
-  fun createVideoSource(): VideoSource = peerConnectionFactory.createVideoSource(false)
-
-  fun createScreenShareVideoSource(): VideoSource = peerConnectionFactory.createVideoSource(true)
+  fun createVideoSource(isScreencast: Boolean): VideoSource = peerConnectionFactory.createVideoSource(isScreencast)
 
   fun createVideoTrack(source: VideoSource): VideoTrack = peerConnectionFactory.createVideoTrack(UUID.randomUUID().toString(), source)
 
