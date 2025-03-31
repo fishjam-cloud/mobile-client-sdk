@@ -84,7 +84,6 @@ class VideoScalingCalculator {
     viewHeight: Float,
     frameAspectRatio: Float
   ): Pair<Float, Float> {
-
     // These are floats so we need to round them up to compare
     val viewAspectRatio = (viewWidth / viewHeight).roundTo2DecimalPlaces()
     val roundedFrameAspectRatio = frameAspectRatio.roundTo2DecimalPlaces()
@@ -119,7 +118,5 @@ class VideoScalingCalculator {
     }
   }
 
-  private fun Float.roundTo2DecimalPlaces(): Float {
-    return (this * 100).toInt() / 100f
-  }
+  private fun Float.roundTo2DecimalPlaces(): Float = (this * 100).toInt() / 100f
 }
