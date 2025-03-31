@@ -83,12 +83,18 @@ class VideoScalingCalculator {
     viewWidth: Float,
     viewHeight: Float,
     frameAspectRatio: Float
-  ): Pair<Float, Float> =
-    if (frameAspectRatio > viewWidth / viewHeight) {
-      Pair(viewWidth, viewWidth / frameAspectRatio)
+  ): Pair<Float, Float> {
+
+    // These are floats so we need to round them up to compare
+    val viewAspectRatio = (viewWidth / viewHeight).roundTo2DecimalPlaces()
+    val roundedFrameAspectRatio = frameAspectRatio.roundTo2DecimalPlaces()
+
+    return if (roundedFrameAspectRatio > viewAspectRatio) {
+      Pair(viewWidth, (viewWidth / roundedFrameAspectRatio))
     } else {
-      Pair(viewHeight * frameAspectRatio, viewHeight)
+      Pair((viewHeight * roundedFrameAspectRatio), viewHeight)
     }
+  }
 
   private fun calculateTransformMatrix(
     scaledWidth: Int,
@@ -96,10 +102,9 @@ class VideoScalingCalculator {
     viewWidth: Int,
     viewHeight: Int
   ): Matrix {
-    // Center the view along the x axis.
-    val xOffset = (viewWidth / 2) - (scaledWidth / 2)
-    // We always fill the full height, so start at 0
-    val yOffset = 0
+    // Center along whichever axis has leftover space
+    val xOffset = if (scaledWidth < viewWidth) (viewWidth / 2) - (scaledWidth / 2) else 0
+    val yOffset = if (scaledHeight < viewHeight) (viewHeight / 2) - (scaledHeight / 2) else 0
 
     return Matrix().apply {
       postScale(
@@ -112,5 +117,9 @@ class VideoScalingCalculator {
         yOffset.toFloat()
       )
     }
+  }
+
+  private fun Float.roundTo2DecimalPlaces(): Float {
+    return (this * 100).toInt() / 100f
   }
 }
