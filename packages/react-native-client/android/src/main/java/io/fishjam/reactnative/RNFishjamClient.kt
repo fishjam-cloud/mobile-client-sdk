@@ -155,6 +155,7 @@ class RNFishjamClient(
     }
 
     suspend fun createCustomSource(customSource: CustomSource) = fishjamClient.createCustomSource(customSource)
+
     suspend fun removeCustomSource(customSource: CustomSource) = fishjamClient.removeCustomSource(customSource)
   }
 
@@ -344,7 +345,6 @@ class RNFishjamClient(
     isCameraInitialized = true
     return true
   }
-
 
   private suspend fun createCameraTrack(config: CameraConfig): LocalVideoTrack {
     val videoParameters = getVideoParametersFromOptions(config)

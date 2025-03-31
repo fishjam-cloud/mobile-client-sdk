@@ -6,7 +6,6 @@ import org.webrtc.VideoFrame
 import org.webrtc.VideoSource
 import org.webrtc.YuvHelper
 
-
 interface CustomSourceConsumer {
   fun onImageProxyCaptured(imageProxy: ImageProxy)
 }
@@ -19,7 +18,11 @@ interface CustomSource {
   fun initialize(consumer: CustomSourceConsumer)
 }
 
-class CustomSourceVideoCapturerAdapter(val trackId: String, val rtcVideoSource: VideoSource, val customSource: CustomSource): CustomSourceConsumer {
+class CustomSourceVideoCapturerAdapter(
+  val trackId: String,
+  val rtcVideoSource: VideoSource,
+  val customSource: CustomSource
+) : CustomSourceConsumer {
   private val capturerObserver = rtcVideoSource.capturerObserver
 
   init {
@@ -48,36 +51,41 @@ class CustomSourceVideoCapturerAdapter(val trackId: String, val rtcVideoSource: 
     )
 
     // Create VideoFrame
-    val videoFrame = VideoFrame(
-      i420Buffer,
-      imageProxy.imageInfo.rotationDegrees,
-      timestamp
-    )
+    val videoFrame =
+      VideoFrame(
+        i420Buffer,
+        imageProxy.imageInfo.rotationDegrees,
+        timestamp
+      )
 
     capturerObserver?.onFrameCaptured(videoFrame)
   }
 }
 
 class CustomSourceManager {
-    private val sources: MutableList<CustomSourceVideoCapturerAdapter> = mutableListOf()
+  private val sources: MutableList<CustomSourceVideoCapturerAdapter> = mutableListOf()
 
-    fun add(source: CustomSource, trackId: String, rtcVideoSource: VideoSource) {
-        sources.add(
-            CustomSourceVideoCapturerAdapter(
-                trackId = trackId,
-                rtcVideoSource = rtcVideoSource,
-                customSource = source
-            )
-        )
-    }
+  fun add(
+    source: CustomSource,
+    trackId: String,
+    rtcVideoSource: VideoSource
+  ) {
+    sources.add(
+      CustomSourceVideoCapturerAdapter(
+        trackId = trackId,
+        rtcVideoSource = rtcVideoSource,
+        customSource = source
+      )
+    )
+  }
 
-    fun remove(source: CustomSource): String? {
-        val index = sources.indexOfFirst { it.customSource == source }
-        if (index != -1) {
-            val trackId = sources[index].trackId
-            sources.removeAt(index)
-            return trackId
-        }
-        return null
+  fun remove(source: CustomSource): String? {
+    val index = sources.indexOfFirst { it.customSource == source }
+    if (index != -1) {
+      val trackId = sources[index].trackId
+      sources.removeAt(index)
+      return trackId
     }
+    return null
+  }
 }

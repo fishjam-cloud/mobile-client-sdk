@@ -20,7 +20,6 @@ import com.fishjamcloud.client.webrtc.PeerConnectionFactoryWrapper
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
 import org.webrtc.Logging
-import org.webrtc.VideoSource
 
 data class ConnectConfig(
   private val _websocketUrl: String,

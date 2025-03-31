@@ -49,7 +49,6 @@ import org.webrtc.AudioTrack
 import org.webrtc.IceCandidate
 import org.webrtc.Logging
 import org.webrtc.MediaStreamTrack
-import org.webrtc.VideoSource
 import org.webrtc.VideoTrack
 import timber.log.Timber
 
@@ -299,14 +298,13 @@ internal class FishjamClientInternal(
     }
   }
 
-  suspend fun createCustomSource(
-    customSource: CustomSource
-  ) {
+  suspend fun createCustomSource(customSource: CustomSource) {
     val videoSource = peerConnectionFactoryWrapper.createVideoSource(customSource.isScreenShare)
     val webrtcVideoTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
 
     val videoTrack =
-      com.fishjamcloud.client.media.VideoTrack(webrtcVideoTrack, localEndpoint.id, null, customSource.metadata)
+      com.fishjamcloud.client.media
+        .VideoTrack(webrtcVideoTrack, localEndpoint.id, null, customSource.metadata)
 
     commandsQueue
       .addCommand(
