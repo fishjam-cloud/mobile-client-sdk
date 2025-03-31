@@ -9,38 +9,30 @@ import io.fishjam.reactnative.managers.LocalCameraTrackChangedListener
 class VideoPreviewView(
   context: Context,
   appContext: AppContext
-) : VideoView(context, appContext),
+) : VideoRendererView(context, appContext),
   LocalCameraTrackChangedListener {
-  private var localVideoTrack: LocalVideoTrack? = null
+    private fun trySetLocalCameraTrack() {
 
-  private fun trySetLocalCameraTrack() {
-    localVideoTrack =
-      RNFishjamClient.fishjamClient.getLocalEndpoint().tracks.values.firstOrNull { track ->
-        track is LocalVideoTrack
-      } as? LocalVideoTrack?
-    videoView.let { localVideoTrack?.addRenderer(it) }
-  }
-
-  private fun initialize() {
-    trySetLocalCameraTrack()
-    super.setupTrack()
-  }
+      (RNFishjamClient.fishjamClient.getLocalEndpoint().tracks.values.firstOrNull { track ->
+          track is LocalVideoTrack
+        } as? LocalVideoTrack?)?.let {
+        init(it.id())
+      }
+    }
 
   override fun onDetachedFromWindow() {
     RNFishjamClient.localCameraTracksChangedListenersManager.remove(this)
-    videoView.let { localVideoTrack?.removeRenderer(it) }
     super.onDetachedFromWindow()
   }
 
   override fun onAttachedToWindow() {
     RNFishjamClient.localCameraTracksChangedListenersManager.add(this)
+    activeVideoTrack?.removeRenderer(videoView)
     super.onAttachedToWindow()
-    initialize()
+    trySetLocalCameraTrack()
   }
 
-  override fun getVideoTrack(): VideoTrack? = localVideoTrack
-
   override fun onLocalCameraTrackChanged() {
-    if (localVideoTrack == null) trySetLocalCameraTrack()
+    if (activeVideoTrack == null) trySetLocalCameraTrack()
   }
 }
