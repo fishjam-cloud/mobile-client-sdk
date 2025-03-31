@@ -85,10 +85,10 @@ class VideoScalingCalculator {
     frameAspectRatio: Float
   ): Pair<Float, Float> {
     // These are floats so we need to round them up to compare
-    val viewAspectRatio = (viewWidth / viewHeight).roundTo2DecimalPlaces()
+    val roundedViewAspectRatio = (viewWidth / viewHeight).roundTo2DecimalPlaces()
     val roundedFrameAspectRatio = frameAspectRatio.roundTo2DecimalPlaces()
 
-    return if (roundedFrameAspectRatio > viewAspectRatio) {
+    return if (roundedFrameAspectRatio > roundedViewAspectRatio) {
       Pair(viewWidth, (viewWidth / roundedFrameAspectRatio))
     } else {
       Pair((viewHeight * roundedFrameAspectRatio), viewHeight)
