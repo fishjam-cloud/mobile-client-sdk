@@ -22,9 +22,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "io.fishjam.example.visioncamera"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
