@@ -104,7 +104,10 @@ function PreviewScreen({
     <SafeAreaView style={styles.container}>
       <View style={styles.cameraPreview}>
         {!isIosSimulator && isCameraOn ? (
-          <VideoPreviewView style={styles.cameraPreviewView} />
+          <VideoPreviewView
+            style={styles.cameraPreviewView}
+            videoLayout="FIT"
+          />
         ) : (
           <NoCameraView username={route?.params?.userName || 'RN Mobile'} />
         )}
@@ -122,7 +125,6 @@ function PreviewScreen({
         <SwitchCameraButton switchCamera={toggleSwitchCamera} />
         <SwitchOutputDeviceButton bottomSheetRef={bottomSheetRef} />
       </View>
-
       <View style={styles.joinButton}>
         <Button
           title="Join Room"
@@ -162,7 +164,6 @@ const styles = StyleSheet.create({
   cameraPreview: {
     flex: 6,
     margin: 24,
-    // TODO: This should no longer be needed after FCE-1181
     aspectRatio: 9 / 16,
     alignItems: 'center',
     borderRadius: 12,
