@@ -1,16 +1,8 @@
 import ExpoModulesCore
 import FishjamCloudClient
 
-class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
-    var videoView: VideoView!
+class VideoPreviewView: VideoRendererView, LocalCameraTrackChangedListener {
     private var localVideoTrack: LocalCameraTrack?
-
-    required init(appContext: AppContext? = nil) {
-        super.init(appContext: appContext)
-        videoView = VideoView()
-        videoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        videoView.clipsToBounds = true
-    }
 
     private func trySetLocalCameraTrack() {
         DispatchQueue.main.async { [weak self] in
@@ -23,50 +15,28 @@ class VideoPreviewView: ExpoView, LocalCameraTrackChangedListener {
                 return
             }
 
-            self.localVideoTrack =
-                tracks.first(where: { (key, track) in
+            guard
+                let localVideoTrack = tracks.first(where: { (key, track) in
                     track is LocalCameraTrack
-                })?.value as? LocalCameraTrack
-            self.localVideoTrack?.start()
-            self.videoView.track = self.localVideoTrack
+                })?.value as? LocalCameraTrack, localVideoTrack.id != trackId
+            else { return }
+
+            self.localVideoTrack = localVideoTrack
+            trackId = localVideoTrack.id
+            localVideoTrack.start()
         }
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
-        super.willMove(toSuperview: newSuperview)
         if newSuperview == nil {
-            videoView.removeFromSuperview()
             RNFishjamClient.localCameraTracksChangedListenersManager.remove(self)
             localVideoTrack?.stop()
         } else {
-            addSubview(videoView)
             RNFishjamClient.localCameraTracksChangedListenersManager.add(self)
             trySetLocalCameraTrack()
         }
-    }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        videoView.frame = bounds
-    }
-
-    var videoLayout: String = "FILL" {
-        didSet {
-            switch videoLayout {
-            case "FIT":
-                videoView.layout = .fit
-            case "FILL":
-                videoView.layout = .fill
-            default:
-                videoView.layout = .fill
-            }
-        }
-    }
-
-    var mirrorVideo: Bool = false {
-        didSet {
-            videoView.mirror = mirrorVideo
-        }
+        super.willMove(toSuperview: newSuperview)
     }
 
     var captureDeviceId: String? = nil {

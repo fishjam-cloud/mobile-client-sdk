@@ -10,13 +10,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class VideoRendererView(
+open class VideoRendererView(
   context: Context,
   appContext: AppContext
 ) : VideoView(context, appContext),
   TrackUpdateListener,
   VideoTrackListener {
-  private var activeVideoTrack: VideoTrack? = null
+  protected var activeVideoTrack: VideoTrack? = null
   private var trackId: String? = null
 
   init {
