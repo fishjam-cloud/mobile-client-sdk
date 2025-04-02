@@ -6,6 +6,7 @@ import com.fishjamcloud.client.media.LocalAudioTrack
 import com.fishjamcloud.client.media.LocalScreenShareTrack
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.createAudioDeviceModule
+import com.fishjamcloud.client.models.CustomSource
 import com.fishjamcloud.client.models.EncoderOptions
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
@@ -74,6 +75,10 @@ class FishjamClient(
     metadata: Metadata,
     captureDeviceName: String? = null
   ): LocalVideoTrack = client.createVideoTrack(videoParameters, metadata, captureDeviceName)
+
+  suspend fun createCustomSource(customSource: CustomSource) = client.createCustomSource(customSource)
+
+  suspend fun removeCustomSource(customSource: CustomSource) = client.removeCustomSource(customSource)
 
   /**
    * Creates an audio track utilizing device's microphone.

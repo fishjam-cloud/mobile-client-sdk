@@ -9,6 +9,8 @@ import com.fishjamcloud.client.media.RemoteAudioTrack
 import com.fishjamcloud.client.media.RemoteVideoTrack
 import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.models.AuthError
+import com.fishjamcloud.client.models.CustomSource
+import com.fishjamcloud.client.models.CustomSourceManager
 import com.fishjamcloud.client.models.EncodingReason
 import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.Metadata
@@ -71,6 +73,8 @@ internal class FishjamClientInternal(
   private var connectConfig: ConnectConfig? = null
 
   private lateinit var reconnectionManager: ReconnectionManager
+
+  private val customSourceManager = CustomSourceManager()
 
   init {
     if (BuildConfig.DEBUG) {
@@ -294,12 +298,48 @@ internal class FishjamClientInternal(
     }
   }
 
+  suspend fun createCustomSource(customSource: CustomSource) {
+    val videoSource = peerConnectionFactoryWrapper.createVideoSource(customSource.isScreenShare)
+    val webrtcVideoTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
+
+    val videoTrack =
+      com.fishjamcloud.client.media
+        .VideoTrack(webrtcVideoTrack, localEndpoint.id, null, customSource.metadata)
+
+    commandsQueue
+      .addCommand(
+        Command(CommandName.ADD_TRACK) {
+          localEndpoint = localEndpoint.addOrReplaceTrack(videoTrack)
+
+          coroutineScope.launch {
+            addTrack(videoTrack)
+            if (commandsQueue.clientState == ClientState.CONNECTED || commandsQueue.clientState == ClientState.JOINED) {
+              rtcEngineCommunication.renegotiateTracks()
+            } else {
+              commandsQueue.finishCommand(CommandName.ADD_TRACK)
+            }
+          }
+        }
+      )
+
+    customSourceManager.add(customSource, videoTrack.id(), videoSource)
+
+    listener.onTrackAdded(videoTrack)
+  }
+
+  suspend fun removeCustomSource(customSource: CustomSource) {
+    val trackId = customSourceManager.remove(customSource)
+    if (trackId != null) {
+      removeTrack(trackId)
+    }
+  }
+
   suspend fun createVideoTrack(
     videoParameters: VideoParameters,
     metadata: Metadata,
     captureDeviceName: String? = null
   ): LocalVideoTrack {
-    val videoSource = peerConnectionFactoryWrapper.createVideoSource()
+    val videoSource = peerConnectionFactoryWrapper.createVideoSource(isScreencast = false)
     val webrtcVideoTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
     val videoCapturer =
       peerConnectionFactoryWrapper.createVideoCapturer(
@@ -395,7 +435,7 @@ internal class FishjamClientInternal(
     metadata: Metadata,
     onEnd: (() -> Unit)? = null
   ): LocalScreenShareTrack {
-    val videoSource = peerConnectionFactoryWrapper.createScreenShareVideoSource()
+    val videoSource = peerConnectionFactoryWrapper.createVideoSource(isScreencast = true)
     val webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(videoSource)
     val callback = LocalScreenShareTrack.ProjectionCallback()
     val capturer =

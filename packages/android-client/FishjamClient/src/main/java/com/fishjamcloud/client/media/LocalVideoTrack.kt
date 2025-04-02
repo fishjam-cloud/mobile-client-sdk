@@ -10,7 +10,7 @@ class LocalVideoTrack(
   mediaTrack: org.webrtc.VideoTrack,
   endpointId: String,
   metadata: Metadata,
-  private val capturer: CameraCapturer,
+  private val capturer: CameraCapturer, // TODO(FCE-1418): This needs to be refactor and changed to VideoCapturer
   val videoParameters: VideoParameters
 ) : VideoTrack(mediaTrack, endpointId, null, metadata),
   LocalTrack {

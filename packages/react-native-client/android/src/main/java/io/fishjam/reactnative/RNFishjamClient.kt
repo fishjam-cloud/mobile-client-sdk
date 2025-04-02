@@ -17,7 +17,9 @@ import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.RemoteAudioTrack
 import com.fishjamcloud.client.media.RemoteVideoTrack
 import com.fishjamcloud.client.media.Track
+import com.fishjamcloud.client.media.VideoTrack
 import com.fishjamcloud.client.models.AuthError
+import com.fishjamcloud.client.models.CustomSource
 import com.fishjamcloud.client.models.Endpoint
 import com.fishjamcloud.client.models.Metadata
 import com.fishjamcloud.client.models.Peer
@@ -151,6 +153,10 @@ class RNFishjamClient(
       }
       eventEmitter?.invoke(event.name, event.data)
     }
+
+    suspend fun createCustomSource(customSource: CustomSource) = fishjamClient.createCustomSource(customSource)
+
+    suspend fun removeCustomSource(customSource: CustomSource) = fishjamClient.removeCustomSource(customSource)
   }
 
   fun onModuleCreate(appContext: AppContext) {
@@ -515,6 +521,14 @@ class RNFishjamClient(
                   "id" to track.id(),
                   "type" to "Audio",
                   "metadata" to track.metadata
+                )
+
+              is VideoTrack -> // TODO(FCE-1418): Remove after refactoring LocalVideoTrack
+                mapOf(
+                  "id" to track.id(),
+                  "type" to "Video",
+                  "metadata" to track.metadata,
+                  "aspectRatio" to track.dimensions?.aspectRatio
                 )
 
               else -> {
