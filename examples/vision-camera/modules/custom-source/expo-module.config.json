@@ -1,13 +1,7 @@
 {
-  "platforms": [
-    "apple",
-    "android",
-    "web"
-  ],
+  "platforms": ["apple", "android"],
   "apple": {
-    "modules": [
-      "CustomSourceModule"
-    ]
+    "modules": ["CustomSourceModule"]
   },
   "android": {
     "modules": [
