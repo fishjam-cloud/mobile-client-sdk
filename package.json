@@ -16,8 +16,8 @@
     ]
   },
   "devDependencies": {
-    "@react-native/eslint-config": "^0.78.1",
-    "@react-native/eslint-plugin": "^0.78.1",
+    "@react-native/eslint-config": "^0.78.2",
+    "@react-native/eslint-plugin": "^0.78.2",
     "eslint": "^8.57.1",
     "prettier": "^3.5.3",
     "typedoc": "^0.28.1",
