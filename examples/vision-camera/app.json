@@ -14,14 +14,24 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.fishjam.example.visioncamera"
+      "bundleIdentifier": "io.fishjam.example.visioncamera",
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need to access your camera for video calls.",
+        "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
       "package": "io.fishjam.example.visioncamera"
-    }
+    },
+    "plugins": ["react-native-vision-camera"]
   }
 }
