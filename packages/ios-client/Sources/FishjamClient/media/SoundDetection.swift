@@ -27,7 +27,7 @@ public class SoundDetection: ObservableObject {
 
     /**
      Sets a listener to receive sound volume change events.
-
+    
      - Parameter listener: The listener to be notified when sound volume changes.
      */
     public func setOnVolumeChangedListener(listener: VolumeChangedListener?) {
@@ -36,7 +36,7 @@ public class SoundDetection: ObservableObject {
 
     /**
      Sets a listener to receive sound detection events.
-
+    
      - Parameter listener: The listener to be notified when a sound is detected.
      */
     public func setOnSoundDetectedListener(listener: SoundDetectedListener?) {
@@ -86,7 +86,7 @@ public class SoundDetection: ObservableObject {
 
     /**
      Starts the sound detection process with the specified volume threshold.
-
+    
      - Parameter volumeThreshold: The threshold value in decibels (dB) above which a sound is considered detected.
      */
     public func start(_ volumeThreshold: Int = 60) throws {
@@ -121,7 +121,7 @@ public class SoundDetection: ObservableObject {
 
     /**
      Processes the provided AVAudioPCMBuffer for sound detection.
-
+    
      - Parameters:
      - buffer: The audio buffer.
      - volumeThreshold: The threshold value in decibels (dB) above which a sound is considered detected.
@@ -148,7 +148,7 @@ public class SoundDetection: ObservableObject {
     }
 
     /** Method to calculate the maximum amplitude in the buffer.
-
+    
      - Parameter buffer: The audio buffer.
      - Returns: The maximum amplitude value from the buffer.
      */
@@ -165,7 +165,7 @@ public class SoundDetection: ObservableObject {
 
     /**
      Converts PCM Buffer from Float32 to Int16
-
+    
      - Parameter buffer: The audio buffer in Float32.
      - Returns: The converted audio buffer in Int16 format
      */
@@ -206,14 +206,14 @@ public class SoundDetection: ObservableObject {
     }
 
     /** Method to calculate decibel (dB) value from maximum amplitude.
-
+    
      Sound pressure level (SPL) or volume is often expressed in decibels. This method transforms the amplitude
      of the audio signal into a decibel value using the formula `20 * log10(amplitude)`. [https://en.wikipedia.org/wiki/Sound_pressure#Sound_pressure_level]
-
+    
      As the logarithm of a number less than one is negative and we're dealing with sound 'pressure',
      we take the logarithm of the positive maximum amplitude. `-160 dB` is used as a minimum threshold because
      it's generally accepted as a "below the threshold of hearing" in humans.
-
+    
      - Parameter maxAmplitude: The calculated maximum amplitude from the audio buffer.
      - Returns: The calculated sound level value in decibels (dB).
      */
