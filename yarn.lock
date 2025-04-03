@@ -19790,6 +19790,7 @@ __metadata:
   resolution: "vision-camera@workspace:examples/vision-camera"
   dependencies:
     "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
     "@types/react": "npm:~18.3.12"
     expo: "npm:~52.0.42"
     expo-status-bar: "npm:~2.0.1"

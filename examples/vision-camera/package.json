@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@fishjam-cloud/react-native-client": "*",
     "expo": "~52.0.42",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
