@@ -4,6 +4,7 @@ import {
   Camera,
   CameraPermissionStatus,
   useCameraDevice,
+  useFrameProcessor,
 } from "react-native-vision-camera";
 
 export default function App() {
@@ -21,9 +22,19 @@ export default function App() {
     requestCameraPermission();
   });
 
+  const frameProcessor = useFrameProcessor((frame) => {
+    "worklet";
+    console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`);
+  }, []);
+
   if (device && cameraPermissionStatus === "granted") {
     return (
-      <Camera style={StyleSheet.absoluteFill} device={device} isActive={true} />
+      <Camera
+        style={StyleSheet.absoluteFill}
+        device={device}
+        isActive={true}
+        frameProcessor={frameProcessor}
+      />
     );
   }
   return null;
