@@ -19789,7 +19789,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "vision-camera@workspace:examples/vision-camera"
   dependencies:
-    "@babel/core": "npm:^7.25.2"
+    "@babel/core": "npm:^7.26.10"
     "@types/react": "npm:~18.3.12"
     expo: "npm:~52.0.42"
     expo-status-bar: "npm:~2.0.1"
