@@ -266,6 +266,10 @@ internal class FishjamClientInternal(
     commandsQueue.finishCommand()
     reconnectionManager.onReconnected()
 
+    if (localEndpoint.tracks.isEmpty()) {
+      return
+    }
+
     coroutineScope.launch {
       commandsQueue.addCommand(
         Command(CommandName.ADD_TRACK) {
