@@ -32,6 +32,9 @@
       ],
       "package": "io.fishjam.example.visioncamera"
     },
-    "plugins": ["react-native-vision-camera"]
+    "plugins": [
+      ["react-native-vision-camera"],
+      ["../fishjam-chat/plugin/build/with-local-paths-for-native-packages.js"]
+    ]
   }
 }
