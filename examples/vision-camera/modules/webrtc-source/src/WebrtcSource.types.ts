@@ -4,7 +4,7 @@ export type OnLoadEventPayload = {
   url: string;
 };
 
-export type CustomSourceModuleEvents = {
+export type WebrtcSourceModuleEvents = {
   onChange: (params: ChangeEventPayload) => void;
 };
 
@@ -12,7 +12,7 @@ export type ChangeEventPayload = {
   value: string;
 };
 
-export type CustomSourceViewProps = {
+export type WebrtcSourceViewProps = {
   url: string;
   onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void;
   style?: StyleProp<ViewStyle>;

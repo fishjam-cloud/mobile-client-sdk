@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { CustomSourceViewProps } from './CustomSource.types';
+import { WebrtcSourceViewProps } from './WebrtcSource.types';
 
-export default function CustomSourceView(props: CustomSourceViewProps) {
+export default function WebrtcSourceView(props: WebrtcSourceViewProps) {
   return (
     <div>
       <iframe

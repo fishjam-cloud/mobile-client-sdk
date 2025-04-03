@@ -1,0 +1,17 @@
+{
+  "platforms": [
+    "apple",
+    "android",
+    "web"
+  ],
+  "apple": {
+    "modules": [
+      "WebrtcSourceModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "io.fishjam.example.webrtcsource.WebrtcSourceModule"
+    ]
+  }
+}

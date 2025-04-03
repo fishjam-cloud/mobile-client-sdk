@@ -1,12 +1,12 @@
 import { registerWebModule, NativeModule } from 'expo';
 
-import { ChangeEventPayload } from './CustomSource.types';
+import { ChangeEventPayload } from './WebrtcSource.types';
 
-type CustomSourceModuleEvents = {
+type WebrtcSourceModuleEvents = {
   onChange: (params: ChangeEventPayload) => void;
 }
 
-class CustomSourceModule extends NativeModule<CustomSourceModuleEvents> {
+class WebrtcSourceModule extends NativeModule<WebrtcSourceModuleEvents> {
   PI = Math.PI;
   async setValueAsync(value: string): Promise<void> {
     this.emit('onChange', { value });
@@ -16,4 +16,4 @@ class CustomSourceModule extends NativeModule<CustomSourceModuleEvents> {
   }
 };
 
-export default registerWebModule(CustomSourceModule);
+export default registerWebModule(WebrtcSourceModule);
