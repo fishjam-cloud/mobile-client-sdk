@@ -13,8 +13,8 @@ import WebrtcSourceModule from "./modules/webrtc-source/src/WebrtcSourceModule";
 
 const plugin = VisionCameraProxy.initFrameProcessorPlugin("sendFrame", {});
 
-// Check https://cloud.fishjam.work/app/ for your app ID
-const YOUR_APP_ID = "ea94930e3ffd47c490f5144c43d57340";
+// Visit https://fishjam.io/app/sandbox for your app ID
+const YOUR_APP_ID = "";
 
 export function JoinRoomButton() {
   const { joinRoom, leaveRoom, peerStatus } = useConnection();
@@ -61,7 +61,7 @@ export function JoinRoomButton() {
 
 async function getRoomDetails(roomName: string, peerName: string) {
   const response = await fetch(
-    `http://192.168.82.233:8080/api/rooms?roomName=${roomName}&peerName=${peerName}`,
+    `https://fishjam.io/api/v1/connect/${YOUR_APP_ID}/room-manager?roomName=${roomName}&peerName=${peerName}`,
   );
   const { url, peerToken } = await response.json();
   return { url, peerToken };
