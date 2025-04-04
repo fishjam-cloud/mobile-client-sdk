@@ -69,13 +69,15 @@ async function getRoomDetails(roomName: string, peerName: string) {
 
 export function sendFrame(frame: Frame) {
   "worklet";
-  if (plugin === null)
-    throw new Error('Failed to load Frame Processor Plugin "scanFaces"!');
-  return plugin!.call(frame);
+  if (!plugin) {
+    throw new Error('Failed to load Frame Processor Plugin "sendFrame"!');
+  } else {
+    return plugin.call(frame);
+  }
 }
 
 export default function App() {
-  const device = useCameraDevice("back");
+  const device = useCameraDevice("front");
 
   const { peerStatus } = useConnection();
 

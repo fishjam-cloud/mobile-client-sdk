@@ -20,4 +20,7 @@ Pod::Spec.new do |s|
   }
 
   s.source_files = "**/*.{h,m,mm,swift,hpp,cpp}"
+
+  s.dependency "VisionCamera"
+  s.dependency "RNFishjamClient"
 end
