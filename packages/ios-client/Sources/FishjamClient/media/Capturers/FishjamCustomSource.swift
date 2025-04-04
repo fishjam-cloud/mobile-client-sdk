@@ -6,14 +6,18 @@ public enum VideoRotation: Int {
     case ninety = 90
     case oneEighty = 180
     case twoSeventy = 270
-  
+
     internal var rtcValue: RTCVideoRotation {
-      return .init(rawValue: self.rawValue)!
-  }
+        return .init(rawValue: self.rawValue)!
+    }
 }
 
 public protocol CustomSourceDelegate: AnyObject {
-  func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, rotation: VideoRotation)
+    func customSource(
+        _ customSource: CustomSource,
+        didOutputSampleBuffer sampleBuffer: CMSampleBuffer,
+        rotation: VideoRotation
+    )
 }
 
 public protocol CustomSource: AnyObject {
@@ -41,7 +45,11 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
         self.customSource.delegate = self
     }
 
-    func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, rotation: VideoRotation) {
+    func customSource(
+        _ customSource: CustomSource,
+        didOutputSampleBuffer sampleBuffer: CMSampleBuffer,
+        rotation: VideoRotation
+    ) {
         guard sampleBuffer.isValid else { return }
 
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
