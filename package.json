@@ -12,7 +12,8 @@
       "packages/ios-client",
       "examples/fishjam-chat",
       "examples/webdriverio-test",
-      "examples/audio-only"
+      "examples/audio-only",
+      "examples/vision-camera"
     ]
   },
   "devDependencies": {

@@ -2,8 +2,17 @@ import { ConfigPlugin } from '@expo/config-plugins';
 import { withCustomConfigIos } from './with-custom-config-ios';
 import { withCustomConfigAndroid } from './with-custom-config-android';
 
-const withLocalPathsForNativePackages: ConfigPlugin = (config) => {
-  config = withCustomConfigIos(config);
+type PluginProps = {
+  iosTargetName?: string;
+};
+
+const withLocalPathsForNativePackages: ConfigPlugin<PluginProps> = (
+  config,
+  props = {},
+) => {
+  const { iosTargetName = 'FishjamChat' } = props;
+
+  config = withCustomConfigIos(config, { targetName: iosTargetName });
   config = withCustomConfigAndroid(config);
 
   return config;

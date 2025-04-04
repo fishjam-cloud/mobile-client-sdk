@@ -19,21 +19,27 @@ function replaceCloudClientForExtension(podfileContent: string) {
   return podfileContent;
 }
 
-function replaceCloudClientForMainApp(podfileContent: string) {
+function replaceCloudClientForMainApp(
+  targetName: string,
+  podfileContent: string,
+) {
   podfileContent = podfileContent.replace(
-    /target ['"]FishjamChat['"] do/g,
+    new RegExp(`target ['"]${targetName}['"] do`, 'g'),
     (match) =>
       `${match}\n ${INFO_GENERATED_COMMENT_IOS}\n pod 'FishjamCloudClient', :path => '../../../'`,
   );
   return podfileContent;
 }
 
-export const withCustomConfigIos: ConfigPlugin = (config) => {
+export const withCustomConfigIos: ConfigPlugin<{ targetName: string }> = (
+  config,
+  { targetName },
+) => {
   config = withPodfile(config, (configuration) => {
     let podfile = configuration.modResults.contents;
 
     podfile = replaceCloudClientForExtension(podfile);
-    podfile = replaceCloudClientForMainApp(podfile);
+    podfile = replaceCloudClientForMainApp(targetName, podfile);
 
     configuration.modResults.contents = podfile;
     return configuration;
