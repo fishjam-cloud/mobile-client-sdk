@@ -1,55 +1,47 @@
 package io.fishjam.example.webrtcsource
 
+import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import java.net.URL
+import io.fishjam.example.webrtcsource.webrtcframeprocessor.WebrtcFrameProcessorPlugin
+import io.fishjam.reactnative.RNFishjamClient
+import kotlinx.coroutines.runBlocking
 
 class WebrtcSourceModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
-
   // Packages needs to be initialized somewhere
-  val webrtcPlugin = WebrtcFrameProcessorPluginPackage()
+  private val webrtcPlugin = WebrtcFrameProcessorPluginPackage()
 
   override fun definition() = ModuleDefinition {
-
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('WebrtcSource')` in JavaScript.
     Name("WebrtcSource")
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
-
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      "Hello world! 👋"
-    }
-
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
-    }
-
-    // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // the view definition: Prop, Events.
-    View(WebrtcSourceView::class) {
-      // Defines a setter for the `url` prop.
-      Prop("url") { view: WebrtcSourceView, url: URL ->
-        view.webView.loadUrl(url.toString())
+    OnDestroy {
+      runBlocking {
+        WebrtcFrameProcessorPlugin.currentSource?.let {
+          RNFishjamClient.removeCustomSource(it)
+        }
       }
-      // Defines an event that the view can send to JavaScript.
-      Events("onLoad")
+    }
+
+    AsyncFunction("createVisionCameraTrack") Coroutine { ->
+      // Cleanup previous source if it wasn't removed for some reason
+      WebrtcFrameProcessorPlugin.currentSource?.let {
+        RNFishjamClient.removeCustomSource(it)
+      }
+
+      val source = WebrtcVisionCameraCustomSource()
+
+      // Assign new source to the frame processor
+      WebrtcFrameProcessorPlugin.currentSource = source
+
+      // Create the source in fishjam (aka create track)
+      RNFishjamClient.createCustomSource(source)
+    }
+
+    AsyncFunction("removeVisionCameraTrack") Coroutine { ->
+      WebrtcFrameProcessorPlugin.currentSource?.let {
+        RNFishjamClient.removeCustomSource(it)
+      }
+      WebrtcFrameProcessorPlugin.currentSource = null
     }
   }
 }

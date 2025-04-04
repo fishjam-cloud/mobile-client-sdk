@@ -1,12 +1,11 @@
-import { NativeModule, requireNativeModule } from 'expo';
+import { NativeModule, requireNativeModule } from "expo";
 
-import { WebrtcSourceModuleEvents } from './WebrtcSource.types';
+import { WebrtcSourceModuleEvents } from "./WebrtcSource.types";
 
 declare class WebrtcSourceModule extends NativeModule<WebrtcSourceModuleEvents> {
-  PI: number;
-  hello(): string;
-  setValueAsync(value: string): Promise<void>;
+  createVisionCameraTrack(): Promise<void>;
+  removeVisionCameraTrack(): Promise<void>;
 }
 
 // This call loads the native module object from the JSI.
-export default requireNativeModule<WebrtcSourceModule>('WebrtcSource');
+export default requireNativeModule<WebrtcSourceModule>("WebrtcSource");

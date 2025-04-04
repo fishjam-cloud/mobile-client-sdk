@@ -28,6 +28,7 @@ class CustomSourceVideoCapturerAdapter(
     customSource.initialize(this)
   }
 
+  // TODO: This needs validation if the passes imageProxy is YUV
   override fun onImageProxyCaptured(imageProxy: ImageProxy) {
     val dataY = imageProxy.planes[0].buffer
     val dataU = imageProxy.planes[1].buffer

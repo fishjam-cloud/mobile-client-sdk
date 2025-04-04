@@ -1,6 +1,6 @@
 import { useConnection } from "@fishjam-cloud/react-native-client";
 import { useCallback, useEffect, useState } from "react";
-import { Button, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import {
   Camera,
   CameraPermissionStatus,
@@ -9,6 +9,7 @@ import {
   useFrameProcessor,
   VisionCameraProxy,
 } from "react-native-vision-camera";
+import WebrtcSourceModule from "./modules/webrtc-source/src/WebrtcSourceModule";
 
 const plugin = VisionCameraProxy.initFrameProcessorPlugin("sendFrame", {});
 
@@ -16,11 +17,24 @@ const plugin = VisionCameraProxy.initFrameProcessorPlugin("sendFrame", {});
 const YOUR_APP_ID = "ea94930e3ffd47c490f5144c43d57340";
 
 export function JoinRoomButton() {
-  const { joinRoom, leaveRoom } = useConnection();
+  const { joinRoom, leaveRoom, peerStatus } = useConnection();
 
-  useEffect(() => () => leaveRoom(), [leaveRoom]);
+  const onLeaveRoom = useCallback(() => {
+    WebrtcSourceModule.removeVisionCameraTrack();
+    leaveRoom();
+  }, []);
+
+  useEffect(
+    () => () => {
+      onLeaveRoom();
+    },
+    [],
+  );
 
   const onPressJoin = useCallback(async () => {
+    await WebrtcSourceModule.createVisionCameraTrack();
+
+    console.log("joining");
     const data = await getRoomDetails("Room", "User");
     const { url, peerToken } = data;
 
@@ -34,14 +48,20 @@ export function JoinRoomButton() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Button onPress={onPressJoin} title="Join Room" />
+      <Text>{peerStatus}</Text>
+      {peerStatus === "idle" && (
+        <Button onPress={onPressJoin} title="Join Room" />
+      )}
+      {peerStatus === "connected" && (
+        <Button onPress={onLeaveRoom} color="red" title="Leave Room" />
+      )}
     </View>
   );
 }
 
 async function getRoomDetails(roomName: string, peerName: string) {
   const response = await fetch(
-    `https://room.fishjam.io/api/rooms?roomName=${roomName}&peerName=${peerName}`,
+    `http://192.168.82.233:8080/api/rooms?roomName=${roomName}&peerName=${peerName}`,
   );
   const { url, peerToken } = await response.json();
   return { url, peerToken };
@@ -69,7 +89,7 @@ export default function App() {
       setCameraPermissionStatus(permission);
     };
     requestCameraPermission();
-  });
+  }, []);
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
@@ -81,7 +101,11 @@ export default function App() {
     [peerStatus],
   );
 
-  if (device && cameraPermissionStatus === "granted") {
+  if (cameraPermissionStatus !== "granted") {
+    return <Text>Camera permission status is: {cameraPermissionStatus}</Text>;
+  }
+
+  if (device) {
     return (
       <View style={{ flex: 1 }}>
         <Camera
