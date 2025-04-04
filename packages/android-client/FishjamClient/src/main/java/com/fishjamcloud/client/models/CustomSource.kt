@@ -4,7 +4,6 @@ import androidx.camera.core.ImageProxy
 import org.webrtc.JavaI420Buffer
 import org.webrtc.VideoFrame
 import org.webrtc.VideoSource
-import org.webrtc.YuvHelper
 
 interface CustomSourceConsumer {
   fun onImageProxyCaptured(imageProxy: ImageProxy)
@@ -42,18 +41,8 @@ class CustomSourceVideoCapturerAdapter(
     val height = imageProxy.height
     val timestamp = System.nanoTime()
 
-    val i420Buffer = JavaI420Buffer.wrap(width, height, dataY, strideY, dataU, strideU, dataV, strideV, {})
+    val i420Buffer = JavaI420Buffer.wrap(width, height, dataY, strideY, dataU, strideU, dataV, strideV) {}
 
-//    YuvHelper.copyPlane(
-//      buffer,
-//      imageProxy.planes[0].rowStride,
-//      i420Buffer.dataY,
-//      i420Buffer.strideY,
-//      width,
-//      height
-//    )
-
-    // Create VideoFrame
     val videoFrame =
       VideoFrame(
         i420Buffer,
