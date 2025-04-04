@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 
 class WebrtcFrameProcessorPlugin(proxy: VisionCameraProxy, options: Map<String, Any>?): FrameProcessorPlugin(), CustomSource {
   override val isScreenShare = false
-  override val metadata: Metadata = emptyMap()
+  override val metadata: Metadata = mapOf("type" to "camera")
   override val videoParameters = VideoParameters.presetHD43
 
   private var consumer: CustomSourceConsumer? = null
