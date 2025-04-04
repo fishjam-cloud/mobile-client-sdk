@@ -34,7 +34,12 @@
     },
     "plugins": [
       ["react-native-vision-camera"],
-      ["../fishjam-chat/plugin/build/with-local-paths-for-native-packages.js"]
+      [
+        "../fishjam-chat/plugin/build/with-local-paths-for-native-packages.js",
+        {
+          "iosTargetName": "visioncamera"
+        }
+      ]
     ]
   }
 }
