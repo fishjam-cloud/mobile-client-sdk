@@ -1,8 +1,19 @@
-import Foundation
+import UIKit
 import WebRTC
 
+public enum VideoRotation: Int {
+    case zero = 0
+    case ninety = 90
+    case oneEighty = 180
+    case twoSeventy = 270
+  
+    internal var rtcValue: RTCVideoRotation {
+      return .init(rawValue: self.rawValue)!
+  }
+}
+
 public protocol CustomSourceDelegate: AnyObject {
-    func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer)
+  func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, rotation: VideoRotation)
 }
 
 public protocol CustomSource: AnyObject {
@@ -30,7 +41,7 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
         self.customSource.delegate = self
     }
 
-    func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer) {
+    func customSource(_ customSource: CustomSource, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, rotation: VideoRotation) {
         guard sampleBuffer.isValid else { return }
 
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
@@ -50,12 +61,10 @@ class CustomSourceRTCVideoCapturerAdapter: RTCVideoCapturer, CustomSourceDelegat
             cropY: 0
         )
 
-        let rotation = RTCVideoRotation._0
-
         let buffer = rtcBuffer.toI420()
         let videoFrame = RTCVideoFrame(
             buffer: buffer,
-            rotation: rotation,
+            rotation: rotation.rtcValue,
             timeStampNs: sampleBuffer.presentationTimeStamp.value
         )
 

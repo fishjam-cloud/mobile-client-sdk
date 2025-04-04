@@ -14,7 +14,7 @@ public class WebrtcFrameProcessorPlugin: FrameProcessorPlugin {
 
   public override func callback(_ frame: Frame, withArguments arguments: [AnyHashable : Any]?) -> Any {
     if let customSource = WebrtcFrameProcessorPlugin.currentSource {
-      WebrtcFrameProcessorPlugin.currentSource?.delegate?.customSource(customSource, didOutputSampleBuffer: frame.buffer)
+      WebrtcFrameProcessorPlugin.currentSource?.delegate?.customSource(customSource, didOutputSampleBuffer: frame.buffer, rotation: .ninety)
     }
     
     return frame
