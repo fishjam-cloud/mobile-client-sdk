@@ -3,8 +3,6 @@ import ExpoModulesCore
 import VisionCamera
 
 public class WebrtcSourceModule: Module {
-  
-
   public func definition() -> ModuleDefinition {
     Name("WebrtcSource")
     
