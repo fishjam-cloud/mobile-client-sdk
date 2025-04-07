@@ -13,7 +13,8 @@
       "examples/fishjam-chat",
       "examples/webdriverio-test",
       "examples/audio-only",
-      "examples/vision-camera"
+      "examples/vision-camera",
+      "examples/shared/plugins"
     ]
   },
   "devDependencies": {
