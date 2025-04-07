@@ -3,14 +3,19 @@ import ExpoModulesCore
 import VisionCamera
 
 public class WebrtcSourceModule: Module {
+  static let registerPlugin: Void = {
+    FrameProcessorPluginRegistry.addFrameProcessorPlugin("sendFrame") { proxy, options in
+      return WebrtcFrameProcessorPlugin(proxy: proxy, options: options)
+    }
+  }()
+  
+  public required init(appContext: AppContext) {
+    super.init(appContext: appContext)
+    _ = WebrtcSourceModule.registerPlugin
+  }
+  
   public func definition() -> ModuleDefinition {
     Name("WebrtcSource")
-    
-    OnCreate {
-      FrameProcessorPluginRegistry.addFrameProcessorPlugin("sendFrame") { proxy, options in
-        return WebrtcFrameProcessorPlugin(proxy: proxy, options: options)
-      }
-    }
     
     AsyncFunction("createVisionCameraTrack") {
       if let exisitingSource = WebrtcFrameProcessorPlugin.currentSource {
