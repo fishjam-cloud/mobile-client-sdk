@@ -17,7 +17,7 @@ export function JoinRoomButton() {
   return (
     <View style={{ flex: 1 }}>
       <Text>{peerStatus}</Text>
-      {peerStatus === "idle" && (
+      {(peerStatus === "idle" || peerStatus === "error") && (
         <Button onPress={onPressJoin} title="Join Room" />
       )}
       {peerStatus === "connected" && (

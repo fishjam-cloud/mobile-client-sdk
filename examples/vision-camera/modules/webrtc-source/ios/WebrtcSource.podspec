@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary        = 'A sample project summary'
   s.description    = 'A sample project description'
   s.author         = ''
-  s.homepage       = 'https://docs.expo.dev/modules/'
+  s.homepage       = 'https://fishjam.io/'
   s.platforms      = {
     :ios => '15.1',
     :tvos => '15.1'
