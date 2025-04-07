@@ -3572,12 +3572,12 @@ __metadata:
     "@types/react": "npm:^18.3.12"
     expo: "npm:~52.0.30"
     expo-build-properties: "npm:~0.13.2"
-    expo-device: "npm:~7.0.2"
+    expo-device: "npm:~7.0.3"
     expo-status-bar: "npm:~2.0.1"
     react: "npm:18.3.1"
     react-native: "npm:~0.77.0"
-    react-native-gesture-handler: "npm:~2.24.0"
-    react-native-reanimated: "npm:~3.17.1"
+    react-native-gesture-handler: "npm:~2.25.0"
+    react-native-reanimated: "npm:~3.17.2"
     react-native-safe-area-context: "npm:~5.1.0"
     react-native-screens: "npm:~4.5.0"
     react-native-toast-message: "npm:^2.2.1"
@@ -10652,14 +10652,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-device@npm:~7.0.2":
-  version: 7.0.2
-  resolution: "expo-device@npm:7.0.2"
+"expo-device@npm:~7.0.3":
+  version: 7.0.3
+  resolution: "expo-device@npm:7.0.3"
   dependencies:
     ua-parser-js: "npm:^0.7.33"
   peerDependencies:
     expo: "*"
-  checksum: 10c0/08e19c344710551c3e4726c679048cd44015f654ceed2680158ff0886a9a4173747a210b3ddd896bf4feb18744de43385bfd4c9f643adfe91d82d899d3c8adaf
+  checksum: 10c0/a404e9dc1fcc65de8c629d31e046f3cac6904ff3c5c016642fcd2a04c2e29dc0e6bc03ec98082e3c287bbe045ee10594927bdc124e04c2cd25bf58f55c61d172
   languageName: node
   linkType: hard
 
@@ -12269,13 +12269,13 @@ __metadata:
   linkType: hard
 
 "image-size@npm:^1.0.2":
-  version: 1.1.1
-  resolution: "image-size@npm:1.1.1"
+  version: 1.2.1
+  resolution: "image-size@npm:1.2.1"
   dependencies:
     queue: "npm:6.0.2"
   bin:
     image-size: bin/image-size.js
-  checksum: 10c0/2660470096d12be82195f7e80fe03274689fbd14184afb78eaf66ade7cd06352518325814f88af4bde4b26647889fe49e573129f6e7ba8f5ff5b85cc7f559000
+  checksum: 10c0/f8b3c19d4476513f1d7e55c3e6db80997b315444743e2040d545cbcaee59be03d2eb40c46be949a8372697b7003fdb0c04925d704390a7f606bc8181e25c0ed4
   languageName: node
   linkType: hard
 
@@ -16613,9 +16613,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:~2.24.0":
-  version: 2.24.0
-  resolution: "react-native-gesture-handler@npm:2.24.0"
+"react-native-gesture-handler@npm:~2.25.0":
+  version: 2.25.0
+  resolution: "react-native-gesture-handler@npm:2.25.0"
   dependencies:
     "@egjs/hammerjs": "npm:^2.0.17"
     hoist-non-react-statics: "npm:^3.3.0"
@@ -16623,7 +16623,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/eb2c5cb53690ae5de1482370a156cbd775f6b3054540cd47310ec4712df83a280fe7b6259f372eec4c14a6d7f70ab18f1919a9fe63beaca9ceae126edbe32298
+  checksum: 10c0/95eccc67fb07418ef76b84bcee4b29c16865e78afa367ec82d94b08554cfa7337158ab23937b785bd9a732e62c9c815b294a93d1b2c2cbdc7a8a1e7029f2ba35
   languageName: node
   linkType: hard
 
@@ -16637,9 +16637,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:~3.17.1":
-  version: 3.17.1
-  resolution: "react-native-reanimated@npm:3.17.1"
+"react-native-reanimated@npm:~3.17.2":
+  version: 3.17.2
+  resolution: "react-native-reanimated@npm:3.17.2"
   dependencies:
     "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
     "@babel/plugin-transform-class-properties": "npm:^7.0.0-0"
@@ -16657,7 +16657,7 @@ __metadata:
     "@babel/core": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 10c0/da4f653a675816eb0b3502aa5029c21ec4ec8889bcbbbbc174d567db1c05d9529d638a22c2e4085bf5a97ad2e184988d64cfa9b77774cb32322f29ab4e6c2585
+  checksum: 10c0/f4c4a6c092f9fd5da258ee8373b5450e5775b99a8ff87c9c9af2fe801403ee06d2ba4dedac38d08d8f6de95ea881863b2a47217bc29a5aa3522b16a5b050f667
   languageName: node
   linkType: hard
 
