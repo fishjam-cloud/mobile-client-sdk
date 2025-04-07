@@ -1,38 +1,45 @@
 {
   "expo": {
-    "name": "audio-only",
-    "slug": "audio-only",
-    "version": "0.15.0",
+    "name": "vision-camera",
+    "slug": "vision-camera",
+    "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.fishjam.example.audioonly",
+      "bundleIdentifier": "io.fishjam.example.visioncamera",
       "infoPlist": {
+        "NSCameraUsageDescription": "We need to access your camera for video calls.",
         "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls."
-      },
-      "appleTeamId": "J5FM626PE2"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "monochromeImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "io.fishjam.example.audioonly",
       "permissions": [
+        "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
-      ]
+      ],
+      "package": "io.fishjam.example.visioncamera"
     },
     "plugins": [
-      "../fishjam-chat/plugin/build/with-local-paths-for-native-packages.js"
+      ["react-native-vision-camera"],
+      [
+        "../fishjam-chat/plugin/build/with-local-paths-for-native-packages.js",
+        {
+          "iosTargetName": "visioncamera"
+        }
+      ]
     ]
   }
 }
