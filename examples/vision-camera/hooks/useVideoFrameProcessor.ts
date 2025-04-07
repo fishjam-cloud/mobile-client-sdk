@@ -3,24 +3,24 @@ import { sendFrame } from "../utils/frameUtils";
 import { useEffect } from "react";
 import WebrtcSourceModule from "../modules/webrtc-source/src/WebrtcSourceModule";
 
-export function useWebrtcFrameProcessor(isPeerConnected: boolean) {
+export function useWebrtcFrameProcessor(enabled: boolean) {
   useEffect(() => {
-    if (isPeerConnected) {
+    if (enabled) {
       WebrtcSourceModule.createVisionCameraTrack();
     }
     return () => {
       WebrtcSourceModule.removeVisionCameraTrack();
     };
-  }, [isPeerConnected]);
+  }, [enabled]);
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
       "worklet";
-      if (isPeerConnected) {
+      if (enabled) {
         sendFrame(frame);
       }
     },
-    [isPeerConnected],
+    [enabled],
   );
 
   return frameProcessor;
