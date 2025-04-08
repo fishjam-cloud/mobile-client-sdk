@@ -57,7 +57,7 @@ yarn ios
 Make sure your code passes TypeScript and ESLint. Run the following (in root folder) to verify:
 
 ```sh
-yarn tsc
+yarn typecheck
 yarn lint:check
 ```
 

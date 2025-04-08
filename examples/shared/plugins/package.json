@@ -1,0 +1,11 @@
+{
+  "name": "@fishjam-example/shared-plugins",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  },
+  "private": true
+}

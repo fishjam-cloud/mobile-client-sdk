@@ -13,7 +13,8 @@
       "examples/fishjam-chat",
       "examples/webdriverio-test",
       "examples/audio-only",
-      "examples/vision-camera"
+      "examples/vision-camera",
+      "examples/shared/plugins"
     ]
   },
   "devDependencies": {
@@ -28,7 +29,7 @@
     "setup": "sh ./scripts/init.sh",
     "build": "yarn workspaces foreach -At run build",
     "prepare": "yarn workspace @fishjam-cloud/react-native-client run prepare",
-    "tsc": "yarn workspaces foreach -A -p run tsc",
+    "typecheck": "yarn workspaces foreach -A -p run tsc",
     "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",

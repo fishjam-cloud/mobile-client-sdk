@@ -3307,6 +3307,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fishjam-example/audio-only@workspace:examples/audio-only":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-example/audio-only@workspace:examples/audio-only"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@react-native-picker/picker": "npm:2.9.0"
+    "@types/react": "npm:^18.3.12"
+    expo: "npm:~52.0.30"
+    react: "npm:18.3.1"
+    react-native: "npm:~0.77.0"
+    typescript: "npm:^5.8.2"
+  languageName: unknown
+  linkType: soft
+
 "@fishjam-example/fishjam-chat@workspace:examples/fishjam-chat":
   version: 0.0.0-use.local
   resolution: "@fishjam-example/fishjam-chat@workspace:examples/fishjam-chat"
@@ -3331,6 +3346,31 @@ __metadata:
     react-native-screens: "npm:~4.5.0"
     react-native-toast-message: "npm:^2.2.1"
     react-native-url-polyfill: "npm:^2.0.0"
+    typescript: "npm:^5.8.2"
+  languageName: unknown
+  linkType: soft
+
+"@fishjam-example/shared-plugins@workspace:examples/shared/plugins":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-example/shared-plugins@workspace:examples/shared/plugins"
+  dependencies:
+    typescript: "npm:^5.8.2"
+  languageName: unknown
+  linkType: soft
+
+"@fishjam-example/vision-camera@workspace:examples/vision-camera":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-example/vision-camera@workspace:examples/vision-camera"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@types/react": "npm:^18.3.12"
+    expo: "npm:~52.0.30"
+    expo-status-bar: "npm:~2.0.1"
+    react: "npm:18.3.1"
+    react-native: "npm:~0.77.0"
+    react-native-vision-camera: "npm:^4.6.4"
+    react-native-worklets-core: "npm:^1.5.0"
     typescript: "npm:^5.8.2"
   languageName: unknown
   linkType: soft
@@ -7093,21 +7133,6 @@ __metadata:
   checksum: 10c0/4c058baf6df1bc5a1697cf182e2029c58cd99975288a13f9e70068ef5d6f4e1f1fd7c4d2c3c4912eae44797d1725be9700995736deca441b39f3e66d8dee97ef
   languageName: node
   linkType: hard
-
-"audio-only@workspace:examples/audio-only":
-  version: 0.0.0-use.local
-  resolution: "audio-only@workspace:examples/audio-only"
-  dependencies:
-    "@babel/core": "npm:^7.26.10"
-    "@fishjam-cloud/react-native-client": "npm:*"
-    "@react-native-picker/picker": "npm:2.9.0"
-    "@types/react": "npm:^18.3.12"
-    expo: "npm:~52.0.30"
-    react: "npm:18.3.1"
-    react-native: "npm:~0.77.0"
-    typescript: "npm:^5.8.2"
-  languageName: unknown
-  linkType: soft
 
 "available-typed-arrays@npm:^1.0.7":
   version: 1.0.7
@@ -19100,23 +19125,6 @@ __metadata:
   checksum: 10c0/f15d588d79f3675135ba783c91a4083dcd290a2a5be9fcb6514220a1634e23df116847b1cc51f66bfb0644cf9353b2abb7815ae499bab06e46dd33c1a6bf1f4f
   languageName: node
   linkType: hard
-
-"vision-camera@workspace:examples/vision-camera":
-  version: 0.0.0-use.local
-  resolution: "vision-camera@workspace:examples/vision-camera"
-  dependencies:
-    "@babel/core": "npm:^7.26.10"
-    "@fishjam-cloud/react-native-client": "npm:*"
-    "@types/react": "npm:^18.3.12"
-    expo: "npm:~52.0.30"
-    expo-status-bar: "npm:~2.0.1"
-    react: "npm:18.3.1"
-    react-native: "npm:~0.77.0"
-    react-native-vision-camera: "npm:^4.6.4"
-    react-native-worklets-core: "npm:^1.5.0"
-    typescript: "npm:^5.8.2"
-  languageName: unknown
-  linkType: soft
 
 "vlq@npm:^1.0.0":
   version: 1.0.1

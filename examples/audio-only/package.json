@@ -1,5 +1,5 @@
 {
-  "name": "audio-only",
+  "name": "@fishjam-example/audio-only",
   "version": "0.15.0",
   "main": "index.ts",
   "scripts": {
