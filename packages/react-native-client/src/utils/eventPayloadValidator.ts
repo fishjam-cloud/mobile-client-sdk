@@ -75,7 +75,9 @@ export function validateNativeEventPayload<
       break;
 
     case ReceivableEvents.ReconnectionStatusChanged:
-      z.enum(['connecting', 'connected', 'error']).parse(payload);
+      z.enum(['connecting', 'connected', 'error', 'reconnecting']).parse(
+        payload,
+      );
       break;
 
     case ReceivableEvents.CurrentCameraChanged:
