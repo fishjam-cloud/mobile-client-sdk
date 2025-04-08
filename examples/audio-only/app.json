@@ -32,7 +32,12 @@
       ]
     },
     "plugins": [
-      "../fishjam-chat/plugin/build/with-local-paths-for-native-packages.js"
+      [
+        "../shared/plugins/build/with-local-paths-for-native-packages.js",
+        {
+          "iosTargetName": "audioonly"
+        }
+      ]
     ]
   }
 }

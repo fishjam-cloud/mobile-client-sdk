@@ -9,7 +9,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "test": "jest",
-    "build": "tsc && tsc --project ./plugin",
+    "build": "tsc",
     "lint": "sh ./scripts/lint.sh",
     "lint:check": "sh ./scripts/lint_check.sh"
   },

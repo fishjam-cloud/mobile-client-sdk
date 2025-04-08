@@ -27,7 +27,7 @@ jobs:
         run: yarn build
 
       - name: Check types 🚓
-        run: yarn tsc
+        run: yarn typecheck
 
       - name: Run linter (and check formatting) 👮
         run: yarn lint:check
