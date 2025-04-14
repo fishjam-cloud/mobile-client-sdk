@@ -3313,7 +3313,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@fishjam-cloud/react-native-client": "npm:*"
-    "@react-native-picker/picker": "npm:2.9.0"
+    "@react-native-picker/picker": "npm:2.11.0"
     "@types/react": "npm:^18.3.12"
     expo: "npm:~52.0.30"
     react: "npm:18.3.1"
@@ -4385,13 +4385,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-picker/picker@npm:2.9.0":
-  version: 2.9.0
-  resolution: "@react-native-picker/picker@npm:2.9.0"
+"@react-native-picker/picker@npm:2.11.0":
+  version: 2.11.0
+  resolution: "@react-native-picker/picker@npm:2.11.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/a7b64b1073a2a31f2efdcdd767316312a55516c80f2f6a48f3110875f6029b82cf9067fbea1da3df2ee992233f8aed23928f39ee935ef80c9c20ce06bb836303
+  checksum: 10c0/39c970f123162cbdc5d580418a99332c3269e638c641eeb2cfd147056d0635905cff815eb0bcdcc10f20e2f4de711a24f5d837af71055b928b2182d8be395fd0
   languageName: node
   linkType: hard
 
