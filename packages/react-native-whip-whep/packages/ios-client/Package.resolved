@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "specs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/webrtc-sdk/Specs.git",
+      "state" : {
+        "revision" : "bb9b52fda9582a3a36e07879e7396100864e5044",
+        "version" : "125.6422.6"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "9cb486020ebf03bfa5b5df985387a14a98744537",
+        "version" : "1.6.1"
+      }
+    }
+  ],
+  "version" : 2
+}

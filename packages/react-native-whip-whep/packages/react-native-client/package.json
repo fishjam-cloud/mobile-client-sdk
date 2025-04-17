@@ -1,0 +1,60 @@
+{
+  "name": "react-native-whip-whep",
+  "version": "0.1.7",
+  "description": "An implementation of WHIP and WHEP protocols functionalities for React Native.",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module",
+    "open:ios": "xed example/ios",
+    "open:android": "open -a \"Android Studio\" example/android",
+    "docs": "typedoc"
+  },
+  "keywords": [
+    "react-native",
+    "WHIP",
+    "WHEP",
+    "WebRTC",
+    "streaming",
+    "video",
+    "audio"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/software-mansion/react-native-whip-whep.git",
+    "directory": "packages/react-native-client"
+  },
+  "bugs": {
+    "url": "https://github.com/software-mansion/react-native-whip-whep/issues"
+  },
+  "author": "Software Mansion",
+  "license": "MIT",
+  "homepage": "https://github.com/software-mansion/react-native-whip-whep",
+  "devDependencies": {
+    "@types/react": "~18.3.12",
+    "expo-module-scripts": "~4.0.5",
+    "typedoc": "^0.28.2",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "files": [
+    "build/**",
+    "android/build.gradle",
+    "android/src/**",
+    "ios/*.swift",
+    "ios/ReactNativeMobileWhepClient.podspec",
+    "expo-module.config.json",
+    "README.md",
+    "!**/node_modules"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": [
+      "ReactNativeMobileWhepClientModule",
+      "ReactNativeMobileWhepClientViewModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "com.swmansion.reactnativeclient.ReactNativeMobileWhepClientModule",
+      "com.swmansion.reactnativeclient.ReactNativeMobileWhepClientViewModule"
+    ]
+  }
+}
