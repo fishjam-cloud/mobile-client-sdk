@@ -10,6 +10,7 @@
       "packages/react-native-client",
       "packages/android-client",
       "packages/ios-client",
+      "packages/react-native-whip-whep",
       "examples/fishjam-chat",
       "examples/webdriverio-test",
       "examples/audio-only",
