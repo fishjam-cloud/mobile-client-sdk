@@ -1,7 +1,7 @@
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -10,13 +10,16 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 import { Button, TextInput, DismissKeyboard } from '../components';
+import RoomTypeSelector from '../components/RoomTypeSelector';
+import RoomTypeSelectorBottomSheet from '../components/RoomTypeSelectorBottomSheet';
 import {
   AppRootStackParamList,
   TabParamList,
 } from '../navigators/AppNavigator';
-import { joinRoomWithRoomManager } from '../utils/roomManager';
+import { joinRoomWithRoomManager, RoomType } from '../utils/roomManager';
 import { FishjamLogo } from '../assets';
 
 type Props = CompositeScreenProps<
@@ -33,6 +36,13 @@ export default function ConnectScreen({ navigation }: Props) {
   );
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
+  const [roomType, setRoomType] = useState<RoomType>('full_feature');
+
+  const roomTypeSelectorRef = useRef<BottomSheet>(null);
+
+  const openRoomTypeSelector = () => {
+    roomTypeSelectorRef.current?.expand();
+  };
 
   const onTapConnectButton = async () => {
     try {
@@ -42,6 +52,7 @@ export default function ConnectScreen({ navigation }: Props) {
         roomManagerUrl,
         roomName,
         userName,
+        roomType,
       );
 
       navigation.navigate('Preview', {
@@ -85,12 +96,22 @@ export default function ConnectScreen({ navigation }: Props) {
             placeholder="User Name"
             defaultValue={userName}
           />
+          <RoomTypeSelector
+            selectedType={roomType}
+            onOpenSelector={openRoomTypeSelector}
+          />
           <Button
             title="Connect"
             onPress={onTapConnectButton}
             disabled={loading}
           />
         </KeyboardAvoidingView>
+
+        <RoomTypeSelectorBottomSheet
+          bottomSheetRef={roomTypeSelectorRef}
+          selectedType={roomType}
+          onSelectType={setRoomType}
+        />
       </SafeAreaView>
     </DismissKeyboard>
   );
