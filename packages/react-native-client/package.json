@@ -59,6 +59,7 @@
     "jest-websocket-mock": "^2.4.0",
     "pod-install": "^0.3.4",
     "react-dom": "^18.3.1",
+    "react-native-whip-whep": "*",
     "ts-proto": "^2.7.0",
     "typedoc": "^0.28.1",
     "typedoc-plugin-mark-react-functional-components": "^0.2.2",

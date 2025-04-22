@@ -3,8 +3,8 @@ import {
   withGradleProperties,
   withProjectBuildGradle,
   withSettingsGradle,
-} from '@expo/config-plugins';
-import { INFO_GENERATED_COMMENT_ANDROID } from './utils';
+} from "@expo/config-plugins";
+import { INFO_GENERATED_COMMENT_ANDROID } from "./utils";
 
 const withCustomSettingsGradle: ConfigPlugin = (config) =>
   withSettingsGradle(config, (configuration) => {
@@ -12,7 +12,10 @@ const withCustomSettingsGradle: ConfigPlugin = (config) =>
 ${INFO_GENERATED_COMMENT_ANDROID}
 include ':fishjam-cloud-android-client'
 project(':fishjam-cloud-android-client').projectDir = new File('../../../packages/android-client/FishjamClient/')
-      `;
+
+include ':android-client'
+project(':android-client').projectDir = new File('../../../packages/react-native-whip-whep/packages/android-client/MobileWhepClient/')
+`;
 
     return configuration;
   });
@@ -40,19 +43,19 @@ classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
 const withCustomGradleProperties: ConfigPlugin = (config) =>
   withGradleProperties(config, (configuration) => {
     configuration.modResults.push({
-      type: 'property',
-      key: 'org.gradle.caching',
-      value: 'true',
+      type: "property",
+      key: "org.gradle.caching",
+      value: "true",
     });
     configuration.modResults.push({
-      type: 'property',
-      key: 'org.gradle.parallel',
-      value: 'true',
+      type: "property",
+      key: "org.gradle.parallel",
+      value: "true",
     });
     configuration.modResults.push({
-      type: 'property',
-      key: 'org.gradle.jvmargs',
-      value: '-Xmx4g',
+      type: "property",
+      key: "org.gradle.jvmargs",
+      value: "-Xmx4g",
     });
     return configuration;
   });
