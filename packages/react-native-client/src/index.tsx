@@ -72,6 +72,8 @@ export type {
   ReconnectionStatus,
   PeerStatus,
 } from './hooks/useConnection';
+
+export type { UseLivestreamResult } from './hooks/useLivestream';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
 // #endregion
 
@@ -88,6 +90,7 @@ export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
+export { useLivestream } from './hooks/useLivestream';
 // #endregion
 
 export type { FishjamRoomProps } from './components/FishjamRoom';
