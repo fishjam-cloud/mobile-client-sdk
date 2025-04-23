@@ -91,6 +91,7 @@ export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestream } from './hooks/useLivestream';
+export { WhepClientView } from 'react-native-whip-whep';
 // #endregion
 
 export type { FishjamRoomProps } from './components/FishjamRoom';

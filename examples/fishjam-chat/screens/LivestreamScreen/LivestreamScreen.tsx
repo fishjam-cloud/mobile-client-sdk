@@ -1,56 +1,35 @@
-import { useLivestream } from '@fishjam-cloud/react-native-client';
-import {
-  connectWhepClient,
-  createWhepClient,
-  disconnectWhepClient,
-  WhepClientView,
-} from 'react-native-whip-whep';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  PermissionsAndroid,
-} from 'react-native';
-
+import React, { useCallback, useEffect } from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
+import {
+  useLivestream,
+  WhepClientView,
+} from '@fishjam-cloud/react-native-client';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'LivestreamScreen'>;
 
 export default function LivestreamScreen({ route }: Props) {
   const { livestreamUrl, viewerToken } = route.params;
 
-  //   const { connect, disconnect } = useLivestream(livestreamUrl, viewerToken);
+  const { connect, disconnect } = useLivestream(livestreamUrl, viewerToken);
 
   const handleConnect = useCallback(async () => {
     try {
-      await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-      ]);
-
-      createWhepClient(livestreamUrl, {
-        authToken: viewerToken,
-      });
-      await connectWhepClient();
+      await connect();
     } catch (err) {
       console.log(err);
     }
-  }, [livestreamUrl, viewerToken]);
+  }, [connect]);
 
   useEffect(() => {
     handleConnect();
 
     return () => {
-      //   disconnectWhepClient();
+      disconnect();
     };
-  }, [handleConnect]);
+  }, [handleConnect, disconnect]);
 
   return (
     <SafeAreaView style={styles.container}>
