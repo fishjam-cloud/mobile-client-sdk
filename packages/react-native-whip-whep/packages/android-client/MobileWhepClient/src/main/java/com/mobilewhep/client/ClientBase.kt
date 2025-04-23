@@ -66,8 +66,6 @@ open class ClientBase(
   private var listeners = mutableListOf<ClientBaseListener>()
   var onTrackAdded: (() -> Unit)? = null
 
-
-
   init {
     val iceServers =
       listOf(
