@@ -27,6 +27,7 @@ export type { VideoRendererProps } from './components/VideoRendererView';
 
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
+export { LivestreamView } from './components/LivestreamView';
 // #endregion
 
 // #region types for hooks
@@ -73,6 +74,7 @@ export type {
   PeerStatus,
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
+export type { UseLivestreamResult } from './hooks/useLivestream';
 // #endregion
 
 // #region hooks
@@ -88,6 +90,7 @@ export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
+export { useLivestream } from './hooks/useLivestream';
 // #endregion
 
 export type { FishjamRoomProps } from './components/FishjamRoom';
