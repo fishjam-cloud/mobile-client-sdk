@@ -2,7 +2,7 @@ import { CSSProperties } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { WhepClientView } from 'react-native-whip-whep';
 
-type LivestreamViewProps = {
+export type LivestreamViewProps = {
   style?: StyleProp<ViewStyle>;
 };
 

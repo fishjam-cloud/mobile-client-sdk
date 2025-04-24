@@ -24,6 +24,7 @@ export {
 // #region components
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
+export type { LivestreamViewProps } from './components/LivestreamView';
 
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
