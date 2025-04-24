@@ -4,7 +4,6 @@ import type { NavigationProp } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-
 import ConnectWithRoomManagerScreen from '../screens/ConnectWithRoomManagerScreen';
 import ConnectWithVideoRoomScreen, {
   shouldShowVideoRoomTab,
@@ -15,6 +14,8 @@ import RoomScreen from '../screens/RoomScreen/RoomScreen';
 import { appNavigationLabels } from '../types/ComponentLabels';
 import { AdditionalColors, BrandColors } from '../utils/Colors';
 import { ConnectWithFishjamRoom } from '../screens/ConnectWithFishjamRoom';
+import ConnectToLivestreamScreen from '../screens/ConnectToLivestreamScreen';
+import LivestreamScreen from '../screens/LivestreamScreen/LivestreamScreen';
 
 export type AppRootStackParamList = {
   Home: undefined;
@@ -22,6 +23,10 @@ export type AppRootStackParamList = {
     userName?: string;
     fishjamUrl: string;
     peerToken: string;
+  };
+  LivestreamScreen: {
+    livestreamUrl: string;
+    viewerToken: string;
   };
   Room: {
     isCameraOn: boolean;
@@ -34,6 +39,7 @@ export type TabParamList = {
   ConnectWithRoomManager: undefined;
   ConnectWithVideoRoom: undefined;
   ConnectWithFishajamRoom: undefined;
+  ConnectToLivestream: undefined;
 };
 
 const tabBarIcon =
@@ -79,6 +85,17 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
+        name="ConnectToLivestream"
+        component={ConnectToLivestreamScreen}
+        options={{
+          tabBarLabel: 'Livestream',
+          tabBarActiveTintColor: BrandColors.darkBlue100,
+          tabBarInactiveTintColor: AdditionalColors.grey60,
+          tabBarIcon: tabBarIcon('video'),
+          tabBarAccessibilityLabel: 'LIVESTREAM_TAB',
+        }}
+      />
+      <Tab.Screen
         name="ConnectWithToken"
         component={ConnectWithTokenScreen}
         options={{
@@ -116,6 +133,7 @@ export default function AppNavigator() {
           component={TabNavigator}
         />
         <Stack.Screen name="Preview" component={PreviewScreen} />
+        <Stack.Screen name="LivestreamScreen" component={LivestreamScreen} />
         <Stack.Screen
           name="Room"
           options={{
