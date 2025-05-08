@@ -30,7 +30,7 @@
     "react-native-reanimated": "~3.17.3",
     "react-native-safe-area-context": "~5.1.0",
     "react-native-screens": "~4.5.0",
-    "react-native-toast-message": "^2.2.1",
+    "react-native-toast-message": "^2.3.0",
     "react-native-url-polyfill": "^2.0.0"
   },
   "devDependencies": {
