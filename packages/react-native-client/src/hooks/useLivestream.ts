@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 import {
   connectWhepClient,
   createWhepClient,
@@ -6,23 +6,17 @@ import {
 } from 'react-native-whip-whep';
 
 export interface UseLivestreamResult {
-  connect: () => Promise<void>;
+  connect: (url: string, token: string) => Promise<void>;
   disconnect: () => void;
 }
 
-export const useLivestream = (
-  url: string,
-  token: string,
-): UseLivestreamResult => {
-  useEffect(() => {
+export const useLivestream = (): UseLivestreamResult => {
+  const connect = useCallback(async (url: string, token: string) => {
     createWhepClient(url, {
       authToken: token,
     });
+    await connectWhepClient();
+  }, []);
 
-    return () => {
-      disconnectWhepClient();
-    };
-  }, [url, token]);
-
-  return { connect: connectWhepClient, disconnect: disconnectWhepClient };
+  return { connect, disconnect: disconnectWhepClient };
 };
