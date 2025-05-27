@@ -13,15 +13,15 @@ type Props = NativeStackScreenProps<AppRootStackParamList, 'LivestreamScreen'>;
 export default function LivestreamScreen({ route }: Props) {
   const { livestreamUrl, viewerToken } = route.params;
 
-  const { connect, disconnect } = useLivestream(livestreamUrl, viewerToken);
+  const { connect, disconnect } = useLivestream();
 
   const handleConnect = useCallback(async () => {
     try {
-      await connect();
+      await connect(livestreamUrl, viewerToken);
     } catch (err) {
       console.log(err);
     }
-  }, [connect]);
+  }, [connect, livestreamUrl, viewerToken]);
 
   useEffect(() => {
     handleConnect();
