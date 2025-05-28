@@ -3337,7 +3337,7 @@ __metadata:
     "@types/react": "npm:^18.3.12"
     expo: "npm:~52.0.30"
     expo-build-properties: "npm:~0.13.2"
-    expo-device: "npm:~7.0.3"
+    expo-device: "npm:~7.1.4"
     expo-status-bar: "npm:~2.0.1"
     react: "npm:18.3.1"
     react-native: "npm:~0.77.0"
@@ -10162,14 +10162,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-device@npm:~7.0.3":
-  version: 7.0.3
-  resolution: "expo-device@npm:7.0.3"
+"expo-device@npm:~7.1.4":
+  version: 7.1.4
+  resolution: "expo-device@npm:7.1.4"
   dependencies:
     ua-parser-js: "npm:^0.7.33"
   peerDependencies:
     expo: "*"
-  checksum: 10c0/a404e9dc1fcc65de8c629d31e046f3cac6904ff3c5c016642fcd2a04c2e29dc0e6bc03ec98082e3c287bbe045ee10594927bdc124e04c2cd25bf58f55c61d172
+  checksum: 10c0/e31c952251b36d698185d1b2c1799d4626a863896e650d31232d9a47aacc1387e01b5f33b5b2b4fe388e81a9287e2c486157644479d1bbf580e8050818aaff81
   languageName: node
   linkType: hard
 
