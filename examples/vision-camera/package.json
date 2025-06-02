@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
-    "expo": "~52.0.30",
+    "expo": "~52.0.46",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
-    "react-native": "~0.77.0",
+    "react-native": "0.76.9",
     "react-native-vision-camera": "^4.6.4",
     "react-native-worklets-core": "^1.5.0"
   },
