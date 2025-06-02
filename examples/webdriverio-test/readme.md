@@ -34,16 +34,16 @@
 8. [install wdio cli (Do not run npx wdio config, it is not necessary because it is already configured)](https://v6.webdriver.io/docs/clioptions.html)
 9. Run fishjam ( if locally this command can be handy:
 
-   docker run -p 50000-50050:50000-50050/udp \
+   docker run --platform linux/amd64 \
+   -p 50000-50050:50000-50050/udp \
    -p 5002:5002/tcp \
    -e FJ_CHECK_ORIGIN=false \
    -e FJ_HOST=localhost:5002 \
    -e FJ_PORT="5002" \
    -e FJ_WEBRTC_USED=true \
    -e FJ_WEBRTC_TURN_PORT_RANGE=50000-50050 \
-   -e FJ_WEBRTC_TURN_IP=[ip address] \
    -e FJ_WEBRTC_TURN_LISTEN_IP=0.0.0.0 \
    -e FJ_SERVER_API_TOKEN=development \
-   ghcr.io/fishjam-dev/fishjam:0.6.2
+   ghcr.io/fishjam-cloud/fishjam:0.10.0-dev
 
 10. Run test in webdriveio-test folder : npx wdio wdio.conf.ts
