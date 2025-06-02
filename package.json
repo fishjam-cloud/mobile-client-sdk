@@ -31,6 +31,7 @@
     "build": "yarn workspaces foreach -At run build",
     "prepare": "yarn workspace @fishjam-cloud/react-native-client run prepare",
     "typecheck": "yarn workspaces foreach -A -p run tsc",
+    "tsc": "",
     "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",
