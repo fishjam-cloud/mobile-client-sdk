@@ -7,7 +7,7 @@ import { InCallButton } from '../../components';
 import { previewScreenLabels } from '../../types/ComponentLabels';
 
 export const SwitchOutputDeviceButton = (props: {
-  bottomSheetRef: RefObject<BottomSheet>;
+  bottomSheetRef: RefObject<BottomSheet | null>;
 }) => {
   const audioSettings = useAudioSettings();
   const { bottomSheetRef } = props;
