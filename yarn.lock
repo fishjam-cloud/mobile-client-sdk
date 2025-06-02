@@ -2880,10 +2880,11 @@ __metadata:
   resolution: "@fishjam-cloud/react-native-client@workspace:packages/react-native-client"
   dependencies:
     "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
+    "@testing-library/react": "npm:^16.3.0"
     "@types/lodash": "npm:^4.17.16"
     "@types/promise-fs": "npm:^2.1.2"
-    "@types/react": "npm:^18.3.12"
+    "@types/react": "npm:~19.0.10"
+    "@types/react-dom": "npm:^19"
     expo-module-scripts: "npm:^4.1.7"
     husky: "npm:^9.1.7"
     jest: "npm:^29.6.1"
@@ -2893,12 +2894,12 @@ __metadata:
     pod-install: "npm:^0.3.4"
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
-    react-dom: "npm:^18.3.1"
+    react-dom: "npm:19.0.0"
     react-native-whip-whep: "npm:0.2.1"
     ts-proto: "npm:^2.7.0"
     typedoc: "npm:^0.28.1"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
-    typescript: "npm:^5.8.2"
+    typescript: "npm:~5.8.3"
     zod: "npm:^3.24.2"
   peerDependencies:
     expo: "*"
@@ -2954,7 +2955,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fishjam-example/shared-plugins@workspace:examples/shared/plugins"
   dependencies:
-    typescript: "npm:^5.8.2"
+    typescript: "npm:~5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -2988,7 +2989,7 @@ __metadata:
     appium-xcuitest-driver: "npm:^9.0.1"
     dotenv: "npm:^16.4.7"
     ts-node: "npm:^10.9.1"
-    typescript: "npm:^5.8.2"
+    typescript: "npm:~5.8.3"
     webdriverio: "npm:^9.12.1"
   languageName: unknown
   linkType: soft
@@ -4402,23 +4403,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^16.0.1":
-  version: 16.0.1
-  resolution: "@testing-library/react@npm:16.0.1"
+"@testing-library/react@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "@testing-library/react@npm:16.3.0"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
   peerDependencies:
     "@testing-library/dom": ^10.0.0
-    "@types/react": ^18.0.0
-    "@types/react-dom": ^18.0.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    "@types/react": ^18.0.0 || ^19.0.0
+    "@types/react-dom": ^18.0.0 || ^19.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
     "@types/react-dom":
       optional: true
-  checksum: 10c0/67d05dec5ad5a2e6f92b6a3234af785435c7bb62bdbf12f3bfc89c9bca0c871a189e88c4ba023ed4cea504704c87c6ac7e86e24a3962df6c521ae89b62f48ff7
+  checksum: 10c0/3a2cb1f87c9a67e1ebbbcfd99b94b01e496fc35147be8bc5d8bf07a699c7d523a09d57ef2f7b1d91afccd1a28e21eda3b00d80187fbb51b1de01e422592d845e
   languageName: node
   linkType: hard
 
@@ -4859,13 +4860,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.12
-  resolution: "@types/prop-types@npm:15.7.12"
-  checksum: 10c0/1babcc7db6a1177779f8fde0ccc78d64d459906e6ef69a4ed4dd6339c920c2e05b074ee5a92120fe4e9d9f1a01c952f843ebd550bee2332fc2ef81d1706878f8
-  languageName: node
-  linkType: hard
-
 "@types/qs@npm:*":
   version: 6.9.15
   resolution: "@types/qs@npm:6.9.15"
@@ -4880,13 +4874,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.3.12":
-  version: 18.3.12
-  resolution: "@types/react@npm:18.3.12"
-  dependencies:
-    "@types/prop-types": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/8bae8d9a41619804561574792e29112b413044eb0d53746dde2b9720c1f9a59f71c895bbd7987cd8ce9500b00786e53bc032dced38cddf42910458e145675290
+"@types/react-dom@npm:^19":
+  version: 19.1.5
+  resolution: "@types/react-dom@npm:19.1.5"
+  peerDependencies:
+    "@types/react": ^19.0.0
+  checksum: 10c0/2a29e77cf6bb6e9f57bcfa54509c216cad2e16e244f0bd56369966ec88c072b9c91f6011d14f9e18fbfe2b801b18b86f616de75e5c8aef0be73c1f74abb33b49
   languageName: node
   linkType: hard
 
@@ -10125,7 +10118,8 @@ __metadata:
     eslint: "npm:^8.57.1"
     prettier: "npm:^3.5.3"
     typedoc: "npm:^0.28.1"
-    typedoc-material-theme: "npm:^1.3.0"
+    typedoc-material-theme: "npm:^1.4.0"
+    typescript: "npm:~5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -13144,7 +13138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.0.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -15379,15 +15373,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.3.1":
-  version: 18.3.1
-  resolution: "react-dom@npm:18.3.1"
+"react-dom@npm:19.0.0":
+  version: 19.0.0
+  resolution: "react-dom@npm:19.0.0"
   dependencies:
-    loose-envify: "npm:^1.1.0"
-    scheduler: "npm:^0.23.2"
+    scheduler: "npm:^0.25.0"
   peerDependencies:
-    react: ^18.3.1
-  checksum: 10c0/a752496c1941f958f2e8ac56239172296fcddce1365ce45222d04a1947e0cc5547df3e8447f855a81d6d39f008d7c32eab43db3712077f09e3f67c4874973e85
+    react: ^19.0.0
+  checksum: 10c0/a36ce7ab507b237ae2759c984cdaad4af4096d8199fb65b3815c16825e5cfeb7293da790a3fc2184b52bfba7ba3ff31c058c01947aff6fd1a3701632aabaa6a9
   languageName: node
   linkType: hard
 
@@ -16347,15 +16340,6 @@ __metadata:
   version: 0.25.0
   resolution: "scheduler@npm:0.25.0"
   checksum: 10c0/a4bb1da406b613ce72c1299db43759526058fdcc413999c3c3e0db8956df7633acf395cb20eb2303b6a65d658d66b6585d344460abaee8080b4aa931f10eaafe
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.23.2":
-  version: 0.23.2
-  resolution: "scheduler@npm:0.23.2"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-  checksum: 10c0/26383305e249651d4c58e6705d5f8425f153211aef95f15161c151f7b8de885f24751b377e4a0b3dd42cce09aad3f87a61dab7636859c0d89b7daf1a1e2a5c78
   languageName: node
   linkType: hard
 
@@ -18226,14 +18210,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typedoc-material-theme@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "typedoc-material-theme@npm:1.3.0"
+"typedoc-material-theme@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "typedoc-material-theme@npm:1.4.0"
   dependencies:
     "@material/material-color-utilities": "npm:^0.3.0"
   peerDependencies:
-    typedoc: ^0.25.13 || ^0.26.x || ^0.27.x
-  checksum: 10c0/054e6cb184d8f68a06c34e93937aa70090f79acc11c9315405ad12f857e6a0c7f001ef2d21bdf5970e432e4602b0797afa7118d6f60f971b1c50fe4779fcdfbb
+    typedoc: ^0.25.13 || ^0.26.x || ^0.27.x || ^0.28.x
+  checksum: 10c0/7fbd16392ae76ee1922df0d5cc1eb5f29ae2626433b11429830a4685a7e598d8ac49036e173ddb815d75b46ca6917e8d02ffc579471313ea5983a84fc2c71067
   languageName: node
   linkType: hard
 
@@ -18261,16 +18245,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.8.2":
-  version: 5.8.2
-  resolution: "typescript@npm:5.8.2"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/5c4f6fbf1c6389b6928fe7b8fcd5dc73bb2d58cd4e3883f1d774ed5bd83b151cbac6b7ecf11723de56d4676daeba8713894b1e9af56174f2f9780ae7848ec3c6
-  languageName: node
-  linkType: hard
-
 "typescript@npm:^5.8.3, typescript@npm:~5.8.3":
   version: 5.8.3
   resolution: "typescript@npm:5.8.3"
@@ -18278,16 +18252,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/5f8bb01196e542e64d44db3d16ee0e4063ce4f3e3966df6005f2588e86d91c03e1fb131c2581baf0fb65ee79669eea6e161cd448178986587e9f6844446dbb48
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A^5.8.2#optional!builtin<compat/typescript>":
-  version: 5.8.2
-  resolution: "typescript@patch:typescript@npm%3A5.8.2#optional!builtin<compat/typescript>::version=5.8.2&hash=5786d5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/5448a08e595cc558ab321e49d4cac64fb43d1fa106584f6ff9a8d8e592111b373a995a1d5c7f3046211c8a37201eb6d0f1566f15cdb7a62a5e3be01d087848e2
   languageName: node
   linkType: hard
 
