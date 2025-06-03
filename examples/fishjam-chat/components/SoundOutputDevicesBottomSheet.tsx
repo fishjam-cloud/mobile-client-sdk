@@ -10,7 +10,7 @@ const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
 export default function SoundOutputDevicesBottomSheet({
   bottomSheetRef,
 }: {
-  bottomSheetRef: React.RefObject<BottomSheet>;
+  bottomSheetRef: React.RefObject<BottomSheet | null>;
 }) {
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
 

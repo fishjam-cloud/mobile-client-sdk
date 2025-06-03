@@ -10,17 +10,17 @@
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
-    "expo": "~52.0.30",
-    "expo-status-bar": "~2.0.1",
-    "react": "18.3.1",
-    "react-native": "~0.77.0",
+    "expo": "^53.0.0",
+    "expo-status-bar": "~2.2.3",
+    "react": "19.0.0",
+    "react-native": "0.79.2",
     "react-native-vision-camera": "^4.6.4",
     "react-native-worklets-core": "^1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
-    "@types/react": "^18.3.12",
-    "typescript": "^5.8.2"
+    "@types/react": "~19.0.10",
+    "typescript": "~5.8.3"
   },
   "private": true
 }
