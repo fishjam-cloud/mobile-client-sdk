@@ -1,8 +1,8 @@
-# Fishjam Vision Camera example
+# Fishjam Audio Only example
 
-This example demonstrates how to implement a CustomSource using [VisionCamera](https://github.com/mrousavy/react-native-vision-camera) to stream content directly from your device's camera to the Fishjam SDK.
+This example demonstrates how to implement an Audio Only room with Fishjam React Native SDK.
 
-For more information, consult our [documentation](https://docs.fishjam.io/react-native/custom-video-sources/vision-camera).
+For more information, consult our [documentation](https://docs.fishjam.io/category/react-native-integration).
 
 ## Running the Example app
 
@@ -23,7 +23,7 @@ yarn build
 3. Prebuild native files in example directory:
 
 ```cmd
-cd examples/vision-camera
+cd examples/audio-only
 npx expo prebuild
 ```
 
