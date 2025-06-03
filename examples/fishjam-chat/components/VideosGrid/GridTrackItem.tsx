@@ -40,6 +40,7 @@ export const GridTrackItem = ({
 
   return (
     <View
+      accessible={true}
       accessibilityLabel={roomScreenLabels.VIDEO_CELL + index}
       style={styles.container}>
       <VideoRendererView

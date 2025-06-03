@@ -8,7 +8,9 @@ export const initializeWarningListener = () => {
     nativeModule.addListener(ReceivableEvents.Warning, (event) => {
       console.warn(event[ReceivableEvents.Warning]);
     });
-  } catch (error) {
-    console.error(`Failed to start warning listener: ${error?.message ?? ''}`);
+  } catch (error: unknown) {
+    console.error(
+      `Failed to start warning listener: ${error instanceof Error ? error.message : ''}`,
+    );
   }
 };
