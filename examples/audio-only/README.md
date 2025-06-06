@@ -27,12 +27,11 @@ cd examples/audio-only
 npx expo prebuild
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for the `ios/.xcode.env.local` file
 
 4. Run the app:
 
-```
-yarn ios
-yarn android
-```
+`yarn ios`
+or
+`yarn android`
