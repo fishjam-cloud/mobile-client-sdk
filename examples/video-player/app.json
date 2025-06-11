@@ -15,7 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.fishjam.example.videoplayer",
-      "appleTeamId": "J5FM626PE2"
+      "appleTeamId": "J5FM626PE2",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This application requires camera access to gather information about available video devices.",
+        "NSMicrophoneUsageDescription": "This application requires microphone access to gather information about available audio devices."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +27,11 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "io.fishjam.example.videoplayer"
+      "package": "io.fishjam.example.videoplayer",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
