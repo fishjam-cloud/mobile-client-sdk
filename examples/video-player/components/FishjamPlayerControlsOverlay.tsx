@@ -1,13 +1,13 @@
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { useOverlayAnimation } from "../hooks/useOverlayAnimation";
 import { setStatusBarHidden } from "expo-status-bar";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 
-interface ControlsOverlayProps {
+interface FishjamControlsOverlayProps {
   isLandscape: boolean;
   isVisible: boolean;
   toggleOrientation: () => void;
@@ -23,8 +23,10 @@ const FishjamPlayerControlsOverlay = ({
   isLandscape,
   isVisible,
   toggleOrientation,
-}: ControlsOverlayProps) => {
-  const insets = useSafeAreaInsets();
+}: FishjamControlsOverlayProps) => {
+  const navigation = useNavigation();
+
+  const styles = useMemo(() => makeStyles(isLandscape), [isLandscape]);
   const { animatedStyles } = useOverlayAnimation(isVisible, isLandscape);
 
   const onClosePress = useCallback(() => {
@@ -36,28 +38,40 @@ const FishjamPlayerControlsOverlay = ({
   useEffect(() => {
     if (isLandscape) {
       setStatusBarHidden(true);
+      navigation.setOptions({
+        autoHideHomeIndicator: true,
+      });
     }
     return () => {
-      setStatusBarHidden(true);
+      setStatusBarHidden(false);
+      navigation.setOptions({
+        autoHideHomeIndicator: false,
+      });
     };
-  }, [isLandscape]);
+  }, [isLandscape, navigation]);
 
   return (
-    <Animated.View
-      style={[styles.container, animatedStyles, { paddingTop: insets.top }]}
-    >
-      <LinearGradient colors={gradientColors} style={styles.gradient}>
+    <Animated.View style={[styles.controlsWrapper, animatedStyles]}>
+      <LinearGradient colors={gradientColors} style={styles.controlsGradient}>
         <View style={styles.controlsContainer}>
-          <TouchableOpacity onPress={toggleOrientation}>
+          <TouchableOpacity
+            onPress={toggleOrientation}
+            style={styles.controlsButton}
+          >
             <Feather
               name={isLandscape ? "minimize-2" : "maximize-2"}
               size={24}
               color="white"
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onClosePress}>
-            <Feather name="x" size={24} color="white" style={{ opacity: 1 }} />
-          </TouchableOpacity>
+          {isLandscape && (
+            <TouchableOpacity
+              onPress={onClosePress}
+              style={styles.controlsButton}
+            >
+              <Feather name="x" size={24} color="white" />
+            </TouchableOpacity>
+          )}
         </View>
       </LinearGradient>
     </Animated.View>
@@ -66,21 +80,25 @@ const FishjamPlayerControlsOverlay = ({
 
 export default FishjamPlayerControlsOverlay;
 
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-  },
-  controlsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingTop: 16,
-  },
-  gradient: {
-    height: 120,
-    width: "100%",
-  },
-});
+const makeStyles = (isLandscape: boolean) =>
+  StyleSheet.create({
+    controlsWrapper: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+    },
+    controlsContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingHorizontal: 16,
+      paddingTop: isLandscape ? 16 : 0,
+    },
+    controlsGradient: {
+      height: 120,
+      width: "100%",
+    },
+    controlsButton: {
+      padding: 10,
+    },
+  });

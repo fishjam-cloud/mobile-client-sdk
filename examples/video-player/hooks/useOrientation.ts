@@ -1,13 +1,12 @@
 import { Platform, useWindowDimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { DeviceMotion, DeviceMotionOrientation } from "expo-sensors";
-import { useCallback, useEffect, useRef } from "react";
-import * as ScreenOrientation from "expo-screen-orientation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useOrientation = () => {
+  const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
-
-  const isLandscape = width > height;
-
+  const [isLandscape, setIsLandscape] = useState(width > height);
   const prevOrientation = useRef<DeviceMotionOrientation>(
     DeviceMotionOrientation.Portrait,
   );
@@ -25,9 +24,16 @@ export const useOrientation = () => {
       : DeviceMotionOrientation.RightLandscape;
   };
 
+  const toggleOrientation = useCallback(async () => {
+    navigation.setOptions({
+      orientation: isLandscape ? "portrait" : "landscape",
+    });
+    setIsLandscape((prev) => !prev);
+  }, [isLandscape, navigation]);
+
   useEffect(() => {
     const subscription = DeviceMotion.addListener(
-      async ({ rotation, orientation }) => {
+      ({ rotation, orientation }) => {
         if (!rotation) {
           return;
         }
@@ -46,42 +52,20 @@ export const useOrientation = () => {
 
         prevOrientation.current = newOrientation;
 
-        const isNewLandscape =
-          newOrientation === DeviceMotionOrientation.RightLandscape ||
-          newOrientation === DeviceMotionOrientation.LeftLandscape;
-
-        await ScreenOrientation.unlockAsync();
-        await ScreenOrientation.lockAsync(
-          isNewLandscape
-            ? ScreenOrientation.OrientationLock.LANDSCAPE
-            : ScreenOrientation.OrientationLock.PORTRAIT,
-        );
-
-        // navigation.setOptions({
-        //   orientation:
-        //     newOrientation === DeviceMotionOrientation.Portrait
-        //       ? "portrait"
-        //       : "landscape",
-        // });
+        navigation.setOptions({
+          orientation:
+            newOrientation === DeviceMotionOrientation.Portrait
+              ? "portrait"
+              : "landscape",
+        });
+        setIsLandscape(newOrientation !== DeviceMotionOrientation.Portrait);
       },
     );
 
     return () => {
       subscription.remove();
     };
-  }, [isLandscape]);
-
-  const toggleOrientation = useCallback(async () => {
-    await ScreenOrientation.unlockAsync();
-    await ScreenOrientation.lockAsync(
-      isLandscape
-        ? ScreenOrientation.OrientationLock.PORTRAIT
-        : ScreenOrientation.OrientationLock.LANDSCAPE,
-    );
-    // navigation.setOptions({
-    //   orientation: isLandscape ? "portrait" : "landscape",
-    // });
-  }, [isLandscape]);
+  }, [isLandscape, navigation]);
 
   return {
     isLandscape,

@@ -4,7 +4,7 @@ const OVERLAY_AUTO_HIDE_INTERVAL_MS = 2000;
 
 export const useOverlayState = (isLandscape: boolean) => {
   const [isOverlayVisible, setOverlayVisible] = useState(!isLandscape);
-  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | number | null>(null);
 
   const startHideTimer = useCallback(() => {
     if (!isLandscape) return;

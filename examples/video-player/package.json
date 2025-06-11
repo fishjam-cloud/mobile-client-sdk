@@ -1,24 +1,27 @@
 {
-  "name": "video-player",
+  "name": "@fishjam-example/video-player",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
+    "eas-build-pre-install": "corepack enable && yarn workspace fishjam-mobile-sdk install && yarn workspace fishjam-mobile-sdk build",
+    "prebuild": "expo prebuild",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "test": "jest",
+    "build": "tsc",
+    "lint": "sh ./scripts/lint.sh",
+    "lint:check": "sh ./scripts/lint_check.sh"
   },
   "dependencies": {
-    "expo": "~53.0.10",
-    "expo-constants": "~17.1.6",
+    "@react-navigation/native": "^7.1.10",
+    "@react-navigation/native-stack": "^7.3.14",
+    "expo": "~53.0.11",
+    "expo-keep-awake": "~14.1.4",
     "expo-linear-gradient": "~14.1.5",
-    "expo-linking": "~7.1.5",
-    "expo-router": "~5.0.7",
-    "expo-screen-orientation": "~8.1.7",
     "expo-sensors": "~14.1.4",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
-    "react-dom": "19.0.0",
     "react-native": "0.79.3",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
@@ -29,9 +32,14 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
-    "@types/react-dom": "^19",
-    "@types/react-native-web": "^0",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
+  }
 }

@@ -1,41 +1,10 @@
-import { StyleSheet, View } from "react-native";
-import { useLivestream } from "./hooks/useLivestream";
-import FishjamPlayerControlsOverlay from "./components/FishjamPlayerControlsOverlay";
-import { useOrientation } from "./hooks/useOrientation";
-import { useOverlayState } from "./hooks/useOverlayState";
-import { FishjamPlayer } from "./components/FishjamPlayer";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import AppNavigator from "./navigators/RootNavigator";
 
-const App = () => {
-  const { isReconnecting, hasErrors, restart } = useLivestream();
-  const { isLandscape, toggleOrientation } = useOrientation();
-  const { toggleOverlay, isOverlayVisible } = useOverlayState(isLandscape);
-
-  return (
-    <View style={styles.container}>
-      <FishjamPlayer
-        isLandscape={isLandscape}
-        toggleOverlay={toggleOverlay}
-        hasErrors={hasErrors}
-        restart={restart}
-        isReconnecting={isReconnecting}
-      />
-      <FishjamPlayerControlsOverlay
-        isLandscape={isLandscape}
-        isVisible={isOverlayVisible}
-        toggleOrientation={toggleOrientation}
-      />
-    </View>
-  );
-};
+const App = () => (
+  <SafeAreaProvider>
+    <AppNavigator />
+  </SafeAreaProvider>
+);
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "relative",
-  },
-  whepClientView: {
-    flex: 1,
-  },
-});

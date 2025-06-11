@@ -1,12 +1,11 @@
 {
   "expo": {
-    "name": "video-player",
+    "name": "VideoPlayer",
     "slug": "video-player",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic",
-    "scheme": "videoplayer",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -15,13 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dawidmatyjasikswm.video-player",
-      "infoPlist": {
-        "NSCameraUsageDescription": "This application requires camera access to gather information about available video devices.",
-        "NSMicrophoneUsageDescription": "This application requires microphone access to gather information about available audio devices."
-      },
-      "appleTeamId": "J5FM626PE2",
-      "requireFullScreen": true
+      "bundleIdentifier": "io.fishjam.example.videoplayer",
+      "appleTeamId": "J5FM626PE2"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,23 +23,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.dawidmatyjasikswm.videoplayer",
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ]
+      "package": "io.fishjam.example.videoplayer"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
-    "plugins": [
-      [
-        "expo-screen-orientation",
-        {
-          "initialOrientation": "DEFAULT"
-        }
-      ]
-    ]
+      "favicon": "./assets/favicon.png"
+    }
   }
 }
