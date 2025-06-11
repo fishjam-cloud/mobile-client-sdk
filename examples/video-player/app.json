@@ -5,7 +5,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
+    "scheme": "videoplayer",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -19,7 +20,8 @@
         "NSCameraUsageDescription": "This application requires camera access to gather information about available video devices.",
         "NSMicrophoneUsageDescription": "This application requires microphone access to gather information about available audio devices."
       },
-      "appleTeamId": "J5FM626PE2"
+      "appleTeamId": "J5FM626PE2",
+      "requireFullScreen": true
     },
     "android": {
       "adaptiveIcon": {
@@ -34,7 +36,16 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ]
+    ]
   }
 }
