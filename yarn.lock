@@ -2959,6 +2959,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fishjam-example/video-player@workspace:examples/video-player":
+  version: 0.0.0-use.local
+  resolution: "@fishjam-example/video-player@workspace:examples/video-player"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@types/react": "npm:~19.0.10"
+    expo: "npm:^53.0.0"
+    expo-navigation-bar: "npm:~4.2.5"
+    expo-screen-orientation: "npm:~8.1.7"
+    expo-status-bar: "npm:~2.2.3"
+    react: "npm:19.0.0"
+    react-native: "npm:0.79.2"
+    typescript: "npm:~5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@fishjam-example/vision-camera@workspace:examples/vision-camera":
   version: 0.0.0-use.local
   resolution: "@fishjam-example/vision-camera@workspace:examples/vision-camera"
@@ -4187,6 +4204,13 @@ __metadata:
   version: 0.79.2
   resolution: "@react-native/normalize-colors@npm:0.79.2"
   checksum: 10c0/fd2b29273f8d2280fa3e2e7a0848ef3027e7c78e38136af163ca489df7dc0dda002f6df1b6b522a026f15975e60b626a1f1eb68bbd611056886b76e5c2f77e9f
+  languageName: node
+  linkType: hard
+
+"@react-native/normalize-colors@npm:0.79.3":
+  version: 0.79.3
+  resolution: "@react-native/normalize-colors@npm:0.79.3"
+  checksum: 10c0/2a7e1c1a2fa902408535888573a1b65cc3360e7ca1bdb8ad770c9f6977283cceb2cfd2aa9c552517c529f289a6b6d601160023cc71a31d4566da08c1410d50d9
   languageName: node
   linkType: hard
 
@@ -9752,6 +9776,32 @@ __metadata:
   dependencies:
     invariant: "npm:^2.2.4"
   checksum: 10c0/34cebb2af1d4b3ec58831274e6f8873ff699b36a7d749a1d8bc6b05ee321cc2a5d898f1224c3931fd825739dd554634445867eb5c148a95ec2f4412dc359ccbe
+  languageName: node
+  linkType: hard
+
+"expo-navigation-bar@npm:~4.2.5":
+  version: 4.2.5
+  resolution: "expo-navigation-bar@npm:4.2.5"
+  dependencies:
+    "@react-native/normalize-colors": "npm:0.79.3"
+    debug: "npm:^4.3.2"
+    react-native-edge-to-edge: "npm:1.6.0"
+    react-native-is-edge-to-edge: "npm:^1.1.6"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/9d7a39a122970d9f2d8b0f705295fbded40fd8a3331f5bfb777dffc0e4866f5440a915c3a4a0366a5f2e9b90ffa18577a0b49de53b3fa54e00648091dc7e5e92
+  languageName: node
+  linkType: hard
+
+"expo-screen-orientation@npm:~8.1.7":
+  version: 8.1.7
+  resolution: "expo-screen-orientation@npm:8.1.7"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 10c0/b3f49a88e3c85b55504a30a7a337bb044aaf2f923afda41d3d2a8944751b6964208fe17c095a196a9a7172863a6afc9f68dcf23ff4a3f9e6b1c0b824f0925697
   languageName: node
   linkType: hard
 
