@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
-import { WhepClientView } from "react-native-whip-whep";
-import FishjamPlayerError from "./FishjamPlayerError";
+import React, { useMemo } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { WhepClientView } from 'react-native-whip-whep';
+import FishjamPlayerError from './FishjamPlayerError';
 
 interface FishjamPlayerProps {
   isLandscape: boolean;
@@ -23,8 +23,7 @@ const FishjamPlayer = ({
   return (
     <Pressable
       style={styles.playerContentContainer}
-      onPress={isLandscape ? toggleOverlay : undefined}
-    >
+      onPress={isLandscape ? toggleOverlay : undefined}>
       <View style={styles.playerWhepView}>
         {(!hasErrors || isReconnecting) && (
           <ActivityIndicator
@@ -46,7 +45,7 @@ export default FishjamPlayer;
 const createStyles = (isLandscape: boolean) =>
   StyleSheet.create({
     playerLogo: {
-      position: "absolute",
+      position: 'absolute',
       width: 100,
       height: 30,
       bottom: 20,
@@ -58,22 +57,22 @@ const createStyles = (isLandscape: boolean) =>
     },
     playerContentContainer: {
       flex: 1,
-      justifyContent: isLandscape ? "center" : "flex-start",
-      alignItems: "center",
+      justifyContent: isLandscape ? 'center' : 'flex-start',
+      alignItems: 'center',
     },
     playerWhepView: {
-      width: "100%",
-      height: isLandscape ? "100%" : undefined,
+      width: '100%',
+      height: isLandscape ? '100%' : undefined,
       aspectRatio: 16 / 9,
-      backgroundColor: "black",
+      backgroundColor: 'black',
     },
     playerLoader: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });

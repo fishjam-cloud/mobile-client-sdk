@@ -1,12 +1,12 @@
-import { StyleSheet, View } from "react-native";
-import { useLivestream } from "../hooks/useLivestream";
-import FishjamPlayerControlsOverlay from "../components/FishjamPlayerControlsOverlay";
-import { useOrientation } from "../hooks/useOrientation";
-import { useOverlayState } from "../hooks/useOverlayState";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useEffect, useMemo } from "react";
-import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
-import FishjamPlayer from "../components/FishjamPlayer";
+import { StyleSheet, View } from 'react-native';
+import { useLivestream } from '../hooks/useLivestream';
+import FishjamPlayerControlsOverlay from '../components/FishjamPlayerControlsOverlay';
+import { useOrientation } from '../hooks/useOrientation';
+import { useOverlayState } from '../hooks/useOverlayState';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useEffect, useMemo } from 'react';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
+import FishjamPlayer from '../components/FishjamPlayer';
 
 const VideoPlayerScreen = () => {
   const { isReconnecting, hasErrors, restart } = useLivestream();
@@ -30,13 +30,12 @@ const VideoPlayerScreen = () => {
   return (
     <View
       style={[
-        styles.wrapper,
+        styles.videoWrapper,
         {
           paddingTop: isLandscape ? 0 : insets.top,
         },
-      ]}
-    >
-      <View style={styles.container}>
+      ]}>
+      <View style={styles.videoContainer}>
         <FishjamPlayer
           isLandscape={isLandscape}
           toggleOverlay={toggleOverlay}
@@ -58,15 +57,15 @@ export default VideoPlayerScreen;
 
 const createStyles = (isLandscape: boolean) =>
   StyleSheet.create({
-    wrapper: {
-      backgroundColor: "black",
+    videoWrapper: {
+      backgroundColor: 'black',
       flex: isLandscape ? 1 : 0,
     },
-    container: {
+    videoContainer: {
       flex: 1,
-      position: "relative",
+      position: 'relative',
     },
-    whepClientView: {
+    videoWhepClientView: {
       flex: 1,
     },
   });

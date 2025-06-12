@@ -1,7 +1,7 @@
-import { Platform, useWindowDimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { DeviceMotion, DeviceMotionOrientation } from "expo-sensors";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Platform, useWindowDimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { DeviceMotion, DeviceMotionOrientation } from 'expo-sensors';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const useOrientation = () => {
   const navigation = useNavigation();
@@ -26,7 +26,7 @@ export const useOrientation = () => {
 
   const toggleOrientation = useCallback(async () => {
     navigation.setOptions({
-      orientation: isLandscape ? "portrait" : "landscape",
+      orientation: isLandscape ? 'portrait' : 'landscape',
     });
     setIsLandscape((prev) => !prev);
   }, [isLandscape, navigation]);
@@ -42,7 +42,7 @@ export const useOrientation = () => {
 
         // On Android only UI orientation is returned so we need to calculate it from the device rotation
         const newOrientation =
-          Platform.OS === "android"
+          Platform.OS === 'android'
             ? calculateOrientationAndroid(beta, gamma)
             : (orientation as DeviceMotionOrientation);
 
@@ -55,8 +55,8 @@ export const useOrientation = () => {
         navigation.setOptions({
           orientation:
             newOrientation === DeviceMotionOrientation.Portrait
-              ? "portrait"
-              : "landscape",
+              ? 'portrait'
+              : 'landscape',
         });
         setIsLandscape(newOrientation !== DeviceMotionOrientation.Portrait);
       },

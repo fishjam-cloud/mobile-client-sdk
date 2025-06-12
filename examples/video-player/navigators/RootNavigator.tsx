@@ -1,6 +1,6 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import VideoPlayerScreen from "../screens/VideoPlayerScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import VideoPlayerScreen from '../screens/VideoPlayerScreen';
 
 export type AppRootStackParamList = {
   VideoPlayer: undefined;
@@ -15,7 +15,7 @@ const AppNavigator = () => (
         name="VideoPlayer"
         component={VideoPlayerScreen}
         options={{
-          orientation: "portrait",
+          orientation: 'portrait',
           navigationBarHidden: true,
           gestureEnabled: false,
         }}

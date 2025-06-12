@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   useSharedValue,
   withTiming,
   Easing,
   useAnimatedStyle,
   cancelAnimation,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 export const useOverlayAnimation = (
   isOverlayVisible: boolean,

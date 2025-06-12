@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 const OVERLAY_AUTO_HIDE_INTERVAL_MS = 2000;
 
