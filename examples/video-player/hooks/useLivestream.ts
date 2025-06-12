@@ -1,16 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   createWhepClient,
   disconnectWhepClient,
   connectWhepClient,
   useEvent,
-} from "react-native-whip-whep";
-
-const BROADCASTER_URL = "https://server.fishjam.stream/broadcaster";
-const ROOM_MANAGER_URL = "https://server.fishjam.stream/api/rooms";
-const ROOM_ID = "appjs";
-
-export const VIEWER_TOKEN_URL = `${ROOM_MANAGER_URL}/${ROOM_ID}/broadcast-viewer-token`;
+} from 'react-native-whip-whep';
 
 export const useLivestream = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,9 +13,9 @@ export const useLivestream = () => {
   const isClientInitialized = useRef(false);
 
   const resolveBroadcasterURLAfterRedirect = async () => {
-    const response = await fetch(BROADCASTER_URL);
+    const response = await fetch(process.env.EXPO_BROADCASTER_URL);
     if (!response.ok) {
-      throw new Error("Failed to fetch broadcaster URL");
+      throw new Error('Failed to fetch broadcaster URL');
     }
     return response.url;
   };
@@ -31,15 +25,15 @@ export const useLivestream = () => {
       setIsLoading(true);
       setHasErrors(false);
 
-      const response = await fetch(VIEWER_TOKEN_URL);
+      const response = await fetch(process.env.EXPO_VIEWER_TOKEN_URL);
       if (!response.ok) {
-        throw new Error("Failed to fetch auth token");
+        throw new Error('Failed to fetch auth token');
       }
       const responseJson = await response.json();
       const authToken = responseJson.token;
 
       if (!authToken) {
-        throw new Error("Auth token response invalid");
+        throw new Error('Auth token response invalid');
       }
 
       const broadcasterURL = `${await resolveBroadcasterURLAfterRedirect()}/api/whep`;
@@ -58,12 +52,12 @@ export const useLivestream = () => {
     }
   }, []);
 
-  useEvent("reconnectionStatusChanged", (event) => {
-    if (event.status === "reconnectionStarted") {
+  useEvent('reconnectionStatusChanged', (event) => {
+    if (event.status === 'reconnectionStarted') {
       setIsReconnecting(true);
-    } else if (event.status === "reconnected") {
+    } else if (event.status === 'reconnected') {
       setIsReconnecting(false);
-    } else if (event.status === "reconnectionRetriesLimitReached") {
+    } else if (event.status === 'reconnectionRetriesLimitReached') {
       setIsReconnecting(false);
       setHasErrors(true);
     }

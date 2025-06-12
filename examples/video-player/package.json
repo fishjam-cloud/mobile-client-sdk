@@ -14,6 +14,7 @@
     "lint:check": "sh ./scripts/lint_check.sh"
   },
   "dependencies": {
+    "@fishjam-cloud/react-native-client": "*",
     "@react-navigation/native": "^7.1.10",
     "@react-navigation/native-stack": "^7.3.14",
     "expo": "~53.0.11",
@@ -25,9 +26,7 @@
     "react-native": "0.79.3",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.11.1",
-    "react-native-web": "^0.20.0",
-    "react-native-whip-whep": "^0.2.1"
+    "react-native-screens": "~4.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

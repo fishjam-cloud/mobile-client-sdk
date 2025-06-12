@@ -48,8 +48,6 @@
     <string>This application requires camera access to gather information about available video devices.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>This application requires microphone access to gather information about available audio devices.</string>
-    <key>NSMotionUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your device motion</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
