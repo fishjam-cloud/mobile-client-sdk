@@ -38,8 +38,6 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (14.1.4):
     - ExpoModulesCore
-  - ExpoLinearGradient (14.1.5):
-    - ExpoModulesCore
   - ExpoModulesCore (2.4.0):
     - DoubleConversion
     - glog
@@ -90,8 +88,6 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoSensors (14.1.4):
-    - ExpoModulesCore
   - fast_float (6.1.4)
   - FBLazyVector (0.79.2)
   - FishjamCloudClient (0.18.0):
@@ -1845,181 +1841,6 @@ PODS:
   - RNFishjamClient (0.18.0):
     - ExpoModulesCore
     - FishjamCloudClient (= 0.18.0)
-  - RNReanimated (3.17.5):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.17.5)
-    - RNReanimated/worklets (= 3.17.5)
-    - Yoga
-  - RNReanimated/reanimated (3.17.5):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 3.17.5)
-    - Yoga
-  - RNReanimated/reanimated/apple (3.17.5):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
-  - RNReanimated/worklets (3.17.5):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - RNReanimated/worklets/apple (= 3.17.5)
-    - Yoga
-  - RNReanimated/worklets/apple (3.17.5):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
-  - RNScreens (4.10.0):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-RCTImage
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - RNScreens/common (= 4.10.0)
-    - Yoga
-  - RNScreens/common (4.10.0):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-RCTImage
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
   - SocketRocket (0.7.1)
   - Starscream (4.0.8)
   - SwiftLogJellyfish (1.5.2)
@@ -2036,10 +1857,8 @@ DEPENDENCIES:
   - ExpoFileSystem (from `../../../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../../../node_modules/expo-font/ios`)
   - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
-  - ExpoLinearGradient (from `../../../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../../../node_modules/expo-modules-core`)
   - ExpoScreenOrientation (from `../../../node_modules/expo-screen-orientation/ios`)
-  - ExpoSensors (from `../../../node_modules/expo-sensors/ios`)
   - fast_float (from `../../../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
   - FBLazyVector (from `../../../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../../../node_modules/react-native/third-party-podspecs/fmt.podspec`)
@@ -2112,8 +1931,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - ReactNativeMobileWhepClient (from `../../../node_modules/react-native-whip-whep/ios`)
   - RNFishjamClient (from `../../../packages/react-native-client/ios`)
-  - RNReanimated (from `../../../node_modules/react-native-reanimated`)
-  - RNScreens (from `../../../node_modules/react-native-screens`)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -2145,14 +1962,10 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/expo-font/ios"
   ExpoKeepAwake:
     :path: "../../../node_modules/expo-keep-awake/ios"
-  ExpoLinearGradient:
-    :path: "../../../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../../../node_modules/expo-modules-core"
   ExpoScreenOrientation:
     :path: "../../../node_modules/expo-screen-orientation/ios"
-  ExpoSensors:
-    :path: "../../../node_modules/expo-sensors/ios"
   fast_float:
     :podspec: "../../../node_modules/react-native/third-party-podspecs/fast_float.podspec"
   FBLazyVector:
@@ -2294,10 +2107,6 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native-whip-whep/ios"
   RNFishjamClient:
     :path: "../../../packages/react-native-client/ios"
-  RNReanimated:
-    :path: "../../../node_modules/react-native-reanimated"
-  RNScreens:
-    :path: "../../../node_modules/react-native-screens"
   Yoga:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
@@ -2310,10 +2119,8 @@ SPEC CHECKSUMS:
   ExpoFileSystem: c36eb8155eb2381c83dda7dc210e3eec332368b6
   ExpoFont: abbb91a911eb961652c2b0a22eef801860425ed6
   ExpoKeepAwake: bf0811570c8da182bfb879169437d4de298376e7
-  ExpoLinearGradient: 7734c8059972fcf691fb4330bcdf3390960a152d
   ExpoModulesCore: d431ffe83c8673d02cb38425594a5f5480fd3061
   ExpoScreenOrientation: c883a8f448232c4f185cea4f08ce54ebdf9d010d
-  ExpoSensors: 38ae3a55b484410a7976fa3ff78ea80339252e75
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 84b955f7b4da8b895faf5946f73748267347c975
   FishjamCloudClient: 3c342824d6792ead96e218fb80be1ec5f3123e6c
@@ -2388,8 +2195,6 @@ SPEC CHECKSUMS:
   ReactCommon: 76d2dc87136d0a667678668b86f0fca0c16fdeb0
   ReactNativeMobileWhepClient: efc6bcbcac82ce9a3d65d052636caf75deb321c2
   RNFishjamClient: 9ac014f1a21dd011eaf141de71214aeb18356ac2
-  RNReanimated: afd6a269a47d6f13ba295c46c6c0e14e3cbd0d8a
-  RNScreens: 5621e3ad5a329fbd16de683344ac5af4192b40d3
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9
   SwiftLogJellyfish: 6207ec91ef3913d303ac797b73298248ee360eb0

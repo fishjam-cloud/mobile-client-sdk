@@ -45,7 +45,7 @@ const createStyles = (isLandscape: boolean) =>
     },
     playerContentContainer: {
       flex: 1,
-      justifyContent: isLandscape ? 'center' : 'flex-start',
+      justifyContent: 'center',
       alignItems: 'center',
     },
     playerWhepView: {

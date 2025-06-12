@@ -15,19 +15,12 @@
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
-    "@react-navigation/native": "^6.1.18",
-    "@react-navigation/native-stack": "^6.11.0",
     "expo": "^53.0.0",
-    "expo-keep-awake": "~14.1.4",
-    "expo-linear-gradient": "~14.1.5",
+    "expo-navigation-bar": "~4.2.5",
     "expo-screen-orientation": "~8.1.7",
-    "expo-sensors": "~14.1.4",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
-    "react-native": "0.79.2",
-    "react-native-reanimated": "~3.17.4",
-    "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.10.0"
+    "react-native": "0.79.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
