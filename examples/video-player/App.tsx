@@ -1,9 +1,9 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AppNavigator from './navigators/RootNavigator';
+import VideoPlayerScreen from './screens/VideoPlayerScreen';
 
 const App = () => (
   <SafeAreaProvider>
-    <AppNavigator />
+    <VideoPlayerScreen />
   </SafeAreaProvider>
 );
 
