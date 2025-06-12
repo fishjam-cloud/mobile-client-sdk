@@ -12,34 +12,13 @@ export const useLivestream = () => {
   const [hasErrors, setHasErrors] = useState(false);
   const isClientInitialized = useRef(false);
 
-  const resolveBroadcasterURLAfterRedirect = async () => {
-    const response = await fetch(process.env.EXPO_BROADCASTER_URL);
-    if (!response.ok) {
-      throw new Error('Failed to fetch broadcaster URL');
-    }
-    return response.url;
-  };
-
   const connectLivestream = useCallback(async () => {
     try {
       setIsLoading(true);
       setHasErrors(false);
 
-      const response = await fetch(process.env.EXPO_VIEWER_TOKEN_URL);
-      if (!response.ok) {
-        throw new Error('Failed to fetch auth token');
-      }
-      const responseJson = await response.json();
-      const authToken = responseJson.token;
-
-      if (!authToken) {
-        throw new Error('Auth token response invalid');
-      }
-
-      const broadcasterURL = `${await resolveBroadcasterURLAfterRedirect()}/api/whep`;
-
-      createWhepClient(broadcasterURL, {
-        authToken,
+      createWhepClient(process.env.EXPO_PUBLIC_BROADCASTER_URL, {
+        authToken: 'example', // Replace with your actual auth token
       });
 
       await connectWhepClient();
