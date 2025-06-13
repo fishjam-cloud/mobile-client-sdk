@@ -66,17 +66,7 @@
 9.  Run Fishjam. For local execution, this command can be handy:
 
     ```bash
-    docker run --platform linux/amd64 \
-    -p 50000-50050:50000-50050/udp \
-    -p 5002:5002/tcp \
-    -e FJ_CHECK_ORIGIN=false \
-    -e FJ_HOST=localhost:5002 \
-    -e FJ_PORT="5002" \
-    -e FJ_WEBRTC_USED=true \
-    -e FJ_WEBRTC_TURN_PORT_RANGE=50000-50050 \
-    -e FJ_WEBRTC_TURN_LISTEN_IP=0.0.0.0 \
-    -e FJ_SERVER_API_TOKEN=development \
-    ghcr.io/fishjam-cloud/fishjam:0.10.0-dev
+    docker run --platform linux/amd64 -p 50000-50050:50000-50050/udp -p 5002:5002/tcp -e FJ_CHECK_ORIGIN=false -e FJ_HOST=localhost:5002 -e FJ_PORT="5002" -e FJ_WEBRTC_USED=true -e FJ_WEBRTC_TURN_PORT_RANGE=50000-50050 -e FJ_WEBRTC_TURN_LISTEN_IP=0.0.0.0 -e FJ_SERVER_API_TOKEN=development ghcr.io/fishjam-cloud/fishjam:0.10.0-dev
     ```
 
 10. Run the tests from the `webdriveio-test` folder:
