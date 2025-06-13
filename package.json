@@ -14,7 +14,8 @@
       "examples/webdriverio-test",
       "examples/audio-only",
       "examples/vision-camera",
-      "examples/shared/plugins"
+      "examples/shared/plugins",
+      "examples/video-player"
     ]
   },
   "devDependencies": {
