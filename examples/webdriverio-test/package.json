@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "sh ./scripts/lint.sh",
-    "lint:check": "sh ./scripts/lint_check.sh",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "wdio": "wdio run ./wdio.conf.ts"
   },
   "keywords": [],
@@ -19,6 +21,8 @@
     "@wdio/mocha-framework": "^8.41.0",
     "@wdio/spec-reporter": "^8.43.0",
     "appium-xcuitest-driver": "^9.0.1",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.3",
     "ts-node": "^10.9.1",
     "typescript": "~5.8.3",
     "webdriverio": "^9.12.1"
