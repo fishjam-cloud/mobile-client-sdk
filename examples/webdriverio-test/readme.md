@@ -16,7 +16,12 @@
     - `ANDROID_APP_PATH` - The absolute path to the `.apk` file on your computer. To generate it:
 
       - In the `example` folder, run: `cd android && ./gradlew assembleRelease`
-      - Your path should look like this: `/path/to/repo/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk`
+      - Your path should look similar to this: `/path/to/repo/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk`
+      - Alternatively, to generate a **debug** app using Expo:
+        - Run `npx expo run:android`.
+        - Choose the path to your installed app.
+        - Ensure your Metro bundler is running by executing `npx expo start`.
+        - Note: If the app is not connecting, you might need to run `adb reverse tcp:8081 tcp:8081` to allow communication between your device and the Metro bundler.
 
     - `IOS_DEVICE_ID` - The ID of your iOS device. It can be obtained using:
       ```bash
@@ -24,11 +29,18 @@
       ```
     - `IOS_TEAM_ID` - Your team ID, which can be found on your Apple Developer page.
     - `IOS_APP_PATH` - The absolute path to the `.ipa` file on your computer. To generate it:
+
+      - For a **release** app:
       - Open the example app in Xcode, then navigate to `Product > Archive`.
       - Choose the archive and click `Distribute App > Custom > Development`.
       - Proceed through the next steps, select "Automatically manage signing," and then export the app.
       - We recommend exporting the file into the `ios` folder.
-      - Your path should look like this: `/path/to/your/app/FishjamExample.ipa`
+      - Your path should look similar to this: `/path/to/your/app/FishjamExample.ipa`
+      - Alternatively, to generate a **debug** app using Expo:
+        - Run `npx expo run:ios`.
+        - Choose the path to your installed app.
+        - Ensure your Metro bundler is running by executing `npx expo start`.
+
     - `IOS_TEST_SCREEN_BROADCAST` - A flag to indicate if the iOS screen broadcast test should be run. The XCUITest driver is sometimes unable to tap the 'Start Broadcast' button. This behavior may depend on the OS version, software, hardware, or package versions.
 
     #### Additional environment variables for GitHub Actions
