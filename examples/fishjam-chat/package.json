@@ -10,8 +10,10 @@
     "ios": "expo run:ios",
     "test": "jest",
     "build": "tsc",
-    "lint": "sh ./scripts/lint.sh",
-    "lint:check": "sh ./scripts/lint_check.sh"
+    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix --max-warnings 0",
+    "prettier": "prettier --check . --ignore-path ./.eslintignore",
+    "prettier:fix": "prettier --write . --ignore-path ./.eslintignore"
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@types/react": "~19.0.10",
+    "eslint": "^8.57.1",
     "typescript": "~5.8.3"
   },
   "private": true,
