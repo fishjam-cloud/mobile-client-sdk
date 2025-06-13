@@ -36,9 +36,10 @@ For a temporary live example, you can use:
 
 ```bash
 EXPO_PUBLIC_BROADCASTER_URL=https://broadcaster.elixir-webrtc.org/api/whep
+EXPO_PUBLIC_AUTH_TOKEN=example
 ```
 
-To obtain your own `BROADCASTER_URL`, you'll need to set up your own Fishjam Broadcaster instance. Refer to the Fishjam documentation for instructions on how to do this.
+To obtain your own `BROADCASTER_URL` and `AUTH_TOKEN`, you'll need to set up your own Fishjam Broadcaster instance. Refer to the [Fishjam documentation](https://docs.fishjam.io/livestreaming#viewers) for instructions on how to do this.
 
 5.  Build app:
 

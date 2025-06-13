@@ -6,11 +6,6 @@ import {
   useEvent,
 } from 'react-native-whip-whep';
 
-// This is a demo token and will only work with the example URL.
-// In a production environment, you should obtain the token dynamically.
-// For more information, see: https://docs.fishjam.io/livestreaming#viewers
-const authToken = 'example';
-
 export const useLivestream = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReconnecting, setIsReconnecting] = useState(false);
@@ -22,7 +17,7 @@ export const useLivestream = () => {
       setHasErrors(false);
 
       createWhepClient(process.env.EXPO_PUBLIC_BROADCASTER_URL, {
-        authToken,
+        authToken: process.env.EXPO_PUBLIC_AUTH_TOKEN,
       });
 
       await connectWhepClient();
