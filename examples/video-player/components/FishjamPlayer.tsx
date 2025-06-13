@@ -51,7 +51,7 @@ const createStyles = (isLandscape: boolean) =>
     playerWhepView: {
       width: '100%',
       height: isLandscape ? '100%' : undefined,
-      aspectRatio: 16 / 9,
+      aspectRatio: isLandscape ? undefined : 16 / 9,
       backgroundColor: 'black',
     },
     playerLoader: {

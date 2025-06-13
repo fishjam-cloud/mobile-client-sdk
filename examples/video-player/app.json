@@ -6,7 +6,6 @@
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -16,10 +15,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "io.fishjam.example.videoplayer",
       "appleTeamId": "J5FM626PE2",
-      "infoPlist": {
-        "NSCameraUsageDescription": "This application requires camera access to gather information about available video devices.",
-        "NSMicrophoneUsageDescription": "This application requires microphone access to gather information about available audio devices."
-      }
+      "requireFullScreen": true
     },
     "android": {
       "adaptiveIcon": {
@@ -27,11 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "io.fishjam.example.videoplayer",
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ]
+      "package": "io.fishjam.example.videoplayer"
     },
     "web": {
       "favicon": "./assets/favicon.png"

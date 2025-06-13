@@ -6,7 +6,7 @@ import { useLivestream } from './hooks/useLivestream';
 import { useDeviceOrientation } from './hooks/useDeviceOrientation';
 import FishjamPlayer from './components/FishjamPlayer';
 
-const VideoPlayerScreen = () => {
+const App = () => {
   const { isLandscape } = useDeviceOrientation();
   const { isReconnecting, hasErrors, restart } = useLivestream();
 
@@ -36,7 +36,7 @@ const VideoPlayerScreen = () => {
   );
 };
 
-export default VideoPlayerScreen;
+export default App;
 
 const styles = StyleSheet.create({
   videoContainer: {
