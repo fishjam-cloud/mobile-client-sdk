@@ -21,13 +21,13 @@
     "@wdio/mocha-framework": "^8.41.0",
     "@wdio/spec-reporter": "^8.43.0",
     "appium-xcuitest-driver": "^9.0.1",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.3",
     "ts-node": "^10.9.1",
     "typescript": "~5.8.3",
     "webdriverio": "^9.12.1"
   },
   "dependencies": {
-    "dotenv": "^16.5.0",
-    "eslint": "^8.57.1",
-    "prettier": "^3.5.3"
+    "dotenv": "^16.5.0"
   }
 }
