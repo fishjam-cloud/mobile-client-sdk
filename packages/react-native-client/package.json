@@ -10,7 +10,7 @@
     "build": "EXPO_NONINTERACTIVE=1 sh -c 'expo-module build && expo-module build plugin'",
     "clean": "expo-module clean",
     "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint:fix": "yarn lint --fix",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "expo-module test",
