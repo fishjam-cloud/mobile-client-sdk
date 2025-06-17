@@ -1,6 +1,8 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, Ref } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
-import { WhepClientView } from 'react-native-whip-whep';
+import { WhepClientView, WhepClientViewRef } from 'react-native-whip-whep';
+
+export type LivestreamViewRef = WhepClientViewRef;
 
 /**
  * Props of the LivestreamView component
@@ -38,6 +40,8 @@ export type LivestreamViewProps = {
     width: number;
     height: number;
   };
+
+  ref?: Ref<LivestreamViewRef>;
 };
 
 /**
@@ -54,8 +58,10 @@ export const LivestreamView = ({
   autoStartPip,
   autoStopPip,
   pipSize,
+  ref,
 }: LivestreamViewProps) => (
   <WhepClientView
+    ref={ref}
     style={style as CSSProperties}
     orientation={orientation}
     pipEnabled={pipEnabled}
