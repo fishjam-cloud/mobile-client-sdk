@@ -1,11 +1,14 @@
 import { CSSProperties } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
-import { WhepClientView } from 'react-native-whip-whep';
+import {
+  ReactNativeMobileWhepClientViewProps,
+  WhepClientView,
+} from 'react-native-whip-whep';
 
 /**
  * Props of the LivestreamView component
  */
-export type LivestreamViewProps = {
+export type LivestreamViewProps = ReactNativeMobileWhepClientViewProps & {
   /**
    * Styles of the LivestreamView component
    */
