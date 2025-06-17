@@ -30,7 +30,7 @@ jobs:
         run: yarn typecheck
 
       - name: Run linter (and check formatting) 👮
-        run: yarn lint:check
+        run: yarn lint
 
       - name: Run docs generation 📘
         run: yarn docs
