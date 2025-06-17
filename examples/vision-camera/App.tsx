@@ -1,23 +1,23 @@
-import { useConnection } from "@fishjam-cloud/react-native-client";
-import { Text, View } from "react-native";
-import { Camera, useCameraDevice } from "react-native-vision-camera";
-import { JoinRoomButton } from "./components/JoinRoomButton";
-import { useCameraPermission } from "./hooks/useCameraPermission";
-import { useWebrtcFrameProcessor } from "./hooks/useVideoFrameProcessor";
-import { useEffect } from "react";
+import { useConnection } from '@fishjam-cloud/react-native-client';
+import { Text, View } from 'react-native';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import { JoinRoomButton } from './components/JoinRoomButton';
+import { useCameraPermission } from './hooks/useCameraPermission';
+import { useWebrtcFrameProcessor } from './hooks/useVideoFrameProcessor';
+import { useEffect } from 'react';
 
 export default function App() {
-  const device = useCameraDevice("front");
+  const device = useCameraDevice('front');
   const cameraPermissionStatus = useCameraPermission();
 
   const { peerStatus, leaveRoom } = useConnection();
-  const isPeerConnected = peerStatus === "connected";
+  const isPeerConnected = peerStatus === 'connected';
 
   const frameProcessor = useWebrtcFrameProcessor(isPeerConnected);
 
   useEffect(() => leaveRoom, [leaveRoom]);
 
-  if (cameraPermissionStatus !== "granted") {
+  if (cameraPermissionStatus !== 'granted') {
     return <Text>Camera permission status is: {cameraPermissionStatus}</Text>;
   }
 

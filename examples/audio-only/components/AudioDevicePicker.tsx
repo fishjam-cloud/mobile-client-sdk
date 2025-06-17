@@ -1,9 +1,9 @@
-import { Button, Platform, StyleSheet, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import { Button, Platform, StyleSheet, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import {
   useAudioSettings,
   AudioOutputDeviceType,
-} from "@fishjam-cloud/react-native-client";
+} from '@fishjam-cloud/react-native-client';
 
 export function AudioDevicePicker() {
   const {
@@ -13,7 +13,7 @@ export function AudioDevicePicker() {
     showAudioRoutePicker,
   } = useAudioSettings();
 
-  if (Platform.OS === "ios") {
+  if (Platform.OS === 'ios') {
     return (
       <View style={styles.container}>
         <Button title="Select Audio Output" onPress={showAudioRoutePicker} />
@@ -30,8 +30,7 @@ export function AudioDevicePicker() {
             selectOutputAudioDevice(itemValue as AudioOutputDeviceType);
           }
         }}
-        style={styles.picker}
-      >
+        style={styles.picker}>
         {availableDevices.map((device) => (
           <Picker.Item
             key={device.type}
@@ -47,10 +46,10 @@ export function AudioDevicePicker() {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    width: "100%",
+    width: '100%',
   },
   picker: {
-    width: "100%",
+    width: '100%',
     height: 80,
   },
 });
