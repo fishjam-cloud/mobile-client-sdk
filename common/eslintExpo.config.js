@@ -13,6 +13,7 @@ module.exports = defineConfig([
       'build/*',
       'ios/*',
       'android/*',
+      'plugin/build/*',
     ],
   },
 ]);
