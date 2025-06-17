@@ -116,7 +116,7 @@ const tests: Test[] = [
         try {
           // sometimes permissions for local network are already granted or connection is not for local network
           await driver.acceptAlert();
-        } catch (e) {
+        } catch {
           console.log('Alert could not be accepted');
         }
       }

@@ -11,8 +11,6 @@
     "clean": "expo-module clean",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
     "test": "expo-module test",
     "prepare": "expo-module prepare",
     "prepublishOnly": "expo-module prepublishOnly",
