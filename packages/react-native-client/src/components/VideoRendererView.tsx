@@ -49,3 +49,5 @@ export const VideoRendererView = React.forwardRef<
   // @ts-expect-error ref prop needs to be updated
   <NativeView {...props} ref={ref} />
 ));
+
+VideoRendererView.displayName = 'VideoRendererView';

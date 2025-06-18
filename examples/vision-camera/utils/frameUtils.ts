@@ -1,9 +1,9 @@
-import { Frame, VisionCameraProxy } from "react-native-vision-camera";
+import { Frame, VisionCameraProxy } from 'react-native-vision-camera';
 
-const plugin = VisionCameraProxy.initFrameProcessorPlugin("sendFrame", {});
+const plugin = VisionCameraProxy.initFrameProcessorPlugin('sendFrame', {});
 
 export function sendFrame(frame: Frame) {
-  "worklet";
+  'worklet';
   if (!plugin) {
     throw new Error('Failed to load Frame Processor Plugin "sendFrame"!');
   } else {

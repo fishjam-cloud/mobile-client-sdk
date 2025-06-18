@@ -2,9 +2,9 @@ import {
   PeerStatus,
   useConnection,
   useMicrophone,
-} from "@fishjam-cloud/react-native-client";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useEffect } from "react";
+} from '@fishjam-cloud/react-native-client';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect } from 'react';
 export const RoomInfo = () => {
   const { leaveRoom, peerStatus } = useConnection();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
@@ -24,19 +24,17 @@ export const RoomInfo = () => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.microphoneButton}
-        onPress={toggleMicrophone}
-      >
+        onPress={toggleMicrophone}>
         <Text style={styles.microphoneButtonText}>
-          {isMicrophoneOn ? "Disable Microphone" : "Enable Microphone"}
+          {isMicrophoneOn ? 'Disable Microphone' : 'Enable Microphone'}
         </Text>
       </TouchableOpacity>
       <Text style={styles.text}>{peerStatusToLabel[peerStatus]}</Text>
       <View style={styles.microphoneContainer}></View>
-      {peerStatus === "connected" && (
+      {peerStatus === 'connected' && (
         <TouchableOpacity
           style={styles.disconnectButton}
-          onPress={onDisconnect}
-        >
+          onPress={onDisconnect}>
           <Text style={styles.disconnectButtonText}>Disconnect</Text>
         </TouchableOpacity>
       )}
@@ -45,47 +43,47 @@ export const RoomInfo = () => {
 };
 
 const peerStatusToLabel: Record<PeerStatus, string> = {
-  connecting: "Connecting",
-  connected: "Connected",
-  error: "Failed to join the room",
-  idle: "Idle",
+  connecting: 'Connecting',
+  connected: 'Connected',
+  error: 'Failed to join the room',
+  idle: 'Idle',
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    alignItems: "center",
+    alignItems: 'center',
     gap: 12,
   },
   text: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
   disconnectButton: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: '#FF3B30',
     padding: 12,
     borderRadius: 8,
     minWidth: 120,
-    alignItems: "center",
+    alignItems: 'center',
   },
   disconnectButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   microphoneContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 12,
   },
   microphoneButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: '#007AFF',
     padding: 12,
     borderRadius: 8,
     minWidth: 120,
   },
   microphoneButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });

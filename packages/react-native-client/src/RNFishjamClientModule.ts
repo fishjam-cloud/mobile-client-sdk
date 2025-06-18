@@ -22,7 +22,7 @@ type RNFishjamClient = {
   isCameraOn: boolean;
   isScreenShareOn: boolean;
   isAppScreenShareOn: boolean; // only available on ios
-  cameras: ReadonlyArray<Camera>;
+  cameras: readonly Camera[];
   currentCamera: Camera | null;
   peerStatus: PeerStatus;
   reconnectionStatus: ReconnectionStatus;
