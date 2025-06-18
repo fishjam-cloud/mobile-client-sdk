@@ -1,5 +1,5 @@
-import { useConnection } from "@fishjam-cloud/react-native-client";
-import { useState } from "react";
+import { useConnection } from '@fishjam-cloud/react-native-client';
+import { useState } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -8,11 +8,11 @@ import {
   View,
   KeyboardAvoidingView,
   SafeAreaView,
-} from "react-native";
-import { AudioDevicePicker } from "./AudioDevicePicker";
-import DismissKeyboard from "./DismissKeyboard";
+} from 'react-native';
+import { AudioDevicePicker } from './AudioDevicePicker';
+import DismissKeyboard from './DismissKeyboard';
 
-const ROOM_MANAGER_URL = "";
+const ROOM_MANAGER_URL = '';
 
 type RoomManagerResponse = {
   peerToken: string;
@@ -25,8 +25,8 @@ export type RoomManagerParams = {
 };
 
 export const JoinRoomForm = () => {
-  const [roomName, setRoomName] = useState("");
-  const [peerName, setPeerName] = useState("");
+  const [roomName, setRoomName] = useState('');
+  const [peerName, setPeerName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { joinRoom } = useConnection();
@@ -40,8 +40,8 @@ export const JoinRoomForm = () => {
       setIsLoading(true);
 
       const url = new URL(ROOM_MANAGER_URL);
-      url.searchParams.set("roomName", roomName);
-      url.searchParams.set("peerName", peerName);
+      url.searchParams.set('roomName', roomName);
+      url.searchParams.set('peerName', peerName);
 
       const response = await fetch(url.toString());
 
@@ -96,10 +96,9 @@ export const JoinRoomForm = () => {
         <TouchableOpacity
           style={styles.button}
           disabled={isLoading}
-          onPress={handleSubmit}
-        >
+          onPress={handleSubmit}>
           <Text style={styles.buttonText}>
-            {isLoading ? "Joining..." : "Join room"}
+            {isLoading ? 'Joining...' : 'Join room'}
           </Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -109,24 +108,24 @@ export const JoinRoomForm = () => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 20,
   },
   safeArea: {
     flex: 1,
-    width: "100%",
-    justifyContent: "center",
+    width: '100%',
+    justifyContent: 'center',
   },
   inputContainer: {
     gap: 4,
   },
   label: {
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
@@ -134,19 +133,19 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#007AFF",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#007AFF',
     height: 48,
   },
   buttonText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 24,
   },
 });

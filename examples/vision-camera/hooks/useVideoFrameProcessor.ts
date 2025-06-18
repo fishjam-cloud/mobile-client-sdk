@@ -1,7 +1,7 @@
-import { useFrameProcessor } from "react-native-vision-camera";
-import { sendFrame } from "../utils/frameUtils";
-import { useEffect } from "react";
-import WebrtcSourceModule from "../modules/webrtc-source/src/WebrtcSourceModule";
+import { useFrameProcessor } from 'react-native-vision-camera';
+import { sendFrame } from '../utils/frameUtils';
+import { useEffect } from 'react';
+import WebrtcSourceModule from '../modules/webrtc-source/src/WebrtcSourceModule';
 
 export function useWebrtcFrameProcessor(enabled: boolean) {
   useEffect(() => {
@@ -15,7 +15,7 @@ export function useWebrtcFrameProcessor(enabled: boolean) {
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
-      "worklet";
+      'worklet';
       if (enabled) {
         sendFrame(frame);
       }

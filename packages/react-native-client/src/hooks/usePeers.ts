@@ -90,7 +90,7 @@ function addIsActiveToTracks<
   PeerMetadata extends GenericMetadata = GenericMetadata,
   ServerMetadata extends GenericMetadata = GenericMetadata,
 >(
-  peers: ReadonlyArray<Peer<PeerMetadata, ServerMetadata>>,
+  peers: readonly Peer<PeerMetadata, ServerMetadata>[],
 ): Peer<PeerMetadata, ServerMetadata>[] {
   return peers.map((peer) => ({
     ...peer,

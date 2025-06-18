@@ -19,10 +19,6 @@
     ]
   },
   "devDependencies": {
-    "@react-native/eslint-config": "^0.78.1",
-    "@react-native/eslint-plugin": "^0.78.1",
-    "eslint": "^8.57.1",
-    "prettier": "^3.5.3",
     "typedoc": "^0.28.1",
     "typedoc-material-theme": "^1.4.0",
     "typescript": "~5.8.3"
@@ -33,7 +29,7 @@
     "prepare": "yarn workspace @fishjam-cloud/react-native-client run prepare",
     "typecheck": "yarn workspaces foreach -A -p run tsc",
     "tsc": "",
-    "lint": "yarn workspaces foreach -A -p run lint && yarn prettier --write .github/*",
+    "lint": "yarn workspaces foreach -A -p run lint",
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",
     "gen:proto": "make -f ./scripts/compile_protos.mk"

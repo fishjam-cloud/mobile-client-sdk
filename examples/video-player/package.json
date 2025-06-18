@@ -9,13 +9,13 @@
     "ios": "expo run:ios",
     "test": "jest",
     "build": "tsc",
-    "lint": "sh ./scripts/lint.sh",
-    "lint:check": "sh ./scripts/lint_check.sh"
+    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
     "expo": "53.0.11",
-    "expo-navigation-bar": "~4.2.5",
+    "expo-navigation-bar": "^4.2.5",
     "expo-screen-orientation": "~8.1.7",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
@@ -24,6 +24,11 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@types/react": "~19.0.10",
+    "eslint": "^9.29.0",
+    "eslint-config-expo": "~9.2.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "prettier": "^3.5.3",
     "typescript": "~5.8.3"
   },
   "private": true,

@@ -2,4 +2,4 @@
 // and on native platforms to WebrtcSourceModule.ts
 export { default } from './src/WebrtcSourceModule';
 export { default as WebrtcSourceView } from './src/WebrtcSourceView';
-export * from  './src/WebrtcSource.types';
+export * from './src/WebrtcSource.types';

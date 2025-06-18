@@ -1,8 +1,8 @@
-import { useConnection } from "@fishjam-cloud/react-native-client";
-import { useCallback } from "react";
-import { Button, Text, View } from "react-native";
-import { DEFAULT_PEER_NAME, DEFAULT_ROOM_NAME } from "../config/appConfig";
-import { getRoomDetails } from "../utils/roomUtils";
+import { useConnection } from '@fishjam-cloud/react-native-client';
+import { useCallback } from 'react';
+import { Button, Text, View } from 'react-native';
+import { DEFAULT_PEER_NAME, DEFAULT_ROOM_NAME } from '../config/appConfig';
+import { getRoomDetails } from '../utils/roomUtils';
 
 export function JoinRoomButton() {
   const { joinRoom, leaveRoom, peerStatus } = useConnection();
@@ -17,10 +17,10 @@ export function JoinRoomButton() {
   return (
     <View style={{ flex: 1 }}>
       <Text>{peerStatus}</Text>
-      {(peerStatus === "idle" || peerStatus === "error") && (
+      {(peerStatus === 'idle' || peerStatus === 'error') && (
         <Button onPress={onPressJoin} title="Join Room" />
       )}
-      {peerStatus === "connected" && (
+      {peerStatus === 'connected' && (
         <Button onPress={leaveRoom} color="red" title="Leave Room" />
       )}
     </View>

@@ -2,7 +2,7 @@ import {
   APP_ID,
   DEFAULT_PEER_NAME,
   DEFAULT_ROOM_NAME,
-} from "../config/appConfig";
+} from '../config/appConfig';
 
 export async function getRoomDetails(
   roomName: string = DEFAULT_ROOM_NAME,

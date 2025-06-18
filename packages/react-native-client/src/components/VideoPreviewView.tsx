@@ -39,3 +39,5 @@ export const VideoPreviewView = React.forwardRef<
   // @ts-expect-error ref prop needs to be updated
   <NativeView {...props} captureDeviceId={props.cameraId} ref={ref} />
 ));
+
+VideoPreviewView.displayName = 'VideoPreviewView';

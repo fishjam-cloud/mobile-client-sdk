@@ -23,7 +23,7 @@ export const ConnectWithFishjamRoom = () => {
           url: fishjamUrl,
           peerToken: token,
         });
-      } catch (_) {
+      } catch {
         setRoomData(null);
       }
     };

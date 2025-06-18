@@ -42,11 +42,13 @@ export type TabParamList = {
   ConnectToLivestream: undefined;
 };
 
-const tabBarIcon =
-  (icon: keyof typeof MaterialCommunityIcons.glyphMap) =>
-  ({ color }: { color: string }) => (
+const tabBarIcon = (icon: keyof typeof MaterialCommunityIcons.glyphMap) => {
+  const TabBarIconComponent = ({ color }: { color: string }) => (
     <MaterialCommunityIcons name={icon} size={24} color={color} />
   );
+  TabBarIconComponent.displayName = `TabBarIcon(${icon})`;
+  return TabBarIconComponent;
+};
 
 export type AppStackNavigation = NavigationProp<AppRootStackParamList>;
 
