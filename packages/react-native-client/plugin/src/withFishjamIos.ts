@@ -263,14 +263,12 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
   props,
 ) =>
   withInfoPlist(config, (configuration) => {
-    const currentBackgroundModes =
-      configuration.modResults.UIBackgroundModes ?? [];
-
     if (props?.ios?.supportsPictureInPicture) {
-      configuration.modResults.UIBackgroundModes = [
-        ...currentBackgroundModes,
-        'audio',
-      ];
+      const backgroundModes = new Set(
+        configuration.modResults.UIBackgroundModes ?? [],
+      );
+      backgroundModes.add('audio');
+      configuration.modResults.UIBackgroundModes = Array.from(backgroundModes);
     }
 
     return configuration;
