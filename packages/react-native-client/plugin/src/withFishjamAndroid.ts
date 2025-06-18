@@ -1,9 +1,20 @@
-import { ConfigPlugin, withAndroidManifest } from '@expo/config-plugins';
+import {
+  AndroidConfig,
+  ConfigPlugin,
+  withAndroidManifest,
+} from '@expo/config-plugins';
 import { getMainApplicationOrThrow } from '@expo/config-plugins/build/android/Manifest';
 import { FishjamPluginOptions } from './types';
 
-const withFishjamForegroundService: ConfigPlugin = (config) =>
+const withFishjamForegroundService: ConfigPlugin<FishjamPluginOptions> = (
+  config,
+  props,
+) =>
   withAndroidManifest(config, async (configuration) => {
+    if (!props?.android?.enableForegroundService) {
+      return configuration;
+    }
+
     const mainApplication = getMainApplicationOrThrow(configuration.modResults);
     mainApplication.service = mainApplication.service || [];
 
@@ -29,12 +40,28 @@ const withFishjamForegroundService: ConfigPlugin = (config) =>
     return configuration;
   });
 
+const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
+  config,
+  props,
+) =>
+  withAndroidManifest(config, (configuration) => {
+    const activity = AndroidConfig.Manifest.getMainActivityOrThrow(
+      configuration.modResults,
+    );
+
+    if (props?.android?.supportsPictureInPicture) {
+      activity.$['android:supportsPictureInPicture'] = 'true';
+    } else {
+      delete activity.$['android:supportsPictureInPicture'];
+    }
+    return configuration;
+  });
+
 export const withFishjamAndroid: ConfigPlugin<FishjamPluginOptions> = (
   config,
   props,
 ) => {
-  if (props?.android?.enableForegroundService) {
-    config = withFishjamForegroundService(config);
-  }
+  config = withFishjamForegroundService(config, props);
+  config = withFishjamPictureInPicture(config, props);
   return config;
 };

@@ -34,6 +34,17 @@
         {
           "initialOrientation": "DEFAULT"
         }
+      ],
+      [
+        "@fishjam-cloud/react-native-client",
+        {
+          "android": {
+            "supportsPictureInPicture": true
+          },
+          "ios": {
+            "supportsPictureInPicture": true
+          }
+        }
       ]
     ]
   }
