@@ -61,6 +61,12 @@ struct ConnectConfig: Record {
     var reconnectConfig: ReconnectConfig = ReconnectConfig()
 }
 
+enum PermissionStatus: String {
+    case granted = "granted"
+    case undetermined = "undetermined"
+    case denied = "denied"
+}
+
 typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
@@ -220,35 +226,60 @@ public class RNFishjamClientModule: Module {
     }
 
     AsyncFunction("getCameraPermissionsAsync") {
-      return await withCheckedContinuation { continuation in
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        continuation.resume(returning: ["granted": status == .authorized])
-      }
+        return await withCheckedContinuation { continuation in
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+            let permissionStatus: PermissionStatus
+            switch status {
+            case .authorized:
+                permissionStatus = .granted
+            case .notDetermined:
+                permissionStatus = .undetermined
+            case .denied, .restricted:
+                permissionStatus = .denied
+            @unknown default:
+                permissionStatus = .undetermined
+            }
+            continuation.resume(returning: ["status": permissionStatus.rawValue])
+        }
     }
 
     AsyncFunction("requestCameraPermissionsAsync") {
-      return await withCheckedContinuation { continuation in
-        AVCaptureDevice.requestAccess(for: .video) { granted in
-          continuation.resume(returning: ["granted": granted])
+        return await withCheckedContinuation { continuation in
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                let status: PermissionStatus = granted ? .granted : .denied
+                continuation.resume(returning: ["status": status.rawValue])
+            }
         }
-      }
     }
 
     AsyncFunction("getMicrophonePermissionsAsync") {
-      return await withCheckedContinuation { continuation in
-        let status = AVAudioSession.sharedInstance().recordPermission
-        continuation.resume(returning: ["granted": status == .granted])
-      }
+        return await withCheckedContinuation { continuation in
+            let status = AVAudioSession.sharedInstance().recordPermission
+            let permissionStatus: PermissionStatus
+            switch status {
+            case .granted:
+                permissionStatus = .granted
+            case .undetermined:
+                permissionStatus = .undetermined
+            case .denied:
+                permissionStatus = .denied
+            @unknown default:
+                permissionStatus = .undetermined
+            }
+            continuation.resume(returning: ["status": permissionStatus.rawValue])
+        }
     }
 
 
     AsyncFunction("requestMicrophonePermissionsAsync") {
-      return await withCheckedContinuation { continuation in
-          AVAudioSession.sharedInstance().requestRecordPermission { granted in
-          continuation.resume(returning: ["granted": granted])
+        return await withCheckedContinuation { continuation in
+            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                let status: PermissionStatus = granted ? .granted : .denied
+                continuation.resume(returning: ["status": status.rawValue])
+            }
         }
-      }
-      
+    }
+
     }
   }
-}
+
