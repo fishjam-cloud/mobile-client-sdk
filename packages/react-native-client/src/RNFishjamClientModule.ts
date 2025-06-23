@@ -17,6 +17,10 @@ import type { GenericMetadata, SimulcastConfig } from './types';
 
 type Metadata = { [key: string]: unknown };
 
+type PermissionStatus = {
+  granted: boolean;
+};
+
 type RNFishjamClient = {
   isMicrophoneOn: boolean;
   isCameraOn: boolean;
@@ -85,8 +89,10 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
   stopForegroundService: () => void;
-  getCameraPermissionsAsync: () => Promise<{ granted: boolean }>;
-  requestCameraPermissionsAsync: () => Promise<{ granted: boolean }>;
+  getCameraPermissionsAsync: () => Promise<PermissionStatus>;
+  requestCameraPermissionsAsync: () => Promise<PermissionStatus>;
+  getMicrophonePermissionsAsync: () => Promise<PermissionStatus>;
+  requestMicrophonePermissionsAsync: () => Promise<PermissionStatus>;
 };
 
 export const ReceivableEvents = {

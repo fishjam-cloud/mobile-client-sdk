@@ -24,6 +24,8 @@ export {
 export {
   getCameraPermissionsAsync,
   requestCameraPermissionsAsync,
+  getMicrophonePermissionsAsync,
+  requestMicrophonePermissionsAsync,
 } from './common/permissions';
 
 // #region components

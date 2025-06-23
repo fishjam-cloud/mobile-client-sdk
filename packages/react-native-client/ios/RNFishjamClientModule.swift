@@ -64,174 +64,191 @@ struct ConnectConfig: Record {
 typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
-    public func definition() -> ModuleDefinition {
-        let rnFishjamClient: RNFishjamClient = {
-            let client = RNFishjamClient(sendEvent)
-            client.create()
-            return client
-        }()
+  public func definition() -> ModuleDefinition {
+    let rnFishjamClient: RNFishjamClient = {
+      let client = RNFishjamClient(sendEvent)
+      client.create()
+      return client
+    }()
 
-        Name("RNFishjamClient")
+    Name("RNFishjamClient")
 
-        Events(EmitableEvent.allEvents)
+    Events(EmitableEvent.allEvents)
 
-        Property("peerStatus") {
-            return rnFishjamClient.peerStatus.rawValue
-        }
-
-        Property("reconnectionStatus") {
-            return rnFishjamClient.reconnectionStatus.rawValue
-        }
-
-        Property("isMicrophoneOn") {
-            return rnFishjamClient.isMicrophoneOn
-        }
-
-        Property("isCameraOn") {
-            return rnFishjamClient.isCameraOn
-        }
-
-        Property("cameras") {
-            return rnFishjamClient.getCaptureDevices()
-        }
-
-        Property("currentCamera") {
-            return rnFishjamClient.currentCamera
-        }
-
-        Property("isScreenShareOn") {
-            return rnFishjamClient.isScreenShareOn
-        }
-
-        Property("isAppScreenShareOn") {
-            return rnFishjamClient.isAppScreenShareOn
-        }
-
-        Property("isCameraInitialized") {
-            return rnFishjamClient.isCameraInitialized
-        }
-
-        Function("getPeers") {
-            return rnFishjamClient.getPeers()
-        }
-
-        AsyncFunction("joinRoom") {
-            (
-                url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
-                promise: Promise
-            ) in
-            rnFishjamClient.joinRoom(
-                url: url, peerToken: peerToken, peerMetadata: peerMetadata, config: config,
-                promise: promise)
-        }
-
-        AsyncFunction("leaveRoom") {
-            rnFishjamClient.leaveRoom()
-        }
-
-        AsyncFunction("startCamera") { (config: CameraConfig) in
-            try await rnFishjamClient.startCamera(config: config)
-        }
-
-        AsyncFunction("toggleMicrophone") {
-            try await rnFishjamClient.toggleMicrophone()
-        }
-
-        AsyncFunction("toggleCamera") {
-            try rnFishjamClient.toggleCamera()
-        }
-
-        AsyncFunction("flipCamera") {
-            try rnFishjamClient.flipCamera()
-        }
-
-        AsyncFunction("switchCamera") { (cameraId: String) in
-            try rnFishjamClient.switchCamera(cameraId: cameraId)
-        }
-
-        AsyncFunction("toggleScreenShare") { (screenShareOptions: ScreenShareOptions) in
-            try rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
-        }
-
-        AsyncFunction("toggleAppScreenShare") { (screenShareOptions: ScreenShareOptions) in
-            try rnFishjamClient.toggleAppScreenShare(screenShareOptions: screenShareOptions)
-        }
-
-        AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updatePeerMetadata(metadata: metadata)
-        }
-
-        AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateLocalVideoTrackMetadata(metadata: metadata)
-        }
-
-        AsyncFunction("updateScreenShareTrackMetadata") { (metadata: [String: Any]) in
-            try rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata: metadata)
-        }
-
-        AsyncFunction("toggleScreenShareTrackEncoding") { (encoding: String) in
-            try rnFishjamClient.toggleScreenShareTrackEncoding(encoding: encoding)
-        }
-
-        AsyncFunction("setScreenShareTrackBandwidth") { (bandwidth: Int) in
-            try rnFishjamClient.setScreenShareTrackBandwidth(bandwidth: bandwidth)
-        }
-
-        AsyncFunction("setScreenShareTrackEncodingBandwidth") { (encoding: String, bandwidth: Int) in
-            try rnFishjamClient.setScreenShareTrackEncodingBandwidth(
-                encoding: encoding, bandwidth: bandwidth)
-        }
-
-        AsyncFunction("setTargetTrackEncoding") { (trackId: String, encoding: String) in
-            try rnFishjamClient.setTargetTrackEncoding(trackId: trackId, encoding: encoding)
-        }
-
-        AsyncFunction("toggleVideoTrackEncoding") { (encoding: String) in
-            try rnFishjamClient.toggleVideoTrackEncoding(encoding: encoding)
-        }
-
-        AsyncFunction("setVideoTrackEncodingBandwidth") { (encoding: String, bandwidth: Int) in
-            try rnFishjamClient.setVideoTrackEncodingBandwidth(
-                encoding: encoding, bandwidth: bandwidth)
-        }
-
-        AsyncFunction("setVideoTrackBandwidth") { (bandwidth: Int) in
-            try rnFishjamClient.setVideoTrackBandwidth(bandwidth: bandwidth)
-        }
-
-        AsyncFunction("changeWebRTCLoggingSeverity") { (severity: String) in
-            try rnFishjamClient.changeWebRTCLoggingSeverity(severity: severity)
-        }
-
-        AsyncFunction("getStatistics") {
-            try await rnFishjamClient.getStatistics()
-        }
-
-        AsyncFunction("selectAudioSessionMode") { (sessionMode: String) in
-            try rnFishjamClient.selectAudioSessionMode(sessionMode: sessionMode)
-        }
-
-        AsyncFunction("showAudioRoutePicker") {
-            rnFishjamClient.showAudioRoutePicker()
-        }
-
-        AsyncFunction("startAudioSwitcher") {
-            rnFishjamClient.startAudioSwitcher()
-        }
-
-        AsyncFunction("getCameraPermissionsAsync") {
-            return await withCheckedContinuation { continuation in
-                let status = AVCaptureDevice.authorizationStatus(for: .video)
-                continuation.resume(returning: ["granted": status == .authorized])
-            }
-        }
-
-        AsyncFunction("requestCameraPermissionsAsync") {
-            return await withCheckedContinuation { continuation in
-                AVCaptureDevice.requestAccess(for: .video) { granted in
-                    continuation.resume(returning: ["granted": granted])
-                }
-            }
-        }
+    Property("peerStatus") {
+      return rnFishjamClient.peerStatus.rawValue
     }
+
+    Property("reconnectionStatus") {
+      return rnFishjamClient.reconnectionStatus.rawValue
+    }
+
+    Property("isMicrophoneOn") {
+      return rnFishjamClient.isMicrophoneOn
+    }
+
+    Property("isCameraOn") {
+      return rnFishjamClient.isCameraOn
+    }
+
+    Property("cameras") {
+      return rnFishjamClient.getCaptureDevices()
+    }
+
+    Property("currentCamera") {
+      return rnFishjamClient.currentCamera
+    }
+
+    Property("isScreenShareOn") {
+      return rnFishjamClient.isScreenShareOn
+    }
+
+    Property("isAppScreenShareOn") {
+      return rnFishjamClient.isAppScreenShareOn
+    }
+
+    Property("isCameraInitialized") {
+      return rnFishjamClient.isCameraInitialized
+    }
+
+    Function("getPeers") {
+      return rnFishjamClient.getPeers()
+    }
+
+    AsyncFunction("joinRoom") {
+      (
+        url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
+        promise: Promise
+      ) in
+      rnFishjamClient.joinRoom(
+        url: url, peerToken: peerToken, peerMetadata: peerMetadata, config: config,
+        promise: promise)
+    }
+
+    AsyncFunction("leaveRoom") {
+      rnFishjamClient.leaveRoom()
+    }
+
+    AsyncFunction("startCamera") { (config: CameraConfig) in
+      try await rnFishjamClient.startCamera(config: config)
+    }
+
+    AsyncFunction("toggleMicrophone") {
+      try await rnFishjamClient.toggleMicrophone()
+    }
+
+    AsyncFunction("toggleCamera") {
+      try rnFishjamClient.toggleCamera()
+    }
+
+    AsyncFunction("flipCamera") {
+      try rnFishjamClient.flipCamera()
+    }
+
+    AsyncFunction("switchCamera") { (cameraId: String) in
+      try rnFishjamClient.switchCamera(cameraId: cameraId)
+    }
+
+    AsyncFunction("toggleScreenShare") { (screenShareOptions: ScreenShareOptions) in
+      try rnFishjamClient.toggleScreenShare(screenShareOptions: screenShareOptions)
+    }
+
+    AsyncFunction("toggleAppScreenShare") { (screenShareOptions: ScreenShareOptions) in
+      try rnFishjamClient.toggleAppScreenShare(screenShareOptions: screenShareOptions)
+    }
+
+    AsyncFunction("updatePeerMetadata") { (metadata: [String: Any]) in
+      try rnFishjamClient.updatePeerMetadata(metadata: metadata)
+    }
+
+    AsyncFunction("updateVideoTrackMetadata") { (metadata: [String: Any]) in
+      try rnFishjamClient.updateLocalVideoTrackMetadata(metadata: metadata)
+    }
+
+    AsyncFunction("updateScreenShareTrackMetadata") { (metadata: [String: Any]) in
+      try rnFishjamClient.updateLocalScreenShareTrackMetadata(metadata: metadata)
+    }
+
+    AsyncFunction("toggleScreenShareTrackEncoding") { (encoding: String) in
+      try rnFishjamClient.toggleScreenShareTrackEncoding(encoding: encoding)
+    }
+
+    AsyncFunction("setScreenShareTrackBandwidth") { (bandwidth: Int) in
+      try rnFishjamClient.setScreenShareTrackBandwidth(bandwidth: bandwidth)
+    }
+
+    AsyncFunction("setScreenShareTrackEncodingBandwidth") { (encoding: String, bandwidth: Int) in
+      try rnFishjamClient.setScreenShareTrackEncodingBandwidth(
+        encoding: encoding, bandwidth: bandwidth)
+    }
+
+    AsyncFunction("setTargetTrackEncoding") { (trackId: String, encoding: String) in
+      try rnFishjamClient.setTargetTrackEncoding(trackId: trackId, encoding: encoding)
+    }
+
+    AsyncFunction("toggleVideoTrackEncoding") { (encoding: String) in
+      try rnFishjamClient.toggleVideoTrackEncoding(encoding: encoding)
+    }
+
+    AsyncFunction("setVideoTrackEncodingBandwidth") { (encoding: String, bandwidth: Int) in
+      try rnFishjamClient.setVideoTrackEncodingBandwidth(
+        encoding: encoding, bandwidth: bandwidth)
+    }
+
+    AsyncFunction("setVideoTrackBandwidth") { (bandwidth: Int) in
+      try rnFishjamClient.setVideoTrackBandwidth(bandwidth: bandwidth)
+    }
+
+    AsyncFunction("changeWebRTCLoggingSeverity") { (severity: String) in
+      try rnFishjamClient.changeWebRTCLoggingSeverity(severity: severity)
+    }
+
+    AsyncFunction("getStatistics") {
+      try await rnFishjamClient.getStatistics()
+    }
+
+    AsyncFunction("selectAudioSessionMode") { (sessionMode: String) in
+      try rnFishjamClient.selectAudioSessionMode(sessionMode: sessionMode)
+    }
+
+    AsyncFunction("showAudioRoutePicker") {
+      rnFishjamClient.showAudioRoutePicker()
+    }
+
+    AsyncFunction("startAudioSwitcher") {
+      rnFishjamClient.startAudioSwitcher()
+    }
+
+    AsyncFunction("getCameraPermissionsAsync") {
+      return await withCheckedContinuation { continuation in
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        continuation.resume(returning: ["granted": status == .authorized])
+      }
+    }
+
+    AsyncFunction("requestCameraPermissionsAsync") {
+      return await withCheckedContinuation { continuation in
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+          continuation.resume(returning: ["granted": granted])
+        }
+      }
+    }
+
+    AsyncFunction("getMicrophonePermissionsAsync") {
+      return await withCheckedContinuation { continuation in
+        let status = AVAudioSession.sharedInstance().recordPermission
+        continuation.resume(returning: ["granted": status == .granted])
+      }
+    }
+
+
+    AsyncFunction("requestMicrophonePermissionsAsync") {
+      return await withCheckedContinuation { continuation in
+          AVAudioSession.sharedInstance().requestRecordPermission { granted in
+          continuation.resume(returning: ["granted": granted])
+        }
+      }
+      
+    }
+  }
 }

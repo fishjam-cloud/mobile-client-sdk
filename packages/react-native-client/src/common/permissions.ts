@@ -25,3 +25,29 @@ export async function requestCameraPermissionsAsync(): Promise<boolean> {
     return false;
   }
 }
+
+/**
+ * Checks if microphone permission is granted (does not prompt).
+ * @returns Promise resolving to true if granted, false otherwise.
+ */
+export async function getMicrophonePermissionsAsync(): Promise<boolean> {
+  try {
+    const result = await RNFishjamClient.getMicrophonePermissionsAsync();
+    return !!result?.granted;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Requests microphone permission (prompts the user).
+ * @returns Promise resolving to true if granted, false otherwise.
+ */
+export async function requestMicrophonePermissionsAsync(): Promise<boolean> {
+  try {
+    const result = await RNFishjamClient.requestMicrophonePermissionsAsync();
+    return !!result?.granted;
+  } catch {
+    return false;
+  }
+}
