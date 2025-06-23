@@ -13,13 +13,13 @@ import type { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
 import type { ForegroundServiceConfig } from './hooks/useForegroundService';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
-import type { GenericMetadata, SimulcastConfig } from './types';
+import type {
+  GenericMetadata,
+  PermissionStatus,
+  SimulcastConfig,
+} from './types';
 
 type Metadata = { [key: string]: unknown };
-
-type PermissionStatus = {
-  granted: boolean;
-};
 
 type RNFishjamClient = {
   isMicrophoneOn: boolean;

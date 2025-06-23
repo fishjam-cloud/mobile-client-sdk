@@ -21,13 +21,6 @@ export {
 } from './common/client';
 // #endregion
 
-export {
-  getCameraPermissionsAsync,
-  requestCameraPermissionsAsync,
-  getMicrophonePermissionsAsync,
-  requestMicrophonePermissionsAsync,
-} from './common/permissions';
-
 // #region components
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
@@ -103,6 +96,15 @@ export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestream } from './hooks/useLivestream';
 // #endregion
+
+export {
+  getCameraPermissionsAsync,
+  requestCameraPermissionsAsync,
+  getMicrophonePermissionsAsync,
+  requestMicrophonePermissionsAsync,
+  useCameraPermissions,
+  useMicrophonePermissions,
+} from './hooks/usePermissions';
 
 export type { FishjamRoomProps } from './components/FishjamRoom';
 export { FishjamRoom } from './components/FishjamRoom';
