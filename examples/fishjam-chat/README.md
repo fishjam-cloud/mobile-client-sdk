@@ -14,6 +14,8 @@ Create a `.env` file in the `examples/fishjam-chat` directory (optional), or cop
 
 If you want to display the VideoRoom tab, both `EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER` and `EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER` are required.
 
+You can the example rooms using your own Fishjam account and a sandbox enviroment. Just go to https://fishjam.io/app/sandbox and copy your Room manager URL.
+
 ### Example Overview
 
 The app has 5 tabs showing different ways to connect to Fishjam video calls:
