@@ -1,5 +1,4 @@
 import ExpoModulesCore
-import AVFoundation
 
 struct RNSimulcastConfig: Record {
     @Field
@@ -61,12 +60,6 @@ struct ConnectConfig: Record {
     var reconnectConfig: ReconnectConfig = ReconnectConfig()
 }
 
-enum PermissionStatus: String {
-    case granted = "granted"
-    case undetermined = "undetermined"
-    case denied = "denied"
-}
-
 typealias RNTrackBandwidthLimit = Either<Int, [String: Int]>
 
 public class RNFishjamClientModule: Module {
@@ -80,6 +73,17 @@ public class RNFishjamClientModule: Module {
     Name("RNFishjamClient")
 
     Events(EmitableEvent.allEvents)
+    
+    OnCreate {
+          let permissionsManager = self.appContext?.permissions
+          EXPermissionsMethodsDelegate.register(
+            [
+              CameraOnlyPermissionRequester(),
+              CameraMicrophonePermissionRequester()
+            ],
+            withPermissionsManager: permissionsManager
+          )
+        }
 
     Property("peerStatus") {
       return rnFishjamClient.peerStatus.rawValue
@@ -225,59 +229,40 @@ public class RNFishjamClientModule: Module {
       rnFishjamClient.startAudioSwitcher()
     }
 
-    AsyncFunction("getCameraPermissionsAsync") {
-        return await withCheckedContinuation { continuation in
-            let status = AVCaptureDevice.authorizationStatus(for: .video)
-            let permissionStatus: PermissionStatus
-            switch status {
-            case .authorized:
-                permissionStatus = .granted
-            case .notDetermined:
-                permissionStatus = .undetermined
-            case .denied, .restricted:
-                permissionStatus = .denied
-            @unknown default:
-                permissionStatus = .undetermined
-            }
-            continuation.resume(returning: ["status": permissionStatus.rawValue])
-        }
+    AsyncFunction("getCameraPermissionsAsync") { (promise: Promise) in
+      EXPermissionsMethodsDelegate.getPermissionWithPermissionsManager(
+        self.appContext?.permissions,
+        withRequester: CameraOnlyPermissionRequester.self,
+        resolve: promise.resolver,
+        reject: promise.legacyRejecter
+      )
     }
 
-    AsyncFunction("requestCameraPermissionsAsync") {
-        return await withCheckedContinuation { continuation in
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                let status: PermissionStatus = granted ? .granted : .denied
-                continuation.resume(returning: ["status": status.rawValue])
-            }
-        }
+    AsyncFunction("requestCameraPermissionsAsync") { (promise: Promise) in
+      EXPermissionsMethodsDelegate.askForPermission(
+        withPermissionsManager: self.appContext?.permissions,
+        withRequester: CameraOnlyPermissionRequester.self,
+        resolve: promise.resolver,
+        reject: promise.legacyRejecter
+      )
     }
 
-    AsyncFunction("getMicrophonePermissionsAsync") {
-        return await withCheckedContinuation { continuation in
-            let status = AVAudioSession.sharedInstance().recordPermission
-            let permissionStatus: PermissionStatus
-            switch status {
-            case .granted:
-                permissionStatus = .granted
-            case .undetermined:
-                permissionStatus = .undetermined
-            case .denied:
-                permissionStatus = .denied
-            @unknown default:
-                permissionStatus = .undetermined
-            }
-            continuation.resume(returning: ["status": permissionStatus.rawValue])
-        }
+    AsyncFunction("getMicrophonePermissionsAsync") { (promise: Promise) in
+      EXPermissionsMethodsDelegate.getPermissionWithPermissionsManager(
+        self.appContext?.permissions,
+        withRequester: CameraMicrophonePermissionRequester.self,
+        resolve: promise.resolver,
+        reject: promise.legacyRejecter
+      )
     }
 
-
-    AsyncFunction("requestMicrophonePermissionsAsync") {
-        return await withCheckedContinuation { continuation in
-            AVAudioSession.sharedInstance().requestRecordPermission { granted in
-                let status: PermissionStatus = granted ? .granted : .denied
-                continuation.resume(returning: ["status": status.rawValue])
-            }
-        }
+    AsyncFunction("requestMicrophonePermissionsAsync") { (promise: Promise) in
+      EXPermissionsMethodsDelegate.askForPermission(
+        withPermissionsManager: self.appContext?.permissions,
+        withRequester: CameraMicrophonePermissionRequester.self,
+        resolve: promise.resolver,
+        reject: promise.legacyRejecter
+      )
     }
 
     }

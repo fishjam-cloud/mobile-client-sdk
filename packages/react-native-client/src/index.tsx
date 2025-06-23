@@ -98,10 +98,6 @@ export { useLivestream } from './hooks/useLivestream';
 // #endregion
 
 export {
-  getCameraPermissionsAsync,
-  requestCameraPermissionsAsync,
-  getMicrophonePermissionsAsync,
-  requestMicrophonePermissionsAsync,
   useCameraPermissions,
   useMicrophonePermissions,
 } from './hooks/usePermissions';

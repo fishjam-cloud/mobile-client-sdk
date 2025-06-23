@@ -1,4 +1,4 @@
-import { requireNativeModule } from 'expo-modules-core';
+import { PermissionResponse, requireNativeModule } from 'expo-modules-core';
 
 import type { NativeModule } from 'expo-modules-core/types';
 import type { ConnectionConfig } from './common/client';
@@ -13,11 +13,7 @@ import type { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
 import type { ForegroundServiceConfig } from './hooks/useForegroundService';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
-import type {
-  GenericMetadata,
-  PermissionStatus,
-  SimulcastConfig,
-} from './types';
+import type { GenericMetadata, SimulcastConfig } from './types';
 
 type Metadata = { [key: string]: unknown };
 
@@ -89,10 +85,10 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
   stopForegroundService: () => void;
-  getCameraPermissionsAsync: () => Promise<PermissionStatus>;
-  requestCameraPermissionsAsync: () => Promise<PermissionStatus>;
-  getMicrophonePermissionsAsync: () => Promise<PermissionStatus>;
-  requestMicrophonePermissionsAsync: () => Promise<PermissionStatus>;
+  getCameraPermissionsAsync: () => Promise<PermissionResponse>;
+  requestCameraPermissionsAsync: () => Promise<PermissionResponse>;
+  getMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
+  requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
 };
 
 export const ReceivableEvents = {

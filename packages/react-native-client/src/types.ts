@@ -32,18 +32,3 @@ declare const brand: unique symbol;
  * Branded type
  */
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
-
-export declare enum PermissionStatus {
-  /**
-   * User has granted the permission.
-   */
-  GRANTED = 'granted',
-  /**
-   * User hasn't granted or denied the permission yet.
-   */
-  UNDETERMINED = 'undetermined',
-  /**
-   * User has denied the permission.
-   */
-  DENIED = 'denied',
-}

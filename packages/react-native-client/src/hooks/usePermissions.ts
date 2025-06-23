@@ -1,49 +1,17 @@
-import { createPermissionHook } from './internal/useFishjamPermissions';
 import RNFishjamClient from '../RNFishjamClientModule';
-import { PermissionStatus } from '../types';
+import { createPermissionHook, PermissionResponse } from 'expo-modules-core';
 
-/**
- * Checks if camera permission is granted (does not prompt).
- */
-export async function getCameraPermissionsAsync(): Promise<PermissionStatus> {
-  try {
-    return await RNFishjamClient.getCameraPermissionsAsync();
-  } catch {
-    return PermissionStatus.UNDETERMINED;
-  }
+async function getCameraPermissionsAsync(): Promise<PermissionResponse> {
+  return RNFishjamClient.getCameraPermissionsAsync();
 }
 
 /**
- * Requests camera permission (prompts the user).
+ * Asks the user to grant permissions for accessing camera.
+ * On iOS this will require apps to specify an `NSCameraUsageDescription` entry in the **Info.plist**.
+ * @return A promise that resolves to an object of type [PermissionResponse](#permissionresponse).
  */
-export async function requestCameraPermissionsAsync(): Promise<PermissionStatus> {
-  try {
-    return await RNFishjamClient.requestCameraPermissionsAsync();
-  } catch {
-    return PermissionStatus.UNDETERMINED;
-  }
-}
-
-/**
- * Checks if microphone permission is granted (does not prompt).
- */
-export async function getMicrophonePermissionsAsync(): Promise<PermissionStatus> {
-  try {
-    return await RNFishjamClient.getMicrophonePermissionsAsync();
-  } catch {
-    return PermissionStatus.UNDETERMINED;
-  }
-}
-
-/**
- * Requests microphone permission (prompts the user).
- */
-export async function requestMicrophonePermissionsAsync(): Promise<PermissionStatus> {
-  try {
-    return await RNFishjamClient.requestMicrophonePermissionsAsync();
-  } catch {
-    return PermissionStatus.UNDETERMINED;
-  }
+async function requestCameraPermissionsAsync(): Promise<PermissionResponse> {
+  return RNFishjamClient.requestCameraPermissionsAsync();
 }
 
 /**
@@ -59,6 +27,23 @@ export const useCameraPermissions = createPermissionHook({
   getMethod: getCameraPermissionsAsync,
   requestMethod: requestCameraPermissionsAsync,
 });
+
+/**
+ * Checks user's permissions for accessing microphone.
+ * @return A promise that resolves to an object of type [PermissionResponse](#permissionresponse).
+ */
+async function getMicrophonePermissionsAsync(): Promise<PermissionResponse> {
+  return RNFishjamClient.getMicrophonePermissionsAsync();
+}
+
+/**
+ * Asks the user to grant permissions for accessing the microphone.
+ * On iOS this will require apps to specify an `NSMicrophoneUsageDescription` entry in the **Info.plist**.
+ * @return A promise that resolves to an object of type [PermissionResponse](#permissionresponse).
+ */
+async function requestMicrophonePermissionsAsync(): Promise<PermissionResponse> {
+  return RNFishjamClient.requestMicrophonePermissionsAsync();
+}
 
 /**
  * Check or request permissions to access the microphone.
