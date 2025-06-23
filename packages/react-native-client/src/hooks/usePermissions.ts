@@ -1,6 +1,10 @@
 import RNFishjamClient from '../RNFishjamClientModule';
 import { createPermissionHook, PermissionResponse } from 'expo-modules-core';
 
+/**
+ * Checks user's permissions for accessing camera.
+ * @return A promise that resolves to an object of type [PermissionResponse](#permissionresponse).
+ */
 async function getCameraPermissionsAsync(): Promise<PermissionResponse> {
   return RNFishjamClient.getCameraPermissionsAsync();
 }
