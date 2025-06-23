@@ -21,6 +21,11 @@ export {
 } from './common/client';
 // #endregion
 
+export {
+  getCameraPermissionsAsync,
+  requestCameraPermissionsAsync,
+} from './common/permissions';
+
 // #region components
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';

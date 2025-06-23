@@ -85,6 +85,8 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
   stopForegroundService: () => void;
+  getCameraPermissionsAsync: () => Promise<{ granted: boolean }>;
+  requestCameraPermissionsAsync: () => Promise<{ granted: boolean }>;
 };
 
 export const ReceivableEvents = {

@@ -1,4 +1,5 @@
 import ExpoModulesCore
+import AVFoundation
 
 struct RNSimulcastConfig: Record {
     @Field
@@ -216,6 +217,21 @@ public class RNFishjamClientModule: Module {
 
         AsyncFunction("startAudioSwitcher") {
             rnFishjamClient.startAudioSwitcher()
+        }
+
+        AsyncFunction("getCameraPermissionsAsync") {
+            return await withCheckedContinuation { continuation in
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                continuation.resume(returning: ["granted": status == .authorized])
+            }
+        }
+
+        AsyncFunction("requestCameraPermissionsAsync") {
+            return await withCheckedContinuation { continuation in
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    continuation.resume(returning: ["granted": granted])
+                }
+            }
         }
     }
 }
