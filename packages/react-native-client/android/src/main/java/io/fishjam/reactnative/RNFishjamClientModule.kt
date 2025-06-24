@@ -1,6 +1,9 @@
 package io.fishjam.reactnative
 
+import android.Manifest
+import expo.modules.interfaces.permissions.Permissions
 import expo.modules.kotlin.Promise
+import expo.modules.kotlin.exception.Exceptions
 import expo.modules.kotlin.functions.Coroutine
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
@@ -302,5 +305,42 @@ class RNFishjamClientModule : Module() {
       Function("stopForegroundService") {
         rnFishjamClient.stopForegroundService()
       }
+
+      AsyncFunction("requestCameraPermissionsAsync") { promise: Promise ->
+        Permissions.askForPermissionsWithPermissionsManager(
+          permissionsManager,
+          promise,
+          Manifest.permission.CAMERA
+        )
+      }
+
+      AsyncFunction("requestMicrophonePermissionsAsync") { promise: Promise ->
+        Permissions.askForPermissionsWithPermissionsManager(
+          permissionsManager,
+          promise,
+          Manifest.permission.RECORD_AUDIO
+        )
+      }
+
+      AsyncFunction("getCameraPermissionsAsync") { promise: Promise ->
+        Permissions.getPermissionsWithPermissionsManager(
+          permissionsManager,
+          promise,
+          Manifest.permission.CAMERA
+        )
+      }
+
+      AsyncFunction("getMicrophonePermissionsAsync") { promise: Promise ->
+        Permissions.getPermissionsWithPermissionsManager(
+          permissionsManager,
+          promise,
+          Manifest.permission.RECORD_AUDIO
+        )
+      }
+
+
     }
+
+  private val permissionsManager: Permissions
+    get() = appContext.permissions ?: throw Exceptions.PermissionsModuleNotFound()
 }
