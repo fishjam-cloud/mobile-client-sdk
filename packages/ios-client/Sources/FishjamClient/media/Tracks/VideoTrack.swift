@@ -38,7 +38,7 @@ open class VideoTrack: Track, RTCVideoViewDelegate {
         super.init(mediaTrack: mediaTrack, endpointId: endpointId, rtcEngineId: rtcEngineId, metadata: metadata, id: id)
     }
 
-    var videoTrack: RTCVideoTrack {
+    public var videoTrack: RTCVideoTrack {
         return self.mediaTrack as! RTCVideoTrack
     }
 
