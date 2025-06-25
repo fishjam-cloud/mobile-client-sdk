@@ -81,6 +81,9 @@ jobs:
           libxcursor1 libpulse-dev libxshmfence-dev xauth xvfb x11vnc fluxbox
           wmctrl libdbus-glib-1-2 xvfb
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Use Node.js and Cache Yarn Dependencies
         uses: actions/setup-node@v4
         id: setup-node
@@ -88,16 +91,11 @@ jobs:
           node-version: "22.x"
           cache: "yarn"
 
-      - name: Enable Corepack and Install Dependencies
+      - name: Run yarn install in root directory
+        if: steps.setup-node.outputs.cache-hit != 'true'
         run: |
-          corepack enable
-          if [[ "${{ steps.setup-node.outputs.cache-hit }}" != 'true' ]]; then
-            echo "Cache miss. Running yarn install..."
-            yarn install --frozen-lockfile
-          else
-            echo "Cache hit. Skipping yarn install."
-          fi
-
+          cd $GITHUB_WORKSPACE
+          yarn install --frozen-lockfile
       - name: Upload yarn.lock artifact
         uses: actions/upload-artifact@v4
         with:
