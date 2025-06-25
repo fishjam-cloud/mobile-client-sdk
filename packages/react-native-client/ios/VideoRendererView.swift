@@ -1,9 +1,12 @@
 import Combine
 import ExpoModulesCore
 import FishjamCloudClient
+import WebRTC
 
 class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
     let videoView: VideoView
+  
+    public private(set) var pipController: PictureInPictureController?
 
     required init(appContext: AppContext? = nil) {
         videoView = VideoView()
@@ -42,10 +45,17 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
                     self.mirrorVideo = track.isFrontCamera
                 }
                 self.videoView.track = track
+                if self.pipController == nil {
+                    self.pipController = PictureInPictureController(sourceView: self.videoView)
+                    self.pipController?.startAutomatically = true
+                }
+                self.pipController?.videoTrack = track.videoTrack
                 return
             }
         }
     }
+  
+
 
     func onTracksUpdate() {
         updateVideoTrack()
@@ -82,6 +92,14 @@ class VideoRendererView: ExpoView, TrackUpdateListener, VideoViewDelegate {
             videoView.checkVisibilityTimeInterval = checkVisibilityTimeInterval
         }
     }
+  
+  func setup(pictureInPictureWith controller: PictureInPictureController) {
+    self.pipController = controller
+    if let track = videoView.track?.videoTrack {
+      pipController?.videoTrack = track
+    }
+  }
+  
 
     func didChange(dimensions newDimensions: FishjamCloudClient.Dimensions) {
         DispatchQueue.main.async { [weak self] in

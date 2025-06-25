@@ -19,7 +19,26 @@ class CameraCapturer: VideoCapturer {
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
-        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
+      
+      let captureSession = AVCaptureSession()
+
+
+      // Configure the capture session.
+      captureSession.beginConfiguration()
+
+
+      if #available(iOS 16.0, *) {
+        if captureSession.isMultitaskingCameraAccessSupported {
+          // Enable use of the camera in multitasking modes.
+          captureSession.isMultitaskingCameraAccessEnabled = true
+        }
+      }
+      captureSession.commitConfiguration()
+      
+        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: captureSession)
+        
+      
+      
         let devices = RTCCameraVideoCapturer.captureDevices()
 
         if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
