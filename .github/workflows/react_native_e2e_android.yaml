@@ -81,16 +81,18 @@ jobs:
           libxcursor1 libpulse-dev libxshmfence-dev xauth xvfb x11vnc fluxbox
           wmctrl libdbus-glib-1-2 xvfb
 
-      - name: Use Node.js
+      - name: Use Node.js and Cache Yarn Dependencies
         uses: actions/setup-node@v4
+        id: setup-node
         with:
           node-version: "22.x"
-          cache: "npm"
+          cache: "yarn"
 
       - name: Use corepack
         run: corepack enable
 
       - name: Run yarn install in root directory
+        if: steps.setup-node.outputs.cache-hit != 'true'
         run: |
           cd $GITHUB_WORKSPACE
           yarn install --frozen-lockfile
