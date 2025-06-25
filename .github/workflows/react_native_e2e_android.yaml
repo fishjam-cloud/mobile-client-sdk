@@ -88,14 +88,16 @@ jobs:
           node-version: "22.x"
           cache: "yarn"
 
-      - name: Use corepack
-        run: corepack enable
-
-      - name: Run yarn install in root directory
-        if: steps.setup-node.outputs.cache-hit != 'true'
+      - name: Enable Corepack and Install Dependencies
         run: |
-          cd $GITHUB_WORKSPACE
-          yarn install --frozen-lockfile
+          corepack enable
+          if [[ "${{ steps.setup-node.outputs.cache-hit }}" != 'true' ]]; then
+            echo "Cache miss. Running yarn install..."
+            yarn install --frozen-lockfile
+          else
+            echo "Cache hit. Skipping yarn install."
+          fi
+
       - name: Upload yarn.lock artifact
         uses: actions/upload-artifact@v4
         with:
