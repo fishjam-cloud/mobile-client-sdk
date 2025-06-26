@@ -178,6 +178,13 @@ jobs:
           yarn prebuild
           cd android
           ./gradlew assembleRelease
+
+      - name: Compute APK hash
+        if: steps.restore-apk.outputs.cache-hit != 'true'
+        id: apk_hash
+        run: |
+          echo "hash=${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}" >> $GITHUB_OUTPUT
+
       - name: Save APK to cache
         if: steps.apk_hash.outputs.hash != '' && steps.restore-apk.outputs.cache-hit != 'true'
         uses: actions/cache@v4
