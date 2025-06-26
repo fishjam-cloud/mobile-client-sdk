@@ -157,18 +157,13 @@ jobs:
           adb devices
           sleep 10
 
-      - name: Compute APK hash
-        id: apk_hash
-        run: |
-          echo "hash=${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}" >> $GITHUB_OUTPUT
-
       - name: Restore APK from cache
-        if: steps.apk_hash.outputs.hash != ''
+        if: ${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') != '' }}
         id: restore-apk
         uses: actions/cache@v4
         with:
           path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
-          key: apk-${{ runner.os }}-${{ steps.apk_hash.outputs.hash }}
+          key: apk-${{ runner.os }}-${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}
 
       - name: Build release app
         if: steps.restore-apk.outputs.cache-hit != 'true'
@@ -178,19 +173,12 @@ jobs:
           yarn prebuild
           cd android
           ./gradlew assembleRelease
-
-      - name: Compute APK hash
-        if: steps.restore-apk.outputs.cache-hit != 'true'
-        id: compute_apk_hash
-        run: |
-          echo "hash=${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}" >> $GITHUB_OUTPUT
-
       - name: Save APK to cache
-        if: steps.compute_apk_hash.outputs.hash != '' && steps.restore-apk.outputs.cache-hit != 'true'
+        if: steps.restore-apk.outputs.cache-hit != 'true'
         uses: actions/cache@v4
         with:
           path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
-          key: apk-${{ runner.os }}-${{ steps.compute_apk_hash.outputs.hash }}
+          key: apk-${{ runner.os }}-${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}
 
       - name: Logs from app to file
         run: |
