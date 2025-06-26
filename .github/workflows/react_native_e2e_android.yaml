@@ -41,8 +41,8 @@ jobs:
       ANDROID_API_LEVEL: android;33
       ANDROID_APIS: google_apis;x86_64
       EMULATOR_PACKAGE: system-images;android-33;default;x86_64
-      EMULATOR_NAME: "pixel_7"
-      EMULATOR_DEVICE: "pixel_7"
+      EMULATOR_NAME: "pixel_5"
+      EMULATOR_DEVICE: "pixel_5"
       PLATFORM_VERSION: platforms;android-33
       BUILD_TOOL: "build-tools;33.0.0"
       ANDROID_CMD: "commandlinetools-linux-10406996_latest.zip"
@@ -142,18 +142,15 @@ jobs:
       - name: Install  build tool
         run: echo "y" | sdkmanager --verbose --no_https $BUILD_TOOL
 
-      - name: List available emulator devices
-        run: avdmanager list device
-
       - name: Setup environment and create AVD
-        run: echo "y" | avdmanager --verbose create avd --force --name "pixel_7" --device "pixel_7" --package "$EMULATOR_PACKAGE"
+        run: echo "y" | avdmanager --verbose create avd --force --name "pixel_5" --device "pixel_5" --package "$EMULATOR_PACKAGE"
 
       - name: Start emulator
         timeout-minutes: 10
         run: |
           /usr/local/lib/android/sdk/tools/emulator -list-avds
           echo "Starting emulator and waiting for boot to complete...."
-          xvfb-run -a /usr/local/lib/android/sdk/tools/emulator -avd pixel_7 -grpc 8554 -camera-back emulated -camera-front emulated -no-boot-anim &
+          xvfb-run -a /usr/local/lib/android/sdk/tools/emulator -avd pixel_5 -grpc 8554 -camera-back emulated -camera-front emulated -no-boot-anim &
           while [ "`adb shell getprop sys.boot_completed | tr -d '\r'`" != "1" ]; do echo "Waiting for emulator boot..."; sleep 5; done
           adb wait-for-device
           echo "Emulator has finished booting"
