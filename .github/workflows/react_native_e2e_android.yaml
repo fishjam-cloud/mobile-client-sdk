@@ -90,7 +90,6 @@ jobs:
           node-version: "22.x"
           cache: "yarn"
 
-      # THIS STEP IS NOW UNCONDITIONAL
       - name: Run yarn install in root directory
         run: |
           cd $GITHUB_WORKSPACE
@@ -146,14 +145,26 @@ jobs:
         run: echo "y" | avdmanager --verbose create avd --force --name "nexus"
           --device "Nexus 6" --package "$EMULATOR_PACKAGE"
 
+      # *** MODIFIED CACHE STEP ***
       - name: Cache and Restore APK
         id: restore-apk
         uses: actions/cache@v4
         with:
           path: ${{ env.ANDROID_APP_PATH }}
-          key: apk-cache-${{ hashFiles('**/yarn.lock') }}
+          # This key is now much more specific. It creates a hash based on all relevant
+          # source files that could affect the final APK build.
+          key: apk-cache-${{ runner.os }}-${{ hashFiles(
+            '**/yarn.lock',
+            'examples/fishjam-chat/**/*.js',
+            'examples/fishjam-chat/**/*.ts',
+            'examples/fishjam-chat/**/*.tsx',
+            'examples/fishjam-chat/android/**/*.gradle*',
+            'examples/fishjam-chat/android/app/src/main/**/*.java',
+            'examples/fishjam-chat/android/app/src/main/**/*.kt',
+            'examples/fishjam-chat/android/app/src/main/**/*.xml'
+            ) }}
           restore-keys: |
-            apk-cache-
+            apk-cache-${{ runner.os }}-
 
       - name: Start emulator
         timeout-minutes: 10
@@ -167,6 +178,7 @@ jobs:
           adb devices
           sleep 10
 
+      # This step correctly runs only on a cache miss
       - name: Build release app
         if: steps.restore-apk.outputs.cache-hit != 'true'
         timeout-minutes: 20
