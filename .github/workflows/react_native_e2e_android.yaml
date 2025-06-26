@@ -46,8 +46,7 @@ jobs:
       PLATFORM_VERSION: platforms;android-33
       BUILD_TOOL: "build-tools;33.0.0"
       ANDROID_CMD: "commandlinetools-linux-10406996_latest.zip"
-      ANDROID_APP_PATH: ${{ github.workspace
-        }}/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+      ANDROID_APP_PATH: ${{ github.workspace }}/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
 
     steps:
       - name: Checkout
@@ -145,6 +144,15 @@ jobs:
       - name: Setup environment and create AVD
         run: echo "y" | avdmanager --verbose create avd --force --name "nexus"
           --device "Nexus 6" --package "$EMULATOR_PACKAGE"
+
+      - name: Cache and Restore APK
+        id: restore-apk
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.ANDROID_APP_PATH }}
+          key: apk-cache-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            apk-cache-
 
       - name: Start emulator
         timeout-minutes: 10
