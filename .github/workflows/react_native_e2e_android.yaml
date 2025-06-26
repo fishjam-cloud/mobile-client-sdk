@@ -90,11 +90,12 @@ jobs:
           node-version: "22.x"
           cache: "yarn"
 
+      # THIS STEP IS NOW UNCONDITIONAL
       - name: Run yarn install in root directory
-        if: steps.setup-node.outputs.cache-hit != 'true'
         run: |
           cd $GITHUB_WORKSPACE
           yarn install --frozen-lockfile
+
       - name: Upload yarn.lock artifact
         uses: actions/upload-artifact@v4
         with:
