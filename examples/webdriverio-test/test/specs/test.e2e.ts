@@ -42,9 +42,8 @@ const {
   VIDEO_CELL,
 } = roomScreenLabels;
 
-const { TITLE_TEXT, OUTPUT_DEVICE_BUTTON } = soundOutputDevicesLabels;
-
-const { OUTPUT_DEVICES_BOTTOM_SHEET } = soundOutputDevicesLabels;
+const { OUTPUT_DEVICES_BOTTOM_SHEET, TITLE_TEXT, OUTPUT_DEVICE_BUTTON } =
+  soundOutputDevicesLabels;
 
 let peerDetails: PeerDetailsResponseData | undefined;
 let room: Room | undefined;
@@ -126,7 +125,7 @@ const tests: Test[] = [
   {
     name: 'check if no camera view',
     run: async () => {
-      await driver.pause(500);
+      await driver.pause(2000);
       await getElement(driver, '~' + NO_CAMERA_VIEW);
     },
     skip: false,
@@ -248,6 +247,7 @@ const tests: Test[] = [
     name: 'disconnect from room',
     run: async () => {
       await tapButton(driver, '~' + DISCONNECT_BUTTON);
+      await driver.pause(500);
     },
     skip: false,
   },
@@ -255,9 +255,9 @@ const tests: Test[] = [
     name: 'connect one more time',
     run: async () => {
       await tapButton(driver, '~' + CONNECT_BUTTON);
-      await driver.pause(200);
+      await driver.pause(500);
       await tapButton(driver, '~' + JOIN_BUTTON);
-      await driver.pause(200);
+      await driver.pause(500);
       await tapButton(driver, '~' + DISCONNECT_BUTTON);
     },
     skip: false,
