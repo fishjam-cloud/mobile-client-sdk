@@ -173,7 +173,7 @@ jobs:
           cd android
           ./gradlew assembleRelease
       - name: Save APK to cache
-        if: steps.restore-apk.outputs.cache-hit != 'true'
+        if: ${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') != '' && steps.restore-apk.outputs.cache-hit != 'true' }}
         uses: actions/cache@v4
         with:
           path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
