@@ -41,8 +41,8 @@ jobs:
       ANDROID_API_LEVEL: android;33
       ANDROID_APIS: google_apis;x86_64
       EMULATOR_PACKAGE: system-images;android-33;default;x86_64
-      EMULATOR_NAME: "nexus"
-      EMULATOR_DEVICE: "Nexus 6"
+      EMULATOR_NAME: "pixel_5"
+      EMULATOR_DEVICE: "pixel_5"
       PLATFORM_VERSION: platforms;android-33
       BUILD_TOOL: "build-tools;33.0.0"
       ANDROID_CMD: "commandlinetools-linux-10406996_latest.zip"
@@ -81,19 +81,21 @@ jobs:
           libxcursor1 libpulse-dev libxshmfence-dev xauth xvfb x11vnc fluxbox
           wmctrl libdbus-glib-1-2 xvfb
 
-      - name: Use Node.js
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Use Node.js and Cache Yarn Dependencies
         uses: actions/setup-node@v4
+        id: setup-node
         with:
           node-version: "22.x"
-          cache: "npm"
-
-      - name: Use corepack
-        run: corepack enable
+          cache: "yarn"
 
       - name: Run yarn install in root directory
         run: |
           cd $GITHUB_WORKSPACE
           yarn install --frozen-lockfile
+
       - name: Upload yarn.lock artifact
         uses: actions/upload-artifact@v4
         with:
@@ -141,20 +143,26 @@ jobs:
         run: echo "y" | sdkmanager --verbose --no_https $BUILD_TOOL
 
       - name: Setup environment and create AVD
-        run: echo "y" | avdmanager --verbose create avd --force --name "nexus"
-          --device "Nexus 6" --package "$EMULATOR_PACKAGE"
+        run: echo "y" | avdmanager --verbose create avd --force --name "pixel_5" --device "pixel_5" --package "$EMULATOR_PACKAGE"
 
       - name: Start emulator
         timeout-minutes: 10
         run: |
           /usr/local/lib/android/sdk/tools/emulator -list-avds
           echo "Starting emulator and waiting for boot to complete...."
-          xvfb-run -a /usr/local/lib/android/sdk/tools/emulator -avd nexus -grpc 8554 -camera-back emulated -camera-front emulated -no-boot-anim &
+          xvfb-run -a /usr/local/lib/android/sdk/tools/emulator -avd pixel_5 -grpc 8554 -camera-back emulated -camera-front emulated -no-boot-anim &
           while [ "`adb shell getprop sys.boot_completed | tr -d '\r'`" != "1" ]; do echo "Waiting for emulator boot..."; sleep 5; done
           adb wait-for-device
           echo "Emulator has finished booting"
           adb devices
           sleep 10
+
+      - name: Restore APK from cache
+        id: restore-apk
+        uses: actions/cache@v4
+        with:
+          path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+          key: apk-${{ runner.os }}-${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}
 
       - name: Build release app
         if: steps.restore-apk.outputs.cache-hit != 'true'
@@ -164,6 +172,12 @@ jobs:
           yarn prebuild
           cd android
           ./gradlew assembleRelease
+      - name: Save APK to cache
+        if: steps.restore-apk.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+          key: apk-${{ runner.os }}-${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}
 
       - name: Logs from app to file
         run: |
