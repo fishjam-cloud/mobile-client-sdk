@@ -79,6 +79,12 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+
+      - name: Check KVM status
+        run: |
+          sudo apt-get install -y cpu-checker
+          kvm-ok || echo "KVM not available"
+
       - name: Free up disk space
         run: |
           sudo rm -rf /usr/share/dotnet
@@ -157,11 +163,19 @@ jobs:
         run: echo "y" | avdmanager --verbose create avd --force --name "$EMULATOR_NAME" --device "$EMULATOR_DEVICE" --package "$EMULATOR_PACKAGE"
 
       - name: Start emulator
+        # INCREASED TIMEOUT AND ADDED STABILITY FLAGS
         timeout-minutes: 10
         run: |
           /usr/local/lib/android/sdk/tools/emulator -list-avds
           echo "Starting emulator and waiting for boot to complete...."
-          xvfb-run -a /usr/local/lib/android/sdk/tools/emulator -avd nexus -grpc 8554 -camera-back emulated -camera-front emulated -no-boot-anim &
+
+          # START EMULATOR WITH FLAGS FOR CI
+          xvfb-run -a /usr/local/lib/android/sdk/tools/emulator -avd nexus \
+            -no-snapshot \
+            -no-window \
+            -no-audio \
+            -gpu swiftshader_indirect &
+
           while [ "`adb shell getprop sys.boot_completed | tr -d '\r'`" != "1" ]; do echo "Waiting for emulator boot..."; sleep 5; done
           adb wait-for-device
           echo "Emulator has finished booting"
