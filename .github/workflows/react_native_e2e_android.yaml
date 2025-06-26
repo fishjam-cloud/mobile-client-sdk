@@ -105,7 +105,7 @@ jobs:
         id: yarn-cache
         uses: actions/cache@v4
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
@@ -188,7 +188,7 @@ jobs:
           yarn prebuild
           cd android
           # The --no-daemon flag is recommended for CI environments for clean, isolated builds.
-         ./gradlew assembleRelease --no-daemon
+          ./gradlew assembleRelease --no-daemon
 
       # This step saves the newly built APK to the cache for future runs.
       # It only runs if the build step was executed (i.e., on a cache miss).
@@ -197,11 +197,9 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ${{ env.ANDROID_APP_PATH }}
-          key: ${{ steps.restore-apk.outputs.cache-primary-key |
-| format('{0}-apk-{1}', runner.os, hashFiles('**/yarn.lock', '**/package.json', 'android/**/build.gradle', 'android/gradle.properties', 'android/gradle/wrapper/gradle-wrapper.properties', 'android/app/src/**/*.java', 'android/app/src/**/*.kt', 'android/app/src/**/*.xml')) }}
+          key: ${{ runner.os }}-apk-${{ hashFiles('**/yarn.lock', '**/package.json', 'android/**/build.gradle', 'android/gradle.properties', 'android/gradle/wrapper/gradle-wrapper.properties', 'android/app/src/**/*.java', 'android/app/src/**/*.kt', 'android/app/src/**/*.xml') }}
 
-      # Install and run E2E tests
-      - name: Install and setup Appium
+      - name: Install Appium and drivers
         run: |
           npm i --location=global appium
           appium driver install uiautomator2
