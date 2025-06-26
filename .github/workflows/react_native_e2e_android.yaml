@@ -160,6 +160,13 @@ jobs:
           adb devices
           sleep 10
 
+      - name: Restore APK from cache
+        id: restore-apk
+        uses: actions/cache@v4
+        with:
+          path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+          key: apk-${{ runner.os }}-${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}
+
       - name: Build release app
         if: steps.restore-apk.outputs.cache-hit != 'true'
         timeout-minutes: 20
@@ -168,6 +175,12 @@ jobs:
           yarn prebuild
           cd android
           ./gradlew assembleRelease
+      - name: Save APK to cache
+        if: steps.restore-apk.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+          key: apk-${{ runner.os }}-${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}
 
       - name: Logs from app to file
         run: |
