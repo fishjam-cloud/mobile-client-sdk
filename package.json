@@ -19,7 +19,7 @@
     ]
   },
   "devDependencies": {
-    "typedoc": "^0.28.1",
+    "typedoc": "^0.28.5",
     "typedoc-material-theme": "^1.4.0",
     "typescript": "~5.8.3"
   },
