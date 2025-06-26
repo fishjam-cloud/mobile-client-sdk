@@ -181,16 +181,16 @@ jobs:
 
       - name: Compute APK hash
         if: steps.restore-apk.outputs.cache-hit != 'true'
-        id: apk_hash
+        id: compute_apk_hash
         run: |
           echo "hash=${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}" >> $GITHUB_OUTPUT
 
       - name: Save APK to cache
-        if: steps.apk_hash.outputs.hash != '' && steps.restore-apk.outputs.cache-hit != 'true'
+        if: steps.compute_apk_hash.outputs.hash != '' && steps.restore-apk.outputs.cache-hit != 'true'
         uses: actions/cache@v4
         with:
           path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
-          key: apk-${{ runner.os }}-${{ steps.apk_hash.outputs.hash }}
+          key: apk-${{ runner.os }}-${{ steps.compute_apk_hash.outputs.hash }}
 
       - name: Logs from app to file
         run: |
