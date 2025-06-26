@@ -142,6 +142,9 @@ jobs:
       - name: Install  build tool
         run: echo "y" | sdkmanager --verbose --no_https $BUILD_TOOL
 
+      - name: List available emulator devices
+        run: avdmanager list device
+
       - name: Setup environment and create AVD
         run: echo "y" | avdmanager --verbose create avd --force --name "pixel_7" --device "pixel_7" --package "$EMULATOR_PACKAGE"
 
