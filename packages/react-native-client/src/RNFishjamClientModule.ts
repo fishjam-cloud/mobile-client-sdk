@@ -1,4 +1,4 @@
-import { requireNativeModule } from 'expo-modules-core';
+import { PermissionResponse, requireNativeModule } from 'expo-modules-core';
 
 import type { NativeModule } from 'expo-modules-core/types';
 import type { ConnectionConfig } from './common/client';
@@ -85,6 +85,10 @@ type RNFishjamClient = {
   getStatistics: () => Promise<RTCStats>;
   startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
   stopForegroundService: () => void;
+  getCameraPermissionsAsync: () => Promise<PermissionResponse>;
+  requestCameraPermissionsAsync: () => Promise<PermissionResponse>;
+  getMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
+  requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
 };
 
 export const ReceivableEvents = {
