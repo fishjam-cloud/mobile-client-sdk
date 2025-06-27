@@ -35,7 +35,7 @@
     "plugins": [
       ["react-native-vision-camera"],
       [
-        "../shared/plugins/build/with-local-paths-for-native-packages.js",
+        "../../common/plugins/build/with-local-paths-for-native-packages.js",
         {
           "iosTargetName": "visioncamera"
         }

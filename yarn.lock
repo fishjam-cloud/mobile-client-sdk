@@ -3092,9 +3092,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fishjam-example/fishjam-chat@workspace:examples/fishjam-chat":
+"@fishjam-example/fishjam-chat@workspace:internal/fishjam-chat":
   version: 0.0.0-use.local
-  resolution: "@fishjam-example/fishjam-chat@workspace:examples/fishjam-chat"
+  resolution: "@fishjam-example/fishjam-chat@workspace:internal/fishjam-chat"
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@fishjam-cloud/react-native-client": "npm:*"
@@ -3125,9 +3125,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fishjam-example/shared-plugins@workspace:examples/shared/plugins":
+"@fishjam-example/shared-plugins@workspace:common/plugins":
   version: 0.0.0-use.local
-  resolution: "@fishjam-example/shared-plugins@workspace:examples/shared/plugins"
+  resolution: "@fishjam-example/shared-plugins@workspace:common/plugins"
   dependencies:
     typescript: "npm:~5.8.3"
   languageName: unknown

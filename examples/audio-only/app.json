@@ -33,7 +33,7 @@
     },
     "plugins": [
       [
-        "../shared/plugins/build/with-local-paths-for-native-packages.js",
+        "../../common/plugins/build/with-local-paths-for-native-packages.js",
         {
           "iosTargetName": "audioonly"
         }
