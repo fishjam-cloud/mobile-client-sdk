@@ -19032,6 +19032,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"video-room@workspace:examples/video-room":
+  version: 0.0.0-use.local
+  resolution: "video-room@workspace:examples/video-room"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@types/react": "npm:~19.0.10"
+    eslint: "npm:^9.29.0"
+    eslint-config-expo: "npm:~9.2.0"
+    eslint-config-prettier: "npm:^10.1.5"
+    eslint-plugin-prettier: "npm:^5.4.1"
+    expo: "npm:53.0.11"
+    prettier: "npm:^3.5.3"
+    react: "npm:19.0.0"
+    react-native: "npm:0.79.3"
+    typescript: "npm:~5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "vlq@npm:^1.0.0":
   version: 1.0.1
   resolution: "vlq@npm:1.0.1"

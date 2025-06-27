@@ -21,7 +21,8 @@
         "NSCameraUsageDescription": "We need to access your camera for video calls.",
         "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls.",
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "appleTeamId": "J5FM626PE2"
     },
     "android": {
       "adaptiveIcon": {
