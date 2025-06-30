@@ -24,6 +24,7 @@ async function requestCameraPermissionsAsync(): Promise<PermissionResponse> {
  *
  * @example
  * ```ts
+ * import { useCameraPermissions } from '@fishjam-cloud/react-native-client';
  * const [status, requestPermission] = useCameraPermissions();
  * ```
  */
@@ -55,6 +56,7 @@ async function requestMicrophonePermissionsAsync(): Promise<PermissionResponse> 
  *
  * @example
  * ```ts
+ * import { useMicrophonePermissions } from '@fishjam-cloud/react-native-client';
  * const [status, requestPermission] = useMicrophonePermissions();
  * ```
  */
