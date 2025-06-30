@@ -280,11 +280,11 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
  */
 const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   if (props?.ios?.enableScreensharing) {
-    withAppGroupPermissions(config);
-    withInfoPlistConstants(config);
-    withFishjamSBE(config, props);
+    config = withAppGroupPermissions(config);
+    config = withInfoPlistConstants(config);
+    config = withFishjamSBE(config, props);
   }
-  withPodfileProperties(config, (configuration) => {
+  config = withPodfileProperties(config, (configuration) => {
     configuration.modResults['ios.deploymentTarget'] =
       props?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
     return configuration;
