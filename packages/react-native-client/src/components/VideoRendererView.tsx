@@ -30,6 +30,7 @@ const NativeView: React.ComponentType<VideoRendererProps> =
  *
  * Example usage:
  * ```tsx
+ * // @errors: 2686 2551 2304
  *  <VideoRendererView
  *      trackId={peer.track.id}
  *      videoLayout="FIT"
