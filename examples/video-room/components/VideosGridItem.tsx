@@ -28,11 +28,6 @@ export const VideosGridItem = ({ peer }: { peer: GridTrack }) => {
             <Text>No video</Text>
           </View>
         )}
-        {peer.isVadActive && (
-          <View style={styles.vadIcon}>
-            <Text>speaking</Text>
-          </View>
-        )}
       </View>
     </View>
   );
@@ -40,13 +35,7 @@ export const VideosGridItem = ({ peer }: { peer: GridTrack }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  videoContent: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 0.5,
   },
   video: {
     flex: 1,
@@ -54,14 +43,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     borderColor: '#001A72',
-    borderWidth: 2,
+    borderWidth: 1,
   },
-  vadIcon: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    opacity: 0.5,
+  videoContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+
   userLabel: {
     position: 'absolute',
     bottom: 10,
