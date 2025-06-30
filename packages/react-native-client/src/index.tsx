@@ -97,6 +97,11 @@ export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestream } from './hooks/useLivestream';
 // #endregion
 
+export {
+  useCameraPermissions,
+  useMicrophonePermissions,
+} from './hooks/usePermissions';
+
 export type { FishjamRoomProps } from './components/FishjamRoom';
 export { FishjamRoom } from './components/FishjamRoom';
 
