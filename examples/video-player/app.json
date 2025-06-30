@@ -45,6 +45,12 @@
             "supportsPictureInPicture": true
           }
         }
+      ],
+      [
+        "../../common/plugins/build/with-local-paths-for-native-packages.js",
+        {
+          "iosTargetName": "VideoPlayer"
+        }
       ]
     ]
   }
