@@ -11,11 +11,17 @@ interface FishjamPlayerProps {
   pictureInPicture?: boolean;
 }
 
+const PIP_SIZE = {
+  width: 1920,
+  height: 1080,
+};
+
 const FishjamPlayer = ({
   isLandscape,
   hasErrors,
   restart,
   isReconnecting,
+  pictureInPicture,
 }: FishjamPlayerProps) => {
   const styles = useMemo(() => createStyles(isLandscape), [isLandscape]);
 
@@ -29,7 +35,13 @@ const FishjamPlayer = ({
             color="white"
           />
         )}
-        <WhepClientView style={styles.playerWhepClientView} />
+        <WhepClientView
+          style={styles.playerWhepClientView}
+          pipEnabled={pictureInPicture}
+          autoStartPip={pictureInPicture}
+          autoStopPip={pictureInPicture}
+          pipSize={PIP_SIZE}
+        />
 
         {hasErrors && <FishjamPlayerError restart={restart} />}
       </View>

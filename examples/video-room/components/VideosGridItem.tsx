@@ -1,22 +1,15 @@
 import { VideoRendererView } from '@fishjam-cloud/react-native-client';
-import { useMemo } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { GridTrack } from '../types';
 
 export const VideosGridItem = ({ peer }: { peer: GridTrack }) => {
-  const videoContainer = useMemo(
-    () => [
-      styles.video,
-      {
-        backgroundColor: peer.isLocal ? '#606619' : '#7089DB',
-      },
-    ],
-    [peer.isLocal],
-  );
-
   return (
     <View style={styles.container}>
-      <View style={videoContainer}>
+      <View
+        style={[
+          styles.video,
+          { backgroundColor: peer.isLocal ? '#606619' : '#7089DB' },
+        ]}>
         {peer.track ? (
           <VideoRendererView
             trackId={peer.track.id}
@@ -49,15 +42,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  userLabel: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    opacity: 0.5,
-    backgroundColor: '#F5F7FE',
-    borderRadius: 4,
-    padding: 3,
   },
 });
