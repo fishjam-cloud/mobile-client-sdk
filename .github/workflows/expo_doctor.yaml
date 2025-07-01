@@ -22,4 +22,4 @@ jobs:
 
       - name: 🩺 Run Expo Doctor
         run: EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 npx expo-doctor@latest
-        working-directory: examples/fishjam-chat
+        working-directory: internal/fishjam-chat

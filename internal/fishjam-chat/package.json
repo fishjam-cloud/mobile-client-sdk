@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "eas-build-pre-install": "corepack enable && yarn workspace fishjam-mobile-sdk install && yarn workspace fishjam-mobile-sdk build",
-    "prebuild": "expo prebuild",
+    "prebuild": "rm -rf android/app/build && expo prebuild",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",

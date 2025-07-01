@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "vision-camera",
-    "slug": "vision-camera",
+    "name": "video-room",
+    "slug": "video-room",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,10 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.fishjam.example.visioncamera",
+      "bundleIdentifier": "io.fishjam.example.videoroom",
       "infoPlist": {
-        "NSCameraUsageDescription": "We need to access your camera for video calls.",
-        "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls."
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone."
       }
     },
     "android": {
@@ -25,21 +25,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "edgeToEdgeEnabled": true,
+      "package": "io.fishjam.example.videoroom",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
-      ],
-      "package": "io.fishjam.example.visioncamera"
-    },
-    "plugins": [
-      ["react-native-vision-camera"],
-      [
-        "../../common/plugins/build/with-local-paths-for-native-packages.js",
-        {
-          "iosTargetName": "visioncamera"
-        }
       ]
-    ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }

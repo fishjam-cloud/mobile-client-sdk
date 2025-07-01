@@ -47,7 +47,7 @@ jobs:
       BUILD_TOOL: "build-tools;33.0.0"
       ANDROID_CMD: "commandlinetools-linux-10406996_latest.zip"
       ANDROID_APP_PATH: ${{ github.workspace
-        }}/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+        }}/internal/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
 
     steps:
       - name: Checkout
@@ -159,34 +159,34 @@ jobs:
 
       - name: Build sources (prebuild)
         run: |
-          cd $GITHUB_WORKSPACE/examples/fishjam-chat/
+          cd $GITHUB_WORKSPACE/internal/fishjam-chat/
           yarn prebuild
 
       - name: Compute APK hash
         id: compute_apk_hash
         run: |
-          echo "hash=${{ hashFiles('examples/fishjam-chat/android/app/src/**', 'examples/fishjam-chat/android/build.gradle', 'examples/fishjam-chat/android/app/build.gradle') }}" >> $GITHUB_OUTPUT
+          echo "hash=${{ hashFiles('internal/fishjam-chat/android/app/src/**', 'internal/fishjam-chat/android/build.gradle', 'internal/fishjam-chat/android/app/build.gradle') }}" >> $GITHUB_OUTPUT
 
       - name: Restore APK from cache
         if: steps.compute_apk_hash.outputs.hash != ''
         id: restore-apk
         uses: actions/cache@v4
         with:
-          path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+          path: internal/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
           key: apk-${{ runner.os }}-${{ steps.compute_apk_hash.outputs.hash }}
 
       - name: Build release app
         if: steps.restore-apk.outputs.cache-hit != 'true'
         timeout-minutes: 20
         run: |
-          cd $GITHUB_WORKSPACE/examples/fishjam-chat/android
+          cd $GITHUB_WORKSPACE/internal/fishjam-chat/android
           ./gradlew assembleRelease
 
       - name: Save APK to cache
         if: steps.compute_apk_hash.outputs.hash != '' && steps.restore-apk.outputs.cache-hit != 'true'
         uses: actions/cache@v4
         with:
-          path: examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
+          path: internal/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk
           key: apk-${{ runner.os }}-${{ steps.compute_apk_hash.outputs.hash }}
 
       - name: Logs from app to file
