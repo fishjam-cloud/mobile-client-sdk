@@ -16,8 +16,7 @@
       "bundleIdentifier": "io.fishjam.example.audioonly",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls."
-      },
-      "appleTeamId": "J5FM626PE2"
+      }
     },
     "android": {
       "adaptiveIcon": {
