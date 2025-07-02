@@ -6,8 +6,17 @@ import {
 } from '@expo/config-plugins';
 import { INFO_GENERATED_COMMENT_ANDROID } from './utils';
 
+const removeGeneratedBlockAndroid = (fileContent: string, marker: string) => {
+  const regex = new RegExp(`\n?\s*${marker}[\s\S]*?(?=\n[^\s#\/]|$)`, 'g');
+  return fileContent.replace(regex, '');
+};
+
 const withCustomSettingsGradle: ConfigPlugin = (config) =>
   withSettingsGradle(config, (configuration) => {
+    configuration.modResults.contents = removeGeneratedBlockAndroid(
+      configuration.modResults.contents,
+      INFO_GENERATED_COMMENT_ANDROID.trim()
+    );
     configuration.modResults.contents += `
 ${INFO_GENERATED_COMMENT_ANDROID}
 include ':fishjam-cloud-android-client'
@@ -24,11 +33,16 @@ ${INFO_GENERATED_COMMENT_ANDROID}
 classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.8.10")
 `;
 
+    configuration.modResults.contents = removeGeneratedBlockAndroid(
+      configuration.modResults.contents,
+      INFO_GENERATED_COMMENT_ANDROID.trim()
+    );
+
     const classpathRegex = /dependencies\s*{[\s\S]*?}/;
 
     configuration.modResults.contents =
       configuration.modResults.contents.replace(classpathRegex, (match) => {
-        if (!match.includes(dokkaClasspath)) {
+        if (!match.includes(INFO_GENERATED_COMMENT_ANDROID.trim())) {
           return match.replace(/}$/, `    ${dokkaClasspath}\n}`);
         }
         return match;

@@ -16,7 +16,7 @@ yarn
 > built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier
 > time if you use `yarn` for development.
 
-While developing, you can run the [example app](/examples/fishjam-chat) to test your changes.
+While developing, you can run the [example app](/internal/fishjam-chat) to test your changes.
 Any changes you make in your library's JavaScript code will be reflected in the
 example app without a rebuild. If you change any native code, then you'll need
 to rebuild the example app.
@@ -24,7 +24,7 @@ to rebuild the example app.
 Go into the example app:
 
 ```sh
-cd examples/fishjam-chat
+cd internal/fishjam-chat
 ```
 
 Prebuild the app:
@@ -61,13 +61,13 @@ yarn typecheck
 yarn lint:check
 ```
 
-To edit the React Native SDK's Swift files, open `examples/fishjam-chat/ios/FishjamExample.xcworkspace` in Xcode
+To edit the React Native SDK's Swift files, open `internal/fishjam-chat/ios/FishjamExample.xcworkspace` in Xcode
 and find the source files at
 `Pods > Development Pods > RNFishjamClient`
 to edit the iOS native SDK find
 `Pods > Development Pods > FishjamCloudClient`
 
-To edit the React Native SDK's Kotlin files, open `examples/fishjam-chat/android` in Android studio and find the
+To edit the React Native SDK's Kotlin files, open `internal/fishjam-chat/android` in Android studio and find the
 source files at
 `fishjam-cloud-react-native-client`
 to edit the Android native SDK find
