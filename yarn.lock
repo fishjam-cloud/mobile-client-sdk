@@ -14177,6 +14177,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimal-react-native@workspace:examples/minimal-react-native":
+  version: 0.0.0-use.local
+  resolution: "minimal-react-native@workspace:examples/minimal-react-native"
+  dependencies:
+    "@babel/core": "npm:^7.26.10"
+    "@fishjam-cloud/react-native-client": "npm:*"
+    "@react-navigation/elements": "npm:^2.5.2"
+    "@react-navigation/native": "npm:^7.1.14"
+    "@react-navigation/native-stack": "npm:^7.3.21"
+    "@types/react": "npm:~19.0.10"
+    eslint: "npm:^9.29.0"
+    eslint-config-expo: "npm:~9.2.0"
+    eslint-config-prettier: "npm:^10.1.5"
+    eslint-plugin-prettier: "npm:^5.4.1"
+    expo: "npm:53.0.11"
+    prettier: "npm:^3.5.3"
+    react: "npm:19.0.0"
+    react-native: "npm:0.79.3"
+    react-native-safe-area-context: "npm:5.4.0"
+    react-native-screens: "npm:~4.11.1"
+    typescript: "npm:~5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "minimalistic-assert@npm:^1.0.0":
   version: 1.0.1
   resolution: "minimalistic-assert@npm:1.0.1"
@@ -19150,30 +19174,6 @@ __metadata:
   checksum: 10c0/f15d588d79f3675135ba783c91a4083dcd290a2a5be9fcb6514220a1634e23df116847b1cc51f66bfb0644cf9353b2abb7815ae499bab06e46dd33c1a6bf1f4f
   languageName: node
   linkType: hard
-
-"video-room@workspace:examples/video-room":
-  version: 0.0.0-use.local
-  resolution: "video-room@workspace:examples/video-room"
-  dependencies:
-    "@babel/core": "npm:^7.26.10"
-    "@fishjam-cloud/react-native-client": "npm:*"
-    "@react-navigation/elements": "npm:^2.5.2"
-    "@react-navigation/native": "npm:^7.1.14"
-    "@react-navigation/native-stack": "npm:^7.3.21"
-    "@types/react": "npm:~19.0.10"
-    eslint: "npm:^9.29.0"
-    eslint-config-expo: "npm:~9.2.0"
-    eslint-config-prettier: "npm:^10.1.5"
-    eslint-plugin-prettier: "npm:^5.4.1"
-    expo: "npm:53.0.11"
-    prettier: "npm:^3.5.3"
-    react: "npm:19.0.0"
-    react-native: "npm:0.79.3"
-    react-native-safe-area-context: "npm:5.4.0"
-    react-native-screens: "npm:~4.11.1"
-    typescript: "npm:~5.8.3"
-  languageName: unknown
-  linkType: soft
 
 "vlq@npm:^1.0.0":
   version: 1.0.1
