@@ -16,7 +16,7 @@
       "examples/audio-only",
       "examples/vision-camera",
       "examples/video-player",
-      "examples/video-room"
+      "examples/minimal-react-native"
     ]
   },
   "devDependencies": {

@@ -27,14 +27,14 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/fishjam-cloud/mobile-client-sdk/tree/main
-   cd fishjam-mobile-client-sdk/examples/video-room
+   cd fishjam-mobile-client-sdk/examples/minimal-react-native
    ```
 2. **Install dependencies:**
    ```sh
    yarn install
    ```
 3. **Set up environment variables:**
-   - Create a `.env` file in the root of the `video-room` directory:
+   - Create a `.env` file in the root of the `minimal-react-native` directory:
      ```env
      EXPO_PUBLIC_ROOM_MANAGER=
      ```
