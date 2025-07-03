@@ -43,7 +43,7 @@
     "promise-fs": "^2.1.1",
     "protobufjs": "^7.4.0",
     "react-native-whip-whep": "0.2.3",
-    "zod": "^3.24.2"
+    "zod": "^3.25.71"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
