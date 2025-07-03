@@ -99,6 +99,60 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
     return newConfig;
   });
 
+  // Enable App Groups capability in Xcode project
+  config = withXcodeProject(config, (props) => {
+    const xcodeProject = props.modResults;
+
+    // Find the main target
+    const targets = xcodeProject.getFirstTarget();
+    if (!targets) return props;
+
+    const targetUuid = targets.uuid;
+
+    // Get project attributes
+    const project = xcodeProject.getFirstProject();
+    const projectUuid = project.uuid;
+
+    // Add App Groups capability to target attributes
+    if (
+      !xcodeProject.hash.project.objects.PBXProject[projectUuid].attributes
+        .TargetAttributes
+    ) {
+      xcodeProject.hash.project.objects.PBXProject[
+        projectUuid
+      ].attributes.TargetAttributes = {};
+    }
+
+    if (
+      !xcodeProject.hash.project.objects.PBXProject[projectUuid].attributes
+        .TargetAttributes[targetUuid]
+    ) {
+      xcodeProject.hash.project.objects.PBXProject[
+        projectUuid
+      ].attributes.TargetAttributes[targetUuid] = {};
+    }
+
+    if (
+      !xcodeProject.hash.project.objects.PBXProject[projectUuid].attributes
+        .TargetAttributes[targetUuid].SystemCapabilities
+    ) {
+      xcodeProject.hash.project.objects.PBXProject[
+        projectUuid
+      ].attributes.TargetAttributes[targetUuid].SystemCapabilities = {};
+    }
+
+    // Enable App Groups capability
+    xcodeProject.hash.project.objects.PBXProject[
+      projectUuid
+    ].attributes.TargetAttributes[targetUuid].SystemCapabilities[
+      'com.apple.ApplicationGroups.iOS'
+    ] = {
+      enabled: 1,
+    };
+
+    return props;
+  });
+
   return config;
 };
 
