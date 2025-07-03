@@ -29,10 +29,9 @@ const NativeView: React.ComponentType<VideoRendererProps> =
  * Render video track received from {@link usePeers} hook
  *
  * Example usage:
- * ```tsx
- * // @errors: 2686 2551 2304
+ * ```js
  *  <VideoRendererView
- *      trackId={peer.track.id}
+ *      trackId={peer.cameraTrack?.id}
  *      videoLayout="FIT"
  *      style={styles.videoContent}
  *  />
