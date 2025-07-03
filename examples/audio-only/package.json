@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
-    "@react-native-picker/picker": "2.11.0",
-    "expo": "^53.0.0",
+    "@react-native-picker/picker": "2.11.1",
+    "expo": "53.0.16",
     "react": "19.0.0",
-    "react-native": "0.79.3"
+    "react-native": "0.79.5"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
