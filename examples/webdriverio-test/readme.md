@@ -15,8 +15,8 @@
       ```
     - `ANDROID_APP_PATH` - The absolute path to the `.apk` file on your computer. To generate it:
 
-      - In the `example` folder, run: `cd android && ./gradlew assembleRelease`
-      - Your path should look similar to this: `/path/to/repo/examples/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk`
+      - In the `internal` folder, run: `cd android && ./gradlew assembleRelease`
+      - Your path should look similar to this: `/path/to/repo/internal/fishjam-chat/android/app/build/outputs/apk/release/app-release.apk`
       - Alternatively, to generate a **debug** app using Expo:
         - Run `npx expo run:android`.
         - Choose the path to your installed app.

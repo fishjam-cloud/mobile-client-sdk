@@ -27,7 +27,6 @@ const App = () => {
   return (
     <View style={styles.videoContainer}>
       <FishjamPlayer
-        pictureInPicture
         isLandscape={isLandscape}
         hasErrors={hasErrors}
         restart={restart}

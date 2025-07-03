@@ -44,7 +44,7 @@ android.iml
 
 # Cocoapods
 #
-examples/fishjam-chat/ios/Pods
+internal/fishjam-chat/ios/Pods
 
 # node.js
 #
@@ -87,3 +87,5 @@ docs/
 # Proto
 .protoc/
 .swift-protobuf/
+
+.cursor/

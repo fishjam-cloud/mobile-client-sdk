@@ -4,7 +4,7 @@
 
 ### Prerequisites
 
-Create a `.env` file in the `examples/fishjam-chat` directory (optional), or copy the `.env.example` file. The following environment variables can be configured, but none of them are required:
+Create a `.env` file in the `internal/fishjam-chat` directory (optional), or copy the `.env.example` file. The following environment variables can be configured, but none of them are required:
 
 - `EXPO_PUBLIC_FISHJAM_URL` - Pre-fills the Fishjam server URL in the "Connect with Token" tab
 - `EXPO_PUBLIC_FISHJAM_PEER_TOKEN` - Pre-fills the peer token in the "Connect with Token" tab
@@ -47,7 +47,7 @@ yarn build
 3. Prebuild native files in example directory:
 
 ```cmd
-cd `examples/fishjam-chat`
+cd `internal/fishjam-chat`
 npx expo prebuild --clean
 ```
 

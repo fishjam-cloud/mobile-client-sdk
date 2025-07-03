@@ -10,12 +10,13 @@
       "packages/react-native-client",
       "packages/android-client",
       "packages/ios-client",
-      "examples/fishjam-chat",
+      "common/plugins",
+      "internal/fishjam-chat",
       "examples/webdriverio-test",
       "examples/audio-only",
       "examples/vision-camera",
-      "examples/shared/plugins",
-      "examples/video-player"
+      "examples/video-player",
+      "examples/minimal-react-native"
     ]
   },
   "devDependencies": {
