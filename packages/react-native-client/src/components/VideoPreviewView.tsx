@@ -15,7 +15,7 @@ export type VideoPreviewViewProps = {
   style?: StyleProp<ViewStyle>;
   /**
    * Id of the camera used for preview. Get available cameras with `cameras` property.
-   * @default the first front camera
+   * @default `the first front camera`
    */
   cameraId?: CameraId;
 };

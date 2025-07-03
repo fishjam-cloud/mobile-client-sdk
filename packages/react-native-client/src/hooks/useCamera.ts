@@ -48,12 +48,12 @@ export type CameraConfigBase = {
    * To record horizontal video your phone orientation must be in landscape and your app must support this orientation.
    *
    * Platform specific capture formats:
-   * @see iOS: https://developer.apple.com/documentation/avfoundation/avcapturedevice/format
-   * @see Android: https://github.com/webrtc-sdk/webrtc/blob/cdc3bba5aa38910a55428b919ba45aceac1ad9ad/sdk/android/api/org/webrtc/CameraEnumerationAndroid.java#L50
+   * @see [iOS](https://developer.apple.com/documentation/avfoundation/avcapturedevice/format)
+   * @see [Android](https://github.com/webrtc-sdk/webrtc/blob/cdc3bba5aa38910a55428b919ba45aceac1ad9ad/sdk/android/api/org/webrtc/CameraEnumerationAndroid.java#L50)
    *
    * WebRTC device orientation handling:
-   * @see iOS:  https://github.com/webrtc-sdk/webrtc/blob/cdc3bba5aa38910a55428b919ba45aceac1ad9ad/sdk/objc/components/capturer/RTCCameraVideoCapturer.m#L285
-   * @see Android: https://github.com/pristineio/webrtc-mirror/blob/7a5bcdffaab90a05bc1146b2b1ea71c004e54d71/webrtc/sdk/android/src/java/org/webrtc/Camera2Session.java#L347
+   * @see [iOS](https://github.com/webrtc-sdk/webrtc/blob/cdc3bba5aa38910a55428b919ba45aceac1ad9ad/sdk/objc/components/capturer/RTCCameraVideoCapturer.m#L285)
+   * @see [Android](https://github.com/pristineio/webrtc-mirror/blob/7a5bcdffaab90a05bc1146b2b1ea71c004e54d71/webrtc/sdk/android/src/java/org/webrtc/Camera2Session.java#L347)
    *
    * @default `true`
    */
@@ -66,7 +66,7 @@ export type CameraConfigBase = {
   /**
    * id of the camera to start capture with. Get available cameras with `cameras`.
    * You can switch the cameras later with `switchCamera` functions.
-   * @default the first front camera
+   * @default `the first front camera`
    */
   cameraId?: CameraId;
 };
