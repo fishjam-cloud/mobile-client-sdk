@@ -14,7 +14,7 @@ export type ScreenShareOptions = {
    * Resolution + fps of screen share track, one of: `VGA`, `HD5`, `HD15`, `FHD15`, `FHD30`.
    * Note that quality might be worse than specified due to device capabilities, internet
    * connection etc.
-   * @default `HD15``
+   * @default `HD15`
    */
   quality: ScreenShareQuality;
 };
