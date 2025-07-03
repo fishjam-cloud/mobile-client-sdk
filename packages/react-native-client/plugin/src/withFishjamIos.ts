@@ -99,7 +99,7 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
     return newConfig;
   });
 
-  // Enable App Groups capability in Xcode project
+  // Enable App Groups capability in Xcode project and add entitlements file
   config = withXcodeProject(config, (props) => {
     const xcodeProject = props.modResults;
 
@@ -149,6 +149,23 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
     ] = {
       enabled: 1,
     };
+
+    // Set CODE_SIGN_ENTITLEMENTS build setting - this tells Xcode to use the entitlements file created by withEntitlementsPlist
+    const entitlementsFilePath = `${props.modRequest.projectName}/${props.modRequest.projectName}.entitlements`;
+
+    const configurations = xcodeProject.pbxXCBuildConfigurationSection();
+    for (const key in configurations) {
+      if (
+        typeof configurations[key].buildSettings !== 'undefined' &&
+        configurations[key].buildSettings.PRODUCT_NAME &&
+        configurations[key].buildSettings.PRODUCT_NAME.includes(
+          props.modRequest.projectName,
+        )
+      ) {
+        configurations[key].buildSettings.CODE_SIGN_ENTITLEMENTS =
+          entitlementsFilePath;
+      }
+    }
 
     return props;
   });
