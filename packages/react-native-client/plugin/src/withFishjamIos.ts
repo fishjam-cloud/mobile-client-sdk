@@ -69,19 +69,37 @@ async function updatePodfile(iosPath: string) {
  */
 const withAppGroupPermissions: ConfigPlugin = (config) => {
   const APP_GROUP_KEY = 'com.apple.security.application-groups';
-  return withEntitlementsPlist(config, (newConfig) => {
+  const bundleIdentifier = config.ios?.bundleIdentifier || '';
+  const groupIdentifier = `group.${bundleIdentifier}`;
+
+  if (!config.ios) {
+    config.ios = {};
+  }
+  if (!config.ios.entitlements) {
+    config.ios.entitlements = {};
+  }
+
+  if (!config.ios.entitlements[APP_GROUP_KEY]) {
+    config.ios.entitlements[APP_GROUP_KEY] = [];
+  }
+
+  const entitlementsArray = config.ios.entitlements[APP_GROUP_KEY] as string[];
+  if (!entitlementsArray.includes(groupIdentifier)) {
+    entitlementsArray.push(groupIdentifier);
+  }
+
+  config = withEntitlementsPlist(config, (newConfig) => {
     if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {
       newConfig.modResults[APP_GROUP_KEY] = [];
     }
     const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as unknown[];
-    const entitlement = `group.${newConfig?.ios?.bundleIdentifier || ''}`;
-    if (modResultsArray.indexOf(entitlement) !== -1) {
-      return newConfig;
+    if (modResultsArray.indexOf(groupIdentifier) === -1) {
+      modResultsArray.push(groupIdentifier);
     }
-    modResultsArray.push(entitlement);
-
     return newConfig;
   });
+
+  return config;
 };
 
 /**
