@@ -20,6 +20,12 @@ export type FishjamRoomProps = {
  *
  * Example usage:
  * ```tsx
+ * import { FishjamRoom } from '@fishjam-cloud/react-native-client';
+ * import React from 'react';
+ *
+ * const FISHJAM_URL = 'https://fishjam.io/your_fishjam';
+ * const PEER_TOKEN = 'your-peer-token';
+ *
  * <FishjamRoom
  *    fishjamUrl={FISHJAM_URL}
  *    peerToken={PEER_TOKEN}
