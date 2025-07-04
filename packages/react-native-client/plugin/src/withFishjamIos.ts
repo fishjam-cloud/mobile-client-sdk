@@ -69,19 +69,108 @@ async function updatePodfile(iosPath: string) {
  */
 const withAppGroupPermissions: ConfigPlugin = (config) => {
   const APP_GROUP_KEY = 'com.apple.security.application-groups';
-  return withEntitlementsPlist(config, (newConfig) => {
+  const bundleIdentifier = config.ios?.bundleIdentifier || '';
+  const groupIdentifier = `group.${bundleIdentifier}`;
+
+  if (!config.ios) {
+    config.ios = {};
+  }
+  if (!config.ios.entitlements) {
+    config.ios.entitlements = {};
+  }
+
+  if (!config.ios.entitlements[APP_GROUP_KEY]) {
+    config.ios.entitlements[APP_GROUP_KEY] = [];
+  }
+
+  const entitlementsArray = config.ios.entitlements[APP_GROUP_KEY] as string[];
+  if (!entitlementsArray.includes(groupIdentifier)) {
+    entitlementsArray.push(groupIdentifier);
+  }
+
+  config = withEntitlementsPlist(config, (newConfig) => {
     if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {
       newConfig.modResults[APP_GROUP_KEY] = [];
     }
     const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as unknown[];
-    const entitlement = `group.${newConfig?.ios?.bundleIdentifier || ''}`;
-    if (modResultsArray.indexOf(entitlement) !== -1) {
-      return newConfig;
+    if (modResultsArray.indexOf(groupIdentifier) === -1) {
+      modResultsArray.push(groupIdentifier);
     }
-    modResultsArray.push(entitlement);
-
     return newConfig;
   });
+
+  // Enable App Groups capability in Xcode project and add entitlements file
+  config = withXcodeProject(config, (props) => {
+    const xcodeProject = props.modResults;
+
+    // Find the main target
+    const targets = xcodeProject.getFirstTarget();
+    if (!targets) return props;
+
+    const targetUuid = targets.uuid;
+
+    // Get project attributes
+    const project = xcodeProject.getFirstProject();
+    const projectUuid = project.uuid;
+
+    // Add App Groups capability to target attributes
+    if (
+      !xcodeProject.hash.project.objects.PBXProject[projectUuid].attributes
+        .TargetAttributes
+    ) {
+      xcodeProject.hash.project.objects.PBXProject[
+        projectUuid
+      ].attributes.TargetAttributes = {};
+    }
+
+    if (
+      !xcodeProject.hash.project.objects.PBXProject[projectUuid].attributes
+        .TargetAttributes[targetUuid]
+    ) {
+      xcodeProject.hash.project.objects.PBXProject[
+        projectUuid
+      ].attributes.TargetAttributes[targetUuid] = {};
+    }
+
+    if (
+      !xcodeProject.hash.project.objects.PBXProject[projectUuid].attributes
+        .TargetAttributes[targetUuid].SystemCapabilities
+    ) {
+      xcodeProject.hash.project.objects.PBXProject[
+        projectUuid
+      ].attributes.TargetAttributes[targetUuid].SystemCapabilities = {};
+    }
+
+    // Enable App Groups capability
+    xcodeProject.hash.project.objects.PBXProject[
+      projectUuid
+    ].attributes.TargetAttributes[targetUuid].SystemCapabilities[
+      'com.apple.ApplicationGroups.iOS'
+    ] = {
+      enabled: 1,
+    };
+
+    // Set CODE_SIGN_ENTITLEMENTS build setting - this tells Xcode to use the entitlements file created by withEntitlementsPlist
+    const entitlementsFilePath = `${props.modRequest.projectName}/${props.modRequest.projectName}.entitlements`;
+
+    const configurations = xcodeProject.pbxXCBuildConfigurationSection();
+    for (const key in configurations) {
+      if (
+        typeof configurations[key].buildSettings !== 'undefined' &&
+        configurations[key].buildSettings.PRODUCT_NAME &&
+        configurations[key].buildSettings.PRODUCT_NAME.includes(
+          props.modRequest.projectName,
+        )
+      ) {
+        configurations[key].buildSettings.CODE_SIGN_ENTITLEMENTS =
+          entitlementsFilePath;
+      }
+    }
+
+    return props;
+  });
+
+  return config;
 };
 
 /**
@@ -280,11 +369,11 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
  */
 const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   if (props?.ios?.enableScreensharing) {
-    withAppGroupPermissions(config);
-    withInfoPlistConstants(config);
-    withFishjamSBE(config, props);
+    config = withAppGroupPermissions(config);
+    config = withInfoPlistConstants(config);
+    config = withFishjamSBE(config, props);
   }
-  withPodfileProperties(config, (configuration) => {
+  config = withPodfileProperties(config, (configuration) => {
     configuration.modResults['ios.deploymentTarget'] =
       props?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
     return configuration;
