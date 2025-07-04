@@ -12,7 +12,7 @@
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
     "@react-native-picker/picker": "2.11.1",
-    "expo": "53.0.16",
+    "expo": "53.0.17",
     "react": "19.0.0",
     "react-native": "0.79.5"
   },
