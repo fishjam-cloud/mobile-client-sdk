@@ -34,8 +34,5 @@
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",
     "gen:proto": "make -f ./scripts/compile_protos.mk"
-  },
-  "resolutions": {
-    "@expo/config-plugins": "~10.1.1"
   }
 }
