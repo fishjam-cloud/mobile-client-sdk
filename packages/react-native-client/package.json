@@ -80,8 +80,7 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
-    ],
-    "testEnvironment": "jsdom"
+    ]
   },
   "files": [
     "build/**",
