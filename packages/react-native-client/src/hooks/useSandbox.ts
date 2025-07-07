@@ -2,7 +2,6 @@ import { FISHJAM_HTTP_CONNECT_URL } from '../consts';
 import { RoomType } from '../types';
 
 type BasicInfo = { id: string; name: string };
-
 type RoomManagerResponse = {
   peerToken: string;
   url: string;
@@ -10,7 +9,7 @@ type RoomManagerResponse = {
   peer: BasicInfo;
 };
 
-type UseSandboxProps =
+export type UseSandboxProps =
   | { fishjamId: string; fishjamUrl?: never }
   | { fishjamId?: never; fishjamUrl: string };
 
