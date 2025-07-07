@@ -32,3 +32,5 @@ declare const brand: unique symbol;
  * Branded type
  */
 export type Brand<T, TBrand extends string> = T & { [brand]: TBrand };
+
+export type RoomType = 'conference' | 'audio-only' | 'livestream';
