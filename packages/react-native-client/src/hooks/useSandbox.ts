@@ -10,7 +10,7 @@ type RoomManagerResponse = {
   peer: BasicInfo;
 };
 
-export type UseSandboxProps =
+type UseSandboxProps =
   | { fishjamId: string; fishjamUrl?: never }
   | { fishjamId?: never; fishjamUrl: string };
 
