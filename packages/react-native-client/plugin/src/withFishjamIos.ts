@@ -67,10 +67,14 @@ async function updatePodfile(iosPath: string) {
  * Adds "App Group" permission
  * App Group allow your app and the FishjamScreenBroadcastExtension to communicate with each other.
  */
-const withAppGroupPermissions: ConfigPlugin = (config) => {
+const withAppGroupPermissions: ConfigPlugin<FishjamPluginOptions> = (
+  config,
+  props,
+) => {
   const APP_GROUP_KEY = 'com.apple.security.application-groups';
   const bundleIdentifier = config.ios?.bundleIdentifier || '';
-  const groupIdentifier = `group.${bundleIdentifier}`;
+  const groupIdentifier =
+    props?.ios?.appGroupName || `group.${bundleIdentifier}`;
 
   config.ios ??= {};
   config.ios.entitlements ??= {};
@@ -143,10 +147,15 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
  * Adds constants to Info.plist
  * In other to dynamically retreive extension's bundleId and group name we need to store it in Info.plist.
  */
-const withInfoPlistConstants: ConfigPlugin = (config) =>
+const withInfoPlistConstants: ConfigPlugin<FishjamPluginOptions> = (
+  config,
+  props,
+) =>
   withInfoPlist(config, (configuration) => {
     const bundleIdentifier = configuration.ios?.bundleIdentifier || '';
-    configuration.modResults['AppGroupName'] = `group.${bundleIdentifier}`;
+    const groupIdentifier =
+      props?.ios?.appGroupName || `group.${bundleIdentifier}`;
+    configuration.modResults['AppGroupName'] = groupIdentifier;
     configuration.modResults['ScreenShareExtensionBundleId'] =
       `${bundleIdentifier}.${SBE_TARGET_NAME}`;
     return configuration;
@@ -161,6 +170,8 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
     const appName = props.modRequest.projectName || '';
     const iosPath = props.modRequest.platformProjectRoot;
     const bundleIdentifier = props.ios?.bundleIdentifier;
+    const groupIdentifier =
+      options?.ios?.appGroupName || `group.${bundleIdentifier}`;
     const xcodeProject = props.modResults;
 
     const pluginDir = require.resolve(
@@ -209,13 +220,13 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
         iosPath,
         `${SBE_TARGET_NAME}.entitlements`,
         GROUP_IDENTIFIER_TEMPLATE_REGEX,
-        `group.${bundleIdentifier}`,
+        groupIdentifier,
       );
       await updateFileWithRegex(
         iosPath,
         'FishjamBroadcastSampleHandler.swift',
         GROUP_IDENTIFIER_TEMPLATE_REGEX,
-        `group.${bundleIdentifier}`,
+        groupIdentifier,
       );
       await updateFileWithRegex(
         iosPath,
@@ -335,8 +346,8 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
  */
 const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   if (props?.ios?.enableScreensharing) {
-    config = withAppGroupPermissions(config);
-    config = withInfoPlistConstants(config);
+    config = withAppGroupPermissions(config, props);
+    config = withInfoPlistConstants(config, props);
     config = withFishjamSBE(config, props);
   }
   config = withPodfileProperties(config, (configuration) => {
