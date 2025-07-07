@@ -63,6 +63,9 @@ async function updatePodfile(iosPath: string) {
   }
 }
 
+const getMainTargetName = (props: any) =>
+  props?.ios?.mainTarget || props?.modRequest?.projectName;
+
 /**
  * Adds "App Group" permission
  * App Group allow your app and the FishjamScreenBroadcastExtension to communicate with each other.
@@ -121,16 +124,13 @@ const withAppGroupPermissions: ConfigPlugin<FishjamPluginOptions> = (
       enabled: 1,
     };
 
-    const entitlementsFilePath = `${props.modRequest.projectName}/${props.modRequest.projectName}.entitlements`;
+    const mainTargetName = getMainTargetName(props);
+    const entitlementsFilePath = `${mainTargetName}/${mainTargetName}.entitlements`;
     const configurations = xcodeProject.pbxXCBuildConfigurationSection();
 
     Object.keys(configurations).forEach((key) => {
       const config = configurations[key];
-      if (
-        config.buildSettings?.PRODUCT_NAME?.includes(
-          props.modRequest.projectName,
-        )
-      ) {
+      if (config.buildSettings?.PRODUCT_NAME?.includes(mainTargetName)) {
         if (!config.buildSettings.CODE_SIGN_ENTITLEMENTS) {
           config.buildSettings.CODE_SIGN_ENTITLEMENTS = entitlementsFilePath;
         }

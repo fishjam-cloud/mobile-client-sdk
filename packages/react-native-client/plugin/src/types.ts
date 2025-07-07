@@ -9,6 +9,7 @@ export type FishjamPluginOptions =
         enableScreensharing?: boolean;
         supportsPictureInPicture?: boolean;
         appGroupName?: string;
+        mainTarget?: string;
       };
     }
   | undefined;
