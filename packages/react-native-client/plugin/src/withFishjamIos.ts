@@ -72,10 +72,9 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
   const bundleIdentifier = config.ios?.bundleIdentifier || '';
   const groupIdentifier = `group.${bundleIdentifier}`;
 
-  config.ios = config.ios || {};
-  config.ios.entitlements = config.ios.entitlements || {};
-  config.ios.entitlements[APP_GROUP_KEY] =
-    config.ios.entitlements[APP_GROUP_KEY] || [];
+  config.ios ??= {};
+  config.ios.entitlements ??= {};
+  config.ios.entitlements[APP_GROUP_KEY] ??= [];
 
   const entitlementsArray = config.ios.entitlements[APP_GROUP_KEY] as string[];
   if (!entitlementsArray.includes(groupIdentifier)) {
@@ -97,20 +96,19 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
     const targets = xcodeProject.getFirstTarget();
     const project = xcodeProject.getFirstProject();
 
-    if (!targets || !project) return props;
+    if (!targets || !project) {
+      return props;
+    }
 
     const targetUuid = targets.uuid;
     const projectUuid = project.uuid;
 
     const projectObj =
       xcodeProject.hash.project.objects.PBXProject[projectUuid];
-    projectObj.attributes = projectObj.attributes || {};
-    projectObj.attributes.TargetAttributes =
-      projectObj.attributes.TargetAttributes || {};
-    projectObj.attributes.TargetAttributes[targetUuid] =
-      projectObj.attributes.TargetAttributes[targetUuid] || {};
-    projectObj.attributes.TargetAttributes[targetUuid].SystemCapabilities =
-      projectObj.attributes.TargetAttributes[targetUuid].SystemCapabilities ||
+    projectObj.attributes ??= {};
+    projectObj.attributes.TargetAttributes ??= {};
+    projectObj.attributes.TargetAttributes[targetUuid] ??= {};
+    projectObj.attributes.TargetAttributes[targetUuid].SystemCapabilities ??=
       {};
 
     projectObj.attributes.TargetAttributes[targetUuid].SystemCapabilities[
