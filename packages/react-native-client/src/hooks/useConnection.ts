@@ -10,6 +10,7 @@ import RNFishjamClientModule, {
 } from '../RNFishjamClientModule';
 import { useFishjamEventState } from './internal/useFishjamEventState';
 import { GenericMetadata } from '../types';
+import { FISHJAM_WS_CONNECT_URL } from '../consts';
 
 /**
  * Represents the possible statuses of a peer while reconnecting to room
@@ -47,10 +48,6 @@ export type JoinRoomConfig<
   PeerMetadata extends GenericMetadata = GenericMetadata,
 > = {
   /**
-   * Fishjam URL
-   */
-  url: string;
-  /**
    * Token received from server (or Room Manager)
    */
   peerToken: string;
@@ -59,10 +56,28 @@ export type JoinRoomConfig<
    */
   peerMetadata?: PeerMetadata;
   /**
-   *  Additional connection configuration
+   * Additional connection configuration
    */
   config?: ConnectionConfig;
-};
+} & (
+  | {
+      /**
+       * Fishjam ID, which is used to connect to the room.
+       * Only use in sandbox.
+       * If provided, `url` must not be set.
+       */
+      fishjamId: string;
+      url?: never;
+    }
+  | {
+      /**
+       * Fishjam URL, used to connect to the room.
+       * If provided, `fishjamId` must not be set.
+       */
+      url: string;
+      fishjamId?: never;
+    }
+);
 
 /**
  * Connect/leave room. And get connection status.
@@ -78,8 +93,21 @@ export function useConnection() {
       peerToken,
       peerMetadata,
       config,
+      fishjamId,
     }: JoinRoomConfig<PeerMetadata>) => {
-      await joinRoomClient(url, peerToken, peerMetadata, config);
+      const connectUrl = fishjamId
+        ? `${FISHJAM_WS_CONNECT_URL}/${fishjamId}`
+        : undefined;
+
+      const fishjamUrl = fishjamId ? connectUrl : url;
+
+      if (!fishjamUrl) {
+        throw new Error(
+          'Either fishjamId or url must be provided to join the room.',
+        );
+      }
+
+      await joinRoomClient(fishjamUrl, peerToken, peerMetadata, config);
     },
     [],
   );
