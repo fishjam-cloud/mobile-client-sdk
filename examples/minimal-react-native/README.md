@@ -36,7 +36,7 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
 3. **Set up environment variables:**
    - Create a `.env` file in the root of the `minimal-react-native` directory:
      ```env
-     EXPO_PUBLIC_ROOM_MANAGER=
+     EXPO_PUBLIC_FISHJAM_ID=
      ```
    - _You can obtain a Room Manager URL at [https://fishjam.io/app/](https://fishjam.io/app/)._
 
@@ -72,7 +72,7 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
 ## Troubleshooting & FAQ
 
 - **App fails to connect to a room:**
-  - Ensure your `.env` file is present and `EXPO_PUBLIC_ROOM_MANAGER` is set correctly.
+  - Ensure your `.env` file is present and `EXPO_PUBLIC_FISHJAM_ID` is set correctly.
   - Check your network connection.
   - Review logs in the Metro/Expo console for errors.
 - **Camera or microphone not working:**
