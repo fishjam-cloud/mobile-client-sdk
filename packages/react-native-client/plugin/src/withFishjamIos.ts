@@ -323,6 +323,7 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
         configuration.modResults.UIBackgroundModes ?? [],
       );
       backgroundModes.add('audio');
+      backgroundModes.add('voip');
       configuration.modResults.UIBackgroundModes = Array.from(backgroundModes);
     }
 
