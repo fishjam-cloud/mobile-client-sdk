@@ -127,7 +127,9 @@ const withAppGroupPermissions: ConfigPlugin = (config) => {
           props.modRequest.projectName,
         )
       ) {
-        config.buildSettings.CODE_SIGN_ENTITLEMENTS = entitlementsFilePath;
+        if (!config.buildSettings.CODE_SIGN_ENTITLEMENTS) {
+          config.buildSettings.CODE_SIGN_ENTITLEMENTS = entitlementsFilePath;
+        }
       }
     });
 
