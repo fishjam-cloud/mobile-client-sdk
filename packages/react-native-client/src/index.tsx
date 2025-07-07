@@ -95,6 +95,7 @@ export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestream } from './hooks/useLivestream';
+export { useSandbox } from './hooks/useSandbox';
 // #endregion
 
 export {
