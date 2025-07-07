@@ -14,21 +14,21 @@
   },
   "dependencies": {
     "@fishjam-cloud/react-native-client": "*",
-    "expo": "53.0.11",
-    "expo-navigation-bar": "^4.2.5",
+    "expo": "53.0.17",
+    "expo-navigation-bar": "~4.2.7",
     "expo-screen-orientation": "~8.1.7",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
-    "react-native": "0.79.3"
+    "react-native": "0.79.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.10",
+    "@babel/core": "^7.28.0",
     "@types/react": "~19.0.10",
     "eslint": "^9.29.0",
     "eslint-config-expo": "~9.2.0",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.4.1",
-    "prettier": "^3.5.3",
+    "eslint-plugin-prettier": "^5.5.1",
+    "prettier": "^3.6.2",
     "typescript": "~5.8.3"
   },
   "private": true,

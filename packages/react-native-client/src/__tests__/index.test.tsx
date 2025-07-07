@@ -2,6 +2,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useRTCStatistics } from '../debug';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
+jest.mock('expo', () => ({}));
 jest.mock('expo-modules-core', () => ({
   requireNativeModule: jest.fn().mockReturnValue({}),
   requireNativeViewManager: jest.fn(),

@@ -20,7 +20,7 @@
     ]
   },
   "devDependencies": {
-    "typedoc": "^0.28.1",
+    "typedoc": "^0.28.7",
     "typedoc-material-theme": "^1.4.0",
     "typescript": "~5.8.3"
   },
@@ -34,8 +34,5 @@
     "lint:check": "yarn workspaces foreach -A -p run lint:check && yarn prettier --check .github/*",
     "docs": "typedoc",
     "gen:proto": "make -f ./scripts/compile_protos.mk"
-  },
-  "resolutions": {
-    "@expo/config-plugins": "~10.1.1"
   }
 }
