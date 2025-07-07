@@ -69,19 +69,74 @@ async function updatePodfile(iosPath: string) {
  */
 const withAppGroupPermissions: ConfigPlugin = (config) => {
   const APP_GROUP_KEY = 'com.apple.security.application-groups';
-  return withEntitlementsPlist(config, (newConfig) => {
-    if (!Array.isArray(newConfig.modResults[APP_GROUP_KEY])) {
-      newConfig.modResults[APP_GROUP_KEY] = [];
-    }
-    const modResultsArray = newConfig.modResults[APP_GROUP_KEY] as unknown[];
-    const entitlement = `group.${newConfig?.ios?.bundleIdentifier || ''}`;
-    if (modResultsArray.indexOf(entitlement) !== -1) {
-      return newConfig;
-    }
-    modResultsArray.push(entitlement);
+  const bundleIdentifier = config.ios?.bundleIdentifier || '';
+  const groupIdentifier = `group.${bundleIdentifier}`;
 
+  config.ios ??= {};
+  config.ios.entitlements ??= {};
+  config.ios.entitlements[APP_GROUP_KEY] ??= [];
+
+  const entitlementsArray = config.ios.entitlements[APP_GROUP_KEY] as string[];
+  if (!entitlementsArray.includes(groupIdentifier)) {
+    entitlementsArray.push(groupIdentifier);
+  }
+
+  config = withEntitlementsPlist(config, (newConfig) => {
+    const modResultsArray =
+      (newConfig.modResults[APP_GROUP_KEY] as string[]) || [];
+    if (!modResultsArray.includes(groupIdentifier)) {
+      modResultsArray.push(groupIdentifier);
+    }
+    newConfig.modResults[APP_GROUP_KEY] = modResultsArray;
     return newConfig;
   });
+
+  config = withXcodeProject(config, (props) => {
+    const xcodeProject = props.modResults;
+    const targets = xcodeProject.getFirstTarget();
+    const project = xcodeProject.getFirstProject();
+
+    if (!targets || !project) {
+      return props;
+    }
+
+    const targetUuid = targets.uuid;
+    const projectUuid = project.uuid;
+
+    const projectObj =
+      xcodeProject.hash.project.objects.PBXProject[projectUuid];
+    projectObj.attributes ??= {};
+    projectObj.attributes.TargetAttributes ??= {};
+    projectObj.attributes.TargetAttributes[targetUuid] ??= {};
+    projectObj.attributes.TargetAttributes[targetUuid].SystemCapabilities ??=
+      {};
+
+    projectObj.attributes.TargetAttributes[targetUuid].SystemCapabilities[
+      'com.apple.ApplicationGroups.iOS'
+    ] = {
+      enabled: 1,
+    };
+
+    const entitlementsFilePath = `${props.modRequest.projectName}/${props.modRequest.projectName}.entitlements`;
+    const configurations = xcodeProject.pbxXCBuildConfigurationSection();
+
+    Object.keys(configurations).forEach((key) => {
+      const config = configurations[key];
+      if (
+        config.buildSettings?.PRODUCT_NAME?.includes(
+          props.modRequest.projectName,
+        )
+      ) {
+        if (!config.buildSettings.CODE_SIGN_ENTITLEMENTS) {
+          config.buildSettings.CODE_SIGN_ENTITLEMENTS = entitlementsFilePath;
+        }
+      }
+    });
+
+    return props;
+  });
+
+  return config;
 };
 
 /**
@@ -280,11 +335,11 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
  */
 const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
   if (props?.ios?.enableScreensharing) {
-    withAppGroupPermissions(config);
-    withInfoPlistConstants(config);
-    withFishjamSBE(config, props);
+    config = withAppGroupPermissions(config);
+    config = withInfoPlistConstants(config);
+    config = withFishjamSBE(config, props);
   }
-  withPodfileProperties(config, (configuration) => {
+  config = withPodfileProperties(config, (configuration) => {
     configuration.modResults['ios.deploymentTarget'] =
       props?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
     return configuration;
