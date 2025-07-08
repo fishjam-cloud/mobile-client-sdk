@@ -23,23 +23,51 @@ export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
     peerName: string,
     roomType: RoomType = 'conference',
   ) => {
-    const url = new URL(managerUrl);
-    url.searchParams.set('roomName', roomName);
-    url.searchParams.set('peerName', peerName);
-    url.searchParams.set('roomType', roomType);
+    try {
+      const url = new URL(managerUrl);
+      url.searchParams.set('roomName', roomName);
+      url.searchParams.set('peerName', peerName);
+      url.searchParams.set('roomType', roomType);
 
-    const res = await fetch(url.toString());
-    const data: RoomManagerResponse = await res.json();
-    return data.peerToken;
+      const res = await fetch(url.toString());
+
+      if (!res.ok) {
+        throw new Error(
+          `Room '${roomName}' or peer '${peerName}' does not exist or cannot retrieve peer token.`,
+        );
+      }
+      const data: RoomManagerResponse = await res.json();
+      return data.peerToken;
+    } catch (error) {
+      throw new Error(
+        `Failed to get peer token for room '${roomName}', peer '${peerName}': ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   };
 
   const getSandboxViewerToken = async (roomName: string) => {
-    const url = new URL(`${managerUrl}/${roomName}/livestream-viewer-token`);
+    try {
+      const url = new URL(`${managerUrl}/${roomName}/livestream-viewer-token`);
+      const res = await fetch(url);
 
-    const res = await fetch(url);
-    const data: { token: string } = await res.json();
+      if (!res.ok) {
+        throw new Error(
+          `Room '${roomName}' does not exist or cannot retrieve viewer token.`,
+        );
+      }
 
-    return data.token;
+      const data: { token: string } = await res.json();
+
+      return data.token;
+    } catch (error) {
+      throw new Error(
+        `Failed to get viewer token for room '${roomName}': ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   };
 
   return {
