@@ -10,6 +10,7 @@ export type FishjamPluginOptions =
         supportsPictureInPicture?: boolean;
         appGroupName?: string;
         mainTarget?: string;
+        broadcastExtensionTargetName?: string; // NEW: allows custom Broadcast Extension target name
       };
     }
   | undefined;

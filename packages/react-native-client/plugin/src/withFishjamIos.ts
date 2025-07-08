@@ -10,11 +10,18 @@ import * as fs from 'promise-fs';
 import * as path from 'path';
 import { FishjamPluginOptions } from './types';
 
-const SBE_TARGET_NAME = 'FishjamScreenBroadcastExtension';
-export const SBE_PODFILE_SNIPPET = `
-target '${SBE_TARGET_NAME}' do
-  pod 'FishjamCloudClient/Broadcast'
-end`;
+function getSbeTargetName(props: FishjamPluginOptions) {
+  return (
+    props?.ios?.broadcastExtensionTargetName ||
+    'FishjamScreenBroadcastExtension'
+  );
+}
+
+export function getSbePodfileSnippet(props: FishjamPluginOptions) {
+  const targetName = getSbeTargetName(props);
+  return `\ntarget '${targetName}' do\n  pod 'FishjamCloudClient/Broadcast'\nend`;
+}
+
 const TARGETED_DEVICE_FAMILY = `"1,2"`;
 const IPHONEOS_DEPLOYMENT_TARGET = '15.1';
 const GROUP_IDENTIFIER_TEMPLATE_REGEX = /{{GROUP_IDENTIFIER}}/gm;
@@ -28,8 +35,10 @@ async function updateFileWithRegex(
   fileName: string,
   regex: RegExp,
   value: string,
+  props: FishjamPluginOptions,
 ) {
-  const filePath = `${iosPath}/${SBE_TARGET_NAME}/${fileName}`;
+  const targetName = getSbeTargetName(props);
+  const filePath = `${iosPath}/${targetName}/${fileName}`;
   let file = await fs.readFile(filePath, { encoding: 'utf-8' });
   file = file.replace(regex, value);
   await fs.writeFile(filePath, file);
@@ -39,25 +48,26 @@ async function updateFileWithRegex(
  * Inserts a required target to Podfile.
  * This is needed to provide the dependency of FishjamCloudClient/Broadcast to the extension.
  */
-async function updatePodfile(iosPath: string) {
+async function updatePodfile(iosPath: string, props: FishjamPluginOptions) {
+  const podfileSnippet = getSbePodfileSnippet(props);
   let matches;
   try {
     const podfile = await fs.readFile(`${iosPath}/Podfile`, {
       encoding: 'utf-8',
     });
-    matches = podfile.match(SBE_PODFILE_SNIPPET);
+    matches = podfile.match(podfileSnippet);
   } catch (e) {
     console.error('Error reading from Podfile: ', e);
   }
 
   if (matches) {
     console.log(
-      `${SBE_TARGET_NAME} target already added to Podfile. Skipping...`,
+      `${getSbeTargetName(props)} target already added to Podfile. Skipping...`,
     );
     return;
   }
   try {
-    fs.appendFile(`${iosPath}/Podfile`, SBE_PODFILE_SNIPPET);
+    fs.appendFile(`${iosPath}/Podfile`, podfileSnippet);
   } catch (e) {
     console.error('Error writing to Podfile: ', e);
   }
@@ -155,7 +165,7 @@ const withInfoPlistConstants: ConfigPlugin<FishjamPluginOptions> = (
       props?.ios?.appGroupName || `group.${bundleIdentifier}`;
     configuration.modResults['AppGroupName'] = groupIdentifier;
     configuration.modResults['ScreenShareExtensionBundleId'] =
-      `${bundleIdentifier}.${SBE_TARGET_NAME}`;
+      `${bundleIdentifier}.${getSbeTargetName(props)}`;
     return configuration;
   });
 
@@ -171,6 +181,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
     const groupIdentifier =
       options?.ios?.appGroupName || `group.${bundleIdentifier}`;
     const xcodeProject = props.modResults;
+    const targetName = getSbeTargetName(options);
 
     const pluginDir = require.resolve(
       '@fishjam-cloud/react-native-client/package.json',
@@ -180,12 +191,20 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
       '../plugin/broadcastExtensionFiles/',
     );
 
-    await updatePodfile(iosPath);
+    await updatePodfile(iosPath, options);
 
     const projPath = `${iosPath}/${appName}.xcodeproj/project.pbxproj`;
+    const templateTargetName = 'FishjamScreenBroadcastExtension';
+
     const extFiles = [
       'FishjamBroadcastSampleHandler.swift',
-      `${SBE_TARGET_NAME}.entitlements`,
+      `${templateTargetName}.entitlements`,
+      `Info.plist`,
+    ];
+
+    const destFiles = [
+      'FishjamBroadcastSampleHandler.swift',
+      `${targetName}.entitlements`,
       `Info.plist`,
     ];
 
@@ -194,50 +213,48 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
         console.error(`Error parsing iOS project: ${JSON.stringify(err)}`);
         return;
       }
-
-      if (xcodeProject.pbxTargetByName(SBE_TARGET_NAME)) {
-        console.log(
-          `${SBE_TARGET_NAME} already exists in project. Skipping...`,
-        );
+      if (xcodeProject.pbxTargetByName(targetName)) {
+        console.log(`${targetName} already exists in project. Skipping...`);
         return;
       }
       try {
-        // copy extension files
-        await fs.mkdir(`${iosPath}/${SBE_TARGET_NAME}`, { recursive: true });
+        await fs.mkdir(`${iosPath}/${targetName}`, { recursive: true });
         for (let i = 0; i < extFiles.length; i++) {
-          const extFile = extFiles[i];
-          const targetFile = `${iosPath}/${SBE_TARGET_NAME}/${extFile}`;
-          await fs.copyFile(`${extensionSourceDir}${extFile}`, targetFile);
+          const srcFile = `${extensionSourceDir}${extFiles[i]}`;
+          const destFile = `${iosPath}/${targetName}/${destFiles[i]}`;
+          await fs.copyFile(srcFile, destFile);
         }
       } catch (e) {
         console.error('Error copying extension files: ', e);
       }
 
-      // update extension files
       await updateFileWithRegex(
         iosPath,
-        `${SBE_TARGET_NAME}.entitlements`,
+        `${targetName}.entitlements`,
         GROUP_IDENTIFIER_TEMPLATE_REGEX,
         groupIdentifier,
+        options,
       );
       await updateFileWithRegex(
         iosPath,
         'FishjamBroadcastSampleHandler.swift',
         GROUP_IDENTIFIER_TEMPLATE_REGEX,
         groupIdentifier,
+        options,
       );
       await updateFileWithRegex(
         iosPath,
         'FishjamBroadcastSampleHandler.swift',
         BUNDLE_IDENTIFIER_TEMPLATE_REGEX,
         bundleIdentifier || '',
+        options,
       );
 
       // Create new PBXGroup for the extension
       const extGroup = xcodeProject.addPbxGroup(
         extFiles,
-        SBE_TARGET_NAME,
-        SBE_TARGET_NAME,
+        targetName,
+        targetName,
       );
 
       // Add the new PBXGroup to the top level group. This makes the
@@ -262,10 +279,10 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
       // Add the SBE target
       // This adds PBXTargetDependency and PBXContainerItemProxy for you
       const sbeTarget = xcodeProject.addTarget(
-        SBE_TARGET_NAME,
+        targetName,
         'app_extension',
-        SBE_TARGET_NAME,
-        `${bundleIdentifier}.${SBE_TARGET_NAME}`,
+        targetName,
+        `${bundleIdentifier}.${targetName}`,
       );
 
       // Add build phases to the new target
@@ -299,16 +316,15 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
       for (const key in configurations) {
         if (
           typeof configurations[key].buildSettings !== 'undefined' &&
-          configurations[key].buildSettings.PRODUCT_NAME ===
-            `"${SBE_TARGET_NAME}"`
+          configurations[key].buildSettings.PRODUCT_NAME === `"${targetName}"`
         ) {
           const buildSettingsObj = configurations[key].buildSettings;
           buildSettingsObj.IPHONEOS_DEPLOYMENT_TARGET =
             options?.ios?.iphoneDeploymentTarget ?? IPHONEOS_DEPLOYMENT_TARGET;
           buildSettingsObj.TARGETED_DEVICE_FAMILY = TARGETED_DEVICE_FAMILY;
-          buildSettingsObj.CODE_SIGN_ENTITLEMENTS = `${SBE_TARGET_NAME}/${SBE_TARGET_NAME}.entitlements`;
+          buildSettingsObj.CODE_SIGN_ENTITLEMENTS = `${targetName}/${targetName}.entitlements`;
           buildSettingsObj.CODE_SIGN_STYLE = 'Automatic';
-          buildSettingsObj.INFOPLIST_FILE = `${SBE_TARGET_NAME}/Info.plist`;
+          buildSettingsObj.INFOPLIST_FILE = `${targetName}/Info.plist`;
           buildSettingsObj.SWIFT_VERSION = '5.0';
           buildSettingsObj.MARKETING_VERSION = '1.0.0';
           buildSettingsObj.CURRENT_PROJECT_VERSION = '1';
