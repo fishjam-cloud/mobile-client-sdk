@@ -7,6 +7,7 @@ export type {
   GenericMetadata,
   TrackMetadata,
   Brand,
+  RoomType,
 } from './types';
 export type { ConnectionConfig } from './common/client';
 // #endregion
@@ -79,6 +80,7 @@ export type {
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
 export type { UseLivestreamResult } from './hooks/useLivestream';
+export type { UseSandboxProps } from './hooks/useSandbox';
 // #endregion
 
 // #region hooks
@@ -95,6 +97,7 @@ export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestream } from './hooks/useLivestream';
+export { useSandbox } from './hooks/useSandbox';
 // #endregion
 
 export {
