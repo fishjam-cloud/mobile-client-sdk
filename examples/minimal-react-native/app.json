@@ -35,16 +35,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "@fishjam-cloud/react-native-client",
-        {
-          "ios": {
-            "mainTarget": "reactnativetest"
-          }
-        }
-      ]
-    ]
+    }
   }
 }
