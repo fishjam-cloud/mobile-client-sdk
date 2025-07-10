@@ -6,15 +6,18 @@ const removeGeneratedBlockIos = (podfileContent: string, marker: string) => {
   return podfileContent.replace(regex, '');
 };
 
-const replaceCloudClientForExtension = (podfileContent: string) => {
-  const targetName = 'FishjamScreenBroadcastExtension';
+const replaceCloudClientForExtension = (
+  podfileContent: string,
+  extensionTargetName?: string,
+) => {
+  const extTargetName = extensionTargetName || 'FishjamScreenBroadcastExtension';
   const podToReplace = "pod 'FishjamCloudClient/Broadcast'";
   const replacementPod = `
   ${INFO_GENERATED_COMMENT_IOS}
   pod 'FishjamCloudClient/Broadcast', :path => '../../../'`;
 
   const targetRegex = new RegExp(
-    `target '${targetName}' do[\\s\\S]*?${podToReplace}[\\s\\S]*?end`,
+    `target '${extTargetName}' do[\\s\\S]*?${podToReplace}[\\s\\S]*?end`,
     'g',
   );
 
@@ -36,16 +39,16 @@ const replaceCloudClientForMainApp = (
   return podfileContent;
 };
 
-export const withCustomConfigIos: ConfigPlugin<{ targetName: string }> = (
+export const withCustomConfigIos: ConfigPlugin<{ targetName: string; extensionTargetName?: string }> = (
   config,
-  { targetName },
+  { targetName, extensionTargetName },
 ) => {
   config = withPodfile(config, (configuration) => {
     let podfile = configuration.modResults.contents;
 
     podfile = removeGeneratedBlockIos(podfile, INFO_GENERATED_COMMENT_IOS.trim());
 
-    podfile = replaceCloudClientForExtension(podfile);
+    podfile = replaceCloudClientForExtension(podfile, extensionTargetName);
     podfile = replaceCloudClientForMainApp(targetName, podfile);
 
     configuration.modResults.contents = podfile;
