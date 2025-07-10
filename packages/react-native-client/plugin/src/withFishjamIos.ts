@@ -84,8 +84,8 @@ const withAppGroupPermissions: ConfigPlugin<FishjamPluginOptions> = (
   const APP_GROUP_KEY = 'com.apple.security.application-groups';
   const bundleIdentifier = config.ios?.bundleIdentifier || '';
   const groupIdentifier =
-    props?.ios?.appGroupName || `group.${bundleIdentifier}`;
-  const mainTarget = props?.ios?.mainTarget || '';
+    props?.ios?.appGroupContainerId || `group.${bundleIdentifier}`;
+  const mainTarget = props?.ios?.mainTargetName || '';
 
   config.ios ??= {};
   config.ios.entitlements ??= {};
@@ -162,7 +162,7 @@ const withInfoPlistConstants: ConfigPlugin<FishjamPluginOptions> = (
   withInfoPlist(config, (configuration) => {
     const bundleIdentifier = configuration.ios?.bundleIdentifier || '';
     const groupIdentifier =
-      props?.ios?.appGroupName || `group.${bundleIdentifier}`;
+      props?.ios?.appGroupContainerId || `group.${bundleIdentifier}`;
     configuration.modResults['AppGroupName'] = groupIdentifier;
     configuration.modResults['ScreenShareExtensionBundleId'] =
       `${bundleIdentifier}.${getSbeTargetName(props)}`;
@@ -179,7 +179,7 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
     const iosPath = props.modRequest.platformProjectRoot;
     const bundleIdentifier = props.ios?.bundleIdentifier;
     const groupIdentifier =
-      options?.ios?.appGroupName || `group.${bundleIdentifier}`;
+      options?.ios?.appGroupContainerId || `group.${bundleIdentifier}`;
     const xcodeProject = props.modResults;
     const targetName = getSbeTargetName(options);
 

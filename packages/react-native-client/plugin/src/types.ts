@@ -8,8 +8,8 @@ export type FishjamPluginOptions =
         iphoneDeploymentTarget?: string;
         enableScreensharing?: boolean;
         supportsPictureInPicture?: boolean;
-        appGroupName?: string;
-        mainTarget?: string;
+        appGroupContainerId?: string;
+        mainTargetName?: string;
         broadcastExtensionTargetName?: string;
       };
     }
