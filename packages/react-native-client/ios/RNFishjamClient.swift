@@ -328,41 +328,52 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func toggleMicrophone() async throws -> Bool {
-        if let audioTrack = getLocalAudioTrack() {
-            setMicrophoneTrackState(audioTrack, enabled: !isMicrophoneOn)
+        if isMicrophoneOn {
+          try stopMicrophone()
         } else {
-            try await startMicrophone()
+          try await startMicrophone()
         }
-
-        try updateLocalAudioTrackMetadata(metadata: getMicrophoneTrackMetadata())
 
         return isMicrophoneOn
     }
 
     func startMicrophone() async throws {
-        guard await PermissionUtils.requestMicrophonePermission() else {
-            emit(event: .warning(message: "Microphone permission not granted."))
-            return
+        // If microphone track already exist, just enable it
+        if let microphoneTrack = getLocalAudioTrack() {
+            try setMicrophoneTrackState(microphoneTrack, enabled: true)
+        } else {
+          guard await PermissionUtils.requestMicrophonePermission() else {
+              emit(event: .warning(message: "Microphone permission not granted."))
+              return
+          }
+          let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
+            metadata: getMicrophoneTrackMetadata(isEnabled: true).toMetadata())
+          setAudioSessionMode()
+          try setMicrophoneTrackState(microphoneTrack, enabled: true)
+          emitEndpoints()
         }
-        let microphoneTrack = RNFishjamClient.fishjamClient!.createAudioTrack(
-            metadata: getMicrophoneTrackMetadata().toMetadata())
-        setAudioSessionMode()
-        setMicrophoneTrackState(microphoneTrack, enabled: true)
-        emitEndpoints()
+      }
+  
+    func stopMicrophone() throws {
+      guard let microphoneTrack = getLocalAudioTrack() else {
+          return
+      }
+      try setMicrophoneTrackState(microphoneTrack, enabled: false)
     }
 
-    private func getMicrophoneTrackMetadata() -> [String: Any] {
+    private func getMicrophoneTrackMetadata(isEnabled: Bool) -> [String: Any] {
         return [
-            "active": isMicrophoneOn,
-            "paused": !isMicrophoneOn,  //TODO: FCE-711
+            "active": isEnabled,
+            "paused": !isEnabled,  //TODO: FCE-711
             "type": "microphone",
         ]
     }
 
-    private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) {
+    private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) throws {
         microphoneTrack.enabled = enabled
         isMicrophoneOn = enabled
         emit(event: .isMicrophoneOn(enabled: enabled))
+        try updateLocalAudioTrackMetadata(metadata: getMicrophoneTrackMetadata(isEnabled: enabled))
     }
 
     func setAudioSessionMode() {
