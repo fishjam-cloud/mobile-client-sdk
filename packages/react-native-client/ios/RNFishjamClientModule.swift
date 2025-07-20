@@ -146,6 +146,14 @@ public class RNFishjamClientModule: Module {
     AsyncFunction("toggleMicrophone") {
       try await rnFishjamClient.toggleMicrophone()
     }
+    
+    AsyncFunction("startMicrophone") {
+      try await rnFishjamClient.startMicrophone()
+    }
+
+    AsyncFunction("stopMicrophone") {
+      try rnFishjamClient.stopMicrophone()
+    }
 
     AsyncFunction("toggleCamera") {
       try rnFishjamClient.toggleCamera()

@@ -372,8 +372,8 @@ class RNFishjamClient: FishjamClientListener {
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) throws {
         microphoneTrack.enabled = enabled
         isMicrophoneOn = enabled
-        emit(event: .isMicrophoneOn(enabled: enabled))
         try updateLocalAudioTrackMetadata(metadata: getMicrophoneTrackMetadata(isEnabled: enabled))
+        emit(event: .isMicrophoneOn(enabled: enabled))
     }
 
     func setAudioSessionMode() {

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-
 import RNFishjamClientModule, {
   ReceivableEvents,
 } from '../RNFishjamClientModule';
@@ -20,10 +19,22 @@ export function useMicrophone() {
     await RNFishjamClientModule.toggleMicrophone();
   }, []);
 
+  const startMicrophone = useCallback(async () => {
+    await RNFishjamClientModule.startMicrophone();
+  }, []);
+
+  const stopMicrophone = useCallback(async () => {
+    await RNFishjamClientModule.stopMicrophone();
+  }, []);
+
   return {
-    /** Informs if microphone is streaming audio */
+    /** Informs if microphone audio track is active */
     isMicrophoneOn,
-    /** Function to toggle microphone on/off */
+    /** Toggles microphone on/off based on the value of `isMicrophoneOn` */
     toggleMicrophone,
+    /** Starts microphone and requests permission if needed */
+    startMicrophone,
+    /** Stops microphone (mutes the track without removing it) */
+    stopMicrophone,
   };
 }
