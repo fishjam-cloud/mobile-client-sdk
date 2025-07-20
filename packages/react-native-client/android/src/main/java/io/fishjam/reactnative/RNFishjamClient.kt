@@ -392,15 +392,26 @@ class RNFishjamClient(
     localTracksSwitchListenerManager.notifySwitched()
   }
 
-  private suspend fun startMicrophone() {
-    if (!PermissionUtils.requestMicrophonePermission(appContext)) {
-      emitEvent(EmitableEvent.warning("Microphone permission not granted."))
-      return
-    }
+  suspend fun startMicrophone() {
+    // If microphone track already exist, just enable it
+    if (getLocalAudioTrack() != null) {
+      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, true) }
+    } else {
+      if (!PermissionUtils.requestMicrophonePermission(appContext)) {
+        emitEvent(EmitableEvent.warning("Microphone permission not granted."))
+        return
+      }
 
-    val microphoneTrack = fishjamClient.createAudioTrack(getMicrophoneTrackMetadata())
-    setMicrophoneTrackState(microphoneTrack, true)
-    emitEndpoints()
+      val microphoneTrack = fishjamClient.createAudioTrack(getMicrophoneTrackMetadata(true))
+      setMicrophoneTrackState(microphoneTrack, true)
+      emitEndpoints()
+    }
+  }
+
+  fun stopMicrophone() {
+    if (getLocalAudioTrack() != null) {
+      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, false) }
+    }
   }
 
   private fun setMicrophoneTrackState(
@@ -409,25 +420,24 @@ class RNFishjamClient(
   ) {
     microphoneTrack.setEnabled(isEnabled)
     isMicrophoneOn = isEnabled
+    updateLocalAudioTrackMetadata(getMicrophoneTrackMetadata(isEnabled))
     emitEvent(EmitableEvent.isMicrophoneOn(isEnabled))
   }
 
   suspend fun toggleMicrophone(): Boolean {
-    if (getLocalAudioTrack() == null) {
-      startMicrophone()
+    if (isMicrophoneOn) {
+      stopMicrophone()
     } else {
-      getLocalAudioTrack()?.let { setMicrophoneTrackState(it, !isMicrophoneOn) }
+      startMicrophone()
     }
-
-    updateLocalAudioTrackMetadata(getMicrophoneTrackMetadata())
 
     return isMicrophoneOn
   }
 
-  private fun getMicrophoneTrackMetadata(): Map<String, Any> =
+  private fun getMicrophoneTrackMetadata(isEnabled: Boolean): Map<String, Any> =
     mapOf(
-      "active" to isMicrophoneOn,
-      "paused" to !isMicrophoneOn, // TODO: FCE-711,
+      "active" to isEnabled,
+      "paused" to !isEnabled, // TODO: FCE-711,
       "type" to "microphone"
     )
 
