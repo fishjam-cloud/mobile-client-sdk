@@ -3190,7 +3190,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.28.0"
     "@fishjam-cloud/react-native-client": "npm:*"
-    "@gorhom/bottom-sheet": "npm:^5.1.2"
+    "@gorhom/bottom-sheet": "npm:^5.1.6"
     "@react-native-async-storage/async-storage": "npm:2.1.2"
     "@react-navigation/bottom-tabs": "npm:^6.6.1"
     "@react-navigation/native": "npm:^6.1.18"
@@ -3305,9 +3305,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gorhom/bottom-sheet@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "@gorhom/bottom-sheet@npm:5.1.2"
+"@gorhom/bottom-sheet@npm:^5.1.6":
+  version: 5.1.6
+  resolution: "@gorhom/bottom-sheet@npm:5.1.6"
   dependencies:
     "@gorhom/portal": "npm:1.0.14"
     invariant: "npm:^2.2.4"
@@ -3323,7 +3323,7 @@ __metadata:
       optional: true
     "@types/react-native":
       optional: true
-  checksum: 10c0/3743cd8b8f6fde1f6460af045aea83dd6dff6a7b048165511d3b440a7b342b09c020d48fe8df7d35b61c03c670e4301bb3195381097253ad87a210df79759776
+  checksum: 10c0/2f5c7e4e0a8968a567f5dcac5553b85e09850be46755bcf10a6e44843705392dd71c701b551575d8ea7c6cda8678f4a04851e926b6bfa63e82198b88568a76d8
   languageName: node
   linkType: hard
 
