@@ -182,6 +182,18 @@ class RNFishjamClientModule : Module() {
         }
       }
 
+      AsyncFunction("startMicrophone") Coroutine { ->
+        withContext(Dispatchers.Main) {
+          rnFishjamClient.startMicrophone()
+        }
+      }
+
+      AsyncFunction("stopMicrophone") Coroutine { ->
+        withContext(Dispatchers.Main) {
+          rnFishjamClient.stopMicrophone()
+        }
+      }
+
       AsyncFunction("toggleCamera") Coroutine { ->
         withContext(Dispatchers.Main) {
           rnFishjamClient.toggleCamera()
