@@ -1,4 +1,4 @@
-// import { FISHJAM_HTTP_CONNECT_URL } from '../consts';
+import { FISHJAM_HTTP_CONNECT_URL } from '../consts';
 import { RoomType } from '../types';
 
 type BasicInfo = { id: string; name: string };
@@ -14,7 +14,9 @@ export type UseSandboxProps =
   | { fishjamId?: never; fishjamUrl: string };
 
 export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
-  const managerUrl = 'http://192.168.82.72:8080/api/rooms';
+  const managerUrl = fishjamUrl
+    ? `${fishjamUrl}/room-manager`
+    : `${FISHJAM_HTTP_CONNECT_URL}/${fishjamId}/room-manager`;
 
   const getSandboxPeerToken = async (
     roomName: string,

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import {
   connectWhipClient,
   createWhipClient,
@@ -13,6 +13,8 @@ export interface useLivestreamStreamerResult {
 }
 
 export const useLivestreamStreamer = (): useLivestreamStreamerResult => {
+  const isWhipClientCreatedRef = useRef(false);
+
   const connect = useCallback(async (token: string, urlOverride?: string) => {
     const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
     console.log({ resolvedUrl, token });
@@ -23,9 +25,16 @@ export const useLivestreamStreamer = (): useLivestreamStreamerResult => {
       },
       cameras[0].id,
     );
-    console.log('running connectWhipClient');
+    isWhipClientCreatedRef.current = true;
     await connectWhipClient();
   }, []);
 
-  return { connect, disconnect: disconnectWhipClient };
+  const disconnect = useCallback(() => {
+    // TODO: Remove when FCE-1786 fixed
+    if (isWhipClientCreatedRef.current) {
+      disconnectWhipClient();
+    }
+  }, []);
+
+  return { connect, disconnect };
 };

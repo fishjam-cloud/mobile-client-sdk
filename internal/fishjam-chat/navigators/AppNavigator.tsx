@@ -25,8 +25,14 @@ export type AppRootStackParamList = {
     fishjamUrl: string;
     peerToken: string;
   };
-  LivestreamViewerScreen: undefined;
-  LivestreamStreamerScreen: undefined;
+  LivestreamViewerScreen: {
+    fishjamId: string;
+    roomName: string;
+  };
+  LivestreamStreamerScreen: {
+    fishjamId: string;
+    roomName: string;
+  };
   Room: {
     isCameraOn: boolean;
     userName?: string;

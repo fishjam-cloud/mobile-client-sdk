@@ -26,15 +26,31 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const [livestreamUrl, setLivestreamUrl] = useState('');
-  const [viewerToken, setViewerToken] = useState('');
+  const [fishjamId, setFishjamId] = useState(
+    process.env.EXPO_PUBLIC_FISHJAM_ID ?? '',
+  );
+  const [roomName, setRoomName] = useState('');
+
+  const validateInputs = () => {
+    if (!fishjamId) {
+      throw new Error('Fishjam ID is required');
+    }
+
+    if (!roomName) {
+      throw new Error('Room name is required');
+    }
+  };
 
   const onTapConnectViewerButton = async () => {
     try {
+      validateInputs();
       setConnectionError(null);
       setLoading(true);
 
-      navigation.navigate('LivestreamViewerScreen');
+      navigation.navigate('LivestreamViewerScreen', {
+        fishjamId,
+        roomName,
+      });
     } catch (e) {
       const message =
         'message' in (e as Error) ? (e as Error).message : 'Unknown error';
@@ -45,10 +61,14 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
   };
   const onTapConnectStreamerButton = async () => {
     try {
+      validateInputs();
       setConnectionError(null);
       setLoading(true);
 
-      navigation.navigate('LivestreamStreamerScreen');
+      navigation.navigate('LivestreamStreamerScreen', {
+        fishjamId,
+        roomName,
+      });
     } catch (e) {
       const message =
         'message' in (e as Error) ? (e as Error).message : 'Unknown error';
@@ -69,13 +89,21 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
             source={FishjamLogo}
             resizeMode="contain"
           />
-
+          <TextInput
+            onChangeText={setFishjamId}
+            placeholder="Fishjam ID"
+            defaultValue={fishjamId}
+          />
+          <TextInput
+            onChangeText={setRoomName}
+            placeholder="Room Name"
+            defaultValue={roomName}
+          />
           <Button
             title="Connect to Livestream"
             onPress={onTapConnectViewerButton}
             disabled={loading}
           />
-
           <Button
             title="Stream Livestream"
             onPress={onTapConnectStreamerButton}

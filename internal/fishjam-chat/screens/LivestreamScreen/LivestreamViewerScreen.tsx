@@ -15,23 +15,22 @@ type Props = NativeStackScreenProps<
 >;
 
 export default function LivestreamViewerScreen({ route }: Props) {
-  // const { livestreamUrl, viewerToken } = route.params;
+  const { fishjamId, roomName } = route.params;
 
   const { getSandboxViewerToken } = useSandbox({
-    fishjamId: 'f9f9d5322e98411ca6238efeb551cdb8',
+    fishjamId,
   });
 
   const { connect, disconnect } = useLivestreamViewer();
 
   const handleConnect = useCallback(async () => {
     try {
-      const token = await getSandboxViewerToken('test-room1');
-      console.log('connecteting');
+      const token = await getSandboxViewerToken(roomName);
       await connect({ token });
     } catch (err) {
       console.log(err);
     }
-  }, [connect, getSandboxViewerToken]);
+  }, [connect, getSandboxViewerToken, roomName]);
 
   useEffect(() => {
     handleConnect();

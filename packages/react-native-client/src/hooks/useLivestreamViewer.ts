@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import {
   connectWhepClient,
   createWhepClient,
@@ -30,15 +30,25 @@ export interface useLivestreamViewerResult {
 }
 
 export const useLivestreamViewer = (): useLivestreamViewerResult => {
+  const isWhepClientCreatedRef = useRef(false);
+
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
       createWhepClient(url ?? urlFromConfig(config), {
         authToken: config.token,
       });
+      isWhepClientCreatedRef.current = true;
       await connectWhepClient();
     },
     [],
   );
 
-  return { connect, disconnect: disconnectWhepClient };
+  const disconnect = useCallback(() => {
+    // TODO: Remove when FCE-1786 fixed
+    if (isWhepClientCreatedRef.current) {
+      disconnectWhepClient();
+    }
+  }, []);
+
+  return { connect, disconnect };
 };
