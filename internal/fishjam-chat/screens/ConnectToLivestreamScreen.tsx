@@ -29,25 +29,12 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
   const [livestreamUrl, setLivestreamUrl] = useState('');
   const [viewerToken, setViewerToken] = useState('');
 
-  const onTapConnectButton = async () => {
+  const onTapConnectViewerButton = async () => {
     try {
-      if (!livestreamUrl) {
-        setConnectionError('Livestream URL is required');
-        return;
-      }
-
-      if (!viewerToken) {
-        setConnectionError('Viewer token is required');
-        return;
-      }
-
       setConnectionError(null);
       setLoading(true);
 
-      navigation.navigate('LivestreamScreen', {
-        livestreamUrl,
-        viewerToken,
-      });
+      navigation.navigate('LivestreamViewerScreen');
     } catch (e) {
       const message =
         'message' in (e as Error) ? (e as Error).message : 'Unknown error';
@@ -56,7 +43,20 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
       setLoading(false);
     }
   };
+  const onTapConnectStreamerButton = async () => {
+    try {
+      setConnectionError(null);
+      setLoading(true);
 
+      navigation.navigate('LivestreamStreamerScreen');
+    } catch (e) {
+      const message =
+        'message' in (e as Error) ? (e as Error).message : 'Unknown error';
+      setConnectionError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <DismissKeyboard>
       <SafeAreaView style={styles.safeArea}>
@@ -69,19 +69,16 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
             source={FishjamLogo}
             resizeMode="contain"
           />
-          <TextInput
-            onChangeText={setLivestreamUrl}
-            placeholder="Livestream URL"
-            defaultValue={livestreamUrl}
-          />
-          <TextInput
-            onChangeText={setViewerToken}
-            placeholder="Viewer Token"
-            defaultValue={viewerToken}
-          />
+
           <Button
             title="Connect to Livestream"
-            onPress={onTapConnectButton}
+            onPress={onTapConnectViewerButton}
+            disabled={loading}
+          />
+
+          <Button
+            title="Stream Livestream"
+            onPress={onTapConnectStreamerButton}
             disabled={loading}
           />
         </KeyboardAvoidingView>

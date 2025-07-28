@@ -15,7 +15,8 @@ import { appNavigationLabels } from '../types/ComponentLabels';
 import { AdditionalColors, BrandColors } from '../utils/Colors';
 import { ConnectWithFishjamRoom } from '../screens/ConnectWithFishjamRoom';
 import ConnectToLivestreamScreen from '../screens/ConnectToLivestreamScreen';
-import LivestreamScreen from '../screens/LivestreamScreen/LivestreamScreen';
+import LivestreamStreamerScreen from '../screens/LivestreamScreen/LivestreamStreamerScreen';
+import LivestreamViewerScreen from '../screens/LivestreamScreen/LivestreamViewerScreen';
 
 export type AppRootStackParamList = {
   Home: undefined;
@@ -24,10 +25,8 @@ export type AppRootStackParamList = {
     fishjamUrl: string;
     peerToken: string;
   };
-  LivestreamScreen: {
-    livestreamUrl: string;
-    viewerToken: string;
-  };
+  LivestreamViewerScreen: undefined;
+  LivestreamStreamerScreen: undefined;
   Room: {
     isCameraOn: boolean;
     userName?: string;
@@ -135,7 +134,14 @@ export default function AppNavigator() {
           component={TabNavigator}
         />
         <Stack.Screen name="Preview" component={PreviewScreen} />
-        <Stack.Screen name="LivestreamScreen" component={LivestreamScreen} />
+        <Stack.Screen
+          name="LivestreamStreamerScreen"
+          component={LivestreamStreamerScreen}
+        />
+        <Stack.Screen
+          name="LivestreamViewerScreen"
+          component={LivestreamViewerScreen}
+        />
         <Stack.Screen
           name="Room"
           options={{
