@@ -33,6 +33,7 @@ export type {
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
 export { LivestreamViewer } from './components/LivestreamViewer';
+export { LivestreamStreamer } from './components/LivestreamStreamer';
 // #endregion
 
 // #region types for hooks
@@ -79,7 +80,7 @@ export type {
   PeerStatus,
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
-export type { UseLivestreamResult } from './hooks/useLivestream';
+export type { useLivestreamViewerResult } from './hooks/useLivestreamViewer';
 export type { UseSandboxProps } from './hooks/useSandbox';
 // #endregion
 
@@ -96,7 +97,8 @@ export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
-export { useLivestream } from './hooks/useLivestream';
+export { useLivestreamViewer } from './hooks/useLivestreamViewer';
+export { useLivestreamStreamer } from './hooks/useLivestreamStreamer';
 export { useSandbox } from './hooks/useSandbox';
 // #endregion
 

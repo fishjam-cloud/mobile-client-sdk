@@ -5,12 +5,12 @@ import {
   disconnectWhepClient,
 } from 'react-native-whip-whep';
 
-export interface UseLivestreamResult {
+export interface useLivestreamViewerResult {
   connect: (url: string, token: string) => Promise<void>;
   disconnect: () => void;
 }
 
-export const useLivestream = (): UseLivestreamResult => {
+export const useLivestreamViewer = (): useLivestreamViewerResult => {
   const connect = useCallback(async (url: string, token: string) => {
     createWhepClient(url, {
       authToken: token,
