@@ -81,7 +81,10 @@ export type {
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
 export type { useLivestreamViewerResult } from './hooks/useLivestreamViewer';
+export type { useLivestreamStreamerResult } from './hooks/useLivestreamStreamer';
 export type { UseSandboxProps } from './hooks/useSandbox';
+export type { LivestreamStreamerProps } from './components/LivestreamStreamer';
+export type { ConnectViewerConfig } from './hooks/useLivestreamViewer';
 // #endregion
 
 // #region hooks

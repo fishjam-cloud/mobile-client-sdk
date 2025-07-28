@@ -13,7 +13,7 @@ export type LivestreamStreamerProps = {
 };
 
 /**
- * Renders a video player playing the livestream set up with {@link useLivestream} hook.
+ * Renders a video player playing the livestream set up with {@link useLivestreamStreamer} hook.
  *
  * @category Components
  * @param {object} props
