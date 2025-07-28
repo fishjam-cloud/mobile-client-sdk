@@ -29,6 +29,11 @@ export interface useLivestreamViewerResult {
   disconnect: () => void;
 }
 
+/**
+ * Hook for receiving a published livestream.
+ * @category Livestream
+ * @group Hooks
+ */
 export const useLivestreamViewer = (): useLivestreamViewerResult => {
   const isWhepClientCreatedRef = useRef(false);
 

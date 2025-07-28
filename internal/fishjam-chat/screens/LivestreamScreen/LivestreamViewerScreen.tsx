@@ -76,25 +76,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
-  pausedVideo: {
-    flex: 1,
-    backgroundColor: '#333',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  connectedText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  pausedText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
-  },
 });
