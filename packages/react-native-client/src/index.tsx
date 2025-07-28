@@ -26,13 +26,13 @@ export {
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export type {
-  LivestreamViewProps,
-  LivestreamViewRef,
-} from './components/LivestreamView';
+  LivestreamViewerProps,
+  LivestreamViewerRef,
+} from './components/LivestreamViewer';
 
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
-export { LivestreamView } from './components/LivestreamView';
+export { LivestreamViewer } from './components/LivestreamViewer';
 // #endregion
 
 // #region types for hooks

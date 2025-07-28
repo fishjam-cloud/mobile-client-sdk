@@ -5,7 +5,7 @@ import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
 import {
   useLivestream,
-  LivestreamView,
+  LivestreamViewer,
 } from '@fishjam-cloud/react-native-client';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'LivestreamScreen'>;
@@ -35,7 +35,7 @@ export default function LivestreamScreen({ route }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
-          <LivestreamView style={styles.whepView} />
+          <LivestreamViewer style={styles.whepView} />
         </View>
       </View>
     </SafeAreaView>
