@@ -1,29 +1,34 @@
+import {
+  LivestreamStreamer,
+  useLivestreamStreamer,
+  useSandbox,
+} from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
-import {
-  LivestreamStreamer,
-  LivestreamViewer,
-  useLivestreamStreamer,
-  useLivestreamViewer,
-} from '@fishjam-cloud/react-native-client';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'LivestreamScreen'>;
 
 export default function LivestreamScreen({ route }: Props) {
-  const { livestreamUrl, viewerToken } = route.params;
+  // const { livestreamUrl, viewerToken } = route.params;
+
+  const { getSandboxLivestream } = useSandbox({
+    fishjamId: 'f9f9d5322e98411ca6238efeb551cdb8',
+  });
 
   const { connect, disconnect } = useLivestreamStreamer();
 
   const handleConnect = useCallback(async () => {
     try {
-      await connect(livestreamUrl, viewerToken);
+      const { streamerToken } = await getSandboxLivestream('test-room', true);
+      console.log('connecteting');
+      await connect(streamerToken);
     } catch (err) {
       console.log(err);
     }
-  }, [connect, livestreamUrl, viewerToken]);
+  }, [connect, getSandboxLivestream]);
 
   useEffect(() => {
     handleConnect();

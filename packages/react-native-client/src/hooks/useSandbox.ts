@@ -1,4 +1,4 @@
-import { FISHJAM_HTTP_CONNECT_URL } from '../consts';
+// import { FISHJAM_HTTP_CONNECT_URL } from '../consts';
 import { RoomType } from '../types';
 
 type BasicInfo = { id: string; name: string };
@@ -14,9 +14,7 @@ export type UseSandboxProps =
   | { fishjamId?: never; fishjamUrl: string };
 
 export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
-  const managerUrl = fishjamUrl
-    ? `${fishjamUrl}/room-manager`
-    : `${FISHJAM_HTTP_CONNECT_URL}/${fishjamId}/room-manager`;
+  const managerUrl = 'http://192.168.82.72:8080/api/rooms';
 
   const getSandboxPeerToken = async (
     roomName: string,
@@ -70,8 +68,33 @@ export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
     }
   };
 
+  const getSandboxLivestream = async (
+    roomName: string,
+    isPublic: boolean = false,
+  ) => {
+    const url = new URL(`${managerUrl}/livestream`);
+    url.searchParams.set('roomName', roomName);
+    url.searchParams.set('public', isPublic.toString());
+
+    console.log({ sanurl: url.toString() });
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.log(await res.json());
+      throw new Error(
+        `Failed to retrieve streamer token for '${roomName}' livestream room.`,
+      );
+    }
+
+    const data = await res.json();
+    return data as {
+      streamerToken: string;
+      room: { id: string; name: string };
+    };
+  };
+
   return {
     getSandboxPeerToken,
     getSandboxViewerToken,
+    getSandboxLivestream,
   };
 };
