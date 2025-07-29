@@ -70,8 +70,33 @@ export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
     }
   };
 
+  const getSandboxLivestream = async (
+    roomName: string,
+    isPublic: boolean = false,
+  ) => {
+    const url = new URL(`${managerUrl}/livestream`);
+    url.searchParams.set('roomName', roomName);
+    url.searchParams.set('public', isPublic.toString());
+
+    console.log({ sanurl: url.toString() });
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.log(await res.json());
+      throw new Error(
+        `Failed to retrieve streamer token for '${roomName}' livestream room.`,
+      );
+    }
+
+    const data = await res.json();
+    return data as {
+      streamerToken: string;
+      room: { id: string; name: string };
+    };
+  };
+
   return {
     getSandboxPeerToken,
     getSandboxViewerToken,
+    getSandboxLivestream,
   };
 };
