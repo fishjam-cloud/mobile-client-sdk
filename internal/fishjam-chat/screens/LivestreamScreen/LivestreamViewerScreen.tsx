@@ -28,7 +28,7 @@ export default function LivestreamViewerScreen({ route }: Props) {
       const token = await getSandboxViewerToken(roomName);
       await connect({ token });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }, [connect, getSandboxViewerToken, roomName]);
 

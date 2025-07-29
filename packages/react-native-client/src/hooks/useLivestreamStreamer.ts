@@ -4,6 +4,7 @@ import {
   createWhipClient,
   disconnectWhipClient,
   cameras,
+  Camera,
 } from 'react-native-whip-whep';
 import { FISHJAM_WHIP_URL } from '../consts';
 
@@ -27,27 +28,37 @@ export interface useLivestreamStreamerResult {
  * @category Livestream
  * @group Hooks
  */
-export const useLivestreamStreamer = (): useLivestreamStreamerResult => {
+export const useLivestreamStreamer = ({
+  camera,
+}: {
+  camera?: Camera;
+}): useLivestreamStreamerResult => {
   const isWhipClientCreatedRef = useRef(false);
 
-  const connect = useCallback(async (token: string, urlOverride?: string) => {
-    const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
-    console.log({ resolvedUrl, token });
-    createWhipClient(
-      resolvedUrl,
-      {
-        authToken: token,
-      },
-      cameras[0].id,
-    );
-    isWhipClientCreatedRef.current = true;
-    await connectWhipClient();
-  }, []);
+  const connect = useCallback(
+    async (token: string, urlOverride?: string) => {
+      if (isWhipClientCreatedRef.current) {
+        return;
+      }
+      const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
+      createWhipClient(
+        resolvedUrl,
+        {
+          authToken: token,
+        },
+        camera?.id ?? cameras[0].id,
+      );
+      isWhipClientCreatedRef.current = true;
+      await connectWhipClient();
+    },
+    [camera],
+  );
 
   const disconnect = useCallback(() => {
     // TODO: Remove when FCE-1786 fixed
     if (isWhipClientCreatedRef.current) {
       disconnectWhipClient();
+      isWhipClientCreatedRef.current = false;
     }
   }, []);
 

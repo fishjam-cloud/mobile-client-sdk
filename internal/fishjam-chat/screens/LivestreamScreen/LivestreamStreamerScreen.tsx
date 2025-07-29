@@ -2,6 +2,7 @@ import {
   LivestreamStreamer,
   useLivestreamStreamer,
   useSandbox,
+  cameras,
 } from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
@@ -21,7 +22,7 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect } = useLivestreamStreamer();
+  const { connect, disconnect } = useLivestreamStreamer({ camera: cameras[0] });
 
   const handleConnect = useCallback(async () => {
     try {
