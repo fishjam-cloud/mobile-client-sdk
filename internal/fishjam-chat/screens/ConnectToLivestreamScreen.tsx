@@ -26,27 +26,30 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const [livestreamUrl, setLivestreamUrl] = useState('');
-  const [viewerToken, setViewerToken] = useState('');
+  const [fishjamId, setFishjamId] = useState(
+    process.env.EXPO_PUBLIC_FISHJAM_ID ?? '',
+  );
+  const [roomName, setRoomName] = useState('');
 
-  const onTapConnectButton = async () => {
+  const validateInputs = () => {
+    if (!fishjamId) {
+      throw new Error('Fishjam ID is required');
+    }
+
+    if (!roomName) {
+      throw new Error('Room name is required');
+    }
+  };
+
+  const onTapConnectViewerButton = async () => {
     try {
-      if (!livestreamUrl) {
-        setConnectionError('Livestream URL is required');
-        return;
-      }
-
-      if (!viewerToken) {
-        setConnectionError('Viewer token is required');
-        return;
-      }
-
+      validateInputs();
       setConnectionError(null);
       setLoading(true);
 
-      navigation.navigate('LivestreamScreen', {
-        livestreamUrl,
-        viewerToken,
+      navigation.navigate('LivestreamViewerScreen', {
+        fishjamId,
+        roomName,
       });
     } catch (e) {
       const message =
@@ -56,7 +59,24 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
       setLoading(false);
     }
   };
+  const onTapConnectStreamerButton = async () => {
+    try {
+      validateInputs();
+      setConnectionError(null);
+      setLoading(true);
 
+      navigation.navigate('LivestreamStreamerScreen', {
+        fishjamId,
+        roomName,
+      });
+    } catch (e) {
+      const message =
+        'message' in (e as Error) ? (e as Error).message : 'Unknown error';
+      setConnectionError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <DismissKeyboard>
       <SafeAreaView style={styles.safeArea}>
@@ -70,18 +90,23 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
             resizeMode="contain"
           />
           <TextInput
-            onChangeText={setLivestreamUrl}
-            placeholder="Livestream URL"
-            defaultValue={livestreamUrl}
+            onChangeText={setFishjamId}
+            placeholder="Fishjam ID"
+            defaultValue={fishjamId}
           />
           <TextInput
-            onChangeText={setViewerToken}
-            placeholder="Viewer Token"
-            defaultValue={viewerToken}
+            onChangeText={setRoomName}
+            placeholder="Room Name"
+            defaultValue={roomName}
           />
           <Button
             title="Connect to Livestream"
-            onPress={onTapConnectButton}
+            onPress={onTapConnectViewerButton}
+            disabled={loading}
+          />
+          <Button
+            title="Stream Livestream"
+            onPress={onTapConnectStreamerButton}
             disabled={loading}
           />
         </KeyboardAvoidingView>

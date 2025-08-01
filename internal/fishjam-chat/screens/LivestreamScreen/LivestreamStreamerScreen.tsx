@@ -1,27 +1,37 @@
+import {
+  LivestreamStreamer,
+  useLivestreamStreamer,
+  useSandbox,
+  cameras,
+} from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
-import {
-  useLivestream,
-  LivestreamView,
-} from '@fishjam-cloud/react-native-client';
 
-type Props = NativeStackScreenProps<AppRootStackParamList, 'LivestreamScreen'>;
+type Props = NativeStackScreenProps<
+  AppRootStackParamList,
+  'LivestreamStreamerScreen'
+>;
 
-export default function LivestreamScreen({ route }: Props) {
-  const { livestreamUrl, viewerToken } = route.params;
+export default function LivestreamStreamerScreen({ route }: Props) {
+  const { fishjamId, roomName } = route.params;
 
-  const { connect, disconnect } = useLivestream();
+  const { getSandboxLivestream } = useSandbox({
+    fishjamId,
+  });
+
+  const { connect, disconnect } = useLivestreamStreamer({ camera: cameras[0] });
 
   const handleConnect = useCallback(async () => {
     try {
-      await connect(livestreamUrl, viewerToken);
+      const { streamerToken } = await getSandboxLivestream(roomName, true);
+      await connect(streamerToken);
     } catch (err) {
       console.log(err);
     }
-  }, [connect, livestreamUrl, viewerToken]);
+  }, [connect, getSandboxLivestream, roomName]);
 
   useEffect(() => {
     handleConnect();
@@ -35,7 +45,7 @@ export default function LivestreamScreen({ route }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
-          <LivestreamView style={styles.whepView} />
+          <LivestreamStreamer style={styles.whepView} />
         </View>
       </View>
     </SafeAreaView>
@@ -66,26 +76,5 @@ const styles = StyleSheet.create({
   whepView: {
     flex: 1,
     backgroundColor: '#000',
-  },
-  pausedVideo: {
-    flex: 1,
-    backgroundColor: '#333',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  connectedText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  pausedText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
   },
 });
