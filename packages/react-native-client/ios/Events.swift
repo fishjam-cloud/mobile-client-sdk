@@ -93,7 +93,14 @@ class EmitableEvent {
     }
 
     static func audioDeviceUpdate(currentRoute: AVAudioSessionRouteDescription) -> EmitableEvent {
-        let output = currentRoute.outputs[0]
+      guard let output = currentRoute.outputs.first else {
+        return .init(
+            event: .AudioDeviceUpdate,
+            eventContent: [
+                "selectedDevice": nil,
+                "availableDevices": [],
+            ])
+      }
         let deviceType = output.portType
 
         let deviceTypeString =
