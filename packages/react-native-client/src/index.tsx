@@ -26,13 +26,14 @@ export {
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export type {
-  LivestreamViewProps,
-  LivestreamViewRef,
-} from './components/LivestreamView';
+  LivestreamViewerProps,
+  LivestreamViewerRef,
+} from './components/LivestreamViewer';
 
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
-export { LivestreamView } from './components/LivestreamView';
+export { LivestreamViewer } from './components/LivestreamViewer';
+export { LivestreamStreamer } from './components/LivestreamStreamer';
 // #endregion
 
 // #region types for hooks
@@ -79,8 +80,11 @@ export type {
   PeerStatus,
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
-export type { UseLivestreamResult } from './hooks/useLivestream';
+export type { useLivestreamViewerResult } from './hooks/useLivestreamViewer';
+export type { useLivestreamStreamerResult } from './hooks/useLivestreamStreamer';
 export type { UseSandboxProps } from './hooks/useSandbox';
+export type { LivestreamStreamerProps } from './components/LivestreamStreamer';
+export type { ConnectViewerConfig } from './hooks/useLivestreamViewer';
 // #endregion
 
 // #region hooks
@@ -96,8 +100,10 @@ export { usePeers } from './hooks/usePeers';
 export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
-export { useLivestream } from './hooks/useLivestream';
+export { useLivestreamViewer } from './hooks/useLivestreamViewer';
+export { useLivestreamStreamer } from './hooks/useLivestreamStreamer';
 export { useSandbox } from './hooks/useSandbox';
+export { cameras } from 'react-native-whip-whep';
 // #endregion
 
 export {
