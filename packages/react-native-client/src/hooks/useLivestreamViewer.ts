@@ -3,6 +3,7 @@ import {
   connectWhepClient,
   createWhepClient,
   disconnectWhepClient,
+  useWhepConnectionState,
 } from 'react-native-whip-whep';
 import { FISHJAM_WHEP_URL } from '../consts';
 
@@ -27,6 +28,8 @@ export interface useLivestreamViewerResult {
   connect: (config: ConnectViewerConfig, url?: string) => Promise<void>;
   /** Disconnect from a stream previously connected to with {@link connect} */
   disconnect: () => void;
+  /** Utility flag which indicates the current connection status */
+  isConnected: boolean;
 }
 
 /**
@@ -35,25 +38,22 @@ export interface useLivestreamViewerResult {
  * @group Hooks
  */
 export const useLivestreamViewer = (): useLivestreamViewerResult => {
-  const isWhepClientCreatedRef = useRef(false);
+  const state = useWhepConnectionState();
+  const isConnected = state === 'connected';
 
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
       createWhepClient(url ?? urlFromConfig(config), {
         authToken: config.token,
       });
-      isWhepClientCreatedRef.current = true;
       await connectWhepClient();
     },
     [],
   );
 
   const disconnect = useCallback(() => {
-    // TODO: Remove when FCE-1786 fixed
-    if (isWhepClientCreatedRef.current) {
-      disconnectWhepClient();
-    }
+    disconnectWhepClient();
   }, []);
 
-  return { connect, disconnect };
+  return { connect, disconnect, isConnected };
 };

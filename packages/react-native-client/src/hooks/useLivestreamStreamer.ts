@@ -5,6 +5,7 @@ import {
   disconnectWhipClient,
   cameras,
   Camera,
+  useWhipConnectionState,
 } from 'react-native-whip-whep';
 import { FISHJAM_WHIP_URL } from '../consts';
 
@@ -21,6 +22,8 @@ export interface useLivestreamStreamerResult {
   connect: (token: string, urlOverride?: string) => Promise<void>;
   /** Callback to stop publishing anything previously published with {@link connect} */
   disconnect: () => void;
+  /** Utility flag which indicates the current connection status */
+  isConnected: boolean;
 }
 
 /**
@@ -33,13 +36,11 @@ export const useLivestreamStreamer = ({
 }: {
   camera?: Camera;
 }): useLivestreamStreamerResult => {
-  const isWhipClientCreatedRef = useRef(false);
+  const state = useWhipConnectionState();
+  const isConnected = state === 'connected';
 
   const connect = useCallback(
     async (token: string, urlOverride?: string) => {
-      if (isWhipClientCreatedRef.current) {
-        return;
-      }
       const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
       createWhipClient(
         resolvedUrl,
@@ -48,19 +49,14 @@ export const useLivestreamStreamer = ({
         },
         camera?.id ?? cameras[0].id,
       );
-      isWhipClientCreatedRef.current = true;
       await connectWhipClient();
     },
     [camera],
   );
 
   const disconnect = useCallback(() => {
-    // TODO: Remove when FCE-1786 fixed
-    if (isWhipClientCreatedRef.current) {
-      disconnectWhipClient();
-      isWhipClientCreatedRef.current = false;
-    }
+    disconnectWhipClient();
   }, []);
 
-  return { connect, disconnect };
+  return { connect, disconnect, isConnected };
 };
