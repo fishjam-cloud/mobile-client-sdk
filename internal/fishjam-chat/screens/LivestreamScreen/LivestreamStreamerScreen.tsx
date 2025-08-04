@@ -28,7 +28,7 @@ export default function LivestreamStreamerScreen({ route }: Props) {
 
   const handleConnect = useCallback(async () => {
     try {
-      const { streamerToken } = await getSandboxLivestream(roomName, true);
+      const { streamerToken } = await getSandboxLivestream(roomName, false);
       await connect(streamerToken);
     } catch (err) {
       console.log(err);
