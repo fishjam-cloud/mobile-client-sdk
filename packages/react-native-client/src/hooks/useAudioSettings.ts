@@ -20,7 +20,14 @@ export type AudioOutputDevice = {
 };
 
 export type OnAudioDeviceEvent = {
+  /**
+   * Currently selected output audio device.
+   * On iOS this property can briefly become null, even if it was previously initialized, when AVAudioSession's .currentRoute is empty.
+   */
   selectedDevice: AudioOutputDevice | null;
+  /**
+   * [Android only] available audio output devices to be set
+   */
   availableDevices: AudioOutputDevice[];
 };
 
