@@ -22,7 +22,9 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect } = useLivestreamStreamer({ camera: cameras[0] });
+  const { connect, disconnect } = useLivestreamStreamer({
+    camera: cameras[0],
+  });
 
   const handleConnect = useCallback(async () => {
     try {

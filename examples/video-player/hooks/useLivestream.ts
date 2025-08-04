@@ -29,12 +29,12 @@ export const useLivestream = () => {
     }
   }, []);
 
-  useEvent('reconnectionStatusChanged', (event) => {
-    if (event.status === 'reconnectionStarted') {
+  useEvent('ReconnectionStatusChanged', (status) => {
+    if (status === 'reconnectionStarted') {
       setIsReconnecting(true);
-    } else if (event.status === 'reconnected') {
+    } else if (status === 'reconnected') {
       setIsReconnecting(false);
-    } else if (event.status === 'reconnectionRetriesLimitReached') {
+    } else if (status === 'reconnectionRetriesLimitReached') {
       setIsReconnecting(false);
       setHasErrors(true);
     }
