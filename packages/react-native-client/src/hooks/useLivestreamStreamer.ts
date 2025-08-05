@@ -42,7 +42,7 @@ export const useLivestreamStreamer = ({
   const connect = useCallback(
     async (token: string, urlOverride?: string) => {
       const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
-      createWhipClient(
+      await createWhipClient(
         resolvedUrl,
         {
           authToken: token,
