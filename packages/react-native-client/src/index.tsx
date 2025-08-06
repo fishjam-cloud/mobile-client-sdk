@@ -103,7 +103,7 @@ export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestreamViewer } from './hooks/useLivestreamViewer';
 export { useLivestreamStreamer } from './hooks/useLivestreamStreamer';
 export { useSandbox } from './hooks/useSandbox';
-export { cameras } from 'react-native-whip-whep';
+export { cameras, VideoParameters } from 'react-native-whip-whep';
 // #endregion
 
 export {

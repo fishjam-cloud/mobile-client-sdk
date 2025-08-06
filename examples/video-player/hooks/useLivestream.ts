@@ -16,11 +16,15 @@ export const useLivestream = () => {
       setIsLoading(true);
       setHasErrors(false);
 
-      createWhepClient(process.env.EXPO_PUBLIC_BROADCASTER_URL, {
-        authToken: process.env.EXPO_PUBLIC_AUTH_TOKEN,
+      createWhepClient({
+        audioEnabled: true,
+        videoEnabled: true,
       });
 
-      await connectWhepClient();
+      await connectWhepClient({
+        serverUrl: process.env.EXPO_PUBLIC_BROADCASTER_URL,
+        authToken: process.env.EXPO_PUBLIC_AUTH_TOKEN,
+      });
     } catch (error) {
       console.log(error);
       setHasErrors(true);

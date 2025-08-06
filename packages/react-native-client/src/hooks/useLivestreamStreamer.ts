@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   connectWhipClient,
   createWhipClient,
@@ -6,6 +6,7 @@ import {
   cameras,
   Camera,
   useWhipConnectionState,
+  VideoParameters,
 } from 'react-native-whip-whep';
 import { FISHJAM_WHIP_URL } from '../consts';
 
@@ -33,26 +34,38 @@ export interface useLivestreamStreamerResult {
  */
 export const useLivestreamStreamer = ({
   camera,
+  videoParameters,
 }: {
   camera?: Camera;
+  videoParameters?: VideoParameters;
 }): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 
-  const connect = useCallback(
-    async (token: string, urlOverride?: string) => {
-      const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
-      await createWhipClient(
-        resolvedUrl,
-        {
-          authToken: token,
-        },
-        camera?.id ?? cameras[0].id,
-      );
-      await connectWhipClient();
-    },
-    [camera],
-  );
+  useEffect(() => {
+    const createClient = async () => {
+      await createWhipClient({
+        videoDeviceId: camera?.id ?? cameras[0].id,
+        videoEnabled: true,
+        audioEnabled: true,
+        videoParameters: videoParameters ?? VideoParameters.presetHD169,
+      });
+    };
+    createClient();
+
+    return () => {
+      disconnectWhipClient();
+    };
+  }, [camera, videoParameters]);
+
+  const connect = useCallback(async (token: string, urlOverride?: string) => {
+    const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
+
+    await connectWhipClient({
+      authToken: token,
+      serverUrl: resolvedUrl,
+    });
+  }, []);
 
   const disconnect = useCallback(() => {
     disconnectWhipClient();

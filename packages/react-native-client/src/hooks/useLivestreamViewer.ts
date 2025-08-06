@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   connectWhepClient,
   createWhepClient,
@@ -41,12 +41,26 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
   const state = useWhepConnectionState();
   const isConnected = state === 'connected';
 
+  useEffect(() => {
+    const createClient = async () => {
+      createWhepClient({
+        audioEnabled: true,
+        videoEnabled: true,
+      });
+    };
+    createClient();
+
+    return () => {
+      disconnectWhepClient();
+    };
+  }, []);
+
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
-      createWhepClient(url ?? urlFromConfig(config), {
+      await connectWhepClient({
+        serverUrl: url ?? urlFromConfig(config),
         authToken: config.token,
       });
-      await connectWhepClient();
     },
     [],
   );

@@ -6,7 +6,7 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
 
@@ -22,9 +22,11 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect } = useLivestreamStreamer({
+  const { connect, disconnect, isConnected } = useLivestreamStreamer({
     camera: cameras[0],
   });
+
+  console.log('Streamer Connected:', isConnected);
 
   const handleConnect = useCallback(async () => {
     try {
@@ -35,19 +37,25 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     }
   }, [connect, getSandboxLivestream, roomName]);
 
-  useEffect(() => {
-    handleConnect();
+  const handleDisconnect = useCallback(() => {
+    disconnect();
+  }, [disconnect]);
 
+  useEffect(() => {
     return () => {
       disconnect();
     };
-  }, [handleConnect, disconnect]);
+  }, [disconnect]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
           <LivestreamStreamer style={styles.whepView} />
+          <Button
+            title={isConnected ? 'Disconnect' : 'Connect'}
+            onPress={isConnected ? handleDisconnect : handleConnect}
+          />
         </View>
       </View>
     </SafeAreaView>
