@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { WhepClient, useWhepConnectionState } from 'react-native-whip-whep';
+import {
+  ReceiverAudioCodecName,
+  ReceiverVideoCodecName,
+  WhepClient,
+  useWhepConnectionState,
+} from 'react-native-whip-whep';
 import { FISHJAM_WHEP_URL } from '../consts';
 
 export type ConnectViewerConfig =
@@ -25,6 +30,24 @@ export interface useLivestreamViewerResult {
   disconnect: () => void;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
+
+  /**
+   * Get the list of supported audio codecs.
+   */
+  getSupportedAudioCodecs: () => ReceiverAudioCodecName[];
+  /**
+   * Get the list of supported video codecs.
+   */
+  getSupportedVideoCodecs: () => ReceiverVideoCodecName[];
+
+  /**
+   * Set the preferred video codecs.
+   */
+  setPreferredVideoCodecs: (codecs: ReceiverVideoCodecName[]) => void;
+  /**
+   * Set the preferred audio codecs.
+   */
+  setPreferredAudioCodecs: (codecs: ReceiverAudioCodecName[]) => void;
 }
 
 /**
@@ -66,5 +89,35 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
     whepClient.current?.disconnect();
   }, []);
 
-  return { connect, disconnect, isConnected };
+  const getSupportedAudioCodecs = useCallback(() => {
+    return whepClient.current?.getSupportedAudioCodecs() ?? [];
+  }, []);
+
+  const getSupportedVideoCodecs = useCallback(() => {
+    return whepClient.current?.getSupportedVideoCodecs() ?? [];
+  }, []);
+
+  const setPreferredVideoCodecs = useCallback(
+    (codecs: ReceiverVideoCodecName[]) => {
+      whepClient.current?.setPreferredVideoCodecs(codecs);
+    },
+    [],
+  );
+
+  const setPreferredAudioCodecs = useCallback(
+    (codecs: ReceiverAudioCodecName[]) => {
+      whepClient.current?.setPreferredAudioCodecs(codecs);
+    },
+    [],
+  );
+
+  return {
+    connect,
+    disconnect,
+    isConnected,
+    getSupportedAudioCodecs,
+    getSupportedVideoCodecs,
+    setPreferredVideoCodecs,
+    setPreferredAudioCodecs,
+  };
 };

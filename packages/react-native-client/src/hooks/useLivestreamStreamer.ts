@@ -5,6 +5,8 @@ import {
   Camera,
   useWhipConnectionState,
   VideoParameters,
+  SenderAudioCodecName,
+  SenderVideoCodecName,
 } from 'react-native-whip-whep';
 import { FISHJAM_WHIP_URL } from '../consts';
 
@@ -23,6 +25,22 @@ export interface useLivestreamStreamerResult {
   disconnect: () => void;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
+  /**
+   * Get the list of supported audio codecs.
+   */
+  getSupportedAudioCodecs: () => SenderAudioCodecName[];
+  /**
+   * Get the list of supported video codecs.
+   */
+  getSupportedVideoCodecs: () => SenderVideoCodecName[];
+  /**
+   * Set the preferred video codecs.
+   */
+  setPreferredVideoCodecs: (codecs: SenderVideoCodecName[]) => void;
+  /**
+   * Set the preferred audio codecs.
+   */
+  setPreferredAudioCodecs: (codecs: SenderAudioCodecName[]) => void;
 }
 
 /**
@@ -73,5 +91,34 @@ export const useLivestreamStreamer = ({
     whipClient.current?.disconnect();
   }, []);
 
-  return { connect, disconnect, isConnected };
+  const getSupportedAudioCodecs = useCallback(() => {
+    return whipClient.current?.getSupportedAudioCodecs() ?? [];
+  }, []);
+
+  const getSupportedVideoCodecs = useCallback(() => {
+    return whipClient.current?.getSupportedVideoCodecs() ?? [];
+  }, []);
+
+  const setPreferredVideoCodecs = useCallback(
+    (codecs: SenderVideoCodecName[]) => {
+      whipClient.current?.setPreferredVideoCodecs(codecs);
+    },
+    [],
+  );
+
+  const setPreferredAudioCodecs = useCallback(
+    (codecs: SenderAudioCodecName[]) => {
+      whipClient.current?.setPreferredAudioCodecs(codecs);
+    },
+    [],
+  );
+  return {
+    connect,
+    disconnect,
+    isConnected,
+    getSupportedAudioCodecs,
+    getSupportedVideoCodecs,
+    setPreferredVideoCodecs,
+    setPreferredAudioCodecs,
+  };
 };

@@ -6,7 +6,14 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
-import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
 
@@ -15,6 +22,20 @@ type Props = NativeStackScreenProps<
   'LivestreamStreamerScreen'
 >;
 
+export async function checkPermissions() {
+  if (Platform.OS === 'ios') {
+    return;
+  }
+  try {
+    await PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+    ]);
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
 export default function LivestreamStreamerScreen({ route }: Props) {
   const { fishjamId, roomName } = route.params;
 
@@ -22,7 +43,13 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect, isConnected } = useLivestreamStreamer({
+  const {
+    connect,
+    disconnect,
+    isConnected,
+    getSupportedVideoCodecs,
+    setPreferredVideoCodecs,
+  } = useLivestreamStreamer({
     camera: cameras[0],
   });
 
@@ -42,10 +69,18 @@ export default function LivestreamStreamerScreen({ route }: Props) {
   }, [disconnect]);
 
   useEffect(() => {
+    checkPermissions();
+
+    const supportedVideoCodecs = getSupportedVideoCodecs();
+    const vp8 = supportedVideoCodecs.find((codec) => codec === 'VP8');
+    if (vp8) {
+      setPreferredVideoCodecs([vp8]);
+    }
+
     return () => {
       disconnect();
     };
-  }, [disconnect]);
+  }, [disconnect, getSupportedVideoCodecs, setPreferredVideoCodecs]);
 
   return (
     <SafeAreaView style={styles.container}>

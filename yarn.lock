@@ -16310,14 +16310,14 @@ __metadata:
 
 "react-native-whip-whep@file:/Users/milosz/repos/react-native-whip-whep/packages/react-native-client::locator=%40fishjam-cloud%2Freact-native-client%40workspace%3Apackages%2Freact-native-client":
   version: 0.2.3
-  resolution: "react-native-whip-whep@file:/Users/milosz/repos/react-native-whip-whep/packages/react-native-client#/Users/milosz/repos/react-native-whip-whep/packages/react-native-client::hash=eb9c2c&locator=%40fishjam-cloud%2Freact-native-client%40workspace%3Apackages%2Freact-native-client"
+  resolution: "react-native-whip-whep@file:/Users/milosz/repos/react-native-whip-whep/packages/react-native-client#/Users/milosz/repos/react-native-whip-whep/packages/react-native-client::hash=e238a0&locator=%40fishjam-cloud%2Freact-native-client%40workspace%3Apackages%2Freact-native-client"
   dependencies:
     zod: "npm:^3.25.71"
   peerDependencies:
     expo: "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/17172c0fc3822aa15a86c4679e91dda41cca12fda0f4420efd318d0ffdde741db7ad3e8aaab07bcd17215036566106c1fd188c4d85b9f8e00e9584100a3879c4
+  checksum: 10c0/fc91845f494a506015eadf940dcd1495617a26c505bb712745167a463882a2f6d25474f00c632f3073ed1fc7eb62ba720f0843b58f6c86590b6054e86f6eda33
   languageName: node
   linkType: hard
 
