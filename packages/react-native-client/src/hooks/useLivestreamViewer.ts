@@ -1,10 +1,5 @@
-import { useCallback, useEffect } from 'react';
-import {
-  connectWhepClient,
-  createWhepClient,
-  disconnectWhepClient,
-  useWhepConnectionState,
-} from 'react-native-whip-whep';
+import { useCallback, useEffect, useRef } from 'react';
+import { WhepClient, useWhepConnectionState } from 'react-native-whip-whep';
 import { FISHJAM_WHEP_URL } from '../consts';
 
 export type ConnectViewerConfig =
@@ -41,9 +36,11 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
   const state = useWhepConnectionState();
   const isConnected = state === 'connected';
 
+  const whepClient = useRef<WhepClient | null>(null);
+
   useEffect(() => {
     const createClient = async () => {
-      createWhepClient({
+      whepClient.current = new WhepClient({
         audioEnabled: true,
         videoEnabled: true,
       });
@@ -51,13 +48,13 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
     createClient();
 
     return () => {
-      disconnectWhepClient();
+      whepClient.current?.disconnect();
     };
   }, []);
 
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
-      await connectWhepClient({
+      await whepClient.current?.connect({
         serverUrl: url ?? urlFromConfig(config),
         authToken: config.token,
       });
@@ -66,7 +63,7 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
   );
 
   const disconnect = useCallback(() => {
-    disconnectWhepClient();
+    whepClient.current?.disconnect();
   }, []);
 
   return { connect, disconnect, isConnected };

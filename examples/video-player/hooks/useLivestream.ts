@@ -1,27 +1,24 @@
-import { useState, useEffect, useCallback } from 'react';
-import {
-  createWhepClient,
-  disconnectWhepClient,
-  connectWhepClient,
-  useEvent,
-} from 'react-native-whip-whep';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { WhepClient, useEvent } from 'react-native-whip-whep';
 
 export const useLivestream = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReconnecting, setIsReconnecting] = useState(false);
   const [hasErrors, setHasErrors] = useState(false);
 
+  const whepClient = useRef<WhepClient | null>(null);
+
   const connectLivestream = useCallback(async () => {
     try {
       setIsLoading(true);
       setHasErrors(false);
 
-      createWhepClient({
+      whepClient.current = new WhepClient({
         audioEnabled: true,
         videoEnabled: true,
       });
 
-      await connectWhepClient({
+      await whepClient.current?.connect({
         serverUrl: process.env.EXPO_PUBLIC_BROADCASTER_URL,
         authToken: process.env.EXPO_PUBLIC_AUTH_TOKEN,
       });
@@ -48,7 +45,7 @@ export const useLivestream = () => {
     connectLivestream();
 
     return () => {
-      disconnectWhepClient();
+      whepClient.current?.disconnect();
     };
   }, [connectLivestream]);
 
