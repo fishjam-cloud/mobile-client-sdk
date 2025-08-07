@@ -18,15 +18,15 @@
     "@wdio/local-runner": "^8.45.0",
     "@wdio/mocha-framework": "^8.45.0",
     "@wdio/spec-reporter": "^8.43.0",
-    "appium-xcuitest-driver": "^9.9.2",
+    "appium-xcuitest-driver": "^9.10.4",
     "eslint": "^9.29.0",
     "eslint-config-expo": "~9.2.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.1",
-    "typescript": "~5.8.3",
-    "webdriverio": "^9.16.2"
+    "typescript": "~5.9.2",
+    "webdriverio": "^9.18.4"
   },
   "dependencies": {
     "dotenv": "^16.5.0"
