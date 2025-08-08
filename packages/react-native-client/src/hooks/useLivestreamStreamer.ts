@@ -27,6 +27,28 @@ export interface useLivestreamStreamerResult {
   isConnected: boolean;
 }
 
+export interface useLivestreamStreamerParams {
+  /**
+   * Set the camera to use for the livestream.
+   * Use {@link cameras} to get the list of supported cameras.
+   */
+  camera?: Camera;
+  /**
+   *  Set video parameters for the camera
+   */
+  videoParameters?: VideoParameters;
+  /**
+   * Set the preferred video codecs for sending the video.
+   * Use {@link WhipClient.getSupportedVideoCodecs} to get the list of supported video codecs.
+   */
+  preferredVideoCodecs?: SenderVideoCodecName[];
+  /**
+   * Set the preferred audio codecs for sending the audio.
+   * Use {@link WhipClient.getSupportedAudioCodecs} to get the list of supported audio codecs.
+   */
+  preferredAudioCodecs?: SenderAudioCodecName[];
+}
+
 /**
  * Hook for publishing a livestream, which can be then received with {@link useLivestreamViewer}
  * @category Livestream
@@ -37,12 +59,7 @@ export const useLivestreamStreamer = ({
   videoParameters,
   preferredVideoCodecs,
   preferredAudioCodecs,
-}: {
-  camera?: Camera;
-  videoParameters?: VideoParameters;
-  preferredVideoCodecs?: SenderVideoCodecName[];
-  preferredAudioCodecs?: SenderAudioCodecName[];
-}): useLivestreamStreamerResult => {
+}: useLivestreamStreamerParams): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 

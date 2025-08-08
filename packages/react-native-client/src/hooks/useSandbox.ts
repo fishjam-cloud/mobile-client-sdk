@@ -85,7 +85,6 @@ export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
       url.searchParams.set('roomName', roomName);
       url.searchParams.set('public', isPublic.toString());
 
-      console.log({ sanurl: url.toString() });
       const res = await fetch(url);
       if (!res.ok) {
         console.log(await res.json());
