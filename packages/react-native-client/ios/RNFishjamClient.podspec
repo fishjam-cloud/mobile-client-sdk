@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license        = package['license']
   s.author         = package['author']
   s.homepage       = package['homepage']
-  s.platform       = :ios, '13.0'
+  s.platform       = :ios, '15.1'
   s.swift_version  = '5.4'
   s.source         = { git: 'https://github.com/fishjam-cloud/mobile-client-sdk/tree/main/packages/react-native-client/ios' }
   s.static_framework = true
