@@ -23,7 +23,7 @@ export const useLivestream = () => {
         authToken: process.env.EXPO_PUBLIC_AUTH_TOKEN,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setHasErrors(true);
     } finally {
       setIsLoading(false);

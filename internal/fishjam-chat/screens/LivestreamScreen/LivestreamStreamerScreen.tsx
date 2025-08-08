@@ -3,6 +3,7 @@ import {
   useLivestreamStreamer,
   useSandbox,
   cameras,
+  WhipClient,
 } from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
@@ -36,6 +37,9 @@ export async function checkPermissions() {
   }
 }
 
+const supportedVideoCodecs = WhipClient.getSupportedVideoCodecs();
+const videoCodecs = supportedVideoCodecs.filter((codec) => codec === 'VP8');
+
 export default function LivestreamStreamerScreen({ route }: Props) {
   const { fishjamId, roomName } = route.params;
 
@@ -43,17 +47,10 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const {
-    connect,
-    disconnect,
-    isConnected,
-    getSupportedVideoCodecs,
-    setPreferredVideoCodecs,
-  } = useLivestreamStreamer({
+  const { connect, disconnect, isConnected } = useLivestreamStreamer({
     camera: cameras[0],
+    preferredVideoCodecs: videoCodecs,
   });
-
-  console.log('Streamer Connected:', isConnected);
 
   const handleConnect = useCallback(async () => {
     try {
@@ -71,16 +68,10 @@ export default function LivestreamStreamerScreen({ route }: Props) {
   useEffect(() => {
     checkPermissions();
 
-    const supportedVideoCodecs = getSupportedVideoCodecs();
-    const vp8 = supportedVideoCodecs.find((codec) => codec === 'VP8');
-    if (vp8) {
-      setPreferredVideoCodecs([vp8]);
-    }
-
     return () => {
       disconnect();
     };
-  }, [disconnect, getSupportedVideoCodecs, setPreferredVideoCodecs]);
+  }, [disconnect]);
 
   return (
     <SafeAreaView style={styles.container}>

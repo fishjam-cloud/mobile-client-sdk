@@ -21,16 +21,12 @@ export default function LivestreamViewerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect, isConnected } = useLivestreamViewer();
-
-  console.log('Viewer Connected:', isConnected);
+  const { connect, disconnect } = useLivestreamViewer();
 
   const handleConnect = useCallback(async () => {
     try {
       const token = await getSandboxViewerToken(roomName);
-      console.log('token', token);
       await connect({ token });
-      console.log('viewerconnected');
     } catch (err) {
       console.error(err);
     }

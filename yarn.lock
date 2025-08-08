@@ -3151,7 +3151,7 @@ __metadata:
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
     react-dom: "npm:19.0.0"
-    react-native-whip-whep: "file:/Users/milosz/repos/react-native-whip-whep/packages/react-native-client"
+    react-native-whip-whep: "npm:0.3.0"
     ts-proto: "npm:^2.7.5"
     typedoc: "npm:^0.28.7"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
@@ -16308,16 +16308,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-whip-whep@file:/Users/milosz/repos/react-native-whip-whep/packages/react-native-client::locator=%40fishjam-cloud%2Freact-native-client%40workspace%3Apackages%2Freact-native-client":
-  version: 0.2.3
-  resolution: "react-native-whip-whep@file:/Users/milosz/repos/react-native-whip-whep/packages/react-native-client#/Users/milosz/repos/react-native-whip-whep/packages/react-native-client::hash=e238a0&locator=%40fishjam-cloud%2Freact-native-client%40workspace%3Apackages%2Freact-native-client"
+"react-native-whip-whep@npm:0.3.0":
+  version: 0.3.0
+  resolution: "react-native-whip-whep@npm:0.3.0"
   dependencies:
     zod: "npm:^3.25.71"
   peerDependencies:
     expo: "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/fc91845f494a506015eadf940dcd1495617a26c505bb712745167a463882a2f6d25474f00c632f3073ed1fc7eb62ba720f0843b58f6c86590b6054e86f6eda33
+  checksum: 10c0/7231497b249cc30dd9b7084b14ed263e9f4819568067855b7d9ce5fd05d207d4c36c75688a0578143f7f42354eb2c5ef27228c43a32697355666d52f08107553
   languageName: node
   linkType: hard
 

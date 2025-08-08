@@ -22,25 +22,9 @@ export interface useLivestreamStreamerResult {
    */
   connect: (token: string, urlOverride?: string) => Promise<void>;
   /** Callback to stop publishing anything previously published with {@link connect} */
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
-  /**
-   * Get the list of supported audio codecs.
-   */
-  getSupportedAudioCodecs: () => SenderAudioCodecName[];
-  /**
-   * Get the list of supported video codecs.
-   */
-  getSupportedVideoCodecs: () => SenderVideoCodecName[];
-  /**
-   * Set the preferred video codecs.
-   */
-  setPreferredVideoCodecs: (codecs: SenderVideoCodecName[]) => void;
-  /**
-   * Set the preferred audio codecs.
-   */
-  setPreferredAudioCodecs: (codecs: SenderAudioCodecName[]) => void;
 }
 
 /**
@@ -51,33 +35,35 @@ export interface useLivestreamStreamerResult {
 export const useLivestreamStreamer = ({
   camera,
   videoParameters,
+  preferredVideoCodecs,
+  preferredAudioCodecs,
 }: {
   camera?: Camera;
   videoParameters?: VideoParameters;
+  preferredVideoCodecs?: SenderVideoCodecName[];
+  preferredAudioCodecs?: SenderAudioCodecName[];
 }): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 
   const whipClient = useRef<WhipClient | null>(null);
 
-  const createWhipClient = useCallback(() => {
-    return new WhipClient({
-      audioEnabled: true,
-      videoEnabled: true,
-      videoParameters: videoParameters ?? VideoParameters.presetHD169,
-      videoDeviceId: camera?.id ?? cameras[0].id,
-    });
-  }, [camera?.id, videoParameters]);
-
   useEffect(() => {
-    whipClient.current = createWhipClient();
-  }, [createWhipClient]);
-
-  useEffect(() => {
+    whipClient.current = new WhipClient(
+      {
+        audioEnabled: true,
+        videoEnabled: true,
+        videoParameters: videoParameters ?? VideoParameters.presetHD169,
+        videoDeviceId: camera?.id ?? cameras[0].id,
+      },
+      preferredVideoCodecs,
+      preferredAudioCodecs,
+    );
     return () => {
       whipClient.current?.disconnect();
+      whipClient.current?.cleanup();
     };
-  }, []);
+  }, [camera?.id, preferredAudioCodecs, preferredVideoCodecs, videoParameters]);
 
   const connect = useCallback(async (token: string, urlOverride?: string) => {
     const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
@@ -87,38 +73,13 @@ export const useLivestreamStreamer = ({
     });
   }, []);
 
-  const disconnect = useCallback(() => {
-    whipClient.current?.disconnect();
+  const disconnect = useCallback(async () => {
+    await whipClient.current?.disconnect();
   }, []);
 
-  const getSupportedAudioCodecs = useCallback(() => {
-    return whipClient.current?.getSupportedAudioCodecs() ?? [];
-  }, []);
-
-  const getSupportedVideoCodecs = useCallback(() => {
-    return whipClient.current?.getSupportedVideoCodecs() ?? [];
-  }, []);
-
-  const setPreferredVideoCodecs = useCallback(
-    (codecs: SenderVideoCodecName[]) => {
-      whipClient.current?.setPreferredVideoCodecs(codecs);
-    },
-    [],
-  );
-
-  const setPreferredAudioCodecs = useCallback(
-    (codecs: SenderAudioCodecName[]) => {
-      whipClient.current?.setPreferredAudioCodecs(codecs);
-    },
-    [],
-  );
   return {
     connect,
     disconnect,
     isConnected,
-    getSupportedAudioCodecs,
-    getSupportedVideoCodecs,
-    setPreferredVideoCodecs,
-    setPreferredAudioCodecs,
   };
 };

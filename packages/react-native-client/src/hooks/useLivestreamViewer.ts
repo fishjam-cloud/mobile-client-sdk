@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import {
-  ReceiverAudioCodecName,
-  ReceiverVideoCodecName,
-  WhepClient,
-  useWhepConnectionState,
-} from 'react-native-whip-whep';
+import { WhepClient, useWhepConnectionState } from 'react-native-whip-whep';
 import { FISHJAM_WHEP_URL } from '../consts';
 
 export type ConnectViewerConfig =
@@ -27,27 +22,9 @@ export interface useLivestreamViewerResult {
    */
   connect: (config: ConnectViewerConfig, url?: string) => Promise<void>;
   /** Disconnect from a stream previously connected to with {@link connect} */
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
-
-  /**
-   * Get the list of supported audio codecs.
-   */
-  getSupportedAudioCodecs: () => ReceiverAudioCodecName[];
-  /**
-   * Get the list of supported video codecs.
-   */
-  getSupportedVideoCodecs: () => ReceiverVideoCodecName[];
-
-  /**
-   * Set the preferred video codecs.
-   */
-  setPreferredVideoCodecs: (codecs: ReceiverVideoCodecName[]) => void;
-  /**
-   * Set the preferred audio codecs.
-   */
-  setPreferredAudioCodecs: (codecs: ReceiverAudioCodecName[]) => void;
 }
 
 /**
@@ -85,39 +62,13 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
     [],
   );
 
-  const disconnect = useCallback(() => {
-    whepClient.current?.disconnect();
+  const disconnect = useCallback(async () => {
+    await whepClient.current?.disconnect();
   }, []);
-
-  const getSupportedAudioCodecs = useCallback(() => {
-    return whepClient.current?.getSupportedAudioCodecs() ?? [];
-  }, []);
-
-  const getSupportedVideoCodecs = useCallback(() => {
-    return whepClient.current?.getSupportedVideoCodecs() ?? [];
-  }, []);
-
-  const setPreferredVideoCodecs = useCallback(
-    (codecs: ReceiverVideoCodecName[]) => {
-      whepClient.current?.setPreferredVideoCodecs(codecs);
-    },
-    [],
-  );
-
-  const setPreferredAudioCodecs = useCallback(
-    (codecs: ReceiverAudioCodecName[]) => {
-      whepClient.current?.setPreferredAudioCodecs(codecs);
-    },
-    [],
-  );
 
   return {
     connect,
     disconnect,
     isConnected,
-    getSupportedAudioCodecs,
-    getSupportedVideoCodecs,
-    setPreferredVideoCodecs,
-    setPreferredAudioCodecs,
   };
 };
