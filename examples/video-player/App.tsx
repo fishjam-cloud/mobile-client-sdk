@@ -1,14 +1,40 @@
 import { StyleSheet, View, Platform } from 'react-native';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { setStatusBarHidden } from 'expo-status-bar';
 import { setVisibilityAsync } from 'expo-navigation-bar';
-import { useLivestream } from './hooks/useLivestream';
 import { useDeviceOrientation } from './hooks/useDeviceOrientation';
 import FishjamPlayer from './components/FishjamPlayer';
+import {
+  useLivestreamViewer,
+  useSandbox,
+} from '@fishjam-cloud/react-native-client';
+
+const roomName = 'test';
 
 const App = () => {
   const { isLandscape } = useDeviceOrientation();
-  const { isReconnecting, hasErrors, restart } = useLivestream();
+  const { getSandboxViewerToken } = useSandbox({
+    fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
+  });
+
+  const { connect, disconnect } = useLivestreamViewer();
+
+  const handleConnect = useCallback(async () => {
+    try {
+      const token = await getSandboxViewerToken(roomName);
+      await connect({ token });
+    } catch (err) {
+      console.error(err);
+    }
+  }, [connect, getSandboxViewerToken]);
+
+  useEffect(() => {
+    handleConnect();
+
+    return () => {
+      disconnect();
+    };
+  }, [handleConnect, disconnect]);
 
   useEffect(() => {
     setStatusBarHidden(isLandscape, 'fade');
@@ -26,12 +52,7 @@ const App = () => {
 
   return (
     <View style={styles.videoContainer}>
-      <FishjamPlayer
-        isLandscape={isLandscape}
-        hasErrors={hasErrors}
-        restart={restart}
-        isReconnecting={isReconnecting}
-      />
+      <FishjamPlayer isLandscape={isLandscape} />
     </View>
   );
 };

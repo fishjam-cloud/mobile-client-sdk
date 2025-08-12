@@ -1,13 +1,9 @@
 import React, { useMemo } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { WhepClientView } from 'react-native-whip-whep';
-import FishjamPlayerError from './FishjamPlayerError';
+import { StyleSheet, View } from 'react-native';
+import { LivestreamViewer } from '@fishjam-cloud/react-native-client';
 
 interface FishjamPlayerProps {
   isLandscape: boolean;
-  hasErrors?: boolean;
-  restart?: () => Promise<void>;
-  isReconnecting?: boolean;
   pictureInPicture?: boolean;
 }
 
@@ -18,9 +14,6 @@ const PIP_SIZE = {
 
 const FishjamPlayer = ({
   isLandscape,
-  hasErrors,
-  restart,
-  isReconnecting,
   pictureInPicture,
 }: FishjamPlayerProps) => {
   const styles = useMemo(() => createStyles(isLandscape), [isLandscape]);
@@ -28,22 +21,13 @@ const FishjamPlayer = ({
   return (
     <View style={styles.playerContentContainer}>
       <View style={styles.playerWhepView}>
-        {(!hasErrors || isReconnecting) && (
-          <ActivityIndicator
-            style={styles.playerLoader}
-            size="small"
-            color="white"
-          />
-        )}
-        <WhepClientView
+        <LivestreamViewer
           style={styles.playerWhepClientView}
           pipEnabled={pictureInPicture}
           autoStartPip={pictureInPicture}
           autoStopPip={pictureInPicture}
           pipSize={PIP_SIZE}
         />
-
-        {hasErrors && <FishjamPlayerError restart={restart} />}
       </View>
     </View>
   );

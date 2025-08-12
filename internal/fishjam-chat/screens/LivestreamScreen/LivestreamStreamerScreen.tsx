@@ -3,10 +3,18 @@ import {
   useLivestreamStreamer,
   useSandbox,
   cameras,
+  WhipClient,
 } from '@fishjam-cloud/react-native-client';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
 
@@ -15,6 +23,23 @@ type Props = NativeStackScreenProps<
   'LivestreamStreamerScreen'
 >;
 
+export async function checkPermissions() {
+  if (Platform.OS === 'ios') {
+    return;
+  }
+  try {
+    await PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+    ]);
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+const supportedVideoCodecs = WhipClient.getSupportedVideoCodecs();
+const videoCodecs = supportedVideoCodecs.filter((codec) => codec === 'VP8');
+
 export default function LivestreamStreamerScreen({ route }: Props) {
   const { fishjamId, roomName } = route.params;
 
@@ -22,30 +47,41 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect } = useLivestreamStreamer({ camera: cameras[0] });
+  const { connect, disconnect, isConnected } = useLivestreamStreamer({
+    camera: cameras[0],
+    preferredVideoCodecs: videoCodecs,
+  });
 
   const handleConnect = useCallback(async () => {
     try {
-      const { streamerToken } = await getSandboxLivestream(roomName, true);
+      const { streamerToken } = await getSandboxLivestream(roomName, false);
       await connect(streamerToken);
     } catch (err) {
       console.log(err);
     }
   }, [connect, getSandboxLivestream, roomName]);
 
+  const handleDisconnect = useCallback(() => {
+    disconnect();
+  }, [disconnect]);
+
   useEffect(() => {
-    handleConnect();
+    checkPermissions();
 
     return () => {
       disconnect();
     };
-  }, [handleConnect, disconnect]);
+  }, [disconnect]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
           <LivestreamStreamer style={styles.whepView} />
+          <Button
+            title={isConnected ? 'Disconnect' : 'Connect'}
+            onPress={isConnected ? handleDisconnect : handleConnect}
+          />
         </View>
       </View>
     </SafeAreaView>

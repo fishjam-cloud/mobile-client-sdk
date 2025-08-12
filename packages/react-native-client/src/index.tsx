@@ -85,6 +85,7 @@ export type { useLivestreamStreamerResult } from './hooks/useLivestreamStreamer'
 export type { UseSandboxProps } from './hooks/useSandbox';
 export type { LivestreamStreamerProps } from './components/LivestreamStreamer';
 export type { ConnectViewerConfig } from './hooks/useLivestreamViewer';
+export type { UseLivestreamStreamerParams as useLivestreamStreamerParams } from './hooks/useLivestreamStreamer';
 // #endregion
 
 // #region hooks
@@ -103,7 +104,12 @@ export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useLivestreamViewer } from './hooks/useLivestreamViewer';
 export { useLivestreamStreamer } from './hooks/useLivestreamStreamer';
 export { useSandbox } from './hooks/useSandbox';
-export { cameras } from 'react-native-whip-whep';
+export {
+  cameras,
+  VideoParameters,
+  WhipClient,
+  WhepClient,
+} from 'react-native-whip-whep';
 // #endregion
 
 export {

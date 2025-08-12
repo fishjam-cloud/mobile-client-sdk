@@ -63,7 +63,6 @@ export const LivestreamViewer = ({
   <WhepClientView
     ref={ref}
     style={style as CSSProperties}
-    orientation={orientation}
     pipEnabled={pipEnabled}
     autoStartPip={autoStartPip}
     autoStopPip={autoStopPip}

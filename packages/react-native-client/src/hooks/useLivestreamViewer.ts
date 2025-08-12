@@ -1,9 +1,5 @@
-import { useCallback, useRef } from 'react';
-import {
-  connectWhepClient,
-  createWhepClient,
-  disconnectWhepClient,
-} from 'react-native-whip-whep';
+import { useCallback, useEffect, useRef } from 'react';
+import { WhepClient, useWhepConnectionState } from 'react-native-whip-whep';
 import { FISHJAM_WHEP_URL } from '../consts';
 
 export type ConnectViewerConfig =
@@ -26,7 +22,9 @@ export interface useLivestreamViewerResult {
    */
   connect: (config: ConnectViewerConfig, url?: string) => Promise<void>;
   /** Disconnect from a stream previously connected to with {@link connect} */
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
+  /** Utility flag which indicates the current connection status */
+  isConnected: boolean;
 }
 
 /**
@@ -35,25 +33,42 @@ export interface useLivestreamViewerResult {
  * @group Hooks
  */
 export const useLivestreamViewer = (): useLivestreamViewerResult => {
-  const isWhepClientCreatedRef = useRef(false);
+  const state = useWhepConnectionState();
+  const isConnected = state === 'connected';
+
+  const whepClient = useRef<WhepClient | null>(null);
+
+  useEffect(() => {
+    const createClient = () => {
+      whepClient.current = new WhepClient({
+        audioEnabled: true,
+        videoEnabled: true,
+      });
+    };
+    createClient();
+
+    return () => {
+      whepClient.current?.disconnect();
+    };
+  }, []);
 
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
-      createWhepClient(url ?? urlFromConfig(config), {
+      await whepClient.current?.connect({
+        serverUrl: url ?? urlFromConfig(config),
         authToken: config.token,
       });
-      isWhepClientCreatedRef.current = true;
-      await connectWhepClient();
     },
     [],
   );
 
-  const disconnect = useCallback(() => {
-    // TODO: Remove when FCE-1786 fixed
-    if (isWhepClientCreatedRef.current) {
-      disconnectWhepClient();
-    }
+  const disconnect = useCallback(async () => {
+    await whepClient.current?.disconnect();
   }, []);
 
-  return { connect, disconnect };
+  return {
+    connect,
+    disconnect,
+    isConnected,
+  };
 };
