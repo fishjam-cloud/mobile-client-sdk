@@ -85,7 +85,7 @@ export type { useLivestreamStreamerResult } from './hooks/useLivestreamStreamer'
 export type { UseSandboxProps } from './hooks/useSandbox';
 export type { LivestreamStreamerProps } from './components/LivestreamStreamer';
 export type { ConnectViewerConfig } from './hooks/useLivestreamViewer';
-export type { useLivestreamStreamerParams } from './hooks/useLivestreamStreamer';
+export type { UseLivestreamStreamerParams as useLivestreamStreamerParams } from './hooks/useLivestreamStreamer';
 // #endregion
 
 // #region hooks

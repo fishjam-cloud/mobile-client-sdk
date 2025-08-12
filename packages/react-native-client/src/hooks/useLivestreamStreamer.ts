@@ -27,7 +27,7 @@ export interface useLivestreamStreamerResult {
   isConnected: boolean;
 }
 
-export interface useLivestreamStreamerParams {
+export interface UseLivestreamStreamerParams {
   /**
    * Set the camera to use for the livestream.
    * Use {@link cameras} to get the list of supported cameras.
@@ -59,7 +59,7 @@ export const useLivestreamStreamer = ({
   videoParameters,
   preferredVideoCodecs,
   preferredAudioCodecs,
-}: useLivestreamStreamerParams): useLivestreamStreamerResult => {
+}: UseLivestreamStreamerParams): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 

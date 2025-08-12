@@ -39,7 +39,7 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
   const whepClient = useRef<WhepClient | null>(null);
 
   useEffect(() => {
-    const createClient = async () => {
+    const createClient = () => {
       whepClient.current = new WhepClient({
         audioEnabled: true,
         videoEnabled: true,
