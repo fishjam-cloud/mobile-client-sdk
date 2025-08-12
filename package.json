@@ -20,9 +20,9 @@
     ]
   },
   "devDependencies": {
-    "typedoc": "^0.28.7",
+    "typedoc": "^0.28.10",
     "typedoc-material-theme": "^1.4.0",
-    "typescript": "~5.8.3"
+    "typescript": "~5.9.2"
   },
   "scripts": {
     "setup": "sh ./scripts/init.sh",
