@@ -2,6 +2,7 @@ import { CSSProperties, useEffect, useRef } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import {
   Camera,
+  cameras,
   SenderAudioCodecName,
   SenderVideoCodecName,
   VideoParameters,
@@ -18,18 +19,18 @@ export type LivestreamStreamerProps = {
    */
   style?: StyleProp<ViewStyle>;
   /**
-   * Set the video enabled flag.
+   * If video track should be enabled.
    */
-  videoEnabled?: boolean;
+  videoEnabled: boolean;
   /**
-   * Set the audio enabled flag.
+   * If audio track should be enabled.
    */
-  audioEnabled?: boolean;
+  audioEnabled: boolean;
   /**
-   * Set the camera to use for the livestream.
+   * Camera to use for the livestream.
    * Use {@link cameras} to get the list of supported cameras.
    */
-  camera: Camera;
+  camera?: Camera;
   /**
    *  Set video parameters for the camera
    */
@@ -76,7 +77,7 @@ export const LivestreamStreamer = ({
         audioEnabled,
         videoEnabled,
         videoParameters,
-        videoDeviceId: camera.id,
+        videoDeviceId: camera?.id ?? cameras[0].id,
       },
       preferredVideoCodecs,
       preferredAudioCodecs,
