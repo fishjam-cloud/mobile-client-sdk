@@ -1,13 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
-import {
-  WhipClient,
-  cameras,
-  Camera,
-  useWhipConnectionState,
-  VideoParameters,
-  SenderAudioCodecName,
-  SenderVideoCodecName,
-} from 'react-native-whip-whep';
+import { useCallback, useRef } from 'react';
+import { useWhipConnectionState, WhipClient } from 'react-native-whip-whep';
 import { FISHJAM_WHIP_URL } from '../consts';
 
 /**
@@ -25,28 +17,10 @@ export interface useLivestreamStreamerResult {
   disconnect: () => Promise<void>;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
-}
-
-export interface UseLivestreamStreamerParams {
   /**
-   * Set the camera to use for the livestream.
-   * Use {@link cameras} to get the list of supported cameras.
+   * Reference to the WhipClient instance. Needs to be passed to the {@link LivestreamStreamer} component.
    */
-  camera?: Camera;
-  /**
-   *  Set video parameters for the camera
-   */
-  videoParameters?: VideoParameters;
-  /**
-   * Set the preferred video codecs for sending the video.
-   * Use {@link WhipClient.getSupportedVideoCodecs} to get the list of supported video codecs.
-   */
-  preferredVideoCodecs?: SenderVideoCodecName[];
-  /**
-   * Set the preferred audio codecs for sending the audio.
-   * Use {@link WhipClient.getSupportedAudioCodecs} to get the list of supported audio codecs.
-   */
-  preferredAudioCodecs?: SenderAudioCodecName[];
+  whipClientRef: React.RefObject<WhipClient | null>;
 }
 
 /**
@@ -54,49 +28,28 @@ export interface UseLivestreamStreamerParams {
  * @category Livestream
  * @group Hooks
  */
-export const useLivestreamStreamer = ({
-  camera,
-  videoParameters,
-  preferredVideoCodecs,
-  preferredAudioCodecs,
-}: UseLivestreamStreamerParams): useLivestreamStreamerResult => {
+export const useLivestreamStreamer = (): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 
-  const whipClient = useRef<WhipClient | null>(null);
-
-  useEffect(() => {
-    whipClient.current = new WhipClient(
-      {
-        audioEnabled: true,
-        videoEnabled: true,
-        videoParameters: videoParameters ?? VideoParameters.presetHD169,
-        videoDeviceId: camera?.id ?? cameras[0].id,
-      },
-      preferredVideoCodecs,
-      preferredAudioCodecs,
-    );
-    return () => {
-      whipClient.current?.disconnect();
-      whipClient.current?.cleanup();
-    };
-  }, [camera?.id, preferredAudioCodecs, preferredVideoCodecs, videoParameters]);
+  const whipClientRef = useRef<WhipClient | null>(null);
 
   const connect = useCallback(async (token: string, urlOverride?: string) => {
     const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
-    await whipClient.current?.connect({
+    await whipClientRef.current?.connect({
       authToken: token,
       serverUrl: resolvedUrl,
     });
   }, []);
 
   const disconnect = useCallback(async () => {
-    await whipClient.current?.disconnect();
+    await whipClientRef.current?.disconnect();
   }, []);
 
   return {
     connect,
     disconnect,
     isConnected,
+    whipClientRef,
   };
 };

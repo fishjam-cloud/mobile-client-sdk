@@ -47,10 +47,8 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect, isConnected } = useLivestreamStreamer({
-    camera: cameras[0],
-    preferredVideoCodecs: videoCodecs,
-  });
+  const { connect, disconnect, isConnected, whipClientRef } =
+    useLivestreamStreamer();
 
   const handleConnect = useCallback(async () => {
     try {
@@ -77,7 +75,14 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
-          <LivestreamStreamer style={styles.whepView} />
+          <LivestreamStreamer
+            style={styles.whepView}
+            camera={cameras[0]}
+            whipClientRef={whipClientRef}
+            preferredVideoCodecs={videoCodecs}
+            videoEnabled={true}
+            audioEnabled={true}
+          />
           <Button
             title={isConnected ? 'Disconnect' : 'Connect'}
             onPress={isConnected ? handleDisconnect : handleConnect}
