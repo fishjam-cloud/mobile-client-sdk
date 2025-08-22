@@ -224,6 +224,11 @@ class RNFishjamClient: FishjamClientListener {
         url: String, peerToken: String, peerMetadata: [String: Any], config: ConnectConfig,
         promise: Promise
     ) {
+      guard connectPromise == nil && peerStatus != .connected else {
+        emit(event: .warning(message: "Room already joined or it's connecting. You must call leaveRoom() before calling joinRoom() again."))
+        return
+      }
+    
         peerStatus = .connecting
         connectPromise = promise
 
@@ -240,6 +245,8 @@ class RNFishjamClient: FishjamClientListener {
     }
 
     func leaveRoom() {
+        connectPromise?.reject("E_MEMBRANE_CONNECT", "leaveRoom called before connected")
+        connectPromise = nil
         if isScreenShareOn {
             let screenShareExtensionBundleId =
                 Bundle.main.infoDictionary?["ScreenShareExtensionBundleId"] as? String

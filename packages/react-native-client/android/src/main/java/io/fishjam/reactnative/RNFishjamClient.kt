@@ -298,6 +298,11 @@ class RNFishjamClient(
     config: ConnectConfig,
     promise: Promise
   ) {
+    if (connectPromise != null || peerStatus == PeerStatus.Connected) {
+      emitEvent(EmitableEvent.warning("Room already joined or it's connecting. You must call leaveRoom() before calling joinRoom() again."))
+      return
+    }
+
     peerStatus = PeerStatus.Connecting
     connectPromise = promise
     localUserMetadata = mapOf("server" to emptyMap(), "peer" to peerMetadata)
@@ -316,6 +321,9 @@ class RNFishjamClient(
   }
 
   fun leaveRoom() {
+    connectPromise?.reject(JoinError("leaveRoom called before connected"))
+    connectPromise = null
+
     if (isScreenShareOn) {
       stopScreenShare()
     }
