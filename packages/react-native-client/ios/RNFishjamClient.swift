@@ -225,7 +225,7 @@ class RNFishjamClient: FishjamClientListener {
         promise: Promise
     ) {
       guard connectPromise == nil && peerStatus != .connected else {
-        emit(event: .warning(message: "Room already joined or it's connecting. You must call leaveRoom() before calling joinRoom() again."))
+        promise.reject("E_MEMBRANE_CONNECT", "Room already joined or it's connecting. You must call leaveRoom() before calling joinRoom() again.")
         return
       }
     
