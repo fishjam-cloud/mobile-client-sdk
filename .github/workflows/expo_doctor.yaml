@@ -20,9 +20,6 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn && yarn build
 
-      - name: List files
-        run: ls -la
-
       - name: 🩺 Run Expo Doctor
-        run: EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 npx expo-doctor@latest --verbose
+        run: EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 npx expo-doctor@latest
         working-directory: internal/fishjam-chat
