@@ -23,13 +23,13 @@ internal protocol FishjamWebsocket {
 }
 
 public class FishjamClientWebSocket: FishjamWebsocket {
-    var socket: WebSocket
+    var socket: Starscream.WebSocket
     var delegate: WebSocketDelegate? {
         set { self.socket.delegate = newValue }
         get { self.socket.delegate }
     }
 
-    public init(socket: WebSocket) {
+    public init(socket: Starscream.WebSocket) {
         self.socket = socket
     }
 
