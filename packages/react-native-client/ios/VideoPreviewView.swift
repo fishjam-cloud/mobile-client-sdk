@@ -1,5 +1,6 @@
 import ExpoModulesCore
 import FishjamCloudClient
+import os.log
 
 class VideoPreviewView: VideoRendererView, LocalCameraTrackChangedListener {
     private var localVideoTrack: LocalCameraTrack?
