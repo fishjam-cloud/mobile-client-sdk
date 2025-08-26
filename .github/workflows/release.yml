@@ -4,7 +4,7 @@ on:
     types: [published]
 jobs:
   publish-ios-client:
-    runs-on: macOS-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - name: Install Cocoapods
