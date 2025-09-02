@@ -866,9 +866,9 @@ class RNFishjamClient: FishjamClientListener {
         peerStatus = .idle
     }
 
-    func onSocketError() {
+    func onSocketError(_ errorMessage: String? = nil) {
         if let connectPromise = connectPromise {
-            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error")
+            connectPromise.reject("E_MEMBRANE_CONNECT", "Failed to connect: socket error\(errorMessage != nil ? " - \(errorMessage!)" : "")")
         }
         connectPromise = nil
         peerStatus = .error

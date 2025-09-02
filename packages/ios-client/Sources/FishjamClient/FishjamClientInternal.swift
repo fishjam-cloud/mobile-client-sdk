@@ -452,7 +452,7 @@ class FishjamClientInternal {
 
     func websocketDidReceiveMessage(text: String) {
         sdkLogger.error("Unsupported socket callback 'websocketDidReceiveMessage' was called.")
-        onSocketError()
+        onSocketError("Unsupported socket callback 'websocketDidReceiveMessage' was called.")
     }
 
     func onSocketClose(code: UInt16, reason: String) {
@@ -466,9 +466,9 @@ class FishjamClientInternal {
         listener.onAuthError(reason: reason)
     }
 
-    func onSocketError() {
+  func onSocketError(_ errorMessage: String? = nil) {
         roomState.isAuthenticated = false
-        listener.onSocketError()
+        listener.onSocketError(errorMessage)
     }
 
     func onDisconnected() {
@@ -547,7 +547,7 @@ extension FishjamClientInternal: WebSocketDelegate {
         ///viabilityChanged is called when there is no internet
         case .viabilityChanged(let isViable):
             if !isViable {
-                onSocketError()
+                onSocketError("No internet connection")
                 commandsQueue.clear()
                 prepareToReconnect()
                 reconnectionManager?.onDisconnected()
@@ -556,8 +556,8 @@ extension FishjamClientInternal: WebSocketDelegate {
         case .cancelled:
             onDisconnected()
             break
-        case .error(_):
-            onSocketError()
+        case .error(let error):
+            onSocketError(error?.localizedDescription)
             commandsQueue.clear()
             prepareToReconnect()
             reconnectionManager?.onDisconnected()
