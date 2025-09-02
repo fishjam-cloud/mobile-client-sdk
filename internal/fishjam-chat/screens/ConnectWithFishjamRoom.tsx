@@ -7,12 +7,10 @@ export const ConnectWithFishjamRoom = () => {
   const { getSandboxPeerToken } = useSandbox({ fishjamId: fishjamId });
   const [peerToken, setPeerToken] = useState<string | null>(null);
 
-  const uniqPeerName = `test-user-${new Date().getTime()}${Math.random()*1000}`;
-
   useEffect(() => {
     const connect = async () => {
       try {
-
+        const uniqPeerName = `test-user-${new Date().getTime()}${Math.random() * 1000}`;
         const peerToken = await getSandboxPeerToken('test-room', uniqPeerName);
         setPeerToken(peerToken);
       } catch (e) {
@@ -21,15 +19,13 @@ export const ConnectWithFishjamRoom = () => {
     };
 
     connect();
-  }, []);
+  }, [getSandboxPeerToken]);
 
   if (!peerToken) {
     return <ActivityIndicator size="large" style={styles.indicator} />;
   }
 
-  return (
-    <FishjamRoom fishjamId={fishjamId} peerToken={peerToken} />
-  );
+  return <FishjamRoom fishjamId={fishjamId} peerToken={peerToken} />;
 };
 
 const styles = StyleSheet.create({

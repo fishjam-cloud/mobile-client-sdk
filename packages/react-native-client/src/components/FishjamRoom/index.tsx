@@ -57,7 +57,7 @@ export const FishjamRoom = ({ fishjamId, peerToken }: FishjamRoomProps) => {
     return () => {
       leaveRoom();
     };
-  }, [fishjamId, peerToken, prepareCamera]);
+  }, [fishjamId, peerToken, prepareCamera, joinRoom, leaveRoom]);
 
   return (
     <SafeAreaView>
