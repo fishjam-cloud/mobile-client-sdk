@@ -1,41 +1,34 @@
-import { FishjamRoom } from '@fishjam-cloud/react-native-client';
+import { FishjamRoom, useSandbox } from '@fishjam-cloud/react-native-client';
 import { useEffect, useState } from 'react';
-import { joinRoomWithRoomManager } from '../utils/roomManager';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 
-type RoomData = {
-  url: string;
-  peerToken: string;
-};
-
 export const ConnectWithFishjamRoom = () => {
-  const [roomData, setRoomData] = useState<RoomData | null>(null);
+  const fishjamId = process.env.EXPO_PUBLIC_FISHJAM_ID ?? '';
+  const { getSandboxPeerToken } = useSandbox({ fishjamId: fishjamId });
+  const [peerToken, setPeerToken] = useState<string | null>(null);
+
+  const uniqPeerName = `test-user-${new Date().getTime()}${Math.random()*1000}`;
 
   useEffect(() => {
-    const fetchRoomData = async () => {
+    const connect = async () => {
       try {
-        const { fishjamUrl, token } = await joinRoomWithRoomManager(
-          'https://room.fishjam.work/api/rooms',
-          'test-room',
-          'test-user',
-        );
-        setRoomData({
-          url: fishjamUrl,
-          peerToken: token,
-        });
-      } catch {
-        setRoomData(null);
+
+        const peerToken = await getSandboxPeerToken('test-room', uniqPeerName);
+        setPeerToken(peerToken);
+      } catch (e) {
+        console.error('Error connecting to Fishjam', e);
       }
     };
-    fetchRoomData();
+
+    connect();
   }, []);
 
-  if (!roomData) {
+  if (!peerToken) {
     return <ActivityIndicator size="large" style={styles.indicator} />;
   }
 
   return (
-    <FishjamRoom fishjamUrl={roomData.url} peerToken={roomData.peerToken} />
+    <FishjamRoom fishjamId={fishjamId} peerToken={peerToken} />
   );
 };
 

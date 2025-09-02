@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
-import { joinRoom, leaveRoom } from '../../common/client';
 import { useCamera } from '../../hooks/useCamera';
+import { useConnection } from '../../hooks/useConnection';
 import { VideosGrid } from './VideosGrid';
 import { SafeAreaView } from 'react-native';
 
 export type FishjamRoomProps = {
   /**
-   * URL to your fishjam instance
+   * ID of your fishjam instance
    */
-  fishjamUrl: string;
+  fishjamId: string;
   /**
    * Peer Token
    */
@@ -23,21 +23,22 @@ export type FishjamRoomProps = {
  * import { FishjamRoom } from '@fishjam-cloud/react-native-client';
  * import React from 'react';
  *
- * const FISHJAM_URL = 'https://fishjam.io/your_fishjam';
+ * const FISHJAM_ID = 'your-fishjam_id';
  * const PEER_TOKEN = 'your-peer-token';
  *
  * <FishjamRoom
- *    fishjamUrl={FISHJAM_URL}
+ *    fishjamId={FISHJAM_ID}
  *    peerToken={PEER_TOKEN}
  * />
  * ```
  * @category Components
  * @param {object} props
- * @param {string} props.fishjamUrl
+ * @param {string} props.fishjamId
  * @param {string} props.peerToken
  */
-export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
+export const FishjamRoom = ({ fishjamId, peerToken }: FishjamRoomProps) => {
   const { prepareCamera } = useCamera();
+  const { leaveRoom, joinRoom } = useConnection();
 
   useEffect(() => {
     const join = async () => {
@@ -47,10 +48,7 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
           quality: 'HD169',
           cameraEnabled: true,
         });
-        await joinRoom(fishjamUrl, peerToken, {
-          peer: {},
-          server: {},
-        });
+        await joinRoom({ fishjamId, peerToken });
       } catch (e) {
         console.warn(e);
       }
@@ -59,7 +57,7 @@ export const FishjamRoom = ({ fishjamUrl, peerToken }: FishjamRoomProps) => {
     return () => {
       leaveRoom();
     };
-  }, [fishjamUrl, peerToken, prepareCamera]);
+  }, [fishjamId, peerToken, prepareCamera]);
 
   return (
     <SafeAreaView>
