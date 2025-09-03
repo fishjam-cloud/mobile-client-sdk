@@ -466,7 +466,7 @@ class FishjamClientInternal {
         listener.onAuthError(reason: reason)
     }
 
-  func onSocketError(_ errorMessage: String? = nil) {
+    func onSocketError(_ errorMessage: String? = nil) {
         roomState.isAuthenticated = false
         listener.onSocketError(errorMessage)
     }

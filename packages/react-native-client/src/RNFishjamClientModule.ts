@@ -1,7 +1,6 @@
 import { PermissionResponse, requireNativeModule } from 'expo-modules-core';
 
 import type { NativeModule } from 'expo-modules-core/types';
-import type { ConnectionConfig } from './common/client';
 import type { RTCStats } from './debug/stats/types';
 import type { OnAudioDeviceEvent } from './hooks/useAudioSettings';
 import type {
@@ -9,7 +8,11 @@ import type {
   CameraConfigInternal,
   CurrentCameraChangedType,
 } from './hooks/useCamera';
-import type { PeerStatus, ReconnectionStatus } from './hooks/useConnection';
+import type {
+  PeerStatus,
+  ReconnectionStatus,
+  ConnectionConfig,
+} from './hooks/useConnection';
 import type { ForegroundServiceConfig } from './hooks/useForegroundService';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
