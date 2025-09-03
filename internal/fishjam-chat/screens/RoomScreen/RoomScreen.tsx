@@ -1,5 +1,5 @@
 import {
-  leaveRoom,
+  useConnection,
   useAudioSettings,
   useCamera,
   useForegroundService,
@@ -46,10 +46,12 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
+  const { leaveRoom } = useConnection();
+
   const onDisconnectPress = useCallback(() => {
     leaveRoom();
     navigation.navigate('Home');
-  }, [navigation]);
+  }, [navigation, leaveRoom]);
 
   useForegroundService({
     channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',

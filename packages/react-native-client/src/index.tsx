@@ -9,18 +9,10 @@ export type {
   Brand,
   RoomType,
 } from './types';
-export type { ConnectionConfig } from './common/client';
 // #endregion
 
 // #region methods
 export { updatePeerMetadata } from './common/metadata';
-export {
-  /** @deprecated */
-  joinRoom,
-  /** @deprecated */
-  leaveRoom,
-} from './common/client';
-// #endregion
 
 // #region components
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
@@ -78,6 +70,7 @@ export type {
   JoinRoomConfig,
   ReconnectionStatus,
   PeerStatus,
+  ConnectionConfig,
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
 export type { useLivestreamViewerResult } from './hooks/useLivestreamViewer';

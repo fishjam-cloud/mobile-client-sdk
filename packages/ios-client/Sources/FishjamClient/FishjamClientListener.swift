@@ -7,9 +7,9 @@ public protocol FishjamClientListener: ReconnectionManagerListener {
     func onSocketClose(code: UInt16, reason: String)
 
     /**
-     * Emitted when occurs an error in the websocket connection
+     * Emitted when an error occurs in the websocket connection
      */
-    func onSocketError()
+    func onSocketError(_ errorMessage: String?)
 
     /**
      * Emitted when authentication fails
