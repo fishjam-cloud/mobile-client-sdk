@@ -1,8 +1,6 @@
 # React Native Fishjam example
 
-## Running the Example app
-
-### Prerequisites
+## Prerequisites
 
 Create a `.env` file in the `internal/fishjam-chat` directory (optional), or copy the `.env.example` file. The following environment variables can be configured, but none of them are required:
 
@@ -14,9 +12,8 @@ Create a `.env` file in the `internal/fishjam-chat` directory (optional), or cop
 
 If you want to display the VideoRoom tab, both `EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER` and `EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER` are required.
 
-You can the example rooms using your own Fishjam account and a sandbox enviroment. Just go to https://fishjam.io/app/sandbox and copy your Room manager URL.
 
-### Example Overview
+## Example Overview
 
 The app has 5 tabs showing different ways to connect to Fishjam video calls:
 
@@ -29,6 +26,8 @@ The app has 5 tabs showing different ways to connect to Fishjam video calls:
 **Use Token** - Direct connection using a Fishjam server URL and peer token. You need to manually create the room and generate tokens first using Fishjam's API or dashboard. This shows the lowest-level connection method, we use it for internal testing. You can skip this tab unless you're developing the SDK or running the intergration tests.
 
 **Fishjam Room** - Demonstrates the pre-built `FishjamRoom` component that automatically connects to a test room. No inputs needed - just shows how to use the ready-made component in your own apps. If you open the tab on two different phones they should connect to each other.
+
+## Project setup
 
 1. Clone the repository:
 
@@ -47,7 +46,7 @@ yarn build
 3. Prebuild native files in example directory:
 
 ```cmd
-cd `internal/fishjam-chat`
+cd internal/fishjam-chat
 npx expo prebuild --clean
 ```
 
@@ -60,6 +59,18 @@ npx expo prebuild --clean
 yarn ios
 yarn android
 ```
+
+## Development
+
+1. Whenever you make changes in the `packages` directory, make sure to build the app in the root directory (not in `internal/fishjam-chat`). This ensures that all related workspaces are also built:
+```cmd
+yarn build
+```
+2. Linter (run in the root directory):
+```cmd
+yarn lint
+```
+
 
 ## Testing
 
