@@ -26,6 +26,8 @@ git hooks.
 
 Follow further instructions for the SDK you're developing for.
 
+While developing, use `internal/fishjam-chat` app for testing your changes. Follow instructions in the [README](./internal/fishjam-chat) for development setup.
+
 ## Releasing
 
 Follow instructions from [RELEASE.md](./RELEASE.md).
