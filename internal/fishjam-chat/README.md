@@ -62,7 +62,7 @@ yarn android
 
 ## Development
 
-1. Whenever you make changes in the `packages` directory, make sure to build the app in the root directory:
+1. Whenever you make changes in the `packages` directory, make sure to build the app in the root directory (not in `internal/fishjam-chat`). This ensures that all related workspaces are also built:
 ```cmd
 yarn build
 ```
