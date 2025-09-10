@@ -30,6 +30,8 @@ export function validateAndLogEventPayload<
   // Double check just to make sure
   if (!__DEV__) return;
 
+  if (!process.env.EXPO_PUBLIC_CHECK_EVENT_PAYLOAD) return;
+
   try {
     validateNativeEventPayload(eventName, payload);
   } catch (error) {
