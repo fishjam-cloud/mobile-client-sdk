@@ -5,6 +5,7 @@ import nativeModule, {
   ReceivableEventPayloads,
 } from '../../RNFishjamClientModule';
 import { validateNativeEventPayload } from '../../utils/eventPayloadValidator';
+import { getDebugConfig } from '../../utils/config';
 
 export function useFishjamEvent<T extends keyof typeof ReceivableEvents>(
   eventName: T,
@@ -30,7 +31,7 @@ export function validateAndLogEventPayload<
   // Double check just to make sure
   if (!__DEV__) return;
 
-  if (!process.env.EXPO_PUBLIC_CHECK_EVENT_PAYLOAD) return;
+  if (!getDebugConfig().validateEventPayloads) return;
 
   try {
     validateNativeEventPayload(eventName, payload);
