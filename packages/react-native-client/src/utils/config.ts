@@ -13,5 +13,3 @@ export function setOverwriteDebugConfig(partial: Partial<DebugConfig>): void {
 export function getDebugConfig(): DebugConfig {
   return debugConfig;
 }
-
-
