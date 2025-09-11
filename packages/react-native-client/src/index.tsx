@@ -115,4 +115,4 @@ export { FishjamRoom } from './components/FishjamRoom';
 initializeWarningListener();
 
 // Debug/config API
-export { setDebugConfig } from './utils/config';
+export { setOverwriteDebugConfig } from './utils/config';

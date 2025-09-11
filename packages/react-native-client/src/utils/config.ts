@@ -3,10 +3,10 @@ export type DebugConfig = {
 };
 
 const debugConfig: DebugConfig = {
-  validateEventPayloads: false,
+  validateEventPayloads: process.env.EXPO_PUBLIC_CHECK_EVENT_PAYLOAD ?? false,
 };
 
-export function setDebugConfig(partial: Partial<DebugConfig>): void {
+export function setOverwriteDebugConfig(partial: Partial<DebugConfig>): void {
   Object.assign(debugConfig, partial);
 }
 
