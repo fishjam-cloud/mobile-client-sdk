@@ -113,3 +113,6 @@ export type { FishjamRoomProps } from './components/FishjamRoom';
 export { FishjamRoom } from './components/FishjamRoom';
 
 initializeWarningListener();
+
+// Debug/config API
+export { setOverwriteDebugConfig, DebugConfig } from './utils/config';

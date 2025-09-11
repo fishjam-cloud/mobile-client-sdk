@@ -4,6 +4,9 @@ import Toast from 'react-native-toast-message';
 
 import AppNavigator from './navigators/AppNavigator';
 import { useReconnectionToasts } from './hooks/useReconnectionToasts';
+import { setOverwriteDebugConfig } from '@fishjam-cloud/react-native-client';
+
+setOverwriteDebugConfig({ validateEventPayloads: true });
 
 function App(): React.JSX.Element {
   useReconnectionToasts();
