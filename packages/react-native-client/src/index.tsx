@@ -84,12 +84,6 @@ export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useSandbox } from './hooks/useSandbox';
-export {
-  cameras,
-  VideoParameters,
-  WhipClient,
-  WhepClient,
-} from 'react-native-whip-whep';
 // #endregion
 
 export {
