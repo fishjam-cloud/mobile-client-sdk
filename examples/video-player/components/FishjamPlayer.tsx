@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { LivestreamViewer } from '@fishjam-cloud/react-native-client';
+import { LivestreamViewer } from '@fishjam-cloud/react-native-client/livestream';
 
 interface FishjamPlayerProps {
   isLandscape: boolean;

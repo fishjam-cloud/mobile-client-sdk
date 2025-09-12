@@ -4,10 +4,8 @@ import { setStatusBarHidden } from 'expo-status-bar';
 import { setVisibilityAsync } from 'expo-navigation-bar';
 import { useDeviceOrientation } from './hooks/useDeviceOrientation';
 import FishjamPlayer from './components/FishjamPlayer';
-import {
-  useLivestreamViewer,
-  useSandbox,
-} from '@fishjam-cloud/react-native-client';
+import { useSandbox } from '@fishjam-cloud/react-native-client';
+import { useLivestreamViewer } from '@fishjam-cloud/react-native-client/livestream';
 
 const roomName = 'test';
 
