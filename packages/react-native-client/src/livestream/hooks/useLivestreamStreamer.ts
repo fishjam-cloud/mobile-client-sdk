@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { useWhipConnectionState, WhipClient } from 'react-native-whip-whep';
-import { FISHJAM_WHIP_URL } from '../consts';
+import { FISHJAM_WHIP_URL } from '../../consts';
 
 /**
  * @category Livestream

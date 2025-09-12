@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { WhepClient, useWhepConnectionState } from 'react-native-whip-whep';
-import { FISHJAM_WHEP_URL } from '../consts';
+import { FISHJAM_WHEP_URL } from '../../consts';
 
 export type ConnectViewerConfig =
   | { token: string; streamId?: never }

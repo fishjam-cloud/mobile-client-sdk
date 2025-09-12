@@ -1,10 +1,9 @@
 import {
-  LivestreamStreamer,
-  useLivestreamStreamer,
   useSandbox,
   cameras,
   WhipClient,
 } from '@fishjam-cloud/react-native-client';
+import { LivestreamStreamer, useLivestreamStreamer } from '@fishjam-cloud/react-native-client/livestream';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
 import {

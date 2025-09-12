@@ -1,8 +1,10 @@
 import {
-  LivestreamViewer,
-  useLivestreamViewer,
   useSandbox,
 } from '@fishjam-cloud/react-native-client';
+import {
+  LivestreamViewer,
+  useLivestreamViewer,
+} from '@fishjam-cloud/react-native-client/livestream';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';

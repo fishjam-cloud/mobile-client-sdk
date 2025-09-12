@@ -1,0 +1,4 @@
+{
+  "main": "../build/livestream/index.js",
+  "types": "../build/livestream/index.d.ts"
+}

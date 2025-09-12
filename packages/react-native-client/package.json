@@ -86,6 +86,7 @@
   "files": [
     "build/**",
     "debug",
+    "livestream",
     "android/build.gradle",
     "android/src/**",
     "ios/**/*.swift",
