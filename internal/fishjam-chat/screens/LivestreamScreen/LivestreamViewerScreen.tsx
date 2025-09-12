@@ -1,6 +1,4 @@
-import {
-  useSandbox,
-} from '@fishjam-cloud/react-native-client';
+import { useSandbox } from '@fishjam-cloud/react-native-client';
 import {
   LivestreamViewer,
   useLivestreamViewer,
