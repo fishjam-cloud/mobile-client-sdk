@@ -11,13 +11,12 @@ type RoomManagerResponse = {
 };
 
 export type UseSandboxProps =
-  | { fishjamId: string; fishjamUrl?: never }
-  | { fishjamId?: never; fishjamUrl: string };
+  | { fishjamId: string; sandboxApiUrl?: never }
+  | { fishjamId?: never; sandboxApiUrl: string };
 
-export const useSandbox = ({ fishjamId, fishjamUrl }: UseSandboxProps) => {
-  const managerUrl = fishjamUrl
-    ? `${fishjamUrl}/room-manager`
-    : `${FISHJAM_HTTP_CONNECT_URL}/${fishjamId}/room-manager`;
+export const useSandbox = ({ fishjamId, sandboxApiUrl }: UseSandboxProps) => {
+  const managerUrl =
+    sandboxApiUrl ?? `${FISHJAM_HTTP_CONNECT_URL}/${fishjamId}/room-manager`;
 
   const getSandboxPeerToken = useCallback(
     async (

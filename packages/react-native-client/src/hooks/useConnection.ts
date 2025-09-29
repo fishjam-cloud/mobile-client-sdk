@@ -42,6 +42,11 @@ export type JoinRoomConfig<
   PeerMetadata extends GenericMetadata = GenericMetadata,
 > = {
   /**
+   * Fishjam ID, which is used to connect to the room.
+   * You can get it at https://fishjam.io/app
+   */
+  fishjamId: string;
+  /**
    * Token received from server (or Room Manager)
    */
   peerToken: string;
@@ -53,25 +58,7 @@ export type JoinRoomConfig<
    * Additional connection configuration
    */
   config?: ConnectionConfig;
-} & (
-  | {
-      /**
-       * Fishjam ID, which is used to connect to the room.
-       * Only use in sandbox.
-       * If provided, `url` must not be set.
-       */
-      fishjamId: string;
-      url?: never;
-    }
-  | {
-      /**
-       * Fishjam URL, used to connect to the room.
-       * If provided, `fishjamId` must not be set.
-       */
-      url: string;
-      fishjamId?: never;
-    }
-);
+};
 
 export type ConnectionConfig = {
   /**
@@ -117,27 +104,24 @@ async function leaveRoomClient() {
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
 
+  const getFishjamUrl = (fishjamId: string): string => {
+    try {
+      return new URL(fishjamId).href;
+    } catch {
+      return `${FISHJAM_WS_CONNECT_URL}/${fishjamId}`;
+    }
+  };
+
   const joinRoom = useCallback(
     async <PeerMetadata extends GenericMetadata = GenericMetadata>({
-      url,
       peerToken,
       peerMetadata,
       config,
       fishjamId,
     }: JoinRoomConfig<PeerMetadata>) => {
-      const connectUrl = fishjamId
-        ? `${FISHJAM_WS_CONNECT_URL}/${fishjamId}`
-        : undefined;
+      const connectUrl = getFishjamUrl(fishjamId);
 
-      const fishjamUrl = fishjamId ? connectUrl : url;
-
-      if (!fishjamUrl) {
-        throw new Error(
-          'Either fishjamId or url must be provided to join the room.',
-        );
-      }
-
-      await joinRoomClient(fishjamUrl, peerToken, peerMetadata, config);
+      await joinRoomClient(connectUrl, peerToken, peerMetadata, config);
     },
     [],
   );
