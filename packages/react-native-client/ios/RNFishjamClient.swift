@@ -8,7 +8,6 @@ import WebRTC
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
 
-    var isMicrophoneOn = false
     var isCameraOn = false
     var isScreenShareOn = false
     var isAppScreenShareOn = false
@@ -254,7 +253,7 @@ class RNFishjamClient: FishjamClientListener {
                 RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
             }
         }
-        isMicrophoneOn = false
+        _isMicrophoneOn = false
         isCameraOn = false
         isScreenShareOn = false
         isAppScreenShareOn = false
@@ -331,7 +330,6 @@ class RNFishjamClient: FishjamClientListener {
     func switchCamera(cameraId: String) throws {
         try ensureCameraTrack()
         getLocalCameraTrack()?.switchCamera(deviceId: cameraId)
-
     }
 
     func toggleMicrophone() async throws -> Bool {
@@ -375,12 +373,25 @@ class RNFishjamClient: FishjamClientListener {
             "type": "microphone",
         ]
     }
+  
+  
+    // TODO: Microphone state synchronization. Refactor to Actors
+    private var _isMicrophoneOn = false
+    private let microphoneTrackStateLock = NSLock()
 
     private func setMicrophoneTrackState(_ microphoneTrack: LocalAudioTrack, enabled: Bool) throws {
+      try microphoneTrackStateLock.withLock {
         microphoneTrack.enabled = enabled
-        isMicrophoneOn = enabled
+        _isMicrophoneOn = enabled
         try updateLocalAudioTrackMetadata(metadata: getMicrophoneTrackMetadata(isEnabled: enabled))
         emit(event: .isMicrophoneOn(enabled: enabled))
+      }
+    }
+  
+    var isMicrophoneOn: Bool {
+      return microphoneTrackStateLock.withLock {
+          return _isMicrophoneOn
+      }
     }
 
     func setAudioSessionMode() {
