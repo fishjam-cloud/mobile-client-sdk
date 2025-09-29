@@ -11,7 +11,7 @@ export function JoinRoomButton() {
     const data = await getRoomDetails(DEFAULT_ROOM_NAME, DEFAULT_PEER_NAME);
     const { url, peerToken } = data;
 
-    await joinRoom({ url, peerToken });
+    await joinRoom({ fishjamId: url, peerToken });
   }, [joinRoom]);
 
   return (

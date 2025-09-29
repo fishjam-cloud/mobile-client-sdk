@@ -47,7 +47,7 @@ export const JoinRoomForm = () => {
 
       const responseData: RoomManagerResponse = await response.json();
       await joinRoom({
-        url: responseData.url,
+        fishjamId: responseData.url,
         peerToken: responseData.peerToken,
       });
     } catch (error) {
