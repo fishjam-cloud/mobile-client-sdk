@@ -16,7 +16,7 @@ export function useMicrophone() {
   );
 
   const toggleMicrophone = useCallback(async () => {
-    await RNFishjamClientModule.toggleMicrophone();
+    return await RNFishjamClientModule.toggleMicrophone();
   }, []);
 
   const startMicrophone = useCallback(async () => {
