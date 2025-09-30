@@ -1,4 +1,4 @@
-import { useConnection } from '@fishjam-cloud/react-native-client';
+import { useConnection, useSandbox } from '@fishjam-cloud/react-native-client';
 import { useState } from 'react';
 import {
   StyleSheet,
@@ -12,24 +12,16 @@ import {
 import { AudioDevicePicker } from './AudioDevicePicker';
 import DismissKeyboard from './DismissKeyboard';
 
-const ROOM_MANAGER_URL = '';
-
-type RoomManagerResponse = {
-  peerToken: string;
-  url: string;
-};
-
-export type RoomManagerParams = {
-  roomName: string;
-  peerName: string;
-};
-
 export const JoinRoomForm = () => {
   const [roomName, setRoomName] = useState('');
   const [peerName, setPeerName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { joinRoom } = useConnection();
+
+  const { getSandboxPeerToken } = useSandbox({
+    fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
+  });
 
   const handleSubmit = async () => {
     try {
@@ -39,16 +31,10 @@ export const JoinRoomForm = () => {
 
       setIsLoading(true);
 
-      const url = new URL(ROOM_MANAGER_URL);
-      url.searchParams.set('roomName', roomName);
-      url.searchParams.set('peerName', peerName);
-
-      const response = await fetch(url.toString());
-
-      const responseData: RoomManagerResponse = await response.json();
+      const peerToken = await getSandboxPeerToken(roomName, peerName);
       await joinRoom({
-        fishjamId: responseData.url,
-        peerToken: responseData.peerToken,
+        peerToken: peerToken,
+        fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
       });
     } catch (error) {
       console.error(error);
