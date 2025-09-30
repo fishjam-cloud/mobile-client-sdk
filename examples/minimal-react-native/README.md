@@ -7,7 +7,6 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
 - Join a video room with a custom room name and user name
 - Real-time video grid with local and remote participants
 - Automatic camera and microphone permission handling
-- Simple integration with Fishjam Room Manager for token and URL retrieval
 
 ## Getting Started
 
@@ -27,7 +26,7 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/fishjam-cloud/mobile-client-sdk/tree/main
-   cd fishjam-mobile-client-sdk/examples/minimal-react-native
+   cd mobile-client-sdk/examples/minimal-react-native
    ```
 2. **Install dependencies:**
    ```sh
@@ -38,7 +37,7 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
      ```env
      EXPO_PUBLIC_FISHJAM_ID=
      ```
-   - _You can obtain a Room Manager URL at [https://fishjam.io/app/](https://fishjam.io/app/)._
+   - _You can obtain your Fishjam ID at [https://fishjam.io/app/](https://fishjam.io/app/)._
 
 ### Running the App
 
@@ -66,7 +65,6 @@ A fully functional video room demo built with [Fishjam Cloud](https://fishjam.io
 
 - **React Native + Expo**: Cross-platform mobile app framework.
 - **Fishjam Cloud SDK**: Handles all real-time video, audio, and peer management.
-- **Room Manager**: External service for generating room tokens and URLs.
 - **TypeScript**: Provides type safety and better developer experience.
 
 ## Troubleshooting & FAQ
