@@ -1,17 +1,17 @@
 ## Description
 
-Describe your changes in detail
+Describe your changes.
 
 ## Motivation and Context
 
 Why is this change required? What problem does it solve? If it fixes an open
 issue, please link to the issue here.
 
-## How has this been tested?
+## Documentation impact
 
-Please describe in detail how you tested your changes. Include details of your
-testing environment, devices (ex. Iphone XYZ ios X.X.X & Samsung XYZ android
-X.X.X)
+- [ ] Documentation update required
+- [ ] Documentation updated [in another PR](_)
+- [ ] No documentation update required
 
 ## Types of changes
 
@@ -19,11 +19,3 @@ X.X.X)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to
       not work as expected)
-
-## Checklist:
-
-- [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation.
-- [ ] I have updated the documentation accordingly.
-
-## Screenshots (if appropriate)
