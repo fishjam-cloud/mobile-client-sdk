@@ -17,9 +17,8 @@ import {
   AppRootStackParamList,
   TabParamList,
 } from '../navigators/AppNavigator';
-import { joinRoomWithRoomManager } from '../utils/roomManager';
 import { FishjamLogo } from '../assets';
-import { useConnection, useSandbox } from '@fishjam-cloud/react-native-client';
+import { useSandbox } from '@fishjam-cloud/react-native-client';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithVideoRoom'>,

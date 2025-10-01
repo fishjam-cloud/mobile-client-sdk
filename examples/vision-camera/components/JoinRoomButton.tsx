@@ -23,7 +23,7 @@ export function JoinRoomButton() {
     } catch (error) {
       console.error(error);
     }
-  }, [joinRoom]);
+  }, [joinRoom, getSandboxPeerToken]);
 
   return (
     <View style={{ flex: 1 }}>
