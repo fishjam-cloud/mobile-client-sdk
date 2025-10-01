@@ -35,6 +35,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "../../common/plugins/build/with-local-paths-for-native-packages.js",
+        {
+          "iosTargetName": "minimalreactnative"
+        }
+      ]
+    ]
   }
 }

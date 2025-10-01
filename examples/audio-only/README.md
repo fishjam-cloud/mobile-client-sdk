@@ -20,7 +20,11 @@ yarn
 yarn build
 ```
 
-3. Prebuild native files in example directory:
+3. Create an `.env` file
+
+In the `examples/audio-only` directory, create an `.env` file and set the `EXPO_PUBLIC_FISHJAM_ID` variable to your fishjam ID.
+
+4. Prebuild native files in example directory:
 
 ```cmd
 cd examples/audio-only
@@ -30,7 +34,7 @@ npx expo prebuild
 > [!IMPORTANT]
 > Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for the `ios/.xcode.env.local` file
 
-4. Run the app:
+5. Run the app:
 
 `yarn ios`
 or

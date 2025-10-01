@@ -7,8 +7,8 @@ Create a `.env` file in the `internal/fishjam-chat` directory (optional), or cop
 - `EXPO_PUBLIC_FISHJAM_URL` - Pre-fills the Fishjam server URL in the "Connect with Token" tab
 - `EXPO_PUBLIC_FISHJAM_PEER_TOKEN` - Pre-fills the peer token in the "Connect with Token" tab
 - `EXPO_PUBLIC_ROOM_MANAGER_URL` - Pre-fills the Room Manager URL in the "Connect with Room Manager" tab
-- `EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER` - Room Manager URL for VideoRoom staging environment (enables the VideoRoom tab)
-- `EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER` - Room Manager URL for VideoRoom production environment (enables the VideoRoom tab)
+- `EXPO_PUBLIC_VIDEOROOM_STAGING_SANDBOX_URL` - Sandbox URL for VideoRoom staging environment
+- `EXPO_PUBLIC_FISHJAM_ID` - Fishjam ID for production environment
 
 If you want to display the VideoRoom tab, both `EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER` and `EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER` are required.
 

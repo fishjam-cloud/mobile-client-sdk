@@ -77,7 +77,7 @@ function PreviewScreen({
   const onJoinPressed = async () => {
     try {
       await joinRoom<PeerMetadata>({
-        url: route.params.fishjamUrl,
+        fishjamId: route.params.fishjamId,
         peerToken: route.params.peerToken,
         peerMetadata: {
           displayName: route.params.userName,
