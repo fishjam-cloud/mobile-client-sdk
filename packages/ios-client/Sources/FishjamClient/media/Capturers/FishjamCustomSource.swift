@@ -7,7 +7,7 @@ public enum VideoRotation: Int {
     case oneEighty = 180
     case twoSeventy = 270
 
-    internal var rtcValue: RTCVideoRotation {
+    public var rtcValue: RTCVideoRotation {
         return .init(rawValue: self.rawValue)!
     }
 }

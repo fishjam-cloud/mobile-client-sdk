@@ -4,7 +4,7 @@ import WebRTC
 public class LocalBroadcastScreenShareTrack: LocalVideoTrack, LocalTrack {
     private let appGroup: String
 
-    internal init(
+    public init(
         mediaTrack: RTCVideoTrack,
         videoSource: RTCVideoSource,
         endpointId: String,

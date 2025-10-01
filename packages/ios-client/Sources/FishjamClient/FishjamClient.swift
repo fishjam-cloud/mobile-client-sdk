@@ -1,21 +1,7 @@
 import Starscream
 import WebRTC
 
-public struct ConnectConfig {
-    var websocketUrl: String
-    var token: String
-    var peerMetadata: Metadata
-    var reconnectConfig: ReconnectConfig
-
-    public init(websocketUrl: String, token: String, peerMetadata: Metadata, reconnectConfig: ReconnectConfig) {
-        self.websocketUrl = websocketUrl + "/socket/peer/websocket"
-        self.token = token
-        self.peerMetadata = peerMetadata
-        self.reconnectConfig = reconnectConfig
-    }
-}
-
-internal protocol FishjamWebsocket {
+public protocol FishjamWebsocket {
     var delegate: WebSocketDelegate? { get set }
     func connect()
     func disconnect(closeCode: UInt16)
@@ -24,7 +10,7 @@ internal protocol FishjamWebsocket {
 
 public class FishjamClientWebSocket: FishjamWebsocket {
     var socket: Starscream.WebSocket
-    var delegate: WebSocketDelegate? {
+    public var delegate: WebSocketDelegate? {
         set { self.socket.delegate = newValue }
         get { self.socket.delegate }
     }
@@ -33,22 +19,22 @@ public class FishjamClientWebSocket: FishjamWebsocket {
         self.socket = socket
     }
 
-    func connect() {
+    public func connect() {
         socket.connect()
     }
 
-    func disconnect(closeCode: UInt16 = CloseCode.normal.rawValue) {
+    public func disconnect(closeCode: UInt16 = CloseCode.normal.rawValue) {
         socket.disconnect(closeCode: closeCode)
         // Starscream doesn't emit any event on client initiated disconnect, so we need to force it.
         delegate?.didReceive(event: .cancelled, client: socket)
     }
 
-    func write(data: Data) {
+    public func write(data: Data) {
         socket.write(data: data)
     }
 }
 
-internal func websocketFactory(url: String) -> FishjamWebsocket {
+public func websocketFactory(url: String) -> FishjamWebsocket {
     let url = URL(string: url)
     let urlRequest = URLRequest(url: url!)
     return FishjamClientWebSocket(socket: WebSocket(request: urlRequest))
@@ -90,6 +76,7 @@ public class FishjamClient {
     * `LocalVideoTrack.getCaptureDevices` method
     * @return an instance of the video track
     */
+    @available(iOSApplicationExtension, unavailable)
     public func createVideoTrack(
         videoParameters: VideoParameters,
         metadata: Metadata,
@@ -125,23 +112,23 @@ public class FishjamClient {
     * @param onStart callback that will be invoked once the screen capture starts
     * @param onStop callback that will be invoked once the screen capture stops
     */
-    public func prepareForScreenBroadcast(
-        appGroup: String,
-        videoParameters: VideoParameters,
-        metadata: Metadata,
-        canStart: @escaping () -> Bool,
-        onStart: @escaping () -> Void,
-        onStop: @escaping () -> Void
-    ) {
-        client.prepareForBroadcastScreenSharing(
-            appGroup: appGroup,
-            videoParameters: videoParameters,
-            metadata: metadata,
-            canStart: canStart,
-            onStart: onStart,
-            onStop: onStop
-        )
-    }
+//    public func prepareForScreenBroadcast(
+//        appGroup: String,
+//        videoParameters: VideoParameters,
+//        metadata: Metadata,
+//        canStart: @escaping () -> Bool,
+//        onStart: @escaping () -> Void,
+//        onStop: @escaping () -> Void
+//    ) {
+//        client.prepareForBroadcastScreenSharing(
+//            appGroup: appGroup,
+//            videoParameters: videoParameters,
+//            metadata: metadata,
+//            canStart: canStart,
+//            onStart: onStart,
+//            onStop: onStop
+//        )
+//    }
 
     public func create(customSource: CustomSource) async throws {
         try await client.create(customSource: customSource)

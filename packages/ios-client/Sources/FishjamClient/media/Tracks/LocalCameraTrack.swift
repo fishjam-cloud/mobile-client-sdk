@@ -1,7 +1,8 @@
 import WebRTC
 
 /// Utility wrapper around a local `RTCVideoTrack` also managing an instance of `VideoCapturer`
-public class LocalCameraTrack: LocalVideoTrack, LocalTrack {
+@available(iOSApplicationExtension, unavailable)
+public class LocalCameraTrack: LocalVideoTrack, LocalTrack, LocalCameraTrackProtocol {
     private var capturer: CameraCapturer
 
     public weak var captureDeviceChangedListener: CameraCapturerDeviceChangedListener? {

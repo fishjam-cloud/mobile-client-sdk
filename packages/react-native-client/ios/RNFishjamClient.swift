@@ -49,6 +49,10 @@ class RNFishjamClient: FishjamClientListener {
     var audioSessionMode: AVAudioSession.Mode = .videoChat
     var errorMessage: String?
 
+    // Persist last successful connection details for Broadcast Extension
+    private var lastConnectUrl: String?
+    private var lastPeerToken: String?
+
     var currentCamera: LocalCamera? { getLocalCameraTrack()?.currentCaptureDevice?.toLocalCamera() }
 
     private(set) var peerStatus: PeerStatus = .idle {
@@ -235,6 +239,10 @@ class RNFishjamClient: FishjamClientListener {
         let reconnectConfig = FishjamCloudClient.ReconnectConfig(
             maxAttempts: config.reconnectConfig.maxAttempts, initialDelayMs: config.reconnectConfig.initialDelayMs,
             delayMs: config.reconnectConfig.delayMs)
+
+        // Store credentials for broadcast extension
+        self.lastConnectUrl = url
+        self.lastPeerToken = peerToken
 
         RNFishjamClient.fishjamClient?.connect(
             config: FishjamCloudClient.ConnectConfig(
@@ -436,40 +444,61 @@ class RNFishjamClient: FishjamClientListener {
         screenShareSimulcastConfig = simulcastConfig
         let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
         let videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
-        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
-            appGroup: appGroupName,
-            videoParameters: videoParameters,
-            metadata: screenShareMetadata,
-            canStart: {
-                if self.isAppScreenShareOn {
-                    self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
-                }
-                return !self.isAppScreenShareOn
-            },
-            onStart: { [weak self] in
-                guard let self else { return }
-                do {
-                    try setScreenShareTrackState(enabled: true)
-                } catch {
-                    os_log(
-                        "Error starting screen share: %{public}s", log: log, type: .error,
-                        String(describing: error)
-                    )
-                }
+        
+        let ssData = ScreenshareData(localEndpoint: localEndpoint!, metadata: screenShareMetadata, videoParameters: videoParameters)
+        
+        BroadcastClient.saveScreenshareData(ssData, appGroup: appGroupName)
 
-            },
-            onStop: { [weak self] in
-                guard let self else { return }
-                do {
-                    try setScreenShareTrackState(enabled: false)
-                } catch {
-                    os_log(
-                        "Error stopping screen share: %{public}s", log: log, type: .error,
-                        String(describing: error)
-                    )
-                }
-            }
+        // Save minimal config for Broadcast Upload Extension to connect on its own
+        guard let url = self.lastConnectUrl, let token = self.lastPeerToken else {
+            throw Exception(
+                name: "E_NO_CONNECTION_DETAILS",
+                description:
+                    "No connection details available. Join a room before starting screen share.")
+        }
+        let beConfig = BroadcastExtensionConfig(
+            websocketUrl: url,
+            token: token,
+            metadata: screenShareMetadata,
+            videoParameters: videoParameters,
+            sdkVersion: PackageVersion.getSdkVersion()
         )
+        _ = BroadcastClient.saveBroadcastExtensionConfig(beConfig, appGroup: appGroupName)
+        
+//        RNFishjamClient.fishjamClient!.prepareForScreenBroadcast(
+//            appGroup: appGroupName,
+//            videoParameters: videoParameters,
+//            metadata: screenShareMetadata,
+//            canStart: {
+//                if self.isAppScreenShareOn {
+//                    self.emit(event: .warning(message: "Screensharing screen not available during screensharing app."))
+//                }
+//                return !self.isAppScreenShareOn
+//            },
+//            onStart: { [weak self] in
+//                guard let self else { return }
+//                do {
+//                    try setScreenShareTrackState(enabled: true)
+//                } catch {
+//                    os_log(
+//                        "Error starting screen share: %{public}s", log: log, type: .error,
+//                        String(describing: error)
+//                    )
+//                }
+//
+//            },
+//            onStop: { [weak self] in
+//                guard let self else { return }
+//                do {
+//                    try setScreenShareTrackState(enabled: false)
+//                } catch {
+//                    os_log(
+//                        "Error stopping screen share: %{public}s", log: log, type: .error,
+//                        String(describing: error)
+//                    )
+//                }
+//            }
+//        )
         DispatchQueue.main.async {
             RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
         }

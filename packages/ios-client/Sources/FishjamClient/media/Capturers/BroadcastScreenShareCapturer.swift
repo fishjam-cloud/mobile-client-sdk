@@ -78,178 +78,178 @@ internal protocol BroadcastScreenShareReceiverDelegate: AnyObject {
 ///
 /// It is important that the capturer gets started with a proper `appGroup` that is shared between the application and the `Broadcast Extension` itself
 /// (required by `IPC` mechanism).
-class BroadcastScreenShareCapturer: RTCVideoCapturer {
-    public weak var capturerDelegate: BroadcastScreenShareReceiverDelegate?
-
-    private let videoParameters: VideoParameters
-    private let appGroup: String
-    private let ipcServer: IPCServer
-    let source: RTCVideoSource
-    private var started = false
-    private var isReceivingSamples: Bool = false
-
-    private var timeoutTimer: Timer?
-
-    internal let supportedPixelFormats = RTCCVPixelBuffer.supportedPixelFormats()
-
-    /**
-     Creates a  broadcast screen capturer.
-    
-     - Parameters:
-        - source: `RTCVideoSource` that will receive incoming video buffers
-        - appGroup: App Group that will be used for starting an `IPCServer` on
-        - videoParameters: The parameters used for limiting the screen capture resolution and target framerate
-        - delegate: A delegate that will receive notifications about the sceeen capture events such as started/stopped or paused
-     */
-    init(
-        _ source: RTCVideoSource,
-        appGroup: String,
-        videoParameters: VideoParameters,
-        delegate: BroadcastScreenShareReceiverDelegate? = nil
-    ) {
-        self.source = source
-        self.appGroup = appGroup
-        self.videoParameters = videoParameters
-
-        capturerDelegate = delegate
-        ipcServer = IPCServer()
-
-        super.init(delegate: source)
-
-        // check every 5 seconds if the screensharing is still active or crashed
-        // this is needed as we can't know if the IPC Client stopped working or not, so at least
-        // we can check that that we receiving some samples
-        timeoutTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
-            guard let self else {
-                timer.invalidate()
-                return
-            }
-
-            // NOTE: there is basically no way of telling if the user has still
-            // an opened RPSystemBroadcastPickerView, but we can assume that if the application
-            // is in inactive state then this is a case therefore ignore the timeoutTimer tick
-            if UIApplication.shared.applicationState == .inactive {
-                return
-            }
-
-            if !self.isReceivingSamples {
-                self.capturerDelegate?.stopped()
-                timer.invalidate()
-                return
-            }
-
-            self.isReceivingSamples = false
-        }
-
-        ipcServer.onReceive = { [weak self] _, _, data in
-            guard
-                let self,
-                let sample = try? BroadcastMessage(serializedData: data)
-            else {
-                return
-            }
-
-            switch sample.type {
-            case .notification(let notification):
-                switch notification {
-                case .started:
-                    sdkLogger.info("ScreenBroadcastCapturer has been started")
-                    self.capturerDelegate?.started()
-                    self.started = true
-                case .finished:
-                    sdkLogger.info("ScreenBroadcastCapturer has been stopped")
-                    self.capturerDelegate?.stopped()
-                case .paused:
-                    sdkLogger.info("ScreenBroadcastCapturer has been paused")
-                    self.capturerDelegate?.paused()
-                case .resumed:
-                    sdkLogger.info("ScreenBroadcastCapturer has been resumed")
-                    self.capturerDelegate?.resumed()
-                default:
-                    break
-                }
-
-            case .video(let video):
-                if !self.started {
-                    self.stopListening()
-                    sdkLogger.info("Started receiving video samples without `started` notification...")
-                    return
-                }
-
-                self.isReceivingSamples = true
-
-                let dimensions = downscaleResolution(
-                    from: Dimensions(width: Int32(video.width), height: Int32(video.height)),
-                    to: videoParameters.dimensions
-                )
-
-                self.source.adaptOutputFormat(
-                    toWidth: dimensions.width,
-                    height: dimensions.height,
-                    fps: Int32(videoParameters.maxFps)
-                )
-
-                let pixelBuffer = CVPixelBuffer.from(
-                    sample.buffer,
-                    width: Int(video.width),
-                    height: Int(video.height),
-                    pixelFormat: video.format
-                )
-                let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
-                let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
-
-                let rtcBuffer = RTCCVPixelBuffer(
-                    pixelBuffer: pixelBuffer,
-                    adaptedWidth: width,
-                    adaptedHeight: height,
-                    cropWidth: width,
-                    cropHeight: height,
-                    cropX: 0,
-                    cropY: 0
-                )
-
-                var rotation: RTCVideoRotation = ._0
-
-                switch video.rotation {
-                case 90:
-                    rotation = ._90
-                case 180:
-                    rotation = ._180
-                case 270:
-                    rotation = ._270
-                default:
-                    break
-                }
-
-                // NOTEe: somehow local Metal renderer for RTCVPixelBuffer does not render the video
-                // the I420 somehow does so keep it in that format as long as it works
-                let buffer = rtcBuffer.toI420()
-                let videoFrame = RTCVideoFrame(
-                    buffer: buffer,
-                    rotation: rotation,
-                    timeStampNs: sample.timestamp
-                )
-
-                let delegate = source as RTCVideoCapturerDelegate
-
-                delegate.capturer(self, didCapture: videoFrame)
-
-            default:
-                break
-            }
-        }
-    }
-
-    public func startListening() {
-        guard ipcServer.listen(for: appGroup) else {
-            fatalError(
-                "Failed to open IPC for screen broadcast, make sure that both app and extension are using same App Group"
-            )
-        }
-    }
-
-    public func stopListening() {
-        ipcServer.close()
-        ipcServer.dispose()
-    }
-}
+//class BroadcastScreenShareCapturer: RTCVideoCapturer {
+//    public weak var capturerDelegate: BroadcastScreenShareReceiverDelegate?
+//
+//    private let videoParameters: VideoParameters
+//    private let appGroup: String
+//    private let ipcServer: IPCServer
+//    let source: RTCVideoSource
+//    private var started = false
+//    private var isReceivingSamples: Bool = false
+//
+//    private var timeoutTimer: Timer?
+//
+//    internal let supportedPixelFormats = RTCCVPixelBuffer.supportedPixelFormats()
+//
+//    /**
+//     Creates a  broadcast screen capturer.
+//    
+//     - Parameters:
+//        - source: `RTCVideoSource` that will receive incoming video buffers
+//        - appGroup: App Group that will be used for starting an `IPCServer` on
+//        - videoParameters: The parameters used for limiting the screen capture resolution and target framerate
+//        - delegate: A delegate that will receive notifications about the sceeen capture events such as started/stopped or paused
+//     */
+//    init(
+//        _ source: RTCVideoSource,
+//        appGroup: String,
+//        videoParameters: VideoParameters,
+//        delegate: BroadcastScreenShareReceiverDelegate? = nil
+//    ) {
+//        self.source = source
+//        self.appGroup = appGroup
+//        self.videoParameters = videoParameters
+//
+//        capturerDelegate = delegate
+//        ipcServer = IPCServer()
+//
+//        super.init(delegate: source)
+//
+//        // check every 5 seconds if the screensharing is still active or crashed
+//        // this is needed as we can't know if the IPC Client stopped working or not, so at least
+//        // we can check that that we receiving some samples
+//        timeoutTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
+//            guard let self else {
+//                timer.invalidate()
+//                return
+//            }
+//
+//            // NOTE: there is basically no way of telling if the user has still
+//            // an opened RPSystemBroadcastPickerView, but we can assume that if the application
+//            // is in inactive state then this is a case therefore ignore the timeoutTimer tick
+//            if UIApplication.shared.applicationState == .inactive {
+//                return
+//            }
+//
+//            if !self.isReceivingSamples {
+//                self.capturerDelegate?.stopped()
+//                timer.invalidate()
+//                return
+//            }
+//
+//            self.isReceivingSamples = false
+//        }
+//
+//        ipcServer.onReceive = { [weak self] _, _, data in
+//            guard
+//                let self,
+//                let sample = try? BroadcastMessage(serializedData: data)
+//            else {
+//                return
+//            }
+//
+//            switch sample.type {
+//            case .notification(let notification):
+//                switch notification {
+//                case .started:
+//                    sdkLogger.info("ScreenBroadcastCapturer has been started")
+//                    self.capturerDelegate?.started()
+//                    self.started = true
+//                case .finished:
+//                    sdkLogger.info("ScreenBroadcastCapturer has been stopped")
+//                    self.capturerDelegate?.stopped()
+//                case .paused:
+//                    sdkLogger.info("ScreenBroadcastCapturer has been paused")
+//                    self.capturerDelegate?.paused()
+//                case .resumed:
+//                    sdkLogger.info("ScreenBroadcastCapturer has been resumed")
+//                    self.capturerDelegate?.resumed()
+//                default:
+//                    break
+//                }
+//
+//            case .video(let video):
+//                if !self.started {
+//                    self.stopListening()
+//                    sdkLogger.info("Started receiving video samples without `started` notification...")
+//                    return
+//                }
+//
+//                self.isReceivingSamples = true
+//
+//                let dimensions = downscaleResolution(
+//                    from: Dimensions(width: Int32(video.width), height: Int32(video.height)),
+//                    to: videoParameters.dimensions
+//                )
+//
+//                self.source.adaptOutputFormat(
+//                    toWidth: dimensions.width,
+//                    height: dimensions.height,
+//                    fps: Int32(videoParameters.maxFps)
+//                )
+//
+//                let pixelBuffer = CVPixelBuffer.from(
+//                    sample.buffer,
+//                    width: Int(video.width),
+//                    height: Int(video.height),
+//                    pixelFormat: video.format
+//                )
+//                let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
+//                let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
+//
+//                let rtcBuffer = RTCCVPixelBuffer(
+//                    pixelBuffer: pixelBuffer,
+//                    adaptedWidth: width,
+//                    adaptedHeight: height,
+//                    cropWidth: width,
+//                    cropHeight: height,
+//                    cropX: 0,
+//                    cropY: 0
+//                )
+//
+//                var rotation: RTCVideoRotation = ._0
+//
+//                switch video.rotation {
+//                case 90:
+//                    rotation = ._90
+//                case 180:
+//                    rotation = ._180
+//                case 270:
+//                    rotation = ._270
+//                default:
+//                    break
+//                }
+//
+//                // NOTEe: somehow local Metal renderer for RTCVPixelBuffer does not render the video
+//                // the I420 somehow does so keep it in that format as long as it works
+//                let buffer = rtcBuffer.toI420()
+//                let videoFrame = RTCVideoFrame(
+//                    buffer: buffer,
+//                    rotation: rotation,
+//                    timeStampNs: sample.timestamp
+//                )
+//
+//                let delegate = source as RTCVideoCapturerDelegate
+//
+//                delegate.capturer(self, didCapture: videoFrame)
+//
+//            default:
+//                break
+//            }
+//        }
+//    }
+//
+//    public func startListening() {
+//        guard ipcServer.listen(for: appGroup) else {
+//            fatalError(
+//                "Failed to open IPC for screen broadcast, make sure that both app and extension are using same App Group"
+//            )
+//        }
+//    }
+//
+//    public func stopListening() {
+//        ipcServer.close()
+//        ipcServer.dispose()
+//    }
+//}

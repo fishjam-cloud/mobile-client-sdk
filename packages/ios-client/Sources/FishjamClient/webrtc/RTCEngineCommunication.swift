@@ -1,7 +1,7 @@
 import Foundation
 import Promises
 
-internal class RTCEngineCommunication {
+public class RTCEngineCommunication {
     var listeners: [RTCEngineListener]
 
     init(listeners: [RTCEngineListener]) {
@@ -43,7 +43,7 @@ internal class RTCEngineCommunication {
         //TODO(FCE-953): This will be useful after simulcast is enabled
     }
 
-    func renegotiateTracks() {
+    public func renegotiateTracks() {
         sendEvent(event: .renegotiateTracks(.init()))
     }
 

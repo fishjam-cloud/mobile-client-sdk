@@ -122,3 +122,12 @@ public struct VideoParameters {
         self.simulcastConfig = simulcastConfig
     }
 }
+
+extension VideoParameters: Codable {
+    enum CodingKeys: String, CodingKey {
+        case dimensions
+        case maxBandwidth
+        case maxFps
+        case simulcastConfig
+    }
+}
