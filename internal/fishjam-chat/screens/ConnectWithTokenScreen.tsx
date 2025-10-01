@@ -39,7 +39,7 @@ const ConnectScreen = ({ navigation }: Props) => {
     try {
       setConnectionError(null);
       navigation.navigate('Preview', {
-        fishjamUrl: fishjamUrl.trim(),
+        fishjamId: fishjamUrl.trim(),
         peerToken: peerToken.trim(),
       });
     } catch (e) {

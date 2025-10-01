@@ -6,16 +6,19 @@ import { DEFAULT_PEER_NAME, DEFAULT_ROOM_NAME } from '../config/appConfig';
 export function JoinRoomButton() {
   const { joinRoom, leaveRoom, peerStatus } = useConnection();
   const { getSandboxPeerToken } = useSandbox({
-      fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
-    });
+    fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
+  });
 
   const onPressJoin = useCallback(async () => {
     try {
-      const peerToken = await getSandboxPeerToken(DEFAULT_ROOM_NAME, DEFAULT_PEER_NAME);
+      const peerToken = await getSandboxPeerToken(
+        DEFAULT_ROOM_NAME,
+        DEFAULT_PEER_NAME,
+      );
 
       await joinRoom({
         fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
-        peerToken
+        peerToken,
       });
     } catch (error) {
       console.error(error);

@@ -264,10 +264,11 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     public func getSdpOffer(
         tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes,
         localTracks: [Track],
-        onCompletion: @escaping (
-            _ sdp: String?, _ midToTrackId: [String: String]?,
-            _ trackIdToBitrates: [String: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates]?, _ error: Error?
-        ) -> Void
+        onCompletion:
+            @escaping (
+                _ sdp: String?, _ midToTrackId: [String: String]?,
+                _ trackIdToBitrates: [String: Fishjam_MediaEvents_Peer_MediaEvent.TrackBitrates]?, _ error: Error?
+            ) -> Void
     ) {
 
         config = RTCConfiguration()

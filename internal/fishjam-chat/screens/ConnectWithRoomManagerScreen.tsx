@@ -46,7 +46,7 @@ export default function ConnectScreen({ navigation }: Props) {
 
       navigation.navigate('Preview', {
         userName,
-        fishjamUrl,
+        fishjamId: fishjamUrl,
         peerToken: token,
       });
     } catch (e) {

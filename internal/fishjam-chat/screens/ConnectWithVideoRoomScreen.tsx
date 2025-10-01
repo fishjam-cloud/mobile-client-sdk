@@ -59,8 +59,14 @@ export default function ConnectScreen({ navigation }: Props) {
   const [userName, setUserName] = useState('');
 
   const { getSandboxPeerToken } = useSandbox({
-    fishjamId: videoRoomEnv !== "staging" ? process.env.EXPO_PUBLIC_FISHJAM_ID : undefined,
-    sandboxApiUrl: videoRoomEnv === "staging" ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_SANDBOX_URL : undefined
+    fishjamId:
+      videoRoomEnv !== 'staging'
+        ? process.env.EXPO_PUBLIC_FISHJAM_ID
+        : undefined,
+    sandboxApiUrl:
+      videoRoomEnv === 'staging'
+        ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_SANDBOX_URL
+        : undefined,
   });
 
   useEffect(() => {
@@ -85,8 +91,8 @@ export default function ConnectScreen({ navigation }: Props) {
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
       const peerToken = await getSandboxPeerToken(roomName, userName);
-      
-      const fishjamId = process.env.EXPO_PUBLIC_FISHJAM_ID
+
+      const fishjamId = process.env.EXPO_PUBLIC_FISHJAM_ID;
 
       navigation.navigate('Preview', {
         userName,
@@ -96,7 +102,7 @@ export default function ConnectScreen({ navigation }: Props) {
     } catch (e) {
       const message =
         'message' in (e as Error) ? (e as Error).message : 'Unknown error';
-        console.log(message)
+      console.log(message);
       setConnectionError(message);
     } finally {
       setLoading(false);
