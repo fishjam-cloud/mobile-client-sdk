@@ -19,6 +19,7 @@ import {
 } from '../navigators/AppNavigator';
 import { joinRoomWithRoomManager } from '../utils/roomManager';
 import { FishjamLogo } from '../assets';
+import { useConnection, useSandbox } from '@fishjam-cloud/react-native-client';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<TabParamList, 'ConnectWithVideoRoom'>,
@@ -46,13 +47,6 @@ async function readStorageData(): Promise<VideoRoomData> {
   return { videoRoomEnv: 'staging', roomName: '', userName: '' };
 }
 
-export function shouldShowVideoRoomTab() {
-  return (
-    !!process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER &&
-    !!process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER
-  );
-}
-
 /**
  * Connect with the VideoRoom - our example service for video conferences
  */
@@ -63,6 +57,11 @@ export default function ConnectScreen({ navigation }: Props) {
 
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
+
+  const { getSandboxPeerToken } = useSandbox({
+    fishjamId: videoRoomEnv !== "staging" ? process.env.EXPO_PUBLIC_FISHJAM_ID : undefined,
+    sandboxApiUrl: videoRoomEnv === "staging" ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_SANDBOX_URL : undefined
+  });
 
   useEffect(() => {
     async function readData() {
@@ -83,26 +82,21 @@ export default function ConnectScreen({ navigation }: Props) {
     try {
       setConnectionError(null);
       setLoading(true);
-      const roomManagerUrl =
-        videoRoomEnv === 'staging'
-          ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_ROOM_MANAGER!
-          : process.env.EXPO_PUBLIC_VIDEOROOM_PRODUCTION_ROOM_MANAGER!;
       saveStorageData({ videoRoomEnv: videoRoomEnv, roomName, userName });
 
-      const { fishjamUrl, token } = await joinRoomWithRoomManager(
-        roomManagerUrl,
-        roomName,
-        userName,
-      );
+      const peerToken = await getSandboxPeerToken(roomName, userName);
+      
+      const fishjamId = process.env.EXPO_PUBLIC_FISHJAM_ID
 
       navigation.navigate('Preview', {
         userName,
-        fishjamUrl,
-        peerToken: token,
+        fishjamId,
+        peerToken: peerToken,
       });
     } catch (e) {
       const message =
         'message' in (e as Error) ? (e as Error).message : 'Unknown error';
+        console.log(message)
       setConnectionError(message);
     } finally {
       setLoading(false);

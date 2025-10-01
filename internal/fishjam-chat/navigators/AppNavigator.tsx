@@ -5,9 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import ConnectWithRoomManagerScreen from '../screens/ConnectWithRoomManagerScreen';
-import ConnectWithVideoRoomScreen, {
-  shouldShowVideoRoomTab,
-} from '../screens/ConnectWithVideoRoomScreen';
+import ConnectWithVideoRoomScreen from '../screens/ConnectWithVideoRoomScreen';
 import ConnectWithTokenScreen from '../screens/ConnectWithTokenScreen';
 import PreviewScreen from '../screens/PreviewScreen/PreviewScreen';
 import RoomScreen from '../screens/RoomScreen/RoomScreen';
@@ -22,7 +20,7 @@ export type AppRootStackParamList = {
   Home: undefined;
   Preview: {
     userName?: string;
-    fishjamUrl: string;
+    fishjamId: string;
     peerToken: string;
   };
   LivestreamViewerScreen: {
@@ -67,19 +65,17 @@ function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
-      {shouldShowVideoRoomTab() && (
-        <Tab.Screen
-          name="ConnectWithVideoRoom"
-          component={ConnectWithVideoRoomScreen}
-          options={{
-            tabBarLabel: 'VideoRoom',
-            tabBarActiveTintColor: BrandColors.darkBlue100,
-            tabBarInactiveTintColor: AdditionalColors.grey60,
-            tabBarIcon: tabBarIcon('alarm-bell'),
-            tabBarAccessibilityLabel: ROOM_MANAGER_TAB,
-          }}
-        />
-      )}
+      <Tab.Screen
+        name="ConnectWithVideoRoom"
+        component={ConnectWithVideoRoomScreen}
+        options={{
+          tabBarLabel: 'VideoRoom',
+          tabBarActiveTintColor: BrandColors.darkBlue100,
+          tabBarInactiveTintColor: AdditionalColors.grey60,
+          tabBarIcon: tabBarIcon('alarm-bell'),
+          tabBarAccessibilityLabel: ROOM_MANAGER_TAB,
+        }}
+      />
       <Tab.Screen
         name="ConnectWithRoomManager"
         component={ConnectWithRoomManagerScreen}
