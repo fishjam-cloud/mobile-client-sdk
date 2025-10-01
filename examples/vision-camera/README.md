@@ -30,7 +30,11 @@ npx expo prebuild
 > [!IMPORTANT]
 > Be sure to run `npx expo prebuild` and not `yarn prebuild` as there's an issue with path generation for the `ios/.xcode.env.local` file
 
-4. Run the app:
+4. Create an `.env` file
+
+In the `examples/vision-camera` directory, create an `.env` file and set the `EXPO_PUBLIC_FISHJAM_ID` variable to your fishjam ID.
+
+5. Run the app:
 
 `yarn ios`
 or
