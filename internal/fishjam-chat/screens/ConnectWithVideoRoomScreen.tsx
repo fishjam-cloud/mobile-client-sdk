@@ -59,13 +59,9 @@ export default function ConnectScreen({ navigation }: Props) {
 
   const { getSandboxPeerToken } = useSandbox({
     fishjamId:
-      videoRoomEnv !== 'staging'
-        ? process.env.EXPO_PUBLIC_FISHJAM_ID
-        : undefined,
-    sandboxApiUrl:
       videoRoomEnv === 'staging'
         ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_SANDBOX_URL
-        : undefined,
+        : process.env.EXPO_PUBLIC_FISHJAM_ID,
   });
 
   useEffect(() => {
@@ -91,12 +87,15 @@ export default function ConnectScreen({ navigation }: Props) {
 
       const peerToken = await getSandboxPeerToken(roomName, userName);
 
-      const fishjamId = process.env.EXPO_PUBLIC_FISHJAM_ID;
+      const fishjamId =
+        videoRoomEnv === 'staging'
+          ? process.env.EXPO_PUBLIC_VIDEOROOM_STAGING_SANDBOX_URL
+          : process.env.EXPO_PUBLIC_FISHJAM_ID;
 
       navigation.navigate('Preview', {
         userName,
         fishjamId,
-        peerToken: peerToken,
+        peerToken,
       });
     } catch (e) {
       const message =
