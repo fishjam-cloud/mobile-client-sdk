@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { FISHJAM_HTTP_CONNECT_URL } from '../consts';
 import { RoomType } from '../types';
+import { getFishjamUrl } from '../utils/getFishjamUrl';
 
 type BasicInfo = { id: string; name: string };
 type RoomManagerResponse = {
@@ -16,7 +16,7 @@ export type UseSandboxProps =
 
 export const useSandbox = ({ fishjamId, sandboxApiUrl }: UseSandboxProps) => {
   const managerUrl =
-    sandboxApiUrl ?? `${FISHJAM_HTTP_CONNECT_URL}/${fishjamId}/room-manager`;
+    sandboxApiUrl ?? `${getFishjamUrl(fishjamId)}/room-manager`;
 
   const getSandboxPeerToken = useCallback(
     async (

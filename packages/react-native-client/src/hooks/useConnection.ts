@@ -4,7 +4,7 @@ import RNFishjamClientModule, {
 } from '../RNFishjamClientModule';
 import { useFishjamEventState } from './internal/useFishjamEventState';
 import { GenericMetadata } from '../types';
-import { FISHJAM_WS_CONNECT_URL } from '../consts';
+import { getFishjamUrl } from '../utils/getFishjamUrl';
 
 /**
  * Represents the possible statuses of a peer while reconnecting to room
@@ -103,14 +103,6 @@ async function leaveRoomClient() {
  */
 export function useConnection() {
   const { peerStatus, reconnectionStatus } = useConnectionStatus();
-
-  const getFishjamUrl = (fishjamId: string): string => {
-    try {
-      return new URL(fishjamId).href;
-    } catch {
-      return `${FISHJAM_WS_CONNECT_URL}/${fishjamId}`;
-    }
-  };
 
   const joinRoom = useCallback(
     async <PeerMetadata extends GenericMetadata = GenericMetadata>({
