@@ -101,35 +101,6 @@ public class FishjamClient {
         return client.createAudioTrack(metadata: metadata)
     }
 
-    /**
-    * Prepares functionality allowing for recording and sending the entire device's screen.
-    *
-    * The method requires a media projection permission to be able to start the recording. The client assumes that the intent is valid.
-    * @param appGroup an application group identifier used to allow communication between user app and upload extension
-    * @param videoParameters a set of target parameters of the screen capture such as resolution, frame rate or simulcast configuration
-    * @param metadata the metadata that will be sent to the <strong>WebRTC Engine</strong> for media negotiation
-    * @param canStart callback that will be invoked once tbefore the screen capture starts, and if returns true then capture starts, otherwise it stops
-    * @param onStart callback that will be invoked once the screen capture starts
-    * @param onStop callback that will be invoked once the screen capture stops
-    */
-//    public func prepareForScreenBroadcast(
-//        appGroup: String,
-//        videoParameters: VideoParameters,
-//        metadata: Metadata,
-//        canStart: @escaping () -> Bool,
-//        onStart: @escaping () -> Void,
-//        onStop: @escaping () -> Void
-//    ) {
-//        client.prepareForBroadcastScreenSharing(
-//            appGroup: appGroup,
-//            videoParameters: videoParameters,
-//            metadata: metadata,
-//            canStart: canStart,
-//            onStart: onStart,
-//            onStop: onStop
-//        )
-//    }
-
     public func create(customSource: CustomSource) async throws {
         try await client.create(customSource: customSource)
     }

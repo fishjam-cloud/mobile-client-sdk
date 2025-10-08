@@ -14,9 +14,6 @@ public class FishjamClientInternal {
     public var rtcEngineCommunication: RTCEngineCommunication
     private var roomState = RoomState()
 
-//    private var broadcastScreenShareReceiver: BroadcastScreenShareReceiver?
-//    private var broadcastScreenShareCapturer: BroadcastScreenShareCapturer?
-
     private let customSourcesManager = CustomSourceManager()
 
     private var reconnectionManager: ReconnectionManager?
@@ -218,67 +215,6 @@ public class FishjamClientInternal {
             removeTrack(trackId: trackId)
         }
     }
-
-//    public func prepareForBroadcastScreenSharing(
-//        appGroup: String,
-//        videoParameters: VideoParameters,
-//        metadata: Metadata,
-//        canStart: @escaping () -> Bool,
-//        onStart: @escaping () -> Void,
-//        onStop: @escaping () -> Void
-//    ) {
-//        let videoSource = peerConnectionFactoryWrapper.createVideoSource(forScreenCast: true)
-//
-//        broadcastScreenShareReceiver = BroadcastScreenShareReceiver(
-//            onStart: { [weak self] in
-//                guard let self, let videoSource = broadcastScreenShareCapturer?.source else { return }
-//                guard canStart() else { return }
-//                let webrtcTrack = peerConnectionFactoryWrapper.createVideoTrack(source: videoSource)
-//                let track = LocalBroadcastScreenShareTrack(
-//                    mediaTrack: webrtcTrack,
-//                    videoSource: videoSource,
-//                    endpointId: localEndpoint.id,
-//                    metadata: metadata,
-//                    appGroup: appGroup,
-//                    videoParameters: videoParameters
-//                )
-//                let promise = commandsQueue.addCommand(
-//                    Command(commandName: .ADD_TRACK, clientStateAfterCommand: nil) { [weak self] in
-//                        guard let self else { return }
-//                        localEndpoint = localEndpoint.addOrReplaceTrack(track)
-//                        add(track: track)
-//                        if commandsQueue.clientState == .CONNECTED || self.commandsQueue.clientState == .JOINED {
-//                            rtcEngineCommunication.renegotiateTracks()
-//                        } else {
-//                            commandsQueue.finishCommand(commandName: .ADD_TRACK)
-//                        }
-//                        onStart()
-//                    }
-//                )
-//                do {
-//                    try awaitPromise(promise)
-//                    listener.onTrackAdded(track: track)
-//                } catch {}
-//            },
-//            onStop: { [weak self] in
-//                guard let self,
-//                    let track = localEndpoint.tracks.values.first(where: { $0 is LocalBroadcastScreenShareTrack })
-//                        as? LocalBroadcastScreenShareTrack
-//                else { return }
-//                removeTrack(trackId: track.id)
-//                listener.onTrackRemoved(track: track)
-//                onStop()
-//            }
-//        )
-//
-//        broadcastScreenShareCapturer = BroadcastScreenShareCapturer(
-//            videoSource,
-//            appGroup: appGroup,
-//            videoParameters: videoParameters
-//        )
-//        broadcastScreenShareCapturer?.capturerDelegate = broadcastScreenShareReceiver
-//        broadcastScreenShareCapturer?.startListening()
-//    }
 
     public func createAppScreenShareTrack(videoParameters: VideoParameters, metadata: Metadata)
         -> LocalAppScreenShareTrack
