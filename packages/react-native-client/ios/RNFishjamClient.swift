@@ -444,23 +444,17 @@ class RNFishjamClient: FishjamClientListener {
         screenShareSimulcastConfig = simulcastConfig
         let screenShareMetadata = screenShareOptions.screenShareMetadata.toMetadata()
         
-        // Check if VP8 codec is being used (DEFAULT encoder)
-        // iOS screen sharing performs poorly with VP8, so we force VGA parameters and warn the user
         let videoParameters: VideoParameters
-        if isUsingVP8Codec() {
+        if RNFishjamClient.fishjamClient?.lastSdpAnswer?.detectedCodec != .h264 {
             emit(event: .warning(
-                message: "VP8 codec detected. iOS screen sharing requires H264 codec for optimal quality. " +
-                         "Forcing VGA parameters (640x360 @ 3fps) to ensure compatibility. " +
+                message: "Incompatible codec detected: \(RNFishjamClient.fishjamClient?.lastSdpAnswer?.detectedCodec?.rawValue ?? "Unknown"). Screen sharing requires H264, otherwise  UploadBroadcastExtenstion will crash due to memory pressure (no hardware acceleration). " +
+                         "Forcing VGA parameters (640x360 @ 3fps) to prevent the crash. " +
                          "Please configure your Fishjam room to use H264 codec for better screen sharing quality."
             ))
             videoParameters = VideoParameters.presetScreenShareVGA
         } else {
             videoParameters = getScreenShareVideoParameters(options: screenShareOptions)
         }
-        
-        let ssData = ScreenshareData(localEndpoint: localEndpoint!, metadata: screenShareMetadata, videoParameters: videoParameters)
-        
-        BroadcastClient.saveScreenshareData(ssData, appGroup: appGroupName)
 
         // Save minimal config for Broadcast Upload Extension to connect on its own
         guard let url = self.lastConnectUrl, let token = self.lastPeerToken else {
@@ -986,12 +980,6 @@ class RNFishjamClient: FishjamClientListener {
 
     static func remove(customSource: CustomSource) {
         fishjamClient?.remove(customSource: customSource)
-    }
-    
-    private func isUsingVP8Codec() -> Bool {
-        // Check if VP8 codec is being used based on the negotiated SDP answer
-        // This is detected when the SDP answer is received from the server
-        return RNFishjamClient.fishjamClient?.isUsingVP8Codec() ?? true
     }
 }
 
