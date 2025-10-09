@@ -1,20 +1,20 @@
 import Promises
 
-internal enum CommandName {
+public enum CommandName {
     case CONNECT, JOIN, ADD_TRACK, REMOVE_TRACK, RENEGOTIATE, LEAVE
 }
 
-internal enum ClientState {
+public enum ClientState {
     case CREATED, CONNECTED, JOINED
 }
 
-internal class Command {
+public class Command {
     let commandName: CommandName
     let clientStateAfterCommand: ClientState?
     let promise: Promise<Void>
     let block: () -> Void
 
-    init(commandName: CommandName, clientStateAfterCommand: ClientState?, block: @escaping () -> Void) {
+    public init(commandName: CommandName, clientStateAfterCommand: ClientState?, block: @escaping () -> Void) {
         self.commandName = commandName
         self.clientStateAfterCommand = clientStateAfterCommand
         self.block = block

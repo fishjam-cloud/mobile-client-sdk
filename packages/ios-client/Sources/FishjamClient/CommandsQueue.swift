@@ -8,12 +8,12 @@ class CommandQueueError: Error {
     }
 }
 
-internal class CommandsQueue {
-    var clientState: ClientState = ClientState.CREATED
+public class CommandsQueue {
+    public var clientState: ClientState = ClientState.CREATED
     private var commandsQueue: [Command] = []
 
     @discardableResult
-    func addCommand(_ command: Command) -> Promise<Void> {
+    public func addCommand(_ command: Command) -> Promise<Void> {
         commandsQueue.append(command)
         if commandsQueue.count == 1 {
             command.execute()
@@ -21,7 +21,7 @@ internal class CommandsQueue {
         return command.promise
     }
 
-    func finishCommand() {
+    public func finishCommand() {
         guard let command = commandsQueue.first else { return }
         commandsQueue.removeFirst()
         if let nextState = command.clientStateAfterCommand {
@@ -33,19 +33,19 @@ internal class CommandsQueue {
 
     }
 
-    func finishCommand(commandName: CommandName) {
+    public func finishCommand(commandName: CommandName) {
         if !commandsQueue.isEmpty && commandsQueue.first!.commandName == commandName {
             finishCommand()
         }
     }
 
-    func finishCommand(commandNames: [CommandName]) {
+    public func finishCommand(commandNames: [CommandName]) {
         if !commandsQueue.isEmpty && commandNames.contains(commandsQueue.first!.commandName) {
             finishCommand()
         }
     }
 
-    func clear() {
+    public func clear() {
         clientState = .CREATED
         commandsQueue.forEach { command in
             command.promise.reject(CommandQueueError("Command queue was cleared"))

@@ -34,3 +34,23 @@ extension Dimensions: Equatable {
         lhs.width == rhs.width && lhs.height == rhs.height
     }
 }
+
+extension Dimensions: Codable {
+    enum CodingKeys: String, CodingKey {
+        case width
+        case height
+    }
+    
+    public init(from decoder: Swift.Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let width = try container.decode(Int32.self, forKey: .width)
+        let height = try container.decode(Int32.self, forKey: .height)
+        self.dimensions = CMVideoDimensions(width: width, height: height)
+    }
+    
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(width, forKey: .width)
+        try container.encode(height, forKey: .height)
+    }
+}

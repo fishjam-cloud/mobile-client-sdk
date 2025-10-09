@@ -2,7 +2,7 @@ import WebRTC
 
 // class for managing RTCPeerConnection responsible for managing its media sources and
 // handling various kinds of notifications
-internal class PeerConnectionFactoryWrapper {
+public class PeerConnectionFactoryWrapper {
     let factory: RTCPeerConnectionFactory
 
     init(encoder: Encoder) {
@@ -40,11 +40,11 @@ internal class PeerConnectionFactoryWrapper {
         RTCVideoCapturer()
     }
 
-    func createVideoSource(forScreenCast: Bool = false) -> RTCVideoSource {
+    public func createVideoSource(forScreenCast: Bool = false) -> RTCVideoSource {
         factory.videoSource(forScreenCast: forScreenCast)
     }
 
-    func createVideoTrack(source: RTCVideoSource) -> RTCVideoTrack {
+    public func createVideoTrack(source: RTCVideoSource) -> RTCVideoTrack {
         factory.videoTrack(with: source, trackId: UUID().uuidString)
     }
 }

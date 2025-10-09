@@ -1,10 +1,9 @@
 import WebRTC
 
-public protocol CameraCapturerDeviceChangedListener: AnyObject {
-    func onCaptureDeviceChanged(_ device: AVCaptureDevice?)
-}
+
 
 /// `VideoCapturer` responsible for capturing device's camera.
+@available(iOSApplicationExtension, unavailable)
 class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer

@@ -57,6 +57,57 @@ export function useScreenShare() {
     return 'denied';
   }, []);
 
+  /**
+   * Toggles the screen share on/off.
+   *
+   * @param screenShareOptions - Options for configuring screen share quality
+   *
+   * ### iOS Memory Limitations
+   *
+   * **Important**: iOS broadcast extensions have strict memory limits that vary by device:
+   * - **Devices with < 3GB RAM** (e.g., iPhone SE, 8, X): ~50MB limit
+   * - **Devices with ≥ 3GB RAM** (e.g., iPhone 11+): ~150-200MB limit
+   * - **iPads**: Generally higher limits (~200-300MB)
+   *
+   * If the extension exceeds these limits, iOS will terminate it with an `EXC_RESOURCE` exception,
+   * causing the screen share to stop unexpectedly.
+   *
+   * ### Quality Recommendations
+   *
+   * Choose quality settings based on device capabilities:
+   * - **VGA or HD5**: Recommended for older devices (< 3GB RAM)
+   * - **HD15**: Good balance for most devices (default)
+   * - **FHD15/FHD30**: Only for newer devices with 4GB+ RAM
+   *
+   * Higher resolutions consume significantly more memory:
+   * - 640x360 (VGA): ~1MB per frame
+   * - 1280x720 (HD): ~4MB per frame
+   * - 1920x1080 (FHD): ~8MB per frame
+   *
+   * ### Hardware Acceleration
+   *
+   * **H.264 codec is strongly recommended** for screen sharing as it:
+   * - Has hardware acceleration on iOS devices, reducing memory footprint
+   * - Provides better encoding efficiency (less CPU/memory usage)
+   * - Is more stable for broadcast extensions compared to VP8/VP9
+   *
+   * Configure the codec at the Fishjam server level to ensure optimal performance.
+   *
+   * @example
+   * ```typescript
+   * // For older devices - conservative quality
+   * await toggleScreenShare({ quality: 'HD5' });
+   *
+   * // For modern devices - balanced quality
+   * await toggleScreenShare({ quality: 'HD15' });
+   *
+   * // For high-end devices - maximum quality
+   * await toggleScreenShare({ quality: 'FHD15' });
+   * ```
+   *
+   * @platform iOS - Shows system broadcast picker
+   * @platform Android - Requires screen capture permission
+   */
   const toggleScreenShare = useCallback(
     async (screenShareOptions: Partial<ScreenShareOptions> = {}) => {
       if (Platform.OS === 'android' && !isScreenShareOn) {
@@ -83,8 +134,15 @@ export function useScreenShare() {
     simulcastConfig,
 
     /**
-     * Toggles the screen share on/off
-     * Emits warning on ios when user is screensharing app screen.
+     * Toggles the screen share on/off.
+     *
+     * **Important**: On iOS, be mindful of device memory limitations. Choose quality settings
+     * based on device capabilities and prefer H.264 codec for optimal performance.
+     * See the function documentation above for detailed information about memory limits
+     * and quality recommendations.
+     *
+     * @platform iOS - Shows system broadcast picker; emits warning when screensharing app screen
+     * @platform Android - Requires screen capture permission
      */
     toggleScreenShare,
     handleScreenSharePermission,

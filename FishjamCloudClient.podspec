@@ -30,7 +30,47 @@ Pod::Spec.new do |s|
   s.dependency 'PromisesSwift'
   s.dependency 'SwiftLogJellyfish', '1.5.2'
 
+  # Broadcast Upload Extension support files
   s.subspec "Broadcast" do |spec|
-    spec.source_files = "packages/ios-client/Sources/FishjamClient/media/BroadcastSampleSource.swift", "packages/ios-client/Sources/FishjamClient/ipc/**/*.{h,m,mm,swift}"
+    spec.source_files = [
+      "packages/ios-client/Sources/FishjamClient/BroadcastExtensionClient.swift",
+      "packages/ios-client/Sources/FishjamClient/BroadcastClient.swift",
+      "packages/ios-client/Sources/FishjamClient/ConnectConfig.swift", 
+      "packages/ios-client/Sources/FishjamClient/ReconnectionManager.swift", 
+      "packages/ios-client/Sources/FishjamClient/webrtc/PeerConnectionManager.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/PeerConnectionFactoryWrapper.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/PeerConnectionListener.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/RTCEngineCommunication.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/RTCEngineListener.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/StatsCollector.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/helpers/*.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/extensions/*.swift",
+      "packages/ios-client/Sources/FishjamClient/media/Tracks/Track.swift",
+      "packages/ios-client/Sources/FishjamClient/media/Tracks/VideoTrack.swift",
+      "packages/ios-client/Sources/FishjamClient/media/Tracks/LocalTrack.swift",
+      "packages/ios-client/Sources/FishjamClient/media/Tracks/LocalBroadcastScreenShareTrack.swift",
+      "packages/ios-client/Sources/FishjamClient/media/VideoParameters.swift",
+      "packages/ios-client/Sources/FishjamClient/media/Dimensions.swift",
+      "packages/ios-client/Sources/FishjamClient/models/Endpoint.swift",
+      "packages/ios-client/Sources/FishjamClient/models/SimulcastConfig.swift",
+      "packages/ios-client/Sources/FishjamClient/models/TrackBandwidthLimit.swift",
+      "packages/ios-client/Sources/FishjamClient/models/Constants.swift",
+      "packages/ios-client/Sources/FishjamClient/models/Encoder.swift",
+      "packages/ios-client/Sources/FishjamClient/models/EncodingReason.swift",
+      "packages/ios-client/Sources/FishjamClient/models/AuthError.swift",
+      "packages/ios-client/Sources/FishjamClient/models/RTCStats.swift",
+      "packages/ios-client/Sources/FishjamClient/protos/**/*.swift",
+      "packages/ios-client/Sources/FishjamClient/utils/AnyJson.swift",
+      "packages/ios-client/Sources/FishjamClient/utils/sdkLogger.swift",
+      "packages/ios-client/Sources/FishjamClient/utils/types.swift",
+      "packages/ios-client/Sources/FishjamClient/utils/DispatchQueue+fishjam.swift",
+      "packages/ios-client/Sources/FishjamClient/utils/SimulcastUtils.swift",
+      "packages/ios-client/Sources/FishjamClient/webrtc/extensions/RTCRtpEncodingParameters.swift"
+    ]
+    
+    spec.dependency 'WebRTC-SDK', '=125.6422.06'
+    spec.dependency 'SwiftProtobuf', '~> 1.18.0'
+    spec.dependency 'Starscream', '~> 4.0.0'
+    spec.dependency 'SwiftLogJellyfish', '1.5.2'
   end
 end

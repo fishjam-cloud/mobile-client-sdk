@@ -2,7 +2,24 @@ import Foundation
 import Logging
 import WebRTC
 
-internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
+public protocol CameraCapturerDeviceChangedListener: AnyObject {
+    func onCaptureDeviceChanged(_ device: AVCaptureDevice?)
+}
+
+protocol LocalCameraTrackProtocol: AnyObject {
+    var captureDeviceChangedListener: CameraCapturerDeviceChangedListener? { get set }
+    var currentCaptureDevice: AVCaptureDevice? { get }
+    var isFrontCamera: Bool { get }
+    func start()
+    func stop()
+    func flipCamera()
+    func switchCamera(deviceId: String)
+    static func getCaptureDevices() -> [AVCaptureDevice]
+  
+    var videoParameters: VideoParameters { get }
+}
+
+public class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
     private var peerConnectionFactory: PeerConnectionFactoryWrapper
     private var listeners: [PeerConnectionListener] = []
 
@@ -55,14 +72,14 @@ internal class PeerConnectionManager: NSObject, RTCPeerConnectionDelegate {
         let simulcastConfig = videoParameters?.simulcastConfig
         var sendEncodings: [RTCRtpEncodingParameters] = []
         if track.mediaTrack?.kind == "video"
-            && (track as? LocalCameraTrack)?.videoParameters.simulcastConfig.enabled == true
+            && (track as? LocalCameraTrackProtocol)?.videoParameters.simulcastConfig.enabled == true
         {
             sendEncodings = getSendEncodingsFromSimulcastConfig(simulcastConfig!)
         } else {
             sendEncodings = [RTCRtpEncodingParameters.create(active: true)]
         }
 
-        if let maxBandwidth = (track as? LocalCameraTrack)?.videoParameters.maxBandwidth {
+        if let maxBandwidth = (track as? LocalCameraTrackProtocol)?.videoParameters.maxBandwidth {
             applyEncodingBitrates(encodings: sendEncodings, maxBitrate: maxBandwidth)
         }
         let transceiverInit = RTCRtpTransceiverInit()
