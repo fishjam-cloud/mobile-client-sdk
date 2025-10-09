@@ -23,6 +23,9 @@ public class FishjamClientInternal {
     public var localEndpoint: Endpoint = Endpoint(id: "")
     private var prevTracks: [Track] = []
     private var remoteEndpointsMap: [String: Endpoint] = [:]
+    
+    // Track the negotiated video codec from SDP answer
+    private(set) var isUsingVP8: Bool = true
 
     public init(listener: FishjamClientListener, websocketFactory: @escaping (String) -> FishjamWebsocket) {
         self.listener = listener
@@ -729,6 +732,9 @@ extension FishjamClientInternal: RTCEngineListener {
 
     func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
+        
+        // Detect codec from SDP answer
+        detectCodecFromSdp(sdp: sdp)
 
         localEndpoint.tracks.values.forEach { track in
             if track is LocalAudioTrack {
@@ -756,6 +762,33 @@ extension FishjamClientInternal: RTCEngineListener {
         }
 
         commandsQueue.finishCommand(commandNames: [CommandName.ADD_TRACK, CommandName.REMOVE_TRACK])
+    }
+    
+    private func detectCodecFromSdp(sdp: String) {
+        // Parse SDP to detect which video codec was negotiated
+        // SDP contains lines like:
+        // a=rtpmap:96 VP8/90000
+        // a=rtpmap:102 H264/90000
+        let sdpLines = sdp.components(separatedBy: "\r\n")
+        
+        for line in sdpLines {
+            if line.contains("a=rtpmap:") && line.contains("/90000") {
+                let upperLine = line.uppercased()
+                if upperLine.contains("H264") {
+                    isUsingVP8 = false
+                    sdkLogger.info("Detected H264 codec in SDP answer")
+                    return
+                } else if upperLine.contains("VP8") {
+                    isUsingVP8 = true
+                    sdkLogger.info("Detected VP8 codec in SDP answer")
+                    return
+                }
+            }
+        }
+        
+        // Default to VP8 if we can't determine
+        sdkLogger.warning("Could not detect video codec from SDP, defaulting to VP8")
+        isUsingVP8 = true
     }
 
     func onRemoteCandidate(candidate: String, sdpMLineIndex: Int32, sdpMid: String?) {

@@ -237,4 +237,13 @@ public class FishjamClient {
     public func getRemoteEndpoints() -> [Endpoint] {
         return client.remoteEndpoints
     }
+    
+    /**
+    * Returns whether VP8 codec is being used based on the negotiated SDP
+    * This is detected from the SDP answer received from the server
+    * @return true if VP8 is being used, false if H264 or other codec
+    */
+    public func isUsingVP8Codec() -> Bool {
+        return client.isUsingVP8
+    }
 }
