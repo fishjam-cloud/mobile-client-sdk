@@ -175,7 +175,7 @@ public class BroadcastExtensionClient {
         rtcEngineCommunication.renegotiateTracks()
         
         // Create and return capturer
-        let capturer = BroadcastScreenShareCapturer(videoSource: videoSource)
+        let capturer = BroadcastScreenShareCapturer(videoSource: videoSource, videoParameters: config.videoParameters)
         
         sdkLogger.info("\(logger): Screen share track created and added")
         return capturer
@@ -486,11 +486,22 @@ extension BroadcastExtensionClient: ReconnectionManagerListener {
 // MARK: - Simple Frame Capturer
 
 /// A simple capturer that converts RPBroadcast sample buffers to WebRTC video frames
+/// with support for resolution scaling and FPS limiting based on VideoParameters
 public class BroadcastScreenShareCapturer {
     private let videoSource: RTCVideoSource
+    private let videoParameters: VideoParameters
     
-    init(videoSource: RTCVideoSource) {
+    // FPS limiting
+    private var lastFrameTimestamp: Int64 = 0
+    private let minFrameInterval: Int64  // in nanoseconds
+    
+    init(videoSource: RTCVideoSource, videoParameters: VideoParameters) {
         self.videoSource = videoSource
+        self.videoParameters = videoParameters
+        
+        // Calculate minimum frame interval based on maxFps
+        // e.g., if maxFps = 15, then minFrameInterval = 1_000_000_000 / 15 = 66_666_666 ns
+        self.minFrameInterval = Int64(1_000_000_000) / Int64(max(1, videoParameters.maxFps))
     }
     
     /// Processes a sample buffer from the broadcast extension
@@ -503,19 +514,54 @@ public class BroadcastScreenShareCapturer {
             return
         }
         
-        let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
-        let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
+        // FPS limiting: drop frame if it arrives too soon
+        let currentTimestamp = sampleBuffer.presentationTimeStamp.value
+        let timeSinceLastFrame = currentTimestamp - lastFrameTimestamp
         
-        // Scale to 10% of original size
-        let scaledWidth = Int32(Double(width) * 0.7)
-        let scaledHeight = Int32(Double(height) * 0.7)
+        if lastFrameTimestamp > 0 && timeSinceLastFrame < minFrameInterval {
+            // Drop this frame - it's too soon
+            return
+        }
+        
+        lastFrameTimestamp = currentTimestamp
+        
+        let originalHeight = Int32(CVPixelBufferGetHeight(pixelBuffer))
+        let originalWidth = Int32(CVPixelBufferGetWidth(pixelBuffer))
+        
+        // Calculate target dimensions based on video parameters
+        let targetDimensions = downscaleResolution(
+            from: Dimensions(width: originalWidth, height: originalHeight),
+            to: videoParameters.dimensions
+        )
+        
+        // Scale the pixel buffer to target dimensions if needed
+        let scaledPixelBuffer: CVPixelBuffer
+        if originalWidth != targetDimensions.width || originalHeight != targetDimensions.height {
+            scaledPixelBuffer = scalePixelBuffer(
+                pixelBuffer,
+                targetWidth: Int(targetDimensions.width),
+                targetHeight: Int(targetDimensions.height)
+            )
+        } else {
+            scaledPixelBuffer = pixelBuffer
+        }
+        
+        let finalHeight = Int32(CVPixelBufferGetHeight(scaledPixelBuffer))
+        let finalWidth = Int32(CVPixelBufferGetWidth(scaledPixelBuffer))
+        
+        // Tell WebRTC about our output format
+        videoSource.adaptOutputFormat(
+            toWidth: finalWidth,
+            height: finalHeight,
+            fps: Int32(videoParameters.maxFps)
+        )
         
         let rtcBuffer = RTCCVPixelBuffer(
-            pixelBuffer: pixelBuffer,
-            adaptedWidth: scaledWidth,
-            adaptedHeight: scaledHeight,
-            cropWidth: width,
-            cropHeight: height,
+            pixelBuffer: scaledPixelBuffer,
+            adaptedWidth: finalWidth,
+            adaptedHeight: finalHeight,
+            cropWidth: finalWidth,
+            cropHeight: finalHeight,
             cropX: 0,
             cropY: 0
         )
@@ -528,6 +574,64 @@ public class BroadcastScreenShareCapturer {
         
         let delegate = videoSource as RTCVideoCapturerDelegate
         delegate.capturer(RTCVideoCapturer(delegate: videoSource), didCapture: videoFrame)
+    }
+    
+    /// Calculates the appropriate downscaled resolution while maintaining aspect ratio
+    private func downscaleResolution(from: Dimensions, to: Dimensions) -> Dimensions {
+        if from.height > to.height {
+            let ratio = Float(from.height) / Float(from.width)
+            
+            let newHeight = to.height
+            let newWidth = Int32((Float(newHeight) / ratio).rounded(.down))
+            
+            return Dimensions(width: newWidth, height: newHeight)
+        } else if from.width > to.width {
+            let ratio = Float(from.height) / Float(from.width)
+            
+            let newWidth = to.width
+            let newHeight = Int32((Float(newWidth) * ratio).rounded(.down))
+            
+            return Dimensions(width: newWidth, height: newHeight)
+        }
+        
+        return from
+    }
+    
+    /// Scales a CVPixelBuffer to the target dimensions using Core Image
+    private func scalePixelBuffer(_ pixelBuffer: CVPixelBuffer, targetWidth: Int, targetHeight: Int) -> CVPixelBuffer {
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        
+        let scaleX = CGFloat(targetWidth) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+        let scaleY = CGFloat(targetHeight) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+        
+        let scaledImage = ciImage.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        
+        var scaledPixelBuffer: CVPixelBuffer?
+        let attributes: [String: Any] = [
+            kCVPixelBufferCGImageCompatibilityKey as String: true,
+            kCVPixelBufferCGBitmapContextCompatibilityKey as String: true,
+            kCVPixelBufferMetalCompatibilityKey as String: true
+        ]
+        
+        let status = CVPixelBufferCreate(
+            kCFAllocatorDefault,
+            targetWidth,
+            targetHeight,
+            CVPixelBufferGetPixelFormatType(pixelBuffer),
+            attributes as CFDictionary,
+            &scaledPixelBuffer
+        )
+        
+        guard status == kCVReturnSuccess, let outputBuffer = scaledPixelBuffer else {
+            // If scaling fails, return original buffer
+            sdkLogger.warning("BroadcastScreenShareCapturer: Failed to create scaled pixel buffer, using original")
+            return pixelBuffer
+        }
+        
+        let context = CIContext()
+        context.render(scaledImage, to: outputBuffer)
+        
+        return outputBuffer
     }
 }
 
