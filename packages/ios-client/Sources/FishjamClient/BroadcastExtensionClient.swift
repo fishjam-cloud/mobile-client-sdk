@@ -634,4 +634,3 @@ public class BroadcastScreenShareCapturer {
         return outputBuffer
     }
 }
-
