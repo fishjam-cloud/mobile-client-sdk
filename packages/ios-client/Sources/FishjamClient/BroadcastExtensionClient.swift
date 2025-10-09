@@ -8,6 +8,15 @@ public protocol BroadcastExtensionClientDelegate: AnyObject {
     /// Called when the client successfully connects to the Fishjam server
     /// and is ready to start screen sharing
     func broadcastClientDidConnect(_ client: BroadcastExtensionClient)
+    
+    /// Called when reconnection process has started
+    func broadcastClientDidStartReconnection(_ client: BroadcastExtensionClient)
+    
+    /// Called when client successfully reconnects after a disconnection
+    func broadcastClientDidReconnect(_ client: BroadcastExtensionClient)
+    
+    /// Called when maximum reconnection attempts have been reached
+    func broadcastClientReconnectionLimitReached(_ client: BroadcastExtensionClient)
 }
 
 /// Minimal configuration needed to initialize broadcast screenshare from extension
@@ -17,13 +26,15 @@ public struct BroadcastExtensionConfig: Codable {
     public let metadata: Metadata
     public let videoParameters: VideoParameters
     public let sdkVersion: String
+    public let reconnectConfig: ReconnectConfig
     
-    public init(websocketUrl: String, token: String, metadata: Metadata, videoParameters: VideoParameters, sdkVersion: String) {
+    public init(websocketUrl: String, token: String, metadata: Metadata, videoParameters: VideoParameters, sdkVersion: String, reconnectConfig: ReconnectConfig = ReconnectConfig()) {
         self.websocketUrl = websocketUrl
         self.token = token
         self.metadata = metadata
         self.videoParameters = videoParameters
         self.sdkVersion = sdkVersion
+        self.reconnectConfig = reconnectConfig
     }
 }
 
@@ -54,6 +65,10 @@ public class BroadcastExtensionClient {
     private var videoSource: RTCVideoSource?
     private var videoTrack: RTCVideoTrack?
     private var localTrack: LocalBroadcastScreenShareTrack?
+    private var prevLocalTrack: LocalBroadcastScreenShareTrack?
+    
+    // MARK: - Reconnection
+    private var reconnectionManager: ReconnectionManager?
     
     // MARK: - Logger
     private let logger = "BroadcastExtensionClient"
@@ -88,13 +103,31 @@ public class BroadcastExtensionClient {
     public func connect(config: BroadcastExtensionConfig) {
         self.config = config
         
+        // Initialize reconnection manager
+        self.reconnectionManager = ReconnectionManager(
+            reconnectConfig: config.reconnectConfig,
+            connect: { [weak self] in self?.reconnect(config: config) },
+            listener: self
+        )
+        
+        setupWebSocket(config: config)
+    }
+    
+    /// Internal method to reconnect after disconnection
+    private func reconnect(config: BroadcastExtensionConfig) {
+        recreateTrack()
+        setupWebSocket(config: config)
+    }
+    
+    /// Sets up the WebSocket connection
+    private func setupWebSocket(config: BroadcastExtensionConfig) {
         // Create WebSocket connection
         guard let url = URL(string: config.websocketUrl + "/socket/peer/websocket") else {
             sdkLogger.error("\(logger): Invalid WebSocket URL")
             return
         }
         
-        var request = URLRequest(url: url )
+        var request = URLRequest(url: url)
         request.timeoutInterval = 5
         
         self.webSocket = Starscream.WebSocket(request: request)
@@ -150,17 +183,71 @@ public class BroadcastExtensionClient {
     
     /// Stops screen sharing and disconnects
     public func disconnect() {
+        reconnectionManager?.reset()
         webSocket?.disconnect()
         peerConnectionManager.close()
         videoSource = nil
         videoTrack = nil
         localTrack = nil
+        prevLocalTrack = nil
         isAuthenticated = false
         isConnected = false
         sdkLogger.info("\(logger): Disconnected")
     }
     
     // MARK: - Private Helpers
+    
+    /// Prepares the client for reconnection by cleaning up current state
+    private func prepareToReconnect() {
+        peerConnectionManager.close()
+        webSocket?.disconnect()
+        webSocket = nil
+        
+        // Save the current track for recreation
+        prevLocalTrack = localTrack
+        
+        // Reset state
+        isAuthenticated = false
+        isConnected = false
+        localEndpointId = ""
+        
+        // Keep video source and track references for recreation
+        // but don't clear them yet as we'll need them
+        
+        sdkLogger.info("\(logger): Prepared for reconnection")
+    }
+    
+    /// Recreates the video track after reconnection
+    private func recreateTrack() {
+        guard let prevTrack = prevLocalTrack,
+              let config = config else {
+            sdkLogger.error("\(logger): Cannot recreate track - missing previous track or config")
+            return
+        }
+        
+        // Create new video source and track
+        let newVideoSource = peerConnectionFactory.createVideoSource(forScreenCast: true)
+        let newWebrtcTrack = peerConnectionFactory.createVideoTrack(source: newVideoSource)
+        
+        // Create new local track with same metadata and keeping the old endpoint ID
+        // The endpoint ID is just informational and will be correct once we reconnect
+        let newTrack = LocalBroadcastScreenShareTrack(
+            mediaTrack: newWebrtcTrack,
+            videoSource: newVideoSource,
+            endpointId: prevTrack.endpointId, // Keep the old endpoint ID (it's immutable anyway)
+            metadata: prevTrack.metadata,
+            appGroup: "",
+            videoParameters: config.videoParameters
+        )
+        
+        // Update our references
+        self.videoSource = newVideoSource
+        self.videoTrack = newWebrtcTrack
+        self.localTrack = newTrack
+        self.prevLocalTrack = nil
+        
+        sdkLogger.info("\(logger): Track recreated for reconnection")
+    }
     
     private func handleAuthenticated(roomType: Fishjam_PeerMessage.RoomType) {
         isAuthenticated = true
@@ -215,8 +302,21 @@ extension BroadcastExtensionClient: WebSocketDelegate {
                 sdkLogger.error("\(logger): Failed to parse message: \(error)")
             }
             
+        case .viabilityChanged(let isViable):
+            // Network viability changed - trigger reconnection if lost
+            if !isViable {
+                sdkLogger.warning("\(logger): Network viability lost")
+                prepareToReconnect()
+                reconnectionManager?.onDisconnected()
+            }
+            
         case .error(let error):
             sdkLogger.error("\(logger): WebSocket error: \(error?.localizedDescription ?? "unknown")")
+            prepareToReconnect()
+            reconnectionManager?.onDisconnected()
+            
+        case .cancelled:
+            sdkLogger.info("\(logger): WebSocket cancelled")
             
         default:
             break
@@ -266,6 +366,18 @@ extension BroadcastExtensionClient: RTCEngineListener {
         peerConnectionManager.setupIceServers(iceServers: iceServers)
         
         sdkLogger.info("\(logger): Connected with endpoint ID: \(endpointId)")
+        
+        // If we have a track (reconnecting), re-add it and trigger renegotiation
+        // The track keeps its original endpoint ID (it's immutable), which is fine
+        if let track = localTrack {
+            peerConnectionManager.addTrack(track: track)
+            rtcEngineCommunication.renegotiateTracks()
+            
+            sdkLogger.info("\(logger): Track re-added after reconnection")
+        }
+        
+        // Notify reconnection manager of successful reconnection
+        reconnectionManager?.onReconnected()
         
         // Notify delegate that connection is ready
         delegate?.broadcastClientDidConnect(self)
@@ -348,6 +460,26 @@ extension BroadcastExtensionClient: PeerConnectionListener {
     
     func onAddTrack(trackId: String, webrtcTrack: RTCMediaStreamTrack) {
         // We're only sending, not receiving tracks
+    }
+}
+
+// MARK: - ReconnectionManager Listener
+
+extension BroadcastExtensionClient: ReconnectionManagerListener {
+    
+    public func onReconnectionStarted() {
+        sdkLogger.info("\(logger): Reconnection started")
+        delegate?.broadcastClientDidStartReconnection(self)
+    }
+    
+    public func onReconnected() {
+        sdkLogger.info("\(logger): Reconnected successfully")
+        delegate?.broadcastClientDidReconnect(self)
+    }
+    
+    public func onReconnectionRetriesLimitReached() {
+        sdkLogger.error("\(logger): Reconnection retries limit reached")
+        delegate?.broadcastClientReconnectionLimitReached(self)
     }
 }
 

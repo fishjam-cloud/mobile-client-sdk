@@ -69,6 +69,32 @@ class FishjamBroadcastSampleHandler: RPBroadcastSampleHandler, BroadcastExtensio
             self.finishBroadcastWithError(error)
         }
     }
+    
+    func broadcastClientDidStartReconnection(_ client: BroadcastExtensionClient) {
+        os_log("Broadcast client attempting to reconnect", log: logger, type: .info)
+    }
+    
+    func broadcastClientDidReconnect(_ client: BroadcastExtensionClient) {
+        os_log("Broadcast client reconnected successfully", log: logger, type: .info)
+        
+        // Re-start screen share after reconnection
+        if let capturer = client.startScreenShare() {
+            self.capturer = capturer
+            os_log("Screen share restarted after reconnection", log: logger, type: .info)
+        } else {
+            os_log("Failed to restart screen share after reconnection", log: logger, type: .error)
+        }
+    }
+    
+    func broadcastClientReconnectionLimitReached(_ client: BroadcastExtensionClient) {
+        os_log("Broadcast client failed to reconnect after max attempts", log: logger, type: .error)
+        let error = NSError(
+            domain: "FishjamBroadcastSampleHandler",
+            code: 3,
+            userInfo: [NSLocalizedDescriptionKey: "Failed to reconnect to Fishjam server"]
+        )
+        self.finishBroadcastWithError(error)
+    }
 
     override func broadcastPaused() {
         os_log("Broadcast paused", log: logger, type: .info)

@@ -6,7 +6,7 @@ public enum ReconnectionStatus: String {
     case error
 }
 
-public struct ReconnectConfig {
+public struct ReconnectConfig: Codable {
     let maxAttempts: Int
     let initialDelayMs: Int
     let delayMs: Int
