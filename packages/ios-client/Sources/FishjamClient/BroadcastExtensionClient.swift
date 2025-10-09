@@ -506,19 +506,22 @@ public class BroadcastScreenShareCapturer {
         let height = Int32(CVPixelBufferGetHeight(pixelBuffer))
         let width = Int32(CVPixelBufferGetWidth(pixelBuffer))
         
+        // Scale to 10% of original size
+        let scaledWidth = Int32(Double(width) * 0.7)
+        let scaledHeight = Int32(Double(height) * 0.7)
+        
         let rtcBuffer = RTCCVPixelBuffer(
             pixelBuffer: pixelBuffer,
-            adaptedWidth: width,
-            adaptedHeight: height,
+            adaptedWidth: scaledWidth,
+            adaptedHeight: scaledHeight,
             cropWidth: width,
             cropHeight: height,
             cropX: 0,
             cropY: 0
         )
         
-        let buffer = rtcBuffer.toI420()
         let videoFrame = RTCVideoFrame(
-            buffer: buffer,
+            buffer: rtcBuffer,
             rotation: ._0,
             timeStampNs: sampleBuffer.presentationTimeStamp.value
         )
