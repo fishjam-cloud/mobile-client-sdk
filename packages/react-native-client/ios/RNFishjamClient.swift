@@ -7,6 +7,7 @@ import WebRTC
 
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
+    private var callKitManager: CallKitManager?
 
     var isMicrophoneOn = false
     var isCameraOn = false
@@ -946,16 +947,32 @@ class RNFishjamClient: FishjamClientListener {
         fishjamClient?.remove(customSource: customSource)
     }
     
-    func startCallKitSessionWith(displayName: String) throws {
-        try RNFishjamClient.fishjamClient?.startCallKitSessionWith(displayName: displayName)
+    public func startCallKitSessionWith(displayName: String) throws {
+        if callKitManager == nil {
+            callKitManager = CallKitManager()
+            callKitManager?.onCallEnded = { [weak self] in
+                self?.leaveRoom()
+            }
+            callKitManager?.onCallMuted = { [weak self] isMuted in
+                Task {
+                    if isMuted {
+                        try self?.stopMicrophone()
+                    } else {
+                        try await self?.startMicrophone()
+                    }
+                }
+                
+            }
+        }
+        try callKitManager?.startCallWith(displayName: displayName)
     }
     
-    func endCallKitSession() {
-        RNFishjamClient.fishjamClient?.endCallKitSession()
+    public func endCallKitSession() {
+        callKitManager?.endCall()
     }
-    
-    var hasActiveCallKitSession: Bool {
-        return RNFishjamClient.fishjamClient?.hasActiveCallKitSession ?? false
+
+    public var hasActiveCallKitSession: Bool {
+        return callKitManager?.hasActiveCall ?? false
     }
 }
 

@@ -30,7 +30,7 @@ type RNFishjamClient = {
   peerStatus: PeerStatus;
   reconnectionStatus: ReconnectionStatus;
   isCameraInitialized: boolean;
-  hasActiveCallKitSession: boolean; // only available on iOS
+  hasActiveCallKitSession: boolean;
 
   getPeers: <
     PeerMetadataType extends Metadata,

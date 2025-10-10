@@ -57,29 +57,11 @@ internal func websocketFactory(url: String) -> FishjamWebsocket {
 
 public class FishjamClient {
     private var client: FishjamClientInternal
-    private var callKitManager: CallKitManager?
 
     public init(listener: FishjamClientListener) {
         self.client = FishjamClientInternal(listener: listener, websocketFactory: websocketFactory)
     }
 
-    public func startCallKitSessionWith(displayName: String) throws {
-        if callKitManager == nil {
-            callKitManager = CallKitManager()
-            callKitManager?.onCallEnded = { [weak self] in
-                self?.leave()
-            }
-        }
-        try callKitManager?.startCallWith(displayName: displayName)
-    }
-
-    public func endCallKitSession() {
-        callKitManager?.endCall()
-    }
-
-    public var hasActiveCallKitSession: Bool {
-        return callKitManager?.hasActiveCall ?? false
-    }
 
     /**
     * Connects to the server using the WebSocket connection
