@@ -30,6 +30,7 @@ type RNFishjamClient = {
   peerStatus: PeerStatus;
   reconnectionStatus: ReconnectionStatus;
   isCameraInitialized: boolean;
+  hasActiveCallKitSession: boolean; // only available on iOS
 
   getPeers: <
     PeerMetadataType extends Metadata,
@@ -92,6 +93,10 @@ type RNFishjamClient = {
   requestCameraPermissionsAsync: () => Promise<PermissionResponse>;
   getMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
   requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
+  // CallKit methods (iOS only)
+  enableCallKit: (localizedCallerName?: string) => Promise<void>;
+  startCallKitSession: (handle: string, displayName?: string) => Promise<void>;
+  endCallKitSession: () => Promise<void>;
 };
 
 export const ReceivableEvents = {

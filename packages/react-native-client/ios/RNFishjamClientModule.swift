@@ -272,6 +272,33 @@ public class RNFishjamClientModule: Module {
         reject: promise.legacyRejecter
       )
     }
+    
+    // MARK: - CallKit Support
+    
+    AsyncFunction("enableCallKit") { (localizedCallerName: String?) in
+      if #available(iOS 10.0, *) {
+        rnFishjamClient.enableCallKit(localizedCallerName: localizedCallerName ?? "Fishjam")
+      }
+    }
+    
+    AsyncFunction("startCallKitSession") { (handle: String, displayName: String?) in
+      if #available(iOS 10.0, *) {
+        try rnFishjamClient.startCallKitSession(handle: handle, displayName: displayName ?? "Fishjam Call")
+      }
+    }
+    
+    AsyncFunction("endCallKitSession") {
+      if #available(iOS 10.0, *) {
+        rnFishjamClient.endCallKitSession()
+      }
+    }
+    
+    Property("hasActiveCallKitSession") {
+      if #available(iOS 10.0, *) {
+        return rnFishjamClient.hasActiveCallKitSession
+      }
+      return false
+    }
 
     }
   }
