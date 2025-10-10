@@ -123,6 +123,13 @@ extension CallKitManager: CXProviderDelegate {
 
     public func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
         logger.info("Audio session activated")
+        
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetoothHFP, .allowBluetoothA2DP])
+            try audioSession.setActive(true)
+        } catch {
+            logger.error("Failed to configure audio session: \(error.localizedDescription)")
+        }
     }
 
     public func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
