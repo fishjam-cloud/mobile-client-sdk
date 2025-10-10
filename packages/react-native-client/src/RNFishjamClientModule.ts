@@ -30,6 +30,7 @@ type RNFishjamClient = {
   peerStatus: PeerStatus;
   reconnectionStatus: ReconnectionStatus;
   isCameraInitialized: boolean;
+  hasActiveCallKitSession: boolean; // only available on iOS
 
   getPeers: <
     PeerMetadataType extends Metadata,
@@ -86,12 +87,14 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
-  stopForegroundService: () => void;
   getCameraPermissionsAsync: () => Promise<PermissionResponse>;
   requestCameraPermissionsAsync: () => Promise<PermissionResponse>;
   getMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
   requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
+  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
+  stopForegroundService: () => void;
+  startCallKitSession: (displayName: string) => Promise<void>;
+  endCallKitSession: () => Promise<void>;
 };
 
 export const ReceivableEvents = {

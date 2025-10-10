@@ -945,6 +945,18 @@ class RNFishjamClient: FishjamClientListener {
     static func remove(customSource: CustomSource) {
         fishjamClient?.remove(customSource: customSource)
     }
+    
+    func startCallKitSessionWith(displayName: String) throws {
+        try RNFishjamClient.fishjamClient?.startCallKitSessionWith(displayName: displayName)
+    }
+    
+    func endCallKitSession() {
+        RNFishjamClient.fishjamClient?.endCallKitSession()
+    }
+    
+    var hasActiveCallKitSession: Bool {
+        return RNFishjamClient.fishjamClient?.hasActiveCallKitSession ?? false
+    }
 }
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {

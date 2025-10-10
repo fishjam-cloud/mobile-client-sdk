@@ -8,6 +8,7 @@ export type FishjamPluginOptions =
         iphoneDeploymentTarget?: string;
         enableScreensharing?: boolean;
         supportsPictureInPicture?: boolean;
+        enableVoIPBackgroundMode?: boolean;
         appGroupContainerId?: string;
         mainTargetName?: string;
         broadcastExtensionTargetName?: string;
