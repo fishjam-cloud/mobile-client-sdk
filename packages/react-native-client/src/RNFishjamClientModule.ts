@@ -87,15 +87,13 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
-  stopForegroundService: () => void;
   getCameraPermissionsAsync: () => Promise<PermissionResponse>;
   requestCameraPermissionsAsync: () => Promise<PermissionResponse>;
   getMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
   requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
-  // CallKit methods (iOS only)
-  enableCallKit: (localizedCallerName?: string) => Promise<void>;
-  startCallKitSession: (handle: string, displayName?: string) => Promise<void>;
+  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
+  stopForegroundService: () => void;
+  startCallKitSession: (displayName: string) => Promise<void>;
   endCallKitSession: () => Promise<void>;
 };
 

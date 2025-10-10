@@ -6,11 +6,11 @@ import {
   useMicrophone,
   usePeers,
   useScreenShare,
-  useCallKit,
+  useCallKitService,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
@@ -48,21 +48,11 @@ const RoomScreen = ({ navigation, route }: Props) => {
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
   const { leaveRoom } = useConnection();
-  const { endCallKitSession, isCallKitAvailable } = useCallKit();
 
   const onDisconnectPress = useCallback(async () => {
-    // End CallKit session first on iOS
-    if (isCallKitAvailable) {
-      try {
-        await endCallKitSession();
-      } catch (error) {
-        console.warn('Failed to end CallKit session:', error);
-      }
-    }
-
     leaveRoom();
     navigation.navigate('Home');
-  }, [navigation, leaveRoom, endCallKitSession, isCallKitAvailable]);
+  }, [navigation, leaveRoom]);
 
   useForegroundService({
     channelId: 'io.fishjam.example.fishjamchat.foregroundservice.channel',
@@ -72,6 +62,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
   });
+
+  useCallKitService(userName ?? defaultUserName);
 
   const onToggleScreenShare = useCallback(async () => {
     await toggleScreenShare({

@@ -946,24 +946,14 @@ class RNFishjamClient: FishjamClientListener {
         fishjamClient?.remove(customSource: customSource)
     }
     
-    // MARK: - CallKit Support
-    
-    @available(iOS 10.0, *)
-    func enableCallKit(localizedCallerName: String) {
-        RNFishjamClient.fishjamClient?.enableCallKit(localizedCallerName: localizedCallerName)
+    func startCallKitSessionWith(displayName: String) throws {
+        try RNFishjamClient.fishjamClient?.startCallKitSessionWith(displayName: displayName)
     }
     
-    @available(iOS 10.0, *)
-    func startCallKitSession(handle: String, displayName: String) throws {
-        try RNFishjamClient.fishjamClient?.startCallKitSession(handle: handle, displayName: displayName)
-    }
-    
-    @available(iOS 10.0, *)
     func endCallKitSession() {
         RNFishjamClient.fishjamClient?.endCallKitSession()
     }
     
-    @available(iOS 10.0, *)
     var hasActiveCallKitSession: Bool {
         return RNFishjamClient.fishjamClient?.hasActiveCallKitSession ?? false
     }

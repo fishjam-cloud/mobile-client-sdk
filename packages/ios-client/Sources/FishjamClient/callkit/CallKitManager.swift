@@ -2,11 +2,9 @@ import CallKit
 import AVFoundation
 import Logging
 
-/// Manager for handling CallKit integration
-/// This enables proper iOS call handling and keeps the app active during calls
-@available(iOS 10.0, *)
+
 public class CallKitManager: NSObject {
-    private let logger = Logger(label: "org.fishjam.CallKitManager")
+    private let logger = Logger(label: "io.fishjam.CallKitManager")
     
     private let callController = CXCallController()
     private let provider: CXProvider
@@ -14,18 +12,15 @@ public class CallKitManager: NSObject {
     private var isCallActive = false
     
     public var onCallEnded: (() -> Void)?
-    public var onCallAnswered: (() -> Void)?
+    public var onCallMuted: ((Bool) -> Void)?
     
-    /// Initialize CallKit manager with configuration
-    /// - Parameter localizedCallerName: The name to display for the caller (e.g., app name or room name)
-    public init(localizedCallerName: String = "Fishjam") {
+    public override init() {
         let providerConfiguration = CXProviderConfiguration()
         providerConfiguration.supportsVideo = true
         providerConfiguration.supportedHandleTypes = [.generic]
         providerConfiguration.maximumCallsPerCallGroup = 1
         providerConfiguration.maximumCallGroups = 1
         
-        // Configure audio session for the call
         providerConfiguration.includesCallsInRecents = false
         
         provider = CXProvider(configuration: providerConfiguration)
@@ -35,12 +30,7 @@ public class CallKitManager: NSObject {
         provider.setDelegate(self, queue: nil)
     }
     
-    /// Start a new call with CallKit
-    /// - Parameters:
-    ///   - handle: A unique identifier for the call (e.g., room name or peer ID)
-    ///   - displayName: The name to display in the CallKit UI
-    /// - Throws: CallKit errors if the call cannot be started
-    public func startCall(handle: String, displayName: String = "Fishjam Call") throws {
+    public func startCallWith(displayName: String) throws {
         guard currentCallUUID == nil else {
             logger.warning("Call already in progress")
             return
@@ -49,7 +39,7 @@ public class CallKitManager: NSObject {
         let uuid = UUID()
         currentCallUUID = uuid
         
-        let handle = CXHandle(type: .generic, value: handle)
+        let handle = CXHandle(type: .generic, value: displayName)
         let startCallAction = CXStartCallAction(call: uuid, handle: handle)
         startCallAction.isVideo = true
         startCallAction.contactIdentifier = displayName
@@ -71,7 +61,6 @@ public class CallKitManager: NSObject {
         }
     }
     
-    /// End the current call
     public func endCall() {
         guard let uuid = currentCallUUID else {
             logger.warning("No active call to end")
@@ -90,20 +79,7 @@ public class CallKitManager: NSObject {
             self?.cleanup()
         }
     }
-    
-    /// Update the active call's audio session
-    public func configureAudioSession() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetooth, .allowBluetoothA2DP])
-            try audioSession.setActive(true)
-            logger.info("Audio session configured for call")
-        } catch {
-            logger.error("Failed to configure audio session: \(error.localizedDescription)")
-        }
-    }
-    
-    /// Check if there is an active call
+
     public var hasActiveCall: Bool {
         return currentCallUUID != nil && isCallActive
     }
@@ -114,8 +90,6 @@ public class CallKitManager: NSObject {
     }
 }
 
-// MARK: - CXProviderDelegate
-@available(iOS 10.0, *)
 extension CallKitManager: CXProviderDelegate {
     public func providerDidReset(_ provider: CXProvider) {
         logger.info("Provider did reset")
@@ -123,7 +97,6 @@ extension CallKitManager: CXProviderDelegate {
     }
     
     public func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
-        configureAudioSession()
         action.fulfill()
     }
     
@@ -136,18 +109,16 @@ extension CallKitManager: CXProviderDelegate {
     
     public func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         logger.info("Call answered by user")
-        configureAudioSession()
-        onCallAnswered?()
         action.fulfill()
     }
     
     public func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
-        // Handle call hold/unhold
-        action.fulfill()
+        // Hold/unhold not supported
+        action.fail()
     }
     
     public func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
-        // Handle mute/unmute
+        onCallMuted?(action.isMuted)
         action.fulfill()
     }
     

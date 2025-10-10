@@ -63,55 +63,20 @@ public class FishjamClient {
         self.client = FishjamClientInternal(listener: listener, websocketFactory: websocketFactory)
     }
     
-    /**
-     * Enables CallKit integration for proper iOS call handling
-     * This helps keep the app active during calls and provides native call UI
-     * 
-     * @param localizedCallerName - The name to display for calls (e.g., app name)
-     */
-    @available(iOS 10.0, *)
-    public func enableCallKit(localizedCallerName: String = "Fishjam") {
+    public func startCallKitSessionWith(displayName: String) throws {
         if callKitManager == nil {
-            callKitManager = CallKitManager(localizedCallerName: localizedCallerName)
+            callKitManager = CallKitManager()
             callKitManager?.onCallEnded = { [weak self] in
-                // Automatically leave the room when the call is ended via CallKit
                 self?.leave()
             }
         }
+        try callKitManager?.startCallWith(displayName: displayName)
     }
     
-    /**
-     * Starts a CallKit call session
-     * This should be called when joining a room to enable proper iOS call integration
-     * 
-     * @param handle - A unique identifier for the call (e.g., room name)
-     * @param displayName - The name to display in the CallKit UI
-     */
-    @available(iOS 10.0, *)
-    public func startCallKitSession(handle: String, displayName: String = "Fishjam Call") throws {
-        guard let callKitManager = callKitManager else {
-            throw NSError(
-                domain: "FishjamClient",
-                code: -1,
-                userInfo: [NSLocalizedDescriptionKey: "CallKit is not enabled. Call enableCallKit() first."]
-            )
-        }
-        try callKitManager.startCall(handle: handle, displayName: displayName)
-    }
-    
-    /**
-     * Ends the current CallKit call session
-     * This should be called when leaving a room if CallKit is enabled
-     */
-    @available(iOS 10.0, *)
     public func endCallKitSession() {
         callKitManager?.endCall()
     }
     
-    /**
-     * Checks if there is an active CallKit session
-     */
-    @available(iOS 10.0, *)
     public var hasActiveCallKitSession: Bool {
         return callKitManager?.hasActiveCall ?? false
     }

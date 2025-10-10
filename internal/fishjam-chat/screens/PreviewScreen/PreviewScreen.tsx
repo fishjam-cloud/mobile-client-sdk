@@ -3,7 +3,6 @@ import {
   useMicrophone,
   useConnection,
   VideoPreviewView,
-  useCallKit,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -52,7 +51,6 @@ function PreviewScreen({
   } = useCamera();
   const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
   const { joinRoom, leaveRoom } = useConnection();
-  const { startCallKitSession, isCallKitAvailable } = useCallKit();
 
   const toggleSwitchCamera = () => {
     const camera =
@@ -86,18 +84,6 @@ function PreviewScreen({
         },
       });
       unsubscribeBeforeRemove();
-
-      // Start CallKit session on iOS for better background handling
-      if (isCallKitAvailable) {
-        try {
-          await startCallKitSession(
-            route.params.fishjamId,
-            `Call with ${route.params.userName || 'Fishjam Chat'}`,
-          );
-        } catch (error) {
-          console.warn('Failed to start CallKit session:', error);
-        }
-      }
 
       navigation.navigate('Room', {
         isCameraOn,
