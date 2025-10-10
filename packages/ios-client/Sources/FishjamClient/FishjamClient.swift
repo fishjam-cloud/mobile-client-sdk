@@ -1,6 +1,6 @@
+import CallKit
 import Starscream
 import WebRTC
-import CallKit
 
 public struct ConnectConfig {
     var websocketUrl: String
@@ -62,7 +62,7 @@ public class FishjamClient {
     public init(listener: FishjamClientListener) {
         self.client = FishjamClientInternal(listener: listener, websocketFactory: websocketFactory)
     }
-    
+
     public func startCallKitSessionWith(displayName: String) throws {
         if callKitManager == nil {
             callKitManager = CallKitManager()
@@ -72,11 +72,11 @@ public class FishjamClient {
         }
         try callKitManager?.startCallWith(displayName: displayName)
     }
-    
+
     public func endCallKitSession() {
         callKitManager?.endCall()
     }
-    
+
     public var hasActiveCallKitSession: Bool {
         return callKitManager?.hasActiveCall ?? false
     }

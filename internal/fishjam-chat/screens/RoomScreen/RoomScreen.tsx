@@ -10,7 +10,7 @@ import {
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {
@@ -49,7 +49,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { leaveRoom } = useConnection();
 
-  const onDisconnectPress = useCallback(async () => {
+  const onDisconnectPress = useCallback(() => {
     leaveRoom();
     navigation.navigate('Home');
   }, [navigation, leaveRoom]);
