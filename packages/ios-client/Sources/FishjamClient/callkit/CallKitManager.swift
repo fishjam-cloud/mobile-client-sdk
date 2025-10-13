@@ -29,7 +29,7 @@ public class CallKitManager: NSObject {
         provider.setDelegate(self, queue: nil)
     }
 
-    public func startCallWith(displayName: String) throws {
+    public func startCallWith(displayName: String, isVideo: Bool) throws {
         guard currentCallUUID == nil else {
             logger.warning("Call already in progress")
             return
@@ -40,7 +40,7 @@ public class CallKitManager: NSObject {
 
         let handle = CXHandle(type: .generic, value: displayName)
         let startCallAction = CXStartCallAction(call: uuid, handle: handle)
-        startCallAction.isVideo = true
+        startCallAction.isVideo = isVideo
         startCallAction.contactIdentifier = displayName
 
         let transaction = CXTransaction(action: startCallAction)
@@ -66,8 +66,7 @@ public class CallKitManager: NSObject {
             return
         }
 
-        let endCallAction = CXEndCallAction(call: uuid)
-        let transaction = CXTransaction(action: endCallAction)
+        let transaction = CXTransaction(action: CXEndCallAction(call: uuid))
 
         callController.request(transaction) { [weak self] error in
             if let error = error {
@@ -75,6 +74,7 @@ public class CallKitManager: NSObject {
             } else {
                 self?.logger.info("Call ended successfully")
             }
+            self?.onCallEnded?()
             self?.cleanup()
         }
     }
@@ -100,14 +100,12 @@ extension CallKitManager: CXProviderDelegate {
     }
 
     public func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        logger.info("Call ended by user")
         onCallEnded?()
         action.fulfill()
         cleanup()
     }
 
     public func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        logger.info("Call answered by user")
         action.fulfill()
     }
 
@@ -123,13 +121,6 @@ extension CallKitManager: CXProviderDelegate {
 
     public func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
         logger.info("Audio session activated")
-        
-        do {
-            try audioSession.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetoothHFP, .allowBluetoothA2DP])
-            try audioSession.setActive(true)
-        } catch {
-            logger.error("Failed to configure audio session: \(error.localizedDescription)")
-        }
     }
 
     public func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {

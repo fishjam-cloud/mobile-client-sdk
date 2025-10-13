@@ -273,8 +273,8 @@ public class RNFishjamClientModule: Module {
             )
         }
         
-        AsyncFunction("startCallKitSession") { (displayName: String) in
-            try rnFishjamClient.startCallKitSessionWith(displayName: displayName)
+        AsyncFunction("startCallKitSession") { (displayName: String, isVideo: Bool? ) in
+            try rnFishjamClient.startCallKitSessionWith(displayName: displayName, isVideo: isVideo ?? true)
         }
         
         AsyncFunction("endCallKitSession") {

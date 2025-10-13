@@ -63,7 +63,7 @@ const RoomScreen = ({ navigation, route }: Props) => {
     enableMicrophone: isMicrophoneOn,
   });
 
-  useCallKitService(userName ?? defaultUserName);
+  useCallKitService(userName ?? defaultUserName, true);
 
   const onToggleScreenShare = useCallback(async () => {
     await toggleScreenShare({

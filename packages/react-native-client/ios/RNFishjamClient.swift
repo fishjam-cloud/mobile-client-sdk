@@ -947,7 +947,7 @@ class RNFishjamClient: FishjamClientListener {
         fishjamClient?.remove(customSource: customSource)
     }
     
-    public func startCallKitSessionWith(displayName: String) throws {
+    public func startCallKitSessionWith(displayName: String, isVideo: Bool) throws {
         if callKitManager == nil {
             callKitManager = CallKitManager()
             callKitManager?.onCallEnded = { [weak self] in
@@ -964,7 +964,7 @@ class RNFishjamClient: FishjamClientListener {
                 
             }
         }
-        try callKitManager?.startCallWith(displayName: displayName)
+        try callKitManager?.startCallWith(displayName: displayName, isVideo: isVideo)
     }
     
     public func endCallKitSession() {

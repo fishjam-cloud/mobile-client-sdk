@@ -6,8 +6,9 @@ export type UseCallKitResult = {
   /**
    * Starts a CallKit session for the current call
    * @param displayName - Name to display in the CallKit UI
+   * @param isVideo - Whether the call is video or audio only
    */
-  startCallKitSession: (displayName: string) => Promise<void>;
+  startCallKitSession: (displayName: string, isVideo: boolean) => Promise<void>;
 
   /**
    * Ends the current CallKit session
@@ -21,14 +22,17 @@ export type UseCallKitResult = {
 };
 
 function useCallKitIos(): UseCallKitResult {
-  const startCallKitSession = useCallback(async (displayName: string) => {
-    try {
-      await RNFishjamClient.startCallKitSession(displayName);
-    } catch (error) {
-      console.error('Failed to start CallKit session:', error);
-      throw error;
-    }
-  }, []);
+  const startCallKitSession = useCallback(
+    async (displayName: string, isVideo: boolean) => {
+      try {
+        await RNFishjamClient.startCallKitSession(displayName, isVideo);
+      } catch (error) {
+        console.error('Failed to start CallKit session:', error);
+        throw error;
+      }
+    },
+    [],
+  );
 
   const endCallKitSession = useCallback(async () => {
     try {
@@ -50,16 +54,16 @@ function useCallKitIos(): UseCallKitResult {
   };
 }
 
-const useCallKitServiceIos = (displayName: string) => {
+const useCallKitServiceIos = (displayName: string, isVideo: boolean) => {
   const { startCallKitSession, endCallKitSession } = useCallKitIos();
 
   useEffect(() => {
-    startCallKitSession(displayName);
+    startCallKitSession(displayName, isVideo);
 
     return () => {
       endCallKitSession();
     };
-  }, [startCallKitSession, endCallKitSession, displayName]);
+  }, [startCallKitSession, endCallKitSession, displayName, isVideo]);
 };
 
 const emptyFunction = () => {};

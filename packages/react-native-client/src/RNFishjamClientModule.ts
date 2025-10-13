@@ -93,7 +93,7 @@ type RNFishjamClient = {
   requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
   startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
   stopForegroundService: () => void;
-  startCallKitSession: (displayName: string) => Promise<void>;
+  startCallKitSession: (displayName: string, isVideo: boolean) => Promise<void>;
   endCallKitSession: () => Promise<void>;
 };
 
