@@ -26,6 +26,8 @@ class FishjamClientInternal {
     private(set) var localEndpoint: Endpoint = Endpoint(id: "")
     private var prevTracks: [Track] = []
     private var remoteEndpointsMap: [String: Endpoint] = [:]
+    
+    private(set) var lastSdpAnswer: SdpInfo?
 
     private var packageVersion: String {
         let url = Bundle.main.url(forResource: "package", withExtension: "json")!
@@ -800,6 +802,14 @@ extension FishjamClientInternal: RTCEngineListener {
 
     func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
+        
+        lastSdpAnswer = SdpInfo(sdp: sdp)
+        
+        if let codec = lastSdpAnswer?.detectedCodec {
+            sdkLogger.info("Detected \(codec.rawValue) codec in SDP answer")
+        } else {
+            sdkLogger.warning("Could not detect video codec from SDP answer")
+        }
 
         localEndpoint.tracks.values.forEach { track in
             if track is LocalAudioTrack {
@@ -822,7 +832,7 @@ extension FishjamClientInternal: RTCEngineListener {
             }
         }
 
-        if sdp.contains("a=inactive") {
+        if lastSdpAnswer?.hasInactiveMedia() == true {
             listener.onIncompatibleTracksDetected()
         }
 

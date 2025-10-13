@@ -431,6 +431,13 @@ class RNFishjamClient: FishjamClientListener {
             }
             return
         }
+        
+        if RNFishjamClient.fishjamClient?.lastSdpAnswer?.detectedCodec != .h264 {
+            emit(event: .warning(
+                message: "Incompatible codec detected: \(RNFishjamClient.fishjamClient?.lastSdpAnswer?.detectedCodec?.rawValue ?? "Unknown"). Screen sharing requires H264, otherwise  UploadBroadcastExtenstion will crash due to memory pressure (no hardware acceleration). " +
+                         "Please configure your Fishjam room to use H264 codec for better screen sharing performance."
+            ))
+        }
 
         let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
 
