@@ -7,6 +7,7 @@ import {
   usePeers,
   useScreenShare,
   useCallKitService,
+  useCallKitEvent,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -23,7 +24,6 @@ import type { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
 import { ToggleAppScreenButton } from './ToggleAppScreenShare.ios';
-import { useCallKitEvent } from '@fishjam-cloud/react-native-client/build/hooks/useCallKit';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {

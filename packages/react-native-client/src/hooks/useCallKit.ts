@@ -14,8 +14,7 @@ export type CallKitAction = {
 export type UseCallKitResult = {
   /**
    * Starts a CallKit session for the current call
-   * @param displayName - Name to display in the CallKit UI
-   * @param isVideo - Whether the call is video or audio only
+   * @param config - Configuration object containing displayName and isVideo
    */
   startCallKitSession: (config: CallKitConfig) => Promise<void>;
 
@@ -25,13 +24,19 @@ export type UseCallKitResult = {
   endCallKitSession: () => Promise<void>;
 
   /**
-   * Whether there is currently an active CallKit session
+   * Returns whether there is currently an active CallKit session
    */
   getCallKitSessionStatus: () => Promise<boolean>;
 };
 
 export type CallKitConfig = {
+  /**
+   * The name to display in the CallKit UI
+   */
   displayName: string;
+  /**
+   * Whether the should support video
+   */
   isVideo: boolean;
 };
 
