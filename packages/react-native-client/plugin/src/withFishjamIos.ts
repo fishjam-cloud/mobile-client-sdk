@@ -355,8 +355,7 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
   });
 
 /**
- * Adds VoIP background mode to keep the app running during calls
- * This enables voip background mode to keep the app alive when in call
+ * Adds iOS VoIP background mode to keep the app running during calls
  */
 const withFishjamVoIPBackgroundMode: ConfigPlugin<FishjamPluginOptions> = (
   config,

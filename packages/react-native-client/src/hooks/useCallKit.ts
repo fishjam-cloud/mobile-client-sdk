@@ -8,7 +8,7 @@ export type UseCallKitResult = {
    * @param displayName - Name to display in the CallKit UI
    * @param isVideo - Whether the call is video or audio only
    */
-  startCallKitSession: (displayName: string, isVideo: boolean) => Promise<void>;
+  startCallKitSession: (config: CallKitConfig) => Promise<void>;
 
   /**
    * Ends the current CallKit session
@@ -21,9 +21,14 @@ export type UseCallKitResult = {
   getCallKitSessionStatus: () => Promise<boolean>;
 };
 
+export type CallKitConfig = {
+  displayName: string;
+  isVideo: boolean;
+};
+
 function useCallKitIos(): UseCallKitResult {
   const startCallKitSession = useCallback(
-    async (displayName: string, isVideo: boolean) => {
+    async ({ displayName, isVideo }: CallKitConfig) => {
       try {
         await RNFishjamClient.startCallKitSession(displayName, isVideo);
       } catch (error) {
@@ -54,11 +59,13 @@ function useCallKitIos(): UseCallKitResult {
   };
 }
 
-const useCallKitServiceIos = (displayName: string, isVideo: boolean) => {
+const useCallKitServiceIos = (config: CallKitConfig) => {
+  const { displayName, isVideo } = config;
+
   const { startCallKitSession, endCallKitSession } = useCallKitIos();
 
   useEffect(() => {
-    startCallKitSession(displayName, isVideo);
+    startCallKitSession({ displayName, isVideo });
 
     return () => {
       endCallKitSession();
@@ -74,7 +81,7 @@ const emptyFunction = () => {};
  * phone UI and controls. Use this hook when you need fine-grained control over the CallKit session lifecycle.
  *
  * @returns {UseCallKitResult} An object containing methods to manage CallKit sessions:
- *  - `startCallKitSession(displayName: string)` - Starts a CallKit session with the given display name
+ *  - `startCallKitSession(config: CallKitConfig)` - Starts a CallKit session with the given configuration
  *  - `endCallKitSession()` - Ends the current CallKit session
  *  - `getCallKitSessionStatus()` - Returns whether there is currently an active CallKit session
  *
@@ -86,7 +93,7 @@ const emptyFunction = () => {};
  * const { startCallKitSession, endCallKitSession } = useCallKit();
  *
  * // Start a CallKit session
- * await startCallKitSession('John Doe');
+ * await startCallKitSession({ displayName: 'John Doe', isVideo: true });
  *
  * // Later, end the session
  * await endCallKitSession();
@@ -102,7 +109,9 @@ export const useCallKit = Platform.select({
  * This hook automatically starts a CallKit session when the component mounts and ends it when the component unmounts.
  * Use this hook when you want CallKit to be active for the entire lifetime of a component (e.g., during a call).
  *
- * @param {string} displayName - The name to display in the CallKit UI (e.g., username, call title)
+ * @param {CallKitConfig} config - Configuration object containing:
+ *  - `displayName` - The name to display in the CallKit UI (e.g., username, call title)
+ *  - `isVideo` - Whether the call is video or audio only
  *
  * @group Hooks
  * @category Connection
@@ -112,7 +121,7 @@ export const useCallKit = Platform.select({
  * function CallScreen({ username }) {
  *   // CallKit session will automatically start when this component mounts
  *   // and end when it unmounts
- *   useCallKitService(username);
+ *   useCallKitService({ displayName: username, isVideo: true });
  *
  *   return <View>...</View>;
  * }
