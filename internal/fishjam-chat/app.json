@@ -65,7 +65,8 @@
             "enableForegroundService": true
           },
           "ios": {
-            "enableScreensharing": true
+            "enableScreensharing": true,
+            "enableVoIPBackgroundMode": true
           }
         }
       ],

@@ -7,6 +7,7 @@ import WebRTC
 
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
+    private var callKitManager: CallKitManager?
 
     var isMicrophoneOn = false
     var isCameraOn = false
@@ -429,6 +430,13 @@ class RNFishjamClient: FishjamClientListener {
                 RPSystemBroadcastPickerView.show(for: screenShareExtensionBundleId)
             }
             return
+        }
+        
+        if RNFishjamClient.fishjamClient?.lastSdpAnswer?.detectedCodec != .h264 {
+            emit(event: .warning(
+                message: "Incompatible codec detected: \(RNFishjamClient.fishjamClient?.lastSdpAnswer?.detectedCodec?.rawValue ?? "Unknown"). Screen sharing requires H264, otherwise  UploadBroadcastExtenstion will crash due to memory pressure (no hardware acceleration). " +
+                         "Please configure your Fishjam room to use H264 codec for better screen sharing performance."
+            ))
         }
 
         let simulcastConfig = try getSimulcastConfigFromOptions(simulcastConfig: screenShareOptions.simulcastConfig)
@@ -944,6 +952,36 @@ class RNFishjamClient: FishjamClientListener {
 
     static func remove(customSource: CustomSource) {
         fishjamClient?.remove(customSource: customSource)
+    }
+    
+    public func startCallKitSessionWith(displayName: String, isVideo: Bool) throws {
+        if callKitManager == nil {
+            callKitManager = CallKitManager()
+            callKitManager?.onCallStarted = { [weak self] in
+                self?.emit(event: .callKitActionPerformed(.started))
+            }
+            callKitManager?.onCallEnded = { [weak self] in
+                self?.emit(event: .callKitActionPerformed(.ended))
+            }
+            callKitManager?.onCallFailed = { [weak self] reason in
+                self?.emit(event: .callKitActionPerformed(.failed(reason)))
+            }
+            callKitManager?.onCallMuted = { [weak self] isMuted in
+                self?.emit(event: .callKitActionPerformed(.muted(isMuted)))
+            }
+            callKitManager?.onCallHeld = { [weak self] isOnHold in
+                self?.emit(event: .callKitActionPerformed(.held(isOnHold)))
+            }
+        }
+        try callKitManager?.startCallWith(displayName: displayName, isVideo: isVideo)
+    }
+    
+    public func endCallKitSession() {
+        callKitManager?.endCall()
+    }
+
+    public var hasActiveCallKitSession: Bool {
+        return callKitManager?.hasActiveCall ?? false
     }
 }
 

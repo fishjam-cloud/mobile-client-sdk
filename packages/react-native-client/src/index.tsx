@@ -68,6 +68,11 @@ export type {
 } from './hooks/useConnection';
 export type { AppScreenShareData } from './hooks/useAppScreenShare';
 export type { UseSandboxProps } from './hooks/useSandbox';
+export type {
+  UseCallKitResult,
+  CallKitConfig,
+  CallKitAction,
+} from './hooks/useCallKit';
 // #endregion
 
 // #region hooks
@@ -84,6 +89,11 @@ export { useForegroundService } from './hooks/useForegroundService';
 export { useConnection } from './hooks/useConnection';
 export { useUpdatePeerMetadata } from './hooks/useUpdatePeerMetadata';
 export { useSandbox } from './hooks/useSandbox';
+export {
+  useCallKitService,
+  useCallKit,
+  useCallKitEvent,
+} from './hooks/useCallKit';
 // #endregion
 
 export {

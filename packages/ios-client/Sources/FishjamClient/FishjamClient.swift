@@ -279,4 +279,8 @@ public class FishjamClient {
     public func getRemoteEndpoints() -> [Endpoint] {
         return client.remoteEndpoints
     }
+
+    public var lastSdpAnswer: SdpInfo? {
+        return client.lastSdpAnswer
+    }
 }

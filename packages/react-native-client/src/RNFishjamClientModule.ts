@@ -17,6 +17,7 @@ import type { ForegroundServiceConfig } from './hooks/useForegroundService';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { GenericMetadata, SimulcastConfig } from './types';
+import type { CallKitAction } from './hooks/useCallKit';
 
 type Metadata = { [key: string]: unknown };
 
@@ -30,6 +31,7 @@ type RNFishjamClient = {
   peerStatus: PeerStatus;
   reconnectionStatus: ReconnectionStatus;
   isCameraInitialized: boolean;
+  hasActiveCallKitSession: boolean;
 
   getPeers: <
     PeerMetadataType extends Metadata,
@@ -86,12 +88,14 @@ type RNFishjamClient = {
   setVideoTrackBandwidth: (bandwidth: number) => Promise<void>;
   changeWebRTCLoggingSeverity: (severity: string) => Promise<void>;
   getStatistics: () => Promise<RTCStats>;
-  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
-  stopForegroundService: () => void;
   getCameraPermissionsAsync: () => Promise<PermissionResponse>;
   requestCameraPermissionsAsync: () => Promise<PermissionResponse>;
   getMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
   requestMicrophonePermissionsAsync: () => Promise<PermissionResponse>;
+  startForegroundService: (config: ForegroundServiceConfig) => Promise<void>;
+  stopForegroundService: () => void;
+  startCallKitSession: (displayName: string, isVideo: boolean) => Promise<void>;
+  endCallKitSession: () => Promise<void>;
 };
 
 export const ReceivableEvents = {
@@ -110,6 +114,7 @@ export const ReceivableEvents = {
   ReconnectionStatusChanged: 'ReconnectionStatusChanged',
   CurrentCameraChanged: 'CurrentCameraChanged',
   TrackAspectRatioUpdated: 'TrackAspectRatioUpdated',
+  CallKitActionPerformed: 'CallKitActionPerformed',
 } as const;
 
 export type ReceivableEventPayloads = {
@@ -131,6 +136,7 @@ export type ReceivableEventPayloads = {
     trackId: string;
     aspectRatio: number | null;
   };
+  [ReceivableEvents.CallKitActionPerformed]: CallKitAction;
 };
 
 export default requireNativeModule('RNFishjamClient') as RNFishjamClient &

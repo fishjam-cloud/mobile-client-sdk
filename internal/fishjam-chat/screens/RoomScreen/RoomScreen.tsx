@@ -6,6 +6,8 @@ import {
   useMicrophone,
   usePeers,
   useScreenShare,
+  useCallKitService,
+  useCallKitEvent,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -40,7 +42,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { isCameraOn, toggleCamera, cameras, currentCamera, switchCamera } =
     useCamera();
-  const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
+  const { isMicrophoneOn, toggleMicrophone, startMicrophone, stopMicrophone } =
+    useMicrophone();
 
   const { localPeer, remotePeers } = usePeers<PeerMetadata>();
 
@@ -60,6 +63,32 @@ const RoomScreen = ({ navigation, route }: Props) => {
     notificationContent: 'Tap to return to the call.',
     enableCamera: isCameraOn,
     enableMicrophone: isMicrophoneOn,
+  });
+
+  useCallKitService({
+    displayName: userName ?? defaultUserName,
+    isVideo: true,
+  });
+
+  useCallKitEvent('ended', () => {
+    leaveRoom();
+    navigation.navigate('Home');
+  });
+
+  useCallKitEvent('muted', (isMuted) => {
+    if (isMuted) {
+      stopMicrophone();
+    } else {
+      startMicrophone();
+    }
+  });
+
+  useCallKitEvent('held', (isHeld) => {
+    if (isHeld) {
+      stopMicrophone();
+    } else {
+      startMicrophone();
+    }
   });
 
   const onToggleScreenShare = useCallback(async () => {

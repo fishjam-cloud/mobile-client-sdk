@@ -355,6 +355,26 @@ const withFishjamPictureInPicture: ConfigPlugin<FishjamPluginOptions> = (
   });
 
 /**
+ * Adds iOS VoIP background mode to keep the app running during calls
+ */
+const withFishjamVoIPBackgroundMode: ConfigPlugin<FishjamPluginOptions> = (
+  config,
+  props,
+) =>
+  withInfoPlist(config, (configuration) => {
+    if (props?.ios?.enableVoIPBackgroundMode) {
+      const backgroundModes = new Set(
+        configuration.modResults.UIBackgroundModes ?? [],
+      );
+      backgroundModes.add('voip');
+
+      configuration.modResults.UIBackgroundModes = Array.from(backgroundModes);
+    }
+
+    return configuration;
+  });
+
+/**
  * Applies screen sharing plugin if enabled. In order for screensharing to work, we need to copy extension files to your iOS project.
  * Allows for dynamically changing deploymentTarget.
  */
@@ -370,6 +390,7 @@ const withFishjamIos: ConfigPlugin<FishjamPluginOptions> = (config, props) => {
     return configuration;
   });
   config = withFishjamPictureInPicture(config, props);
+  config = withFishjamVoIPBackgroundMode(config, props);
 
   return config;
 };
