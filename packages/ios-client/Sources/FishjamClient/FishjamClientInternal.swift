@@ -26,7 +26,7 @@ class FishjamClientInternal {
     private(set) var localEndpoint: Endpoint = Endpoint(id: "")
     private var prevTracks: [Track] = []
     private var remoteEndpointsMap: [String: Endpoint] = [:]
-    
+
     private(set) var lastSdpAnswer: SdpInfo?
 
     private var packageVersion: String {
@@ -802,9 +802,9 @@ extension FishjamClientInternal: RTCEngineListener {
 
     func onSdpAnswer(sdp: String, midToTrackId: [String: String]) {
         peerConnectionManager.onSdpAnswer(sdp: sdp, midToTrackId: midToTrackId)
-        
+
         lastSdpAnswer = SdpInfo(sdp: sdp)
-        
+
         if let codec = lastSdpAnswer?.detectedCodec {
             sdkLogger.info("Detected \(codec.rawValue) codec in SDP answer")
         } else {

@@ -62,7 +62,6 @@ public class FishjamClient {
         self.client = FishjamClientInternal(listener: listener, websocketFactory: websocketFactory)
     }
 
-
     /**
     * Connects to the server using the WebSocket connection
     *
@@ -281,7 +280,7 @@ public class FishjamClient {
     public func getRemoteEndpoints() -> [Endpoint] {
         return client.remoteEndpoints
     }
-    
+
     public var lastSdpAnswer: SdpInfo? {
         return client.lastSdpAnswer
     }
