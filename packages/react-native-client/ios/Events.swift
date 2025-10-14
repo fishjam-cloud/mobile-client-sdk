@@ -8,6 +8,14 @@ enum PeerStatus: String {
     case idle
 }
 
+enum CallKitAction {
+    case started
+    case ended
+    case failed(String)
+    case held(Bool)
+    case muted(Bool)
+}
+
 class EmitableEvent {
     enum EventName: String, CaseIterable {
         case IsMicrophoneOn
@@ -22,6 +30,7 @@ class EmitableEvent {
         case ReconnectionStatusChanged
         case CurrentCameraChanged
         case TrackAspectRatioUpdated
+        case CallKitActionPerformed
 
         var name: String {
             rawValue
@@ -118,6 +127,23 @@ class EmitableEvent {
                 "selectedDevice": ["name": output.portName, "type": deviceTypeString],
                 "availableDevices": [],
             ])
+    }
+    
+    static func callKitActionPerformed(_ action: CallKitAction) -> EmitableEvent {
+        let eventContent: [String: Any?]
+        switch action {
+        case .started:
+            eventContent = ["started": nil]
+        case .ended:
+            eventContent = ["ended": nil]
+        case .failed(let reason):
+            eventContent = ["failed": reason]
+        case .muted(let isMuted):
+            eventContent = ["muted": isMuted]
+        case .held(let isOnHold):
+            eventContent = ["held": isOnHold]
+        }
+        return .init(event: .CallKitActionPerformed, eventContent: eventContent)
     }
 
     static var allEvents: [String] {

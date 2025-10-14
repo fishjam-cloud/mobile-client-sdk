@@ -23,6 +23,7 @@ import type { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
 import { ToggleAppScreenButton } from './ToggleAppScreenShare.ios';
+import { useCallKitEvent } from '@fishjam-cloud/react-native-client/build/hooks/useCallKit';
 
 type Props = NativeStackScreenProps<AppRootStackParamList, 'Room'>;
 const {
@@ -41,7 +42,8 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { isCameraOn, toggleCamera, cameras, currentCamera, switchCamera } =
     useCamera();
-  const { isMicrophoneOn, toggleMicrophone } = useMicrophone();
+  const { isMicrophoneOn, toggleMicrophone, startMicrophone, stopMicrophone } =
+    useMicrophone();
 
   const { localPeer, remotePeers } = usePeers<PeerMetadata>();
 
@@ -63,7 +65,31 @@ const RoomScreen = ({ navigation, route }: Props) => {
     enableMicrophone: isMicrophoneOn,
   });
 
-  useCallKitService(userName ?? defaultUserName, true);
+  useCallKitService({
+    displayName: userName ?? defaultUserName,
+    isVideo: true,
+  });
+
+  useCallKitEvent('ended', () => {
+    leaveRoom();
+    navigation.navigate('Home');
+  });
+
+  useCallKitEvent('muted', (isMuted) => {
+    if (isMuted) {
+      stopMicrophone();
+    } else {
+      startMicrophone();
+    }
+  });
+
+  useCallKitEvent('held', (isHeld) => {
+    if (isHeld) {
+      stopMicrophone();
+    } else {
+      startMicrophone();
+    }
+  });
 
   const onToggleScreenShare = useCallback(async () => {
     await toggleScreenShare({

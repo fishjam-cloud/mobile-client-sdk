@@ -1,6 +1,15 @@
 import { useCallback, useEffect } from 'react';
 import { Platform } from 'react-native';
-import RNFishjamClient from '../RNFishjamClientModule';
+import RNFishjamClient, { ReceivableEvents } from '../RNFishjamClientModule';
+import { useFishjamEvent } from './internal/useFishjamEvent';
+
+export type CallKitAction = {
+  ['started']: undefined;
+  ['ended']: undefined;
+  ['failed']: string;
+  ['muted']: boolean;
+  ['held']: boolean;
+};
 
 export type UseCallKitResult = {
   /**
@@ -74,6 +83,48 @@ const useCallKitServiceIos = (config: CallKitConfig) => {
 };
 
 const emptyFunction = () => {};
+
+const useCallKitEventIos = <T extends keyof CallKitAction>(
+  action: T,
+  callback: (event: CallKitAction[T]) => void,
+) => {
+  useFishjamEvent(ReceivableEvents.CallKitActionPerformed, (event) => {
+    event[action] && callback(event[action]);
+  });
+};
+
+/**
+ * A hook for listening to CallKit actions on iOS. Does nothing on other platforms.
+ * This hook allows you to respond to user interactions with the native iOS CallKit interface,
+ * such as muting/unmuting the call, putting the call on hold, or ending the call from the
+ * system's phone UI or lock screen controls.
+ *
+ * @param {keyof CallKitAction} action - The CallKit action to listen for. Available actions:
+ *  - `'started'` - CallKit session has started
+ *  - `'ended'` - User ended the call from CallKit UI
+ *  - `'failed'` - CallKit session failed to start
+ *  - `'muted'` - User toggled mute from CallKit UI
+ *  - `'held'` - User toggled hold from CallKit UI
+ *
+ * @param {Function} callback - Function called when the specified action occurs.
+ *
+ * @group Hooks
+ * @category Connection
+ *
+ * @example
+ * ```typescript
+ * // Listen for hold state changes
+ * useCallKitEvent('held', (isOnHold) => {
+ *   console.log('Call hold state:', isOnHold);
+ *   // Handle hold state in your app
+ * });
+ 
+ * ```
+ */
+export const useCallKitEvent = Platform.select({
+  ios: useCallKitEventIos,
+  default: emptyFunction,
+});
 
 /**
  * A hook for managing CallKit sessions on iOS. Does nothing on other platforms.

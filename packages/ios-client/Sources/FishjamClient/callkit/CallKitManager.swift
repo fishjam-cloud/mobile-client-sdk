@@ -8,9 +8,11 @@ public class CallKitManager: NSObject {
     private let callController = CXCallController()
     private let provider: CXProvider
     private var currentCallUUID: UUID?
-    private var isCallActive = false
 
+    public var onCallStarted: (() -> Void)?
+    public var onCallFailed: ((String) -> Void)?
     public var onCallEnded: (() -> Void)?
+    public var onCallHeld: ((Bool) -> Void)?
     public var onCallMuted: ((Bool) -> Void)?
 
     public override init() {
@@ -46,16 +48,19 @@ public class CallKitManager: NSObject {
         let transaction = CXTransaction(action: startCallAction)
 
         callController.request(transaction) { [weak self] error in
+            guard let self else { return }
             if let error = error {
-                self?.logger.error("Failed to start call: \(error.localizedDescription)")
-                self?.currentCallUUID = nil
+                self.logger.error("Failed to start call: \(error.localizedDescription)")
+                self.currentCallUUID = nil
+                self.onCallFailed?(error.localizedDescription)
+                self.cleanup()
             } else {
-                self?.logger.info("Call started successfully")
-                self?.isCallActive = true
+                self.logger.info("Call started successfully")
 
                 // Report the call to the provider so it shows in the UI
-                self?.provider.reportOutgoingCall(with: uuid, startedConnectingAt: Date())
-                self?.provider.reportOutgoingCall(with: uuid, connectedAt: Date())
+                self.provider.reportOutgoingCall(with: uuid, startedConnectingAt: Date())
+                self.provider.reportOutgoingCall(with: uuid, connectedAt: Date())
+                self.onCallStarted?()
             }
         }
     }
@@ -73,19 +78,18 @@ public class CallKitManager: NSObject {
                 self?.logger.error("Failed to end call: \(error.localizedDescription)")
             } else {
                 self?.logger.info("Call ended successfully")
+                self?.onCallEnded?()
+                self?.cleanup()
             }
-            self?.onCallEnded?()
-            self?.cleanup()
         }
     }
 
     public var hasActiveCall: Bool {
-        return currentCallUUID != nil && isCallActive
+        return currentCallUUID != nil
     }
 
     private func cleanup() {
         currentCallUUID = nil
-        isCallActive = false
     }
 }
 
@@ -110,8 +114,8 @@ extension CallKitManager: CXProviderDelegate {
     }
 
     public func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
-        // Hold/unhold not supported
-        action.fail()
+        onCallHeld?(action.isOnHold)
+        action.fulfill()
     }
 
     public func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
@@ -119,11 +123,7 @@ extension CallKitManager: CXProviderDelegate {
         action.fulfill()
     }
 
-    public func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
-        logger.info("Audio session activated")
-    }
-
-    public func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
-        logger.info("Audio session deactivated")
+    public func provider(_ provider: CXProvider, perform action: CXSetGroupCallAction) {
+        action.fail()
     }
 }

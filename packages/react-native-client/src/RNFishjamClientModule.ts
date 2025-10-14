@@ -17,6 +17,7 @@ import type { ForegroundServiceConfig } from './hooks/useForegroundService';
 import type { Peer } from './hooks/usePeers';
 import type { ScreenShareOptionsInternal } from './hooks/useScreenShare';
 import type { GenericMetadata, SimulcastConfig } from './types';
+import type { CallKitAction } from './hooks/useCallKit';
 
 type Metadata = { [key: string]: unknown };
 
@@ -113,6 +114,7 @@ export const ReceivableEvents = {
   ReconnectionStatusChanged: 'ReconnectionStatusChanged',
   CurrentCameraChanged: 'CurrentCameraChanged',
   TrackAspectRatioUpdated: 'TrackAspectRatioUpdated',
+  CallKitActionPerformed: 'CallKitActionPerformed',
 } as const;
 
 export type ReceivableEventPayloads = {
@@ -134,6 +136,7 @@ export type ReceivableEventPayloads = {
     trackId: string;
     aspectRatio: number | null;
   };
+  [ReceivableEvents.CallKitActionPerformed]: CallKitAction;
 };
 
 export default requireNativeModule('RNFishjamClient') as RNFishjamClient &

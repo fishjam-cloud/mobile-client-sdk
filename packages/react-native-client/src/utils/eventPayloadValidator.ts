@@ -35,6 +35,14 @@ const TrackAspectRatioUpdatedEventSchema = z.object({
   aspectRatio: z.number(),
 });
 
+const CallKitActionSchema = z.union([
+  z.object({ started: z.null() }),
+  z.object({ ended: z.null() }),
+  z.object({ failed: z.string() }),
+  z.object({ muted: z.boolean() }),
+  z.object({ held: z.boolean() }),
+]);
+
 export function validateNativeEventPayload<
   T extends keyof typeof ReceivableEvents,
 >(eventName: T, payload: ReceivableEventPayloads[T]): void {
@@ -75,9 +83,13 @@ export function validateNativeEventPayload<
       break;
 
     case ReceivableEvents.ReconnectionStatusChanged:
-      z.enum(['connecting', 'connected', 'error', 'reconnecting']).parse(
-        payload,
-      );
+      z.enum([
+        'connecting',
+        'connected',
+        'error',
+        'reconnecting',
+        'idle',
+      ]).parse(payload);
       break;
 
     case ReceivableEvents.CurrentCameraChanged:
@@ -86,6 +98,10 @@ export function validateNativeEventPayload<
 
     case ReceivableEvents.TrackAspectRatioUpdated:
       TrackAspectRatioUpdatedEventSchema.parse(payload);
+      break;
+
+    case ReceivableEvents.CallKitActionPerformed:
+      CallKitActionSchema.parse(payload);
       break;
 
     default:

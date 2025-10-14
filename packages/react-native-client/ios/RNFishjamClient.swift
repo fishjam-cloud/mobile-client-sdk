@@ -957,18 +957,20 @@ class RNFishjamClient: FishjamClientListener {
     public func startCallKitSessionWith(displayName: String, isVideo: Bool) throws {
         if callKitManager == nil {
             callKitManager = CallKitManager()
+            callKitManager?.onCallStarted = { [weak self] in
+                self?.emit(event: .callKitActionPerformed(.started))
+            }
             callKitManager?.onCallEnded = { [weak self] in
-                self?.leaveRoom()
+                self?.emit(event: .callKitActionPerformed(.ended))
+            }
+            callKitManager?.onCallFailed = { [weak self] reason in
+                self?.emit(event: .callKitActionPerformed(.failed(reason)))
             }
             callKitManager?.onCallMuted = { [weak self] isMuted in
-                Task {
-                    if isMuted {
-                        try self?.stopMicrophone()
-                    } else {
-                        try await self?.startMicrophone()
-                    }
-                }
-                
+                self?.emit(event: .callKitActionPerformed(.muted(isMuted)))
+            }
+            callKitManager?.onCallHeld = { [weak self] isOnHold in
+                self?.emit(event: .callKitActionPerformed(.held(isOnHold)))
             }
         }
         try callKitManager?.startCallWith(displayName: displayName, isVideo: isVideo)
