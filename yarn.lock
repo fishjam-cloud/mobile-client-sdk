@@ -3126,7 +3126,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fishjam-cloud/react-native-client@npm:*, @fishjam-cloud/react-native-client@workspace:packages/react-native-client":
+"@fishjam-cloud/react-native-client@workspace:*, @fishjam-cloud/react-native-client@workspace:packages/react-native-client":
   version: 0.0.0-use.local
   resolution: "@fishjam-cloud/react-native-client@workspace:packages/react-native-client"
   dependencies:
@@ -3169,7 +3169,7 @@ __metadata:
   resolution: "@fishjam-example/audio-only@workspace:examples/audio-only"
   dependencies:
     "@babel/core": "npm:^7.28.0"
-    "@fishjam-cloud/react-native-client": "npm:*"
+    "@fishjam-cloud/react-native-client": "workspace:*"
     "@react-native-picker/picker": "npm:2.11.1"
     "@types/react": "npm:~19.0.10"
     eslint: "npm:^9.29.0"
@@ -3189,7 +3189,7 @@ __metadata:
   resolution: "@fishjam-example/fishjam-chat@workspace:internal/fishjam-chat"
   dependencies:
     "@babel/core": "npm:^7.28.0"
-    "@fishjam-cloud/react-native-client": "npm:*"
+    "@fishjam-cloud/react-native-client": "workspace:*"
     "@gorhom/bottom-sheet": "npm:^5.1.2"
     "@react-native-async-storage/async-storage": "npm:2.1.2"
     "@react-navigation/bottom-tabs": "npm:^6.6.1"
@@ -3230,7 +3230,7 @@ __metadata:
   resolution: "@fishjam-example/video-player@workspace:examples/video-player"
   dependencies:
     "@babel/core": "npm:^7.28.0"
-    "@fishjam-cloud/react-native-client": "npm:*"
+    "@fishjam-cloud/react-native-client": "workspace:*"
     "@types/react": "npm:~19.0.10"
     eslint: "npm:^9.29.0"
     eslint-config-expo: "npm:~9.2.0"
@@ -3252,7 +3252,7 @@ __metadata:
   resolution: "@fishjam-example/vision-camera@workspace:examples/vision-camera"
   dependencies:
     "@babel/core": "npm:^7.28.0"
-    "@fishjam-cloud/react-native-client": "npm:*"
+    "@fishjam-cloud/react-native-client": "workspace:*"
     "@types/react": "npm:~19.0.10"
     eslint: "npm:^9.29.0"
     eslint-config-expo: "npm:~9.2.0"
@@ -14408,7 +14408,7 @@ __metadata:
   resolution: "minimal-react-native@workspace:examples/minimal-react-native"
   dependencies:
     "@babel/core": "npm:^7.28.0"
-    "@fishjam-cloud/react-native-client": "npm:*"
+    "@fishjam-cloud/react-native-client": "workspace:*"
     "@react-navigation/elements": "npm:^2.5.2"
     "@react-navigation/native": "npm:^7.1.14"
     "@react-navigation/native-stack": "npm:^7.3.21"

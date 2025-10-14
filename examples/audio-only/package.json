@@ -10,7 +10,7 @@
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
-    "@fishjam-cloud/react-native-client": "*",
+    "@fishjam-cloud/react-native-client": "workspace:*",
     "@react-native-picker/picker": "2.11.1",
     "expo": "53.0.17",
     "react": "19.0.0",

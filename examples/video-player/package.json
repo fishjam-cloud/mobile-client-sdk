@@ -13,7 +13,7 @@
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
-    "@fishjam-cloud/react-native-client": "*",
+    "@fishjam-cloud/react-native-client": "workspace:*",
     "expo": "53.0.17",
     "expo-navigation-bar": "~4.2.7",
     "expo-screen-orientation": "~8.1.7",
