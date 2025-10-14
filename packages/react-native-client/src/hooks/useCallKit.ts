@@ -118,12 +118,13 @@ const useCallKitEventIos = <T extends keyof CallKitAction>(
  *
  * @example
  * ```typescript
+ * import { useCallKitEvent } from '@fishjam-cloud/react-native-client';
+ *
  * // Listen for hold state changes
- * useCallKitEvent('held', (isOnHold) => {
+ * useCallKitEvent('held', (isOnHold: boolean) => {
  *   console.log('Call hold state:', isOnHold);
  *   // Handle hold state in your app
  * });
- 
  * ```
  */
 export const useCallKitEvent = Platform.select({
@@ -146,6 +147,8 @@ export const useCallKitEvent = Platform.select({
  *
  * @example
  * ```typescript
+ * import { useCallKit } from '@fishjam-cloud/react-native-client';
+ *
  * const { startCallKitSession, endCallKitSession } = useCallKit();
  *
  * // Start a CallKit session
@@ -174,7 +177,10 @@ export const useCallKit = Platform.select({
  *
  * @example
  * ```typescript
- * function CallScreen({ username }) {
+ * import { useCallKitService } from '@fishjam-cloud/react-native-client';
+ * import { View } from 'react-native';
+ *
+ * function CallScreen({ username }: { username: string }) {
  *   // CallKit session will automatically start when this component mounts
  *   // and end when it unmounts
  *   useCallKitService({ displayName: username, isVideo: true });
