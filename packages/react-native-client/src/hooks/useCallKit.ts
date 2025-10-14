@@ -118,18 +118,19 @@ const useCallKitEventIos = <T extends keyof CallKitAction>(
  *
  * @example
  * ```typescript
+ * import { useCallKitEvent } from '@fishjam-cloud/react-native-client';
+ *
  * // Listen for hold state changes
- * useCallKitEvent('held', (isOnHold) => {
+ * useCallKitEvent('held', (isOnHold: boolean) => {
  *   console.log('Call hold state:', isOnHold);
  *   // Handle hold state in your app
  * });
- 
  * ```
  */
 export const useCallKitEvent = Platform.select({
   ios: useCallKitEventIos,
   default: emptyFunction,
-});
+}) as typeof useCallKitEventIos;
 
 /**
  * A hook for managing CallKit sessions on iOS. Does nothing on other platforms.
@@ -146,6 +147,8 @@ export const useCallKitEvent = Platform.select({
  *
  * @example
  * ```typescript
+ * import { useCallKit } from '@fishjam-cloud/react-native-client';
+ *
  * const { startCallKitSession, endCallKitSession } = useCallKit();
  *
  * // Start a CallKit session
@@ -158,7 +161,7 @@ export const useCallKitEvent = Platform.select({
 export const useCallKit = Platform.select({
   ios: useCallKitIos,
   default: emptyFunction,
-});
+}) as typeof useCallKitIos;
 
 /**
  * A convenience hook for automatically managing CallKit session lifecycle on iOS. Does nothing on other platforms.
@@ -174,16 +177,19 @@ export const useCallKit = Platform.select({
  *
  * @example
  * ```typescript
- * function CallScreen({ username }) {
+ * import React from 'react';
+ * import { useCallKitService } from '@fishjam-cloud/react-native-client';
+ *
+ * function CallScreen({ username }: { username: string }) {
  *   // CallKit session will automatically start when this component mounts
  *   // and end when it unmounts
  *   useCallKitService({ displayName: username, isVideo: true });
  *
- *   return <View>...</View>;
+ *   return null;
  * }
  * ```
  */
 export const useCallKitService = Platform.select({
   ios: useCallKitServiceIos,
   default: emptyFunction,
-});
+}) as typeof useCallKitServiceIos;
