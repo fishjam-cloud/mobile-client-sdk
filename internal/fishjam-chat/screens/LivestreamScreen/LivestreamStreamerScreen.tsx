@@ -42,7 +42,6 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     try {
       const { streamerToken } = await getSandboxLivestream(roomName, false);
       await connect(streamerToken);
-      // await connect('example', process.env.EXPO_PUBLIC_LOCAL_WHIP_SERVER);
     } catch (err) {
       console.log(err);
     }

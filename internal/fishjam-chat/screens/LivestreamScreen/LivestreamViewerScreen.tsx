@@ -21,7 +21,7 @@ export default function LivestreamViewerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect } = useLivestreamViewer();
+  const { connect, disconnect, whepClientRef } = useLivestreamViewer();
 
   const handleConnect = useCallback(async () => {
     try {
@@ -44,7 +44,7 @@ export default function LivestreamViewerScreen({ route }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
-          <LivestreamViewer style={styles.whepView} />
+          <LivestreamViewer style={styles.whepView} ref={whepClientRef} />
         </View>
       </View>
     </SafeAreaView>
