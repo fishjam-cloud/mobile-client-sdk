@@ -300,6 +300,14 @@ public class RNFishjamClientModule: Module {
         AsyncFunction("togglePictureInPicture") {
             rnFishjamClient.togglePictureInPicture()
         }.runOnQueue(.main)
+
+        AsyncFunction("setAllowsCameraWhileInPictureInPicture") { (enabled: Bool) in
+            rnFishjamClient.setAllowsCameraWhileInPictureInPicture(enabled)
+        }.runOnQueue(.main)
+
+        Function("isCameraWhileInPictureInPictureSupported") {
+            return rnFishjamClient.isCameraWhileInPictureInPictureSupported()
+        }
         
     }
 }

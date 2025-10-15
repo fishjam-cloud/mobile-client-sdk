@@ -102,6 +102,8 @@ type RNFishjamClient = {
   startPictureInPicture: () => Promise<void>;
   stopPictureInPicture: () => Promise<void>;
   togglePictureInPicture: () => Promise<void>;
+  setAllowsCameraWhileInPictureInPicture: (enabled: boolean) => Promise<void>;
+  isCameraWhileInPictureInPictureSupported: () => boolean;
 };
 
 export const ReceivableEvents = {

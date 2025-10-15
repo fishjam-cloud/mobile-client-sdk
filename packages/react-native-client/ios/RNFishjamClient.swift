@@ -1034,6 +1034,25 @@ class RNFishjamClient: FishjamClientListener {
             self?.pipController?.togglePictureInPicture()
         }
     }
+
+    public func setAllowsCameraWhileInPictureInPicture(_ enabled: Bool) {
+        guard let cameraTrack = getLocalCameraTrack() else {
+            emit(event: .warning(message: "PictureInPicture: Unable to configure background camera - camera not initialized"))
+            return
+        }
+
+        let success = cameraTrack.setMultitaskingCameraAccessEnabled(enabled)
+        if !success {
+            emit(event: .warning(message: "PictureInPicture: Background camera access requires iOS 16.0 or later and must be supported by the device"))
+        }
+    }
+
+    public func isCameraWhileInPictureInPictureSupported() -> Bool {
+        guard let cameraTrack = getLocalCameraTrack() else {
+            return false
+        }
+        return cameraTrack.isMultitaskingCameraAccessSupported()
+    }
 }
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {

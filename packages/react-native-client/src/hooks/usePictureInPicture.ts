@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { Platform } from 'react-native';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
 /**
@@ -6,7 +7,13 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
  *
  * @example
  * ```tsx
- * const { setPipActiveTrackId, startPictureInPicture, togglePictureInPicture } = usePictureInPicture();
+ * const {
+ *   setPipActiveTrackId,
+ *   startPictureInPicture,
+ *   togglePictureInPicture,
+ *   setAllowsCameraWhileInPictureInPicture,
+ *   isCameraWhileInPictureInPictureSupported
+ * } = usePictureInPicture();
  *
  * // Set which video track to display in PiP
  * useEffect(() => {
@@ -15,6 +22,13 @@ import RNFishjamClientModule from '../RNFishjamClientModule';
  *     setPipActiveTrackId(videoTrack.id);
  *   }
  * }, [localPeer]);
+ *
+ * // Enable camera access while in PiP (iOS 16+ or iPad)
+ * useEffect(() => {
+ *   if (isCameraWhileInPictureInPictureSupported) {
+ *     setAllowsCameraWhileInPictureInPicture(true);
+ *   }
+ * }, []);
  *
  * // PiP will start automatically when app goes to background if supportsPictureInPicture is enabled
  * // You can also manually control it:
@@ -38,10 +52,46 @@ export const usePictureInPicture = () => {
     await RNFishjamClientModule.togglePictureInPicture();
   }, []);
 
+  /**
+   * Enable or disable camera access while in Picture-in-Picture mode.
+   * This allows the camera to continue running while the app is in PiP mode or backgrounded.
+   * This feature requires iOS 16.0 or later and device support.
+   * If not supported, a warning will be emitted.
+   *
+   * @param enabled - Whether to allow camera access during PiP
+   */
+  const setAllowsCameraWhileInPictureInPicture = useCallback(
+    async (enabled: boolean) => {
+      if (Platform.OS !== 'ios') {
+        console.warn(
+          '[PictureInPicture] Background camera access is only available on iOS',
+        );
+        return;
+      }
+      await RNFishjamClientModule.setAllowsCameraWhileInPictureInPicture(
+        enabled,
+      );
+    },
+    [],
+  );
+
+  /**
+   * Check if camera access while in Picture-in-Picture mode is supported.
+   * This feature requires iOS 16.0 or later and device support.
+   */
+  const isCameraWhileInPictureInPictureSupported = useMemo(() => {
+    if (Platform.OS !== 'ios') {
+      return false;
+    }
+    return RNFishjamClientModule.isCameraWhileInPictureInPictureSupported();
+  }, []);
+
   return {
     setPipActiveTrackId,
     startPictureInPicture,
     stopPictureInPicture,
     togglePictureInPicture,
+    setAllowsCameraWhileInPictureInPicture,
+    isCameraWhileInPictureInPictureSupported,
   };
 };
