@@ -48,19 +48,6 @@ const RoomScreen = ({ navigation, route }: Props) => {
 
   const { localPeer, remotePeers } = usePeers<PeerMetadata>();
 
-  const { setPipActiveTrackId, setAllowsCameraWhileInPictureInPicture } =
-    usePictureInPicture();
-
-  useEffect(() => {
-    const localTrack = localPeer?.tracks.find(
-      (track) => track.type === 'Video',
-    );
-    if (localTrack) {
-      setPipActiveTrackId(localTrack.id);
-      setAllowsCameraWhileInPictureInPicture(true);
-    }
-  }, [localPeer, setPipActiveTrackId, setAllowsCameraWhileInPictureInPicture]);
-
   const { toggleScreenShare, isScreenShareOn } = useScreenShare();
 
   const { leaveRoom } = useConnection();

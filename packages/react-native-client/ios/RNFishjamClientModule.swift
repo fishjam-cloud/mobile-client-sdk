@@ -285,7 +285,7 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.endCallKitSession()
         }
         
-        AsyncFunction("setPipActiveTrackId") { (trackId: String) in
+        AsyncFunction("setPictureInPictureActiveTrackId") { (trackId: String) in
             rnFishjamClient.setPipActive(trackId: trackId)
         }.runOnQueue(.main)
         
@@ -304,10 +304,14 @@ public class RNFishjamClientModule: Module {
         AsyncFunction("setAllowsCameraWhileInPictureInPicture") { (enabled: Bool) in
             rnFishjamClient.setAllowsCameraWhileInPictureInPicture(enabled)
         }.runOnQueue(.main)
+        
+        AsyncFunction("setPictureInPictureAutoStart") { (enabled: Bool) in
+            rnFishjamClient.setPictureInPictureAutoStart(enabled)
+        }.runOnQueue(.main)
 
-        Function("isCameraWhileInPictureInPictureSupported") {
-            return rnFishjamClient.isCameraWhileInPictureInPictureSupported()
-        }
+        AsyncFunction("setPictureInPictureAutoStop") { (enabled: Bool) in
+            rnFishjamClient.setPictureInPictureAutoStop(enabled)
+        }.runOnQueue(.main)
         
     }
 }

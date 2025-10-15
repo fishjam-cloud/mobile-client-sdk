@@ -1,11 +1,12 @@
 import { PeerWithTracks } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
 import NoCameraView from '../NoCameraView';
 import { GridTrack, GridTrackItem } from './GridTrackItem';
 import { parsePeersToTracks } from './parsePeersToTracks';
+import { usePictureInPicture } from '@fishjam-cloud/react-native-client';
 
 const ListFooterComponent = () => <View style={{ height: 60 }} />;
 
@@ -27,6 +28,32 @@ export default function VideosGrid({
     ),
     [],
   );
+
+  const { setPictureInPictureActiveTrackId } = usePictureInPicture({
+    iosCameraInBackground: true,
+    autoStartPip: true,
+    autoStopPip: true,
+  });
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const firstTrackWithVadActive = videoTracks.find(
+        (track) => track.isVadActive,
+      );
+      const firstLocalVideoTrack = videoTracks.find(
+        (track) => track.isLocal && track.type === 'Video',
+      );
+      const firstTrack = videoTracks[0];
+
+      const trackForPip =
+        firstTrackWithVadActive ?? firstLocalVideoTrack ?? firstTrack;
+      if (trackForPip) {
+        setPictureInPictureActiveTrackId(trackForPip.id);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [videoTracks, setPictureInPictureActiveTrackId]);
 
   const ListEmptyComponent = useMemo(
     () => (

@@ -984,9 +984,10 @@ class RNFishjamClient: FishjamClientListener {
         return callKitManager?.hasActiveCall ?? false
     }
     
+    private var pipStartAutomatically: Bool = true
+    private var pipStopAutomatically: Bool = true
+    
     private lazy var pipController: PictureInPictureController? = {
-        // Get the key window's root view as the source view for PiP
-        // This ensures automatic PiP works when the app backgrounds
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
               let rootView = keyWindow.rootViewController?.view else {
@@ -994,8 +995,8 @@ class RNFishjamClient: FishjamClientListener {
         }
         
         let controller = PictureInPictureController(sourceView: rootView)
-        controller.startAutomatically = true
-        controller.stopAutomatically = true
+        controller.startAutomatically = pipStartAutomatically
+        controller.stopAutomatically = pipStopAutomatically
         return controller
     }()
     
@@ -1012,9 +1013,9 @@ class RNFishjamClient: FishjamClientListener {
             return
         }
         
-        DispatchQueue.main.async {
-            pipController.videoTrack = videoTrack
-        }
+        guard pipController.videoTrack != videoTrack else { return }
+        
+        pipController.videoTrack = videoTrack
     }
     
     public func startPictureInPicture() {
@@ -1047,11 +1048,14 @@ class RNFishjamClient: FishjamClientListener {
         }
     }
 
-    public func isCameraWhileInPictureInPictureSupported() -> Bool {
-        guard let cameraTrack = getLocalCameraTrack() else {
-            return false
-        }
-        return cameraTrack.isMultitaskingCameraAccessSupported()
+    public func setPictureInPictureAutoStart(_ enabled: Bool) {
+        pipStartAutomatically = enabled
+        pipController?.startAutomatically = enabled
+    }
+
+    public func setPictureInPictureAutoStop(_ enabled: Bool) {
+        pipStopAutomatically = enabled
+        pipController?.stopAutomatically = enabled
     }
 }
 

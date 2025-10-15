@@ -98,12 +98,14 @@ type RNFishjamClient = {
   stopMicrophone: () => Promise<void>;
   startCallKitSession: (displayName: string, isVideo: boolean) => Promise<void>;
   endCallKitSession: () => Promise<void>;
-  setPipActiveTrackId: (trackId: string) => Promise<void>;
+  setPictureInPictureActiveTrackId: (trackId: string) => Promise<void>;
   startPictureInPicture: () => Promise<void>;
   stopPictureInPicture: () => Promise<void>;
   togglePictureInPicture: () => Promise<void>;
   setAllowsCameraWhileInPictureInPicture: (enabled: boolean) => Promise<void>;
   isCameraWhileInPictureInPictureSupported: () => boolean;
+  setPictureInPictureAutoStart: (enabled: boolean) => Promise<void>;
+  setPictureInPictureAutoStop: (enabled: boolean) => Promise<void>;
 };
 
 export const ReceivableEvents = {
