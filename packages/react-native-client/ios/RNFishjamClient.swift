@@ -8,6 +8,23 @@ import WebRTC
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
     private var callKitManager: CallKitManager?
+    
+    @MainActor
+    private lazy var pipManager: PictureInPictureManager? = {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
+              let rootView = keyWindow.rootViewController?.view else {
+            return nil
+        }
+        
+        return PictureInPictureManager(
+            sourceView: rootView,
+            eventEmitter: { [weak self] event in
+                self?.emit(event: event)
+            },
+            fishjamClient: RNFishjamClient.fishjamClient
+        )
+    }()
 
     var isMicrophoneOn = false
     var isCameraOn = false
@@ -983,79 +1000,37 @@ class RNFishjamClient: FishjamClientListener {
     public var hasActiveCallKitSession: Bool {
         return callKitManager?.hasActiveCall ?? false
     }
-    
-    private var pipStartAutomatically: Bool = true
-    private var pipStopAutomatically: Bool = true
-    
-    private lazy var pipController: PictureInPictureController? = {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
-              let rootView = keyWindow.rootViewController?.view else {
-            return nil
-        }
         
-        let controller = PictureInPictureController(sourceView: rootView)
-        controller.startAutomatically = pipStartAutomatically
-        controller.stopAutomatically = pipStopAutomatically
-        return controller
-    }()
-    
-    public func setPipActive(trackId: String) {
-        guard let pipController = pipController else {
-            emit(event: .warning(message: "PictureInPicture: Unable to initialize PiP controller - no key window found"))
-            return
-        }
-        
-        guard let track = RNFishjamClient.getLocalAndRemoteEndpoints().first(where: { ep in
-            ep.tracks[trackId] != nil
-        })?.tracks[trackId], let videoTrack = track.mediaTrack as? RTCVideoTrack else {
-            emit(event: .warning(message: "PictureInPicture: Track with id \(trackId) not found"))
-            return
-        }
-        
-        guard pipController.videoTrack != videoTrack else { return }
-        
-        pipController.videoTrack = videoTrack
+    public func setPipActive(trackId: String) async {
+        await pipManager?.setPipActive(trackId: trackId)
     }
     
-    public func startPictureInPicture() {
-        DispatchQueue.main.async { [weak self] in
-            self?.pipController?.startPictureInPicture()
-        }
+    public func startPictureInPicture() async {
+            await pipManager?.start()
+        
     }
     
-    public func stopPictureInPicture() {
-        DispatchQueue.main.async { [weak self] in
-            self?.pipController?.stopPictureInPicture()
-        }
+    public func stopPictureInPicture() async {
+            await pipManager?.stop()
+        
     }
     
-    public func togglePictureInPicture() {
-        DispatchQueue.main.async { [weak self] in
-            self?.pipController?.togglePictureInPicture()
-        }
+    public func togglePictureInPicture() async {
+            await pipManager?.toggle()
+        
     }
 
-    public func setAllowsCameraWhileInPictureInPicture(_ enabled: Bool) {
-        guard let cameraTrack = getLocalCameraTrack() else {
-            emit(event: .warning(message: "PictureInPicture: Unable to configure background camera - camera not initialized"))
-            return
-        }
-
-        let success = cameraTrack.setMultitaskingCameraAccessEnabled(enabled)
-        if !success {
-            emit(event: .warning(message: "PictureInPicture: Background camera access requires iOS 16.0 or later and must be supported by the device"))
-        }
+    public func setAllowsCameraWhileInPictureInPicture(_ enabled: Bool) async {
+            await pipManager?.setAllowsCameraWhileInPictureInPicture(enabled)
+        
     }
 
-    public func setPictureInPictureAutoStart(_ enabled: Bool) {
-        pipStartAutomatically = enabled
-        pipController?.startAutomatically = enabled
+    public func setPictureInPictureAutoStart(_ enabled: Bool) async {
+            await pipManager?.setStartAutomatically(enabled)
     }
 
-    public func setPictureInPictureAutoStop(_ enabled: Bool) {
-        pipStopAutomatically = enabled
-        pipController?.stopAutomatically = enabled
+    public func setPictureInPictureAutoStop(_ enabled: Bool) async {
+            await pipManager?.setStopAutomatically(enabled)
     }
 }
 

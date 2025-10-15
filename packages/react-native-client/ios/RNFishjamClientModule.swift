@@ -286,32 +286,32 @@ public class RNFishjamClientModule: Module {
         }
         
         AsyncFunction("setPictureInPictureActiveTrackId") { (trackId: String) in
-            rnFishjamClient.setPipActive(trackId: trackId)
-        }.runOnQueue(.main)
+            await rnFishjamClient.setPipActive(trackId: trackId)
+        }
         
         AsyncFunction("startPictureInPicture") {
-            rnFishjamClient.startPictureInPicture()
-        }.runOnQueue(.main)
+            await rnFishjamClient.startPictureInPicture()
+        }
         
         AsyncFunction("stopPictureInPicture") {
-            rnFishjamClient.stopPictureInPicture()
-        }.runOnQueue(.main)
+            await rnFishjamClient.stopPictureInPicture()
+        }
         
         AsyncFunction("togglePictureInPicture") {
-            rnFishjamClient.togglePictureInPicture()
-        }.runOnQueue(.main)
+            await rnFishjamClient.togglePictureInPicture()
+        }
 
         AsyncFunction("setAllowsCameraWhileInPictureInPicture") { (enabled: Bool) in
-            rnFishjamClient.setAllowsCameraWhileInPictureInPicture(enabled)
-        }.runOnQueue(.main)
+            await rnFishjamClient.setAllowsCameraWhileInPictureInPicture(enabled)
+        }
         
         AsyncFunction("setPictureInPictureAutoStart") { (enabled: Bool) in
-            rnFishjamClient.setPictureInPictureAutoStart(enabled)
-        }.runOnQueue(.main)
+            await rnFishjamClient.setPictureInPictureAutoStart(enabled)
+        }
 
         AsyncFunction("setPictureInPictureAutoStop") { (enabled: Bool) in
-            rnFishjamClient.setPictureInPictureAutoStop(enabled)
-        }.runOnQueue(.main)
+            await  rnFishjamClient.setPictureInPictureAutoStop(enabled)
+        }
         
     }
 }
