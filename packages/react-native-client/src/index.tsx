@@ -94,6 +94,7 @@ export {
   useCallKit,
   useCallKitEvent,
 } from './hooks/useCallKit';
+export { usePictureInPicture } from './hooks/usePictureInPicture';
 // #endregion
 
 export {

@@ -983,6 +983,57 @@ class RNFishjamClient: FishjamClientListener {
     public var hasActiveCallKitSession: Bool {
         return callKitManager?.hasActiveCall ?? false
     }
+    
+    private lazy var pipController: PictureInPictureController? = {
+        // Get the key window's root view as the source view for PiP
+        // This ensures automatic PiP works when the app backgrounds
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
+              let rootView = keyWindow.rootViewController?.view else {
+            return nil
+        }
+        
+        let controller = PictureInPictureController(sourceView: rootView)
+        controller.startAutomatically = true
+        controller.stopAutomatically = true
+        return controller
+    }()
+    
+    public func setPipActive(trackId: String) {
+        guard let pipController = pipController else {
+            emit(event: .warning(message: "PictureInPicture: Unable to initialize PiP controller - no key window found"))
+            return
+        }
+        
+        guard let track = RNFishjamClient.getLocalAndRemoteEndpoints().first(where: { ep in
+            ep.tracks[trackId] != nil
+        })?.tracks[trackId], let videoTrack = track.mediaTrack as? RTCVideoTrack else {
+            emit(event: .warning(message: "PictureInPicture: Track with id \(trackId) not found"))
+            return
+        }
+        
+        DispatchQueue.main.async {
+            pipController.videoTrack = videoTrack
+        }
+    }
+    
+    public func startPictureInPicture() {
+        DispatchQueue.main.async { [weak self] in
+            self?.pipController?.startPictureInPicture()
+        }
+    }
+    
+    public func stopPictureInPicture() {
+        DispatchQueue.main.async { [weak self] in
+            self?.pipController?.stopPictureInPicture()
+        }
+    }
+    
+    public func togglePictureInPicture() {
+        DispatchQueue.main.async { [weak self] in
+            self?.pipController?.togglePictureInPicture()
+        }
+    }
 }
 
 extension RNFishjamClient: CameraCapturerDeviceChangedListener {

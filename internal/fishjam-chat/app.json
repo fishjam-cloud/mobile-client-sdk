@@ -66,7 +66,8 @@
           },
           "ios": {
             "enableScreensharing": true,
-            "enableVoIPBackgroundMode": true
+            "enableVoIPBackgroundMode": true,
+            "supportsPictureInPicture": true
           }
         }
       ],

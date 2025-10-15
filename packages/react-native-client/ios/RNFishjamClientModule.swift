@@ -121,6 +121,10 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isCameraInitialized
         }
         
+        Property("hasActiveCallKitSession") {
+            return rnFishjamClient.hasActiveCallKitSession
+        }
+        
         Function("getPeers") {
             return rnFishjamClient.getPeers()
         }
@@ -281,8 +285,21 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.endCallKitSession()
         }
         
-        Property("hasActiveCallKitSession") {
-            return rnFishjamClient.hasActiveCallKitSession
-        }
+        AsyncFunction("setPipActiveTrackId") { (trackId: String) in
+            rnFishjamClient.setPipActive(trackId: trackId)
+        }.runOnQueue(.main)
+        
+        AsyncFunction("startPictureInPicture") {
+            rnFishjamClient.startPictureInPicture()
+        }.runOnQueue(.main)
+        
+        AsyncFunction("stopPictureInPicture") {
+            rnFishjamClient.stopPictureInPicture()
+        }.runOnQueue(.main)
+        
+        AsyncFunction("togglePictureInPicture") {
+            rnFishjamClient.togglePictureInPicture()
+        }.runOnQueue(.main)
+        
     }
 }
