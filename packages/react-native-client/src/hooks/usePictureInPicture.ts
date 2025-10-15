@@ -1,39 +1,7 @@
-import { useCallback, useEffect } from 'react';
-import { Platform } from 'react-native';
+import { useCallback } from 'react';
 import RNFishjamClientModule from '../RNFishjamClientModule';
 
-export const usePictureInPicture = ({
-  iosCameraInBackground,
-  autoStartPip = true,
-  autoStopPip = true,
-}: {
-  iosCameraInBackground: boolean;
-  autoStartPip?: boolean;
-  autoStopPip?: boolean;
-}) => {
-  useEffect(() => {
-    if (Platform.OS !== 'ios') {
-      return;
-    }
-    RNFishjamClientModule.setAllowsCameraWhileInPictureInPicture(
-      iosCameraInBackground,
-    );
-  }, [iosCameraInBackground]);
-
-  useEffect(() => {
-    if (Platform.OS !== 'ios') {
-      return;
-    }
-    RNFishjamClientModule.setPictureInPictureAutoStart(autoStartPip);
-  }, [autoStartPip]);
-
-  useEffect(() => {
-    if (Platform.OS !== 'ios') {
-      return;
-    }
-    RNFishjamClientModule.setPictureInPictureAutoStop(autoStopPip);
-  }, [autoStopPip]);
-
+export const usePictureInPicture = () => {
   const setPictureInPictureActiveTrackId = useCallback(
     async (trackId: string) => {
       await RNFishjamClientModule.setPictureInPictureActiveTrackId(trackId);
@@ -49,14 +17,30 @@ export const usePictureInPicture = ({
     await RNFishjamClientModule.stopPictureInPicture();
   }, []);
 
-  const togglePictureInPicture = useCallback(async () => {
-    await RNFishjamClientModule.togglePictureInPicture();
+  const setupPictureInPicture = useCallback(
+    async (config?: {
+      startAutomatically: boolean;
+      stopAutomatically: boolean;
+      allowsCameraInBackground: boolean;
+    }) => {
+      await RNFishjamClientModule.setupPictureInPicture({
+        startAutomatically: config?.startAutomatically,
+        stopAutomatically: config?.stopAutomatically,
+        allowsCameraInBackground: config?.allowsCameraInBackground,
+      });
+    },
+    [],
+  );
+
+  const cleanupPictureInPicture = useCallback(async () => {
+    await RNFishjamClientModule.cleanupPictureInPicture();
   }, []);
 
   return {
     setPictureInPictureActiveTrackId,
     startPictureInPicture,
     stopPictureInPicture,
-    togglePictureInPicture,
+    setupPictureInPicture,
+    cleanupPictureInPicture,
   };
 };

@@ -296,21 +296,13 @@ public class RNFishjamClientModule: Module {
         AsyncFunction("stopPictureInPicture") {
             await rnFishjamClient.stopPictureInPicture()
         }
-        
-        AsyncFunction("togglePictureInPicture") {
-            await rnFishjamClient.togglePictureInPicture()
-        }
 
-        AsyncFunction("setAllowsCameraWhileInPictureInPicture") { (enabled: Bool) in
-            await rnFishjamClient.setAllowsCameraWhileInPictureInPicture(enabled)
+        AsyncFunction("setupPictureInPicture") { (config: PictureInPictureConfig) in
+            await rnFishjamClient.setupPictureInPicture(config: config)
         }
         
-        AsyncFunction("setPictureInPictureAutoStart") { (enabled: Bool) in
-            await rnFishjamClient.setPictureInPictureAutoStart(enabled)
-        }
-
-        AsyncFunction("setPictureInPictureAutoStop") { (enabled: Bool) in
-            await  rnFishjamClient.setPictureInPictureAutoStop(enabled)
+        AsyncFunction("cleanupPictureInPicture") {
+            await rnFishjamClient.cleanupPictureInPicture()
         }
         
     }

@@ -8,11 +8,10 @@ import {
   useScreenShare,
   useCallKitService,
   useCallKitEvent,
-  usePictureInPicture,
 } from '@fishjam-cloud/react-native-client';
 import BottomSheet from '@gorhom/bottom-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import {

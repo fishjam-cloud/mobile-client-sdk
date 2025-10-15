@@ -176,16 +176,6 @@ public class PictureInPictureController: NSObject {
         }
     }
 
-    public func togglePictureInPicture() {
-        guard let pipController = pipController else { return }
-
-        if pipController.isPictureInPictureActive {
-            pipController.stopPictureInPicture()
-        } else if pipController.isPictureInPicturePossible {
-            pipController.startPictureInPicture()
-        }
-    }
-
     public func startPictureInPicture() {
         guard let pipController = pipController,
             pipController.isPictureInPicturePossible

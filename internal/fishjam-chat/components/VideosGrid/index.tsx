@@ -29,11 +29,23 @@ export default function VideosGrid({
     [],
   );
 
-  const { setPictureInPictureActiveTrackId } = usePictureInPicture({
-    iosCameraInBackground: true,
-    autoStartPip: true,
-    autoStopPip: true,
-  });
+  const {
+    setPictureInPictureActiveTrackId,
+    setupPictureInPicture,
+    cleanupPictureInPicture,
+  } = usePictureInPicture();
+
+  useEffect(() => {
+    setupPictureInPicture({
+      allowsCameraInBackground: true,
+      startAutomatically: true,
+      stopAutomatically: true,
+    });
+
+    return () => {
+      cleanupPictureInPicture();
+    };
+  }, []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {

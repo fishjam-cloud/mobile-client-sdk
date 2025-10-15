@@ -101,11 +101,13 @@ type RNFishjamClient = {
   setPictureInPictureActiveTrackId: (trackId: string) => Promise<void>;
   startPictureInPicture: () => Promise<void>;
   stopPictureInPicture: () => Promise<void>;
-  togglePictureInPicture: () => Promise<void>;
-  setAllowsCameraWhileInPictureInPicture: (enabled: boolean) => Promise<void>;
   isCameraWhileInPictureInPictureSupported: () => boolean;
-  setPictureInPictureAutoStart: (enabled: boolean) => Promise<void>;
-  setPictureInPictureAutoStop: (enabled: boolean) => Promise<void>;
+  setupPictureInPicture: (config: {
+    startAutomatically?: boolean;
+    stopAutomatically?: boolean;
+    allowsCameraInBackground?: boolean;
+  }) => Promise<void>;
+  cleanupPictureInPicture: () => Promise<void>;
 };
 
 export const ReceivableEvents = {
