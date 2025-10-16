@@ -42,7 +42,7 @@ public class PictureInPictureController: NSObject {
     private var pipCallViewController: AVPictureInPictureVideoCallViewController?
     private var contentSource: AVPictureInPictureController.ContentSource?
     private var pipController: AVPictureInPictureController?
-    private var sampleView: SampleBufferVideoCallView
+    private let sampleView: SampleBufferVideoCallView
     private var fallbackView: UIView
     private var keyValueObservation: NSKeyValueObservation?
 
@@ -50,6 +50,7 @@ public class PictureInPictureController: NSObject {
         self.sourceView = sourceView
 
         self.fallbackView = UIView(frame: .zero)
+    
 
         self.sampleView = SampleBufferVideoCallView(frame: .zero)
 
@@ -73,10 +74,10 @@ public class PictureInPictureController: NSObject {
         guard let sourceView = sourceView else { return }
 
         pipCallViewController = AVPictureInPictureVideoCallViewController()
+        pipCallViewController?.preferredContentSize = CGSize(width: 1920, height: 1080)
 
         guard let pipCallViewController = pipCallViewController else { return }
 
-        addSubviewToPipCallViewController(fallbackView)
 
         contentSource = AVPictureInPictureController.ContentSource(
             activeVideoCallSourceView: sourceView,
@@ -112,19 +113,6 @@ public class PictureInPictureController: NSObject {
             view.trailingAnchor.constraint(equalTo: pipCallViewController.view.trailingAnchor),
             view.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
             view.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
-        ])
-        
-        let newView = UIView(frame: .zero)
-        newView.backgroundColor = .red
-        view.addSubview(newView)
-        
-        newView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            newView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            newView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            newView.topAnchor.constraint(equalTo: view.topAnchor),
-            newView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 

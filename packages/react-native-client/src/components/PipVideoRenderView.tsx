@@ -2,32 +2,52 @@ import { requireNativeViewManager } from 'expo-modules-core';
 import * as React from 'react';
 import { ViewProps } from 'react-native';
 
-const NativeView: React.ComponentType = requireNativeViewManager<ViewProps>(
-  'PipVideoRenderViewModule',
-);
+export type PictureInPictureConfig = {
+  startAutomatically?: boolean;
+  stopAutomatically?: boolean;
+  allowsCameraInBackground?: boolean;
+};
+
+export interface PipVideoRenderViewProps extends ViewProps {
+  startAutomatically?: boolean;
+  stopAutomatically?: boolean;
+  allowsCameraInBackground?: boolean;
+}
+
+export interface PipVideoRenderViewRef {
+  setPictureInPictureActiveTrackId(trackId: string): Promise<void>;
+  startPictureInPicture(): Promise<void>;
+  stopPictureInPicture(): Promise<void>;
+}
+
+const NativeView: React.ComponentType<PipVideoRenderViewProps> =
+  requireNativeViewManager<PipVideoRenderViewProps>('PipVideoRenderViewModule');
 
 /**
- * Render video track received from {@link usePeers} hook
+ * A view component for Picture-in-Picture functionality.
  *
- * Example usage:
+ * Use a ref to call methods on this component:
  * ```js
- *  <VideoRendererView
- *      trackId={peer.cameraTrack?.id}
- *      videoLayout="FIT"
- *      style={styles.videoContent}
- *  />
- *  ```
+ * const pipRef = useRef<PipVideoRenderViewRef>(null);
+ *
+ * // Set active track
+ * await pipRef.current?.setPictureInPictureActiveTrackId(trackId);
+ *
+ * // Start PiP manually (if startAutomatically is false)
+ * await pipRef.current?.startPictureInPicture();
+ * ```
+ *
+ * @param startAutomatically - Whether to start PiP automatically when app goes to background (default: true)
+ * @param stopAutomatically - Whether to stop PiP automatically when app comes to foreground (default: true)
+ * @param allowsCameraInBackground - Whether to allow camera to continue running in PiP mode (default: false)
  *
  * @category Components
- *
- * @param {Object} props
- * @param props.trackId
  */
 export const PipVideoRenderView = React.forwardRef<
-  React.ComponentType<ViewProps>,
-  ViewProps
+  PipVideoRenderViewRef,
+  PipVideoRenderViewProps
 >((props, ref) => (
-  // @ts-expect-error ref prop needs to be updated
+  // @ts-expect-error - Expo modules API typing doesn't match React's ref typing
   <NativeView {...props} ref={ref} />
 ));
 

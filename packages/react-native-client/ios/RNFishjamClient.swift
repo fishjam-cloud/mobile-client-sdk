@@ -5,18 +5,9 @@ import React
 import ReplayKit
 import WebRTC
 
-struct PictureInPictureConfig: Record {
-    @Field var startAutomatically: Bool = true
-    @Field var stopAutomatically: Bool = true
-    @Field var allowsCameraInBackground: Bool = false
-}
-
 class RNFishjamClient: FishjamClientListener {
     static var fishjamClient: FishjamClient? = nil
     private var callKitManager: CallKitManager?
-    
-    @MainActor
-    private var pipManager: PictureInPictureManager?
 
     var isMicrophoneOn = false
     var isCameraOn = false
@@ -991,70 +982,6 @@ class RNFishjamClient: FishjamClientListener {
 
     public var hasActiveCallKitSession: Bool {
         return callKitManager?.hasActiveCall ?? false
-    }
-    
-    @MainActor
-    public func setupPictureInPicture(config: PictureInPictureConfig) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
-              let rootView = keyWindow.rootViewController?.view else {
-            emit(event: .warning(message: "PictureInPicture: Unable to setup - no key window found"))
-            return
-        }
-        
-        if pipManager != nil {
-             cleanupPictureInPicture()
-        }
-        
-        let manager = PictureInPictureManager(
-            sourceView: rootView,
-            eventEmitter: { [weak self] event in
-                self?.emit(event: event)
-            },
-            fishjamClient: RNFishjamClient.fishjamClient
-        )
-        
-        pipManager = manager
-        
-        manager.setStartAutomatically(config.startAutomatically)
-        manager.setStopAutomatically(config.stopAutomatically)
-        
-        if config.allowsCameraInBackground {
-            manager.setAllowsCameraWhileInPictureInPicture(true)
-        }
-    }
-    
-    @MainActor
-    public func cleanupPictureInPicture() {
-        pipManager?.cleanup()
-        pipManager = nil
-    }
-    
-    @MainActor
-    public func setPipActive(trackId: String) {
-        guard let pipManager = pipManager else {
-            emit(event: .warning(message: "PictureInPicture: Not setup. Call setupPictureInPicture() first"))
-            return
-        }
-        pipManager.setPipActive(trackId: trackId)
-    }
-    
-    @MainActor
-    public func startPictureInPicture() {
-        guard let pipManager = pipManager else {
-            emit(event: .warning(message: "PictureInPicture: Not setup. Call setupPictureInPicture() first"))
-            return
-        }
-        pipManager.start()
-    }
-    
-    @MainActor
-    public func stopPictureInPicture() {
-        guard let pipManager = pipManager else {
-            emit(event: .warning(message: "PictureInPicture: Not setup. Call setupPictureInPicture() first"))
-            return
-        }
-        pipManager.stop()
     }
 }
 

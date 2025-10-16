@@ -17,6 +17,11 @@ export { updatePeerMetadata } from './common/metadata';
 // #region components
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
+export type {
+  PipVideoRenderViewRef,
+  PipVideoRenderViewProps,
+  PictureInPictureConfig,
+} from './components/PipVideoRenderView';
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
 export { PipVideoRenderView } from './components/PipVideoRenderView';
@@ -94,7 +99,6 @@ export {
   useCallKit,
   useCallKitEvent,
 } from './hooks/useCallKit';
-export { usePictureInPicture } from './hooks/usePictureInPicture';
 // #endregion
 
 export {

@@ -285,25 +285,5 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.endCallKitSession()
         }
         
-        AsyncFunction("setPictureInPictureActiveTrackId") { (trackId: String) in
-            await rnFishjamClient.setPipActive(trackId: trackId)
-        }
-        
-        AsyncFunction("startPictureInPicture") {
-            await rnFishjamClient.startPictureInPicture()
-        }
-        
-        AsyncFunction("stopPictureInPicture") {
-            await rnFishjamClient.stopPictureInPicture()
-        }
-
-        AsyncFunction("setupPictureInPicture") { (config: PictureInPictureConfig) in
-            await rnFishjamClient.setupPictureInPicture(config: config)
-        }
-        
-        AsyncFunction("cleanupPictureInPicture") {
-            await rnFishjamClient.cleanupPictureInPicture()
-        }
-        
     }
 }

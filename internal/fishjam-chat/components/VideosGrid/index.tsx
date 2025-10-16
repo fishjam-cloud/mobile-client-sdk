@@ -1,5 +1,5 @@
 import { PeerWithTracks } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
@@ -8,7 +8,7 @@ import { GridTrack, GridTrackItem } from './GridTrackItem';
 import { parsePeersToTracks } from './parsePeersToTracks';
 import {
   PipVideoRenderView,
-  usePictureInPicture,
+  PipVideoRenderViewRef,
 } from '@fishjam-cloud/react-native-client';
 
 const ListFooterComponent = () => <View style={{ height: 60 }} />;
@@ -22,6 +22,7 @@ export default function VideosGrid({
   remotePeers: PeerWithTracks<PeerMetadata>[];
   username: string;
 }) {
+  const pipRef = useRef<PipVideoRenderViewRef>(null);
   const videoTracks = parsePeersToTracks(localPeer, remotePeers);
 
   const keyExtractor = useCallback((item: GridTrack) => item.id, []);
@@ -31,24 +32,6 @@ export default function VideosGrid({
     ),
     [],
   );
-
-  const {
-    setPictureInPictureActiveTrackId,
-    setupPictureInPicture,
-    cleanupPictureInPicture,
-  } = usePictureInPicture();
-
-  useEffect(() => {
-    setupPictureInPicture({
-      allowsCameraInBackground: true,
-      startAutomatically: true,
-      stopAutomatically: true,
-    });
-
-    return () => {
-      cleanupPictureInPicture();
-    };
-  }, []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -63,12 +46,12 @@ export default function VideosGrid({
       const trackForPip =
         firstTrackWithVadActive ?? firstLocalVideoTrack ?? firstTrack;
       if (trackForPip) {
-        setPictureInPictureActiveTrackId(trackForPip.id);
+        pipRef.current?.setPictureInPictureActiveTrackId(trackForPip.id);
       }
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [videoTracks, setPictureInPictureActiveTrackId]);
+  }, [videoTracks]);
 
   const ListEmptyComponent = useMemo(
     () => (
@@ -81,7 +64,11 @@ export default function VideosGrid({
   );
 
   return (
-    <PipVideoRenderView>
+    <PipVideoRenderView
+      ref={pipRef}
+      allowsCameraInBackground
+      startAutomatically
+      stopAutomatically>
       <FlatList<GridTrack>
         data={videoTracks}
         keyExtractor={keyExtractor}
