@@ -8,12 +8,7 @@ import Foundation
 import UIKit
 import WebRTC
 
-public enum ResizeMode {
-    case contain
-    case cover
-}
-
-public class PictureInPictureController: NSObject {
+public class PictureInPictureController: NSObject, AVPictureInPictureControllerDelegate {
     public weak var sourceView: UIView?
     public var videoTrack: RTCVideoTrack? {
         didSet {
@@ -28,35 +23,18 @@ public class PictureInPictureController: NSObject {
 
     public var stopAutomatically: Bool = true
 
-    public var preferredSize: CGSize {
-        get { pipCallViewController?.preferredContentSize ?? .zero }
-        set {
-            guard !newValue.equalTo(pipCallViewController?.preferredContentSize ?? .zero) else {
-                return
-            }
-            pipCallViewController?.preferredContentSize = newValue
-            sampleView.requestScaleRecalculation()
-        }
-    }
-
     private var pipCallViewController: AVPictureInPictureVideoCallViewController?
     private var contentSource: AVPictureInPictureController.ContentSource?
     private var pipController: AVPictureInPictureController?
     private let sampleView: SampleBufferVideoCallView
-    private var fallbackView: UIView
-    private var keyValueObservation: NSKeyValueObservation?
 
     public init(sourceView: UIView) {
         self.sourceView = sourceView
-
-        self.fallbackView = UIView(frame: .zero)
-    
-
         self.sampleView = SampleBufferVideoCallView(frame: .zero)
+        self.sampleView.translatesAutoresizingMaskIntoConstraints = false
 
         super.init()
 
-        setupViews()
         setupPictureInPicture()
         setupNotifications()
     }
@@ -65,17 +43,12 @@ public class PictureInPictureController: NSObject {
         cleanup()
     }
 
-    private func setupViews() {
-        fallbackView.translatesAutoresizingMaskIntoConstraints = false
-        sampleView.translatesAutoresizingMaskIntoConstraints = false
-    }
-
     private func setupPictureInPicture() {
         guard let sourceView = sourceView else { return }
 
         pipCallViewController = AVPictureInPictureVideoCallViewController()
         pipCallViewController?.preferredContentSize = CGSize(width: 1920, height: 1080)
-
+        
         guard let pipCallViewController = pipCallViewController else { return }
 
 
@@ -87,11 +60,8 @@ public class PictureInPictureController: NSObject {
         guard let contentSource = contentSource else { return }
 
         pipController = AVPictureInPictureController(contentSource: contentSource)
-
-        keyValueObservation = pipController?.observe(\.isPictureInPictureActive, options: [.initial, .new]) {
-            [weak self] controller, change in
-            self?.sampleView.shouldRender = change.newValue ?? false
-        }
+        
+        pipController?.delegate = self
     }
 
     private func setupNotifications() {
@@ -129,13 +99,7 @@ public class PictureInPictureController: NSObject {
             if sampleView.superview == nil {
                 addSubviewToPipCallViewController(sampleView)
             }
-            if fallbackView.superview != nil {
-                fallbackView.removeFromSuperview()
-            }
         } else {
-            if fallbackView.superview == nil {
-                addSubviewToPipCallViewController(fallbackView)
-            }
             if sampleView.superview != nil {
                 sampleView.removeFromSuperview()
             }
@@ -143,38 +107,33 @@ public class PictureInPictureController: NSObject {
     }
 
     private func cleanup() {
-        keyValueObservation?.invalidate()
-        keyValueObservation = nil
-
         videoTrack?.remove(sampleView)
-
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
     }
-
+    
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         if stopAutomatically {
+            UIView.animate(withDuration: 0.5) {
+                self.sampleView.layer.opacity = 0
+            }
+
             // Arbitraty 0.5s, if called to early won't have any effect.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                self?.pipController?.stopPictureInPicture()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.pipController?.stopPictureInPicture()
             }
         }
     }
-
-    public func insertFallbackView(_ view: UIView) {
-        fallbackView.addSubview(view)
+    
+    public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        sampleView.layer.opacity = 1
+        sampleView.shouldRender = true
     }
-
-    public func setResizeMode(_ mode: ResizeMode) {
-        switch mode {
-        case .cover:
-            sampleView.videoGravity = .resizeAspectFill
-        case .contain:
-            sampleView.videoGravity = .resizeAspect
-        }
+    
+    public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        sampleView.shouldRender = false
+    }
+    
+    public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+        completionHandler(true)
     }
 
     public func startPictureInPicture() {

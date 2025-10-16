@@ -78,17 +78,6 @@ public class SampleBufferVideoCallView: UIView {
 
         return buffer
     }
-
-    public func requestScaleRecalculation() {
-        // Trigger scale recalculation if needed
-        setNeedsLayout()
-    }
-
-    // Property to access the sample buffer layer for video gravity settings
-    public var videoGravity: AVLayerVideoGravity {
-        get { sampleBufferLayer.videoGravity }
-        set { sampleBufferLayer.videoGravity = newValue }
-    }
 }
 
 extension SampleBufferVideoCallView: RTCVideoRenderer {
