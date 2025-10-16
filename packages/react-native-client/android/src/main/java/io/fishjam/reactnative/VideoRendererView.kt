@@ -71,4 +71,6 @@ open class VideoRendererView(
       )
     )
   }
+
+  fun getTrackId(): String? = trackId
 }
