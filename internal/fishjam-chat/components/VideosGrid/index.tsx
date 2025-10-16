@@ -6,7 +6,10 @@ import { PeerMetadata } from '../../types/metadata';
 import NoCameraView from '../NoCameraView';
 import { GridTrack, GridTrackItem } from './GridTrackItem';
 import { parsePeersToTracks } from './parsePeersToTracks';
-import { usePictureInPicture } from '@fishjam-cloud/react-native-client';
+import {
+  PipVideoRenderView,
+  usePictureInPicture,
+} from '@fishjam-cloud/react-native-client';
 
 const ListFooterComponent = () => <View style={{ height: 60 }} />;
 
@@ -78,14 +81,16 @@ export default function VideosGrid({
   );
 
   return (
-    <FlatList<GridTrack>
-      data={videoTracks}
-      keyExtractor={keyExtractor}
-      renderItem={renderItem}
-      contentContainerStyle={styles.contentContainerStyle}
-      ListFooterComponent={ListFooterComponent}
-      ListEmptyComponent={ListEmptyComponent}
-    />
+    <PipVideoRenderView>
+      <FlatList<GridTrack>
+        data={videoTracks}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        contentContainerStyle={styles.contentContainerStyle}
+        ListFooterComponent={ListFooterComponent}
+        ListEmptyComponent={ListEmptyComponent}
+      />
+    </PipVideoRenderView>
   );
 }
 

@@ -113,6 +113,19 @@ public class PictureInPictureController: NSObject {
             view.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
             view.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
         ])
+        
+        let newView = UIView(frame: .zero)
+        newView.backgroundColor = .red
+        view.addSubview(newView)
+        
+        newView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            newView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newView.topAnchor.constraint(equalTo: view.topAnchor),
+            newView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 
     private func handleVideoTrackChange(from oldTrack: RTCVideoTrack?, to newTrack: RTCVideoTrack?) {
