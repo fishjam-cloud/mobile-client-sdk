@@ -1,7 +1,7 @@
 import ExpoModulesCore
 
 @MainActor
-class PipVideoRenderView: ExpoView {
+class PipContainerView: ExpoView {
     private var pipManager: PictureInPictureManager!
     
     required init(appContext: AppContext? = nil) {
@@ -45,3 +45,4 @@ class PipVideoRenderView: ExpoView {
         pipManager.stop()
     }
 }
+

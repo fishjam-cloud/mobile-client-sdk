@@ -7,8 +7,8 @@ import NoCameraView from '../NoCameraView';
 import { GridTrack, GridTrackItem } from './GridTrackItem';
 import { parsePeersToTracks } from './parsePeersToTracks';
 import {
-  PipVideoRenderView,
-  PipVideoRenderViewRef,
+  PipContainerView,
+  PipContainerViewRef,
 } from '@fishjam-cloud/react-native-client';
 
 const ListFooterComponent = () => <View style={{ height: 60 }} />;
@@ -22,7 +22,7 @@ export default function VideosGrid({
   remotePeers: PeerWithTracks<PeerMetadata>[];
   username: string;
 }) {
-  const pipRef = useRef<PipVideoRenderViewRef>(null);
+  const pipRef = useRef<PipContainerViewRef>(null);
   const videoTracks = parsePeersToTracks(localPeer, remotePeers);
 
   const keyExtractor = useCallback((item: GridTrack) => item.id, []);
@@ -64,7 +64,7 @@ export default function VideosGrid({
   );
 
   return (
-    <PipVideoRenderView
+    <PipContainerView
       ref={pipRef}
       allowsCameraInBackground
       startAutomatically
@@ -77,7 +77,7 @@ export default function VideosGrid({
         ListFooterComponent={ListFooterComponent}
         ListEmptyComponent={ListEmptyComponent}
       />
-    </PipVideoRenderView>
+    </PipContainerView>
   );
 }
 

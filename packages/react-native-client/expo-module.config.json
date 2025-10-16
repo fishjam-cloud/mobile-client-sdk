@@ -5,7 +5,7 @@
       "RNFishjamClientModule",
       "VideoPreviewViewModule",
       "VideoRendererViewModule",
-      "PipVideoRenderViewModule"
+      "PipContainerViewModule"
     ]
   },
   "android": {

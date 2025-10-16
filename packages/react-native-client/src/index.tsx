@@ -18,13 +18,13 @@ export { updatePeerMetadata } from './common/metadata';
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
 export type {
-  PipVideoRenderViewRef,
-  PipVideoRenderViewProps,
+  PipContainerViewRef,
+  PipContainerViewProps,
   PictureInPictureConfig,
-} from './components/PipVideoRenderView';
+} from './components/PipContainerView';
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
-export { PipVideoRenderView } from './components/PipVideoRenderView';
+export { PipContainerView } from './components/PipContainerView';
 // #endregion
 
 // #region types for hooks

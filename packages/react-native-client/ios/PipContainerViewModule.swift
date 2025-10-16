@@ -1,39 +1,40 @@
 import ExpoModulesCore
 
-public class PipVideoRenderViewModule: Module {
+public class PipContainerViewModule: Module {
     public func definition() -> ModuleDefinition {
-        Name("PipVideoRenderViewModule")
+        Name("PipContainerViewModule")
 
-        View(PipVideoRenderView.self) {
-            Prop("startAutomatically") { (view: PipVideoRenderView, value: Bool) in
+        View(PipContainerView.self) {
+            Prop("startAutomatically") { (view: PipContainerView, value: Bool) in
                 Task { @MainActor in
                     view.startAutomatically = value
                 }
             }
             
-            Prop("stopAutomatically") { (view: PipVideoRenderView, value: Bool) in
+            Prop("stopAutomatically") { (view: PipContainerView, value: Bool) in
                 Task { @MainActor in
                     view.stopAutomatically = value
                 }
             }
             
-            Prop("allowsCameraInBackground") { (view: PipVideoRenderView, value: Bool) in
+            Prop("allowsCameraInBackground") { (view: PipContainerView, value: Bool) in
                 Task { @MainActor in
                     view.allowsCameraInBackground = value
                 }
             }
             
-            AsyncFunction("setPictureInPictureActiveTrackId") { (view: PipVideoRenderView, trackId: String) in
+            AsyncFunction("setPictureInPictureActiveTrackId") { (view: PipContainerView, trackId: String) in
                 await view.setPipActive(trackId: trackId)
             }
             
-            AsyncFunction("startPictureInPicture") { (view: PipVideoRenderView) in
+            AsyncFunction("startPictureInPicture") { (view: PipContainerView) in
                 await view.startPictureInPicture()
             }
             
-            AsyncFunction("stopPictureInPicture") { (view: PipVideoRenderView) in
+            AsyncFunction("stopPictureInPicture") { (view: PipContainerView) in
                 await view.stopPictureInPicture()
             }
         }
     }
 }
+

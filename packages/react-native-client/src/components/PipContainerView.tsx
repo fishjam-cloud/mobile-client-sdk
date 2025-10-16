@@ -8,27 +8,27 @@ export type PictureInPictureConfig = {
   allowsCameraInBackground?: boolean;
 };
 
-export interface PipVideoRenderViewProps extends ViewProps {
+export interface PipContainerViewProps extends ViewProps {
   startAutomatically?: boolean;
   stopAutomatically?: boolean;
   allowsCameraInBackground?: boolean;
 }
 
-export interface PipVideoRenderViewRef {
+export interface PipContainerViewRef {
   setPictureInPictureActiveTrackId(trackId: string): Promise<void>;
   startPictureInPicture(): Promise<void>;
   stopPictureInPicture(): Promise<void>;
 }
 
-const NativeView: React.ComponentType<PipVideoRenderViewProps> =
-  requireNativeViewManager<PipVideoRenderViewProps>('PipVideoRenderViewModule');
+const NativeView: React.ComponentType<PipContainerViewProps> =
+  requireNativeViewManager<PipContainerViewProps>('PipContainerViewModule');
 
 /**
  * A view component for Picture-in-Picture functionality.
  *
  * Use a ref to call methods on this component:
  * ```js
- * const pipRef = useRef<PipVideoRenderViewRef>(null);
+ * const pipRef = useRef<PipContainerViewRef>(null);
  *
  * // Set active track
  * await pipRef.current?.setPictureInPictureActiveTrackId(trackId);
@@ -43,12 +43,12 @@ const NativeView: React.ComponentType<PipVideoRenderViewProps> =
  *
  * @category Components
  */
-export const PipVideoRenderView = React.forwardRef<
-  PipVideoRenderViewRef,
-  PipVideoRenderViewProps
+export const PipContainerView = React.forwardRef<
+  PipContainerViewRef,
+  PipContainerViewProps
 >((props, ref) => (
   // @ts-expect-error - Expo modules API typing doesn't match React's ref typing
   <NativeView {...props} ref={ref} />
 ));
 
-PipVideoRenderView.displayName = 'PipVideoRenderView';
+PipContainerView.displayName = 'PipContainerView';
