@@ -4,7 +4,7 @@ import {
   useLivestreamViewer,
 } from '@fishjam-cloud/react-native-client/livestream';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
@@ -23,22 +23,23 @@ export default function LivestreamViewerScreen({ route }: Props) {
 
   const { connect, disconnect, whepClientRef } = useLivestreamViewer();
 
-  const handleConnect = useCallback(async () => {
-    try {
-      const token = await getSandboxViewerToken(roomName);
-      await connect({ token });
-    } catch (err) {
-      console.error(err);
-    }
-  }, [connect, getSandboxViewerToken, roomName]);
-
   useEffect(() => {
-    handleConnect();
+    const connectToStream = async () => {
+      try {
+        const token = await getSandboxViewerToken(roomName);
+        await connect({ token });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    connectToStream();
 
     return () => {
       disconnect();
     };
-  }, [handleConnect, disconnect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -68,7 +68,7 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
 
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
-      if (isConnectingRef.current || isLoading) {
+      if (isConnectingRef.current) {
         return;
       }
 
@@ -97,7 +97,7 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
         isConnectingRef.current = false;
       }
     },
-    [],
+    [isInitialized],
   );
 
   const disconnect = useCallback(async () => {
@@ -109,6 +109,6 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
     disconnect,
     whepClientRef,
     isConnected,
-    isLoading
+    isLoading,
   };
 };
