@@ -896,7 +896,7 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onTrackUpdated(endpointId: String, trackId: String, metadata: Metadata) {
-        guard let track = getTrack(trackId: trackId) else {
+        guard let track = getTrackWithRtcEngineId(trackId: trackId) else {
             sdkLogger.error("Failed to process TrackUpdated event: Track context not found: \(trackId)")
             return
         }

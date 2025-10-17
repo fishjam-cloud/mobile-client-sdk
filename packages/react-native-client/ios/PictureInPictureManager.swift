@@ -92,6 +92,7 @@ class PictureInPictureManager {
         
         let remoteEndpoints = fishjamClient.getRemoteEndpoints()
         
+        // First pass: look for active VAD
         for endpoint in remoteEndpoints {
             // Check if this endpoint has an active VAD audio track
             let hasActiveVad = endpoint.tracks.values.contains { track in
@@ -107,6 +108,15 @@ class PictureInPictureManager {
                     if let videoTrack = track as? RemoteVideoTrack {
                         return videoTrack.mediaTrack as? RTCVideoTrack
                     }
+                }
+            }
+        }
+        
+        // Fallback: return first available remote video track
+        for endpoint in remoteEndpoints {
+            for (_, track) in endpoint.tracks {
+                if let videoTrack = track as? RemoteVideoTrack {
+                    return videoTrack.mediaTrack as? RTCVideoTrack
                 }
             }
         }

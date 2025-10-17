@@ -198,8 +198,10 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         if let newTrack = newTrack {
             newTrack.add(primarySampleView)
             primarySampleView.isHidden = false
+            primaryPlaceholderLabel.isHidden = true
         } else {
             primarySampleView.isHidden = true
+            primaryPlaceholderLabel.isHidden = false
         }
     }
     
@@ -211,8 +213,10 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         if let newTrack = newTrack {
             newTrack.add(secondarySampleView)
             secondarySampleView.isHidden = false
+            secondaryPlaceholderLabel.isHidden = true
         } else {
             secondarySampleView.isHidden = true
+            secondaryPlaceholderLabel.isHidden = false
         }
     }
 
