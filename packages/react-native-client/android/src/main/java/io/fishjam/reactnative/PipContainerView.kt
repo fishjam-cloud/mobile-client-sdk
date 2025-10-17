@@ -2,30 +2,37 @@ package io.fishjam.reactnative
 
 import android.app.PictureInPictureParams
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
 import io.fishjam.reactnative.helpers.PictureInPictureHelperFragment
+import io.fishjam.reactnative.managers.TrackUpdateListener
 
 class PipContainerView(
   context: Context,
   appContext: AppContext
-) : ExpoView(context, appContext) {
+) : ExpoView(context, appContext), TrackUpdateListener {
   private val currentActivity = appContext.currentActivity
   private val decorView = currentActivity?.window?.decorView
   private val rootView = decorView?.findViewById<ViewGroup>(android.R.id.content)
   private val rootViewChildrenOriginalVisibility: ArrayList<Int> = arrayListOf()
   private var pictureInPictureHelperTag: String? = null
 
-  private var activeTrackId: String? = null
-  private var activeVideoRendererView: VideoRendererView? = null
-  private var originalParent: ViewGroup? = null
-  private var originalLayoutParams: ViewGroup.LayoutParams? = null
+  private var primaryVideoView: VideoRendererView? = null
+  private var secondaryVideoView: VideoRendererView? = null
+  private var primaryPlaceholder: android.widget.TextView? = null
+  private var secondaryPlaceholder: android.widget.TextView? = null
+  private var splitScreenContainer: android.widget.LinearLayout? = null
 
   @RequiresApi(Build.VERSION_CODES.O)
   private var pictureInPictureParamsBuilder = PictureInPictureParams.Builder()
@@ -37,6 +44,18 @@ class PipContainerView(
     }
 
   var stopAutomatically: Boolean = true
+
+  var primaryPlaceholderText: String = "No camera"
+    set(value) {
+      field = value
+      primaryPlaceholder?.text = value
+    }
+
+  var secondaryPlaceholderText: String = "No active speaker"
+    set(value) {
+      field = value
+      secondaryPlaceholder?.text = value
+    }
 
   @RequiresApi(Build.VERSION_CODES.O)
   private fun updatePictureInPictureParams() {
@@ -61,8 +80,69 @@ class PipContainerView(
     updatePictureInPictureParams()
   }
 
-  fun setPictureInPictureActiveTrackId(trackId: String) {
-    activeTrackId = trackId
+  private fun findLocalCameraTrack(): com.fishjamcloud.client.media.VideoTrack? {
+    val peers = RNFishjamClient.getAllPeers()
+    val localPeer = peers.firstOrNull { it.isLocal } ?: return null
+    
+    return localPeer.tracks.values.firstOrNull { track ->
+      track is com.fishjamcloud.client.media.VideoTrack && 
+      (track.metadata as? Map<*, *>)?.get("type") == "camera"
+    } as? com.fishjamcloud.client.media.VideoTrack
+  }
+
+  private fun findRemoteVadActiveTrack(): com.fishjamcloud.client.media.VideoTrack? {
+    val peers = RNFishjamClient.getAllPeers()
+    val remotePeers = peers.filter { !it.isLocal }
+    
+    for (peer in remotePeers) {
+      // Find if this peer has an active VAD audio track
+      val hasActiveVad = peer.tracks.values.any { track ->
+        track is com.fishjamcloud.client.media.RemoteAudioTrack && 
+        track.vadStatus == com.fishjamcloud.client.media.VadStatus.SPEECH
+      }
+      
+      if (hasActiveVad) {
+        // Return the first video track from this peer
+        return peer.tracks.values.firstOrNull { track ->
+          track is com.fishjamcloud.client.media.VideoTrack
+        } as? com.fishjamcloud.client.media.VideoTrack
+      }
+    }
+    
+    return null
+  }
+
+  private fun updatePipViews() {
+    val localCameraTrack = findLocalCameraTrack()
+    val remoteVadTrack = findRemoteVadActiveTrack()
+    
+    // Update primary view (local camera)
+    if (localCameraTrack != null) {
+      if (primaryVideoView == null) {
+        primaryVideoView = VideoRendererView(context, appContext)
+      }
+      primaryVideoView?.let { view ->
+        view.init(localCameraTrack.id())
+      }
+      primaryPlaceholder?.visibility = View.GONE
+    } else {
+      primaryVideoView = null
+      primaryPlaceholder?.visibility = View.VISIBLE
+    }
+    
+    // Update secondary view (remote VAD)
+    if (remoteVadTrack != null) {
+      if (secondaryVideoView == null) {
+        secondaryVideoView = VideoRendererView(context, appContext)
+      }
+      secondaryVideoView?.let { view ->
+        view.init(remoteVadTrack.id())
+      }
+      secondaryPlaceholder?.visibility = View.GONE
+    } else {
+      secondaryVideoView = null
+      secondaryPlaceholder?.visibility = View.VISIBLE
+    }
   }
 
   @RequiresApi(Build.VERSION_CODES.O)
@@ -92,6 +172,9 @@ class PipContainerView(
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
       updateAutoEnterEnabled()
     }
+    
+    // Register for track updates
+    RNFishjamClient.trackUpdateListenersManager.add(this)
   }
 
   override fun onDetachedFromWindow() {
@@ -103,103 +186,147 @@ class PipContainerView(
         .remove(fragment)
         .commitAllowingStateLoss()
     }
+    
+    // Unregister from track updates
+    RNFishjamClient.trackUpdateListenersManager.remove(this)
   }
 
-  fun layoutForPiPEnter() {
-    if (rootView == null) return
+  override fun onTracksUpdate() {
+    updatePipViews()
+  }
 
-    // Find the VideoRendererView with the matching trackId
-    val targetView = findVideoRendererViewByTrackId(activeTrackId)
+  private fun createPlaceholderTextView(text: String): TextView {
+    return TextView(context).apply {
+      this.text = text
+      setTextColor(Color.WHITE)
+      gravity = Gravity.CENTER
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+      setBackgroundColor(Color.parseColor("#606060"))
+    }
+  }
 
-    if (targetView == null) {
-      // If no specific track is set, try to find any VideoRendererView child
-      activeVideoRendererView = findFirstVideoRendererView()
-    } else {
-      activeVideoRendererView = targetView
+  private fun createSplitScreenContainer(): LinearLayout {
+    val container = LinearLayout(context).apply {
+      orientation = LinearLayout.HORIZONTAL
+      layoutParams = FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+      )
     }
 
-    activeVideoRendererView?.let { videoView ->
-      // Store the original parent and layout params
-      originalParent = videoView.parent as? ViewGroup
-      originalLayoutParams = videoView.layoutParams
+    // Create primary container (left)
+    val primaryContainer = FrameLayout(context).apply {
+      layoutParams = LinearLayout.LayoutParams(
+        0,
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        1f
+      )
+    }
 
-      // Remove from current parent
-      originalParent?.removeView(videoView)
+    // Create secondary container (right)
+    val secondaryContainer = FrameLayout(context).apply {
+      layoutParams = LinearLayout.LayoutParams(
+        0,
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        1f
+      )
+    }
 
-      // Hide all root view children except the video view
-      for (i in 0 until rootView.childCount) {
-        val child = rootView.getChildAt(i)
-        if (child != videoView) {
-          rootViewChildrenOriginalVisibility.add(child.visibility)
-          child.visibility = View.GONE
-        }
-      }
+    // Create placeholders
+    primaryPlaceholder = createPlaceholderTextView(primaryPlaceholderText)
+    secondaryPlaceholder = createPlaceholderTextView(secondaryPlaceholderText)
 
-      // Add video view to root view
-      rootView.addView(
-        videoView,
+    primaryContainer.addView(
+      primaryPlaceholder,
+      FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+      )
+    )
+
+    secondaryContainer.addView(
+      secondaryPlaceholder,
+      FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+      )
+    )
+
+    // Add video views if available
+    primaryVideoView?.let {
+      primaryContainer.addView(
+        it,
         FrameLayout.LayoutParams(
           ViewGroup.LayoutParams.MATCH_PARENT,
           ViewGroup.LayoutParams.MATCH_PARENT
         )
       )
+      primaryPlaceholder?.visibility = View.GONE
     }
+
+    secondaryVideoView?.let {
+      secondaryContainer.addView(
+        it,
+        FrameLayout.LayoutParams(
+          ViewGroup.LayoutParams.MATCH_PARENT,
+          ViewGroup.LayoutParams.MATCH_PARENT
+        )
+      )
+      secondaryPlaceholder?.visibility = View.GONE
+    }
+
+    container.addView(primaryContainer)
+    container.addView(secondaryContainer)
+
+    return container
+  }
+
+  fun layoutForPiPEnter() {
+    if (rootView == null) return
+
+    // Update tracks before entering PiP
+    updatePipViews()
+
+    // Hide all root view children
+    for (i in 0 until rootView.childCount) {
+      val child = rootView.getChildAt(i)
+      rootViewChildrenOriginalVisibility.add(child.visibility)
+      child.visibility = View.GONE
+    }
+
+    // Create and add split screen container
+    splitScreenContainer = createSplitScreenContainer()
+    rootView.addView(splitScreenContainer)
   }
 
   fun layoutForPiPExit() {
     if (rootView == null) return
 
-    activeVideoRendererView?.let { videoView ->
-      // Remove from root view
-      rootView.removeView(videoView)
-
-      // Restore visibility of other root view children
-      var visibilityIndex = 0
-      for (i in 0 until rootView.childCount) {
-        val child = rootView.getChildAt(i)
-        if (visibilityIndex < rootViewChildrenOriginalVisibility.size) {
-          child.visibility = rootViewChildrenOriginalVisibility[visibilityIndex]
-          visibilityIndex++
-        }
-      }
-      rootViewChildrenOriginalVisibility.clear()
-
-      // Restore video view to original parent
-      originalParent?.let { parent ->
-        val params = originalLayoutParams ?: ViewGroup.LayoutParams(
-          ViewGroup.LayoutParams.MATCH_PARENT,
-          ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        parent.addView(videoView, params)
-      }
-
-      // Clean up references
-      activeVideoRendererView = null
-      originalParent = null
-      originalLayoutParams = null
+    // Remove split screen container
+    splitScreenContainer?.let { container ->
+      rootView.removeView(container)
     }
-  }
 
-  private fun findVideoRendererViewByTrackId(trackId: String?): VideoRendererView? {
-    if (trackId == null) return null
+    // Clean up video views
+    primaryVideoView?.dispose()
+    secondaryVideoView?.dispose()
+    primaryVideoView = null
+    secondaryVideoView = null
+    primaryPlaceholder = null
+    secondaryPlaceholder = null
+    splitScreenContainer = null
 
-    for (i in 0 until childCount) {
-      val child = getChildAt(i)
-      if (child is VideoRendererView && child.getTrackId() == trackId) {
-        return child
+    // Restore visibility of other root view children
+    var visibilityIndex = 0
+    for (i in 0 until rootView.childCount) {
+      val child = rootView.getChildAt(i)
+      if (visibilityIndex < rootViewChildrenOriginalVisibility.size) {
+        child.visibility = rootViewChildrenOriginalVisibility[visibilityIndex]
+        visibilityIndex++
       }
     }
-    return null
+    rootViewChildrenOriginalVisibility.clear()
   }
 
-  private fun findFirstVideoRendererView(): VideoRendererView? {
-    for (i in 0 until childCount) {
-      val child = getChildAt(i)
-      if (child is VideoRendererView) {
-        return child
-      }
-    }
-    return null
-  }
 }
 

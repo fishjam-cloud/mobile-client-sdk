@@ -23,8 +23,16 @@ public class PipContainerViewModule: Module {
                 }
             }
             
-            AsyncFunction("setPictureInPictureActiveTrackId") { (view: PipContainerView, trackId: String) in
-                await view.setPipActive(trackId: trackId)
+            Prop("primaryPlaceholderText") { (view: PipContainerView, value: String) in
+                Task { @MainActor in
+                    view.primaryPlaceholderText = value
+                }
+            }
+            
+            Prop("secondaryPlaceholderText") { (view: PipContainerView, value: String) in
+                Task { @MainActor in
+                    view.secondaryPlaceholderText = value
+                }
             }
             
             AsyncFunction("startPictureInPicture") { (view: PipContainerView) in

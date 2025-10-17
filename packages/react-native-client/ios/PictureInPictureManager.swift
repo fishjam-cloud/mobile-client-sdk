@@ -21,6 +21,18 @@ class PictureInPictureManager {
             controller?.stopAutomatically = stopAutomatically
         }
     }
+    
+    var primaryPlaceholderText: String = "No camera" {
+        didSet {
+            controller?.primaryPlaceholderText = primaryPlaceholderText
+        }
+    }
+    
+    var secondaryPlaceholderText: String = "No active speaker" {
+        didSet {
+            controller?.secondaryPlaceholderText = secondaryPlaceholderText
+        }
+    }
 
     init(
         sourceView: UIView,
@@ -32,50 +44,95 @@ class PictureInPictureManager {
         self.fishjamClient = fishjamClient
         self.startAutomatically = true
         self.stopAutomatically = true
+        
+        // Register for track updates
+        RNFishjamClient.tracksUpdateListenersManager.add(self)
     }
     
+    deinit {
+        RNFishjamClient.tracksUpdateListenersManager.remove(self)
+    }
+    
+    @discardableResult
     private func ensureController() -> PictureInPictureController? {
         if controller == nil {
-            let newController = PictureInPictureController(sourceView: sourceView)
+            let newController = PictureInPictureController(
+                sourceView: sourceView,
+                primaryPlaceholder: primaryPlaceholderText,
+                secondaryPlaceholder: secondaryPlaceholderText
+            )
             newController.startAutomatically = startAutomatically
             newController.stopAutomatically = stopAutomatically
             controller = newController
+            
+            // Update tracks after controller is created
+            updateTracks()
         }
         return controller
     }
+    
+    private func findLocalCameraTrack() -> RTCVideoTrack? {
+        guard let fishjamClient = fishjamClient else { return nil }
+        
+        let localEndpoint = fishjamClient.getLocalEndpoint()
+        
+        for (_, track) in localEndpoint.tracks {
+            if let videoTrack = track as? LocalVideoTrack,
+               let metadata = track.metadata.toDict() as? [String: Any],
+               metadata["type"] as? String == "camera" {
+                return videoTrack.mediaTrack as? RTCVideoTrack
+            }
+        }
+        
+        return nil
+    }
+    
+    private func findRemoteVadActiveTrack() -> RTCVideoTrack? {
+        guard let fishjamClient = fishjamClient else { return nil }
+        
+        let remoteEndpoints = fishjamClient.getRemoteEndpoints()
+        
+        for endpoint in remoteEndpoints {
+            // Check if this endpoint has an active VAD audio track
+            let hasActiveVad = endpoint.tracks.values.contains { track in
+                if let audioTrack = track as? RemoteAudioTrack {
+                    return audioTrack.vadStatus == .speech
+                }
+                return false
+            }
+            
+            if hasActiveVad {
+                // Return the first video track from this endpoint
+                for (_, track) in endpoint.tracks {
+                    if let videoTrack = track as? RemoteVideoTrack {
+                        return videoTrack.mediaTrack as? RTCVideoTrack
+                    }
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    private func updateTracks() {
+        guard let pipController = controller else { return }
+        
+        let localCameraTrack = findLocalCameraTrack()
+        let remoteVadTrack = findRemoteVadActiveTrack()
+        
+        pipController.primaryVideoTrack = localCameraTrack
+        pipController.secondaryVideoTrack = remoteVadTrack
+    }
+    
+
     
     private func emitWarning(_ message: String) {
         eventEmitter(.warning(message: message))
     }
     
-    func setPipActive(trackId: String) {
-        guard let pipController = ensureController() else {
-            emitWarning("PictureInPicture: Unable to initialize PiP controller - no key window found")
-            return
-        }
-        
-        guard let fishjamClient = fishjamClient else {
-            emitWarning("PictureInPicture: Fishjam client not available")
-            return
-        }
-        
-        let localEndpoint = fishjamClient.getLocalEndpoint()
-        let remoteEndpoints = fishjamClient.getRemoteEndpoints()
-        let allEndpoints = [localEndpoint] + remoteEndpoints
-        
-        guard let track = allEndpoints.first(where: { ep in
-            ep.tracks[trackId] != nil
-        })?.tracks[trackId], let videoTrack = track.mediaTrack as? RTCVideoTrack else {
-            emitWarning("PictureInPicture: Track with id \(trackId) not found")
-            return
-        }
-        
-        guard pipController.videoTrack != videoTrack else { return }
-        
-        pipController.videoTrack = videoTrack
-    }
     
     func start() {
+        _ = ensureController()
         controller?.startPictureInPicture()
     }
     
@@ -102,6 +159,9 @@ class PictureInPictureManager {
     }
     
     func setStartAutomatically(_ enabled: Bool) {
+        if enabled {
+            ensureController()
+        }
         startAutomatically = enabled
         controller?.startAutomatically = enabled
     }
@@ -117,3 +177,10 @@ class PictureInPictureManager {
     }
 }
 
+extension PictureInPictureManager: TrackUpdateListener {
+    nonisolated func onTracksUpdate() {
+        Task { @MainActor in
+            updateTracks()
+        }
+    }
+}

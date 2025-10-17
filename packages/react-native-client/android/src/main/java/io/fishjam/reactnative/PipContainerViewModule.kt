@@ -22,8 +22,12 @@ class PipContainerViewModule : Module() {
           // No-op on Android
         }
 
-        AsyncFunction("setPictureInPictureActiveTrackId") { view: PipContainerView, trackId: String ->
-          view.setPictureInPictureActiveTrackId(trackId)
+        Prop("primaryPlaceholderText") { view: PipContainerView, value: String ->
+          view.primaryPlaceholderText = value
+        }
+
+        Prop("secondaryPlaceholderText") { view: PipContainerView, value: String ->
+          view.secondaryPlaceholderText = value
         }
 
         AsyncFunction("startPictureInPicture") { view: PipContainerView ->

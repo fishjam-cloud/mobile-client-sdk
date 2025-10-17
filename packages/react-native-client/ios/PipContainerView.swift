@@ -33,8 +33,16 @@ class PipContainerView: ExpoView {
         }
     }
     
-    func setPipActive(trackId: String) {
-        pipManager.setPipActive(trackId: trackId)
+    var primaryPlaceholderText: String = "No camera" {
+        didSet {
+            pipManager.primaryPlaceholderText = primaryPlaceholderText
+        }
+    }
+    
+    var secondaryPlaceholderText: String = "No active speaker" {
+        didSet {
+            pipManager.secondaryPlaceholderText = secondaryPlaceholderText
+        }
     }
     
     func startPictureInPicture() {

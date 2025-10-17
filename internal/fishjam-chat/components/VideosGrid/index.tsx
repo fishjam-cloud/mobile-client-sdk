@@ -1,15 +1,12 @@
 import { PeerWithTracks } from '@fishjam-cloud/react-native-client/build/hooks/usePeers';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { roomScreenLabels } from '../../types/ComponentLabels';
 import { PeerMetadata } from '../../types/metadata';
 import NoCameraView from '../NoCameraView';
 import { GridTrack, GridTrackItem } from './GridTrackItem';
 import { parsePeersToTracks } from './parsePeersToTracks';
-import {
-  PipContainerView,
-  PipContainerViewRef,
-} from '@fishjam-cloud/react-native-client';
+import { PipContainerView } from '@fishjam-cloud/react-native-client';
 
 const ListFooterComponent = () => <View style={{ height: 60 }} />;
 
@@ -22,7 +19,6 @@ export default function VideosGrid({
   remotePeers: PeerWithTracks<PeerMetadata>[];
   username: string;
 }) {
-  const pipRef = useRef<PipContainerViewRef>(null);
   const videoTracks = parsePeersToTracks(localPeer, remotePeers);
 
   const keyExtractor = useCallback((item: GridTrack) => item.id, []);
@@ -32,26 +28,6 @@ export default function VideosGrid({
     ),
     [],
   );
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const firstTrackWithVadActive = videoTracks.find(
-        (track) => track.isVadActive,
-      );
-      const firstLocalVideoTrack = videoTracks.find(
-        (track) => track.isLocal && track.type === 'Video',
-      );
-      const firstTrack = videoTracks[0];
-
-      const trackForPip =
-        firstTrackWithVadActive ?? firstLocalVideoTrack ?? firstTrack;
-      if (trackForPip) {
-        pipRef.current?.setPictureInPictureActiveTrackId(trackForPip.id);
-      }
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [videoTracks]);
 
   const ListEmptyComponent = useMemo(
     () => (
@@ -65,7 +41,6 @@ export default function VideosGrid({
 
   return (
     <PipContainerView
-      ref={pipRef}
       allowsCameraInBackground
       startAutomatically
       stopAutomatically>
