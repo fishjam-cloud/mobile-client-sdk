@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
+import fishjam.media_events.server.Server
 import io.fishjam.reactnative.helpers.PictureInPictureHelperFragment
 import io.fishjam.reactnative.managers.TrackUpdateListener
 
@@ -82,7 +83,8 @@ class PipContainerView(
 
   private fun findLocalCameraTrack(): com.fishjamcloud.client.media.VideoTrack? {
     val peers = RNFishjamClient.getAllPeers()
-    val localPeer = peers.firstOrNull { it.isLocal } ?: return null
+    val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
+    val localPeer = peers.firstOrNull { it.id == localEndpointId } ?: return null
     
     return localPeer.tracks.values.firstOrNull { track ->
       track is com.fishjamcloud.client.media.VideoTrack && 
@@ -92,13 +94,15 @@ class PipContainerView(
 
   private fun findRemoteVadActiveTrack(): com.fishjamcloud.client.media.VideoTrack? {
     val peers = RNFishjamClient.getAllPeers()
-    val remotePeers = peers.filter { !it.isLocal }
+    val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
+    val remotePeers = peers.filter { it.id != localEndpointId }
     
+    // First pass: look for active VAD
     for (peer in remotePeers) {
       // Find if this peer has an active VAD audio track
       val hasActiveVad = peer.tracks.values.any { track ->
         track is com.fishjamcloud.client.media.RemoteAudioTrack && 
-        track.vadStatus == com.fishjamcloud.client.media.VadStatus.SPEECH
+        track.vadStatus == Server.MediaEvent.VadNotification.Status.STATUS_SPEECH
       }
       
       if (hasActiveVad) {
@@ -106,6 +110,17 @@ class PipContainerView(
         return peer.tracks.values.firstOrNull { track ->
           track is com.fishjamcloud.client.media.VideoTrack
         } as? com.fishjamcloud.client.media.VideoTrack
+      }
+    }
+    
+    // Fallback: return first available remote video track
+    for (peer in remotePeers) {
+      val videoTrack = peer.tracks.values.firstOrNull { track ->
+        track is com.fishjamcloud.client.media.VideoTrack
+      } as? com.fishjamcloud.client.media.VideoTrack
+      
+      if (videoTrack != null) {
+        return videoTrack
       }
     }
     
