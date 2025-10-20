@@ -151,7 +151,6 @@ class PipContainerView(
     val localCameraTrack = findLocalCameraTrack()
     val remoteTrackInfo = findRemoteVadActiveTrack()
 
-    // Update primary view (local camera)
     if (localCameraTrack != null) {
       primaryVideoView?.init(localCameraTrack.id())
       primaryVideoView?.visibility = View.VISIBLE
@@ -161,22 +160,18 @@ class PipContainerView(
       primaryPlaceholder?.visibility = View.VISIBLE
     }
 
-    // Update secondary view (remote VAD)
     if (remoteTrackInfo != null) {
       if (remoteTrackInfo.hasVideoTrack) {
-        // Has video track - show video
         secondaryVideoView?.init(remoteTrackInfo.videoTrack!!.id())
         secondaryVideoView?.visibility = View.VISIBLE
         secondaryPlaceholder?.visibility = View.GONE
       } else {
-        // Has audio only - show display name
         secondaryVideoView?.visibility = View.GONE
         secondaryPlaceholder?.text = remoteTrackInfo.displayName
         secondaryPlaceholder?.visibility = View.VISIBLE
       }
       secondaryContainer?.visibility = View.VISIBLE
     } else {
-      // No remote track - hide secondary container entirely
       secondaryVideoView?.visibility = View.GONE
       secondaryPlaceholder?.visibility = View.GONE
       secondaryContainer?.visibility = View.GONE
@@ -194,7 +189,6 @@ class PipContainerView(
 
   fun stopPictureInPicture() {
     // No direct API on Android to exit PiP programmatically
-    // User must use back button or system gesture
   }
 
   override fun onAttachedToWindow() {

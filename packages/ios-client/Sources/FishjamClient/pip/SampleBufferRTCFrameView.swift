@@ -73,7 +73,8 @@ public class SampleBufferVideoCallView: UIView {
             CFDictionarySetValue(
                 dict,
                 Unmanaged.passUnretained(kCMSampleAttachmentKey_DisplayImmediately).toOpaque(),
-                Unmanaged.passUnretained(kCFBooleanTrue).toOpaque())
+                Unmanaged.passUnretained(kCFBooleanTrue).toOpaque()
+            )
         }
 
         return buffer

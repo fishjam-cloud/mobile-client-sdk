@@ -1,7 +1,3 @@
-/*
-* Adapted from Objective-C version: https://github.com/react-native-webrtc/react-native-webrtc/blob/a388aba77d6ef652d904ac4ef55026716bb151f1/ios/RCTWebRTC/PIPController.m
- */
-
 import AVKit
 import Accelerate
 import Foundation
@@ -12,7 +8,7 @@ public struct RemoteTrackInfo {
     let videoTrack: RTCVideoTrack?
     let displayName: String?
     let hasVideoTrack: Bool
-    
+
     public init(videoTrack: RTCVideoTrack?, displayName: String?, hasVideoTrack: Bool) {
         self.videoTrack = videoTrack
         self.displayName = displayName
@@ -22,25 +18,25 @@ public struct RemoteTrackInfo {
 
 public class PictureInPictureController: NSObject, AVPictureInPictureControllerDelegate {
     public weak var sourceView: UIView?
-    
+
     public var primaryVideoTrack: RTCVideoTrack? {
         didSet {
             handlePrimaryVideoTrackChange(from: oldValue, to: primaryVideoTrack)
         }
     }
-    
+
     public var secondaryVideoTrack: RTCVideoTrack? {
         didSet {
             handleSecondaryVideoTrackChange(from: oldValue, to: secondaryVideoTrack)
         }
     }
-    
+
     public var primaryPlaceholderText: String = "No camera" {
         didSet {
             primaryPlaceholderLabel.text = primaryPlaceholderText
         }
     }
-    
+
     public var secondaryPlaceholderText: String = "No active speaker" {
         didSet {
             secondaryPlaceholderLabel.text = secondaryPlaceholderText
@@ -64,32 +60,36 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     private let splitScreenContainer: UIStackView
     private var secondaryContainer: UIView?
 
-    public init(sourceView: UIView, primaryPlaceholder: String = "No camera", secondaryPlaceholder: String = "No active speaker") {
+    public init(
+        sourceView: UIView,
+        primaryPlaceholder: String = "No camera",
+        secondaryPlaceholder: String = "No active speaker"
+    ) {
         self.sourceView = sourceView
-        
+
         self.primarySampleView = SampleBufferVideoCallView(frame: .zero)
         self.primarySampleView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.secondarySampleView = SampleBufferVideoCallView(frame: .zero)
         self.secondarySampleView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.primaryPlaceholderLabel = UILabel()
         self.primaryPlaceholderLabel.text = primaryPlaceholder
         self.primaryPlaceholderLabel.textAlignment = .center
         self.primaryPlaceholderLabel.textColor = .white
         self.primaryPlaceholderLabel.backgroundColor = UIColor(red: 0.38, green: 0.38, blue: 0.38, alpha: 1.0)
         self.primaryPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.secondaryPlaceholderLabel = UILabel()
         self.secondaryPlaceholderLabel.text = secondaryPlaceholder
         self.secondaryPlaceholderLabel.textAlignment = .center
         self.secondaryPlaceholderLabel.textColor = .white
         self.secondaryPlaceholderLabel.backgroundColor = UIColor(red: 0.38, green: 0.38, blue: 0.38, alpha: 1.0)
         self.secondaryPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.primaryPlaceholderText = primaryPlaceholder
         self.secondaryPlaceholderText = secondaryPlaceholder
-        
+
         self.splitScreenContainer = UIStackView()
         self.splitScreenContainer.axis = .horizontal
         self.splitScreenContainer.distribution = .fillEqually
@@ -110,7 +110,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
         pipCallViewController = AVPictureInPictureVideoCallViewController()
         pipCallViewController?.preferredContentSize = CGSize(width: 1920, height: 1080)
-        
+
         guard let pipCallViewController = pipCallViewController else { return }
 
         setupSplitScreenLayout()
@@ -123,58 +123,58 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         guard let contentSource = contentSource else { return }
 
         pipController = AVPictureInPictureController(contentSource: contentSource)
-        
+
         pipController?.delegate = self
     }
-    
+
     private func setupSplitScreenLayout() {
         guard let pipCallViewController = pipCallViewController else { return }
-        
+
         let primaryContainer = UIView()
         primaryContainer.translatesAutoresizingMaskIntoConstraints = false
-        
+
         let secondaryContainerView = UIView()
         secondaryContainerView.translatesAutoresizingMaskIntoConstraints = false
         self.secondaryContainer = secondaryContainerView
-        
+
         primaryContainer.addSubview(primaryPlaceholderLabel)
         secondaryContainerView.addSubview(secondaryPlaceholderLabel)
-        
+
         primaryContainer.addSubview(primarySampleView)
         secondaryContainerView.addSubview(secondarySampleView)
-        
+
         splitScreenContainer.addArrangedSubview(primaryContainer)
         splitScreenContainer.addArrangedSubview(secondaryContainerView)
-        
+
         pipCallViewController.view.addSubview(splitScreenContainer)
-        
+
         NSLayoutConstraint.activate([
             splitScreenContainer.leadingAnchor.constraint(equalTo: pipCallViewController.view.leadingAnchor),
             splitScreenContainer.trailingAnchor.constraint(equalTo: pipCallViewController.view.trailingAnchor),
             splitScreenContainer.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
             splitScreenContainer.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
-            
+
             primaryPlaceholderLabel.leadingAnchor.constraint(equalTo: primaryContainer.leadingAnchor),
             primaryPlaceholderLabel.trailingAnchor.constraint(equalTo: primaryContainer.trailingAnchor),
             primaryPlaceholderLabel.topAnchor.constraint(equalTo: primaryContainer.topAnchor),
             primaryPlaceholderLabel.bottomAnchor.constraint(equalTo: primaryContainer.bottomAnchor),
-            
+
             secondaryPlaceholderLabel.leadingAnchor.constraint(equalTo: secondaryContainerView.leadingAnchor),
             secondaryPlaceholderLabel.trailingAnchor.constraint(equalTo: secondaryContainerView.trailingAnchor),
             secondaryPlaceholderLabel.topAnchor.constraint(equalTo: secondaryContainerView.topAnchor),
             secondaryPlaceholderLabel.bottomAnchor.constraint(equalTo: secondaryContainerView.bottomAnchor),
-            
+
             primarySampleView.leadingAnchor.constraint(equalTo: primaryContainer.leadingAnchor),
             primarySampleView.trailingAnchor.constraint(equalTo: primaryContainer.trailingAnchor),
             primarySampleView.topAnchor.constraint(equalTo: primaryContainer.topAnchor),
             primarySampleView.bottomAnchor.constraint(equalTo: primaryContainer.bottomAnchor),
-            
+
             secondarySampleView.leadingAnchor.constraint(equalTo: secondaryContainerView.leadingAnchor),
             secondarySampleView.trailingAnchor.constraint(equalTo: secondaryContainerView.trailingAnchor),
             secondarySampleView.topAnchor.constraint(equalTo: secondaryContainerView.topAnchor),
             secondarySampleView.bottomAnchor.constraint(equalTo: secondaryContainerView.bottomAnchor),
         ])
-        
+
         primarySampleView.isHidden = true
         secondarySampleView.isHidden = true
     }
@@ -202,7 +202,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             primaryPlaceholderLabel.isHidden = false
         }
     }
-    
+
     private func handleSecondaryVideoTrackChange(from oldTrack: RTCVideoTrack?, to newTrack: RTCVideoTrack?) {
         if let oldTrack = oldTrack {
             oldTrack.remove(secondarySampleView)
@@ -217,20 +217,20 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             secondaryPlaceholderLabel.isHidden = false
         }
     }
-    
+
     public func updateSecondaryTrack(trackInfo: RemoteTrackInfo?) {
         if let oldTrack = secondaryVideoTrack {
             oldTrack.remove(secondarySampleView)
             secondaryVideoTrack = nil
         }
-        
+
         guard let trackInfo = trackInfo else {
             secondarySampleView.isHidden = true
             secondaryPlaceholderLabel.isHidden = true
             secondaryContainer?.isHidden = true
             return
         }
-        
+
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
             secondaryVideoTrack = videoTrack
             videoTrack.add(secondarySampleView)
@@ -249,7 +249,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         primaryVideoTrack?.remove(primarySampleView)
         secondaryVideoTrack?.remove(secondarySampleView)
     }
-    
+
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         if stopAutomatically {
             UIView.animate(withDuration: 0.5) {
@@ -263,24 +263,34 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             }
         }
     }
-    
-    public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: any Error) {
+
+    public func pictureInPictureController(
+        _ pictureInPictureController: AVPictureInPictureController,
+        failedToStartPictureInPictureWithError error: any Error
+    ) {
         print(error.localizedDescription)
     }
-    
-    public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+
+    public func pictureInPictureControllerWillStartPictureInPicture(
+        _ pictureInPictureController: AVPictureInPictureController
+    ) {
         primarySampleView.layer.opacity = 1
         primarySampleView.shouldRender = true
         secondarySampleView.layer.opacity = 1
         secondarySampleView.shouldRender = true
     }
-    
-    public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+
+    public func pictureInPictureControllerDidStopPictureInPicture(
+        _ pictureInPictureController: AVPictureInPictureController
+    ) {
         primarySampleView.shouldRender = false
         secondarySampleView.shouldRender = false
     }
-    
-    public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+
+    public func pictureInPictureController(
+        _ pictureInPictureController: AVPictureInPictureController,
+        restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void
+    ) {
         completionHandler(true)
     }
 

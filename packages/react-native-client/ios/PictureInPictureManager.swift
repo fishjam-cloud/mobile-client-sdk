@@ -45,7 +45,6 @@ class PictureInPictureManager {
         self.startAutomatically = true
         self.stopAutomatically = true
         
-        // Register for track updates
         RNFishjamClient.tracksUpdateListenersManager.add(self)
     }
     
@@ -65,7 +64,6 @@ class PictureInPictureManager {
             newController.stopAutomatically = stopAutomatically
             controller = newController
             
-            // Update tracks after controller is created
             updateTracks()
         }
         return controller

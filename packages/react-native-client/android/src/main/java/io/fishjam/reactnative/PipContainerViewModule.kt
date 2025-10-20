@@ -18,9 +18,7 @@ class PipContainerViewModule : Module() {
         }
 
         // iOS-only property, no-op on Android
-        Prop("allowsCameraInBackground") { _: PipContainerView, _: Boolean ->
-          // No-op on Android
-        }
+        Prop("allowsCameraInBackground") { _: PipContainerView, _: Boolean -> }
 
         Prop("primaryPlaceholderText") { view: PipContainerView, value: String ->
           view.primaryPlaceholderText = value
