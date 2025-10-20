@@ -19,6 +19,12 @@ import fishjam.media_events.server.Server
 import io.fishjam.reactnative.helpers.PictureInPictureHelperFragment
 import io.fishjam.reactnative.managers.TrackUpdateListener
 
+data class RemoteTrackInfo(
+  val videoTrack: com.fishjamcloud.client.media.VideoTrack?,
+  val displayName: String?,
+  val hasVideoTrack: Boolean
+)
+
 class PipContainerView(
   context: Context,
   appContext: AppContext
@@ -34,6 +40,8 @@ class PipContainerView(
   private var primaryPlaceholder: android.widget.TextView? = null
   private var secondaryPlaceholder: android.widget.TextView? = null
   private var splitScreenContainer: android.widget.LinearLayout? = null
+  private var primaryContainer: FrameLayout? = null
+  private var secondaryContainer: FrameLayout? = null
 
   @RequiresApi(Build.VERSION_CODES.O)
   private var pictureInPictureParamsBuilder = PictureInPictureParams.Builder()
@@ -85,78 +93,93 @@ class PipContainerView(
     val peers = RNFishjamClient.getAllPeers()
     val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
     val localPeer = peers.firstOrNull { it.id == localEndpointId } ?: return null
-    
+
     return localPeer.tracks.values.firstOrNull { track ->
-      track is com.fishjamcloud.client.media.VideoTrack && 
+      track is com.fishjamcloud.client.media.VideoTrack &&
       (track.metadata as? Map<*, *>)?.get("type") == "camera"
     } as? com.fishjamcloud.client.media.VideoTrack
   }
 
-  private fun findRemoteVadActiveTrack(): com.fishjamcloud.client.media.VideoTrack? {
+  private fun findRemoteVadActiveTrack(): RemoteTrackInfo? {
     val peers = RNFishjamClient.getAllPeers()
     val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
     val remotePeers = peers.filter { it.id != localEndpointId }
-    
+
     // First pass: look for active VAD
     for (peer in remotePeers) {
       // Find if this peer has an active VAD audio track
       val hasActiveVad = peer.tracks.values.any { track ->
-        track is com.fishjamcloud.client.media.RemoteAudioTrack && 
+        track is com.fishjamcloud.client.media.RemoteAudioTrack &&
         track.vadStatus == Server.MediaEvent.VadNotification.Status.STATUS_SPEECH
       }
-      
+
       if (hasActiveVad) {
-        // Return the first video track from this peer
-        return peer.tracks.values.firstOrNull { track ->
+        val videoTrack = peer.tracks.values.firstOrNull { track ->
           track is com.fishjamcloud.client.media.VideoTrack
         } as? com.fishjamcloud.client.media.VideoTrack
+
+        val displayName = (peer.metadata?.get("displayName") ?: peer.metadata?.get("name") ?: peer.id) as? String ?: peer.id
+
+        return RemoteTrackInfo(
+          videoTrack = videoTrack,
+          displayName = displayName,
+          hasVideoTrack = videoTrack != null
+        )
       }
     }
-    
-    // Fallback: return first available remote video track
+
+    // Fallback: return first available remote peer with video track
     for (peer in remotePeers) {
       val videoTrack = peer.tracks.values.firstOrNull { track ->
         track is com.fishjamcloud.client.media.VideoTrack
       } as? com.fishjamcloud.client.media.VideoTrack
-      
+
       if (videoTrack != null) {
-        return videoTrack
+        val displayName = (peer.metadata?.get("displayName") ?: peer.metadata?.get("name") ?: peer.id) as? String ?: peer.id
+        return RemoteTrackInfo(
+          videoTrack = videoTrack,
+          displayName = displayName,
+          hasVideoTrack = true
+        )
       }
     }
-    
+
     return null
   }
 
   private fun updatePipViews() {
     val localCameraTrack = findLocalCameraTrack()
-    val remoteVadTrack = findRemoteVadActiveTrack()
-    
+    val remoteTrackInfo = findRemoteVadActiveTrack()
+
     // Update primary view (local camera)
     if (localCameraTrack != null) {
-      if (primaryVideoView == null) {
-        primaryVideoView = VideoRendererView(context, appContext)
-      }
-      primaryVideoView?.let { view ->
-        view.init(localCameraTrack.id())
-      }
+      primaryVideoView?.init(localCameraTrack.id())
+      primaryVideoView?.visibility = View.VISIBLE
       primaryPlaceholder?.visibility = View.GONE
     } else {
-      primaryVideoView = null
+      primaryVideoView?.visibility = View.GONE
       primaryPlaceholder?.visibility = View.VISIBLE
     }
-    
+
     // Update secondary view (remote VAD)
-    if (remoteVadTrack != null) {
-      if (secondaryVideoView == null) {
-        secondaryVideoView = VideoRendererView(context, appContext)
+    if (remoteTrackInfo != null) {
+      if (remoteTrackInfo.hasVideoTrack) {
+        // Has video track - show video
+        secondaryVideoView?.init(remoteTrackInfo.videoTrack!!.id())
+        secondaryVideoView?.visibility = View.VISIBLE
+        secondaryPlaceholder?.visibility = View.GONE
+      } else {
+        // Has audio only - show display name
+        secondaryVideoView?.visibility = View.GONE
+        secondaryPlaceholder?.text = remoteTrackInfo.displayName
+        secondaryPlaceholder?.visibility = View.VISIBLE
       }
-      secondaryVideoView?.let { view ->
-        view.init(remoteVadTrack.id())
-      }
-      secondaryPlaceholder?.visibility = View.GONE
+      secondaryContainer?.visibility = View.VISIBLE
     } else {
-      secondaryVideoView = null
-      secondaryPlaceholder?.visibility = View.VISIBLE
+      // No remote track - hide secondary container entirely
+      secondaryVideoView?.visibility = View.GONE
+      secondaryPlaceholder?.visibility = View.GONE
+      secondaryContainer?.visibility = View.GONE
     }
   }
 
@@ -187,8 +210,7 @@ class PipContainerView(
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
       updateAutoEnterEnabled()
     }
-    
-    // Register for track updates
+
     RNFishjamClient.trackUpdateListenersManager.add(this)
   }
 
@@ -201,8 +223,7 @@ class PipContainerView(
         .remove(fragment)
         .commitAllowingStateLoss()
     }
-    
-    // Unregister from track updates
+
     RNFishjamClient.trackUpdateListenersManager.remove(this)
   }
 
@@ -229,8 +250,7 @@ class PipContainerView(
       )
     }
 
-    // Create primary container (left)
-    val primaryContainer = FrameLayout(context).apply {
+    primaryContainer = FrameLayout(context).apply {
       layoutParams = LinearLayout.LayoutParams(
         0,
         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -238,8 +258,7 @@ class PipContainerView(
       )
     }
 
-    // Create secondary container (right)
-    val secondaryContainer = FrameLayout(context).apply {
+    secondaryContainer = FrameLayout(context).apply {
       layoutParams = LinearLayout.LayoutParams(
         0,
         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -247,60 +266,57 @@ class PipContainerView(
       )
     }
 
-    // Create placeholders
     primaryPlaceholder = createPlaceholderTextView(primaryPlaceholderText)
     secondaryPlaceholder = createPlaceholderTextView(secondaryPlaceholderText)
 
-    primaryContainer.addView(
+    primaryVideoView = VideoRendererView(context, appContext).apply {
+      setVideoLayout("FILL")
+      visibility = View.GONE
+    }
+
+    secondaryVideoView = VideoRendererView(context, appContext).apply {
+      setVideoLayout("FILL")
+      visibility = View.GONE
+    }
+
+    primaryContainer?.addView(
       primaryPlaceholder,
       FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
       )
     )
-
-    secondaryContainer.addView(
-      secondaryPlaceholder,
+    primaryContainer?.addView(
+      primaryVideoView,
       FrameLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT
       )
     )
 
-    // Add video views if available
-    primaryVideoView?.let {
-      primaryContainer.addView(
-        it,
-        FrameLayout.LayoutParams(
-          ViewGroup.LayoutParams.MATCH_PARENT,
-          ViewGroup.LayoutParams.MATCH_PARENT
-        )
+    secondaryContainer?.addView(
+      secondaryPlaceholder,
+      FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
       )
-      primaryPlaceholder?.visibility = View.GONE
-    }
-
-    secondaryVideoView?.let {
-      secondaryContainer.addView(
-        it,
-        FrameLayout.LayoutParams(
-          ViewGroup.LayoutParams.MATCH_PARENT,
-          ViewGroup.LayoutParams.MATCH_PARENT
-        )
+    )
+    secondaryContainer?.addView(
+      secondaryVideoView,
+      FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
       )
-      secondaryPlaceholder?.visibility = View.GONE
-    }
+    )
 
-    container.addView(primaryContainer)
-    container.addView(secondaryContainer)
+    primaryContainer?.let { container.addView(it) }
+    secondaryContainer?.let { container.addView(it) }
 
     return container
   }
 
   fun layoutForPiPEnter() {
     if (rootView == null) return
-
-    // Update tracks before entering PiP
-    updatePipViews()
 
     // Hide all root view children
     for (i in 0 until rootView.childCount) {
@@ -312,6 +328,8 @@ class PipContainerView(
     // Create and add split screen container
     splitScreenContainer = createSplitScreenContainer()
     rootView.addView(splitScreenContainer)
+
+    updatePipViews()
   }
 
   fun layoutForPiPExit() {
@@ -330,6 +348,8 @@ class PipContainerView(
     primaryPlaceholder = null
     secondaryPlaceholder = null
     splitScreenContainer = null
+    primaryContainer = null
+    secondaryContainer = null
 
     // Restore visibility of other root view children
     var visibilityIndex = 0
