@@ -87,7 +87,7 @@ class PictureInPictureManager {
         return nil
     }
     
-    private func findRemoteVadActiveTrack() -> RTCVideoTrack? {
+    private func findRemoteVadActiveTrack() -> RemoteTrackInfo? {
         guard let fishjamClient = fishjamClient else { return nil }
         
         let remoteEndpoints = fishjamClient.getRemoteEndpoints()
@@ -103,21 +103,36 @@ class PictureInPictureManager {
             }
             
             if hasActiveVad {
-                // Return the first video track from this endpoint
-                for (_, track) in endpoint.tracks {
-                    if let videoTrack = track as? RemoteVideoTrack {
-                        return videoTrack.mediaTrack as? RTCVideoTrack
-                    }
-                }
+                let videoTrack = endpoint.tracks.values.first { track in
+                    track is RemoteVideoTrack
+                } as? RemoteVideoTrack
+                
+                let metadataDict = endpoint.metadata.toDict()
+                let displayName = (metadataDict["displayName"] as? String) ??
+                                 (metadataDict["name"] as? String) ??
+                                 endpoint.id
+                
+                return RemoteTrackInfo(
+                    videoTrack: videoTrack?.mediaTrack as? RTCVideoTrack,
+                    displayName: displayName,
+                    hasVideoTrack: videoTrack != nil
+                )
             }
         }
         
-        // Fallback: return first available remote video track
+        // Fallback: return first available remote peer with video track
         for endpoint in remoteEndpoints {
-            for (_, track) in endpoint.tracks {
-                if let videoTrack = track as? RemoteVideoTrack {
-                    return videoTrack.mediaTrack as? RTCVideoTrack
-                }
+            if let videoTrack = endpoint.tracks.values.first(where: { $0 is RemoteVideoTrack }) as? RemoteVideoTrack {
+                let metadataDict = endpoint.metadata.toDict()
+                let displayName = (metadataDict["displayName"] as? String) ??
+                                 (metadataDict["name"] as? String) ??
+                                 endpoint.id
+                
+                return RemoteTrackInfo(
+                    videoTrack: videoTrack.mediaTrack as? RTCVideoTrack,
+                    displayName: displayName,
+                    hasVideoTrack: true
+                )
             }
         }
         
@@ -128,10 +143,10 @@ class PictureInPictureManager {
         guard let pipController = controller else { return }
         
         let localCameraTrack = findLocalCameraTrack()
-        let remoteVadTrack = findRemoteVadActiveTrack()
+        let remoteTrackInfo = findRemoteVadActiveTrack()
         
         pipController.primaryVideoTrack = localCameraTrack
-        pipController.secondaryVideoTrack = remoteVadTrack
+        pipController.updateSecondaryTrack(trackInfo: remoteTrackInfo)
     }
     
 

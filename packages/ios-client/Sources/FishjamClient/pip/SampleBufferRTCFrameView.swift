@@ -12,7 +12,7 @@ public class SampleBufferVideoCallView: UIView {
         super.init(frame: frame)
 
         layer.addSublayer(sampleBufferLayer)
-        sampleBufferLayer.videoGravity = .resizeAspect
+        sampleBufferLayer.videoGravity = .resizeAspectFill
         translatesAutoresizingMaskIntoConstraints = false
     }
 

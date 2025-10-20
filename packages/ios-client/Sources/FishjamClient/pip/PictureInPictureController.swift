@@ -8,6 +8,18 @@ import Foundation
 import UIKit
 import WebRTC
 
+public struct RemoteTrackInfo {
+    let videoTrack: RTCVideoTrack?
+    let displayName: String?
+    let hasVideoTrack: Bool
+    
+    public init(videoTrack: RTCVideoTrack?, displayName: String?, hasVideoTrack: Bool) {
+        self.videoTrack = videoTrack
+        self.displayName = displayName
+        self.hasVideoTrack = hasVideoTrack
+    }
+}
+
 public class PictureInPictureController: NSObject, AVPictureInPictureControllerDelegate {
     public weak var sourceView: UIView?
     
@@ -50,18 +62,17 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     private let primaryPlaceholderLabel: UILabel
     private let secondaryPlaceholderLabel: UILabel
     private let splitScreenContainer: UIStackView
+    private var secondaryContainer: UIView?
 
     public init(sourceView: UIView, primaryPlaceholder: String = "No camera", secondaryPlaceholder: String = "No active speaker") {
         self.sourceView = sourceView
         
-        // Create sample views
         self.primarySampleView = SampleBufferVideoCallView(frame: .zero)
         self.primarySampleView.translatesAutoresizingMaskIntoConstraints = false
         
         self.secondarySampleView = SampleBufferVideoCallView(frame: .zero)
         self.secondarySampleView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Create placeholder labels
         self.primaryPlaceholderLabel = UILabel()
         self.primaryPlaceholderLabel.text = primaryPlaceholder
         self.primaryPlaceholderLabel.textAlignment = .center
@@ -79,7 +90,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         self.primaryPlaceholderText = primaryPlaceholder
         self.secondaryPlaceholderText = secondaryPlaceholder
         
-        // Create split screen container
         self.splitScreenContainer = UIStackView()
         self.splitScreenContainer.axis = .horizontal
         self.splitScreenContainer.distribution = .fillEqually
@@ -103,7 +113,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         
         guard let pipCallViewController = pipCallViewController else { return }
 
-        // Setup split screen layout
         setupSplitScreenLayout()
 
         contentSource = AVPictureInPictureController.ContentSource(
@@ -121,62 +130,51 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     private func setupSplitScreenLayout() {
         guard let pipCallViewController = pipCallViewController else { return }
         
-        // Create containers for each side
         let primaryContainer = UIView()
         primaryContainer.translatesAutoresizingMaskIntoConstraints = false
         
-        let secondaryContainer = UIView()
-        secondaryContainer.translatesAutoresizingMaskIntoConstraints = false
+        let secondaryContainerView = UIView()
+        secondaryContainerView.translatesAutoresizingMaskIntoConstraints = false
+        self.secondaryContainer = secondaryContainerView
         
-        // Add placeholders to containers
         primaryContainer.addSubview(primaryPlaceholderLabel)
-        secondaryContainer.addSubview(secondaryPlaceholderLabel)
+        secondaryContainerView.addSubview(secondaryPlaceholderLabel)
         
-        // Add video views on top of placeholders
         primaryContainer.addSubview(primarySampleView)
-        secondaryContainer.addSubview(secondarySampleView)
+        secondaryContainerView.addSubview(secondarySampleView)
         
-        // Add containers to split screen
         splitScreenContainer.addArrangedSubview(primaryContainer)
-        splitScreenContainer.addArrangedSubview(secondaryContainer)
+        splitScreenContainer.addArrangedSubview(secondaryContainerView)
         
-        // Add split screen to PiP view controller
         pipCallViewController.view.addSubview(splitScreenContainer)
         
-        // Setup constraints
         NSLayoutConstraint.activate([
-            // Split screen fills the entire PiP view
             splitScreenContainer.leadingAnchor.constraint(equalTo: pipCallViewController.view.leadingAnchor),
             splitScreenContainer.trailingAnchor.constraint(equalTo: pipCallViewController.view.trailingAnchor),
             splitScreenContainer.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
             splitScreenContainer.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
             
-            // Primary placeholder fills its container
             primaryPlaceholderLabel.leadingAnchor.constraint(equalTo: primaryContainer.leadingAnchor),
             primaryPlaceholderLabel.trailingAnchor.constraint(equalTo: primaryContainer.trailingAnchor),
             primaryPlaceholderLabel.topAnchor.constraint(equalTo: primaryContainer.topAnchor),
             primaryPlaceholderLabel.bottomAnchor.constraint(equalTo: primaryContainer.bottomAnchor),
             
-            // Secondary placeholder fills its container
-            secondaryPlaceholderLabel.leadingAnchor.constraint(equalTo: secondaryContainer.leadingAnchor),
-            secondaryPlaceholderLabel.trailingAnchor.constraint(equalTo: secondaryContainer.trailingAnchor),
-            secondaryPlaceholderLabel.topAnchor.constraint(equalTo: secondaryContainer.topAnchor),
-            secondaryPlaceholderLabel.bottomAnchor.constraint(equalTo: secondaryContainer.bottomAnchor),
+            secondaryPlaceholderLabel.leadingAnchor.constraint(equalTo: secondaryContainerView.leadingAnchor),
+            secondaryPlaceholderLabel.trailingAnchor.constraint(equalTo: secondaryContainerView.trailingAnchor),
+            secondaryPlaceholderLabel.topAnchor.constraint(equalTo: secondaryContainerView.topAnchor),
+            secondaryPlaceholderLabel.bottomAnchor.constraint(equalTo: secondaryContainerView.bottomAnchor),
             
-            // Primary sample view fills its container
             primarySampleView.leadingAnchor.constraint(equalTo: primaryContainer.leadingAnchor),
             primarySampleView.trailingAnchor.constraint(equalTo: primaryContainer.trailingAnchor),
             primarySampleView.topAnchor.constraint(equalTo: primaryContainer.topAnchor),
             primarySampleView.bottomAnchor.constraint(equalTo: primaryContainer.bottomAnchor),
             
-            // Secondary sample view fills its container
-            secondarySampleView.leadingAnchor.constraint(equalTo: secondaryContainer.leadingAnchor),
-            secondarySampleView.trailingAnchor.constraint(equalTo: secondaryContainer.trailingAnchor),
-            secondarySampleView.topAnchor.constraint(equalTo: secondaryContainer.topAnchor),
-            secondarySampleView.bottomAnchor.constraint(equalTo: secondaryContainer.bottomAnchor),
+            secondarySampleView.leadingAnchor.constraint(equalTo: secondaryContainerView.leadingAnchor),
+            secondarySampleView.trailingAnchor.constraint(equalTo: secondaryContainerView.trailingAnchor),
+            secondarySampleView.topAnchor.constraint(equalTo: secondaryContainerView.topAnchor),
+            secondarySampleView.bottomAnchor.constraint(equalTo: secondaryContainerView.bottomAnchor),
         ])
         
-        // Initially hide video views (show placeholders)
         primarySampleView.isHidden = true
         secondarySampleView.isHidden = true
     }
@@ -217,6 +215,33 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         } else {
             secondarySampleView.isHidden = true
             secondaryPlaceholderLabel.isHidden = false
+        }
+    }
+    
+    public func updateSecondaryTrack(trackInfo: RemoteTrackInfo?) {
+        if let oldTrack = secondaryVideoTrack {
+            oldTrack.remove(secondarySampleView)
+            secondaryVideoTrack = nil
+        }
+        
+        guard let trackInfo = trackInfo else {
+            secondarySampleView.isHidden = true
+            secondaryPlaceholderLabel.isHidden = true
+            secondaryContainer?.isHidden = true
+            return
+        }
+        
+        if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
+            secondaryVideoTrack = videoTrack
+            videoTrack.add(secondarySampleView)
+            secondarySampleView.isHidden = false
+            secondaryPlaceholderLabel.isHidden = true
+            secondaryContainer?.isHidden = false
+        } else {
+            secondarySampleView.isHidden = true
+            secondaryPlaceholderLabel.text = trackInfo.displayName
+            secondaryPlaceholderLabel.isHidden = false
+            secondaryContainer?.isHidden = false
         }
     }
 
