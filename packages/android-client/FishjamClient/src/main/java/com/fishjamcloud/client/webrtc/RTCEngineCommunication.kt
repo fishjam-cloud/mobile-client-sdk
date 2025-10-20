@@ -7,9 +7,10 @@ import com.fishjamcloud.client.utils.gson
 import com.fishjamcloud.client.utils.serializeToMap
 import fishjam.media_events.Shared
 import timber.log.Timber
+import java.util.concurrent.CopyOnWriteArrayList
 
 internal class RTCEngineCommunication {
-  private val listeners = mutableListOf<RTCEngineListener>()
+  private val listeners = CopyOnWriteArrayList<RTCEngineListener>()
 
   fun addListener(listener: RTCEngineListener) {
     listeners.add(listener)

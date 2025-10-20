@@ -905,29 +905,37 @@ class RNFishjamClient(
     }
   }
 
-  override fun onTrackAdded(track: Track) {}
+  override fun onTrackAdded(track: Track) {
+    CoroutineScope(Dispatchers.Main).launch {
+      trackUpdateListenersManager.notifyListeners()
+    }
+  }
 
   override fun onTrackRemoved(track: Track) {
     CoroutineScope(Dispatchers.Main).launch {
       emitEndpoints()
+      trackUpdateListenersManager.notifyListeners()
     }
   }
 
   override fun onTrackUpdated(track: Track) {
     CoroutineScope(Dispatchers.Main).launch {
       emitEndpoints()
+      trackUpdateListenersManager.notifyListeners()
     }
   }
 
   override fun onPeerJoined(peer: Peer) {
     CoroutineScope(Dispatchers.Main).launch {
       emitEndpoints()
+      trackUpdateListenersManager.notifyListeners()
     }
   }
 
   override fun onPeerLeft(peer: Peer) {
     CoroutineScope(Dispatchers.Main).launch {
       emitEndpoints()
+      trackUpdateListenersManager.notifyListeners()
     }
   }
 
