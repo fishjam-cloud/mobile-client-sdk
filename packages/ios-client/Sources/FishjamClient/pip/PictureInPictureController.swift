@@ -106,12 +106,12 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     }
 
     private func setupPictureInPicture() {
-        guard let sourceView = sourceView else { return }
+        guard let sourceView else { return }
 
         pipCallViewController = AVPictureInPictureVideoCallViewController()
         pipCallViewController?.preferredContentSize = CGSize(width: 1920, height: 1080)
 
-        guard let pipCallViewController = pipCallViewController else { return }
+        guard let pipCallViewController else { return }
 
         setupSplitScreenLayout()
 
@@ -120,7 +120,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             contentViewController: pipCallViewController
         )
 
-        guard let contentSource = contentSource else { return }
+        guard let contentSource else { return }
 
         pipController = AVPictureInPictureController(contentSource: contentSource)
 
@@ -128,7 +128,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     }
 
     private func setupSplitScreenLayout() {
-        guard let pipCallViewController = pipCallViewController else { return }
+        guard let pipCallViewController else { return }
 
         let primaryContainer = UIView()
         primaryContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -189,7 +189,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     }
 
     private func handlePrimaryVideoTrackChange(from oldTrack: RTCVideoTrack?, to newTrack: RTCVideoTrack?) {
-        if let oldTrack = oldTrack {
+        if let oldTrack {
             oldTrack.remove(primarySampleView)
         }
 
@@ -257,7 +257,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
                 self.secondarySampleView.layer.opacity = 0
             }
 
-            // Arbitraty 0.5s, if called to early won't have any effect.
+            // Arbitraty 0.5s, if called too early won't have any effect.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.pipController?.stopPictureInPicture()
             }

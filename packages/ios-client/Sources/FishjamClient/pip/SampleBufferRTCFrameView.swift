@@ -90,7 +90,7 @@ extension SampleBufferVideoCallView: RTCVideoRenderer {
 
     public func renderFrame(_ frame: RTCVideoFrame?) {
         guard shouldRender else { return }
-        guard let frame = frame, let sampleBuffer = sampleBuffer(from: frame) else { return }
+        guard let frame, let sampleBuffer = sampleBuffer(from: frame) else { return }
 
         sampleBufferLayer.enqueue(sampleBuffer)
     }

@@ -86,7 +86,7 @@ class PictureInPictureManager {
     }
     
     private func findRemoteVadActiveTrack() -> RemoteTrackInfo? {
-        guard let fishjamClient = fishjamClient else { return nil }
+        guard let fishjamClient else { return nil }
         
         let remoteEndpoints = fishjamClient.getRemoteEndpoints()
         
