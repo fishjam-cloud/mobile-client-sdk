@@ -14,6 +14,5 @@
   "kindSortOrder": ["Method", "Function"],
   "readme": "none",
   "excludeExternals": true,
-  "excludePrivate": true,
-  "excludeInherited": true
+  "excludePrivate": true
 }
