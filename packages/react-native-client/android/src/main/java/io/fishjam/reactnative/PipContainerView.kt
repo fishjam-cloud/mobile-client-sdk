@@ -219,6 +219,8 @@ class PipContainerView(
         .commitAllowingStateLoss()
     }
 
+    startAutomatically = false
+
     RNFishjamClient.trackUpdateListenersManager.remove(this)
   }
 
@@ -278,7 +280,7 @@ class PipContainerView(
       ViewGroup.LayoutParams.MATCH_PARENT,
       ViewGroup.LayoutParams.MATCH_PARENT
     )
-    
+
     val primaryVideoParams = RelativeLayout.LayoutParams(
       ViewGroup.LayoutParams.MATCH_PARENT,
       ViewGroup.LayoutParams.MATCH_PARENT
@@ -290,7 +292,7 @@ class PipContainerView(
       ViewGroup.LayoutParams.MATCH_PARENT,
       ViewGroup.LayoutParams.MATCH_PARENT
     )
-    
+
     val secondaryVideoParams = RelativeLayout.LayoutParams(
       ViewGroup.LayoutParams.MATCH_PARENT,
       ViewGroup.LayoutParams.MATCH_PARENT
