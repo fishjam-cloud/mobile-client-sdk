@@ -313,12 +313,11 @@ class PipContainerView(
     if (rootView == null) return
 
     hideAllRootViewChildren(rootView)
-    rootView.addView(createSplitScreenContainer())
+    splitScreenContainer = createSplitScreenContainer()
+    rootView.addView(splitScreenContainer)
 
     updatePipViews()
   }
-
-
 
   fun layoutForPiPExit() {
     if (rootView == null) return
