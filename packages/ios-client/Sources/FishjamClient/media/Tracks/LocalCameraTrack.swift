@@ -72,4 +72,16 @@ public class LocalCameraTrack: LocalVideoTrack, LocalTrack {
     public static func getCaptureDevices() -> [AVCaptureDevice] {
         return RTCCameraVideoCapturer.captureDevices()
     }
+
+    public func isMultitaskingCameraAccessSupported() -> Bool {
+        return capturer.isMultitaskingCameraAccessSupported()
+    }
+
+    public func setMultitaskingCameraAccessEnabled(_ enabled: Bool) -> Bool {
+        return capturer.setMultitaskingCameraAccessEnabled(enabled)
+    }
+
+    public func isMultitaskingCameraAccessEnabled() -> Bool {
+        return capturer.isMultitaskingCameraAccessEnabled()
+    }
 }

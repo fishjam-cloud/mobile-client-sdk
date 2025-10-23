@@ -62,11 +62,13 @@
         "@fishjam-cloud/react-native-client",
         {
           "android": {
-            "enableForegroundService": true
+            "enableForegroundService": true,
+            "supportsPictureInPicture": true
           },
           "ios": {
             "enableScreensharing": true,
-            "enableVoIPBackgroundMode": true
+            "enableVoIPBackgroundMode": true,
+            "supportsPictureInPicture": true
           }
         }
       ],

@@ -12,5 +12,7 @@
   ],
   "sort": ["kind", "alphabetical"],
   "kindSortOrder": ["Method", "Function"],
-  "readme": "none"
+  "readme": "none",
+  "excludeExternals": true,
+  "excludePrivate": true
 }

@@ -8,6 +8,7 @@ public protocol CameraCapturerDeviceChangedListener: AnyObject {
 class CameraCapturer: VideoCapturer {
     private let videoParameters: VideoParameters
     private let capturer: RTCCameraVideoCapturer
+    private let captureSession: AVCaptureSession
     internal var isFront: Bool = true
     private(set) var device: AVCaptureDevice? {
         didSet {
@@ -19,7 +20,8 @@ class CameraCapturer: VideoCapturer {
 
     init(videoParameters: VideoParameters, delegate: RTCVideoCapturerDelegate, deviceId: String? = nil) {
         self.videoParameters = videoParameters
-        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: AVCaptureSession())
+        self.captureSession = AVCaptureSession()
+        self.capturer = RTCCameraVideoCapturer(delegate: delegate, captureSession: captureSession)
         let devices = RTCCameraVideoCapturer.captureDevices()
 
         if let newDevice = devices.first(where: { $0.uniqueID == deviceId }) {
@@ -112,5 +114,30 @@ class CameraCapturer: VideoCapturer {
                 self.mirrorVideo(self.isFront)
             }
         )
+    }
+
+    public func isMultitaskingCameraAccessSupported() -> Bool {
+        if #available(iOS 16.0, *) {
+            return captureSession.isMultitaskingCameraAccessSupported
+        }
+        return false
+    }
+
+    public func setMultitaskingCameraAccessEnabled(_ enabled: Bool) -> Bool {
+        if #available(iOS 16.0, *) {
+            guard captureSession.isMultitaskingCameraAccessSupported else {
+                return false
+            }
+            captureSession.isMultitaskingCameraAccessEnabled = enabled
+            return true
+        }
+        return false
+    }
+
+    public func isMultitaskingCameraAccessEnabled() -> Bool {
+        if #available(iOS 16.0, *) {
+            return captureSession.isMultitaskingCameraAccessEnabled
+        }
+        return false
     }
 }

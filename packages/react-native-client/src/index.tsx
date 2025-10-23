@@ -17,9 +17,14 @@ export { updatePeerMetadata } from './common/metadata';
 // #region components
 export type { VideoPreviewViewProps } from './components/VideoPreviewView';
 export type { VideoRendererProps } from './components/VideoRendererView';
-
+export type {
+  PipContainerViewRef,
+  PipContainerViewProps,
+  PictureInPictureConfig,
+} from './components/PipContainerView';
 export { VideoPreviewView } from './components/VideoPreviewView';
 export { VideoRendererView } from './components/VideoRendererView';
+export { PipContainerView } from './components/PipContainerView';
 // #endregion
 
 // #region types for hooks

@@ -1,7 +1,9 @@
 package io.fishjam.reactnative.managers
 
+import java.util.concurrent.CopyOnWriteArrayList
+
 abstract class ListenerManager<T> {
-  protected var listeners: MutableList<T> = mutableListOf()
+  protected var listeners = CopyOnWriteArrayList<T>()
     private set
 
   fun add(listener: T) {

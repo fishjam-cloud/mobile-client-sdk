@@ -3,6 +3,7 @@ package com.fishjamcloud.client
 import com.fishjamcloud.client.models.ReconnectConfig
 import timber.log.Timber
 import java.util.Timer
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.schedule
 
 interface ReconnectionManagerListener {
@@ -31,7 +32,7 @@ internal class ReconnectionManager(
   private var reconnectConfig: ReconnectConfig = ReconnectConfig(),
   private val connect: () -> Unit
 ) {
-  private val listeners = mutableListOf<ReconnectionManagerListener>()
+  private val listeners = CopyOnWriteArrayList<ReconnectionManagerListener>()
   private var reconnectAttempts = 0
   private var reconnectionStatus = ReconnectionStatus.Idle
 

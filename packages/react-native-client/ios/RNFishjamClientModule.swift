@@ -121,6 +121,10 @@ public class RNFishjamClientModule: Module {
             return rnFishjamClient.isCameraInitialized
         }
         
+        Property("hasActiveCallKitSession") {
+            return rnFishjamClient.hasActiveCallKitSession
+        }
+        
         Function("getPeers") {
             return rnFishjamClient.getPeers()
         }
@@ -281,8 +285,5 @@ public class RNFishjamClientModule: Module {
             rnFishjamClient.endCallKitSession()
         }
         
-        Property("hasActiveCallKitSession") {
-            return rnFishjamClient.hasActiveCallKitSession
-        }
     }
 }

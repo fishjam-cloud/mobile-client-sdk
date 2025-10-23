@@ -4,14 +4,16 @@
     "modules": [
       "RNFishjamClientModule",
       "VideoPreviewViewModule",
-      "VideoRendererViewModule"
+      "VideoRendererViewModule",
+      "PipContainerViewModule"
     ]
   },
   "android": {
     "modules": [
       "io.fishjam.reactnative.RNFishjamClientModule",
       "io.fishjam.reactnative.VideoPreviewViewModule",
-      "io.fishjam.reactnative.VideoRendererViewModule"
+      "io.fishjam.reactnative.VideoRendererViewModule",
+      "io.fishjam.reactnative.PipContainerViewModule"
     ]
   }
 }

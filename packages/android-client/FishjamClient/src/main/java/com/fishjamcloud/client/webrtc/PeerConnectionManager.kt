@@ -24,11 +24,12 @@ import kotlinx.coroutines.sync.withLock
 import org.webrtc.*
 import timber.log.Timber
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 
 internal class PeerConnectionManager(
   private val peerConnectionFactory: PeerConnectionFactoryWrapper
 ) : PeerConnection.Observer {
-  private val listeners = mutableListOf<PeerConnectionListener>()
+  private val listeners = CopyOnWriteArrayList<PeerConnectionListener>()
 
   fun addListener(listener: PeerConnectionListener) {
     listeners.add(listener)

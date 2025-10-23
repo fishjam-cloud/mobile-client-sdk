@@ -7,5 +7,7 @@
   "themeColor": "#FCF6E7",
   "readme": "none",
   "treatValidationWarningsAsErrors": true,
-  "treatWarningsAsErrors": true
+  "treatWarningsAsErrors": true,
+  "excludeExternals": true,
+  "excludePrivate": true
 }

@@ -803,6 +803,7 @@ class RNFishjamClient: FishjamClientListener {
 
     func emitEndpoints() {
         emit(event: .peersUpdate())
+        RNFishjamClient.tracksUpdateListenersManager.notifyListeners()
     }
 
     func onJoined(peerID: String, peersInRoom: [String: Endpoint]) {
