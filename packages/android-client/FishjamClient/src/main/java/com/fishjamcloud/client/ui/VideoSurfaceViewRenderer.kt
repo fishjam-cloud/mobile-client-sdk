@@ -2,17 +2,19 @@ package com.fishjamcloud.client.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import com.fishjamcloud.client.models.Dimensions
 import org.webrtc.EglBase
 import org.webrtc.RendererCommon
 import org.webrtc.SurfaceViewRenderer
+import java.util.concurrent.CopyOnWriteArrayList
 
 interface VideoSurfaceViewRendererListener {
   fun onDimensionsChanged(dimensions: Dimensions)
 }
 
 open class VideoSurfaceViewRenderer : SurfaceViewRenderer {
-  private var dimensionsListener: VideoSurfaceViewRendererListener? = null
+  private val dimensionsListeners = CopyOnWriteArrayList<VideoSurfaceViewRendererListener>()
   var rotatedFrameWidth = 0
   var rotatedFrameHeight = 0
 
@@ -38,15 +40,23 @@ open class VideoSurfaceViewRenderer : SurfaceViewRenderer {
         rotatedFrameWidth = rotatedWidth
         rotatedFrameHeight = rotatedHeight
 
-        dimensionsListener?.onDimensionsChanged(Dimensions(rotatedWidth, rotatedHeight))
+        val dimensions = Dimensions(rotatedWidth, rotatedHeight)
+        for (listener in dimensionsListeners) {
+          Log.e("WTF", "EHH")
+          listener.onDimensionsChanged(dimensions)
+        }
       }
     }
 
     super.init(sharedContext, combinedEvents)
   }
 
-  fun setDimensionsListener(listener: VideoSurfaceViewRendererListener?) {
-    dimensionsListener = listener
+  fun addDimensionsListener(listener: VideoSurfaceViewRendererListener) {
+    dimensionsListeners.add(listener)
+  }
+
+  fun removeDimensionsListener(listener: VideoSurfaceViewRendererListener) {
+    dimensionsListeners.remove(listener)
   }
 }
 

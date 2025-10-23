@@ -32,12 +32,12 @@ open class VideoTrack(
 
   fun addRenderer(renderer: VideoSurfaceViewRenderer) {
     videoTrack.addSink(renderer)
-    renderer.setDimensionsListener(this)
+    renderer.addDimensionsListener(this)
   }
 
   fun removeRenderer(renderer: VideoSurfaceViewRenderer) {
     videoTrack.removeSink(renderer)
-    renderer.setDimensionsListener(null)
+    renderer.removeDimensionsListener(this)
   }
 
   fun shouldReceive(shouldReceive: Boolean) {

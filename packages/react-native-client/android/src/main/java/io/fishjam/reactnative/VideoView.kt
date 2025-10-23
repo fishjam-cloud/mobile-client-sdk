@@ -13,7 +13,9 @@ import android.view.animation.LinearInterpolator
 import androidx.core.view.ViewCompat
 import com.fishjamcloud.client.media.LocalVideoTrack
 import com.fishjamcloud.client.media.VideoTrack
+import com.fishjamcloud.client.models.Dimensions
 import com.fishjamcloud.client.ui.VideoSurfaceViewRenderer
+import com.fishjamcloud.client.ui.VideoSurfaceViewRendererListener
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
 import io.fishjam.reactnative.managers.LocalTrackSwitchListener
@@ -24,17 +26,20 @@ abstract class VideoView(
   context: Context,
   appContext: AppContext
 ) : ExpoView(context, appContext),
-  LocalTrackSwitchListener {
+  LocalTrackSwitchListener, VideoSurfaceViewRendererListener {
   protected val videoView: VideoSurfaceViewRenderer = RNFishjamClient.fishjamClient.createVideoViewRenderer().also {
     it.setEnableHardwareScaler(true)
     addView(it)
   }
 
+  private var frameHeight: Int = 0
+  private var frameWidth: Int = 0
+
   private var scalingType = RendererCommon.ScalingType.SCALE_ASPECT_FIT
     set(value) {
       field = value
       videoView.setScalingType(scalingType)
-      requestSurfaceViewRendererLayout()
+      post(requestSurfaceViewRendererLayoutRunnable)
     }
 
 
@@ -84,10 +89,6 @@ abstract class VideoView(
       return screen.intersect(globalVisibleRect)
     }
 
-  init {
-    RNFishjamClient.localTracksSwitchListenerManager.add(this)
-  }
-
   fun setVideoLayout(videoLayout: String) {
     scalingType =
       when (videoLayout) {
@@ -97,8 +98,26 @@ abstract class VideoView(
       }
   }
 
+  val dimensionsListener = object : VideoSurfaceViewRendererListener {
+    override fun onDimensionsChanged(dimensions: Dimensions) {
+      if (dimensions.height == frameHeight && dimensions.width == frameWidth) {
+        return
+      }
+      frameWidth = dimensions.width
+      frameHeight = dimensions.height
+
+      post(requestSurfaceViewRendererLayoutRunnable);
+    }
+  }
+
+  init {
+    RNFishjamClient.localTracksSwitchListenerManager.add(this)
+    videoView.addDimensionsListener(dimensionsListener)
+  }
+
   open fun dispose() {
     checkVisibilityHandler.removeCallbacksAndMessages(null)
+    videoView.removeDimensionsListener(dimensionsListener)
     videoView.release()
   }
 
@@ -115,6 +134,12 @@ abstract class VideoView(
       videoView.setMirror((getVideoTrack() as? LocalVideoTrack)?.isFrontCamera() ?: false)
       delay(500)
       fadeAnimation.reverse()
+    }
+  }
+
+  private val requestSurfaceViewRendererLayoutRunnable: Runnable = object : Runnable {
+    override fun run() {
+      requestSurfaceViewRendererLayout()
     }
   }
 
@@ -139,9 +164,6 @@ abstract class VideoView(
       right = 0
       bottom = 0
     } else {
-      val frameHeight = videoView.rotatedFrameHeight
-      val frameWidth = videoView.rotatedFrameWidth
-
       when (scalingType) {
         RendererCommon.ScalingType.SCALE_ASPECT_FILL -> {
           // Fill this ViewGroup with videoView and the latter
@@ -215,7 +237,7 @@ abstract class VideoView(
    * https://github.com/react-native-webrtc/react-native-webrtc/blob/5ecc86111c2f8e0d152d719f8b7b357a601150b6/android/src/main/java/com/oney/WebRTCModule/WebRTCView.java#L386
    */
   @SuppressLint("WrongCall")
-  private fun requestSurfaceViewRendererLayout() {
+  public fun requestSurfaceViewRendererLayout() {
     // Google/WebRTC just call requestLayout() on surfaceViewRenderer when
     // they change the value of its mirror or surfaceType property.
     videoView.requestLayout()

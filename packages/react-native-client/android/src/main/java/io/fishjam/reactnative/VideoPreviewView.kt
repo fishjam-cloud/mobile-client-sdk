@@ -1,7 +1,9 @@
 package io.fishjam.reactnative
 
 import android.content.Context
+import android.util.Log
 import com.fishjamcloud.client.media.LocalVideoTrack
+import com.fishjamcloud.client.models.Dimensions
 import expo.modules.kotlin.AppContext
 import io.fishjam.reactnative.managers.LocalCameraTrackChangedListener
 
