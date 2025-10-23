@@ -312,29 +312,26 @@ class PipContainerView(
   fun layoutForPiPEnter() {
     if (rootView == null) return
 
-    // Hide all root view children
-    for (i in 0 until rootView.childCount) {
-      val child = rootView.getChildAt(i)
-      rootViewChildrenOriginalVisibility.add(child.visibility)
-      child.visibility = View.GONE
-    }
-
-    // Create and add split screen container
-    splitScreenContainer = createSplitScreenContainer()
-    rootView.addView(splitScreenContainer)
+    hideAllRootViewChildren(rootView)
+    rootView.addView(createSplitScreenContainer())
 
     updatePipViews()
   }
 
+
+
   fun layoutForPiPExit() {
     if (rootView == null) return
 
-    // Remove split screen container
     splitScreenContainer?.let { container ->
       rootView.removeView(container)
     }
 
-    // Clean up video views
+    cleanUpSplitScreenViews()
+    restoreRootViewChildren(rootView)
+  }
+
+  private fun cleanUpSplitScreenViews() {
     primaryVideoView?.dispose()
     secondaryVideoView?.dispose()
     primaryVideoView = null
@@ -344,8 +341,17 @@ class PipContainerView(
     splitScreenContainer = null
     primaryContainer = null
     secondaryContainer = null
+  }
 
-    // Restore visibility of other root view children
+  private fun hideAllRootViewChildren(rootView: ViewGroup) {
+    for (i in 0 until rootView.childCount) {
+      val child = rootView.getChildAt(i)
+      rootViewChildrenOriginalVisibility.add(child.visibility)
+      child.visibility = View.GONE
+    }
+  }
+
+  private fun restoreRootViewChildren(rootView: ViewGroup) {
     var visibilityIndex = 0
     for (i in 0 until rootView.childCount) {
       val child = rootView.getChildAt(i)
@@ -356,6 +362,5 @@ class PipContainerView(
     }
     rootViewChildrenOriginalVisibility.clear()
   }
-
 }
 

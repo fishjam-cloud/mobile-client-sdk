@@ -27,7 +27,7 @@ public class SampleBufferVideoCallView: UIView {
 
     func sampleBuffer(from frame: RTCVideoFrame) -> CMSampleBuffer? {
         let i420buffer = frame.buffer.toI420()
-        guard let pixelBuffer = converter.convertToCVPixelBuffer(from: i420buffer) else { return nil }
+        guard let pixelBuffer = converter?.convertToCVPixelBuffer(from: i420buffer) else { return nil }
 
         // Create a CMVideoFormatDescription
         var formatDescription: CMVideoFormatDescription?

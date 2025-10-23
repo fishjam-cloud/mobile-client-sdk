@@ -14,12 +14,12 @@ public class I420Converter {
     private var poolWidth: Int = 0
     private var poolHeight: Int = 0
 
-    init() {
-        let error = prepareForAccelerateConversion()
+    init?() {
+        let result = prepareForAccelerateConversion()
 
-        guard error == kvImageNoError else {
-            print("Failed to prepare for accelerate conversion: \(error)")
-            return
+        guard result == kvImageNoError else {
+            print("Failed to prepare for accelerate conversion: \(result)")
+            return nil
         }
     }
 
