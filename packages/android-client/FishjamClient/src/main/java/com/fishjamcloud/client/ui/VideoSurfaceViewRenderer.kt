@@ -13,8 +13,8 @@ interface VideoSurfaceViewRendererListener {
 
 open class VideoSurfaceViewRenderer : SurfaceViewRenderer {
   private var dimensionsListener: VideoSurfaceViewRendererListener? = null
-  private var rotatedFrameWidth = 0
-  private var rotatedFrameHeight = 0
+  var rotatedFrameWidth = 0
+  var rotatedFrameHeight = 0
 
   internal constructor(context: Context) : super(context)
 
