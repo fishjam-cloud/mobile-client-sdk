@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
@@ -40,8 +41,8 @@ class PipContainerView(
   private var primaryPlaceholder: android.widget.TextView? = null
   private var secondaryPlaceholder: android.widget.TextView? = null
   private var splitScreenContainer: android.widget.LinearLayout? = null
-  private var primaryContainer: FrameLayout? = null
-  private var secondaryContainer: FrameLayout? = null
+  private var primaryContainer: RelativeLayout? = null
+  private var secondaryContainer: RelativeLayout? = null
 
   @RequiresApi(Build.VERSION_CODES.O)
   private var pictureInPictureParamsBuilder = PictureInPictureParams.Builder()
@@ -244,7 +245,7 @@ class PipContainerView(
       )
     }
 
-    primaryContainer = FrameLayout(context).apply {
+    primaryContainer = RelativeLayout(context).apply {
       layoutParams = LinearLayout.LayoutParams(
         0,
         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -252,7 +253,7 @@ class PipContainerView(
       )
     }
 
-    secondaryContainer = FrameLayout(context).apply {
+    secondaryContainer = RelativeLayout(context).apply {
       layoutParams = LinearLayout.LayoutParams(
         0,
         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -273,35 +274,34 @@ class PipContainerView(
       visibility = View.GONE
     }
 
-    primaryContainer?.addView(
-      primaryPlaceholder,
-      FrameLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT
-      )
+    val primaryPlaceholderParams = RelativeLayout.LayoutParams(
+      ViewGroup.LayoutParams.MATCH_PARENT,
+      ViewGroup.LayoutParams.MATCH_PARENT
     )
-    primaryContainer?.addView(
-      primaryVideoView,
-      FrameLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT
-      )
-    )
+    
+    val primaryVideoParams = RelativeLayout.LayoutParams(
+      ViewGroup.LayoutParams.MATCH_PARENT,
+      ViewGroup.LayoutParams.MATCH_PARENT
+    ).apply {
+      addRule(RelativeLayout.CENTER_IN_PARENT)
+    }
 
-    secondaryContainer?.addView(
-      secondaryPlaceholder,
-      FrameLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT
-      )
+    val secondaryPlaceholderParams = RelativeLayout.LayoutParams(
+      ViewGroup.LayoutParams.MATCH_PARENT,
+      ViewGroup.LayoutParams.MATCH_PARENT
     )
-    secondaryContainer?.addView(
-      secondaryVideoView,
-      FrameLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT
-      )
-    )
+    
+    val secondaryVideoParams = RelativeLayout.LayoutParams(
+      ViewGroup.LayoutParams.MATCH_PARENT,
+      ViewGroup.LayoutParams.MATCH_PARENT
+    ).apply {
+      addRule(RelativeLayout.CENTER_IN_PARENT)
+    }
+
+    primaryContainer?.addView(primaryPlaceholder, primaryPlaceholderParams)
+    primaryContainer?.addView(primaryVideoView, primaryVideoParams)
+    secondaryContainer?.addView(secondaryPlaceholder, secondaryPlaceholderParams)
+    secondaryContainer?.addView(secondaryVideoView, secondaryVideoParams)
 
     primaryContainer?.let { container.addView(it) }
     secondaryContainer?.let { container.addView(it) }
