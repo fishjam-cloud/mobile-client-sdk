@@ -21,7 +21,7 @@ import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.TrackEncoding
 import com.fishjamcloud.client.models.VideoParameters
-import com.fishjamcloud.client.ui.VideoTextureViewRenderer
+import com.fishjamcloud.client.ui.VideoSurfaceViewRenderer
 import com.fishjamcloud.client.utils.ClosableCoroutineScope
 import com.fishjamcloud.client.utils.TimberDebugTree
 import com.fishjamcloud.client.utils.serializeToMap
@@ -606,7 +606,7 @@ internal class FishjamClientInternal(
 
   fun getLocalEndpoint(): Endpoint = localEndpoint
 
-  fun createVideoViewRenderer(): VideoTextureViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
+  fun createVideoViewRenderer(): VideoSurfaceViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
 
   private fun sendEvent(peerMessage: PeerNotifications.PeerMessage) {
     webSocket?.send(peerMessage.toByteArray().toByteString())

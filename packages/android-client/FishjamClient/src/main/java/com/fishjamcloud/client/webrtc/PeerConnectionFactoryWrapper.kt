@@ -9,7 +9,7 @@ import com.fishjamcloud.client.media.CameraCapturer
 import com.fishjamcloud.client.media.SimulcastVideoEncoderFactoryWrapper
 import com.fishjamcloud.client.models.EncoderOptions
 import com.fishjamcloud.client.models.VideoParameters
-import com.fishjamcloud.client.ui.VideoTextureViewRenderer
+import com.fishjamcloud.client.ui.VideoSurfaceViewRenderer
 import org.webrtc.AudioSource
 import org.webrtc.AudioTrack
 import org.webrtc.DefaultVideoDecoderFactory
@@ -115,8 +115,8 @@ internal class PeerConnectionFactoryWrapper(
     return capturer
   }
 
-  fun createVideoViewRenderer(): VideoTextureViewRenderer {
-    val renderer = VideoTextureViewRenderer(appContext)
+  fun createVideoViewRenderer(): VideoSurfaceViewRenderer {
+    val renderer = VideoSurfaceViewRenderer(appContext)
     renderer.init(eglBase.eglBaseContext, null)
     return renderer
   }

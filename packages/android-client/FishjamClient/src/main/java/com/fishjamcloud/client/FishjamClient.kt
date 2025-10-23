@@ -15,7 +15,7 @@ import com.fishjamcloud.client.models.ReconnectConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.TrackEncoding
 import com.fishjamcloud.client.models.VideoParameters
-import com.fishjamcloud.client.ui.VideoTextureViewRenderer
+import com.fishjamcloud.client.ui.VideoSurfaceViewRenderer
 import com.fishjamcloud.client.webrtc.PeerConnectionFactoryWrapper
 import com.fishjamcloud.client.webrtc.PeerConnectionManager
 import com.fishjamcloud.client.webrtc.RTCEngineCommunication
@@ -237,5 +237,5 @@ class FishjamClient(
 
   fun getLocalEndpoint(): Peer = client.getLocalEndpoint()
 
-  fun createVideoViewRenderer(): VideoTextureViewRenderer = client.createVideoViewRenderer()
+  fun createVideoViewRenderer(): VideoSurfaceViewRenderer = client.createVideoViewRenderer()
 }
