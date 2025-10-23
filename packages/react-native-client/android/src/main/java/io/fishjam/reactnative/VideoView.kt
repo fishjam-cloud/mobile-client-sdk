@@ -159,10 +159,12 @@ abstract class VideoView(
           // to the cover or contain value of the CSS property object-fit
           // (which will not matter, eventually).
           if (frameHeight == 0 || frameWidth == 0) {
+            // If frame dimensions are not yet available, fill the container
+            // to ensure the view is visible. It will re-layout once dimensions arrive.
             left = 0
             top = 0
-            right = 0
-            bottom = 0
+            right = width
+            bottom = height
           } else {
             val frameAspectRatio = frameWidth.toFloat() / frameHeight.toFloat()
             val frameDisplaySize = RendererCommon.getDisplaySize(
@@ -181,10 +183,12 @@ abstract class VideoView(
         else -> {
           // Default to SCALE_ASPECT_FIT behavior
           if (frameHeight == 0 || frameWidth == 0) {
+            // If frame dimensions are not yet available, fill the container
+            // to ensure the view is visible. It will re-layout once dimensions arrive.
             left = 0
             top = 0
-            right = 0
-            bottom = 0
+            right = width
+            bottom = height
           } else {
             val frameAspectRatio = frameWidth.toFloat() / frameHeight.toFloat()
             val frameDisplaySize = RendererCommon.getDisplaySize(
