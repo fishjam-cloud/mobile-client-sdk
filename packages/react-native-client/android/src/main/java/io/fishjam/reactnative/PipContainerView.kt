@@ -131,7 +131,17 @@ class PipContainerView(
       }
     }
 
-    // Fallback: return first available remote peer with video track
+    return null
+  }
+
+
+  var remoteTrackInfo: RemoteTrackInfo? = null
+
+  private fun getFirstRemoteTrackWithVideo(): RemoteTrackInfo? {
+    val peers = RNFishjamClient.getAllPeers()
+    val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
+    val remotePeers = peers.filter { it.id != localEndpointId }
+
     for (peer in remotePeers) {
       val videoTrack = peer.tracks.values.firstOrNull { track ->
         track is com.fishjamcloud.client.media.VideoTrack
@@ -152,7 +162,12 @@ class PipContainerView(
 
   private fun updatePipViews() {
     val localCameraTrack = findLocalCameraTrack()
-    val remoteTrackInfo = findRemoteVadActiveTrack()
+    val remoteTrackWithVad = findRemoteVadActiveTrack()
+    if (remoteTrackWithVad != null && remoteTrackWithVad != remoteTrackInfo) {
+      remoteTrackInfo = remoteTrackWithVad
+    } else if (remoteTrackWithVad == null && remoteTrackInfo == null) {
+      remoteTrackInfo = getFirstRemoteTrackWithVideo()
+    }
 
     if (localCameraTrack != null) {
       primaryVideoView?.init(localCameraTrack.id())
@@ -164,13 +179,13 @@ class PipContainerView(
     }
 
     if (remoteTrackInfo != null) {
-      if (remoteTrackInfo.hasVideoTrack) {
-        secondaryVideoView?.init(remoteTrackInfo.videoTrack!!.id())
+      if (remoteTrackInfo!!.hasVideoTrack) {
+        secondaryVideoView?.init(remoteTrackInfo!!.videoTrack!!.id())
         secondaryVideoView?.visibility = View.VISIBLE
         secondaryPlaceholder?.visibility = View.GONE
       } else {
         secondaryVideoView?.visibility = View.GONE
-        secondaryPlaceholder?.text = remoteTrackInfo.displayName
+        secondaryPlaceholder?.text = remoteTrackInfo!!.displayName
         secondaryPlaceholder?.visibility = View.VISIBLE
       }
       secondaryContainer?.visibility = View.VISIBLE
