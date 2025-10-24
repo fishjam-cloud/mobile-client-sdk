@@ -14,6 +14,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
+import com.fishjamcloud.client.media.Track
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
 import fishjam.media_events.server.Server
@@ -103,17 +104,24 @@ class PipContainerView(
     } as? com.fishjamcloud.client.media.VideoTrack
   }
 
-  private fun findRemoteVadActiveTrack(): RemoteTrackInfo? {
+  var remoteTrackInfo: RemoteTrackInfo? = null
+
+  private fun assignSecondaryTrack() {
     val peers = RNFishjamClient.getAllPeers()
     val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
     val remotePeers = peers.filter { it.id != localEndpointId }
+
+    if (remotePeers.count() == 0) {
+      remoteTrackInfo = null
+      return
+    }
 
     // First pass: look for active VAD
     for (peer in remotePeers) {
       // Find if this peer has an active VAD audio track
       val hasActiveVad = peer.tracks.values.any { track ->
         track is com.fishjamcloud.client.media.RemoteAudioTrack &&
-        track.vadStatus == Server.MediaEvent.VadNotification.Status.STATUS_SPEECH
+          track.vadStatus == Server.MediaEvent.VadNotification.Status.STATUS_SPEECH
       }
 
       if (hasActiveVad) {
@@ -123,24 +131,22 @@ class PipContainerView(
 
         val displayName = (peer.metadata?.get("displayName") ?: peer.metadata?.get("name") ?: peer.id) as? String ?: peer.id
 
-        return RemoteTrackInfo(
+        remoteTrackInfo = RemoteTrackInfo(
           videoTrack = videoTrack,
           displayName = displayName,
           hasVideoTrack = videoTrack != null
         )
+        return
       }
     }
 
-    return null
-  }
-
-
-  var remoteTrackInfo: RemoteTrackInfo? = null
-
-  private fun getFirstRemoteTrackWithVideo(): RemoteTrackInfo? {
-    val peers = RNFishjamClient.getAllPeers()
-    val localEndpointId = RNFishjamClient.fishjamClient.getLocalEndpoint().id
-    val remotePeers = peers.filter { it.id != localEndpointId }
+    if (remoteTrackInfo != null) {
+      for (peer in remotePeers) {
+        if (peer.tracks.values.contains(remoteTrackInfo!!.videoTrack as Track)) {
+          return
+        }
+      }
+    }
 
     for (peer in remotePeers) {
       val videoTrack = peer.tracks.values.firstOrNull { track ->
@@ -149,25 +155,19 @@ class PipContainerView(
 
       if (videoTrack != null) {
         val displayName = (peer.metadata?.get("displayName") ?: peer.metadata?.get("name") ?: peer.id) as? String ?: peer.id
-        return RemoteTrackInfo(
+        remoteTrackInfo = RemoteTrackInfo(
           videoTrack = videoTrack,
           displayName = displayName,
           hasVideoTrack = true
         )
+        return
       }
     }
-
-    return null
   }
 
   private fun updatePipViews() {
     val localCameraTrack = findLocalCameraTrack()
-    val remoteTrackWithVad = findRemoteVadActiveTrack()
-    if (remoteTrackWithVad != null && remoteTrackWithVad != remoteTrackInfo) {
-      remoteTrackInfo = remoteTrackWithVad
-    } else if (remoteTrackWithVad == null && remoteTrackInfo == null) {
-      remoteTrackInfo = getFirstRemoteTrackWithVideo()
-    }
+    assignSecondaryTrack()
 
     if (localCameraTrack != null) {
       primaryVideoView?.init(localCameraTrack.id())
