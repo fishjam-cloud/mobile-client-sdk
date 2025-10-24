@@ -42,7 +42,6 @@ open class VideoSurfaceViewRenderer : SurfaceViewRenderer {
 
         val dimensions = Dimensions(rotatedWidth, rotatedHeight)
         for (listener in dimensionsListeners) {
-          Log.e("WTF", "EHH")
           listener.onDimensionsChanged(dimensions)
         }
       }

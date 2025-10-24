@@ -1,6 +1,7 @@
 package io.fishjam.reactnative
 
 import com.fishjamcloud.client.media.RemoteAudioTrack
+import com.fishjamcloud.client.media.Track
 import com.fishjamcloud.client.media.VideoTrack
 import com.fishjamcloud.client.models.Peer
 import fishjam.media_events.server.Server
@@ -39,8 +40,9 @@ class PipTrackSelector {
         }
 
         currentTrackInfo?.let { currentInfo ->
-            if (remotePeers.any { peer -> peer.hasTrack(currentInfo.videoTrack) }) {
-                return currentInfo
+          val existingPeer = remotePeers.firstOrNull() { peer -> peer.hasTrack(currentInfo.videoTrack) }
+            if (existingPeer != null) {
+                return existingPeer.toRemoteTrackInfo()
             }
         }
 
@@ -72,12 +74,16 @@ private fun Peer.getDisplayName(): String {
     return displayName ?: name ?: id
 }
 
+private fun Track.getTrackActive(): Boolean {
+  return metadata["isActive"] as? Boolean ?: (metadata["paused"] as? Boolean)?.not() ?: false
+}
+
 private fun Peer.toRemoteTrackInfo(): RemoteTrackInfo {
     val videoTrack = tracks.values.filterIsInstance<VideoTrack>().firstOrNull()
     return RemoteTrackInfo(
         videoTrack = videoTrack,
         displayName = getDisplayName(),
-        hasVideoTrack = videoTrack != null
+        videoTrackActive = videoTrack?.getTrackActive() ?: false
     )
 }
 

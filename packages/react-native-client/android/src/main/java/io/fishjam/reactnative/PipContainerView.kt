@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference
 data class RemoteTrackInfo(
     val videoTrack: com.fishjamcloud.client.media.VideoTrack?,
     val displayName: String?,
-    val hasVideoTrack: Boolean
+    val videoTrackActive: Boolean
 )
 
 class PipContainerView(
@@ -133,7 +133,7 @@ class PipContainerView(
         trackInfo: RemoteTrackInfo?
     ) {
         trackInfo?.let { info ->
-            if (info.hasVideoTrack && info.videoTrack != null) {
+            if (info.videoTrackActive && info.videoTrack != null) {
                 views.secondaryVideoView.init(info.videoTrack.id())
                 views.secondaryVideoView.visibility = View.VISIBLE
                 views.secondaryPlaceholder.visibility = View.GONE
