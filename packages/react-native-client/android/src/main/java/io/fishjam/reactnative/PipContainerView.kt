@@ -253,6 +253,7 @@ class PipContainerView(
     }
 
     private fun hideAllRootViewChildren(rootView: ViewGroup) {
+        rootViewChildrenOriginalVisibility.clear()
         (0 until rootView.childCount).forEach { i ->
             val child = rootView.getChildAt(i)
             rootViewChildrenOriginalVisibility.add(child.visibility)

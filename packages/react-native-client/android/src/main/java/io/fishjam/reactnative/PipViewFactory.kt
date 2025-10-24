@@ -27,7 +27,7 @@ class PipViewFactory(
     private val appContext: AppContext
 ) {
     companion object {
-        private const val PLACEHOLDER_COLOR = "#606060"
+        private const val PLACEHOLDER_COLOR = "#000000"
         private const val PLACEHOLDER_TEXT_COLOR = Color.WHITE
         private const val PLACEHOLDER_TEXT_SIZE_SP = 16f
         private const val VIDEO_LAYOUT_MODE = "FILL"
