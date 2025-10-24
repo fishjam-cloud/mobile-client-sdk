@@ -44,6 +44,8 @@ class PipContainerView(
   private var primaryContainer: RelativeLayout? = null
   private var secondaryContainer: RelativeLayout? = null
 
+  private var isPipActive = false
+
   @RequiresApi(Build.VERSION_CODES.O)
   private var pictureInPictureParamsBuilder = PictureInPictureParams.Builder()
 
@@ -225,7 +227,9 @@ class PipContainerView(
   }
 
   override fun onTracksUpdate() {
-    updatePipViews()
+    if (isPipActive) {
+      updatePipViews()
+    }
   }
 
   private fun createPlaceholderTextView(text: String): TextView {
@@ -313,6 +317,7 @@ class PipContainerView(
 
   fun layoutForPiPEnter() {
     if (rootView == null) return
+    isPipActive = true
 
     hideAllRootViewChildren(rootView)
     splitScreenContainer = createSplitScreenContainer()
@@ -323,6 +328,7 @@ class PipContainerView(
 
   fun layoutForPiPExit() {
     if (rootView == null) return
+    isPipActive = false
 
     splitScreenContainer?.let { container ->
       rootView.removeView(container)

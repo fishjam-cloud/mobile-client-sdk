@@ -857,8 +857,10 @@ internal class FishjamClientInternal(
     trackId: String,
     status: Server.MediaEvent.VadNotification.Status
   ) {
+    // TODO: I'm not really sure why sometimes we get rtcEngineId and sometimes just trackId
+    // so let's check for both for now
     val track =
-      getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: run {
+      getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: getTrack(trackId) as? RemoteAudioTrack ?: run {
         Timber.e("Invalid track id = $trackId")
         return
       }
