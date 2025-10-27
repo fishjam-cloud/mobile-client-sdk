@@ -138,9 +138,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             splitScreenHostingController.view.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
             splitScreenHostingController.view.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor)
         ])
-        
-//        primarySampleView.isHidden = true
-//        secondarySampleView.isHidden = true
     }
 
     private func setupNotifications() {
@@ -157,12 +154,10 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             oldTrack.remove(primarySampleView)
         }
 
-        if let newTrack = newTrack {
+        if let newTrack {
             newTrack.add(primarySampleView)
-            primarySampleView.isHidden = false
             splitScreenViewModel.isPrimaryVideoVisible = true
         } else {
-            primarySampleView.isHidden = true
             splitScreenViewModel.isPrimaryVideoVisible = false
         }
     }
@@ -174,10 +169,8 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
         if let newTrack = newTrack {
             newTrack.add(secondarySampleView)
-            secondarySampleView.isHidden = false
             splitScreenViewModel.isSecondaryVideoVisible = true
         } else {
-            secondarySampleView.isHidden = true
             splitScreenViewModel.isSecondaryVideoVisible = false
         }
     }
@@ -191,7 +184,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         }
 
         guard let trackInfo else {
-            secondarySampleView.isHidden = true
             splitScreenViewModel.isSecondaryVideoVisible = false
             return
         }
@@ -200,10 +192,8 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
             secondaryVideoTrack = videoTrack
             videoTrack.add(secondarySampleView)
-            secondarySampleView.isHidden = false
             splitScreenViewModel.isSecondaryVideoVisible = true
         } else {
-            secondarySampleView.isHidden = true
             splitScreenViewModel.isSecondaryVideoVisible = false
         }
     }
