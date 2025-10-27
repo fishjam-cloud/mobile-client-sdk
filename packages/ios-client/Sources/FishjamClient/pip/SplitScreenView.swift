@@ -27,14 +27,15 @@ struct SplitScreenView: View {
             VideoPreviewContainerView(
                 sampleView: primarySampleView,
                 isVideoVisible: viewModel.isPrimaryVideoVisible,
-                placeholderText: viewModel.primaryPlaceholderText
+                peerName: viewModel.primaryPlaceholderText
             )
 
             if viewModel.isSecondaryContainerVisible {
                 VideoPreviewContainerView(
                     sampleView: secondarySampleView,
                     isVideoVisible: viewModel.isSecondaryVideoVisible,
-                    placeholderText: viewModel.secondaryPlaceholderText
+                    peerName: viewModel.secondaryPlaceholderText,
+                    showPeerName: true
                 )
             }
         }
@@ -45,23 +46,58 @@ struct SplitScreenView: View {
 struct VideoPreviewContainerView: View {
     let sampleView: SampleBufferVideoCallView
     let isVideoVisible: Bool
-    let placeholderText: String
+    let peerName: String
+    var showPeerName: Bool = false
 
     var body: some View {
         ZStack {
-            Text(placeholderText)
+            Text(peerName)
                 .font(.caption)
                 .fontWeight(.bold)
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .padding()
-
-            UIViewRepresentableWrapper(view: sampleView)
-                .opacity(isVideoVisible ? 1.0 : 0.0)
+            
+            if isVideoVisible {
+                ZStack(alignment: .bottomTrailing) {
+                    UIViewRepresentableWrapper(view: sampleView)
+                    if showPeerName {
+                        Text(peerName)
+                            .foregroundStyle(.white)
+                            .font(.footnote)
+                            .padding(5)
+                            .frame(maxWidth: 80)
+                            .lineLimit(1)
+                            .background(Color.black.opacity(0.3))
+                            .cornerRadius(5, corners: [.topLeft])
+                    }
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
         .clipped()
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+    let radius: CGFloat
+    let corners: UIRectCorner
+
+    init(radius: CGFloat = .infinity, corners: UIRectCorner = .allCorners) {
+        self.radius = radius
+        self.corners = corners
+    }
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
     }
 }
 
