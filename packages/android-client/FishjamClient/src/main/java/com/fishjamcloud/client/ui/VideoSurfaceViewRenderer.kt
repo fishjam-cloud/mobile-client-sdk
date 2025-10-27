@@ -2,7 +2,6 @@ package com.fishjamcloud.client.ui
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import com.fishjamcloud.client.models.Dimensions
 import org.webrtc.EglBase
 import org.webrtc.RendererCommon
@@ -26,26 +25,31 @@ open class VideoSurfaceViewRenderer : SurfaceViewRenderer {
     sharedContext: EglBase.Context?,
     rendererEvents: RendererCommon.RendererEvents?
   ) {
-    val combinedEvents = object : RendererCommon.RendererEvents {
-      override fun onFirstFrameRendered() {
-        rendererEvents?.onFirstFrameRendered()
-      }
+    val combinedEvents =
+      object : RendererCommon.RendererEvents {
+        override fun onFirstFrameRendered() {
+          rendererEvents?.onFirstFrameRendered()
+        }
 
-      override fun onFrameResolutionChanged(videoWidth: Int, videoHeight: Int, rotation: Int) {
-        rendererEvents?.onFrameResolutionChanged(videoWidth, videoHeight, rotation)
+        override fun onFrameResolutionChanged(
+          videoWidth: Int,
+          videoHeight: Int,
+          rotation: Int
+        ) {
+          rendererEvents?.onFrameResolutionChanged(videoWidth, videoHeight, rotation)
 
-        val rotatedWidth = if (rotation == 0 || rotation == 180) videoWidth else videoHeight
-        val rotatedHeight = if (rotation == 0 || rotation == 180) videoHeight else videoWidth
+          val rotatedWidth = if (rotation == 0 || rotation == 180) videoWidth else videoHeight
+          val rotatedHeight = if (rotation == 0 || rotation == 180) videoHeight else videoWidth
 
-        rotatedFrameWidth = rotatedWidth
-        rotatedFrameHeight = rotatedHeight
+          rotatedFrameWidth = rotatedWidth
+          rotatedFrameHeight = rotatedHeight
 
-        val dimensions = Dimensions(rotatedWidth, rotatedHeight)
-        for (listener in dimensionsListeners) {
-          listener.onDimensionsChanged(dimensions)
+          val dimensions = Dimensions(rotatedWidth, rotatedHeight)
+          for (listener in dimensionsListeners) {
+            listener.onDimensionsChanged(dimensions)
+          }
         }
       }
-    }
 
     super.init(sharedContext, combinedEvents)
   }
@@ -58,4 +62,3 @@ open class VideoSurfaceViewRenderer : SurfaceViewRenderer {
     dimensionsListeners.remove(listener)
   }
 }
-

@@ -857,7 +857,7 @@ internal class FishjamClientInternal(
     trackId: String,
     status: Server.MediaEvent.VadNotification.Status
   ) {
-    // TODO: I'm not really sure why sometimes we get rtcEngineId and sometimes just trackId
+    // TODO FCE-2175: I'm not really sure why sometimes we get rtcEngineId and sometimes just trackId
     // so let's check for both for now
     val track =
       getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: getTrack(trackId) as? RemoteAudioTrack ?: run {
