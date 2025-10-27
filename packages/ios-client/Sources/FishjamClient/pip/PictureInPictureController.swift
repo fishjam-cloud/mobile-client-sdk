@@ -183,9 +183,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     }
 
     public func updateSecondaryTrack(trackInfo: RemoteTrackInfo?) {
-        print("### Update secondary track called: \(trackInfo)")
         if let oldTrack = secondaryVideoTrack {
-            print("### Removing old secondary track")
             oldTrack.remove(secondarySampleView)
             secondaryVideoTrack = nil
             splitScreenViewModel.isSecondaryVideoVisible = false
@@ -200,13 +198,11 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         splitScreenViewModel.secondaryPlaceholderText = trackInfo.displayName ?? "Peer"
         
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
-            print("### Secondary track has video track")
             secondaryVideoTrack = videoTrack
             videoTrack.add(secondarySampleView)
             secondarySampleView.isHidden = false
             splitScreenViewModel.isSecondaryVideoVisible = true
         } else {
-            print("### Secondary track doesn't have video track")
             secondarySampleView.isHidden = true
             splitScreenViewModel.isSecondaryVideoVisible = false
         }
@@ -219,10 +215,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         if stopAutomatically {
-            print("### Wil enter foreground, stop automatically")
             UIView.animate(withDuration: 0.5) {
-//                self.primarySampleView.layer.opacity = 0
-//                self.secondarySampleView.layer.opacity = 0
                 self.splitScreenViewModel.isPrimaryVideoVisible = false
                 self.splitScreenViewModel.isSecondaryVideoVisible = false
                 self.splitScreenHostingController?.view.isHidden = true
@@ -245,11 +238,8 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     public func pictureInPictureControllerWillStartPictureInPicture(
         _ pictureInPictureController: AVPictureInPictureController
     ) {
-        print("### Wil start picture in picture")
         UIView.animate(withDuration: 0.5) { [self] in
-            self.primarySampleView.layer.opacity = 1
             self.primarySampleView.shouldRender = true
-            self.secondarySampleView.layer.opacity = 1
             self.secondarySampleView.shouldRender = true
             self.splitScreenViewModel.isPrimaryVideoVisible = self.primaryVideoTrack?.isEnabled ?? false
             self.splitScreenViewModel.isSecondaryVideoVisible = self.secondaryVideoTrack?.isEnabled ?? false
