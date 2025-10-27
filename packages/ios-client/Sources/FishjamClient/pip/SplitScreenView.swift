@@ -57,7 +57,7 @@ struct VideoPreviewContainerView: View {
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .padding()
-            
+
             if isVideoVisible {
                 ZStack(alignment: .bottomTrailing) {
                     UIViewRepresentableWrapper(view: sampleView)
@@ -82,7 +82,7 @@ struct VideoPreviewContainerView: View {
 
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
+        clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
@@ -96,13 +96,16 @@ struct RoundedCorner: Shape {
     }
 
     func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
         return Path(path.cgPath)
     }
 }
 
-
-fileprivate struct UIViewRepresentableWrapper: UIViewRepresentable {
+private struct UIViewRepresentableWrapper: UIViewRepresentable {
     let view: UIView
 
     func makeUIView(context: Context) -> UIView {

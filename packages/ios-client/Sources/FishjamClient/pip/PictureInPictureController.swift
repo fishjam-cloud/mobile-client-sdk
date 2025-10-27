@@ -74,7 +74,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
         self.primaryPlaceholderText = primaryPlaceholder
         self.secondaryPlaceholderText = secondaryPlaceholder
-        
+
         self.splitScreenViewModel = SplitScreenViewModel(
             primaryPlaceholderText: primaryPlaceholder,
             secondaryPlaceholderText: secondaryPlaceholder
@@ -114,29 +114,33 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
     private func setupSplitScreenLayout() {
         guard let pipCallViewController else { return }
-        
+
         let splitScreenView = SplitScreenView(
             primarySampleView: primarySampleView,
             secondarySampleView: secondarySampleView,
             viewModel: splitScreenViewModel
         )
-        
+
         splitScreenHostingController = UIHostingController(rootView: splitScreenView)
-        
+
         guard let splitScreenHostingController else { return }
-        
+
         splitScreenHostingController.view.translatesAutoresizingMaskIntoConstraints = false
         splitScreenHostingController.view.backgroundColor = .black
-        
+
         pipCallViewController.addChild(splitScreenHostingController)
         pipCallViewController.view.addSubview(splitScreenHostingController.view)
         splitScreenHostingController.didMove(toParent: pipCallViewController)
-        
+
         NSLayoutConstraint.activate([
-            splitScreenHostingController.view.leadingAnchor.constraint(equalTo: pipCallViewController.view.leadingAnchor),
-            splitScreenHostingController.view.trailingAnchor.constraint(equalTo: pipCallViewController.view.trailingAnchor),
+            splitScreenHostingController.view.leadingAnchor.constraint(
+                equalTo: pipCallViewController.view.leadingAnchor
+            ),
+            splitScreenHostingController.view.trailingAnchor.constraint(
+                equalTo: pipCallViewController.view.trailingAnchor
+            ),
             splitScreenHostingController.view.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
-            splitScreenHostingController.view.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor)
+            splitScreenHostingController.view.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
         ])
     }
 
@@ -167,7 +171,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             oldTrack.remove(secondarySampleView)
         }
 
-        if let newTrack = newTrack {
+        if let newTrack {
             newTrack.add(secondarySampleView)
             splitScreenViewModel.isSecondaryVideoVisible = true
         } else {
@@ -188,7 +192,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             return
         }
         splitScreenViewModel.secondaryPlaceholderText = trackInfo.displayName ?? "Peer"
-        
+
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
             secondaryVideoTrack = videoTrack
             videoTrack.add(secondarySampleView)
