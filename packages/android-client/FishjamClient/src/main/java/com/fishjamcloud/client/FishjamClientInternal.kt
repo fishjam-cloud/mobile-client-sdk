@@ -21,7 +21,7 @@ import com.fishjamcloud.client.models.SimulcastConfig
 import com.fishjamcloud.client.models.TrackBandwidthLimit
 import com.fishjamcloud.client.models.TrackEncoding
 import com.fishjamcloud.client.models.VideoParameters
-import com.fishjamcloud.client.ui.VideoTextureViewRenderer
+import com.fishjamcloud.client.ui.VideoSurfaceViewRenderer
 import com.fishjamcloud.client.utils.ClosableCoroutineScope
 import com.fishjamcloud.client.utils.TimberDebugTree
 import com.fishjamcloud.client.utils.serializeToMap
@@ -606,7 +606,7 @@ internal class FishjamClientInternal(
 
   fun getLocalEndpoint(): Endpoint = localEndpoint
 
-  fun createVideoViewRenderer(): VideoTextureViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
+  fun createVideoViewRenderer(): VideoSurfaceViewRenderer = peerConnectionFactoryWrapper.createVideoViewRenderer()
 
   private fun sendEvent(peerMessage: PeerNotifications.PeerMessage) {
     webSocket?.send(peerMessage.toByteArray().toByteString())
@@ -764,16 +764,14 @@ internal class FishjamClientInternal(
       return
     }
 
-    val endpoint =
+    var updatedEndpoint =
       remoteEndpoints.remove(endpointId) ?: run {
         Timber.e("Failed to process TracksAdded event: Endpoint not found: $endpointId")
         return
       }
 
-    val updatedTracks = endpoint.tracks.toMutableMap()
-
     for ((trackId, trackData) in trackIdToTrack) {
-      var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
+      var track = updatedEndpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
       if (track != null) {
         track.metadata = trackData.metadataJson.serializeToMap()
       } else {
@@ -787,10 +785,8 @@ internal class FishjamClientInternal(
           )
         this.listener.onTrackAdded(track)
       }
-      updatedTracks[trackId] = track
+      updatedEndpoint = updatedEndpoint.addOrReplaceTrack(track)
     }
-
-    val updatedEndpoint = endpoint.copy(tracks = updatedTracks)
 
     remoteEndpoints[updatedEndpoint.id] = updatedEndpoint
   }
@@ -819,12 +815,16 @@ internal class FishjamClientInternal(
     metadata: Metadata?
   ) {
     val track =
-      getTrack(trackId) ?: run {
+      getTrackWithRtcEngineId(trackId) ?: run {
         Timber.e("Failed to process TrackUpdated event: Track context not found: $trackId")
         return
       }
 
     track.metadata = metadata ?: mapOf()
+
+    remoteEndpoints[endpointId]?.addOrReplaceTrack(track)?.let {
+      remoteEndpoints[endpointId] = it
+    }
 
     this.listener.onTrackUpdated(track)
   }
@@ -857,8 +857,10 @@ internal class FishjamClientInternal(
     trackId: String,
     status: Server.MediaEvent.VadNotification.Status
   ) {
+    // TODO FCE-2175: I'm not really sure why sometimes we get rtcEngineId and sometimes just trackId
+    // so let's check for both for now
     val track =
-      getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: run {
+      getTrackWithRtcEngineId(trackId) as? RemoteAudioTrack ?: getTrack(trackId) as? RemoteAudioTrack ?: run {
         Timber.e("Invalid track id = $trackId")
         return
       }

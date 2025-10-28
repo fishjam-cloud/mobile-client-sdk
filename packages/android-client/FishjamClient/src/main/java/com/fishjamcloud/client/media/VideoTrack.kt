@@ -2,8 +2,8 @@ package com.fishjamcloud.client.media
 
 import com.fishjamcloud.client.models.Dimensions
 import com.fishjamcloud.client.models.Metadata
-import com.fishjamcloud.client.ui.VideoTextureViewRenderer
-import com.fishjamcloud.client.ui.VideoTextureViewRendererListener
+import com.fishjamcloud.client.ui.VideoSurfaceViewRenderer
+import com.fishjamcloud.client.ui.VideoSurfaceViewRendererListener
 import java.util.UUID
 
 interface VideoTrackListener {
@@ -24,20 +24,20 @@ open class VideoTrack(
     metadata,
     id
   ),
-  VideoTextureViewRendererListener {
+  VideoSurfaceViewRendererListener {
   private var dimensionsListener: VideoTrackListener? = null
 
   var dimensions: Dimensions? = null
     private set
 
-  fun addRenderer(renderer: VideoTextureViewRenderer) {
+  fun addRenderer(renderer: VideoSurfaceViewRenderer) {
     videoTrack.addSink(renderer)
-    renderer.setDimensionsListener(this)
+    renderer.addDimensionsListener(this)
   }
 
-  fun removeRenderer(renderer: VideoTextureViewRenderer) {
+  fun removeRenderer(renderer: VideoSurfaceViewRenderer) {
     videoTrack.removeSink(renderer)
-    renderer.setDimensionsListener(this)
+    renderer.removeDimensionsListener(this)
   }
 
   fun shouldReceive(shouldReceive: Boolean) {
