@@ -118,11 +118,11 @@ class PipContainerView(
         views: PipViewContainer,
         localCameraTrack: com.fishjamcloud.client.media.VideoTrack?
     ) {
-        localCameraTrack?.let { track ->
-            views.primaryVideoView.init(track.id())
+        if (localCameraTrack != null && localCameraTrack.isEnabled()) {
+            views.primaryVideoView.init(localCameraTrack.id())
             views.primaryVideoView.visibility = View.VISIBLE
             views.primaryPlaceholder.visibility = View.GONE
-        } ?: run {
+        } else {
             views.primaryVideoView.visibility = View.GONE
             views.primaryPlaceholder.visibility = View.VISIBLE
         }
