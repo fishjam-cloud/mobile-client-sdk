@@ -9,11 +9,13 @@ public struct RemoteTrackInfo {
     let videoTrack: RTCVideoTrack?
     let displayName: String?
     let hasVideoTrack: Bool
+    let isVideoActive: Bool
 
-    public init(videoTrack: RTCVideoTrack?, displayName: String?, hasVideoTrack: Bool) {
+    public init(videoTrack: RTCVideoTrack?, displayName: String?, hasVideoTrack: Bool, isVideoActive: Bool) {
         self.videoTrack = videoTrack
         self.displayName = displayName
         self.hasVideoTrack = hasVideoTrack
+        self.isVideoActive = isVideoActive
     }
 }
 
@@ -26,11 +28,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         }
     }
 
-    public var secondaryVideoTrack: RTCVideoTrack? {
-        didSet {
-            handleSecondaryVideoTrackChange(from: oldValue, to: secondaryVideoTrack)
-        }
-    }
+    private var secondaryVideoTrack: RTCVideoTrack?
 
     public var primaryPlaceholderText: String = "No camera" {
         didSet {
@@ -166,19 +164,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         }
     }
 
-    private func handleSecondaryVideoTrackChange(from oldTrack: RTCVideoTrack?, to newTrack: RTCVideoTrack?) {
-        if let oldTrack = oldTrack {
-            oldTrack.remove(secondarySampleView)
-        }
-
-        if let newTrack {
-            newTrack.add(secondarySampleView)
-            splitScreenViewModel.isSecondaryVideoVisible = true
-        } else {
-            splitScreenViewModel.isSecondaryVideoVisible = false
-        }
-    }
-
     public func updateSecondaryTrack(trackInfo: RemoteTrackInfo?) {
         if let oldTrack = secondaryVideoTrack {
             oldTrack.remove(secondarySampleView)
@@ -196,7 +181,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
             secondaryVideoTrack = videoTrack
             videoTrack.add(secondarySampleView)
-            splitScreenViewModel.isSecondaryVideoVisible = true
+            splitScreenViewModel.isSecondaryVideoVisible = trackInfo.isVideoActive
         } else {
             splitScreenViewModel.isSecondaryVideoVisible = false
         }
@@ -210,8 +195,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         if stopAutomatically {
             UIView.animate(withDuration: 0.5) {
-                self.splitScreenViewModel.isPrimaryVideoVisible = false
-                self.splitScreenViewModel.isSecondaryVideoVisible = false
                 self.splitScreenHostingController?.view.isHidden = true
             }
 
@@ -235,8 +218,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         UIView.animate(withDuration: 0.5) { [self] in
             self.primarySampleView.shouldRender = true
             self.secondarySampleView.shouldRender = true
-            self.splitScreenViewModel.isPrimaryVideoVisible = self.primaryVideoTrack?.isEnabled ?? false
-            self.splitScreenViewModel.isSecondaryVideoVisible = self.secondaryVideoTrack?.isEnabled ?? false
             self.splitScreenHostingController?.view.isHidden = false
         }
     }

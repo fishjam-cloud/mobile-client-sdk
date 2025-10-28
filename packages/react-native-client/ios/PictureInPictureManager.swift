@@ -104,20 +104,8 @@ class PictureInPictureManager {
                 let videoTrack = endpoint.tracks.values.first { track in
                     track is RemoteVideoTrack
                 } as? RemoteVideoTrack
-                
-                let metadataDict = endpoint.metadata.toDict()
-                let displayName = ((metadataDict["peer"] as? [String: String])?["displayName"]) ??
-                                 (metadataDict["name"] as? String) ??
-                                 endpoint.id
-                
-                let trackInfo = RemoteTrackInfo(
-                    videoTrack: videoTrack?.mediaTrack as? RTCVideoTrack,
-                    displayName: displayName,
-                    hasVideoTrack: videoTrack != nil
-                )
-                
-                lastActiveVadInfo = trackInfo
-                return trackInfo
+                lastActiveVadInfo = trackToTrackInfo(videoTrack: videoTrack, endpoint: endpoint)
+                return lastActiveVadInfo
             }
         }
         if lastActiveVadInfo != nil {
@@ -127,20 +115,27 @@ class PictureInPictureManager {
         // Fallback: return first available remote peer with video track
         for endpoint in remoteEndpoints {
             if let videoTrack = endpoint.tracks.values.first(where: { $0 is RemoteVideoTrack }) as? RemoteVideoTrack {
-                let metadataDict = endpoint.metadata.toDict()
-                let displayName = ((metadataDict["peer"] as? [String: String])?["displayName"]) ??
-                                 (metadataDict["name"] as? String) ??
-                                 endpoint.id
-                
-                return RemoteTrackInfo(
-                    videoTrack: videoTrack.mediaTrack as? RTCVideoTrack,
-                    displayName: displayName,
-                    hasVideoTrack: true
-                )
+                return trackToTrackInfo(videoTrack: videoTrack, endpoint: endpoint)
             }
         }
         
         return nil
+    }
+    
+    private func trackToTrackInfo(videoTrack: RemoteVideoTrack?, endpoint: Endpoint) -> RemoteTrackInfo {
+        let metadataDict = endpoint.metadata.toDict()
+        let displayName = ((metadataDict["peer"] as? [String: String])?["displayName"]) ??
+                         (metadataDict["name"] as? String) ??
+                         endpoint.id
+        
+        let isVideoTrackActive = videoTrack?.metadata["active"] as? Bool ?? false
+        
+        return RemoteTrackInfo(
+            videoTrack: videoTrack?.mediaTrack as? RTCVideoTrack,
+            displayName: displayName,
+            hasVideoTrack: videoTrack != nil,
+            isVideoActive: isVideoTrackActive
+        )
     }
     
     private func updateTracks() {
