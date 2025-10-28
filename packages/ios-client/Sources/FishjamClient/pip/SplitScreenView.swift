@@ -113,6 +113,5 @@ private struct UIViewRepresentableWrapper: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
-        // Update if needed
     }
 }
