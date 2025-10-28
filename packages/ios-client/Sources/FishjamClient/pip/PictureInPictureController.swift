@@ -1,6 +1,7 @@
 import AVKit
 import Accelerate
 import Foundation
+import SwiftUI
 import UIKit
 import WebRTC
 
@@ -33,13 +34,13 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
     public var primaryPlaceholderText: String = "No camera" {
         didSet {
-            primaryPlaceholderLabel.text = primaryPlaceholderText
+            splitScreenViewModel.primaryPlaceholderText = primaryPlaceholderText
         }
     }
 
     public var secondaryPlaceholderText: String = "No active speaker" {
         didSet {
-            secondaryPlaceholderLabel.text = secondaryPlaceholderText
+            splitScreenViewModel.secondaryPlaceholderText = secondaryPlaceholderText
         }
     }
 
@@ -55,10 +56,8 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     private var pipController: AVPictureInPictureController?
     private let primarySampleView: SampleBufferVideoCallView
     private let secondarySampleView: SampleBufferVideoCallView
-    private let primaryPlaceholderLabel: UILabel
-    private let secondaryPlaceholderLabel: UILabel
-    private let splitScreenContainer: UIStackView
-    private var secondaryContainer: UIView?
+    private var splitScreenHostingController: UIHostingController<SplitScreenView>?
+    private let splitScreenViewModel: SplitScreenViewModel
 
     public init(
         sourceView: UIView,
@@ -73,27 +72,13 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         self.secondarySampleView = SampleBufferVideoCallView(frame: .zero)
         self.secondarySampleView.translatesAutoresizingMaskIntoConstraints = false
 
-        self.primaryPlaceholderLabel = UILabel()
-        self.primaryPlaceholderLabel.text = primaryPlaceholder
-        self.primaryPlaceholderLabel.textAlignment = .center
-        self.primaryPlaceholderLabel.textColor = .white
-        self.primaryPlaceholderLabel.backgroundColor = UIColor(red: 0.38, green: 0.38, blue: 0.38, alpha: 1.0)
-        self.primaryPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        self.secondaryPlaceholderLabel = UILabel()
-        self.secondaryPlaceholderLabel.text = secondaryPlaceholder
-        self.secondaryPlaceholderLabel.textAlignment = .center
-        self.secondaryPlaceholderLabel.textColor = .white
-        self.secondaryPlaceholderLabel.backgroundColor = UIColor(red: 0.38, green: 0.38, blue: 0.38, alpha: 1.0)
-        self.secondaryPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-
         self.primaryPlaceholderText = primaryPlaceholder
         self.secondaryPlaceholderText = secondaryPlaceholder
 
-        self.splitScreenContainer = UIStackView()
-        self.splitScreenContainer.axis = .horizontal
-        self.splitScreenContainer.distribution = .fillEqually
-        self.splitScreenContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.splitScreenViewModel = SplitScreenViewModel(
+            primaryPlaceholderText: primaryPlaceholder,
+            secondaryPlaceholderText: secondaryPlaceholder
+        )
 
         super.init()
 
@@ -130,53 +115,33 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     private func setupSplitScreenLayout() {
         guard let pipCallViewController else { return }
 
-        let primaryContainer = UIView()
-        primaryContainer.translatesAutoresizingMaskIntoConstraints = false
+        let splitScreenView = SplitScreenView(
+            primarySampleView: primarySampleView,
+            secondarySampleView: secondarySampleView,
+            viewModel: splitScreenViewModel
+        )
 
-        let secondaryContainerView = UIView()
-        secondaryContainerView.translatesAutoresizingMaskIntoConstraints = false
-        self.secondaryContainer = secondaryContainerView
+        splitScreenHostingController = UIHostingController(rootView: splitScreenView)
 
-        primaryContainer.addSubview(primaryPlaceholderLabel)
-        secondaryContainerView.addSubview(secondaryPlaceholderLabel)
+        guard let splitScreenHostingController else { return }
 
-        primaryContainer.addSubview(primarySampleView)
-        secondaryContainerView.addSubview(secondarySampleView)
+        splitScreenHostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        splitScreenHostingController.view.backgroundColor = .black
 
-        splitScreenContainer.addArrangedSubview(primaryContainer)
-        splitScreenContainer.addArrangedSubview(secondaryContainerView)
-
-        pipCallViewController.view.addSubview(splitScreenContainer)
+        pipCallViewController.addChild(splitScreenHostingController)
+        pipCallViewController.view.addSubview(splitScreenHostingController.view)
+        splitScreenHostingController.didMove(toParent: pipCallViewController)
 
         NSLayoutConstraint.activate([
-            splitScreenContainer.leadingAnchor.constraint(equalTo: pipCallViewController.view.leadingAnchor),
-            splitScreenContainer.trailingAnchor.constraint(equalTo: pipCallViewController.view.trailingAnchor),
-            splitScreenContainer.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
-            splitScreenContainer.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
-
-            primaryPlaceholderLabel.leadingAnchor.constraint(equalTo: primaryContainer.leadingAnchor),
-            primaryPlaceholderLabel.trailingAnchor.constraint(equalTo: primaryContainer.trailingAnchor),
-            primaryPlaceholderLabel.topAnchor.constraint(equalTo: primaryContainer.topAnchor),
-            primaryPlaceholderLabel.bottomAnchor.constraint(equalTo: primaryContainer.bottomAnchor),
-
-            secondaryPlaceholderLabel.leadingAnchor.constraint(equalTo: secondaryContainerView.leadingAnchor),
-            secondaryPlaceholderLabel.trailingAnchor.constraint(equalTo: secondaryContainerView.trailingAnchor),
-            secondaryPlaceholderLabel.topAnchor.constraint(equalTo: secondaryContainerView.topAnchor),
-            secondaryPlaceholderLabel.bottomAnchor.constraint(equalTo: secondaryContainerView.bottomAnchor),
-
-            primarySampleView.leadingAnchor.constraint(equalTo: primaryContainer.leadingAnchor),
-            primarySampleView.trailingAnchor.constraint(equalTo: primaryContainer.trailingAnchor),
-            primarySampleView.topAnchor.constraint(equalTo: primaryContainer.topAnchor),
-            primarySampleView.bottomAnchor.constraint(equalTo: primaryContainer.bottomAnchor),
-
-            secondarySampleView.leadingAnchor.constraint(equalTo: secondaryContainerView.leadingAnchor),
-            secondarySampleView.trailingAnchor.constraint(equalTo: secondaryContainerView.trailingAnchor),
-            secondarySampleView.topAnchor.constraint(equalTo: secondaryContainerView.topAnchor),
-            secondarySampleView.bottomAnchor.constraint(equalTo: secondaryContainerView.bottomAnchor),
+            splitScreenHostingController.view.leadingAnchor.constraint(
+                equalTo: pipCallViewController.view.leadingAnchor
+            ),
+            splitScreenHostingController.view.trailingAnchor.constraint(
+                equalTo: pipCallViewController.view.trailingAnchor
+            ),
+            splitScreenHostingController.view.topAnchor.constraint(equalTo: pipCallViewController.view.topAnchor),
+            splitScreenHostingController.view.bottomAnchor.constraint(equalTo: pipCallViewController.view.bottomAnchor),
         ])
-
-        primarySampleView.isHidden = true
-        secondarySampleView.isHidden = true
     }
 
     private func setupNotifications() {
@@ -193,13 +158,11 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             oldTrack.remove(primarySampleView)
         }
 
-        if let newTrack = newTrack {
+        if let newTrack {
             newTrack.add(primarySampleView)
-            primarySampleView.isHidden = false
-            primaryPlaceholderLabel.isHidden = true
+            splitScreenViewModel.isPrimaryVideoVisible = true
         } else {
-            primarySampleView.isHidden = true
-            primaryPlaceholderLabel.isHidden = false
+            splitScreenViewModel.isPrimaryVideoVisible = false
         }
     }
 
@@ -208,13 +171,11 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             oldTrack.remove(secondarySampleView)
         }
 
-        if let newTrack = newTrack {
+        if let newTrack {
             newTrack.add(secondarySampleView)
-            secondarySampleView.isHidden = false
-            secondaryPlaceholderLabel.isHidden = true
+            splitScreenViewModel.isSecondaryVideoVisible = true
         } else {
-            secondarySampleView.isHidden = true
-            secondaryPlaceholderLabel.isHidden = false
+            splitScreenViewModel.isSecondaryVideoVisible = false
         }
     }
 
@@ -222,26 +183,22 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
         if let oldTrack = secondaryVideoTrack {
             oldTrack.remove(secondarySampleView)
             secondaryVideoTrack = nil
+            splitScreenViewModel.isSecondaryVideoVisible = false
+            splitScreenViewModel.secondaryPlaceholderText = "No active speaker"
         }
 
-        guard let trackInfo = trackInfo else {
-            secondarySampleView.isHidden = true
-            secondaryPlaceholderLabel.isHidden = true
-            secondaryContainer?.isHidden = true
+        guard let trackInfo else {
+            splitScreenViewModel.isSecondaryVideoVisible = false
             return
         }
+        splitScreenViewModel.secondaryPlaceholderText = trackInfo.displayName ?? "Peer"
 
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
             secondaryVideoTrack = videoTrack
             videoTrack.add(secondarySampleView)
-            secondarySampleView.isHidden = false
-            secondaryPlaceholderLabel.isHidden = true
-            secondaryContainer?.isHidden = false
+            splitScreenViewModel.isSecondaryVideoVisible = true
         } else {
-            secondarySampleView.isHidden = true
-            secondaryPlaceholderLabel.text = trackInfo.displayName
-            secondaryPlaceholderLabel.isHidden = false
-            secondaryContainer?.isHidden = false
+            splitScreenViewModel.isSecondaryVideoVisible = false
         }
     }
 
@@ -253,8 +210,9 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         if stopAutomatically {
             UIView.animate(withDuration: 0.5) {
-                self.primarySampleView.layer.opacity = 0
-                self.secondarySampleView.layer.opacity = 0
+                self.splitScreenViewModel.isPrimaryVideoVisible = false
+                self.splitScreenViewModel.isSecondaryVideoVisible = false
+                self.splitScreenHostingController?.view.isHidden = true
             }
 
             // Arbitraty 0.5s, if called too early won't have any effect.
@@ -274,10 +232,13 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     public func pictureInPictureControllerWillStartPictureInPicture(
         _ pictureInPictureController: AVPictureInPictureController
     ) {
-        primarySampleView.layer.opacity = 1
-        primarySampleView.shouldRender = true
-        secondarySampleView.layer.opacity = 1
-        secondarySampleView.shouldRender = true
+        UIView.animate(withDuration: 0.5) { [self] in
+            self.primarySampleView.shouldRender = true
+            self.secondarySampleView.shouldRender = true
+            self.splitScreenViewModel.isPrimaryVideoVisible = self.primaryVideoTrack?.isEnabled ?? false
+            self.splitScreenViewModel.isSecondaryVideoVisible = self.secondaryVideoTrack?.isEnabled ?? false
+            self.splitScreenHostingController?.view.isHidden = false
+        }
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(

@@ -7,6 +7,7 @@ class PictureInPictureManager {
     private let sourceView: UIView
     private let eventEmitter: (EmitableEvent) -> Void
     private weak var fishjamClient: FishjamClient?
+    private var lastActiveVadInfo: RemoteTrackInfo? = nil
     
     private var controller: PictureInPictureController?
     
@@ -76,8 +77,7 @@ class PictureInPictureManager {
         
         for (_, track) in localEndpoint.tracks {
             if let videoTrack = track as? LocalVideoTrack,
-               let metadata = track.metadata.toDict() as? [String: Any],
-               metadata["type"] as? String == "camera" {
+               track.metadata.toDict()["type"] as? String == "camera" {
                 return videoTrack.mediaTrack as? RTCVideoTrack
             }
         }
@@ -106,23 +106,29 @@ class PictureInPictureManager {
                 } as? RemoteVideoTrack
                 
                 let metadataDict = endpoint.metadata.toDict()
-                let displayName = (metadataDict["displayName"] as? String) ??
+                let displayName = ((metadataDict["peer"] as? [String: String])?["displayName"]) ??
                                  (metadataDict["name"] as? String) ??
                                  endpoint.id
                 
-                return RemoteTrackInfo(
+                let trackInfo = RemoteTrackInfo(
                     videoTrack: videoTrack?.mediaTrack as? RTCVideoTrack,
                     displayName: displayName,
                     hasVideoTrack: videoTrack != nil
                 )
+                
+                lastActiveVadInfo = trackInfo
+                return trackInfo
             }
+        }
+        if lastActiveVadInfo != nil {
+            return lastActiveVadInfo
         }
         
         // Fallback: return first available remote peer with video track
         for endpoint in remoteEndpoints {
             if let videoTrack = endpoint.tracks.values.first(where: { $0 is RemoteVideoTrack }) as? RemoteVideoTrack {
                 let metadataDict = endpoint.metadata.toDict()
-                let displayName = (metadataDict["displayName"] as? String) ??
+                let displayName = ((metadataDict["peer"] as? [String: String])?["displayName"]) ??
                                  (metadataDict["name"] as? String) ??
                                  endpoint.id
                 
@@ -161,6 +167,7 @@ class PictureInPictureManager {
     
     func stop() {
         controller?.stopPictureInPicture()
+        lastActiveVadInfo = nil
     }
     
     func setAllowsCameraWhileInPictureInPicture(_ enabled: Bool) {
@@ -197,6 +204,7 @@ class PictureInPictureManager {
     func cleanup() {
         controller?.stopPictureInPicture()
         controller = nil
+        lastActiveVadInfo = nil
     }
 }
 
