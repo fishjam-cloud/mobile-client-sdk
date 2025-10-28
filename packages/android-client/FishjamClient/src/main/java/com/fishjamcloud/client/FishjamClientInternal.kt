@@ -764,16 +764,14 @@ internal class FishjamClientInternal(
       return
     }
 
-    val endpoint =
+    var updatedEndpoint =
       remoteEndpoints.remove(endpointId) ?: run {
         Timber.e("Failed to process TracksAdded event: Endpoint not found: $endpointId")
         return
       }
 
-    val updatedTracks = endpoint.tracks.toMutableMap()
-
     for ((trackId, trackData) in trackIdToTrack) {
-      var track = endpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
+      var track = updatedEndpoint.tracks.values.firstOrNull { track -> track.getRTCEngineId() == trackId }
       if (track != null) {
         track.metadata = trackData.metadataJson.serializeToMap()
       } else {
@@ -787,10 +785,8 @@ internal class FishjamClientInternal(
           )
         this.listener.onTrackAdded(track)
       }
-      updatedTracks[trackId] = track
+      updatedEndpoint = updatedEndpoint.addOrReplaceTrack(track)
     }
-
-    val updatedEndpoint = endpoint.copy(tracks = updatedTracks)
 
     remoteEndpoints[updatedEndpoint.id] = updatedEndpoint
   }
@@ -819,12 +815,16 @@ internal class FishjamClientInternal(
     metadata: Metadata?
   ) {
     val track =
-      getTrack(trackId) ?: run {
+      getTrackWithRtcEngineId(trackId) ?: run {
         Timber.e("Failed to process TrackUpdated event: Track context not found: $trackId")
         return
       }
 
     track.metadata = metadata ?: mapOf()
+
+    remoteEndpoints[endpointId]?.addOrReplaceTrack(track)?.let {
+      remoteEndpoints[endpointId] = it
+    }
 
     this.listener.onTrackUpdated(track)
   }

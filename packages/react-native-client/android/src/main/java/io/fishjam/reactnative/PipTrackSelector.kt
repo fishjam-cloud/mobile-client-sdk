@@ -69,13 +69,22 @@ private fun Peer.hasVideoTrack(): Boolean {
 }
 
 private fun Peer.getDisplayName(): String {
-    val displayName = metadata?.get("displayName") as? String
-    val name = metadata?.get("name") as? String
-    return displayName ?: name ?: id
+    val serverMetadata = metadata?.get("peer") as? Map<*, *>
+    val displayName = serverMetadata?.get("displayName") as? String
+    return displayName ?: id
 }
 
 private fun Track.getTrackActive(): Boolean {
-  return metadata["isActive"] as? Boolean ?: (metadata["paused"] as? Boolean)?.not() ?: false
+
+  if (metadata["active"] as? Boolean == false) {
+    return false
+  }
+
+  if (metadata["paused"] as? Boolean == true) {
+    return false
+  }
+
+  return true
 }
 
 private fun Peer.toRemoteTrackInfo(): RemoteTrackInfo {
