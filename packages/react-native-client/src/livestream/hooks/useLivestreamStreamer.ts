@@ -37,7 +37,7 @@ export interface useLivestreamStreamerResult {
   whipClientRef: React.RefObject<WhipClientViewRef | null>;
 }
 
-export type Props = {
+export type UseLivestreamStreamerParams = {
   /**
    * If video track should be enabled.
    */
@@ -79,7 +79,7 @@ export const useLivestreamStreamer = ({
   videoParameters,
   preferredVideoCodecs,
   preferredAudioCodecs,
-}: Props): useLivestreamStreamerResult => {
+}: UseLivestreamStreamerParams): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 
