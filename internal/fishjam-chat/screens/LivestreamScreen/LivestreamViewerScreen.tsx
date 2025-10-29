@@ -4,7 +4,7 @@ import {
   useLivestreamViewer,
 } from '@fishjam-cloud/react-native-client/livestream';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
@@ -21,30 +21,31 @@ export default function LivestreamViewerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect } = useLivestreamViewer();
-
-  const handleConnect = useCallback(async () => {
-    try {
-      const token = await getSandboxViewerToken(roomName);
-      await connect({ token });
-    } catch (err) {
-      console.error(err);
-    }
-  }, [connect, getSandboxViewerToken, roomName]);
+  const { connect, disconnect, whepClientRef } = useLivestreamViewer();
 
   useEffect(() => {
-    handleConnect();
+    const connectToStream = async () => {
+      try {
+        const token = await getSandboxViewerToken(roomName);
+        await connect({ token });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    connectToStream();
 
     return () => {
       disconnect();
     };
-  }, [handleConnect, disconnect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
-          <LivestreamViewer style={styles.whepView} />
+          <LivestreamViewer style={styles.whepView} ref={whepClientRef} />
         </View>
       </View>
     </SafeAreaView>

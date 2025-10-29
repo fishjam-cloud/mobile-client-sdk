@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { WhepClient, useWhepConnectionState } from 'react-native-whip-whep';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useWhepConnectionState,
+  WhepClientViewRef,
+} from 'react-native-whip-whep';
 import { FISHJAM_WHEP_URL } from '../../consts';
 
 export type ConnectViewerConfig =
@@ -25,6 +28,12 @@ export interface useLivestreamViewerResult {
   disconnect: () => Promise<void>;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
+  /** Utility flag which indicates if whep client is connecting */
+  isLoading: boolean;
+  /**
+   * Reference to the WhepClient instance. Needs to be passed to the {@link LivestreamViewer} component.
+   */
+  whepClientRef: React.RefObject<WhepClientViewRef | null>;
 }
 
 /**
@@ -33,42 +42,72 @@ export interface useLivestreamViewerResult {
  * @group Hooks
  */
 export const useLivestreamViewer = (): useLivestreamViewerResult => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const state = useWhepConnectionState();
   const isConnected = state === 'connected';
 
-  const whepClient = useRef<WhepClient | null>(null);
+  const whepClientRef = useRef<WhepClientViewRef | null>(null);
+  const isConnectingRef = useRef(false);
 
   useEffect(() => {
     const createClient = () => {
-      whepClient.current = new WhepClient({
+      whepClientRef.current?.createWhepClient({
         audioEnabled: true,
         videoEnabled: true,
       });
     };
     createClient();
 
+    const ref = whepClientRef.current;
     return () => {
-      whepClient.current?.disconnect();
+      ref?.disconnect();
     };
   }, []);
 
   const connect = useCallback(
     async (config: ConnectViewerConfig, url?: string) => {
-      await whepClient.current?.connect({
-        serverUrl: url ?? urlFromConfig(config),
-        authToken: config.token,
-      });
+      if (isConnectingRef.current) {
+        return;
+      }
+
+      isConnectingRef.current = true;
+      setIsLoading(true);
+
+      try {
+        if (!isInitialized) {
+          await whepClientRef.current?.createWhepClient({
+            audioEnabled: true,
+            videoEnabled: true,
+          });
+          setIsInitialized(true);
+        }
+
+        await whepClientRef.current?.connect({
+          serverUrl: url ?? urlFromConfig(config),
+          authToken: config.token,
+        });
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to connect to WHEP Client', error);
+        setIsLoading(false);
+      } finally {
+        isConnectingRef.current = false;
+      }
     },
-    [],
+    [isInitialized],
   );
 
   const disconnect = useCallback(async () => {
-    await whepClient.current?.disconnect();
+    await whepClientRef.current?.disconnect();
   }, []);
 
   return {
     connect,
     disconnect,
+    whepClientRef,
     isConnected,
+    isLoading,
   };
 };

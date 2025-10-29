@@ -13,11 +13,6 @@ export type LivestreamViewerProps = {
    */
   style?: StyleProp<ViewStyle>;
   /**
-   * Used to override the orientation of the video (from metadata).
-   * Defaults to "portrait".
-   */
-  orientation?: 'landscape' | 'portrait';
-  /**
    * A variable deciding whether the Picture-in-Picture is enabled.
    * Defaults to true.
    */
@@ -41,7 +36,7 @@ export type LivestreamViewerProps = {
     height: number;
   };
 
-  ref?: Ref<LivestreamViewerRef>;
+  ref: Ref<LivestreamViewerRef>;
 };
 
 /**
@@ -53,7 +48,6 @@ export type LivestreamViewerProps = {
  */
 export const LivestreamViewer = ({
   style,
-  orientation,
   pipEnabled,
   autoStartPip,
   autoStopPip,

@@ -3151,7 +3151,7 @@ __metadata:
     promise-fs: "npm:^2.1.1"
     protobufjs: "npm:^7.4.0"
     react-dom: "npm:19.0.0"
-    react-native-whip-whep: "npm:0.3.1"
+    react-native-whip-whep: "npm:0.6.0"
     ts-proto: "npm:^2.7.5"
     typedoc: "npm:^0.28.7"
     typedoc-plugin-mark-react-functional-components: "npm:^0.2.2"
@@ -16308,16 +16308,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-whip-whep@npm:0.3.1":
-  version: 0.3.1
-  resolution: "react-native-whip-whep@npm:0.3.1"
+"react-native-whip-whep@npm:0.6.0":
+  version: 0.6.0
+  resolution: "react-native-whip-whep@npm:0.6.0"
   dependencies:
     zod: "npm:^3.25.71"
   peerDependencies:
     expo: "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/5fc3421204b708f57313ee1f7d88b62ca37a9dbaaf0c9fcdc3adaf6ce7713f1ef69c3edb4e558050585a6d4d1b1c73bf5cf4bb3e6f897b05567c571f8b862ddb
+  checksum: 10c0/e5efdf8c1ce911b300960ce028984a0d14dca3770d417a0f32cf07ec9b2805857d98e1a943d68b1a46176458e56901a031b713639e92c0a86f7f76e7344d16dd
   languageName: node
   linkType: hard
 

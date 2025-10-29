@@ -3,18 +3,11 @@ import {
   LivestreamStreamer,
   useLivestreamStreamer,
   cameras,
-  WhipClient,
+  VideoParameters,
 } from '@fishjam-cloud/react-native-client/livestream';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect } from 'react';
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Platform,
-  PermissionsAndroid,
-} from 'react-native';
+import React, { useCallback } from 'react';
+import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
 import { AppRootStackParamList } from '../../navigators/AppNavigator';
 import { BrandColors } from '../../utils/Colors';
 
@@ -23,23 +16,6 @@ type Props = NativeStackScreenProps<
   'LivestreamStreamerScreen'
 >;
 
-export async function checkPermissions() {
-  if (Platform.OS === 'ios') {
-    return;
-  }
-  try {
-    await PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    ]);
-  } catch (err) {
-    console.warn(err);
-  }
-}
-
-const supportedVideoCodecs = WhipClient.getSupportedVideoCodecs();
-const videoCodecs = supportedVideoCodecs.filter((codec) => codec === 'VP8');
-
 export default function LivestreamStreamerScreen({ route }: Props) {
   const { fishjamId, roomName } = route.params;
 
@@ -47,8 +23,20 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     fishjamId,
   });
 
-  const { connect, disconnect, isConnected, whipClientRef } =
-    useLivestreamStreamer();
+  const {
+    connect,
+    disconnect,
+    flipCamera,
+    switchCamera,
+    currentCameraDeviceId,
+    isConnected,
+    whipClientRef,
+  } = useLivestreamStreamer({
+    videoEnabled: true,
+    audioEnabled: true,
+    camera: cameras[0],
+    videoParameters: VideoParameters.presetHD169,
+  });
 
   const handleConnect = useCallback(async () => {
     try {
@@ -63,13 +51,24 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     disconnect();
   }, [disconnect]);
 
-  useEffect(() => {
-    checkPermissions();
+  const handleFlipCamera = useCallback(() => {
+    flipCamera();
+  }, [flipCamera]);
 
-    return () => {
-      disconnect();
-    };
-  }, [disconnect]);
+  const handleSwitchCamera = useCallback(async () => {
+    const currentCameraId = await currentCameraDeviceId();
+    const currentCamera = cameras.find((cam) => cam.id === currentCameraId);
+
+    const oppositeCamera = cameras.find(
+      (cam) =>
+        cam.facingDirection !== currentCamera?.facingDirection &&
+        cam.facingDirection !== 'unspecified',
+    );
+
+    if (oppositeCamera) {
+      switchCamera(oppositeCamera.id);
+    }
+  }, [switchCamera, currentCameraDeviceId]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -77,17 +76,15 @@ export default function LivestreamStreamerScreen({ route }: Props) {
         <View style={styles.videoView}>
           <LivestreamStreamer
             style={styles.whepView}
-            camera={cameras[0]}
             whipClientRef={whipClientRef}
-            preferredVideoCodecs={videoCodecs}
-            videoEnabled={true}
-            audioEnabled={true}
           />
           <Button
             title={isConnected ? 'Disconnect' : 'Connect'}
             onPress={isConnected ? handleDisconnect : handleConnect}
           />
         </View>
+        <Button title="Flip Camera" onPress={handleFlipCamera} />
+        <Button title="Switch Camera" onPress={handleSwitchCamera} />
       </View>
     </SafeAreaView>
   );
