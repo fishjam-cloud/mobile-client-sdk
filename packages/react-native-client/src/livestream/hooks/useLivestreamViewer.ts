@@ -62,7 +62,6 @@ export const useLivestreamViewer = (): useLivestreamViewerResult => {
     const ref = whepClientRef.current;
     return () => {
       ref?.disconnect();
-      ref?.cleanup();
     };
   }, []);
 

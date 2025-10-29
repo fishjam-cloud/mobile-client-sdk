@@ -128,7 +128,6 @@ export const useLivestreamStreamer = ({
     const ref = whipClientRef.current;
     return () => {
       ref?.disconnect();
-      ref?.cleanup();
     };
   }, [
     camera,
