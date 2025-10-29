@@ -176,7 +176,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             splitScreenViewModel.isSecondaryVideoVisible = false
             return
         }
-        splitScreenViewModel.secondaryPlaceholderText = trackInfo.displayName ?? "Peer"
+        splitScreenViewModel.secondaryPlaceholderText = trackInfo.displayName
 
         if trackInfo.hasVideoTrack, let videoTrack = trackInfo.videoTrack {
             secondaryVideoTrack = videoTrack

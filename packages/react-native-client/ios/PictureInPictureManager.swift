@@ -124,17 +124,18 @@ class PictureInPictureManager {
     
     private func trackToTrackInfo(videoTrack: RemoteVideoTrack?, endpoint: Endpoint) -> RemoteTrackInfo {
         let metadataDict = endpoint.metadata.toDict()
-        let displayName = ((metadataDict["peer"] as? [String: String])?["displayName"]) ??
-                         (metadataDict["name"] as? String) ??
-                         endpoint.id
+        let peerMetadata = metadataDict["peer"] as? [String: String]
+        let displayName = peerMetadata?["displayName"] ?? peerMetadata?["name"]
         
-        let isVideoTrackActive = videoTrack?.metadata["active"] as? Bool ?? false
+        var isVideoTrackActive: Bool? = nil
+        if videoTrack?.metadata["active"] as? Bool == false { isVideoTrackActive = false }
+        if videoTrack?.metadata["paused"] as? Bool == true { isVideoTrackActive = false }
         
         return RemoteTrackInfo(
             videoTrack: videoTrack?.mediaTrack as? RTCVideoTrack,
             displayName: displayName,
             hasVideoTrack: videoTrack != nil,
-            isVideoActive: isVideoTrackActive
+            isVideoActive: isVideoTrackActive ?? true
         )
     }
     
