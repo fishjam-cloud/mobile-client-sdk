@@ -5,7 +5,7 @@ class SplitScreenViewModel: ObservableObject {
     @Published var isPrimaryVideoVisible: Bool = false
     @Published var isSecondaryVideoVisible: Bool = false
     @Published var primaryPlaceholderText: String
-    @Published var secondaryPlaceholderText: String
+    @Published var secondaryPlaceholderText: String?
     let isSecondaryContainerVisible: Bool = true
 
     init(
@@ -26,14 +26,14 @@ struct SplitScreenView: View {
         HStack(spacing: 0) {
             VideoPreviewContainerView(
                 sampleView: primarySampleView,
-                isVideoVisible: viewModel.isPrimaryVideoVisible,
+                isVideoVisible: $viewModel.isPrimaryVideoVisible,
                 peerName: viewModel.primaryPlaceholderText
             )
 
             if viewModel.isSecondaryContainerVisible {
                 VideoPreviewContainerView(
                     sampleView: secondarySampleView,
-                    isVideoVisible: viewModel.isSecondaryVideoVisible,
+                    isVideoVisible: $viewModel.isSecondaryVideoVisible,
                     peerName: viewModel.secondaryPlaceholderText,
                     showPeerName: true
                 )
@@ -45,13 +45,13 @@ struct SplitScreenView: View {
 
 struct VideoPreviewContainerView: View {
     let sampleView: SampleBufferVideoCallView
-    let isVideoVisible: Bool
-    let peerName: String
+    @Binding var isVideoVisible: Bool
+    let peerName: String?
     var showPeerName: Bool = false
 
     var body: some View {
         ZStack {
-            Text(peerName)
+            Text(peerName ?? "Unknown User")
                 .font(.caption)
                 .fontWeight(.bold)
                 .foregroundStyle(.white)
@@ -61,7 +61,7 @@ struct VideoPreviewContainerView: View {
             if isVideoVisible {
                 ZStack(alignment: .bottomTrailing) {
                     UIViewRepresentableWrapper(view: sampleView)
-                    if showPeerName {
+                    if showPeerName, let peerName {
                         Text(peerName)
                             .foregroundStyle(.white)
                             .font(.footnote)
