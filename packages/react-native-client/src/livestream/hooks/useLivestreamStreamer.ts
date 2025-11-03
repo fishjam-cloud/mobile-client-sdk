@@ -40,12 +40,14 @@ export interface useLivestreamStreamerResult {
 export type UseLivestreamStreamerParams = {
   /**
    * If video track should be enabled.
+   * Defaults to true.
    */
-  videoEnabled: boolean;
+  videoEnabled?: boolean;
   /**
    * If audio track should be enabled.
+   * Defaults to true.
    */
-  audioEnabled: boolean;
+  audioEnabled?: boolean;
   /**
    * Camera to use for the livestream.
    * Use {@link cameras} to get the list of supported cameras.
@@ -113,8 +115,8 @@ export const useLivestreamStreamer = ({
     try {
       const initializeCamera = async () => {
         await whipClientRef.current?.initializeCamera({
-          audioEnabled: audioEnabled,
-          videoEnabled: videoEnabled,
+          audioEnabled: audioEnabled ?? true,
+          videoEnabled: videoEnabled ?? true,
           videoDeviceId: camera?.id ?? cameras[0].id,
           videoParameters: videoParameters,
           preferredVideoCodecs: preferredVideoCodecs,
