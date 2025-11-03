@@ -3,6 +3,7 @@ package io.fishjam.reactnative
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -158,6 +159,7 @@ class PipViewFactory(
             setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
             maxWidth = maxWidthPx
             maxLines = 1
+            ellipsize = TextUtils.TruncateAt.END
             setBackground(background)
             visibility = View.GONE
         }
