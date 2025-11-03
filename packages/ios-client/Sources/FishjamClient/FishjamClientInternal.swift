@@ -5,7 +5,10 @@ import WebRTC
 
 class FishjamClientInternal {
     private var config: ConnectConfig?
-    private let commandsQueue: CommandsQueue = CommandsQueue()
+    private lazy var commandsQueue: CommandsQueue = CommandsQueue(canProcessCommands: { [weak self] in
+        guard let self else { return false }
+        return !self.isOngoingRenegotiation
+    })
     private var webSocket: FishjamWebsocket?
     private var listener: FishjamClientListener
     private var websocketFactory: (String) -> FishjamWebsocket
@@ -22,6 +25,8 @@ class FishjamClientInternal {
     private var reconnectionManager: ReconnectionManager?
 
     private var _loggerPrefix = "FishjamClientInternal"
+    
+    private var isOngoingRenegotiation = false
 
     private(set) var localEndpoint: Endpoint = Endpoint(id: "")
     private var prevTracks: [Track] = []
@@ -775,6 +780,7 @@ extension FishjamClientInternal: RTCEngineListener {
     }
 
     func onOfferData(tracksTypes: Fishjam_MediaEvents_Server_MediaEvent.OfferData.TrackTypes) {
+        isOngoingRenegotiation = true
         let localTracks = localEndpoint.tracks.map { $1 }
         peerConnectionManager.getSdpOffer(
             tracksTypes: tracksTypes,
@@ -836,6 +842,7 @@ extension FishjamClientInternal: RTCEngineListener {
             listener.onIncompatibleTracksDetected()
         }
 
+        isOngoingRenegotiation = false
         commandsQueue.finishCommand(commandNames: [CommandName.ADD_TRACK, CommandName.REMOVE_TRACK])
     }
 

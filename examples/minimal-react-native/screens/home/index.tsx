@@ -7,8 +7,10 @@ import { useConnectFishjam } from '../../hooks/useConnectFishjam';
 export type HomeScreenProps = RootScreenProps<'Home'>;
 
 const HomeScreen = () => {
-  const [roomName, setRoomName] = useState('');
-  const [userName, setUserName] = useState('');
+  const [roomName, setRoomName] = useState('test');
+  const [userName, setUserName] = useState(
+    Math.random().toString(36).substring(2, 15).toString(),
+  );
   const { connect, isLoading } = useConnectFishjam();
 
   return (
