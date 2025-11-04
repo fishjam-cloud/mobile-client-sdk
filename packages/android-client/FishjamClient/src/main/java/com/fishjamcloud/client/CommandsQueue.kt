@@ -3,7 +3,9 @@ package com.fishjamcloud.client
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-internal class CommandsQueue {
+internal class CommandsQueue(
+  private val canProcessCommands: () -> Boolean
+) {
   private var commandsQueue: ArrayDeque<Command> = ArrayDeque()
   var clientState: ClientState = ClientState.CREATED
 
@@ -12,7 +14,7 @@ internal class CommandsQueue {
     suspendCoroutine { cont ->
       run {
         command.continuation = cont
-        if (commandsQueue.size == 1) {
+        if (canProcessCommands() && commandsQueue.size == 1) {
           command.execute()
         }
       }
@@ -20,6 +22,9 @@ internal class CommandsQueue {
   }
 
   fun finishCommand() {
+    if (!canProcessCommands()) {
+      return
+    }
     val command = commandsQueue.first()
     commandsQueue.removeFirst()
     if (command.clientStateAfterCommand != null) {

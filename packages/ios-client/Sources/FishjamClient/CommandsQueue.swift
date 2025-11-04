@@ -11,26 +11,35 @@ class CommandQueueError: Error {
 internal class CommandsQueue {
     var clientState: ClientState = ClientState.CREATED
     private var commandsQueue: [Command] = []
+    private var canProcessCommands: () -> Bool
+    
+    init(canProcessCommands: @escaping () -> Bool) {
+        self.canProcessCommands = canProcessCommands
+    }
 
     @discardableResult
     func addCommand(_ command: Command) -> Promise<Void> {
         commandsQueue.append(command)
-        if commandsQueue.count == 1 {
+   
+        if canProcessCommands() && commandsQueue.count == 1 {
             command.execute()
         }
         return command.promise
     }
 
     func finishCommand() {
+        guard canProcessCommands() else {
+            return
+        }
         guard let command = commandsQueue.first else { return }
         commandsQueue.removeFirst()
+        
         if let nextState = command.clientStateAfterCommand {
             clientState = nextState
         }
         if let nextCommand = commandsQueue.first {
             nextCommand.execute()
         }
-
     }
 
     func finishCommand(commandName: CommandName) {
