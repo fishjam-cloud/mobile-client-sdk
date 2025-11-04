@@ -81,7 +81,7 @@ export const useLivestreamStreamer = ({
   videoParameters,
   preferredVideoCodecs,
   preferredAudioCodecs,
-}: UseLivestreamStreamerParams): useLivestreamStreamerResult => {
+}: UseLivestreamStreamerParams = {}): useLivestreamStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 
