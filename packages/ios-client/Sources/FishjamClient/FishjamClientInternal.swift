@@ -812,12 +812,13 @@ extension FishjamClientInternal: RTCEngineListener {
         }
 
         localEndpoint.tracks.values.forEach { track in
-            if track is LocalAudioTrack {
+            if track is Track {
                 if let rtcEngineId = track.mediaTrack?.trackId {
                     track.rtcEngineId = rtcEngineId
                 }
-                return
             }
+            
+            guard !(track is LocalAudioTrack) else { return }
 
             var config: SimulcastConfig? = nil
             if let track = track as? LocalVideoTrack {
