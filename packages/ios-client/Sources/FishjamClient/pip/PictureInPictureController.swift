@@ -60,7 +60,7 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
     public init(
         sourceView: UIView,
         primaryPlaceholder: String = "No camera",
-        secondaryPlaceholder: String = "No active speaker",
+        secondaryPlaceholder: String = "No active speaker"
     ) {
         self.sourceView = sourceView
 
@@ -77,7 +77,6 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
             primaryPlaceholderText: primaryPlaceholder,
             secondaryPlaceholderText: secondaryPlaceholder
         )
-        
         super.init()
 
         setupPictureInPicture()
@@ -251,12 +250,13 @@ public class PictureInPictureController: NSObject, AVPictureInPictureControllerD
 
         pipController.stopPictureInPicture()
     }
-    
-    private let isBackgroundCameraSupported = ({
-        if #available(iOS 16.0, *) {
-            return AVCaptureSession().isMultitaskingCameraAccessSupported
-        } else {
-            return false
-        }
-    })()
+
+    private let isBackgroundCameraSupported =
+        ({
+            if #available(iOS 16.0, *) {
+                return AVCaptureSession().isMultitaskingCameraAccessSupported
+            } else {
+                return false
+            }
+        })()
 }
