@@ -77,6 +77,7 @@ public class LocalCameraTrack: LocalVideoTrack, LocalTrack {
         return capturer.isMultitaskingCameraAccessSupported()
     }
 
+    @discardableResult
     public func setMultitaskingCameraAccessEnabled(_ enabled: Bool) -> Bool {
         return capturer.setMultitaskingCameraAccessEnabled(enabled)
     }
