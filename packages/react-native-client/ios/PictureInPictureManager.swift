@@ -177,11 +177,13 @@ class PictureInPictureManager {
             emitWarning("PictureInPicture: Unable to configure background camera - camera not initialized")
             return
         }
-
-        let success = cameraTrack.setMultitaskingCameraAccessEnabled(enabled)
-        if !success {
-            emitWarning("PictureInPicture: Background camera access requires iOS 16.0 or later and must be supported by the device")
+        
+        guard cameraTrack.isMultitaskingCameraAccessSupported() else {
+            emitWarning("PictureInPicture: Background camera is not supported on this device.")
+            return
         }
+
+        cameraTrack.setMultitaskingCameraAccessEnabled(enabled)
     }
     
     func setStartAutomatically(_ enabled: Bool) {

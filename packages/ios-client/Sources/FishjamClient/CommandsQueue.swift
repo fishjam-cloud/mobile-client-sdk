@@ -12,7 +12,7 @@ internal class CommandsQueue {
     var clientState: ClientState = ClientState.CREATED
     private var commandsQueue: [Command] = []
     private var canProcessCommands: () -> Bool
-    
+
     init(canProcessCommands: @escaping () -> Bool) {
         self.canProcessCommands = canProcessCommands
     }
@@ -20,7 +20,7 @@ internal class CommandsQueue {
     @discardableResult
     func addCommand(_ command: Command) -> Promise<Void> {
         commandsQueue.append(command)
-   
+
         if canProcessCommands() && commandsQueue.count == 1 {
             command.execute()
         }
@@ -33,7 +33,7 @@ internal class CommandsQueue {
         }
         guard let command = commandsQueue.first else { return }
         commandsQueue.removeFirst()
-        
+
         if let nextState = command.clientStateAfterCommand {
             clientState = nextState
         }

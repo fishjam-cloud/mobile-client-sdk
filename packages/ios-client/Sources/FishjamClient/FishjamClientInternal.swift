@@ -25,7 +25,7 @@ class FishjamClientInternal {
     private var reconnectionManager: ReconnectionManager?
 
     private var _loggerPrefix = "FishjamClientInternal"
-    
+
     private var isOngoingRenegotiation = false
 
     private(set) var localEndpoint: Endpoint = Endpoint(id: "")
@@ -823,7 +823,7 @@ extension FishjamClientInternal: RTCEngineListener {
                     track.rtcEngineId = rtcEngineId
                 }
             }
-            
+
             guard !(track is LocalAudioTrack) else { return }
 
             var config: SimulcastConfig? = nil
