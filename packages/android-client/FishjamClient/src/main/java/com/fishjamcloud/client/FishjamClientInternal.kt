@@ -59,7 +59,8 @@ internal class FishjamClientInternal(
   private val rtcEngineCommunication: RTCEngineCommunication
 ) : RTCEngineListener,
   PeerConnectionListener {
-  private val commandsQueue: CommandsQueue = CommandsQueue()
+  private var isOngoingRenegotiation = false
+  private val commandsQueue: CommandsQueue = CommandsQueue { !isOngoingRenegotiation }
   private var webSocket: WebSocket? = null
 
   private var localEndpoint: Endpoint = Endpoint(id = "")
@@ -404,6 +405,7 @@ internal class FishjamClientInternal(
         listener.onIncompatibleTracksDetected()
       }
 
+      isOngoingRenegotiation = false
       commandsQueue.finishCommand(listOf(CommandName.ADD_TRACK, CommandName.REMOVE_TRACK))
     }
   }
@@ -718,6 +720,7 @@ internal class FishjamClientInternal(
   }
 
   override fun onOfferData(tracksTypes: Server.MediaEvent.OfferData.TrackTypes) {
+    isOngoingRenegotiation = true
     coroutineScope.launch {
       try {
         val offer =

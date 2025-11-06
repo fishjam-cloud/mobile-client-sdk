@@ -137,15 +137,24 @@ class PipContainerView(
                 views.secondaryVideoView.init(info.videoTrack.id())
                 views.secondaryVideoView.visibility = View.VISIBLE
                 views.secondaryPlaceholder.visibility = View.GONE
+                
+                info.displayName?.let { displayName ->
+                    views.secondaryNameOverlay.text = displayName
+                    views.secondaryNameOverlay.visibility = View.VISIBLE
+                } ?: run {
+                    views.secondaryNameOverlay.visibility = View.GONE
+                }
             } else {
                 views.secondaryVideoView.visibility = View.GONE
                 views.secondaryPlaceholder.text = info.displayName
                 views.secondaryPlaceholder.visibility = View.VISIBLE
+                views.secondaryNameOverlay.visibility = View.GONE
             }
         } ?: run {
             views.secondaryVideoView.visibility = View.GONE
             views.secondaryPlaceholder.text = secondaryPlaceholderText
             views.secondaryPlaceholder.visibility = View.VISIBLE
+            views.secondaryNameOverlay.visibility = View.GONE
         }
         views.secondaryContainer.visibility = View.VISIBLE
     }
