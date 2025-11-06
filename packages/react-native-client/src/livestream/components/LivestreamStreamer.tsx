@@ -14,7 +14,7 @@ export type LivestreamStreamerProps = {
   /**
    * Reference to the WhipClient instance. Needs to be passed from the {@link useLivestreamStreamer} hook.
    */
-  whipClientRef: React.RefObject<WhipClientViewRef | null>;
+  ref: React.RefObject<WhipClientViewRef | null>;
 };
 
 /**
@@ -24,9 +24,6 @@ export type LivestreamStreamerProps = {
  * @param {object} props
  * @param {object} props.style
  */
-export const LivestreamStreamer = ({
-  style,
-  whipClientRef,
-}: LivestreamStreamerProps) => {
-  return <WhipClientView style={style as CSSProperties} ref={whipClientRef} />;
+export const LivestreamStreamer = ({ style, ref }: LivestreamStreamerProps) => {
+  return <WhipClientView style={style as CSSProperties} ref={ref} />;
 };

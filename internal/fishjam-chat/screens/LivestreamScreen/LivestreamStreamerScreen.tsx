@@ -74,10 +74,7 @@ export default function LivestreamStreamerScreen({ route }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
         <View style={styles.videoView}>
-          <LivestreamStreamer
-            style={styles.whepView}
-            whipClientRef={whipClientRef}
-          />
+          <LivestreamStreamer style={styles.whepView} ref={whipClientRef} />
           <Button
             title={isConnected ? 'Disconnect' : 'Connect'}
             onPress={isConnected ? handleDisconnect : handleConnect}
