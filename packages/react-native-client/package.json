@@ -1,6 +1,6 @@
 {
   "name": "@fishjam-cloud/react-native-client",
-  "version": "0.22.1",
+  "version": "0.23.0",
   "description": "A React Native client for Fishjam",
   "author": "Fishjam Team",
   "license": "Apache-2.0",
