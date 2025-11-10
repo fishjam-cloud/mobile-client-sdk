@@ -3209,7 +3209,7 @@ __metadata:
     react-native: "npm:0.79.5"
     react-native-gesture-handler: "npm:~2.24.0"
     react-native-reanimated: "npm:~3.17.4"
-    react-native-safe-area-context: "npm:5.4.0"
+    react-native-safe-area-context: "npm:5.4.1"
     react-native-screens: "npm:~4.11.1"
     react-native-toast-message: "npm:^2.3.3"
     react-native-url-polyfill: "npm:^2.0.0"
@@ -14421,7 +14421,7 @@ __metadata:
     prettier: "npm:^3.6.2"
     react: "npm:19.0.0"
     react-native: "npm:0.79.5"
-    react-native-safe-area-context: "npm:5.4.0"
+    react-native-safe-area-context: "npm:5.4.1"
     react-native-screens: "npm:~4.11.1"
     typescript: "npm:~5.8.3"
   languageName: unknown
@@ -16243,13 +16243,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-safe-area-context@npm:5.4.0":
-  version: 5.4.0
-  resolution: "react-native-safe-area-context@npm:5.4.0"
+"react-native-safe-area-context@npm:5.4.1":
+  version: 5.4.1
+  resolution: "react-native-safe-area-context@npm:5.4.1"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/729fef1f768d57b905f51882374aa93b209d54576b8a0cf328e0a349c8dc9705ae8f9032e572fd7a7c9e94b588105f44760c0bb15ab9911b7977073d6754b54d
+  checksum: 10c0/6da614f4e9318c784700f0586d19d866f565ae08029c9a38cb1b03fd578af3838f2a6d5321c4a220dc7d698d919faf544536b60e45b7cc97f985349328041de2
   languageName: node
   linkType: hard
 
