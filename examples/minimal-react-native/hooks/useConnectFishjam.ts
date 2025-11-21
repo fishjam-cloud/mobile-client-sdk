@@ -26,7 +26,6 @@ export const useConnectFishjam = () => {
       const peerToken = await getSandboxPeerToken(roomName, userName);
 
       await prepareCamera({
-        simulcastEnabled: true,
         quality: 'HD169',
         cameraEnabled: true,
       });

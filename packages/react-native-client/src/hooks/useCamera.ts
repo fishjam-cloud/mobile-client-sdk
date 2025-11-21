@@ -73,18 +73,15 @@ export type CameraConfigBase = {
 
 export type CameraConfig = CameraConfigBase & {
   /**
-   *  whether video track uses simulcast. By default simulcast is disabled.
+   * @deprecated Simulcast is no longer supported
    */
   simulcastEnabled?: boolean;
-  /**
-   *  bandwidth limit of a video track. By default there is no bandwidth limit.
-   */
 };
 
 export type CameraConfigInternal = CameraConfigBase & {
   videoTrackMetadata?: { active: boolean; type: 'camera' };
   /**
-   *  SimulcastConfig of a video track. By default simulcast is disabled.
+   * @deprecated Simulcast is no longer supported
    */
   simulcastConfig?: SimulcastConfig;
 };
@@ -97,9 +94,7 @@ const defaultSimulcastConfig = () =>
 function getSimulcastConfig(
   simulcastEnabled: boolean | undefined,
 ): SimulcastConfig | undefined {
-  if (simulcastEnabled) {
-    return { enabled: true };
-  }
+  // TODO FCE-2265: Remove in next major release
   return undefined;
 }
 

@@ -64,7 +64,6 @@ function PreviewScreen({
 
   useEffect(() => {
     prepareCamera({
-      simulcastEnabled: true,
       quality: 'HD169',
       cameraEnabled: true,
     });
@@ -172,12 +171,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   mediaButtonsWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 20,
-    flex: 1,
-  },
-  simulcastButtonsWrapper: {
     display: 'flex',
     flexDirection: 'row',
     gap: 20,
