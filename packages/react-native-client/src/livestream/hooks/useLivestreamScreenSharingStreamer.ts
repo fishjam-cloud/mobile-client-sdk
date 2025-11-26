@@ -1,7 +1,5 @@
 import { useCallback, useRef, useEffect } from 'react';
 import {
-  Camera,
-  cameras,
   SenderAudioCodecName,
   SenderVideoCodecName,
   VideoParameters,
@@ -13,7 +11,7 @@ import { FISHJAM_WHIP_URL } from '../../consts';
 /**
  * @category Livestream
  */
-export interface useLivestreamStreamerResult {
+export interface useLivestreamScreenSharingStreamerResult {
   /**
    * Callback used to start publishing the selected audio and video media streams.
    *
@@ -23,36 +21,20 @@ export interface useLivestreamStreamerResult {
   connect: (token: string, urlOverride?: string) => Promise<void>;
   /** Callback to stop publishing anything previously published with {@link connect} */
   disconnect: () => Promise<void>;
-  /** Callback to flip camera */
-  flipCamera: () => Promise<void>;
-  /** Callback to switch camera to the one passed as arguement */
-  switchCamera: (deviceId: string) => Promise<void>;
-  /** Callback to get the id of camera which is used for streaming  */
-  currentCameraDeviceId: () => Promise<string | undefined>;
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
   /**
-   * Reference to the WhipClient instance. Needs to be passed to the {@link LivestreamStreamer} component.
+   * Reference to the WhipClient instance. Needs to be passed to the {@link LivestreamScreenSharingStreamer} component.
    */
   whipClientRef: React.RefObject<WhipClientViewRef | null>;
 }
 
-export type UseLivestreamStreamerParams = {
-  /**
-   * If video track should be enabled.
-   * Defaults to true.
-   */
-  videoEnabled?: boolean;
+export type UseLivestreamScreenSharingStreamerParams = {
   /**
    * If audio track should be enabled.
    * Defaults to true.
    */
   audioEnabled?: boolean;
-  /**
-   * Camera to use for the livestream.
-   * Use {@link cameras} to get the list of supported cameras.
-   */
-  camera?: Camera;
   /**
    *  Set video parameters for the camera
    */
@@ -70,18 +52,16 @@ export type UseLivestreamStreamerParams = {
 };
 
 /**
- * Hook for publishing a livestream, which can be then received with {@link useLivestreamViewer}
+ * Hook for publishing a screen sharing livestream, which can be then received with {@link useLivestreamViewer}
  * @category Livestream
  * @group Hooks
  */
-export const useLivestreamStreamer = ({
-  videoEnabled,
+export const useLivestreamScreenSharingStreamer = ({
   audioEnabled,
-  camera,
   videoParameters,
   preferredVideoCodecs,
   preferredAudioCodecs,
-}: UseLivestreamStreamerParams = {}): useLivestreamStreamerResult => {
+}: UseLivestreamScreenSharingStreamerParams = {}): useLivestreamScreenSharingStreamerResult => {
   const state = useWhipConnectionState();
   const isConnected = state === 'connected';
 
@@ -89,6 +69,7 @@ export const useLivestreamStreamer = ({
 
   const connect = useCallback(async (token: string, urlOverride?: string) => {
     const resolvedUrl = urlOverride ?? FISHJAM_WHIP_URL;
+
     await whipClientRef.current?.connect({
       authToken: token,
       serverUrl: resolvedUrl,
@@ -99,41 +80,27 @@ export const useLivestreamStreamer = ({
     await whipClientRef.current?.disconnect();
   }, []);
 
-  const flipCamera = useCallback(async () => {
-    await whipClientRef.current?.flipCamera();
-  }, []);
-
-  const switchCamera = useCallback(async (deviceId: string) => {
-    return await whipClientRef.current?.switchCamera(deviceId);
-  }, []);
-
-  const currentCameraDeviceId = useCallback(async () => {
-    return await whipClientRef.current?.currentCameraDeviceId();
-  }, []);
-
   useEffect(() => {
     try {
-      const initializeCamera = async () => {
-        await whipClientRef.current?.initializeCamera({
+      const initializeScreenShare = async () => {
+        await whipClientRef.current?.initializeScreenShare({
           audioEnabled: audioEnabled ?? true,
-          videoEnabled: videoEnabled ?? true,
+          videoEnabled: true,
           videoParameters: videoParameters,
           preferredVideoCodecs: preferredVideoCodecs,
           preferredAudioCodecs: preferredAudioCodecs,
-        }, camera?.id ?? cameras[0].id);
+        });
       };
-      initializeCamera();
+      initializeScreenShare();
     } catch {
-      console.error('Failed to initialize camera');
+      console.error('Failed to initialize screen share');
     }
     const ref = whipClientRef.current;
     return () => {
       ref?.disconnect();
     };
   }, [
-    camera,
     videoParameters,
-    videoEnabled,
     audioEnabled,
     preferredVideoCodecs,
     preferredAudioCodecs,
@@ -143,9 +110,6 @@ export const useLivestreamStreamer = ({
   return {
     connect,
     disconnect,
-    flipCamera,
-    switchCamera,
-    currentCameraDeviceId,
     isConnected,
     whipClientRef,
   };

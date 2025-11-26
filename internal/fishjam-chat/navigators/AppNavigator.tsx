@@ -15,6 +15,7 @@ import { ConnectWithFishjamRoom } from '../screens/ConnectWithFishjamRoom';
 import ConnectToLivestreamScreen from '../screens/ConnectToLivestreamScreen';
 import LivestreamStreamerScreen from '../screens/LivestreamScreen/LivestreamStreamerScreen';
 import LivestreamViewerScreen from '../screens/LivestreamScreen/LivestreamViewerScreen';
+import LivestreamScreenSharingScreen from '../screens/LivestreamScreen/LivestreamScreenSharingScreen';
 
 export type AppRootStackParamList = {
   Home: undefined;
@@ -28,6 +29,10 @@ export type AppRootStackParamList = {
     roomName: string;
   };
   LivestreamStreamerScreen: {
+    fishjamId: string;
+    roomName: string;
+  };
+  LivestreamScreenSharingScreen: {
     fishjamId: string;
     roomName: string;
   };
@@ -143,6 +148,10 @@ export default function AppNavigator() {
         <Stack.Screen
           name="LivestreamViewerScreen"
           component={LivestreamViewerScreen}
+        />
+        <Stack.Screen
+          name="LivestreamScreenSharingScreen"
+          component={LivestreamScreenSharingScreen}
         />
         <Stack.Screen
           name="Room"
