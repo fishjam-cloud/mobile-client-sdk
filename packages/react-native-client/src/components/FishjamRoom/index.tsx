@@ -44,7 +44,6 @@ export const FishjamRoom = ({ fishjamId, peerToken }: FishjamRoomProps) => {
     const join = async () => {
       try {
         await prepareCamera({
-          simulcastEnabled: true,
           quality: 'HD169',
           cameraEnabled: true,
         });

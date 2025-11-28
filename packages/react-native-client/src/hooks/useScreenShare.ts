@@ -21,17 +21,10 @@ export type ScreenShareOptions = {
 export type ScreenShareOptionsInternal = {
   screenShareMetadata: TrackMetadata & { displayName?: string };
   /**
-   * SimulcastConfig of a screen share track. By default simulcast is disabled.
+   * @deprecated Simulcast is no longer supported
    */
-  simulcastConfig: SimulcastConfig;
+  simulcastConfig?: SimulcastConfig;
 };
-
-const defaultSimulcastConfig = () =>
-  ({
-    enabled: false,
-  }) satisfies SimulcastConfig;
-
-let screenShareSimulcastConfig: SimulcastConfig = defaultSimulcastConfig();
 
 /**
  * This hook can toggle screen sharing on/off and provides current screen share state.
@@ -43,11 +36,6 @@ export function useScreenShare() {
   const isScreenShareOn = useFishjamEventState(
     ReceivableEvents.IsScreenShareOn,
     RNFishjamClientModule.isScreenShareOn,
-  );
-
-  const simulcastConfig = useFishjamEventState(
-    ReceivableEvents.SimulcastConfigUpdate,
-    screenShareSimulcastConfig,
   );
 
   const handleScreenSharePermission = useCallback(async () => {
@@ -73,14 +61,12 @@ export function useScreenShare() {
         },
       };
       await RNFishjamClientModule.toggleScreenShare(options);
-      screenShareSimulcastConfig = defaultSimulcastConfig(); //to do: sync with camera settings
     },
     [isScreenShareOn, handleScreenSharePermission],
   );
 
   return {
     isScreenShareOn,
-    simulcastConfig,
 
     /**
      * Toggles the screen share on/off
