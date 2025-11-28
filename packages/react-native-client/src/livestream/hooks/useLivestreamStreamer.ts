@@ -114,13 +114,16 @@ export const useLivestreamStreamer = ({
   useEffect(() => {
     try {
       const initializeCamera = async () => {
-        await whipClientRef.current?.initializeCamera({
-          audioEnabled: audioEnabled ?? true,
-          videoEnabled: videoEnabled ?? true,
-          videoParameters: videoParameters,
-          preferredVideoCodecs: preferredVideoCodecs,
-          preferredAudioCodecs: preferredAudioCodecs,
-        }, camera?.id ?? cameras[0].id);
+        await whipClientRef.current?.initializeCamera(
+          {
+            audioEnabled: audioEnabled ?? true,
+            videoEnabled: videoEnabled ?? true,
+            videoParameters: videoParameters,
+            preferredVideoCodecs: preferredVideoCodecs,
+            preferredAudioCodecs: preferredAudioCodecs,
+          },
+          camera?.id ?? cameras[0].id,
+        );
       };
       initializeCamera();
     } catch {

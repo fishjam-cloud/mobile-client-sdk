@@ -22,15 +22,11 @@ export default function LivestreamScreenSharingScreen({ route }: Props) {
     fishjamId,
   });
 
-  const {
-    connect,
-    disconnect,
-    isConnected,
-    whipClientRef,
-  } = useLivestreamScreenSharingStreamer({
-    audioEnabled: true,
-    videoParameters: VideoParameters.presetHD169,
-  });
+  const { connect, disconnect, isConnected, whipClientRef } =
+    useLivestreamScreenSharingStreamer({
+      audioEnabled: true,
+      videoParameters: VideoParameters.presetHD169,
+    });
 
   const handleConnect = useCallback(async () => {
     try {
