@@ -77,6 +77,24 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
       setLoading(false);
     }
   };
+  const onTapConnectScreenSharingButton = async () => {
+    try {
+      validateInputs();
+      setConnectionError(null);
+      setLoading(true);
+
+      navigation.navigate('LivestreamScreenSharingScreen', {
+        fishjamId,
+        roomName,
+      });
+    } catch (e) {
+      const message =
+        'message' in (e as Error) ? (e as Error).message : 'Unknown error';
+      setConnectionError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <DismissKeyboard>
       <SafeAreaView style={styles.safeArea}>
@@ -107,6 +125,11 @@ export default function ConnectToLivestreamScreen({ navigation }: Props) {
           <Button
             title="Stream Livestream"
             onPress={onTapConnectStreamerButton}
+            disabled={loading}
+          />
+          <Button
+            title="Stream Screen Sharing"
+            onPress={onTapConnectScreenSharingButton}
             disabled={loading}
           />
         </KeyboardAvoidingView>
