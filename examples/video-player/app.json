@@ -14,7 +14,15 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.fishjam.example.videoplayer",
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        },
+        "NSCameraUsageDescription": "We need to access your camera for video calls.",
+        "NSMicrophoneUsageDescription": "We need to access your microphone so you can talk during calls.",
+      },
+      "appleTeamId": "J5FM626PE2"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +30,11 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "io.fishjam.example.videoplayer"
+      "package": "io.fishjam.example.videoplayer",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
