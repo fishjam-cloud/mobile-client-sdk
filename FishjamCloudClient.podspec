@@ -29,8 +29,4 @@ Pod::Spec.new do |s|
   s.dependency 'Starscream', '~> 4.0.0'
   s.dependency 'PromisesSwift'
   s.dependency 'SwiftLogJellyfish', '1.5.2'
-
-  s.subspec "Broadcast" do |spec|
-    spec.source_files = "packages/ios-client/Sources/FishjamClient/media/BroadcastSampleSource.swift", "packages/ios-client/Sources/FishjamClient/ipc/**/*.{h,m,mm,swift}"
-  end
 end
