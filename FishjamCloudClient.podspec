@@ -1,7 +1,3 @@
-#
-# Be sure to run `pod lib lint FishjamClient.podspec' to ensure this is a
-# valid spec before submitting.
-
 require 'json'
 
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
