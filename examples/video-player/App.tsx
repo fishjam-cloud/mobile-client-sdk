@@ -5,13 +5,20 @@ import { useState } from 'react';
 
 const App = () => {
   const [roomName, setRoomName] = useState('test-room');
-  const [selection, setSelection] = useState<'streamer' | 'viewer' | 'none'>('none');
+  const [selection, setSelection] = useState<'streamer' | 'viewer' | 'none'>(
+    'none',
+  );
 
   return (
     <View style={styles.container}>
       {selection === 'none' && (
         <>
-          <TextInput style={styles.textInput} placeholder="Room Name" value={roomName} onChangeText={setRoomName} />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Room Name"
+            value={roomName}
+            onChangeText={setRoomName}
+          />
           <Button title="Stream" onPress={() => setSelection('streamer')} />
           <Button title="View stream" onPress={() => setSelection('viewer')} />
         </>

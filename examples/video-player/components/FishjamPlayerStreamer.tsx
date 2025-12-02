@@ -12,18 +12,12 @@ interface FishjamPlayerStreamerProps {
   roomName: string;
 }
 
-const FishjamPlayerStreamer = ({
-  roomName,
-}: FishjamPlayerStreamerProps) => {
+const FishjamPlayerStreamer = ({ roomName }: FishjamPlayerStreamerProps) => {
   const { getSandboxLivestream } = useSandbox({
     fishjamId: process.env.EXPO_PUBLIC_FISHJAM_ID,
   });
 
-  const {
-    connect,
-    disconnect,
-    whipClientRef,
-  } = useLivestreamStreamer({
+  const { connect, disconnect, whipClientRef } = useLivestreamStreamer({
     videoEnabled: true,
     audioEnabled: true,
     camera: cameras[0],
@@ -35,7 +29,7 @@ const FishjamPlayerStreamer = ({
       const { streamerToken } = await getSandboxLivestream(roomName, false);
       await connect(streamerToken);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }, [connect, getSandboxLivestream, roomName]);
 
@@ -49,20 +43,20 @@ const FishjamPlayerStreamer = ({
 
   return (
     <View style={styles.playerContentContainer}>
-        <LivestreamStreamer
-          style={{ height: '90%', aspectRatio: 16 / 9 }}
-          ref={whipClientRef}
+      <LivestreamStreamer
+        style={{ height: '90%', aspectRatio: 16 / 9 }}
+        ref={whipClientRef}
       />
     </View>
   );
 };
 
-export default FishjamPlayerStreamer;
-
 const styles = StyleSheet.create({
-    playerContentContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+  playerContentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default FishjamPlayerStreamer;

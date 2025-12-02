@@ -52,12 +52,12 @@ const FishjamPlayerViewer = ({
   );
 };
 
-export default FishjamPlayerViewer;
+const styles = StyleSheet.create({
+  playerContentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
-  const styles = StyleSheet.create({
-    playerContentContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  });
+export default FishjamPlayerViewer;
