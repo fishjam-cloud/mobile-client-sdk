@@ -1,7 +1,3 @@
-#
-# Be sure to run `pod lib lint FishjamClient.podspec' to ensure this is a
-# valid spec before submitting.
-
 require 'json'
 
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
@@ -29,8 +25,4 @@ Pod::Spec.new do |s|
   s.dependency 'Starscream', '~> 4.0.0'
   s.dependency 'PromisesSwift'
   s.dependency 'SwiftLogJellyfish', '1.5.2'
-
-  s.subspec "Broadcast" do |spec|
-    spec.source_files = "packages/ios-client/Sources/FishjamClient/media/BroadcastSampleSource.swift", "packages/ios-client/Sources/FishjamClient/ipc/**/*.{h,m,mm,swift}"
-  end
 end
