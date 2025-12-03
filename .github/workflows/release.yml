@@ -12,8 +12,12 @@ jobs:
       - name: Deploy to Cocoapods
         run: |
           set -eo pipefail
-          pod lib lint --allow-warnings --verbose
-          pod trunk push --allow-warnings --verbose
+
+          pod lib lint FishjamCloudClient.podspec --allow-warnings --verbose
+          pod lib lint FishjamCloudBroadcastClient.podspec --allow-warnings --verbose
+
+          pod trunk push FishjamCloudClient.podspec --allow-warnings --verbose
+          pod trunk push FishjamCloudBroadcastClient.podspec --allow-warnings --verbose
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
   publish-android-client:

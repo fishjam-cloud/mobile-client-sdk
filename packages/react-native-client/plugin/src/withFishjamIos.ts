@@ -19,7 +19,7 @@ function getSbeTargetName(props: FishjamPluginOptions) {
 
 export function getSbePodfileSnippet(props: FishjamPluginOptions) {
   const targetName = getSbeTargetName(props);
-  return `\ntarget '${targetName}' do\n  pod 'FishjamCloudClient/Broadcast'\nend`;
+  return `\ntarget '${targetName}' do\n  pod 'FishjamCloudBroadcastClient'\nend`;
 }
 
 const TARGETED_DEVICE_FAMILY = `"1,2"`;
@@ -46,7 +46,7 @@ async function updateFileWithRegex(
 
 /**
  * Inserts a required target to Podfile.
- * This is needed to provide the dependency of FishjamCloudClient/Broadcast to the extension.
+ * This is needed to provide the dependency of FishjamCloudBroadcastClient to the extension.
  */
 async function updatePodfile(iosPath: string, props: FishjamPluginOptions) {
   const podfileSnippet = getSbePodfileSnippet(props);

@@ -1,4 +1,4 @@
-import FishjamCloudClient
+import FishjamCloudBroadcastClient
 import Foundation
 import ReplayKit
 import WebRTC
