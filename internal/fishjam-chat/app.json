@@ -69,6 +69,16 @@
             "enableScreensharing": true,
             "enableVoIPBackgroundMode": true,
             "supportsPictureInPicture": true
+          },
+          "livestream": {
+            "android": {
+              "enableScreensharing": true,
+              "supportsPictureInPicture": true
+            },
+            "ios": {
+              "enableScreensharing": true,
+              "supportsPictureInPicture": true
+            }
           }
         }
       ],

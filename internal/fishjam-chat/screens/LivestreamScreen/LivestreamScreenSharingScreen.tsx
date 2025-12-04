@@ -1,0 +1,84 @@
+import { useSandbox } from '@fishjam-cloud/react-native-client';
+import {
+  LivestreamStreamer,
+  useLivestreamScreenSharingStreamer,
+  VideoParameters,
+} from '@fishjam-cloud/react-native-client/livestream';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useCallback } from 'react';
+import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
+import { AppRootStackParamList } from '../../navigators/AppNavigator';
+import { BrandColors } from '../../utils/Colors';
+
+type Props = NativeStackScreenProps<
+  AppRootStackParamList,
+  'LivestreamScreenSharingScreen'
+>;
+
+export default function LivestreamScreenSharingScreen({ route }: Props) {
+  const { fishjamId, roomName } = route.params;
+
+  const { getSandboxLivestream } = useSandbox({
+    fishjamId,
+  });
+
+  const { connect, disconnect, isConnected, whipClientRef } =
+    useLivestreamScreenSharingStreamer({
+      audioEnabled: true,
+      videoParameters: VideoParameters.presetHD169,
+    });
+
+  const handleConnect = useCallback(async () => {
+    try {
+      const { streamerToken } = await getSandboxLivestream(roomName, false);
+      await connect(streamerToken);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [connect, getSandboxLivestream, roomName]);
+
+  const handleDisconnect = useCallback(() => {
+    disconnect();
+  }, [disconnect]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.box}>
+        <View style={styles.videoView}>
+          <LivestreamStreamer style={styles.whepView} ref={whipClientRef} />
+          <Button
+            title={isConnected ? 'Disconnect' : 'Connect'}
+            onPress={isConnected ? handleDisconnect : handleConnect}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F1FAFE',
+    padding: 24,
+  },
+  box: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 20,
+  },
+  videoView: {
+    width: '100%',
+    height: '70%',
+    backgroundColor: '#E0E0E0',
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: BrandColors.darkBlue80,
+  },
+  whepView: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+});
