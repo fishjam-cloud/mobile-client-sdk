@@ -34,7 +34,10 @@ internal class PeerConnectionFactoryWrapper(
 
   init {
     PeerConnectionFactory.initialize(
-      PeerConnectionFactory.InitializationOptions.builder(appContext).createInitializationOptions()
+      PeerConnectionFactory.InitializationOptions.builder(appContext)
+        .setFieldTrials("WebRTC-Network-UseNWPathMonitor/Disabled/")
+        .setEnableInternalTracer(false)
+        .createInitializationOptions()
     )
 
     eglBase = EglBase.create()
