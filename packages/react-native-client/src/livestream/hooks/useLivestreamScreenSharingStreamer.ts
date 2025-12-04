@@ -92,8 +92,8 @@ export const useLivestreamScreenSharingStreamer = ({
         });
       };
       initializeScreenShare();
-    } catch {
-      console.error('Failed to initialize screen share');
+    } catch (error) {
+      console.error('Failed to initialize screen share:', error);
     }
     const ref = whipClientRef.current;
     return () => {
@@ -104,7 +104,6 @@ export const useLivestreamScreenSharingStreamer = ({
     audioEnabled,
     preferredVideoCodecs,
     preferredAudioCodecs,
-    whipClientRef,
   ]);
 
   return {

@@ -82,8 +82,8 @@ const withFishjam: ConfigPlugin<FishjamPluginOptions> = (config, options) => {
 
   if (options?.livestream) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const withWhipWhep =
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         require('react-native-whip-whep/plugin/build/withWhipWhep').default;
 
       // Fishjam's iOS screensharing is enabled, disable whip-whep's screensharing
