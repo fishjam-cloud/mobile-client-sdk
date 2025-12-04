@@ -24,7 +24,7 @@ export interface useLivestreamScreenSharingStreamerResult {
   /** Utility flag which indicates the current connection status */
   isConnected: boolean;
   /**
-   * Reference to the WhipClient instance. Needs to be passed to the {@link LivestreamScreenSharingStreamer} component.
+   * Reference to the WhipClient instance. Needs to be passed to the {@link LivestreamStreamer} component.
    */
   whipClientRef: React.RefObject<WhipClientViewRef | null>;
 }
@@ -36,7 +36,7 @@ export type UseLivestreamScreenSharingStreamerParams = {
    */
   audioEnabled?: boolean;
   /**
-   *  Set video parameters for the camera
+   *  Set video parameters for the screen share stream.
    */
   videoParameters?: VideoParameters;
   /**

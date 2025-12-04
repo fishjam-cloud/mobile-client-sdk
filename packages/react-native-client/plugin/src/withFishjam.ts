@@ -99,8 +99,7 @@ const withFishjam: ConfigPlugin<FishjamPluginOptions> = (config, options) => {
       config = withWhipWhep(config, options.livestream);
     } catch {
       console.warn(
-        '[Fishjam] react-native-whip-whep plugin not found. Livestream configuration will be skipped. ' +
-          'Make sure react-native-whip-whep is installed if you need livestream functionality.',
+        '[Fishjam] react-native-whip-whep plugin not found. Livestream configuration will be skipped.',
       );
     }
   }
