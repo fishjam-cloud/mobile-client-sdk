@@ -82,8 +82,10 @@ const withFishjam: ConfigPlugin<FishjamPluginOptions> = (config, options) => {
 
   if (options?.livestream) {
     try {
-      const withWhipWhep = require('react-native-whip-whep/plugin/build/withWhipWhep').default;
-      
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const withWhipWhep =
+        require('react-native-whip-whep/plugin/build/withWhipWhep').default;
+
       // Fishjam's iOS screensharing is enabled, disable whip-whep's screensharing
       // This ensures only one broadcast extension is created (Fishjam's FishjamScreenBroadcastExtension)
       // to avoid duplicate broadcast extension targets in the Xcode project
@@ -93,9 +95,9 @@ const withFishjam: ConfigPlugin<FishjamPluginOptions> = (config, options) => {
           enableScreensharing: false,
         };
       }
-      
+
       config = withWhipWhep(config, options.livestream);
-    } catch (error) {
+    } catch {
       console.warn(
         '[Fishjam] react-native-whip-whep plugin not found. Livestream configuration will be skipped. ' +
           'Make sure react-native-whip-whep is installed if you need livestream functionality.',
