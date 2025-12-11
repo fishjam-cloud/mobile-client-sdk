@@ -17,6 +17,10 @@ function getSbeTargetName(props: FishjamPluginOptions) {
   );
 }
 
+function getSbeDisplayName(props: FishjamPluginOptions) {
+  return props?.ios?.broadcastExtensionDisplayName || 'FishjamScreenBroadcast';
+}
+
 export function getSbePodfileSnippet(props: FishjamPluginOptions) {
   const targetName = getSbeTargetName(props);
   return `\ntarget '${targetName}' do\n  pod 'FishjamCloudBroadcastClient'\nend`;
@@ -26,6 +30,7 @@ const TARGETED_DEVICE_FAMILY = `"1,2"`;
 const IPHONEOS_DEPLOYMENT_TARGET = '15.1';
 const GROUP_IDENTIFIER_TEMPLATE_REGEX = /{{GROUP_IDENTIFIER}}/gm;
 const BUNDLE_IDENTIFIER_TEMPLATE_REGEX = /{{BUNDLE_IDENTIFIER}}/gm;
+const DISPLAY_NAME_TEMPLATE_REGEX = /{{DISPLAY_NAME}}/gm;
 
 /**
  * A helper function for updating a value in a file for given regex
@@ -247,6 +252,13 @@ const withFishjamSBE: ConfigPlugin<FishjamPluginOptions> = (config, options) =>
         'FishjamBroadcastSampleHandler.swift',
         BUNDLE_IDENTIFIER_TEMPLATE_REGEX,
         bundleIdentifier || '',
+        options,
+      );
+      await updateFileWithRegex(
+        iosPath,
+        'Info.plist',
+        DISPLAY_NAME_TEMPLATE_REGEX,
+        getSbeDisplayName(options),
         options,
       );
 
