@@ -12,6 +12,7 @@ export type FishjamPluginOptions =
         appGroupContainerId?: string;
         mainTargetName?: string;
         broadcastExtensionTargetName?: string;
+        broadcastExtensionDisplayName?: string;
       };
       livestream?: {
         android?: {
