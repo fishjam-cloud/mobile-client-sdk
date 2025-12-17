@@ -70,16 +70,6 @@
             "enableVoIPBackgroundMode": true,
             "supportsPictureInPicture": true,
             "broadcastExtensionDisplayName": "Fishjam Screen Broadcast"
-          },
-          "livestream": {
-            "android": {
-              "enableScreensharing": true,
-              "supportsPictureInPicture": true
-            },
-            "ios": {
-              "enableScreensharing": true,
-              "supportsPictureInPicture": true
-            }
           }
         }
       ],

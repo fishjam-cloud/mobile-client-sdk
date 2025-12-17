@@ -14,15 +14,5 @@ export type FishjamPluginOptions =
         broadcastExtensionTargetName?: string;
         broadcastExtensionDisplayName?: string;
       };
-      livestream?: {
-        android?: {
-          enableScreensharing?: boolean;
-          supportsPictureInPicture?: boolean;
-        };
-        ios?: {
-          enableScreensharing?: boolean;
-          supportsPictureInPicture?: boolean;
-        };
-      };
     }
   | undefined;

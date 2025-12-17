@@ -18,7 +18,7 @@ const withFishjamForegroundService: ConfigPlugin<FishjamPluginOptions> = (
     const mainApplication = getMainApplicationOrThrow(configuration.modResults);
     mainApplication.service = mainApplication.service || [];
 
-    const newService = {
+    const fishjamService = {
       $: {
         'android:name':
           'io.fishjam.reactnative.foregroundService.FishjamForegroundService',
@@ -27,14 +27,70 @@ const withFishjamForegroundService: ConfigPlugin<FishjamPluginOptions> = (
       },
     };
 
-    const existingServiceIndex = mainApplication.service.findIndex(
-      (service) => service.$['android:name'] === newService.$['android:name'],
+    const whipWhepService = {
+      $: {
+        'android:name':
+          'com.swmansion.reactnativeclient.foregroundService.ScreenCaptureService',
+        'android:foregroundServiceType': 'mediaProjection',
+        'android:stopWithTask': 'true',
+      },
+    };
+
+    // Add Fishjam service
+    const existingFishjamServiceIndex = mainApplication.service.findIndex(
+      (service) => service.$['android:name'] === fishjamService.$['android:name'],
     );
 
-    if (existingServiceIndex !== -1) {
-      mainApplication.service[existingServiceIndex] = newService;
+    if (existingFishjamServiceIndex !== -1) {
+      mainApplication.service[existingFishjamServiceIndex] = fishjamService;
     } else {
-      mainApplication.service.push(newService);
+      mainApplication.service.push(fishjamService);
+    }
+
+    // Add WhipWhep service
+    const existingWhipWhepServiceIndex = mainApplication.service.findIndex(
+      (service) => service.$['android:name'] === whipWhepService.$['android:name'],
+    );
+
+    if (existingWhipWhepServiceIndex !== -1) {
+      mainApplication.service[existingWhipWhepServiceIndex] = whipWhepService;
+    } else {
+      mainApplication.service.push(whipWhepService);
+    }
+
+    return configuration;
+  });
+
+const withFishjamForegroundServicePermission: ConfigPlugin<FishjamPluginOptions> = (
+  config,
+  props,
+) =>
+  withAndroidManifest(config, (configuration) => {
+    if (!props?.android?.enableForegroundService) {
+      return configuration;
+    }
+
+    const mainApplication = configuration.modResults;
+    if (!mainApplication.manifest) {
+      return configuration;
+    }
+
+    if (!mainApplication.manifest['uses-permission']) {
+      mainApplication.manifest['uses-permission'] = [];
+    }
+
+    const permissions = mainApplication.manifest['uses-permission'];
+
+    const hasForegroundServicePermission = permissions.some(
+      (perm) => perm.$?.['android:name'] === 'android.permission.FOREGROUND_SERVICE',
+    );
+
+    if (!hasForegroundServicePermission) {
+      permissions.push({
+        $: {
+          'android:name': 'android.permission.FOREGROUND_SERVICE',
+        },
+      });
     }
 
     return configuration;
@@ -61,6 +117,7 @@ export const withFishjamAndroid: ConfigPlugin<FishjamPluginOptions> = (
   config,
   props,
 ) => {
+  config = withFishjamForegroundServicePermission(config, props);
   config = withFishjamForegroundService(config, props);
   config = withFishjamPictureInPicture(config, props);
   return config;
