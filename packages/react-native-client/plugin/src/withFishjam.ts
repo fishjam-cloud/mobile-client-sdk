@@ -4,8 +4,8 @@ import { FishjamPluginOptions } from './types';
 import withFishjamIos from './withFishjamIos';
 
 const withFishjam: ConfigPlugin<FishjamPluginOptions> = (config, options) => {
-  withFishjamAndroid(config, options);
-  withFishjamIos(config, options);
+  config = withFishjamAndroid(config, options);
+  config = withFishjamIos(config, options);
   return config;
 };
 
