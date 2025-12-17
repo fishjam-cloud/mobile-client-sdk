@@ -19,6 +19,9 @@
       "examples/minimal-react-native"
     ]
   },
+  "resolutions": {
+    "@expo/metro-config": "~0.20.18"
+  },
   "devDependencies": {
     "typedoc": "^0.28.7",
     "typedoc-material-theme": "^1.4.0",
