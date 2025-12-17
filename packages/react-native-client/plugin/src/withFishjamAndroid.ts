@@ -38,7 +38,8 @@ const withFishjamForegroundService: ConfigPlugin<FishjamPluginOptions> = (
 
     // Add Fishjam service
     const existingFishjamServiceIndex = mainApplication.service.findIndex(
-      (service) => service.$['android:name'] === fishjamService.$['android:name'],
+      (service) =>
+        service.$['android:name'] === fishjamService.$['android:name'],
     );
 
     if (existingFishjamServiceIndex !== -1) {
@@ -49,7 +50,8 @@ const withFishjamForegroundService: ConfigPlugin<FishjamPluginOptions> = (
 
     // Add WhipWhep service
     const existingWhipWhepServiceIndex = mainApplication.service.findIndex(
-      (service) => service.$['android:name'] === whipWhepService.$['android:name'],
+      (service) =>
+        service.$['android:name'] === whipWhepService.$['android:name'],
     );
 
     if (existingWhipWhepServiceIndex !== -1) {
@@ -61,10 +63,9 @@ const withFishjamForegroundService: ConfigPlugin<FishjamPluginOptions> = (
     return configuration;
   });
 
-const withFishjamForegroundServicePermission: ConfigPlugin<FishjamPluginOptions> = (
-  config,
-  props,
-) =>
+const withFishjamForegroundServicePermission: ConfigPlugin<
+  FishjamPluginOptions
+> = (config, props) =>
   withAndroidManifest(config, (configuration) => {
     if (!props?.android?.enableForegroundService) {
       return configuration;
@@ -82,7 +83,8 @@ const withFishjamForegroundServicePermission: ConfigPlugin<FishjamPluginOptions>
     const permissions = mainApplication.manifest['uses-permission'];
 
     const hasForegroundServicePermission = permissions.some(
-      (perm) => perm.$?.['android:name'] === 'android.permission.FOREGROUND_SERVICE',
+      (perm) =>
+        perm.$?.['android:name'] === 'android.permission.FOREGROUND_SERVICE',
     );
 
     if (!hasForegroundServicePermission) {
