@@ -91,7 +91,9 @@ export const useLivestreamScreenSharingStreamer = ({
           preferredAudioCodecs: preferredAudioCodecs,
         });
       };
-      initializeScreenShare();
+      initializeScreenShare().catch((error) => {
+        console.error('Failed to initialize screen share:', error);
+      });
     } catch (error) {
       console.error('Failed to initialize screen share:', error);
     }
